@@ -6,13 +6,13 @@ import Footer from './Footer';
 
 function MainLayout() {
   return (
-    <div className='px-4 py-2'>
-      <div> <Header /></div>
-      <div className='h-screen'>
-        <div> <SideMenu /></div>
+    <div className='px-4 py-2 w-full h-full'>
+      <div className='w-full h-full m-0 mb-4'> <Header /></div>
+      <div className='h-screen flex w-full'>
+        <div className='me-4 w-1/6'> <SideMenu /></div>
         <div> <Outlet /></div>
       </div>
-      <div><Footer /></div>
+      <div className='w-full h-full'><Footer /></div>
     </div>
   );
 }

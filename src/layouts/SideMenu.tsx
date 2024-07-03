@@ -1,5 +1,3 @@
-import { access } from 'fs';
-import React from 'react'
 
 const menusList = [
   {
@@ -37,13 +35,49 @@ const menusList = [
 //   },
 // ]
 
+
+
+import {
+  User
+} from "lucide-react";
+
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger
+} from "..//components/ui/dropdown-menu";
+import { Button } from '../components/ui/button';
+import { useNavigate } from "react-router-dom";
+
 function SideMenu() {
+  const navigate = useNavigate();
   return (
-    <div className='bg-black text-white'>
-      <div>
-        <div><span>ELUCID</span></div>
-      </div>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          {menusList?.map((d, i) => (
+            <DropdownMenuItem onClick={() => navigate(d?.route)}>
+              <User className="mr-2 h-4 w-4" />
+              <span>{d?.label}</span>
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          ))}
+
+        </DropdownMenuGroup>
+
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
