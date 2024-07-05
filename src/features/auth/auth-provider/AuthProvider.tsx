@@ -6,7 +6,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
   const token = localStorage.getItem("token");
   // Temporarily settings this to true after login page we should set 'false'.
-  const [isAuthenticated, setAuthenticated] = useState<boolean>(true);
+  const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
 
   // Need to un-comment it later.
   // useEffect(() => {

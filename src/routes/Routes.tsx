@@ -6,6 +6,7 @@ import BrandList from '../features/brand/BrandList';
 import { routeChildrenType, routeObjType } from '../types/routes/RoutesTypes';
 import Dashboard from '../features/dashboard/Dashboard';
 import TeamList from '../features/team/TeamList';
+import LoginPage from '../features/auth/login/LoginPage';
 
 const routeChildren: routeChildrenType[] = [
   {
@@ -40,6 +41,10 @@ function Routes() {
       element: <MainLayout />,
       children: [],
     },
+    {
+      path: '/login',
+      element: <LoginPage />,
+    },
   ];
 
   // If user authenticated with valid login then the allowed into protected route. 
@@ -55,7 +60,7 @@ function Routes() {
     routeObj[0].children = protectedRoutes;
   } else {
     // If no login detected or not a valid user then navigate/redirect to un-protected route.
-    routeObj[0].element = <Navigate to="/auth/login" />
+    routeObj[0].element = <Navigate to="/login" />
   }
 
   const routes = createBrowserRouter(routeObj);
