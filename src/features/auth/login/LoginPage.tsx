@@ -47,9 +47,9 @@ function LoginPage() {
   };
 
   return (
-    <div className="h-screen w-full flex items-center justify-center ">
+    <div className="h-screen w-full flex items-center justify-center bg-gradient-to-t from-slate-500 via-gray-700 text-white ">
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input">
-        <h2 className="font-bold text-xl text-neutral-800 ">
+        <h2 className="font-bold text-xl text-neutral-600 ">
           Welcome
         </h2>
         <p className="text-neutral-600 text-sm max-w-sm mt-2 ">
