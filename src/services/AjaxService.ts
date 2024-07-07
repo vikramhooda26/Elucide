@@ -46,7 +46,7 @@ class AjaxService {
                 defaultConfig.headers!.Authorization = "JWT " + t;
             } else if (!t || t?.length <= 0) {
                 const unProtectedAPI = AuthService.getUnProtectedAPI();
-                if (unProtectedAPI?.every((d: string, i: number) => !url?.includes(d))) {
+                if (unProtectedAPI?.every((d: string,) => !url?.includes(d))) {
                     return { status: 404, resp: {} };
                 }
             }
@@ -67,7 +67,7 @@ class AjaxService {
         } catch (error: any) {
             if (error?.response?.status === 440) {
                 AuthService.setToken("");
-                // window.location.href = "/auth/access-pin";
+                // window.location.href = "/login";
             }
             return {
                 status: axios.isAxiosError(error) ? error.response?.status || -1 : -1,

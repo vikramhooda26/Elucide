@@ -1,12 +1,13 @@
-import { ReactElement, createContext, useContext, useEffect, useState } from "react";
+import { ReactElement, createContext, useContext, useState } from "react";
 import { AuthContextType, AuthProviderProps } from "../../../types/auth/AuthProviderTypes";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
+  
   // Temporarily settings this to true after login page we should set 'false'.
-  const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setAuthenticated] = useState<boolean>(true);
 
   // Need to un-comment it later.
   // useEffect(() => {

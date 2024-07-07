@@ -5,13 +5,14 @@ export type loginType = 'adminLogin' | 'athleteLogin' | 'teamLogin' | 'brandLogi
 export type routeObjType = {
     path: string;
     element: ReactNode;
-    children?: routeObjType[] | [];
+    children?: routeObjType[] | [] | undefined;
 }
 
 export type routeChildrenType = {
     path: string;
     element: ReactNode;
     access: Array<loginType>;
+    children?: routeChildrenType[] | [] | undefined;
 }
 
 export type sideMenuObjType = {

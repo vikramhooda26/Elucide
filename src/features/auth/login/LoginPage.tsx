@@ -1,20 +1,18 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import ErrorMsg from "../../../components/error/ErrorMsg";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { cn } from "../../../lib/utils";
-import ErrorMsg from "../../../components/error/ErrorMsg";
 import AuthService from "../../../services/auth/AuthService";
 import { useAuth } from "../auth-provider/AuthProvider";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../../components/ui/card";
-import { Button } from "../../../components/ui/button";
-import { useNavigate } from "react-router-dom";
 
 const loginSchema = yup.object().shape({
   email: yup.string().required("Please enter valid email."),
   password: yup.string().required("Please enter correct password."),
+  
 });
 
 function LoginPage() {
@@ -47,7 +45,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="h-screen w-full flex items-center justify-center bg-gradient-to-t from-slate-500 via-gray-700 text-white ">
+    <div className="h-screen w-full flex items-center justify-center  ">
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input">
         <h2 className="font-bold text-xl text-neutral-600 ">
           Welcome

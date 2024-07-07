@@ -1,5 +1,3 @@
-import React from 'react'
-
 type Props = { msg: string; }
 function ErrorMsg({ msg }: Props) {
     return (

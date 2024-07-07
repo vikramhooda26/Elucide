@@ -1,12 +1,16 @@
-import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
-import MainLayout from '../layouts/MainLayout';
-import { useAuth } from '../features/auth/auth-provider/AuthProvider';
+import { Navigate, createBrowserRouter, useLocation } from 'react-router-dom';
 import AthleteList from '../features/athlete/AthleteList';
+import { useAuth } from '../features/auth/auth-provider/AuthProvider';
+import LoginPage from '../features/auth/login/LoginPage';
 import BrandList from '../features/brand/BrandList';
-import { routeChildrenType, routeObjType } from '../types/routes/RoutesTypes';
 import Dashboard from '../features/dashboard/Dashboard';
 import TeamList from '../features/team/TeamList';
-import LoginPage from '../features/auth/login/LoginPage';
+import MainLayout from '../layouts/MainLayout';
+import ShowOffLayout from '../layouts/ShowOffLayout';
+import { routeChildrenType, routeObjType } from '../types/routes/RoutesTypes';
+import TemplateLayout from '../features/templates/examples/layout';
+import TaskPage from '../features/templates/examples/tasks/page';
+import Home from '../features/hero-section/Home';
 
 const routeChildren: routeChildrenType[] = [
   {
@@ -29,6 +33,23 @@ const routeChildren: routeChildrenType[] = [
     element: <BrandList />,
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
   },
+  {
+    path: '/template',
+    element: <TemplateLayout />,
+    access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+    children: [
+      {
+        path: '/template/task',
+        element: <TaskPage />,
+        access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+      }
+    ],
+  },
+  {
+    path: '/task/list',
+    element: <TaskPage />,
+    access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+  }
 ]
 function Routes() {
   const { isAuthenticated } = useAuth();
@@ -38,30 +59,48 @@ function Routes() {
   const routeObj: routeObjType[] = [
     {
       path: '/',
-      element: <MainLayout />,
+      element: isAuthenticated ? <MainLayout /> : <Navigate to="/login" />,
       children: [],
     },
     {
+      path: '/elucide',
+      element: <ShowOffLayout />,
+      children: [
+        {
+          path: '/elucide/home',
+          element: <Home />,
+        },
+      ]
+    },
+    {
+      // path: '/auth',
+      // // element: <></>,
+      // children: [
+      //   {
       path: '/login',
-      element: <LoginPage />,
+      element: !isAuthenticated ? <LoginPage /> : <Navigate to="/dashboard" />,
+      //   },
+      // ]
     },
   ];
 
   // If user authenticated with valid login then the allowed into protected route. 
-  if (isAuthenticated) {
-    const protectedRoutes: routeObjType[] = routeChildren?.filter((d: routeChildrenType, i: number) => {
-      let obj: routeObjType = { path: '', element: '' };
-      if (d?.access?.indexOf(loginType) !== -1) {
-        obj.path = d?.path;
-        obj.element = d?.element;
-        return obj;
-      }
-    })
-    routeObj[0].children = protectedRoutes;
-  } else {
-    // If no login detected or not a valid user then navigate/redirect to un-protected route.
-    routeObj[0].element = <Navigate to="/login" />
-  }
+  // if (isAuthenticated) {
+  const protectedRoutes: routeObjType[] = routeChildren?.filter((d: routeChildrenType,) => {
+    let obj: routeObjType = { path: '', element: '' };
+    if (d?.access?.indexOf(loginType) !== -1) {
+      obj.path = d?.path;
+      obj.element = d?.element;
+      obj.children = d?.children;
+      return obj;
+    }
+  })
+  routeObj[0].children = protectedRoutes;
+  // } 
+  // else {
+  //   // If no login detected or not a valid user then navigate/redirect to un-protected route.
+  //   routeObj[0].element = <Navigate to="/elucide/login" />
+  // }
 
   const routes = createBrowserRouter(routeObj);
 

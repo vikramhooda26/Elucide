@@ -14,7 +14,6 @@ import {
 import { Button } from '../components/ui/button';
 import { useNavigate } from "react-router-dom";
 import { loginType, sideMenuObjType } from "../types/routes/RoutesTypes";
-import { useAuth } from "../features/auth/auth-provider/AuthProvider";
 
 const menusList: sideMenuObjType[] = [
   {
@@ -40,6 +39,12 @@ const menusList: sideMenuObjType[] = [
     icon: '',
     route: "/brand/list",
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+  },
+  {
+    label: 'Task',
+    icon: '',
+    route: "/task/list",
+    access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
   }
 ];
 
@@ -54,11 +59,11 @@ const menusList: sideMenuObjType[] = [
 
 function SideMenu() {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  // const { isAuthenticated } = useAuth();
   // Later take from session response.
   const loginType: loginType = 'adminLogin';
 
-  const allowedMenuList = menusList?.filter((d, i) => {
+  const allowedMenuList = menusList?.filter((d,) => {
     if (d?.access?.indexOf(loginType) !== -1) { return d; };
   });
 
@@ -72,7 +77,7 @@ function SideMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {allowedMenuList?.map((d, i) => (
-            <DropdownMenuItem onClick={() => navigate(d?.route)}>
+            <DropdownMenuItem key={i} onClick={() => navigate(d?.route)}>
               <User className="mr-2 h-4 w-4" />
               <span>{d?.label}</span>
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
