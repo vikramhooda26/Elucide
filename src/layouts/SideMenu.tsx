@@ -1,93 +1,75 @@
 import {
-  User
+  File,
+  Inbox,
+  MessagesSquare,
+  Send,
+  ShoppingCart,
+  Users2
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger
-} from "..//components/ui/dropdown-menu";
-import { Button } from '../components/ui/button';
-import { useNavigate } from "react-router-dom";
-import { loginType, sideMenuObjType } from "../types/routes/RoutesTypes";
+import Image from "../components/image/Image";
+import CookieService from "../services/cookies/CookieService";
+import { sideMenuObjType } from "../types/routes/RoutesTypes";
+import { SidemenuLayout } from "./components/SidemenuLayout";
+import { useState } from "react";
 
 const menusList: sideMenuObjType[] = [
   {
-    label: 'Dashboard',
-    icon: '',
+    title: 'Dashboard',
+    icon: Inbox,
     route: "/dashboard",
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+    variant: "default",
   },
   {
-    label: 'Athlete',
-    icon: '',
+    title: 'Athlete',
+    icon: File,
     route: "/athlete/list",
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+    variant: "ghost",
   },
   {
-    label: 'Team',
-    icon: '',
+    title: 'Team',
+    icon: Send,
     route: "/team/list",
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+    variant: "ghost",
   },
   {
-    label: 'Brand',
-    icon: '',
+    title: 'Brand',
+    icon: ShoppingCart,
     route: "/brand/list",
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+    variant: "ghost",
   },
   {
-    label: 'Task',
-    icon: '',
+    title: 'Task',
+    icon: MessagesSquare,
     route: "/task/list",
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+    variant: "ghost",
+  },
+  {
+    title: 'Mail',
+    icon: Users2,
+    route: "/mail/list",
+    access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+    variant: "ghost",
   }
 ];
 
-// submenus: [
-//   {
-//     label: 'Team',
-//     icon: '',
-//     route: "/team/list",
-//     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin'],
-//   },
-// ]
 
 function SideMenu() {
-  const navigate = useNavigate();
-  // const { isAuthenticated } = useAuth();
-  // Later take from session response.
-  const loginType: loginType = 'adminLogin';
-
-  const allowedMenuList = menusList?.filter((d,) => {
-    if (d?.access?.indexOf(loginType) !== -1) { return d; };
-  });
-
+  const [isCollapsed, setIsCollapsed] = useState(false);
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          {allowedMenuList?.map((d, i) => (
-            <DropdownMenuItem key={i} onClick={() => navigate(d?.route)}>
-              <User className="mr-2 h-4 w-4" />
-              <span>{d?.label}</span>
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          ))}
-
-        </DropdownMenuGroup>
-
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className=" relative flex-col md:flex p-2 border rounded-md">
+      <SidemenuLayout
+        sidemenus={menusList}
+        isCollapsed={isCollapsed}
+      />
+      <div onClick={() => setIsCollapsed(pv => !pv)} className="absolute -right-4 top-20 w-8 h-8 border rounded-md">
+        {'<---'}
+      </div>
+    </div>
   )
 }
 

@@ -11,11 +11,13 @@ import { routeChildrenType, routeObjType } from '../types/routes/RoutesTypes';
 import TemplateLayout from '../features/templates/examples/layout';
 import TaskPage from '../features/templates/examples/tasks/page';
 import Home from '../features/hero-section/Home';
+import MailPage from '../features/templates/examples/mail/page';
+import DashboardPage from '../features/dashboard/dashboard/page';
 
 const routeChildren: routeChildrenType[] = [
   {
     path: '/dashboard',
-    element: <Dashboard />,
+    element: <DashboardPage />,
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
   },
   {
@@ -49,7 +51,12 @@ const routeChildren: routeChildrenType[] = [
     path: '/task/list',
     element: <TaskPage />,
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
-  }
+  },
+  {
+    path: '/mail/list',
+    element: <MailPage />,
+    access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+  },
 ]
 function Routes() {
   const { isAuthenticated } = useAuth();

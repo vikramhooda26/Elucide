@@ -1,3 +1,4 @@
+import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
 
 export type loginType = 'adminLogin' | 'athleteLogin' | 'teamLogin' | 'brandLogin' | 'leagueLogin';
@@ -16,8 +17,9 @@ export type routeChildrenType = {
 }
 
 export type sideMenuObjType = {
-    label: string;
-    icon: string;
+    title: string;
+    icon: LucideIcon;
     route: string;
     access: Array<loginType>;
+    variant: "default" | "ghost";
 }
