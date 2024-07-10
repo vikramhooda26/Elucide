@@ -6,6 +6,7 @@ import Footer from './Footer';
 function MainLayout() {
   return (
     <div className='px-4 py-2 w-full h-full'>
+
       <div className='w-full h-full m-0 mb-4'>
         <Header />
       </div>

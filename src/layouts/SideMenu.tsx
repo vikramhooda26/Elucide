@@ -1,4 +1,5 @@
 import {
+  ChevronLeft,
   File,
   Inbox,
   MessagesSquare,
@@ -6,11 +7,9 @@ import {
   ShoppingCart,
   Users2
 } from "lucide-react";
-import Image from "../components/image/Image";
-import CookieService from "../services/cookies/CookieService";
+import { useState } from "react";
 import { sideMenuObjType } from "../types/routes/RoutesTypes";
 import { SidemenuLayout } from "./components/SidemenuLayout";
-import { useState } from "react";
 
 const menusList: sideMenuObjType[] = [
   {
@@ -66,8 +65,8 @@ function SideMenu() {
         sidemenus={menusList}
         isCollapsed={isCollapsed}
       />
-      <div onClick={() => setIsCollapsed(pv => !pv)} className="absolute -right-4 top-20 w-8 h-8 border rounded-md">
-        {'<---'}
+      <div onClick={() => setIsCollapsed(pv => !pv)} className="absolute -right-4 top-20 w-8 h-8 border rounded-md flex items-center justify-center">
+        <ChevronLeft />
       </div>
     </div>
   )
