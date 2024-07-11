@@ -3,7 +3,6 @@ import AthleteList from '../features/athlete/AthleteList';
 import { useAuth } from '../features/auth/auth-provider/AuthProvider';
 import LoginPage from '../features/auth/login/LoginPage';
 import BrandList from '../features/brand/BrandList';
-import Dashboard from '../features/dashboard/Dashboard';
 import TeamList from '../features/team/TeamList';
 import MainLayout from '../layouts/MainLayout';
 import ShowOffLayout from '../layouts/ShowOffLayout';
@@ -12,12 +11,12 @@ import TemplateLayout from '../features/templates/examples/layout';
 import TaskPage from '../features/templates/examples/tasks/page';
 import Home from '../features/hero-section/Home';
 import MailPage from '../features/templates/examples/mail/page';
-import DashboardPage from '../features/dashboard/dashboard/page';
+import Dashboard from '../features/dashboard/Dashboard';
 
 const routeChildren: routeChildrenType[] = [
   {
-    path: '/dashboard',
-    element: <DashboardPage />,
+    path: '/',
+    element: <Dashboard />,
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
   },
   {
@@ -66,12 +65,12 @@ function Routes() {
   const routeObj: routeObjType[] = [
     {
       path: '/',
-      element: isAuthenticated ? <MainLayout /> : <Navigate to="/login" />,
+      element: isAuthenticated ? <MainLayout /> : <Navigate to="/elucide/home" />,
       children: [],
     },
     {
       path: '/elucide',
-      element: <ShowOffLayout />,
+      element: !isAuthenticated ? <ShowOffLayout /> : <Navigate to="/" />,
       children: [
         {
           path: '/elucide/home',
@@ -85,7 +84,7 @@ function Routes() {
       // children: [
       //   {
       path: '/login',
-      element: !isAuthenticated ? <LoginPage /> : <Navigate to="/dashboard" />,
+      element: !isAuthenticated ? <LoginPage /> : <Navigate to="/" />,
       //   },
       // ]
     },

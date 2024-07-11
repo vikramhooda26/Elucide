@@ -8,7 +8,7 @@ interface SidemenuProps {
     isCollapsed?: boolean;
 }
 
-export function SidemenuLayout({ sidemenus, isCollapsed = false }: SidemenuProps) {
+export function SidemenuLayout({ sidemenus, isCollapsed = false, }: SidemenuProps) {
     return (
         <TooltipProvider delayDuration={0}>
 
@@ -16,11 +16,11 @@ export function SidemenuLayout({ sidemenus, isCollapsed = false }: SidemenuProps
                 isCollapsed={isCollapsed}
                 links={sidemenus}
             />
-            <Separator />
+            {/* <Separator />
             <SideMenuNav
                 isCollapsed={isCollapsed}
                 links={sidemenus}
-            />
+            /> */}
 
         </TooltipProvider>
     )

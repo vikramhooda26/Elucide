@@ -1,5 +1,6 @@
 import {
   ChevronLeft,
+  ChevronRight,
   File,
   Inbox,
   MessagesSquare,
@@ -15,7 +16,7 @@ const menusList: sideMenuObjType[] = [
   {
     title: 'Dashboard',
     icon: Inbox,
-    route: "/dashboard",
+    route: "/",
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
     variant: "default",
   },
@@ -58,7 +59,8 @@ const menusList: sideMenuObjType[] = [
 
 
 function SideMenu() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
   return (
     <div className=" relative flex-col md:flex p-2 border rounded-md">
       <SidemenuLayout
@@ -66,7 +68,7 @@ function SideMenu() {
         isCollapsed={isCollapsed}
       />
       <div onClick={() => setIsCollapsed(pv => !pv)} className="absolute -right-4 top-20 w-8 h-8 border rounded-md flex items-center justify-center">
-        <ChevronLeft />
+        {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
       </div>
     </div>
   )

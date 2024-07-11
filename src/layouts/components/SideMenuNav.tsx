@@ -10,6 +10,7 @@ import {
     TooltipTrigger,
 } from "../../components/ui/tooltip"
 import { Link, useLocation } from "react-router-dom"
+import { useState } from "react"
 
 interface NavProps {
     isCollapsed: boolean
@@ -20,19 +21,22 @@ interface NavProps {
         variant: "default" | "ghost";
         route: string;
         access: string[]
-    }[]
+    }[],
 }
 
-export function SideMenuNav({ links, isCollapsed }: NavProps) {
+export function SideMenuNav({ links, isCollapsed = false }: NavProps) {
     const pathname = useLocation().pathname;
+    const [openMenu, setOpenMenu] = useState<boolean>(false);
+
     return (
         <div
             data-collapsed={isCollapsed}
-            className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
+            className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2 h-screen "
+            onMouseEnter={() => setOpenMenu(true)} onMouseLeave={() => setOpenMenu(false)}
         >
             <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
                 {links.map((link, index) =>
-                    isCollapsed ? (
+                    isCollapsed && !openMenu ? (
                         <Tooltip key={index} delayDuration={0}>
                             <TooltipTrigger asChild>
                                 <Link
@@ -62,10 +66,10 @@ export function SideMenuNav({ links, isCollapsed }: NavProps) {
                             key={index}
                             to={link?.route}
                             className={cn(
-                                buttonVariants({ variant: pathname === link?.route ? 'default' : 'ghost', size: "sm" }),
+                                buttonVariants({ variant: pathname === link?.route ? 'secondary' : 'ghost', size: "sm" }),
                                 pathname === link?.route &&
                                 "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-                                "justify-start"
+                                "justify-start pe-12 "
                             )}
                         >
                             <link.icon className="mr-2 h-4 w-4" />
