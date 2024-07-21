@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom"
-import { cn } from "../../../lib/utils"
+import { Link } from "react-router-dom";
+import { cn } from "../../../lib/utils";
 
 export function MainNav({
     className,
@@ -7,7 +7,10 @@ export function MainNav({
 }: React.HTMLAttributes<HTMLElement>) {
     return (
         <nav
-            className={cn("flex items-center space-x-4 lg:space-x-6", className)}
+            className={cn(
+                "flex items-center space-x-4 lg:space-x-6",
+                className
+            )}
             {...props}
         >
             <Link
@@ -20,13 +23,13 @@ export function MainNav({
                 to="/examples/dashboard"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
-                Customers
+                Staff
             </Link>
             <Link
                 to="/examples/dashboard"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
-                Products
+                Actions
             </Link>
             <Link
                 to="/examples/dashboard"
@@ -35,5 +38,5 @@ export function MainNav({
                 Settings
             </Link>
         </nav>
-    )
+    );
 }
