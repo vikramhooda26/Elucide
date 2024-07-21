@@ -1,4 +1,4 @@
-export const API_ENDPOINT = "http://192.168.0.106:5000/";
+export const API_ENDPOINT = "https://elucide-sports-backend.onrender.com/";
 
 export const API_VERSION = "v1";
 

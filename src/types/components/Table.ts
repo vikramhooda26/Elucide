@@ -1,8 +1,8 @@
 import { ColumnDef, Row, Table } from "@tanstack/react-table";
 
 export interface DataTableProps<TData, TValue,> {
+    table: Table<any>;
     columns: ColumnDef<TData, TValue>[];
-    data: TData[];
     toolbarAttri: ToolbarAttri;
 }
 

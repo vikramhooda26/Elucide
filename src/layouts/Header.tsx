@@ -1,3 +1,4 @@
+import { ModeToggle } from "../components/ui/ModeToggle";
 import { GlobalSearch } from "./components/GlobalSearch";
 import { MainNav } from "./components/MainNav";
 import { UserNav } from "./components/UserNav";
@@ -10,6 +11,7 @@ function Header() {
         <MainNav className="mx-6" />
         <div className="ml-auto flex items-center space-x-4">
           <GlobalSearch />
+          <ModeToggle />
           <UserNav />
         </div>
       </div>
