@@ -9,8 +9,8 @@ import TeamList from '../features/team/TeamList';
 import TemplateLayout from '../features/templates/examples/layout';
 import MailPage from '../features/templates/examples/mail/page';
 import TaskPage from '../features/templates/examples/tasks/page';
-import MainLayout from '../layouts/MainLayout';
-import ShowOffLayout from '../layouts/ShowOffLayout';
+import MainLayout from '../layouts/main-layout/MainLayout';
+import ShowOffLayout from '../layouts/showoff-layout/ShowOffLayout';
 import { routeChildrenType, routeObjType } from '../types/routes/RoutesTypes';
 
 const routeChildren: routeChildrenType[] = [

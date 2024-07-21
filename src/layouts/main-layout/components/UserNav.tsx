@@ -2,8 +2,8 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from "../../components/ui/avatar"
-import { Button } from "../../components/ui/button"
+} from "../../../components/ui/avatar"
+import { Button } from "../../../components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,13 +13,13 @@ import {
     DropdownMenuSeparator,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu"
-import { useAuth } from "../../features/auth/auth-provider/AuthProvider";
+} from "../../../components/ui/dropdown-menu"
+import { useAuth } from "../../../features/auth/auth-provider/AuthProvider";
 
 export function UserNav() {
     const {logout} = useAuth()
     const handleLogOut = () => { 
-
+        logout();
     };
     return (
         <DropdownMenu>

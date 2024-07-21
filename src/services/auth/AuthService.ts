@@ -6,7 +6,7 @@ class AuthService {
 
     static doLogin(params: any) {
         return AjaxService.request(
-            API_ENDPOINT + "api/auth/login",
+            API_ENDPOINT + "/api/auth/login",
             params,
             "POST"
         );

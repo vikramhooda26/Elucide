@@ -9,8 +9,8 @@ import {
   Users2
 } from "lucide-react";
 import { useState } from "react";
-import { sideMenuObjType } from "../types/routes/RoutesTypes";
-import { SidemenuLayout } from "./components/SidemenuLayout";
+import { sideMenuObjType } from "../../../types/routes/RoutesTypes";
+import { SidemenuLayout } from "./SidemenuLayout";
 
 const menusList: sideMenuObjType[] = [
   {

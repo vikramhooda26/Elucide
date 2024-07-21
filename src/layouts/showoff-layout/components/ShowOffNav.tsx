@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
-import { cn } from "../../lib/utils"
+import { cn } from "../../../lib/utils"
 
-export function MainNav({
+export function ShowOffNav({
     className,
     ...props
 }: React.HTMLAttributes<HTMLElement>) {
@@ -11,28 +11,22 @@ export function MainNav({
             {...props}
         >
             <Link
-                to="/examples/dashboard"
+                to="/elucide/home"
                 className="text-sm font-medium transition-colors hover:text-primary"
             >
                 Overview
             </Link>
             <Link
-                to="/examples/dashboard"
+                to="/elucide/home"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
                 Customers
             </Link>
             <Link
-                to="/examples/dashboard"
+                to="/elucide/home"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
                 Products
-            </Link>
-            <Link
-                to="/examples/dashboard"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-            >
-                Settings
             </Link>
         </nav>
     )

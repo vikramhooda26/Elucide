@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom'
-import Footer from './components/Footer'
-import Header from './components/Header'
+import Footer from '../main-layout/components/Footer'
+import ShowOffHeader from './components/ShowOffHeader'
 
 function ShowOffLayout() {
     return (
         <div className=''>
-            <div className='w-full h-full m-0 mb-4'> <Header /></div>
+            <div className='w-full h-full m-0 mb-4'> <ShowOffHeader /></div>
             <div className=''>
                 <div><Outlet /></div>
             </div>

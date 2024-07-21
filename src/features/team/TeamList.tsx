@@ -6,6 +6,7 @@ import { priorities, statuses } from "./data/data";
 import { ColumnFiltersState, getCoreRowModel, getFacetedRowModel, getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
 import DataTable from "../../components/table/data-table";
 import { Button } from "../../components/ui/button";
+import AthleteService from "../../services/sports/AthleteService";
 
 function TeamList() {
   const [tasks, setTasks] = useState<Array<any>>([]);
@@ -15,6 +16,13 @@ function TeamList() {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const fetchTasks = async () => { const resp = getTaskList; setTasks(resp) }
+
+
+  const handleHit = async () => {
+    const r = await AthleteService.create({});
+    console.log(' r athlete -=- ', r);
+
+  }
 
   useEffect(() => {
     fetchTasks();
@@ -41,6 +49,7 @@ function TeamList() {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
+
 
   return (
     <div className=" h-full flex-1 flex-col space-y-8  md:flex">

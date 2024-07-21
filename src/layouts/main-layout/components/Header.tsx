@@ -1,11 +1,11 @@
-import { ModeToggle } from "../../components/ui/ModeToggle";
+import { ModeToggle } from "../../../components/ui/ModeToggle";
 import { GlobalSearch } from "./GlobalSearch";
 import { MainNav } from "./MainNav";
 import { UserNav } from "./UserNav";
 
 function Header() {
   return (
-    <div className="border-b">
+    <div className="border-b  ">
       <div className="flex h-16 items-center px-4">
         <div className="text-2xl ">Elucide Sports</div>
         <MainNav className="mx-6" />

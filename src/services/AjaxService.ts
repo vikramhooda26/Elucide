@@ -49,7 +49,7 @@ class AjaxService {
         } catch (error: any) {
             if (error?.response?.status === 403) {
                 AuthService.setToken("");
-                window.location.href = "/login";
+                // window.location.href = "/login";
             }
             return {
                 status: axios.isAxiosError(error) ? error.response?.status ?? 0 : 0,

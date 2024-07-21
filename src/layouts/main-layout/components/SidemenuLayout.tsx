@@ -1,6 +1,6 @@
-import { Separator } from "../../components/ui/separator";
-import { TooltipProvider } from "../../components/ui/tooltip";
-import { sideMenuObjType } from "../../types/routes/RoutesTypes";
+import { Separator } from "../../../components/ui/separator";
+import { TooltipProvider } from "../../../components/ui/tooltip";
+import { sideMenuObjType } from "../../../types/routes/RoutesTypes";
 import { SideMenuNav } from "./SideMenuNav";
 
 interface SidemenuProps {

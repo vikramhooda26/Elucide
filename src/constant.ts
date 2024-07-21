@@ -1,4 +1,6 @@
-export const API_ENDPOINT = "https://elucide-sports-backend.onrender.com/";
+// export const API_ENDPOINT = "https://elucide-sports-backend.onrender.com/";
+
+export const API_ENDPOINT =  "https://elucide-sports-backend.vercel.app"
 
 export const API_VERSION = "v1";
 
