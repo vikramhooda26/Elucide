@@ -42,19 +42,19 @@ const menusList: sideMenuObjType[] = [
     variant: "ghost",
   },
   {
-    title: 'Task',
+    title: 'League',
     icon: MessagesSquare,
     route: "/task/list",
     access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
     variant: "ghost",
   },
-  {
-    title: 'Mail',
-    icon: Users2,
-    route: "/mail/list",
-    access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
-    variant: "ghost",
-  }
+  // {
+  //   title: 'Mail',
+  //   icon: Users2,
+  //   route: "/mail/list",
+  //   access: ['adminLogin', 'athleteLogin', 'teamLogin', 'brandLogin', 'leagueLogin'],
+  //   variant: "ghost",
+  // }
 ];
 
 

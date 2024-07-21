@@ -10,7 +10,7 @@ function AthleteList() {
 
   return (
     <div className='border rounded-md w-full p-2'>
-      <div>Athlete List</div>
+      <div className='my-3'>Here&apos;s a list of Athlete</div>
       <Button onClick={handleHit}>
         hit me
       </Button>
