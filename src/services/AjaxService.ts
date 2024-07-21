@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { CONFIG_KEY, LOGIN_TYPE } from "../constant";
 import AuthService from "./auth/AuthService";
 
 type Resp = {
@@ -26,29 +25,11 @@ class AjaxService {
     ): Promise<Resp> {
         try {
             let defaultConfig: AxiosRequestConfig = {
-                headers: {
-                    "Content-Type":
-                        dataConfig?.contentType?.length > 0
-                            ? dataConfig?.contentType
-                            : "application/json",
-                    loginType: LOGIN_TYPE,
-                    configKey: CONFIG_KEY,
-                },
+                headers: { "Content-Type": dataConfig?.contentType?.length > 0 ? dataConfig?.contentType : "application/json", },
             };
 
             if (dataConfig?.responseType?.length > 0) {
                 defaultConfig["responseType"] = dataConfig?.responseType;
-            }
-
-            const t = AuthService.getToken();
-
-            if (t) {
-                defaultConfig.headers!.Authorization = "JWT " + t;
-            } else if (!t || t?.length <= 0) {
-                const unProtectedAPI = AuthService.getUnProtectedAPI();
-                if (unProtectedAPI?.every((d: string,) => !url?.includes(d))) {
-                    return { status: 404, resp: {} };
-                }
             }
 
             const r: AxiosResponse = await axios({
@@ -61,16 +42,17 @@ class AjaxService {
                         : {},
                 ...defaultConfig,
                 ...config,
+                withCredentials: true,
             });
 
             return { status: r.status, resp: r.data };
         } catch (error: any) {
-            if (error?.response?.status === 440) {
+            if (error?.response?.status === 403) {
                 AuthService.setToken("");
-                // window.location.href = "/login";
+                window.location.href = "/login";
             }
             return {
-                status: axios.isAxiosError(error) ? error.response?.status || -1 : -1,
+                status: axios.isAxiosError(error) ? error.response?.status ?? 0 : 0,
                 resp: axios.isAxiosError(error) ? error.response?.data : null,
             };
         }

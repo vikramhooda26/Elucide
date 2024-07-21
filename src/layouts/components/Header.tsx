@@ -1,7 +1,7 @@
-import { ModeToggle } from "../components/ui/ModeToggle";
-import { GlobalSearch } from "./components/GlobalSearch";
-import { MainNav } from "./components/MainNav";
-import { UserNav } from "./components/UserNav";
+import { ModeToggle } from "../../components/ui/ModeToggle";
+import { GlobalSearch } from "./GlobalSearch";
+import { MainNav } from "./MainNav";
+import { UserNav } from "./UserNav";
 
 function Header() {
   return (

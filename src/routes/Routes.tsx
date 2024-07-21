@@ -1,17 +1,17 @@
-import { Navigate, createBrowserRouter, useLocation } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 import AthleteList from '../features/athlete/AthleteList';
 import { useAuth } from '../features/auth/auth-provider/AuthProvider';
-import LoginPage from '../features/auth/login/LoginPage';
+import Login from '../features/auth/login/Login';
 import BrandList from '../features/brand/BrandList';
+import Dashboard from '../features/dashboard/Dashboard';
+import Home from '../features/hero-section/Home';
 import TeamList from '../features/team/TeamList';
+import TemplateLayout from '../features/templates/examples/layout';
+import MailPage from '../features/templates/examples/mail/page';
+import TaskPage from '../features/templates/examples/tasks/page';
 import MainLayout from '../layouts/MainLayout';
 import ShowOffLayout from '../layouts/ShowOffLayout';
 import { routeChildrenType, routeObjType } from '../types/routes/RoutesTypes';
-import TemplateLayout from '../features/templates/examples/layout';
-import TaskPage from '../features/templates/examples/tasks/page';
-import Home from '../features/hero-section/Home';
-import MailPage from '../features/templates/examples/mail/page';
-import Dashboard from '../features/dashboard/Dashboard';
 
 const routeChildren: routeChildrenType[] = [
   {
@@ -84,7 +84,7 @@ function Routes() {
       // children: [
       //   {
       path: '/login',
-      element: !isAuthenticated ? <LoginPage /> : <Navigate to="/" />,
+      element: !isAuthenticated ? <Login /> : <Navigate to="/" />,
       //   },
       // ]
     },

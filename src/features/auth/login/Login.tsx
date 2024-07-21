@@ -8,11 +8,12 @@ import { Label } from "../../../components/ui/label";
 import { cn } from "../../../lib/utils";
 import AuthService from "../../../services/auth/AuthService";
 import { useAuth } from "../auth-provider/AuthProvider";
+import { ArrowRight } from "lucide-react";
 
 const loginSchema = yup.object().shape({
   email: yup.string().required("Please enter valid email."),
   password: yup.string().required("Please enter correct password."),
-  
+
 });
 
 function LoginPage() {
@@ -30,14 +31,14 @@ function LoginPage() {
     }
 
     const r = await AuthService?.doLogin(p);
-
-    if (r?.resp?.success) {
+    console.log('r -=- ', r);
+    if (Object.keys(r?.resp)?.length > 0) {
       const data = r?.resp;
       console.log("Login Successfull");
       login();
-      AuthService.setToken(data?.token);
+      AuthService.setToken(data?.token || 'Hi Bye');
       AuthService.setUser(data);
-      navigate('/dashboard')
+      navigate('/')
     } else {
       console.log("Login Failed");
     }
@@ -58,7 +59,7 @@ function LoginPage() {
 
           <LabelInputContainer className="mb-4">
             <Label htmlFor="email">Email Address</Label>
-            <Input {...register('email')} id="email" placeholder="example@email.com" type="email" />
+            <Input {...register('email')} id="email" placeholder="example@email.com" type="text" />
             {errors?.email?.message ? <ErrorMsg msg="Please enter valid email." /> : null}
           </LabelInputContainer>
           <LabelInputContainer className="mb-4">
@@ -71,7 +72,12 @@ function LoginPage() {
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="submit"
           >
-            Login &rarr;
+            <div className="flex items-center justify-center gap-1">
+              <span>
+                Login
+              </span>
+              <ArrowRight className="h-4 w-4" />
+            </div>
             <BottomGradient />
           </button>
 

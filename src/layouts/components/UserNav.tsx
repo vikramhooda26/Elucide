@@ -14,8 +14,13 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu"
+import { useAuth } from "../../features/auth/auth-provider/AuthProvider";
 
 export function UserNav() {
+    const {logout} = useAuth()
+    const handleLogOut = () => { 
+
+    };
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -52,7 +57,7 @@ export function UserNav() {
                     <DropdownMenuItem>New Team</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogOut}>
                     Log out
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem>
