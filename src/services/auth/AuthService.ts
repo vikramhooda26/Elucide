@@ -27,22 +27,6 @@ class AuthService {
         );
     }
 
-    static getSessionDetail() {
-        return AjaxService.request(
-            API_ENDPOINT + "api/" + API_VERSION + "/sessiondetails",
-            {},
-            "GET"
-        );
-    }
-
-    static setToken(value: string) {
-        StorageService.set("t", value);
-    }
-
-    static getToken() {
-        return StorageService.get("t") || "";
-    }
-
     static setUser(value: any) {
         StorageService.set("u", value);
     }
@@ -55,9 +39,6 @@ class AuthService {
         StorageService.remove("u");
     }
 
-    static getUnProtectedAPI() {
-        return ['/register/check', '/login'];
-    }
 }
 
 export default AuthService;

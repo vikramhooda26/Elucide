@@ -3,7 +3,7 @@ import AuthService from "./auth/AuthService";
 
 type Resp = {
     status: number;
-    resp: any;
+    data: any;
 };
 class AjaxService {
     static prepareParams(params: any) {
@@ -45,15 +45,14 @@ class AjaxService {
                 withCredentials: true,
             });
 
-            return { status: r.status, resp: r.data };
+            return { status: r.status, data: r.data };
         } catch (error: any) {
             if (error?.response?.status === 403) {
-                AuthService.setToken("");
-                // window.location.href = "/login";
+                window.location.href = "/elucide/home";
             }
             return {
                 status: axios.isAxiosError(error) ? error.response?.status ?? 0 : 0,
-                resp: axios.isAxiosError(error) ? error.response?.data : null,
+                data: axios.isAxiosError(error) ? error.response?.data : null,
             };
         }
     }

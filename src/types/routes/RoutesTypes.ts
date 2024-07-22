@@ -1,7 +1,7 @@
 import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
 
-export type loginType = 'adminLogin' | 'athleteLogin' | 'teamLogin' | 'brandLogin' | 'leagueLogin';
+export type loginType = "SUPER_ADMIN" | "ADMIN" | "STAFF" | "USER";
 
 export type routeObjType = {
     path: string;

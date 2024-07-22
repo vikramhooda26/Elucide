@@ -11,6 +11,7 @@ import { ClipLoader } from "react-spinners";
 import { CustomLabel } from "../../../components/ui/custom-label";
 import { AnimatedInput } from "../../../components/ui/animated-input";
 import { useState } from "react";
+import { roles } from "../../../constant";
 
 const loginSchema = yup.object().shape({
     email: yup.string().required("Please enter valid email."),
@@ -33,23 +34,30 @@ function LoginPage() {
     const handleLoginSubmit = async (data: any) => {
         try {
             setIsLoading(true);
-            console.log(data?.email, data?.password);
+
             const requestBody = {
                 username: data?.email,
                 password: data?.password,
             };
 
             const response = await AuthService?.doLogin(requestBody);
-            if (Object.keys(response?.resp)?.length > 0) {
-                const data = response?.resp;
-                console.log("Login Successfull");
-                login();
-                AuthService.setToken(data?.token || "Hi Bye");
-                AuthService.setUser(data);
-                navigate("/");
-            } else {
+
+            if (Object.keys(response?.data)?.length <= 0) {
                 console.log("Login Failed");
+                return;
             }
+
+            const resp = response?.data;
+
+            if (!roles?.some((role) => role === resp?.role)) {
+                console.log("Login Failed");
+                return;
+            }
+
+            login();
+            AuthService.setUser(resp);
+            navigate("/");
+
         } catch (error) {
             console.log(error);
         } finally {
@@ -121,7 +129,7 @@ function LoginPage() {
                         disabled={isLoading}
                     >
                         <div className="flex items-center justify-center gap-3">
-                            <span>{isLoading ? "Loading..." : "Login"}</span>
+                            <span>{isLoading ? "Checking..." : "Login"}</span>
                             {isLoading ? (
                                 <ClipLoader
                                     size={15}

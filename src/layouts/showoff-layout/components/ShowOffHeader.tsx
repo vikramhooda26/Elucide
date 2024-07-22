@@ -7,8 +7,9 @@ function ShowOffHeader() {
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
-        navigate("/login");
+        navigate("/elucide/login");
     };
+    
     return (
         <div className="border-b px-10 bg-black">
             <div className="flex h-16 items-center px-4">
