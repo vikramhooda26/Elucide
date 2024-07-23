@@ -7,8 +7,10 @@ import { ColumnFiltersState, getCoreRowModel, getFacetedRowModel, getFacetedUniq
 import DataTable from "../../components/table/data-table";
 import { Button } from "../../components/ui/button";
 import AthleteService from "../../services/sports/AthleteService";
+import { useNavigate } from "react-router-dom";
 
 function TeamList() {
+  const navigate =  useNavigate();
   const [tasks, setTasks] = useState<Array<any>>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -61,7 +63,7 @@ function TeamList() {
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Button>Create</Button>
+          <Button onClick={()=>navigate('/team/create')}>Create</Button>
         </div>
       </div>
       <DataTable table={table} columns={columns} toolbarAttri={{ statuses, priorities }} />

@@ -1,6 +1,6 @@
 import {
-  ChevronLeft,
-  ChevronRight,
+  ArrowLeft,
+  ArrowRight,
   File,
   Inbox,
   MessagesSquare,
@@ -76,8 +76,8 @@ function SideMenu() {
         sidemenus={allowedMenus}
         isCollapsed={isCollapsed}
       />
-      <div onClick={() => setIsCollapsed(pv => !pv)} className="absolute -right-4 top-20 w-8 h-8 border rounded-md flex items-center justify-center">
-        {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
+      <div onClick={() => setIsCollapsed(pv => !pv)} className="absolute -right-4 top-20 w-7 h-7 border rounded-md flex items-center justify-center">
+        {isCollapsed ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
       </div>
     </div>
   )
