@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 // import { DataTable } from "../../components/table/data-table";
+import { ColumnFiltersState, getCoreRowModel, getFacetedRowModel, getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
+import { toast } from "sonner";
+import DataTable from "../../components/table/data-table";
+import { Button } from "../../components/ui/button";
+import useNavigator from "../../hooks/useNavigator";
+import AthleteService from "../../services/sports/AthleteService";
 import { getTaskList } from "../templates/examples/tasks/data/tasksList";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
-import { ColumnFiltersState, getCoreRowModel, getFacetedRowModel, getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
-import DataTable from "../../components/table/data-table";
-import { Button } from "../../components/ui/button";
-import AthleteService from "../../services/sports/AthleteService";
-import { useNavigate } from "react-router-dom";
 
 function TeamList() {
-  const navigate =  useNavigate();
+  const navigator = useNavigator();
   const [tasks, setTasks] = useState<Array<any>>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -29,6 +30,18 @@ function TeamList() {
   useEffect(() => {
     fetchTasks();
   }, [])
+
+  const onView = (id: string) => {
+    toast("Navigating to team view", {
+      description: "Sunday, December 03, 2023 at 9:00 AM",
+      action: {
+        label: "Undo",
+        onClick: () => console.log("Undo"),
+      },
+    });
+    navigator('/team/view', ['dsfsdsf'],);
+
+  }
 
   const table = useReactTable({
     data: tasks,
@@ -52,6 +65,9 @@ function TeamList() {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
+  const callbacks = {
+    onView: onView
+  }
 
   return (
     <div className=" h-full flex-1 flex-col space-y-8  md:flex">
@@ -63,10 +79,10 @@ function TeamList() {
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Button onClick={()=>navigate('/team/create')}>Create</Button>
+          <Button onClick={() => navigator('/team/create')}>Create</Button>
         </div>
       </div>
-      <DataTable table={table} columns={columns} toolbarAttri={{ statuses, priorities }} />
+      <DataTable table={table} columns={columns} toolbarAttri={{ statuses, priorities }} callbacks={callbacks} />
     </div>
   )
 }

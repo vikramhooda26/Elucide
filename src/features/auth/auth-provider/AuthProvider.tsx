@@ -14,18 +14,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
 
-    const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
+    const [isAuthenticated, setAuthenticated] = useState<boolean>(true);
     const user = AuthService.getUser();
     const loginRole = user?.role
     const isUserExists = Object.keys(user)?.length > 0;
 
-    useEffect(() => {
-        if (isUserExists && roles?.some((role) => role === loginRole)) {
-            setAuthenticated(true);
-        } else {
-            setAuthenticated(false);
-        }
-    }, [user]);
+    // useEffect(() => {
+    //     if (isUserExists && roles?.some((role) => role === loginRole)) {
+    //         setAuthenticated(true);
+    //     } else {
+    //         setAuthenticated(false);
+    //     }
+    // }, [user]);
 
     const login = () => {
         setAuthenticated(true);

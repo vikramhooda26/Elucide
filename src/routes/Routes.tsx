@@ -14,6 +14,7 @@ import { loginType, routeChildrenType, routeObjType } from "../types/routes/Rout
 import { Hero } from "../features/hero-section/Hero";
 import AuthService from "../services/auth/AuthService";
 import TeamForm from "../features/team/TeamForm";
+import TeamView from "../features/team/TeamView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -26,6 +27,7 @@ const routeChildren: routeChildrenType[] = [
         element: <AthleteList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
+    //= ============================= team related routes starts here ====================== =//
     {
         path: "/team/create",
         element: <TeamForm />,
@@ -36,6 +38,12 @@ const routeChildren: routeChildrenType[] = [
         element: <TeamList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
+    {
+        path: "/team/view/:id",
+        element: <TeamView />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    //= ============================= team related routes ends here ======================== =//
     {
         path: "/brand/list",
         element: <BrandList />,

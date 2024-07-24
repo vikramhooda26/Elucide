@@ -49,6 +49,7 @@ function LoginPage() {
 
             if (Object.keys(response?.data)?.length <= 0) {
                 console.log("Login Failed");
+                toast("Login Failed");
                 return;
             }
 
@@ -56,6 +57,7 @@ function LoginPage() {
 
             if (!roles?.some((role) => role === resp?.role)) {
                 console.log("Login Failed");
+                toast("Login Failed");
                 return;
             }
 
