@@ -12,6 +12,7 @@ import { CustomLabel } from "../../../components/ui/custom-label";
 import { AnimatedInput } from "../../../components/ui/animated-input";
 import { useState } from "react";
 import { roles } from "../../../constant";
+import { toast } from "sonner";
 
 const loginSchema = yup.object().shape({
     email: yup.string().required("Please enter valid email."),
@@ -44,6 +45,7 @@ function LoginPage() {
 
             if (Object.keys(response?.data)?.length <= 0) {
                 console.log("Login Failed");
+                toast("Login Failed");
                 return;
             }
 
@@ -51,11 +53,19 @@ function LoginPage() {
 
             if (!roles?.some((role) => role === resp?.role)) {
                 console.log("Login Failed");
+                toast("Login Failed");
                 return;
             }
 
             login();
             AuthService.setUser(resp);
+            toast("Login Successful", {
+                description: "",
+                // action: {
+                //     label: "Undo",
+                //     onClick: () => console.log("Undo"),
+                // },
+            });
             navigate("/");
 
         } catch (error) {
