@@ -12,13 +12,15 @@ import { CustomLabel } from "../../../components/ui/custom-label";
 import { AnimatedInput } from "../../../components/ui/animated-input";
 import { useState } from "react";
 import { roles } from "../../../constant";
+import { toast } from "sonner";
 
 const loginSchema = yup.object().shape({
-    email: yup.string().required("Please enter valid email."),
-    password: yup.string().required("Please enter correct password."),
+    username: yup.string().required("Username is required"),
+    password: yup.string().required("Please enter your password"),
 });
 
 function LoginPage() {
+    const TAG = LoginPage.name;
     const {
         register,
         handleSubmit,
@@ -31,13 +33,16 @@ function LoginPage() {
     const [isPasswordVisible, setisPasswordVisible] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleLoginSubmit = async (data: any) => {
+    const handleLoginSubmit = async (data: {
+        username: string;
+        password: string;
+    }) => {
         try {
             setIsLoading(true);
 
             const requestBody = {
-                username: data?.email,
-                password: data?.password,
+                username: data.username,
+                password: data.password,
             };
 
             const response = await AuthService?.doLogin(requestBody);
@@ -56,10 +61,11 @@ function LoginPage() {
 
             login();
             AuthService.setUser(resp);
+            toast.success("Logged in successfully");
             navigate("/");
-
         } catch (error) {
-            console.log(error);
+            console.error(TAG, "Authentication API ERROR:", error);
+            toast.error("An unknown error occurred");
         } finally {
             setIsLoading(false);
         }
@@ -80,16 +86,16 @@ function LoginPage() {
                     onSubmit={handleSubmit(handleLoginSubmit)}
                 >
                     <LabelInputContainer className="mb-4">
-                        <CustomLabel htmlFor="email">Email Address</CustomLabel>
+                        <CustomLabel htmlFor="username">Username</CustomLabel>
                         <AnimatedInput
-                            {...register("email")}
-                            id="email"
-                            placeholder="example@email.com"
+                            {...register("username")}
+                            id="username"
+                            placeholder="example_user"
                             type="text"
                             disabled={isLoading}
                         />
-                        {errors?.email?.message ? (
-                            <ErrorMsg msg="Please a enter valid email" />
+                        {errors?.username?.message ? (
+                            <ErrorMsg msg="Username is required" />
                         ) : null}
                     </LabelInputContainer>
                     <LabelInputContainer className="mb-4">

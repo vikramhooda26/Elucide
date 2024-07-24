@@ -9,11 +9,14 @@ function ShowOffHeader() {
     const handleLoginClick = () => {
         navigate("/elucide/login");
     };
-    
+
     return (
         <div className="border-b px-10 bg-black">
             <div className="flex h-16 items-center px-4">
-                <div className="text-2xl bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent">
+                <div
+                    className="text-2xl bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent cursor-pointer"
+                    onClick={() => navigate("/elucide/home")}
+                >
                     Elucide Sports
                 </div>
                 {/* <ShowOffNav className="mx-6" /> */}

@@ -3,7 +3,6 @@ import AjaxService from "../AjaxService";
 import StorageService from "../common/StorageService";
 
 class AuthService {
-
     static doLogin(params: any) {
         return AjaxService.request(
             API_ENDPOINT + "/api/auth/login",
@@ -21,9 +20,9 @@ class AuthService {
 
     static doLogout() {
         return AjaxService.request(
-            API_ENDPOINT + "api/" + API_VERSION + "/logout",
+            API_ENDPOINT + "/api/auth/logout",
             {},
-            "PUT"
+            "POST"
         );
     }
 
@@ -38,7 +37,6 @@ class AuthService {
     static clearUser() {
         StorageService.remove("u");
     }
-
 }
 
 export default AuthService;

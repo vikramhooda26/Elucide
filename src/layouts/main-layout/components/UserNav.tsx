@@ -1,9 +1,10 @@
+import { toast } from "sonner";
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from "../../../components/ui/avatar"
-import { Button } from "../../../components/ui/button"
+} from "../../../components/ui/avatar";
+import { Button } from "../../../components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,35 +14,65 @@ import {
     DropdownMenuSeparator,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu"
+} from "../../../components/ui/dropdown-menu";
 import { useAuth } from "../../../features/auth/auth-provider/AuthProvider";
 import AuthService from "../../../services/auth/AuthService";
+import { useState } from "react";
+
+// TODO: Add loader when logging out using global loading state and loader-overlay
 
 export function UserNav() {
-    const { logout } = useAuth();
-
     const user = AuthService.getUser();
+    const { logout } = useAuth();
+    const [_isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleLogOut = () => {
-        logout();
+    const handleLogOut = async () => {
+        try {
+            setIsLoading(true);
+            const response = await AuthService.doLogout();
+
+            if (response.status === 200) {
+                logout();
+                toast.info("Logged out successfully!");
+            }
+        } catch (error) {
+            toast.error("An unknown error occured");
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
-    
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                >
                     <Avatar className="h-8 w-8">
-                        <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                        <AvatarFallback>{user?.firstName?.[0] + user?.lastName?.[0] || ''}</AvatarFallback>
+                        <AvatarImage
+                            src="/avatars/01.png"
+                            alt="@shadcn"
+                        />
+                        <AvatarFallback>
+                            {user?.firstName?.[0] + user?.lastName?.[0] || ""}
+                        </AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuContent
+                className="w-56"
+                align="end"
+                forceMount
+            >
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user?.firstName || ''}</p>
+                        <p className="text-sm font-medium leading-none">
+                            {user?.firstName || ""}
+                        </p>
                         <p className="text-xs leading-none text-muted-foreground">
-                            {user?.email || ''}
+                            {user?.email || ""}
                         </p>
                     </div>
                 </DropdownMenuLabel>
@@ -68,5 +99,5 @@ export function UserNav() {
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
-    )
+    );
 }
