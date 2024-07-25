@@ -2,30 +2,21 @@ import {
     ReactElement,
     createContext,
     useContext,
-    useEffect,
     useMemo,
     useState,
 } from "react";
-import { AuthContextType, AuthProviderProps, } from "../../../types/auth/AuthProviderTypes";
-import AuthService from "../../../services/auth/AuthService";
-import { roles } from "../../../constant";
+import {
+    AuthContextType,
+    AuthProviderProps,
+} from "../../../types/auth/AuthProviderTypes";
+import { useSetRecoilState } from "recoil";
+import { userAtom } from "../../../store/atoms/user";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
-
-    const [isAuthenticated, setAuthenticated] = useState<boolean>(true);
-    const user = AuthService.getUser();
-    const loginRole = user?.role
-    const isUserExists = Object.keys(user)?.length > 0;
-
-    // useEffect(() => {
-    //     if (isUserExists && roles?.some((role) => role === loginRole)) {
-    //         setAuthenticated(true);
-    //     } else {
-    //         setAuthenticated(false);
-    //     }
-    // }, [user]);
+    const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
+    const setUser = useSetRecoilState(userAtom);
 
     const login = () => {
         setAuthenticated(true);
@@ -33,8 +24,8 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
 
     const logout = () => {
         setAuthenticated(false);
-        AuthService?.clearUser();
-        window.location.href = '/elucide/home';
+        setUser(null);
+        window.location.href = "/elucide/home";
     };
 
     const contextValue = useMemo(

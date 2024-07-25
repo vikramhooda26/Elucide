@@ -1,41 +1,33 @@
-import { API_ENDPOINT, API_VERSION } from "../../constant";
+import { API_URL, API_VERSION, LOCAL_STORAGE_KEYS } from "../../lib/constants";
 import AjaxService from "../AjaxService";
 import StorageService from "../common/StorageService";
 
 class AuthService {
-    static doLogin(params: any) {
-        return AjaxService.request(
-            API_ENDPOINT + "/api/auth/login",
-            params,
-            "POST"
-        );
+    static login(params: any) {
+        return AjaxService.request(`${API_URL}/api/auth/login`, params, "POST");
     }
 
-    static getUserDetails(id: string) {
+    static fetchUserDetails(userId: string) {
         return AjaxService.request(
-            API_ENDPOINT + "api/" + API_VERSION + "/view/" + id,
+            `${API_URL}/api/${API_VERSION}/view/${userId}`,
             "GET"
         );
     }
 
-    static doLogout() {
-        return AjaxService.request(
-            API_ENDPOINT + "/api/auth/logout",
-            {},
-            "POST"
-        );
+    static logout() {
+        return AjaxService.request(`${API_URL}/api/auth/logout`, {}, "POST");
     }
 
     static setUser(value: any) {
-        StorageService.set("u", value);
+        StorageService.set(LOCAL_STORAGE_KEYS.USER, value);
     }
 
     static getUser() {
-        return StorageService.get("u") || {};
+        return StorageService.get(LOCAL_STORAGE_KEYS.USER) || {};
     }
 
     static clearUser() {
-        StorageService.remove("u");
+        StorageService.remove(LOCAL_STORAGE_KEYS.USER);
     }
 }
 

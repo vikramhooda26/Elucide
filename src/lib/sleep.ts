@@ -1,3 +1,3 @@
 export const sleep = async (seconds: number) => {
-    await new Promise((r) => setTimeout(r, seconds * 1000));
+    await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 };

@@ -1,25 +1,24 @@
 import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
-
-export type loginType = "SUPER_ADMIN" | "ADMIN" | "STAFF" | "USER";
+import { TRoles } from "../../lib/constants";
 
 export type routeObjType = {
     path: string;
     element: ReactNode;
     children?: routeObjType[] | [] | undefined;
-}
+};
 
 export type routeChildrenType = {
     path: string;
     element: ReactNode;
-    access: Array<loginType>;
+    access: Array<TRoles>;
     children?: routeChildrenType[] | [] | undefined;
-}
+};
 
 export type sideMenuObjType = {
     title: string;
     icon: LucideIcon;
     route: string;
-    access: Array<loginType>;
+    access: Array<TRoles>;
     variant: "default" | "ghost";
-}
+};

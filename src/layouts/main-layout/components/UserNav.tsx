@@ -17,19 +17,19 @@ import {
 } from "../../../components/ui/dropdown-menu";
 import { useAuth } from "../../../features/auth/auth-provider/AuthProvider";
 import AuthService from "../../../services/auth/AuthService";
-import { useState } from "react";
-
-// TODO: Add loader when logging out using global loading state and loader-overlay
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userAtom } from "../../../store/atoms/user";
+import { loadingAtom } from "../../../store/atoms/global";
 
 export function UserNav() {
-    const user = AuthService.getUser();
+    const user = useRecoilValue(userAtom);
     const { logout } = useAuth();
-    const [_isLoading, setIsLoading] = useState<boolean>(false);
+    const setIsLoading = useSetRecoilState(loadingAtom);
 
     const handleLogOut = async () => {
         try {
             setIsLoading(true);
-            const response = await AuthService.doLogout();
+            const response = await AuthService.logout();
 
             if (response.status === 200) {
                 logout();
@@ -56,7 +56,7 @@ export function UserNav() {
                             alt="@shadcn"
                         />
                         <AvatarFallback>
-                            {user?.firstName?.[0] + user?.lastName?.[0] || ""}
+                            {user ? user.firstName[0] + user.lastName[0] : ""}
                         </AvatarFallback>
                     </Avatar>
                 </Button>

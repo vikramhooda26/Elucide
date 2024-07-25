@@ -10,11 +10,13 @@ import MailPage from "../features/templates/examples/mail/page";
 import TaskPage from "../features/templates/examples/tasks/page";
 import MainLayout from "../layouts/main-layout/MainLayout";
 import ShowOffLayout from "../layouts/showoff-layout/ShowOffLayout";
-import { loginType, routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
+import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
 import { Hero } from "../features/hero-section/Hero";
-import AuthService from "../services/auth/AuthService";
 import TeamForm from "../features/team/TeamForm";
 import TeamView from "../features/team/TeamView";
+import { useRecoilState } from "recoil";
+import { userAtom } from "../store/atoms/user";
+import { TRoles } from "../lib/constants";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -86,53 +88,61 @@ const unProtectedRoute = [
 
 function Routes() {
     const { isAuthenticated } = useAuth();
-    const user = AuthService.getUser();
-    const loginRole: loginType = user?.role
-    const isUserExists = Object.keys(user)?.length > 0;
+    const [user, setUser] = useRecoilState(userAtom);
+    const loginRole: TRoles | undefined = user?.role;
+    const isUserExists = Boolean(user);
 
     const routeObj: routeObjType[] = [
         {
             path: "/",
-            element: isAuthenticated || isUserExists ? (
-                <MainLayout />
-            ) : (
-                <Navigate to="/elucide/home" />
-            ),
+            element:
+                isAuthenticated || isUserExists ? (
+                    <MainLayout />
+                ) : (
+                    <Navigate to="/elucide/home" />
+                ),
             children: [],
         },
         {
             path: "/elucide",
-            element: !isAuthenticated || !isUserExists ? <ShowOffLayout /> : <Navigate to="/" />,
+            element:
+                !isAuthenticated || !isUserExists ? (
+                    <ShowOffLayout />
+                ) : (
+                    <Navigate to="/" />
+                ),
             children: unProtectedRoute,
         },
         {
-            path: '*',
-            element: <Navigate to="/" />
-        }
+            path: "*",
+            element: <Navigate to="/" />,
+        },
     ];
 
     // If user authenticated with valid login then the allowed into protected route.
     if (isAuthenticated || isUserExists) {
         const protectedRoutes: routeObjType[] = routeChildren?.filter(
-            (d: routeChildrenType) => {
+            (route: routeChildrenType) => {
                 let obj: routeObjType = { path: "", element: "" };
-                if (d?.access?.indexOf(loginRole) !== -1) {
-                    obj.path = d?.path;
-                    obj.element = d?.element;
-                    obj.children = d?.children;
-                    return obj;
+                if (loginRole) {
+                    if (route?.access?.some((role) => loginRole === role)) {
+                        obj.path = route?.path;
+                        obj.element = route?.element;
+                        obj.children = route?.children;
+                        return obj;
+                    }
                 }
             }
         );
         if (protectedRoutes?.length > 0) {
             routeObj[0].children = protectedRoutes;
         } else {
-            routeObj[0].element = <Navigate to="/elucide/home" />
+            setUser(null);
+            routeObj[0].element = <Navigate to="/elucide/home" />;
         }
-    }
-    else {
+    } else {
         // If no login detected or not a valid user then navigate/redirect to un-protected route.
-        routeObj[0].element = <Navigate to="/elucide/home" />
+        routeObj[0].element = <Navigate to="/elucide/home" />;
     }
 
     const routes = createBrowserRouter(routeObj);

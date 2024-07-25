@@ -11,8 +11,9 @@ import { ClipLoader } from "react-spinners";
 import { CustomLabel } from "../../../components/ui/custom-label";
 import { AnimatedInput } from "../../../components/ui/animated-input";
 import { useState } from "react";
-import { roles } from "../../../constant";
 import { toast } from "sonner";
+import { useSetRecoilState } from "recoil";
+import { userAtom } from "../../../store/atoms/user";
 
 const loginSchema = yup.object().shape({
     username: yup.string().required("Username is required"),
@@ -20,7 +21,6 @@ const loginSchema = yup.object().shape({
 });
 
 function LoginPage() {
-    const TAG = LoginPage.name;
     const {
         register,
         handleSubmit,
@@ -31,45 +31,47 @@ function LoginPage() {
     const navigate = useNavigate();
 
     const [isPasswordVisible, setisPasswordVisible] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+    const setUser = useSetRecoilState(userAtom);
 
     const handleLoginSubmit = async (data: {
         username: string;
         password: string;
     }) => {
         try {
-            setIsLoading(true);
+            setIsSubmitting(true);
 
             const requestBody = {
                 username: data.username,
                 password: data.password,
             };
 
-            const response = await AuthService?.doLogin(requestBody);
+            const response = await AuthService.login(requestBody);
 
-            if (Object.keys(response?.data)?.length <= 0) {
-                console.log("Login Failed");
-                toast("Login Failed");
-                return;
+            if (response.status === 200) {
+                setUser({
+                    id: response.data.userId,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    username: response.data.username,
+                    email: response.data.email,
+                    role: response.data.role,
+                });
+                login();
+                toast.success("Logged in successfully");
+                navigate("/");
             }
-
-            const resp = response?.data;
-
-            if (!roles?.some((role) => role === resp?.role)) {
-                console.log("Login Failed");
-                toast("Login Failed");
-                return;
+        } catch (error: any) {
+            if (error.response.status === 400) {
+                toast.error(
+                    "Invalid Request. Contact the developer for support"
+                );
+            } else {
+                toast.error("An unknown error occurred");
             }
-
-            login();
-            AuthService.setUser(resp);
-            toast.success("Logged in successfully");
-            navigate("/");
-        } catch (error) {
-            console.error(TAG, "Authentication API ERROR:", error);
-            toast.error("An unknown error occurred");
         } finally {
-            setIsLoading(false);
+            setIsSubmitting(false);
         }
     };
 
@@ -94,7 +96,7 @@ function LoginPage() {
                             id="username"
                             placeholder="example_user"
                             type="text"
-                            disabled={isLoading}
+                            disabled={isSubmitting}
                         />
                         {errors?.username?.message ? (
                             <ErrorMsg msg="Username is required" />
@@ -108,7 +110,7 @@ function LoginPage() {
                                 id="password"
                                 placeholder="••••••••"
                                 type={isPasswordVisible ? "text" : "password"}
-                                disabled={isLoading}
+                                disabled={isSubmitting}
                             />
                             {isPasswordVisible ? (
                                 <EyeOff
@@ -134,11 +136,13 @@ function LoginPage() {
                     <button
                         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] !mt-10 active:brightness-50 transition-all duration-300 ease-in-out"
                         type="submit"
-                        disabled={isLoading}
+                        disabled={isSubmitting}
                     >
                         <div className="flex items-center justify-center gap-3">
-                            <span>{isLoading ? "Checking..." : "Login"}</span>
-                            {isLoading ? (
+                            <span>
+                                {isSubmitting ? "Checking..." : "Login"}
+                            </span>
+                            {isSubmitting ? (
                                 <ClipLoader
                                     size={15}
                                     color="#FFFF"
