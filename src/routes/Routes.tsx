@@ -13,6 +13,8 @@ import ShowOffLayout from "../layouts/showoff-layout/ShowOffLayout";
 import { loginType, routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
 import { Hero } from "../features/hero-section/Hero";
 import AuthService from "../services/auth/AuthService";
+import TeamForm from "../features/team/TeamForm";
+import TeamView from "../features/team/TeamView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -25,11 +27,23 @@ const routeChildren: routeChildrenType[] = [
         element: <AthleteList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
+    //= ============================= team related routes starts here ====================== =//
+    {
+        path: "/team/create",
+        element: <TeamForm />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
     {
         path: "/team/list",
         element: <TeamList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
+    {
+        path: "/team/view/:id",
+        element: <TeamView />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    //= ============================= team related routes ends here ======================== =//
     {
         path: "/brand/list",
         element: <BrandList />,
@@ -91,6 +105,10 @@ function Routes() {
             element: !isAuthenticated || !isUserExists ? <ShowOffLayout /> : <Navigate to="/" />,
             children: unProtectedRoute,
         },
+        {
+            path: '*',
+            element: <Navigate to="/" />
+        }
     ];
 
     // If user authenticated with valid login then the allowed into protected route.

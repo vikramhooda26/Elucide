@@ -4,6 +4,9 @@ export interface DataTableProps<TData, TValue,> {
     table: Table<any>;
     columns: ColumnDef<TData, TValue>[];
     toolbarAttri: ToolbarAttri;
+    callbacks: {
+        onView: (id: string) => void;
+    }
 }
 
 export interface DataTableToolbarProps<TData> {

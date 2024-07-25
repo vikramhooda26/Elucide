@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import AuthService from "./auth/AuthService";
+import { toast } from "sonner";
 
 type Resp = {
     status: number;
@@ -11,7 +11,10 @@ class AjaxService {
         let t: any = {};
         keys.forEach((x) => {
             const p = typeof params[x];
-            t[x] = p == "object" && p != null ? JSON.stringify(params[x]) : params[x];
+            t[x] =
+                p == "object" && p != null
+                    ? JSON.stringify(params[x])
+                    : params[x];
         });
         return t;
     }
@@ -25,7 +28,12 @@ class AjaxService {
     ): Promise<Resp> {
         try {
             let defaultConfig: AxiosRequestConfig = {
-                headers: { "Content-Type": dataConfig?.contentType?.length > 0 ? dataConfig?.contentType : "application/json", },
+                headers: {
+                    "Content-Type":
+                        dataConfig?.contentType?.length > 0
+                            ? dataConfig?.contentType
+                            : "application/json",
+                },
             };
 
             if (dataConfig?.responseType?.length > 0) {
@@ -35,7 +43,10 @@ class AjaxService {
             const r: AxiosResponse = await axios({
                 url: url,
                 method,
-                data: ["put", "post"].indexOf(method.toLowerCase()) != -1 ? params : {},
+                data:
+                    ["put", "post"].indexOf(method.toLowerCase()) != -1
+                        ? params
+                        : {},
                 params:
                     ["put", "post"].indexOf(method.toLowerCase()) == -1
                         ? this.prepareParams(params)
@@ -48,10 +59,20 @@ class AjaxService {
             return { status: r.status, data: r.data };
         } catch (error: any) {
             if (error?.response?.status === 403) {
-                window.location.href = "/elucide/home";
+                if (window.location.pathname.endsWith("login")) {
+                    toast.error("Login Failed! You are not authorized!");
+                } else {
+                    toast.error("Session expired!");
+                    setTimeout(
+                        () => (window.location.href = "/elucide/home"),
+                        1000
+                    );
+                }
             }
             return {
-                status: axios.isAxiosError(error) ? error.response?.status ?? 0 : 0,
+                status: axios.isAxiosError(error)
+                    ? error.response?.status ?? 0
+                    : 0,
                 data: axios.isAxiosError(error) ? error.response?.data : null,
             };
         }

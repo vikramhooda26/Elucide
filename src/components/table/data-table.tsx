@@ -13,7 +13,7 @@ import { DataTableProps } from "../../types/components/Table"
 import { DataTablePagination } from "./data-table-pagination"
 import { DataTableToolbar } from "./data-table-toolbar"
 
-function DataTable<TData, TValue>({ table, columns, toolbarAttri, }: DataTableProps<TData, TValue>) {
+function DataTable<TData, TValue>({ table, columns, toolbarAttri, callbacks }: DataTableProps<TData, TValue>) {
 
   return (
     <div className="space-y-4">
@@ -44,6 +44,7 @@ function DataTable<TData, TValue>({ table, columns, toolbarAttri, }: DataTablePr
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => callbacks?.onView('id')}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

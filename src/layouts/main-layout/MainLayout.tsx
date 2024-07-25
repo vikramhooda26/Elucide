@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 // import Footer from "./components/Footer";
 import Header from "./components/Header";
 import SideMenu from "./components/SideMenu";
+import { Toaster } from "../../components/ui/sonner";
 
 function MainLayout() {
     return (
@@ -16,6 +17,7 @@ function MainLayout() {
                 </div>
                 <div className="w-full">
                     <Outlet />
+                    <Toaster />
                 </div>
             </div>
 
