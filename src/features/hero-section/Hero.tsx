@@ -9,17 +9,19 @@ import {
     CanvasRevealEffect,
     Card,
 } from "../../components/ui/card-reveal-effect";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ScrollToTopButton } from "../../components/scroll-to-top";
 import { NAVIGATION_ROUTES } from "../../lib/constants";
 import { Features } from "./Features";
 import { AnimatedGradientText } from "../../components/ui/animated-gradient-text";
 import { Clients } from "../../layouts/main-layout/components/Clients";
+import { useTheme } from "../../provider/theme/theme-provider";
 
 export function Hero() {
     const words = ["Brands", "Teams", "Athletes", "Leagues"];
     const navigate = useNavigate();
     const approachRef = useRef<HTMLDivElement>(null);
+    const { setTheme } = useTheme();
 
     const handleScrollToApproach = () => {
         approachRef.current?.scrollIntoView({
@@ -27,6 +29,10 @@ export function Hero() {
             block: "start",
         });
     };
+
+    useEffect(() => {
+        setTheme("dark");
+    }, []);
 
     return (
         <div className="w-full min-h-dvh overflow-hidden">
@@ -57,7 +63,7 @@ export function Hero() {
                         onClick={handleScrollToApproach}
                     >
                         See more{" "}
-                        <ChevronRight className="ml-1 h-4 w-4 text-black duration-200 ease-in-out group-hover:translate-x-1 dark:text-white" />
+                        <ChevronRight className="ml-1 h-4 w-4 duration-200 ease-in-out group-hover:translate-x-1 text-white" />
                     </GradientButton>
                 </div>
             </Vortex>
@@ -75,7 +81,7 @@ export function Hero() {
                         duration: 0.5,
                         ease: [0.4, 0.0, 0.2, 1],
                     }}
-                    className="sm:text-2xl px-4 w-[98%] lg:w-[80%] lg:text-4xl font-bold text-neutral-700 dark:text-white !leading-relaxed text-center"
+                    className="sm:text-2xl px-4 w-[98%] lg:w-[80%] lg:text-4xl font-bold text-white !leading-relaxed text-center"
                 >
                     <Highlight>Elucide Sports</Highlight> has been established
                     with the vision to enhance the Indian sports ecosystem &
@@ -87,7 +93,7 @@ export function Hero() {
                 </motion.h1>
             </HeroHighlight>
             <div
-                className="flex flex-col justify-center gap-16 items-center md:min-h-dvh bg-[#000319] w-full md:py-40 py-24 px-8"
+                className="flex flex-col justify-center text-white gap-16 items-center md:min-h-dvh bg-[#000319] w-full md:py-40 py-24 px-8"
                 ref={approachRef}
             >
                 <h1 className="text-4xl font-bold">
@@ -133,7 +139,7 @@ export function Hero() {
                 </div>
             </div>
             <Features />
-            <div className="flex justify-center bg-[#161d2b] md:py-40 py-24">
+            <div className="flex justify-center bg-[#161d2b] md:py-40 py-24 text-white">
                 <div className="w-[90%]">
                     <h1 className="text-4xl font-bold mb-10">
                         Robust{" "}

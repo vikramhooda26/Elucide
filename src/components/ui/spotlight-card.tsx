@@ -2,7 +2,7 @@ import React from "react";
 
 export const SpotlightCard = ({ children }: { children?: React.ReactNode }) => {
     return (
-        <div className="w-80 h-64 rounded-xl p-[1px] bg-[radial-gradient(circle_230px_at_0%_0%,_#ffffff,_#0c0d0d)] relative overflow-hidden">
+        <div className="w-72 h-52 rounded-xl p-[1px] bg-[radial-gradient(circle_230px_at_0%_0%,_#ffffff,_#0c0d0d)] relative overflow-hidden">
             <div className="w-[5px] aspect-square absolute bg-white shadow-[0_0_10px_#ffffff] rounded-full z-40 right-[10%] top-[10%] animate-move-dot" />
             <div className="z-10 w-full h-full rounded-xl border border-[#202222] bg-[20px_20px] bg-[radial-gradient(circle_280px_at_0%_0%,_#444444,_#0c0d0d)] flex items-center justify-center relative flex-col text-white">
                 <div className="w-[220px] h-12 rounded-full absolute bg-[#c7c7c7] opacity-40 shadow-[0_0_50px_#fff] blur-md origin-[10%] top-[0%] left-0 rotate-[40deg]" />

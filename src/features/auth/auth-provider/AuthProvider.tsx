@@ -11,6 +11,7 @@ import {
 } from "../../../types/auth/AuthProviderTypes";
 import { useSetRecoilState } from "recoil";
 import { userAtom } from "../../../store/atoms/user";
+import { toast } from "sonner";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -25,7 +26,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
     const logout = () => {
         setAuthenticated(false);
         setUser(null);
-        window.location.href = "/elucide/home";
+        toast.info("Logged out successfully!");
     };
 
     const contextValue = useMemo(

@@ -20,11 +20,14 @@ import AuthService from "../../../services/auth/AuthService";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userAtom } from "../../../store/atoms/user";
 import { loadingAtom } from "../../../store/atoms/global";
+import { useNavigate } from "react-router-dom";
+import { NAVIGATION_ROUTES } from "../../../lib/constants";
 
 export function UserNav() {
     const user = useRecoilValue(userAtom);
     const { logout } = useAuth();
     const setIsLoading = useSetRecoilState(loadingAtom);
+    const navigate = useNavigate();
 
     const handleLogOut = async () => {
         try {
@@ -33,7 +36,7 @@ export function UserNav() {
 
             if (response.status === 200) {
                 logout();
-                toast.info("Logged out successfully!");
+                navigate(NAVIGATION_ROUTES.HOME, { replace: true });
             }
         } catch (error) {
             toast.error("An unknown error occured");

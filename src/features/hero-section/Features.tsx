@@ -37,8 +37,8 @@ export const Features = () => {
                     partners.
                 </p>
                 <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-                    {features.map((feature) => (
-                        <MovingBorderCard>
+                    {features.map((feature, i) => (
+                        <MovingBorderCard key={i}>
                             <CardContent
                                 title={feature.title}
                                 description={feature.description}
