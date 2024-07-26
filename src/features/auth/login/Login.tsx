@@ -1,20 +1,20 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { ArrowRight, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
+import { useSetRecoilState } from "recoil";
+import { toast } from "sonner";
 import * as yup from "yup";
 import ErrorMsg from "../../../components/error/ErrorMsg";
+import { AnimatedInput } from "../../../components/ui/animated-input";
+import { CustomLabel } from "../../../components/ui/custom-label";
+import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { cn } from "../../../lib/utils";
 import AuthService from "../../../services/auth/AuthService";
-import { useAuth } from "../auth-provider/AuthProvider";
-import { ArrowRight, Eye, EyeOff } from "lucide-react";
-import { ClipLoader } from "react-spinners";
-import { CustomLabel } from "../../../components/ui/custom-label";
-import { AnimatedInput } from "../../../components/ui/animated-input";
-import { useState } from "react";
-import { toast } from "sonner";
-import { useSetRecoilState } from "recoil";
 import { userAtom } from "../../../store/atoms/user";
-import { NAVIGATION_ROUTES } from "../../../lib/constants";
+import { useAuth } from "../auth-provider/AuthProvider";
 
 const loginSchema = yup.object().shape({
     username: yup.string().required("Username is required"),
@@ -42,7 +42,6 @@ function LoginPage() {
     }) => {
         try {
             setIsSubmitting(true);
-
             const requestBody = {
                 username: data.username,
                 password: data.password,
@@ -77,12 +76,12 @@ function LoginPage() {
     };
 
     return (
-        <div className="h-screen w-full flex items-center justify-center bg-black">
+        <div className="h-[calc(100dvh-80px)] w-full flex items-center justify-center bg-black">
             <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 py-8 md:px-8 md:py-16 shadow-input shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
                 <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200 text-center">
                     Welcome to Elucide Sports
                 </h2>
-                <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+                <p className="text-neutral-600 text-sm text-center max-w-sm mt-2 dark:text-neutral-300">
                     Login to elucide sports to start taking data backed
                     decisions
                 </p>
@@ -141,7 +140,7 @@ function LoginPage() {
                     >
                         <div className="flex items-center justify-center gap-3">
                             <span>
-                                {isSubmitting ? "Checking..." : "Login"}
+                                {isSubmitting ? "Validating..." : "Login"}
                             </span>
                             {isSubmitting ? (
                                 <ClipLoader

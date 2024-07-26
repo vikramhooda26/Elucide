@@ -15,6 +15,7 @@ import { NAVIGATION_ROUTES } from "../../lib/constants";
 import { Features } from "./Features";
 import { AnimatedGradientText } from "../../components/ui/animated-gradient-text";
 import { Clients } from "../../layouts/main-layout/components/Clients";
+import Footer from "../../layouts/main-layout/components/Footer";
 import { useTheme } from "../../provider/theme/theme-provider";
 
 export function Hero() {
@@ -158,6 +159,7 @@ export function Hero() {
             </div>
             <Clients />
             <ScrollToTopButton />
+            <Footer/>
         </div>
     );
 }
