@@ -14,6 +14,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useSetRecoilState } from "recoil";
 import { userAtom } from "../../../store/atoms/user";
+import { NAVIGATION_ROUTES } from "../../../lib/constants";
 
 const loginSchema = yup.object().shape({
     username: yup.string().required("Username is required"),
@@ -60,7 +61,7 @@ function LoginPage() {
                 });
                 login();
                 toast.success("Logged in successfully");
-                navigate("/");
+                navigate(NAVIGATION_ROUTES.DASHBOARD);
             }
         } catch (error: any) {
             if (error.response.status === 400) {

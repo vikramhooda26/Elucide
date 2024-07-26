@@ -23,5 +23,7 @@ export const LOCAL_STORAGE_KEYS = {
 export const NAVIGATION_ROUTES = {
     LOGIN: "/elucide/login",
     HOME: "/elucide/home",
-    DASHBOARD: "/dashboard",
+    DASHBOARD: "/",
+    TEAM: "/team/view",
+    CREATE_TEAM: "/team/create",
 } as const;
