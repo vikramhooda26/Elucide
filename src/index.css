@@ -67,3 +67,18 @@
         @apply bg-background text-foreground;
     }
 }
+
+@layer utilities {
+    .blob {
+        background: conic-gradient(
+            from 2.35rad,
+            #c76000,
+            rgba(7, 29, 228, 0.5)
+        );
+    }
+
+    .blob-2 {
+        background: conic-gradient(from 2.35rad, #4ecdc4, #0658f6);
+        opacity: 0.3;
+    }
+}

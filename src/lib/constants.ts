@@ -19,3 +19,9 @@ export type TRoles = (typeof roles)[number];
 export const LOCAL_STORAGE_KEYS = {
     USER: "@user",
 } as const;
+
+export const NAVIGATION_ROUTES = {
+    LOGIN: "/elucide/login",
+    HOME: "/elucide/home",
+    DASHBOARD: "/dashboard",
+} as const;
