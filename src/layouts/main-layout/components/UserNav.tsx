@@ -20,6 +20,7 @@ import AuthService from "../../../services/auth/AuthService";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userAtom } from "../../../store/atoms/user";
 import { loadingAtom } from "../../../store/atoms/global";
+import { sleep } from "../../../lib/sleep";
 
 export function UserNav() {
     const user = useRecoilValue(userAtom);
@@ -32,8 +33,9 @@ export function UserNav() {
             const response = await AuthService.logout();
 
             if (response.status === 200) {
+                toast.success("Logged out successfully!");
+                await sleep(1);
                 logout();
-                toast.info("Logged out successfully!");
             }
         } catch (error) {
             toast.error("An unknown error occured");
