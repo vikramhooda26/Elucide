@@ -87,12 +87,31 @@ module.exports = {
                         backgroundPosition: "200% center",
                     },
                 },
+                "move-dot": {
+                    "0%, 100%": {
+                        top: "10%",
+                        right: "10%",
+                    },
+                    "25%": {
+                        top: "10%",
+                        right: "calc(100% - 35px)",
+                    },
+                    "50%": {
+                        top: "calc(100% - 30px)",
+                        right: "calc(100% - 35px)",
+                    },
+                    "75%": {
+                        top: "calc(100% - 30px)",
+                        right: "10%",
+                    },
+                },
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
                 "background-shine": "background-shine 2s linear infinite",
                 "text-gradient": "text-gradient 1.5s linear infinite",
+                "move-dot": "move-dot 6s linear infinite",
             },
             boxShadow: {
                 input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,

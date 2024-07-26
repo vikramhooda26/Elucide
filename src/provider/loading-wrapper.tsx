@@ -19,7 +19,7 @@ const LoadingBarWrapper = () => {
 
     return (
         <LoadingBar
-            color="#f11946"
+            color="#3576DF"
             ref={ref}
         />
     );

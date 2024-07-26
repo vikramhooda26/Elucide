@@ -31,7 +31,7 @@ export function MovingBorderCard({
     return (
         <Component
             className={cn(
-                "bg-transparent relative text-xl p-[1px] overflow-hidden sm:h-64",
+                "bg-transparent relative text-xl p-[1px] overflow-hidden",
                 containerClassName
             )}
             style={{
@@ -59,7 +59,7 @@ export function MovingBorderCard({
 
             <div
                 className={cn(
-                    "relative bg-slate-900/[0.8] border border-slate-800 backdrop-blur-xl text-white flex items-center justify-center h-full max-w-2xl text-sm antialiased p-8 sm:p-4",
+                    "relative bg-slate-900/[0.8] border border-slate-800 backdrop-blur-xl text-white h-full max-w-2xl text-sm antialiased",
                     className
                 )}
                 style={{

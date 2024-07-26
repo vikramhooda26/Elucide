@@ -1,5 +1,5 @@
 import { AnimatedGradientText } from "../../components/ui/animated-gradient-text";
-import { MovingBorderCard } from "../../components/ui/moving.border";
+import { MovingBorderCard } from "../../components/ui/moving-border";
 
 export const Features = () => {
     const features: { title: string; description: string }[] = [
@@ -59,7 +59,7 @@ const CardContent = ({
     description: string;
 }) => {
     return (
-        <div className="flex flex-col gap-4 justify-center">
+        <div className="flex flex-col justify-between p-8 gap-6">
             <h1 className="md:text-2xl text-lg font-bold text-start">
                 {title}
             </h1>

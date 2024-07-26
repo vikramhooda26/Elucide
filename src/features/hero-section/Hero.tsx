@@ -14,6 +14,7 @@ import { ScrollToTopButton } from "../../components/scroll-to-top";
 import { NAVIGATION_ROUTES } from "../../lib/constants";
 import { Features } from "./Features";
 import { AnimatedGradientText } from "../../components/ui/animated-gradient-text";
+import { Clients } from "../../layouts/main-layout/components/Clients";
 
 export function Hero() {
     const words = ["Brands", "Teams", "Athletes", "Leagues"];
@@ -90,7 +91,7 @@ export function Hero() {
                 ref={approachRef}
             >
                 <h1 className="text-4xl font-bold">
-                    Our <AnimatedGradientText>Approach</AnimatedGradientText>
+                    Our <AnimatedGradientText>Advantage</AnimatedGradientText>
                 </h1>
                 <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-16">
                     <Card
@@ -132,6 +133,24 @@ export function Hero() {
                 </div>
             </div>
             <Features />
+            <div className="flex justify-center bg-[#161d2b] md:py-40 py-24">
+                <div className="w-[90%]">
+                    <h1 className="text-4xl font-bold mb-10">
+                        Robust{" "}
+                        <AnimatedGradientText>Database</AnimatedGradientText>
+                    </h1>
+                    <h3 className="text-2xl font-bold">
+                        <AnimatedGradientText>
+                            200+ Profiles
+                        </AnimatedGradientText>
+                    </h3>
+                    <p className="text-neutral-400 max-w-xl mb-4">
+                        of Sports Leagues, Teams, Athletes & Events that cover
+                        the entire Indian sports ecosystem
+                    </p>
+                </div>
+            </div>
+            <Clients />
             <ScrollToTopButton />
         </div>
     );
