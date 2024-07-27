@@ -1,12 +1,15 @@
 import {
   ChevronLeft,
   FacebookIcon,
-  LayoutPanelTopIcon,
+  Globe,
   Pencil,
   Upload,
   YoutubeIcon
 } from "lucide-react";
 
+import { InstagramLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
+import { Link } from "react-router-dom";
+import Image from "../../components/image/Image";
 import { Button } from "../../components/ui/button";
 import {
   Card,
@@ -15,9 +18,6 @@ import {
   CardHeader,
   CardTitle
 } from "../../components/ui/card";
-import { Input } from "../../components/ui/input";
-import { DatePicker } from "../../components/date/DatePicker";
-import Image from "../../components/image/Image";
 import { Label } from "../../components/ui/label";
 import {
   Select,
@@ -30,12 +30,9 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  TableRow
 } from "../../components/ui/table";
-import { InstagramLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
-import { Link } from "react-router-dom";
+import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group";
 
 const teamAttributes = [
   {
@@ -72,23 +69,23 @@ const socialLinks = [
     title: 'Facebook',
     icon: <FacebookIcon />,
     image: '',
-    link: 'https://www.instagram.com',
+    link: 'https://www.facebook.com',
   },
   {
     title: 'Linkedin',
     icon: <LinkedInLogoIcon />,
     image: '',
-    link: 'https://www.instagram.com',
+    link: 'https://www.linkedin.com',
   },
   {
     title: 'You Tube',
     icon: <YoutubeIcon />,
     image: '',
-    link: 'https://www.instagram.com',
+    link: 'https://www.youtube.com',
   },
   {
     title: 'Website',
-    icon: <LayoutPanelTopIcon />,
+    icon: <Globe />,
     image: '',
     link: 'https://www.instagram.com',
   },
@@ -115,29 +112,24 @@ function TeamView() {
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
             <Card x-chunk="dashboard-07-chunk-0">
-              <CardContent>
-                <div className="grid gap-6">
-                  <div className="grid gap-3 my-3">
-
-                    <ul className="grid gap-3">
-                      <li className="flex items-center ">
-                        <span className="w-1/2">
-                          Name
-                        </span>
-                        <span className="text-muted-foreground">IPL</span>
-                      </li>
-                      <li className="flex items-center ">
-                        <span className="w-1/2">
-                          Year Of Inception
-                        </span>
-                        <span className="text-muted-foreground" >2010</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                </div>
-              </CardContent>
+              <div className=" m-3">
+                <ul className="grid gap-3">
+                  <li className="flex items-center ">
+                    <span className="w-1/2">
+                      Name
+                    </span>
+                    <span className="text-muted-foreground">IPL</span>
+                  </li>
+                  <li className="flex items-center ">
+                    <span className="w-1/2">
+                      Year Of Inception
+                    </span>
+                    <span className="text-muted-foreground" >2010</span>
+                  </li>
+                </ul>
+              </div>
             </Card>
+
             <Card x-chunk="dashboard-07-chunk-1">
               <CardHeader>
                 <CardTitle>Socials</CardTitle>
@@ -146,21 +138,29 @@ function TeamView() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Table>
-
-                  <TableBody>
-                    <TableRow>
+                <RadioGroup defaultValue="card" className="grid grid-cols-5 gap-4">
+                  <Table>
+                    <TableBody>
                       {socialLinks?.map((d, i: number) => (
-                        <TableCell key={i} className="font-semibold">
-                          <Link to={d?.link} target="_blank">
-                            {d?.icon}
-                          </Link>
-                        </TableCell>
+                        <TableRow>
+                          <TableCell key={i} className="font-semibold">
+                            <Link to={d?.link} target="_blank" key={i}>
+                              <div>
+                                <RadioGroupItem value="card" id={"card" + i} className="peer sr-only" />
+                                <Label
+                                  htmlFor={"card" + i}
+                                  className="h-14 cursor-pointer flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                                >
+                                  {d?.icon}
+                                </Label>
+                              </div>
+                            </Link>
+                          </TableCell>
+                        </TableRow>
                       ))}
-                    </TableRow>
-
-                  </TableBody>
-                </Table>
+                    </TableBody>
+                  </Table>
+                </RadioGroup>
               </CardContent>
 
             </Card>
@@ -310,7 +310,7 @@ function TeamView() {
           <Button size="sm">Save Team</Button>
         </div>
       </div>
-    </main>
+    </main >
   )
 }
 
