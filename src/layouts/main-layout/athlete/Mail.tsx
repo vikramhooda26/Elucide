@@ -79,7 +79,6 @@ const SideMenuLinks: Pick<NavProps, "links"> = {
 };
 
 export function Mail({
-    accounts,
     mails,
     defaultLayout = [20, 32, 48],
     defaultCollapsed = false,

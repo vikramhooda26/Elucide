@@ -3,12 +3,9 @@ import { ArchiveX, Dumbbell, File, Trophy, Users } from "lucide-react";
 import {
     ResizableHandle,
     ResizablePanel,
-    ResizablePanelGroup,
 } from "../../../components/ui/resizable";
-import { TooltipProvider } from "../../../components/ui/tooltip";
 import { TMail } from "../../../features/templates/examples/mail/data";
 import { Nav, NavProps } from "../athlete/new-nax";
-import { Separator } from "../../../components/ui/separator";
 import { cn } from "../../../lib/utils";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 
@@ -25,7 +22,7 @@ interface MailProps {
 }
 
 export const SideMenu = ({
-    defaultLayout = [48, 1],
+    defaultLayout = [20],
     defaultCollapsed = false,
     navCollapsedSize,
 }: MailProps) => {
@@ -73,51 +70,39 @@ export const SideMenu = ({
     };
 
     return (
-        <TooltipProvider delayDuration={0}>
-            <ResizablePanelGroup
-                direction="horizontal"
-                onLayout={(sizes: number[]) => {
-                    document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
-                        sizes
+        <>
+            <ResizablePanel
+                defaultSize={defaultLayout[0]}
+                collapsedSize={navCollapsedSize}
+                collapsible={true}
+                minSize={10}
+                maxSize={12}
+                className={cn(
+                    isCollapsed &&
+                        "min-w-[50px] transition-all duration-300 ease-in-out"
+                )}
+                onCollapse={() => {
+                    setIsCollapsed(true);
+                    document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+                        true
                     )}`;
                 }}
-                className="h-full max-h-[800px] items-stretch"
+                onResize={() => {
+                    setIsCollapsed(false);
+                    document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+                        false
+                    )}`;
+                }}
             >
-                <ResizablePanel
-                    defaultSize={defaultLayout[0]}
-                    collapsedSize={navCollapsedSize}
-                    collapsible={true}
-                    minSize={100}
-                    maxSize={100}
-                    className={cn(
-                        isCollapsed &&
-                            "min-w-[50px] transition-all duration-300 ease-in-out"
-                    )}
-                    onCollapse={() => {
-                        setIsCollapsed(true);
-                        document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-                            true
-                        )}`;
-                    }}
-                    onResize={() => {
-                        setIsCollapsed(false);
-                        document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-                            false
-                        )}`;
-                    }}
-                >
-                    <Nav
-                        isCollapsed={isCollapsed}
-                        links={SideMenuLinks.links}
-                    />
-                    <Separator />
-                </ResizablePanel>
-                <ResizableHandle withHandle />
-                <ResizablePanel
-                    defaultSize={defaultLayout[1]}
-                    minSize={1}
+                <Nav
+                    isCollapsed={isCollapsed}
+                    links={SideMenuLinks.links}
                 />
-            </ResizablePanelGroup>
-        </TooltipProvider>
+            </ResizablePanel>
+            <ResizableHandle
+                withHandle
+                className="min-h-dvh"
+            />
+        </>
     );
 };

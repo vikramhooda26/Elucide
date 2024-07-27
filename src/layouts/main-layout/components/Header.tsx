@@ -5,7 +5,7 @@ import { UserNav } from "./UserNav";
 
 function Header() {
     return (
-        <div className="border-b  ">
+        <div className="border-b py-2">
             <div className="flex h-16 items-center px-4">
                 <div className="text-2xl ">Elucide Sports</div>
                 <MainNav className="mx-6" />

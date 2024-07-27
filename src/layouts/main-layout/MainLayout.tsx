@@ -1,10 +1,14 @@
 import { Outlet } from "react-router-dom";
-// import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { SideMenu } from "./components/SideMenu";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { accounts, mails } from "../../features/templates/examples/mail/data";
+import { TooltipProvider } from "../../components/ui/tooltip";
+import {
+    ResizablePanel,
+    ResizablePanelGroup,
+} from "../../components/ui/resizable";
 
 function MainLayout() {
     const [defaultLayout, setDefaultLayout] = useState(undefined);
@@ -23,27 +27,37 @@ function MainLayout() {
     }, []);
 
     return (
-        <div className="px-4 py-2 w-full h-full">
-            <div className="w-full h-full m-0 mb-4">
+        <div className="w-full h-full">
+            <div className="w-full h-full">
                 <Header />
             </div>
 
-            <div className="h-full flex w-full">
-                <div className="me-4 ">
-                    <SideMenu
-                        accounts={accounts}
-                        mails={mails}
-                        defaultLayout={defaultLayout}
-                        defaultCollapsed={defaultCollapsed}
-                        navCollapsedSize={4}
-                    />
-                </div>
-                {/* <div className="w-full">
-                    <Outlet />
-                </div> */}
+            <div className="h-full flex w-full relative">
+                <TooltipProvider delayDuration={0}>
+                    <ResizablePanelGroup
+                        direction="horizontal"
+                        onLayout={(sizes: number[]) => {
+                            document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
+                                sizes
+                            )}`;
+                        }}
+                        className="h-full items-stretch gap-4"
+                    >
+                        <SideMenu
+                            accounts={accounts}
+                            mails={mails}
+                            defaultLayout={defaultLayout}
+                            defaultCollapsed={defaultCollapsed}
+                            navCollapsedSize={4}
+                        />
+                        <ResizablePanel>
+                            <div className="w-full h-full py-8 px-4">
+                                <Outlet />
+                            </div>
+                        </ResizablePanel>
+                    </ResizablePanelGroup>
+                </TooltipProvider>
             </div>
-
-            {/* <div className='w-full h-full'><Footer /></div> */}
         </div>
     );
 }
