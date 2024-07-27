@@ -1,7 +1,6 @@
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 class CookieService {
-
     static setCookie(key: string, value: any) {
         // const str = JSON.stringify(value);
         // Cookies.set(key, str);
@@ -21,4 +20,4 @@ class CookieService {
     }
 }
 
-export default CookieService;   
+export default CookieService;

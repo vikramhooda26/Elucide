@@ -1,8 +1,7 @@
 import { Outlet } from "react-router-dom";
 // import Footer from "./components/Footer";
 import Header from "./components/Header";
-import SideMenu from "./components/SideMenu";
-import { Toaster } from "../../components/ui/sonner";
+// import SideMenu from "./components/SideMenu";
 
 function MainLayout() {
     return (
@@ -12,12 +11,11 @@ function MainLayout() {
             </div>
 
             <div className="h-full flex w-full">
-                <div className="me-4 ">
+                {/* <div className="me-4 ">
                     <SideMenu />
-                </div>
+                </div> */}
                 <div className="w-full">
                     <Outlet />
-                    <Toaster />
                 </div>
             </div>
 

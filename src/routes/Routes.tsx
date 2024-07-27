@@ -17,6 +17,7 @@ import TeamView from "../features/team/TeamView";
 import { useRecoilState } from "recoil";
 import { userAtom } from "../store/atoms/user";
 import { TRoles } from "../lib/constants";
+import MailLayout from "../layouts/main-layout/athlete/MailLayout";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -70,7 +71,7 @@ const routeChildren: routeChildrenType[] = [
     },
     {
         path: "/mail/list",
-        element: <MailPage />,
+        element: <MailLayout />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
 ];
