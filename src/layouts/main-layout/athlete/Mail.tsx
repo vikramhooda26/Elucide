@@ -23,6 +23,7 @@ import { MailList } from "./mail-list";
 import { MailDisplay } from "./mail-display";
 import { useRecoilValue } from "recoil";
 import { configAtom } from "./use-mail";
+import { NAVIGATION_ROUTES } from "../../../lib/constants";
 
 interface MailProps {
     accounts: {
@@ -41,38 +42,38 @@ const SideMenuLinks: Pick<NavProps, "links"> = {
         {
             title: "Dashboard",
             icon: File,
-            variant: "ghost",
             label: "50",
+            navigateTo: NAVIGATION_ROUTES.DASHBOARD,
         },
         {
             title: "Data Entry",
             icon: Trophy,
-            variant: "ghost",
             label: "50",
+            navigateTo: NAVIGATION_ROUTES.DATA_ENTRY,
         },
         {
             title: "League",
             icon: Trophy,
-            variant: "default",
             label: "50",
+            navigateTo: NAVIGATION_ROUTES.LEAGUE_LIST,
         },
         {
             title: "Athlete",
             icon: Dumbbell,
-            variant: "ghost",
             label: "200",
+            navigateTo: NAVIGATION_ROUTES.ATHLETE_LIST,
         },
         {
             title: "Team",
             icon: Users,
-            variant: "ghost",
             label: "150",
+            navigateTo: NAVIGATION_ROUTES.TEAM_LIST,
         },
         {
             title: "Brand",
             icon: ArchiveX,
-            variant: "ghost",
             label: "100",
+            navigateTo: NAVIGATION_ROUTES.BRAND_LIST,
         },
     ],
 };
@@ -121,18 +122,6 @@ export function Mail({
                         )}`;
                     }}
                 >
-                    {/* <div
-                        className={cn(
-                            "flex h-[52px] items-center justify-center",
-                            isCollapsed ? "h-[52px]" : "px-2"
-                        )}
-                    >
-                        <AccountSwitcher
-                            isCollapsed={isCollapsed}
-                            accounts={accounts}
-                        />
-                    </div> */}
-                    {/* <Separator /> */}
                     <Nav
                         isCollapsed={isCollapsed}
                         links={SideMenuLinks.links}

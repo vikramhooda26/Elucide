@@ -1,96 +1,123 @@
+import * as React from "react";
+import { ArchiveX, Dumbbell, File, Trophy, Users } from "lucide-react";
 import {
-    ArrowLeft,
-    ArrowRight,
-    File,
-    Inbox,
-    MessagesSquare,
-    Send,
-    ShoppingCart,
-    Users2,
-} from "lucide-react";
-import { useEffect, useState } from "react";
-import { sideMenuObjType } from "../../../types/routes/RoutesTypes";
-import { SidemenuLayout } from "./SidemenuLayout";
-import { useRecoilValue } from "recoil";
-import { userAtom } from "../../../store/atoms/user";
-import { TRoles } from "../../../lib/constants";
+    ResizableHandle,
+    ResizablePanel,
+    ResizablePanelGroup,
+} from "../../../components/ui/resizable";
+import { TooltipProvider } from "../../../components/ui/tooltip";
+import { TMail } from "../../../features/templates/examples/mail/data";
+import { Nav, NavProps } from "../athlete/new-nax";
+import { Separator } from "../../../components/ui/separator";
+import { cn } from "../../../lib/utils";
+import { NAVIGATION_ROUTES } from "../../../lib/constants";
 
-const sideMenuLinks: sideMenuObjType[] = [
-    {
-        title: "Dashboard",
-        icon: Inbox,
-        route: "/",
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-        variant: "default",
-    },
-    {
-        title: "Athlete",
-        icon: File,
-        route: "/athlete/list",
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-        variant: "ghost",
-    },
-    {
-        title: "Team",
-        icon: Send,
-        route: "/team/list",
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-        variant: "ghost",
-    },
-    {
-        title: "Brand",
-        icon: ShoppingCart,
-        route: "/brand/list",
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-        variant: "ghost",
-    },
-    {
-        title: "League",
-        icon: MessagesSquare,
-        route: "/task/list",
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-        variant: "ghost",
-    },
-    {
-        title: "Mail",
-        icon: Users2,
-        route: "/mail/list",
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-        variant: "ghost",
-    },
-];
-
-function SideMenu() {
-    const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-    const user = useRecoilValue(userAtom);
-    const userRole: TRoles | undefined = user?.role;
-    const [allowedMenus, setAllowedMenus] = useState<sideMenuObjType[]>([]);
-
-    useEffect(() => {
-        const menus = sideMenuLinks?.filter((link) =>
-            link?.access?.some((role) => role === userRole)
-        );
-        setAllowedMenus(menus);
-    }, [userRole]);
-
-    return (
-        <div className=" relative flex-col md:flex p-2 border rounded-md">
-            <SidemenuLayout
-                sidemenus={allowedMenus}
-                isCollapsed={isCollapsed}
-            />
-            <div
-                onClick={() => setIsCollapsed((pv) => !pv)}
-                className="absolute -right-4 top-20 w-7 h-7 border rounded-md flex items-center justify-center"
-            >
-                {isCollapsed ? (
-                    <ArrowRight className="w-4 h-4" />
-                ) : (
-                    <ArrowLeft className="w-4 h-4" />
-                )}
-            </div>
-        </div>
-    );
+interface MailProps {
+    accounts: {
+        label: string;
+        email: string;
+        icon: React.ReactNode;
+    }[];
+    mails: TMail[];
+    defaultLayout: number[] | undefined;
+    defaultCollapsed?: boolean;
+    navCollapsedSize: number;
 }
 
-export default SideMenu;
+export const SideMenu = ({
+    defaultLayout = [48, 1],
+    defaultCollapsed = false,
+    navCollapsedSize,
+}: MailProps) => {
+    const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
+
+    const SideMenuLinks: Pick<NavProps, "links"> = {
+        links: [
+            {
+                title: "Dashboard",
+                icon: File,
+                label: "50",
+                navigateTo: NAVIGATION_ROUTES.DASHBOARD,
+            },
+            {
+                title: "Data Entry",
+                icon: Trophy,
+                label: "50",
+                navigateTo: NAVIGATION_ROUTES.DATA_ENTRY,
+            },
+            {
+                title: "League",
+                icon: Trophy,
+                label: "50",
+                navigateTo: NAVIGATION_ROUTES.LEAGUE_LIST,
+            },
+            {
+                title: "Athlete",
+                icon: Dumbbell,
+                label: "200",
+                navigateTo: NAVIGATION_ROUTES.ATHLETE_LIST,
+            },
+            {
+                title: "Team",
+                icon: Users,
+                label: "150",
+                navigateTo: NAVIGATION_ROUTES.TEAM_LIST,
+            },
+            {
+                title: "Brand",
+                icon: ArchiveX,
+                label: "100",
+                navigateTo: NAVIGATION_ROUTES.BRAND_LIST,
+            },
+        ],
+    };
+
+    return (
+        <TooltipProvider delayDuration={0}>
+            <ResizablePanelGroup
+                direction="horizontal"
+                onLayout={(sizes: number[]) => {
+                    document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
+                        sizes
+                    )}`;
+                }}
+                className="h-full max-h-[800px] items-stretch"
+            >
+                <ResizablePanel
+                    defaultSize={defaultLayout[0]}
+                    collapsedSize={navCollapsedSize}
+                    collapsible={true}
+                    minSize={100}
+                    maxSize={100}
+                    className={cn(
+                        isCollapsed &&
+                            "min-w-[50px] transition-all duration-300 ease-in-out"
+                    )}
+                    onCollapse={() => {
+                        setIsCollapsed(true);
+                        document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+                            true
+                        )}`;
+                    }}
+                    onResize={() => {
+                        setIsCollapsed(false);
+                        document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+                            false
+                        )}`;
+                    }}
+                >
+                    <Nav
+                        isCollapsed={isCollapsed}
+                        links={SideMenuLinks.links}
+                    />
+                    <Separator />
+                </ResizablePanel>
+                <ResizableHandle withHandle />
+                <ResizablePanel
+                    defaultSize={defaultLayout[1]}
+                    minSize={1}
+                />
+            </ResizablePanelGroup>
+        </TooltipProvider>
+    );
+};

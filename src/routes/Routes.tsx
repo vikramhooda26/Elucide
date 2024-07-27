@@ -6,7 +6,6 @@ import BrandList from "../features/brand/BrandList";
 import Dashboard from "../features/dashboard/Dashboard";
 import TeamList from "../features/team/TeamList";
 import TemplateLayout from "../features/templates/examples/layout";
-import MailPage from "../features/templates/examples/mail/page";
 import TaskPage from "../features/templates/examples/tasks/page";
 import MainLayout from "../layouts/main-layout/MainLayout";
 import ShowOffLayout from "../layouts/showoff-layout/ShowOffLayout";
@@ -16,39 +15,49 @@ import TeamForm from "../features/team/TeamForm";
 import TeamView from "../features/team/TeamView";
 import { useRecoilState } from "recoil";
 import { userAtom } from "../store/atoms/user";
-import { TRoles } from "../lib/constants";
+import { NAVIGATION_ROUTES, TRoles } from "../lib/constants";
 import MailLayout from "../layouts/main-layout/athlete/MailLayout";
 
 const routeChildren: routeChildrenType[] = [
     {
         path: "/",
+        element: (
+            <Navigate
+                to={NAVIGATION_ROUTES.DASHBOARD}
+                replace
+            />
+        ),
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    {
+        path: NAVIGATION_ROUTES.DASHBOARD,
         element: <Dashboard />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: "/athlete/list",
+        path: NAVIGATION_ROUTES.ATHLETE_LIST,
         element: <AthleteList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     //= ============================= team related routes starts here ====================== =//
     {
-        path: "/team/create",
+        path: NAVIGATION_ROUTES.CREATE_TEAM,
         element: <TeamForm />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: "/team/list",
+        path: NAVIGATION_ROUTES.TEAM_LIST,
         element: <TeamList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: "/team/view/:id",
+        path: NAVIGATION_ROUTES.TEAM,
         element: <TeamView />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     //= ============================= team related routes ends here ======================== =//
     {
-        path: "/brand/list",
+        path: NAVIGATION_ROUTES.BRAND_LIST,
         element: <BrandList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
@@ -70,7 +79,7 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: "/mail/list",
+        path: NAVIGATION_ROUTES.LEAGUE_LIST,
         element: <MailLayout />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
@@ -78,11 +87,11 @@ const routeChildren: routeChildrenType[] = [
 
 const unProtectedRoute = [
     {
-        path: "/elucide/home",
+        path: NAVIGATION_ROUTES.HOME,
         element: <Hero />,
     },
     {
-        path: "/elucide/login",
+        path: NAVIGATION_ROUTES.LOGIN,
         element: <Login />,
     },
 ];
@@ -100,7 +109,7 @@ function Routes() {
                 isAuthenticated || isUserExists ? (
                     <MainLayout />
                 ) : (
-                    <Navigate to="/elucide/home" />
+                    <Navigate to={NAVIGATION_ROUTES.HOME} />
                 ),
             children: [],
         },
@@ -110,13 +119,13 @@ function Routes() {
                 !isAuthenticated || !isUserExists ? (
                     <ShowOffLayout />
                 ) : (
-                    <Navigate to="/" />
+                    <Navigate to={NAVIGATION_ROUTES.DASHBOARD} />
                 ),
             children: unProtectedRoute,
         },
         {
             path: "*",
-            element: <Navigate to="/" />,
+            element: <Navigate to={NAVIGATION_ROUTES.DASHBOARD} />,
         },
     ];
 
@@ -139,11 +148,11 @@ function Routes() {
             routeObj[0].children = protectedRoutes;
         } else {
             setUser(null);
-            routeObj[0].element = <Navigate to="/elucide/home" />;
+            routeObj[0].element = <Navigate to={NAVIGATION_ROUTES.HOME} />;
         }
     } else {
         // If no login detected or not a valid user then navigate/redirect to un-protected route.
-        routeObj[0].element = <Navigate to="/elucide/home" />;
+        routeObj[0].element = <Navigate to={NAVIGATION_ROUTES.HOME} />;
     }
 
     const routes = createBrowserRouter(routeObj);

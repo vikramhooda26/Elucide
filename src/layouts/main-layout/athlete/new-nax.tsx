@@ -1,7 +1,7 @@
 import { Tooltip } from "@radix-ui/react-tooltip";
 import { LucideIcon } from "lucide-react";
 import { TooltipContent, TooltipTrigger } from "../../../components/ui/tooltip";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "../../../lib/utils";
 import { buttonVariants } from "../../../components/ui/button";
 
@@ -11,11 +11,20 @@ export interface NavProps {
         title: string;
         label?: string;
         icon: LucideIcon;
-        variant: "default" | "ghost";
+        variant?: "default" | "ghost";
+        navigateTo: string;
     }[];
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {
+    const pathname = useLocation().pathname;
+
+    const getVariant = (navigateTo: string) => {
+        return pathname.toLowerCase().startsWith(navigateTo.toLowerCase())
+            ? "default"
+            : "ghost";
+    };
+
     return (
         <div
             data-collapsed={isCollapsed}
@@ -30,14 +39,17 @@ export function Nav({ links, isCollapsed }: NavProps) {
                         >
                             <TooltipTrigger asChild>
                                 <Link
-                                    to="#"
+                                    to={link.navigateTo}
                                     className={cn(
                                         buttonVariants({
-                                            variant: link.variant,
+                                            variant: getVariant(
+                                                link.navigateTo
+                                            ),
                                             size: "icon",
                                         }),
                                         "h-9 w-9",
-                                        link.variant === "default" &&
+                                        getVariant(link.navigateTo) ===
+                                            "default" &&
                                             "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                                     )}
                                 >
@@ -62,13 +74,13 @@ export function Nav({ links, isCollapsed }: NavProps) {
                     ) : (
                         <Link
                             key={index}
-                            to="#"
+                            to={link.navigateTo}
                             className={cn(
                                 buttonVariants({
-                                    variant: link.variant,
+                                    variant: getVariant(link.navigateTo),
                                     size: "sm",
                                 }),
-                                link.variant === "default" &&
+                                getVariant(link.navigateTo) === "default" &&
                                     "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
                                 "justify-start"
                             )}
@@ -79,7 +91,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                 <span
                                     className={cn(
                                         "ml-auto",
-                                        link.variant === "default" &&
+                                        getVariant(link.navigateTo) ===
+                                            "default" &&
                                             "text-background dark:text-white"
                                     )}
                                 >
