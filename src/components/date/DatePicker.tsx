@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import { CalendarComponent } from "../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
-export function DatePicker() {
+export function DatePicker({ placeholder = 'date' }) {
     const [date, setDate] = React.useState<Date>();
 
     return (
@@ -24,7 +24,7 @@ export function DatePicker() {
                     {date ? (
                         format(date, "dd/MM/yyyy")
                     ) : (
-                        <span>Pick a date</span>
+                        <span>Pick a {placeholder}</span>
                     )}
                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>

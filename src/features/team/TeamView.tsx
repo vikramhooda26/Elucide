@@ -33,6 +33,8 @@ import {
   TableRow
 } from "../../components/ui/table";
 import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group";
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
+import { Separator } from "../../components/ui/separator";
 
 const teamAttributes = [
   {
@@ -94,7 +96,7 @@ const socialLinks = [
 function TeamView() {
 
   return (
-    <main className="grid flex-1 items-start gap-4 sm:px-6 sm:py-0 md:gap-8 ">
+    <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 ">
       <div className="mx-auto grid flex-1 auto-rows-max gap-4">
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" className="h-7 w-7">
@@ -130,41 +132,41 @@ function TeamView() {
               </div>
             </Card>
 
-            <Card x-chunk="dashboard-07-chunk-1">
+            <Card x-chunk="dashboard-01-chunk-5">
               <CardHeader>
                 <CardTitle>Socials</CardTitle>
                 <CardDescription>
                   {/* Lipsum dolor sit amet, consectetur adipiscing elit */}
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <RadioGroup defaultValue="card" className="grid grid-cols-5 gap-4">
-                  <Table>
-                    <TableBody>
-                      {socialLinks?.map((d, i: number) => (
-                        <TableRow>
-                          <TableCell key={i} className="font-semibold">
-                            <Link to={d?.link} target="_blank" key={i}>
-                              <div>
-                                <RadioGroupItem value="card" id={"card" + i} className="peer sr-only" />
-                                <Label
-                                  htmlFor={"card" + i}
-                                  className="h-14 cursor-pointer flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                                >
-                                  {d?.icon}
-                                </Label>
-                              </div>
-                            </Link>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </RadioGroup>
+              <CardContent className="grid gap-8">
+                <div className="flex flex-col gap-4">
+                  {socialLinks?.map((d, i: number) => (
+                    <div className="flex items-center gap-4">
+                      <Link to={d?.link} target="_blank" key={i}>
+                        <div >
+                          <Avatar className="hidden h-9 w-9 sm:flex">
+                            <AvatarImage src="/avatars/01.png" alt="Avatar" />
+                            <AvatarFallback>{d?.icon}</AvatarFallback>
+                          </Avatar>
+                        </div>
+                      </Link>
+                      <div className="grid gap-1">
+                        <p className="text-sm font-medium leading-none">
+                          {d?.link}
+                        </p>
+                        {/* <p className="text-sm text-muted-foreground">
+                          olivia.martin@email.com
+                        </p> */}
+                      </div>
+                      <div className="ml-auto font-medium">Copy</div>
+                    </div>
+                  ))}
+                </div>
               </CardContent>
-
             </Card>
-            <Card x-chunk="dashboard-07-chunk-2">
+
+            {/* <Card x-chunk="dashboard-07-chunk-2">
               <CardHeader>
                 <CardTitle>Product Category</CardTitle>
               </CardHeader>
@@ -212,7 +214,7 @@ function TeamView() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
             <Card x-chunk="dashboard-07-chunk-3">
@@ -221,95 +223,45 @@ function TeamView() {
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6">
-
-                  {teamAttributes?.map((d, i: number) => (
-                    <div className="grid gap-3" key={i}>
-                      <Label htmlFor={d?.title?.toLowerCase()}>{d?.title}</Label>
-                      <Select>
-                        <SelectTrigger id={d?.title?.toLowerCase()} aria-label="Select status">
-                          <SelectValue placeholder={`Select ${d?.title?.toLowerCase()}`} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="draft">Draft</SelectItem>
-                          <SelectItem value="published">Active</SelectItem>
-                          <SelectItem value="archived">Archived</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  ))}
-
-
-                </div>
-              </CardContent>
-            </Card>
-            <Card
-              className="overflow-hidden" x-chunk="dashboard-07-chunk-4"
-            >
-              <CardHeader>
-                <CardTitle>Product Images</CardTitle>
-                <CardDescription>
-                  Lipsum dolor sit amet, consectetur adipiscing elit
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-2">
-                  <Image
-                    alt="Product image"
-                    className="aspect-square w-full rounded-md object-cover"
-                    height={300}
-                    src="/placeholder.svg"
-                    width={300}
-                  />
-                  <div className="grid grid-cols-3 gap-2">
-                    <button>
-                      <Image
-                        alt="Product image"
-                        className="aspect-square w-full rounded-md object-cover"
-                        height={84}
-                        src="/placeholder.svg"
-                        width={84}
-                      />
-                    </button>
-                    <button>
-                      <Image
-                        alt="Product image"
-                        className="aspect-square w-full rounded-md object-cover"
-                        height={84}
-                        src="/placeholder.svg"
-                        width={84}
-                      />
-                    </button>
-                    <button className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
-                      <Upload className="h-4 w-4 text-muted-foreground" />
-                      <span className="sr-only">Upload</span>
-                    </button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card x-chunk="dashboard-07-chunk-5">
-              <CardHeader>
-                <CardTitle>Archive Product</CardTitle>
-                <CardDescription>
-                  Lipsum dolor sit amet, consectetur adipiscing elit.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div></div>
-                <Button size="sm" variant="secondary">
-                  Archive Product
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+                  <div className="font-semibold">Order Details</div>
+                  <ul className="grid gap-3">
+                    {teamAttributes?.map((d, i: number) => (
+                      <div className="grid gap-3" key={i}>
+                        <li className="flex items-center justify-between font-semibold">
+                          <span className="text-muted-foreground">{d?.title}</span>
+                          <span>{d?.title}{" 1"}</span>
+                        </li>
+                        <Separator className="my-4" />
+                      </div>
+                    ))}
+                  </ul>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* <Card x-chunk="dashboard-07-chunk-5">
+            <CardHeader>
+              <CardTitle>Archive Product</CardTitle>
+              <CardDescription>
+                Lipsum dolor sit amet, consectetur adipiscing elit.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div></div>
+              <Button size="sm" variant="secondary">
+                Archive Product
+              </Button>
+            </CardContent>
+          </Card> */}
         </div>
-        <div className="flex items-center justify-center gap-2 md:hidden">
-          <Button variant="outline" size="sm">
-            Discard
-          </Button>
-          <Button size="sm">Save Team</Button>
-        </div>
+      </div >
+      <div className="flex items-center justify-center gap-2 md:hidden">
+        <Button variant="outline" size="sm">
+          Discard
+        </Button>
+        <Button size="sm">Save Team</Button>
       </div>
+    </div >
     </main >
   )
 }

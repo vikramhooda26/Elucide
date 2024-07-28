@@ -24,7 +24,7 @@ export const NAVIGATION_ROUTES = {
     LOGIN: "/elucide/login",
     HOME: "/elucide/home",
     DASHBOARD: "/dashboard",
-    TEAM: "/team/view/:id",
+    TEAM: "/team/view",
     TEAM_LIST: "/team/list",
     CREATE_TEAM: "/team/create",
     EDIT_TEAM: "/team/edit",

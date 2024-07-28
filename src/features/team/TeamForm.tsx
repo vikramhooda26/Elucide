@@ -1,4 +1,4 @@
-import { ChevronLeft, Upload } from "lucide-react";
+import { ChevronLeft, PlusCircle } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import {
     Card,
@@ -11,8 +11,8 @@ import { Input } from "../../components/ui/input";
 // import { Label } from "../../components/ui`/label"
 import { useReducer, useState } from "react";
 import { DatePicker } from "../../components/date/DatePicker";
-import Image from "../../components/image/Image";
 import CutomSelect from "../../components/selector/CustomSelect";
+import CustomSelectWithSearch from "../../components/selector/CustomSelectWithSearch";
 import { Label } from "../../components/ui/label";
 import {
     Select,
@@ -31,8 +31,8 @@ import {
 } from "../../components/ui/table";
 import { Textarea } from "../../components/ui/textarea";
 import { itemType } from "../../types/components/SelectorTypes";
-import CustomSelectWithSearch from "../../components/selector/CustomSelectWithSearch";
-import { Action, State } from "../../types/team/TeamFormTypes";
+import { Action, MetricType, State } from "../../types/team/TeamFormTypes";
+import MatricsForm from "./components/MatricsForm";
 
 const initialSelectorState: State = {
     selectedCampaign: [],
@@ -52,6 +52,9 @@ const selectorReducer = (state: State, action: Action): State => {
 
 export function TeamForm() {
     const [selectorState, dispatchSelect] = useReducer(selectorReducer, initialSelectorState);
+    const [metrics, setMetrics] = useState<MetricType[]>([
+        { viewership: '', reach: '', year: '', viewshipType: '' },
+    ]);
 
     const teamAttributes = [
         {
@@ -209,6 +212,20 @@ export function TeamForm() {
         searchFrom: 'incomes'
     };
 
+    const handleAddMetric = () => {
+        setMetrics([...metrics, { viewership: '', reach: '', year: '', viewshipType: '' }]);
+    };
+
+    const handleUpdateMetric = (index: number, updatedMetric: MetricType) => {
+        const updatedMetrics = metrics.map((metric, idx) => (idx === index ? updatedMetric : metric));
+        setMetrics(updatedMetrics);
+    };
+
+    const handleRemoveMetric = (index: number) => {
+        const updatedMetrics = metrics.filter((_, idx) => idx !== index);
+        setMetrics(updatedMetrics);
+    };
+
     return (
         <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <div className="mx-auto grid flex-1 auto-rows-max gap-4">
@@ -268,7 +285,7 @@ export function TeamForm() {
                                             <Label htmlFor="yearOfInception">
                                                 Year Of Inception
                                             </Label>
-                                            <DatePicker />
+                                            <DatePicker placeholder={'Year'} />
                                         </div>
                                         <div className="grid gap-3">
                                             <Label htmlFor="top-p">Franchise Fee</Label>
@@ -288,8 +305,6 @@ export function TeamForm() {
                                 </div>
                             </CardContent>
                         </Card>
-
-
 
                         <Card x-chunk="dashboard-07-chunk-0 w-full">
                             <CardHeader>
@@ -320,6 +335,43 @@ export function TeamForm() {
                             </CardContent>
                         </Card>
 
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Team Viewership</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="">Year</TableHead>
+                                            <TableHead>Viewership</TableHead>
+                                            <TableHead>Reach</TableHead>
+                                            <TableHead className="">Viewship Type</TableHead>
+                                            <TableHead className=""></TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {metrics.map((metric, index) => (
+                                            <MatricsForm
+                                                metric={metric}
+                                                onChange={(updatedMetric) => handleUpdateMetric(index, updatedMetric)}
+                                                onRemove={() => handleRemoveMetric(index)}
+                                            />
+                                        ))}
+                                    </TableBody>
+                                </Table>
+
+                                <div className="flex justify-end mt-4">
+                                    <Button onClick={handleAddMetric} size="sm" className="h-7 gap-1">
+                                        <PlusCircle className="h-3.5 w-3.5" />
+                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                                            Add
+                                        </span>
+                                    </Button>
+                                </div>
+
+                            </CardContent>
+                        </Card>
 
                         <Card x-chunk="dashboard-07-chunk-1">
                             <CardHeader>
@@ -430,7 +482,7 @@ export function TeamForm() {
                                 </Table>
                             </CardContent>
                         </Card>
-                        
+
                     </div>
                     <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
                         <Card x-chunk="dashboard-07-chunk-3">
@@ -475,25 +527,7 @@ export function TeamForm() {
                                 </div>
                             </CardContent>
                         </Card>
-                        
-                        <Card x-chunk="dashboard-07-chunk-5">
-                            <CardHeader>
-                                <CardTitle>Archive Product</CardTitle>
-                                <CardDescription>
-                                    Lipsum dolor sit amet, consectetur
-                                    adipiscing elit.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div></div>
-                                <Button
-                                    size="sm"
-                                    variant="secondary"
-                                >
-                                    Archive Product
-                                </Button>
-                            </CardContent>
-                        </Card>
+
                     </div>
                 </div>
                 <div className="flex items-center justify-center gap-2 md:hidden">
