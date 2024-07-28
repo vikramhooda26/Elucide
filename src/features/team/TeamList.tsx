@@ -47,13 +47,6 @@ function TeamList() {
     }, []);
 
     const onView = (id: string) => {
-        toast("Navigating to team view", {
-            description: "Sunday, December 03, 2023 at 9:00 AM",
-            action: {
-                label: "Undo",
-                onClick: () => console.log("Undo"),
-            },
-        });
         navigator(NAVIGATION_ROUTES.TEAM, ["dsfsdsf"]);
     };
 

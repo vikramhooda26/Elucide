@@ -51,7 +51,7 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: NAVIGATION_ROUTES.TEAM,
+        path: NAVIGATION_ROUTES.TEAM+'/:id',
         element: <TeamView />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
