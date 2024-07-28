@@ -32,7 +32,7 @@ export function DataTableToolbar<TData>({
         {table.getColumn("priority") && (
           <DataTableFacetedFilter
             column={table.getColumn("priority")}
-            title="Priority"
+            title="Year Of Inception"
             options={toolbarAttri?.priorities}
           />
         )}

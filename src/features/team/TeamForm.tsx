@@ -1,18 +1,18 @@
-import { ChevronLeft, PlusCircle, Upload } from "lucide-react";
-
-import { Badge } from "../../components/ui/badge";
+import { ChevronLeft, Upload } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
-    CardTitle,
+    CardTitle
 } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 // import { Label } from "../../components/ui`/label"
+import { useState } from "react";
+import { DatePicker } from "../../components/date/DatePicker";
 import Image from "../../components/image/Image";
+import CutomSelect from "../../components/selector/CustomSelect";
 import { Label } from "../../components/ui/label";
 import {
     Select,
@@ -30,10 +30,12 @@ import {
     TableRow,
 } from "../../components/ui/table";
 import { Textarea } from "../../components/ui/textarea";
-import { ToggleGroup, ToggleGroupItem } from "../../components/ui/toggle-group";
-import { DatePicker } from "../../components/date/DatePicker";
+import { itemType } from "../../types/components/SelectorTypes";
+import CustomSelectWithSearch from "../../components/selector/CustomSelectWithSearch";
 
 export function TeamForm() {
+    const [selectedValues, setSelectedValues] = useState<string[]>([]);
+
     const teamAttributes = [
         {
             title: "Sports",
@@ -57,6 +59,123 @@ export function TeamForm() {
             title: "Tier",
         },
     ];
+
+    const taglines: itemType[] = [
+        {
+            label: 'Discover your potential.',
+            value: '1',
+        },
+        {
+            label: 'Cricket enriches lives.',
+            value: '2',
+        },
+        {
+            label: 'The ultimate in fitness.',
+            value: '3',
+        },
+        {
+            label: 'Cricket is a gentle game.',
+            value: '4',
+        },
+        {
+            label: 'Cricket builds character ',
+            value: '5',
+        },
+    ];
+
+    const activeCampaigns: itemType[] = [
+        {
+            label: 'Active Campaigns 1',
+            value: '1',
+        },
+        {
+            label: 'Active Campaigns 1',
+            value: '2',
+        },
+        {
+            label: 'Active Campaigns 3',
+            value: '3',
+        },
+        {
+            label: 'Active Campaigns 4',
+            value: '4',
+        },
+        {
+            label: 'Active Campaigns 5',
+            value: '5',
+        },
+    ];
+
+    const primaryMarketingPlatform: itemType[] = [
+        {
+            label: 'Marketing Platform 1',
+            value: '1',
+        },
+        {
+            label: 'Marketing Platform 2',
+            value: '2',
+        },
+        {
+            label: 'Marketing Platform 3',
+            value: '3',
+        },
+        {
+            label: 'Marketing Platform 4',
+            value: '4',
+        },
+        {
+            label: 'Marketing Platform 5',
+            value: '5',
+        },
+    ];
+
+    const marketing: itemType[] = [
+        {
+            label: 'Marketing 1',
+            value: '1',
+        },
+        {
+            label: 'Marketing 2',
+            value: '2',
+        },
+        {
+            label: 'Marketing 3',
+            value: '3',
+        },
+        {
+            label: 'Marketing 4',
+            value: '4',
+        },
+        {
+            label: 'Marketing 5',
+            value: '5',
+        },
+    ];
+
+    const searchCallback = (searchFrom: string, searchValue: string) => {
+        if (searchFrom === 'activeCampaigns') {
+            console.log('searchValue -=- ', searchValue);
+        }
+    }
+
+    const handleChange = (selected: string[]) => {
+        console.log('Selected values:', selected);
+        setSelectedValues(selected);
+    };
+
+
+    const activeCampaignsData = {
+        title: "Active Campaigns",
+        items: activeCampaigns,
+        isMultiple: true,
+        isSearchable: true,
+        isClearable: true,
+        searchCallback: searchCallback,
+        selectState: selectedValues,
+        onChange: handleChange,
+        searchFrom: 'activeCampaigns'
+    };
+
     return (
         <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <div className="mx-auto grid flex-1 auto-rows-max gap-4">
@@ -94,7 +213,7 @@ export function TeamForm() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <div className="grid gap-6">
+                                <div className="grid gap-6  ">
                                     <div className="grid gap-3">
                                         <Label htmlFor="name">Name</Label>
                                         <Input
@@ -105,14 +224,64 @@ export function TeamForm() {
                                         />
                                     </div>
                                     <div className="grid gap-3">
-                                        <Label htmlFor="yearOfInception">
-                                            Year Of Inception
-                                        </Label>
-                                        <DatePicker />
+                                        <CutomSelect selectorContent={{ selectorContent: { title: 'Tag Lines', items: taglines } }} />
+                                    </div>
+                                    <div className="grid gap-3">
+                                        <Label htmlFor="strategyOverview">Strategy Overview</Label>
+                                        <Textarea id='strategyOverview' />
+                                    </div>
+                                    <div className="grid gap-3 grid-cols-3">
+                                        <div className="grid gap-3">
+                                            <Label htmlFor="yearOfInception">
+                                                Year Of Inception
+                                            </Label>
+                                            <DatePicker />
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <Label htmlFor="top-p">Franchise Fee</Label>
+                                            <Input id="top-p" type="number" />
+                                        </div>
+                                    </div>
+                                    <div className="grid gap-3">
+                                        <CustomSelectWithSearch selectorContent={{ selectorContent: activeCampaignsData }} />
+                                    </div>
+
+                                </div>
+                            </CardContent>
+                        </Card>
+
+
+
+                        <Card x-chunk="dashboard-07-chunk-0 w-full">
+                            <CardHeader>
+                                <CardTitle>Marketing</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="grid gap-6  ">
+                                    <div className="grid gap-3 grid-cols-2">
+                                        <div className="grid gap-3">
+                                            <CutomSelect selectorContent={{ selectorContent: { title: 'Main Platforms', items: primaryMarketingPlatform } }} />
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <CutomSelect selectorContent={{ selectorContent: { title: 'Sub Platforms', items: primaryMarketingPlatform } }} />
+                                        </div>
+                                    </div>
+                                    <div className="grid gap-3 grid-cols-3">
+                                        <div className="grid gap-3">
+                                            <CutomSelect selectorContent={{ selectorContent: { title: 'Primary Markets', items: marketing } }} />
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <CutomSelect selectorContent={{ selectorContent: { title: 'Secondary Markets', items: marketing } }} />
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <CutomSelect selectorContent={{ selectorContent: { title: 'Tertiary Markets', items: marketing } }} />
+                                        </div>
                                     </div>
                                 </div>
                             </CardContent>
                         </Card>
+
+
                         <Card x-chunk="dashboard-07-chunk-1">
                             <CardHeader>
                                 <CardTitle>Socials</CardTitle>

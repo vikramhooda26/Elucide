@@ -54,17 +54,17 @@ export const statuses = [
 
 export const priorities = [
   {
-    label: "Low",
+    label: "2020",
     value: "low",
     icon: ArrowDownIcon,
   },
   {
-    label: "Medium",
+    label: "2023",
     value: "medium",
     icon: ArrowRightIcon,
   },
   {
-    label: "High",
+    label: "2024",
     value: "high",
     icon: ArrowUpIcon,
   },
