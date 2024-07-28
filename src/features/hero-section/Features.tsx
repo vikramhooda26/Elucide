@@ -14,12 +14,12 @@ export const Features = () => {
                 "Detailed stakeholder profiles offer insights into target audiences, brand identity, & partnership value.",
         },
         {
-            title: "Smart Match-making",
+            title: "Smart Match-making platform",
             description:
                 "Data & insight based matchmaking based on brand requirements & objectives to drive efficient engagements.",
         },
         {
-            title: "Advanced Search Filters",
+            title: "Advanced Query Search Filters",
             description:
                 "20+ criteria based filters to make advanced search functions to filter & narrow down on the right brand fit.",
         },

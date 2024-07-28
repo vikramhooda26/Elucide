@@ -10,7 +10,7 @@ export const Clients = () => {
     return (
         <div className="flex justify-center bg-black md:py-40 py-24 text-white">
             <div className="w-[90%]">
-                <h1 className="text-4xl mb-20">
+                <h1 className="text-4xl mb-20 font-bold">
                     Some of our{" "}
                     <AnimatedGradientText>clients</AnimatedGradientText>
                 </h1>

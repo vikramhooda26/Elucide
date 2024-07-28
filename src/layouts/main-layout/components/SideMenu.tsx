@@ -1,5 +1,12 @@
 import * as React from "react";
-import { ArchiveX, Dumbbell, File, Trophy, Users } from "lucide-react";
+import {
+    Dumbbell,
+    BarChart,
+    FileText,
+    Trophy,
+    Users,
+    Building,
+} from "lucide-react";
 import {
     ResizableHandle,
     ResizablePanel,
@@ -22,7 +29,7 @@ interface MailProps {
 }
 
 export const SideMenu = ({
-    defaultLayout = [20],
+    defaultLayout = [10],
     defaultCollapsed = false,
     navCollapsedSize,
 }: MailProps) => {
@@ -32,13 +39,13 @@ export const SideMenu = ({
         links: [
             {
                 title: "Dashboard",
-                icon: File,
+                icon: BarChart,
                 label: "50",
                 navigateTo: NAVIGATION_ROUTES.DASHBOARD,
             },
             {
                 title: "Data Entry",
-                icon: Trophy,
+                icon: FileText,
                 label: "50",
                 navigateTo: NAVIGATION_ROUTES.DATA_ENTRY,
             },
@@ -62,7 +69,7 @@ export const SideMenu = ({
             },
             {
                 title: "Brand",
-                icon: ArchiveX,
+                icon: Building,
                 label: "100",
                 navigateTo: NAVIGATION_ROUTES.BRAND_LIST,
             },

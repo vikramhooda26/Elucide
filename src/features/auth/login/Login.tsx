@@ -138,10 +138,13 @@ function LoginPage() {
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        <div className="flex items-center justify-center gap-3">
-                            <span>
-                                {isSubmitting ? "Validating..." : "Login"}
-                            </span>
+                        <div
+                            className={cn(
+                                "flex items-center justify-center gap-3",
+                                isSubmitting && "brightness-50"
+                            )}
+                        >
+                            <span>Login</span>
                             {isSubmitting ? (
                                 <ClipLoader
                                     size={15}

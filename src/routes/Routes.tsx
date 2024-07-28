@@ -125,7 +125,12 @@ function Routes() {
         },
         {
             path: "*",
-            element: <Navigate to={NAVIGATION_ROUTES.DASHBOARD} />,
+            element:
+                isAuthenticated || isUserExists ? (
+                    <Navigate to={NAVIGATION_ROUTES.DASHBOARD} />
+                ) : (
+                    <Navigate to={NAVIGATION_ROUTES.HOME} />
+                ),
         },
     ];
 
