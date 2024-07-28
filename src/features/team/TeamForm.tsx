@@ -9,7 +9,7 @@ import {
 } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 // import { Label } from "../../components/ui`/label"
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { DatePicker } from "../../components/date/DatePicker";
 import Image from "../../components/image/Image";
 import CutomSelect from "../../components/selector/CustomSelect";
@@ -32,9 +32,26 @@ import {
 import { Textarea } from "../../components/ui/textarea";
 import { itemType } from "../../types/components/SelectorTypes";
 import CustomSelectWithSearch from "../../components/selector/CustomSelectWithSearch";
+import { Action, State } from "../../types/team/TeamFormTypes";
+
+const initialSelectorState: State = {
+    selectedCampaign: [],
+    selectedIncomes: [],
+};
+
+const selectorReducer = (state: State, action: Action): State => {
+    switch (action.type) {
+        case 'SET_SELECTED_CAMPAIGN':
+            return { ...state, selectedCampaign: action.payload };
+        case 'SET_SELECTED_INCOMES':
+            return { ...state, selectedIncomes: action.payload };
+        default:
+            return state;
+    }
+};
 
 export function TeamForm() {
-    const [selectedValues, setSelectedValues] = useState<string[]>([]);
+    const [selectorState, dispatchSelect] = useReducer(selectorReducer, initialSelectorState);
 
     const teamAttributes = [
         {
@@ -158,9 +175,12 @@ export function TeamForm() {
         }
     }
 
-    const handleChange = (selected: string[]) => {
-        console.log('Selected values:', selected);
-        setSelectedValues(selected);
+    const setSelectedCampaign = (campaigns: string[]) => {
+        dispatchSelect({ type: 'SET_SELECTED_CAMPAIGN', payload: campaigns });
+    };
+
+    const setSelectedIncomes = (incomes: string[]) => {
+        dispatchSelect({ type: 'SET_SELECTED_INCOMES', payload: incomes });
     };
 
 
@@ -171,9 +191,22 @@ export function TeamForm() {
         isSearchable: true,
         isClearable: true,
         searchCallback: searchCallback,
-        selectState: selectedValues,
-        onChange: handleChange,
+        selectState: selectorState.selectedCampaign,
+        onChange: setSelectedCampaign,
         searchFrom: 'activeCampaigns'
+    };
+
+
+    const incomedata = {
+        title: "Incomes",
+        items: activeCampaigns,
+        isMultiple: true,
+        isSearchable: true,
+        isClearable: true,
+        searchCallback: searchCallback,
+        selectState: selectorState.selectedIncomes,
+        onChange: setSelectedIncomes,
+        searchFrom: 'incomes'
     };
 
     return (
@@ -207,10 +240,10 @@ export function TeamForm() {
                         <Card x-chunk="dashboard-07-chunk-0">
                             <CardHeader>
                                 <CardTitle>Team Details</CardTitle>
-                                <CardDescription>
+                                {/* <CardDescription>
                                     Lipsum dolor sit amet, consectetur
                                     adipiscing elit
-                                </CardDescription>
+                                </CardDescription> */}
                             </CardHeader>
                             <CardContent>
                                 <div className="grid gap-6  ">
@@ -241,11 +274,17 @@ export function TeamForm() {
                                             <Label htmlFor="top-p">Franchise Fee</Label>
                                             <Input id="top-p" type="number" />
                                         </div>
+                                        <div className="grid gap-3">
+                                            <Label htmlFor="top-a">Association</Label>
+                                            <Input id="top-a" />
+                                        </div>
                                     </div>
                                     <div className="grid gap-3">
                                         <CustomSelectWithSearch selectorContent={{ selectorContent: activeCampaignsData }} />
                                     </div>
-
+                                    <div className="grid gap-3">
+                                        <CustomSelectWithSearch selectorContent={{ selectorContent: incomedata }} />
+                                    </div>
                                 </div>
                             </CardContent>
                         </Card>
@@ -391,63 +430,7 @@ export function TeamForm() {
                                 </Table>
                             </CardContent>
                         </Card>
-                        <Card x-chunk="dashboard-07-chunk-2">
-                            <CardHeader>
-                                <CardTitle>Product Category</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="grid gap-6 sm:grid-cols-3">
-                                    <div className="grid gap-3">
-                                        <Label htmlFor="category">
-                                            Category
-                                        </Label>
-                                        <Select>
-                                            <SelectTrigger
-                                                id="category"
-                                                aria-label="Select category"
-                                            >
-                                                <SelectValue placeholder="Select category" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="clothing">
-                                                    Clothing
-                                                </SelectItem>
-                                                <SelectItem value="electronics">
-                                                    Electronics
-                                                </SelectItem>
-                                                <SelectItem value="accessories">
-                                                    Accessories
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                    <div className="grid gap-3">
-                                        <Label htmlFor="subcategory">
-                                            Subcategory (optional)
-                                        </Label>
-                                        <Select>
-                                            <SelectTrigger
-                                                id="subcategory"
-                                                aria-label="Select subcategory"
-                                            >
-                                                <SelectValue placeholder="Select subcategory" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="t-shirts">
-                                                    T-Shirts
-                                                </SelectItem>
-                                                <SelectItem value="hoodies">
-                                                    Hoodies
-                                                </SelectItem>
-                                                <SelectItem value="sweatshirts">
-                                                    Sweatshirts
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                        
                     </div>
                     <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
                         <Card x-chunk="dashboard-07-chunk-3">
@@ -492,55 +475,7 @@ export function TeamForm() {
                                 </div>
                             </CardContent>
                         </Card>
-                        <Card
-                            className="overflow-hidden"
-                            x-chunk="dashboard-07-chunk-4"
-                        >
-                            <CardHeader>
-                                <CardTitle>Product Images</CardTitle>
-                                <CardDescription>
-                                    Lipsum dolor sit amet, consectetur
-                                    adipiscing elit
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="grid gap-2">
-                                    <Image
-                                        alt="Product image"
-                                        className="aspect-square w-full rounded-md object-cover"
-                                        height={300}
-                                        src="/placeholder.svg"
-                                        width={300}
-                                    />
-                                    <div className="grid grid-cols-3 gap-2">
-                                        <button>
-                                            <Image
-                                                alt="Product image"
-                                                className="aspect-square w-full rounded-md object-cover"
-                                                height={84}
-                                                src="/placeholder.svg"
-                                                width={84}
-                                            />
-                                        </button>
-                                        <button>
-                                            <Image
-                                                alt="Product image"
-                                                className="aspect-square w-full rounded-md object-cover"
-                                                height={84}
-                                                src="/placeholder.svg"
-                                                width={84}
-                                            />
-                                        </button>
-                                        <button className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
-                                            <Upload className="h-4 w-4 text-muted-foreground" />
-                                            <span className="sr-only">
-                                                Upload
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                        
                         <Card x-chunk="dashboard-07-chunk-5">
                             <CardHeader>
                                 <CardTitle>Archive Product</CardTitle>
