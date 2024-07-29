@@ -1,4 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../lib/constants";
+import { NavigateFunction } from "react-router-dom";
 import { toast } from "sonner";
 
 type Resp = {
@@ -17,6 +19,37 @@ class AjaxService {
                     : params[x];
         });
         return t;
+    }
+
+    static handleCommonErrors(
+        error: any,
+        logout: () => void,
+        navigate?: NavigateFunction
+    ) {
+        switch (error.response.status) {
+            case HTTP_STATUS_CODES.FORBIDDEN:
+                logout();
+                if (
+                    window.location.pathname.startsWith(NAVIGATION_ROUTES.LOGIN)
+                ) {
+                    toast.error("Login failed!");
+                } else {
+                    toast.error("Session expired!");
+                }
+                if (navigate) {
+                    navigate(NAVIGATION_ROUTES.HOME, { replace: true });
+                } else {
+                    window.location.href = NAVIGATION_ROUTES.HOME;
+                }
+                break;
+            case HTTP_STATUS_CODES.BAD_REQUEST:
+                toast.error(
+                    "Invalid Request. Contact the developer for support"
+                );
+                break;
+            default:
+                return error;
+        }
     }
 
     static async request(
@@ -58,23 +91,7 @@ class AjaxService {
 
             return { status: r.status, data: r.data };
         } catch (error: any) {
-            if (error?.response?.status === 403) {
-                if (window.location.pathname.endsWith("login")) {
-                    toast.error("Login Failed! You are not authorized!");
-                } else {
-                    toast.error("Session expired!");
-                    setTimeout(
-                        () => (window.location.href = "/elucide/home"),
-                        1000
-                    );
-                }
-            }
-            return {
-                status: axios.isAxiosError(error)
-                    ? error.response?.status ?? 0
-                    : 0,
-                data: axios.isAxiosError(error) ? error.response?.data : null,
-            };
+            throw error;
         }
     }
 }

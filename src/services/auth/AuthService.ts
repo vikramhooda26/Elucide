@@ -1,4 +1,4 @@
-import { API_URL, API_VERSION, LOCAL_STORAGE_KEYS } from "../../lib/constants";
+import { API_URL, LOCAL_STORAGE_KEYS } from "../../lib/constants";
 import AjaxService from "../AjaxService";
 import StorageService from "../common/StorageService";
 
@@ -7,9 +7,10 @@ class AuthService {
         return AjaxService.request(`${API_URL}/api/auth/login`, params, "POST");
     }
 
-    static fetchUserDetails(userId: string) {
+    static fetchUserDetails() {
         return AjaxService.request(
-            `${API_URL}/api/${API_VERSION}/view/${userId}`,
+            `${API_URL}/api/auth/get-user-details`,
+            {},
             "GET"
         );
     }

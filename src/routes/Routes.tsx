@@ -8,15 +8,19 @@ import TeamList from "../features/team/TeamList";
 import TemplateLayout from "../features/templates/examples/layout";
 import TaskPage from "../features/templates/examples/tasks/page";
 import MainLayout from "../layouts/main-layout/MainLayout";
-import ShowOffLayout from "../layouts/showoff-layout/ShowOffLayout";
+import { HomePageLayout } from "../features/hero-section/HomePageLayout";
 import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
-import { Hero } from "../features/hero-section/Hero";
+import { Home } from "../features/hero-section/Home";
 import TeamForm from "../features/team/TeamForm";
 import TeamView from "../features/team/TeamView";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { userAtom } from "../store/atoms/user";
-import { NAVIGATION_ROUTES, TRoles } from "../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES, TRoles } from "../lib/constants";
 import MailLayout from "../layouts/main-layout/athlete/MailLayout";
+import { useEffect } from "react";
+import AuthService from "../services/auth/AuthService";
+import { loadingBarSelector } from "../store/selectors/global";
+import AjaxService from "../services/AjaxService";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -43,7 +47,7 @@ const routeChildren: routeChildrenType[] = [
     {
         path: NAVIGATION_ROUTES.CREATE_TEAM,
         element: <TeamForm />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
     },
     {
         path: NAVIGATION_ROUTES.TEAM_LIST,
@@ -51,7 +55,7 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: NAVIGATION_ROUTES.TEAM+'/:id',
+        path: NAVIGATION_ROUTES.TEAM,
         element: <TeamView />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
@@ -88,7 +92,7 @@ const routeChildren: routeChildrenType[] = [
 const unProtectedRoute = [
     {
         path: NAVIGATION_ROUTES.HOME,
-        element: <Hero />,
+        element: <Home />,
     },
     {
         path: NAVIGATION_ROUTES.LOGIN,
@@ -97,72 +101,76 @@ const unProtectedRoute = [
 ];
 
 function Routes() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
     const [user, setUser] = useRecoilState(userAtom);
-    const loginRole: TRoles | undefined = user?.role;
-    const isUserExists = Boolean(user);
+    const setIsLoading = useSetRecoilState(loadingBarSelector);
+
+    const getUserDetails = async () => {
+        try {
+            setIsLoading(true);
+            const response = await AuthService.fetchUserDetails();
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                setUser({
+                    id: response.data.userId,
+                    firstName: response.data.firstName,
+                    lastName: response.data.lastName,
+                    username: response.data.username,
+                    email: response.data.email,
+                    role: response.data.role,
+                });
+            }
+        } catch (error: any) {
+            AjaxService.handleCommonErrors(error, logout);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (isAuthenticated && !user?.role) {
+            getUserDetails();
+        }
+
+        if (!isAuthenticated) {
+            setUser(null);
+        }
+    }, [isAuthenticated, setUser]);
+
+    const userRole: TRoles | undefined = user?.role;
+
+    const protectedRoutes: routeObjType[] = routeChildren
+        .filter((route: routeChildrenType) =>
+            route.access.some((role) => role === userRole)
+        )
+        .map((route) => ({
+            path: route.path,
+            element: route.element,
+            children: route.children,
+        }));
 
     const routeObj: routeObjType[] = [
         {
             path: "/",
             element:
-                isAuthenticated || isUserExists ? (
+                isAuthenticated && protectedRoutes.length > 0 ? (
                     <MainLayout />
                 ) : (
                     <Navigate to={NAVIGATION_ROUTES.HOME} />
                 ),
-            children: [],
+            children: protectedRoutes.length > 0 ? protectedRoutes : [],
         },
         {
             path: "/elucide",
-            element:
-                !isAuthenticated || !isUserExists ? (
-                    <ShowOffLayout />
-                ) : (
-                    <Navigate to={NAVIGATION_ROUTES.DASHBOARD} />
-                ),
+            element: <HomePageLayout />,
             children: unProtectedRoute,
         },
         {
             path: "*",
-            element:
-                isAuthenticated || isUserExists ? (
-                    <Navigate to={NAVIGATION_ROUTES.DASHBOARD} />
-                ) : (
-                    <Navigate to={NAVIGATION_ROUTES.HOME} />
-                ),
+            element: <Navigate to={NAVIGATION_ROUTES.HOME} />,
         },
     ];
 
-    // If user authenticated with valid login then the allowed into protected route.
-    if (isAuthenticated || isUserExists) {
-        const protectedRoutes: routeObjType[] = routeChildren?.filter(
-            (route: routeChildrenType) => {
-                let obj: routeObjType = { path: "", element: "" };
-                if (loginRole) {
-                    if (route?.access?.some((role) => loginRole === role)) {
-                        obj.path = route?.path;
-                        obj.element = route?.element;
-                        obj.children = route?.children;
-                        return obj;
-                    }
-                }
-            }
-        );
-        if (protectedRoutes?.length > 0) {
-            routeObj[0].children = protectedRoutes;
-        } else {
-            setUser(null);
-            routeObj[0].element = <Navigate to={NAVIGATION_ROUTES.HOME} />;
-        }
-    } else {
-        // If no login detected or not a valid user then navigate/redirect to un-protected route.
-        routeObj[0].element = <Navigate to={NAVIGATION_ROUTES.HOME} />;
-    }
-
-    const routes = createBrowserRouter(routeObj);
-
-    return routes;
+    return createBrowserRouter(routeObj);
 }
 
 export default Routes;

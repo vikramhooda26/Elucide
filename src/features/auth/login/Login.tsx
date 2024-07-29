@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -10,11 +10,12 @@ import * as yup from "yup";
 import ErrorMsg from "../../../components/error/ErrorMsg";
 import { AnimatedInput } from "../../../components/ui/animated-input";
 import { CustomLabel } from "../../../components/ui/custom-label";
-import { NAVIGATION_ROUTES } from "../../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
 import { cn } from "../../../lib/utils";
 import AuthService from "../../../services/auth/AuthService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../auth-provider/AuthProvider";
+import AjaxService from "../../../services/AjaxService";
 
 const loginSchema = yup.object().shape({
     username: yup.string().required("Username is required"),
@@ -22,13 +23,23 @@ const loginSchema = yup.object().shape({
 });
 
 function LoginPage() {
+    const { login, isAuthenticated, logout } = useAuth();
+
+    if (isAuthenticated) {
+        return (
+            <Navigate
+                to={NAVIGATION_ROUTES.DASHBOARD}
+                replace
+            />
+        );
+    }
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm({ resolver: yupResolver(loginSchema) });
 
-    const { login } = useAuth();
     const navigate = useNavigate();
 
     const [isPasswordVisible, setisPasswordVisible] = useState<boolean>(false);
@@ -49,7 +60,7 @@ function LoginPage() {
 
             const response = await AuthService.login(requestBody);
 
-            if (response.status === 200) {
+            if (response.status === HTTP_STATUS_CODES.OK) {
                 setUser({
                     id: response.data.userId,
                     firstName: response.data.firstName,
@@ -63,12 +74,13 @@ function LoginPage() {
                 navigate(NAVIGATION_ROUTES.DASHBOARD);
             }
         } catch (error: any) {
-            if (error.response.status === 400) {
-                toast.error(
-                    "Invalid Request. Contact the developer for support"
-                );
-            } else {
-                toast.error("An unknown error occurred");
+            const unknownError = AjaxService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError) {
+                toast.error("An unknown error occured");
             }
         } finally {
             setIsSubmitting(false);
@@ -76,8 +88,8 @@ function LoginPage() {
     };
 
     return (
-        <div className="h-[calc(100dvh-80px)] w-full flex items-center justify-center bg-black">
-            <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 py-8 md:px-8 md:py-16 shadow-input shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
+        <div className="min-h-[calc(100dvh-82px)] w-full flex items-center justify-center bg-black py-16">
+            <div className="max-w-md w-[90%] rounded-2xl px-8 py-16 shadow-input shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
                 <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200 text-center">
                     Welcome to Elucide Sports
                 </h2>
@@ -187,31 +199,3 @@ const LabelInputContainer = ({
 };
 
 export default LoginPage;
-
-// <Card className="w-full max-w-sm">
-//   <CardHeader>
-//     <CardTitle className="text-2xl">Login</CardTitle>
-//     <CardDescription>
-//       Enter your email below to login to your account.
-//     </CardDescription>
-//   </CardHeader>
-
-//   <CardContent className="grid gap-4">
-//     <form className="my-8" onSubmit={handleSubmit(handleLoginSubmit)}>
-//       <div className="grid gap-2">
-//         <Label htmlFor="email">Email</Label>
-//         <Input {...register('email')} id="email" type="email" placeholder="m@example.com" required />
-//         {errors?.email?.message ? <ErrorMsg msg="Please enter valid email." /> : null}
-//       </div>
-//       <div className="grid gap-2">
-//         <Label htmlFor="password">Password</Label>
-//         <Input {...register('password')} id="password" type="password" required />
-//         {errors?.password?.message ? <ErrorMsg msg="Please enter correct password." /> : null}
-//       </div>
-//     </form>
-//   </CardContent>
-
-//   <CardFooter>
-//     <Button type="submit" className="w-full ">Log in</Button>
-//   </CardFooter>
-// </Card>

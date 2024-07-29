@@ -8,13 +8,13 @@ import { AnimatedGradientText } from "../../../components/ui/animated-gradient-t
 export const Clients = () => {
     const logos = [PumaLogo, NewBalanceLogo, MyProtienLogo, SSLogo];
     return (
-        <div className="flex justify-center bg-black md:py-40 py-24 text-white">
+        <div className="flex justify-center items-center bg-black md:py-40 py-24 text-white">
             <div className="w-[90%]">
                 <h1 className="text-4xl mb-20 font-bold">
                     Some of our{" "}
                     <AnimatedGradientText>clients</AnimatedGradientText>
                 </h1>
-                <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+                <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-10 justify-items-center">
                     {logos.map((logo, index) => (
                         <SpotlightCard key={index}>
                             <div className="h-28 aspect-square overflow-hidden">

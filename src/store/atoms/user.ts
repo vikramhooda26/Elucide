@@ -18,3 +18,9 @@ export const userAtom = atom<TUser>({
     default: null,
     effects_UNSTABLE: [persistAtom],
 });
+
+export const isAuthenticatedAtom = atom<boolean>({
+    key: "isAuthenticatedAtom",
+    default: false,
+    effects_UNSTABLE: [persistAtom],
+});

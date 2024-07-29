@@ -1,22 +1,16 @@
-import {
-    ReactElement,
-    createContext,
-    useContext,
-    useMemo,
-    useState,
-} from "react";
+import { ReactElement, createContext, useContext, useMemo } from "react";
 import {
     AuthContextType,
     AuthProviderProps,
 } from "../../../types/auth/AuthProviderTypes";
-import { useSetRecoilState } from "recoil";
-import { userAtom } from "../../../store/atoms/user";
-import { toast } from "sonner";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isAuthenticatedAtom, userAtom } from "../../../store/atoms/user";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
-    const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
+    const [isAuthenticated, setAuthenticated] =
+        useRecoilState(isAuthenticatedAtom);
     const setUser = useSetRecoilState(userAtom);
 
     const login = () => {
@@ -26,7 +20,6 @@ export const AuthProvider = ({ children }: AuthProviderProps): ReactElement => {
     const logout = () => {
         setAuthenticated(false);
         setUser(null);
-        toast.info("Logged out successfully!");
     };
 
     const contextValue = useMemo(

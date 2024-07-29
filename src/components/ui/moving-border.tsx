@@ -31,7 +31,7 @@ export function MovingBorderCard({
     return (
         <Component
             className={cn(
-                "bg-transparent relative text-xl p-[1px] overflow-hidden",
+                "bg-transparent relative text-xl p-[1px] overflow-hidden h-full",
                 containerClassName
             )}
             style={{

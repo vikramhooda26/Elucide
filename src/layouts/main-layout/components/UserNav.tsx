@@ -21,7 +21,8 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userAtom } from "../../../store/atoms/user";
 import { loadingAtom } from "../../../store/atoms/global";
 import { useNavigate } from "react-router-dom";
-import { NAVIGATION_ROUTES } from "../../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
+import AjaxService from "../../../services/AjaxService";
 
 export function UserNav() {
     const user = useRecoilValue(userAtom);
@@ -34,13 +35,21 @@ export function UserNav() {
             setIsLoading(true);
             const response = await AuthService.logout();
 
-            if (response.status === 200) {
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                toast.info("Logged out successfully");
                 logout();
                 navigate(NAVIGATION_ROUTES.HOME, { replace: true });
             }
         } catch (error) {
-            toast.error("An unknown error occured");
             console.error(error);
+            const unknownError = AjaxService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError) {
+                toast.error("An unknown error occured");
+            }
         } finally {
             setIsLoading(false);
         }
@@ -59,7 +68,9 @@ export function UserNav() {
                             alt="@shadcn"
                         />
                         <AvatarFallback>
-                            {user ? user.firstName[0] + user.lastName[0] : ""}
+                            {user
+                                ? user.firstName?.[0] + user.lastName?.[0]
+                                : ""}
                         </AvatarFallback>
                     </Avatar>
                 </Button>
