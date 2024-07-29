@@ -11,7 +11,7 @@ export const HomePageNavbar: React.FC = (): JSX.Element => {
         <div className="border-b px-10 bg-black">
             <div className="flex h-20 items-center px-4">
                 <div
-                    className="h-56 cursor-pointer w-full flex items-center max-sm:justify-center"
+                    className="h-8 cursor-pointer w-full flex items-center max-sm:justify-center"
                     onClick={() => navigate(NAVIGATION_ROUTES.HOME)}
                 >
                     <img

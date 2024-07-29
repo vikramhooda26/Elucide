@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Header from "./components/Header";
+import DashboardNavbar from "./components/DashboardNavbar";
 import { SideMenu } from "./components/SideMenu";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -29,7 +29,7 @@ function MainLayout() {
     return (
         <div className="w-full h-full">
             <div className="w-full h-full">
-                <Header />
+                <DashboardNavbar />
             </div>
 
             <div className="h-full flex w-full relative">
