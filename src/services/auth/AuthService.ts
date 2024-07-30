@@ -19,6 +19,21 @@ class AuthService {
         return AjaxService.request(`${API_URL}/api/auth/logout`, {}, "POST");
     }
 
+    static getMetadataHasUpdated() {
+        return AjaxService.request(
+            `${API_URL}/api/admin/metadata/has-updated`,
+            "GET"
+        );
+    }
+
+    static getMetadata(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/metadata/get-all`,
+            params,
+            "POST"
+        );
+    }
+
     static setUser(value: any) {
         StorageService.set(LOCAL_STORAGE_KEYS.USER, value);
     }
