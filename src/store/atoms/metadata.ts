@@ -3,12 +3,12 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
-type TAgeRanges = {
+type TAge = {
     id: string;
     range: string;
 };
 
-type TGenders = {
+type TGender = {
     id: string;
     gender: string;
 };
@@ -123,43 +123,55 @@ type TTeamOwner = {
     name: string;
 };
 
-type TTertiaries = {
+type TTertiary = {
     id: string;
     name: string;
 };
 
-type TSports = {
+type TSport = {
+    id: string;
+    name: string;
+};
+
+type TTier = {
+    id: string;
+    name: string;
+};
+
+type TAssociationLevel = {
     id: string;
     name: string;
 };
 
 export type TMetadataStore = {
-    ageRanges: TAgeRanges[];
-    genders: TGenders[];
-    cities: TCity[];
-    states: TState[];
-    activeCampaigns: TActiveCampaign[];
-    agencies: TAgency[];
-    assets: TAsset[];
-    broadcastPartners: TBroadcastPartner[];
-    categories: TCategory[];
-    formats: TFormat[];
+    age: TAge[];
+    gender: TGender[];
+    city: TCity[];
+    state: TState[];
+    activeCampaign: TActiveCampaign[];
+    agency: TAgency[];
+    asset: TAsset[];
+    broadcastPartner: TBroadcastPartner[];
+    category: TCategory[];
+    format: TFormat[];
     keyMarkets: TKeyMarket[];
-    leagues: TLeague[];
-    leagueOwners: TLeagueOwner[];
-    marketingPlatforms: TMarketingPlatform[];
+    league: TLeague[];
+    leagueOwner: TLeagueOwner[];
+    marketingPlatform: TMarketingPlatform[];
     nccs: TNCCS[];
-    ottPartners: TOTTPartner[];
-    parentOrgs: TParentOrg[];
-    personalityTraits: TPersonalityTrait[];
-    sportsDealSummaryLevels: TSportsDealSummaryLevel[];
-    sportsDealSummaryStatuses: TSportsDealSummaryStatus[];
-    sportsDealSummaryTerritories: TSportsDealSummaryTerritory[];
-    sportsDealSummaryTypes: TSportsDealSummaryType[];
-    taglines: TTagline[];
-    teamOwners: TTeamOwner[];
-    tertiaries: TTertiaries[];
-    sports: TSports[];
+    ottPartner: TOTTPartner[];
+    parentOrg: TParentOrg[];
+    personalityTrait: TPersonalityTrait[];
+    sportsDealSummaryLevel: TSportsDealSummaryLevel[];
+    sportsDealSummaryStatus: TSportsDealSummaryStatus[];
+    sportsDealSummaryTerritory: TSportsDealSummaryTerritory[];
+    sportsDealSummaryType: TSportsDealSummaryType[];
+    tagline: TTagline[];
+    teamOwner: TTeamOwner[];
+    tertiary: TTertiary[];
+    sport: TSport[];
+    tier: TTier[];
+    associationLevel: TAssociationLevel[];
 } | null;
 
 export const metadataStoreAtom = atom<TMetadataStore>({
