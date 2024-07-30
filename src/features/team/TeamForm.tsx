@@ -36,11 +36,11 @@ import MatricsForm from "./components/MatricsForm";
 import { useRecoilState } from "recoil";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { TEAM_METADATA } from "./constants/metadata";
-import AuthService from "../../services/auth/AuthService";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import AjaxService from "../../services/AjaxService";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { getMetadata } from "../utils/metadataUtils";
+import AjaxService from "../../services/AjaxService";
+import { NAVIGATION_ROUTES } from "../../lib/constants";
 import { toast } from "sonner";
 
 const initialSelectorState: State = {
@@ -190,94 +190,33 @@ export function TeamForm() {
 
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
 
-    const getMetadata = async (requestBody: any) => {
-        try {
-            setIsLoading(true);
-
-            const response = await AuthService.getMetadata(requestBody);
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                setMetadataStore((prevStore) => ({
-                    ...prevStore,
-                    ...response.data,
-                }));
-            }
-        } catch (error) {
-            console.error(error);
-            const unknownError = AjaxService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-            if (unknownError) {
-                toast.error("An unknown error occurred");
-                navigate(NAVIGATION_ROUTES.DASHBOARD);
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const getMetadataHasUpdated = async () => {
-        try {
-            setIsLoading(true);
-            const response = await AuthService.getMetadataHasUpdated();
-
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                return response.data;
-            }
-        } catch (error) {
-            console.error(error);
-            const unknownError = AjaxService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-            if (unknownError) {
-                toast.error("An unknown error occurred");
-                navigate(NAVIGATION_ROUTES.DASHBOARD);
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     useEffect(() => {
-        const populateMetadata = async () => {
-            if (metadataStore === null) {
-                const requestBody = Object.values(TEAM_METADATA).reduce(
-                    (acc, key) => {
-                        acc[key] = true;
-                        return acc;
-                    },
-                    {} as Record<string, boolean>
+        const fetchMetadata = async () => {
+            try {
+                setIsLoading(true);
+                await getMetadata(
+                    metadataStore,
+                    setMetadataStore,
+                    TEAM_METADATA
                 );
-
-                await getMetadata(requestBody);
-                return;
-            }
-
-            const metadataToGet: { [key: string]: boolean } = {};
-            const metadataHasUpdated = await getMetadataHasUpdated();
-
-            Object.values(TEAM_METADATA).forEach((key) => {
-                if (!(key in metadataStore)) {
-                    metadataToGet[key] = true;
+            } catch (error) {
+                console.error(error);
+                const unknownError = AjaxService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (unknownError) {
+                    toast.error("An unknown error occurred");
+                    navigate(NAVIGATION_ROUTES.DASHBOARD);
                 }
-            });
-
-            Object.entries(metadataHasUpdated).forEach(([key, value]) => {
-                if (value) {
-                    metadataToGet[key] = true;
-                }
-            });
-
-            if (Object.keys(metadataToGet).length > 0) {
-                await getMetadata(metadataToGet);
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        populateMetadata();
-    }, [metadataStore]);
+        fetchMetadata();
+    }, []);
 
     const searchCallback = (searchFrom: string, searchValue: string) => {
         if (searchFrom === "activeCampaigns") {
