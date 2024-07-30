@@ -1,9 +1,9 @@
-export type itemType = { label: string; value: string; };
+export type itemType = { label: string; value: string };
 
 export interface selectorContentType {
     selectorContent: {
         title: string;
-        items: itemType[];
+        items: itemType[] | [];
         isMultiple?: boolean;
         isSearchable?: boolean;
         isClearable?: boolean;

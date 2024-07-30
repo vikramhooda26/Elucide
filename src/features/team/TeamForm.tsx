@@ -8,7 +8,6 @@ import {
     CardTitle,
 } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
-// import { Label } from "../../components/ui`/label"
 import { useEffect, useReducer, useState } from "react";
 import { DatePicker } from "../../components/date/DatePicker";
 import CutomSelect from "../../components/selector/CustomSelect";
@@ -67,6 +66,7 @@ export function TeamForm() {
     const [metrics, setMetrics] = useState<MetricType[]>([
         { viewership: "", reach: "", year: "", viewshipType: "" },
     ]);
+    const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
 
     const teamAttributes = [
         {
@@ -92,103 +92,37 @@ export function TeamForm() {
         },
     ];
 
-    const taglines: itemType[] = [
-        {
-            label: "Discover your potential.",
-            value: "1",
-        },
-        {
-            label: "Cricket enriches lives.",
-            value: "2",
-        },
-        {
-            label: "The ultimate in fitness.",
-            value: "3",
-        },
-        {
-            label: "Cricket is a gentle game.",
-            value: "4",
-        },
-        {
-            label: "Cricket builds character ",
-            value: "5",
-        },
-    ];
+    const taglines: itemType[] = metadataStore?.tagline
+        ? metadataStore?.tagline.map((line) => ({
+              label: line.name,
+              value: line.id,
+          }))
+        : [];
 
-    const activeCampaigns: itemType[] = [
-        {
-            label: "Active Campaigns 1",
-            value: "1",
-        },
-        {
-            label: "Active Campaigns 1",
-            value: "2",
-        },
-        {
-            label: "Active Campaigns 3",
-            value: "3",
-        },
-        {
-            label: "Active Campaigns 4",
-            value: "4",
-        },
-        {
-            label: "Active Campaigns 5",
-            value: "5",
-        },
-    ];
+    const activeCampaigns: itemType[] = metadataStore?.activeCampaign
+        ? metadataStore?.activeCampaign.map((campaign) => ({
+              label: campaign.name,
+              value: campaign.id,
+          }))
+        : [];
 
-    const primaryMarketingPlatform: itemType[] = [
-        {
-            label: "Marketing Platform 1",
-            value: "1",
-        },
-        {
-            label: "Marketing Platform 2",
-            value: "2",
-        },
-        {
-            label: "Marketing Platform 3",
-            value: "3",
-        },
-        {
-            label: "Marketing Platform 4",
-            value: "4",
-        },
-        {
-            label: "Marketing Platform 5",
-            value: "5",
-        },
-    ];
+    const primaryMarketingPlatform: itemType[] = metadataStore?.keyMarkets
+        ? metadataStore?.keyMarkets.map((market) => ({
+              label: market.zone,
+              value: market.id,
+          }))
+        : [];
 
-    const marketing: itemType[] = [
-        {
-            label: "Marketing 1",
-            value: "1",
-        },
-        {
-            label: "Marketing 2",
-            value: "2",
-        },
-        {
-            label: "Marketing 3",
-            value: "3",
-        },
-        {
-            label: "Marketing 4",
-            value: "4",
-        },
-        {
-            label: "Marketing 5",
-            value: "5",
-        },
-    ];
+    const marketing: itemType[] = metadataStore?.marketingPlatform
+        ? metadataStore?.marketingPlatform.map((platform) => ({
+              label: platform.name,
+              value: platform.id,
+          }))
+        : [];
 
     const [_isLoading, setIsLoading] = useState<boolean>(false);
     const { logout } = useAuth();
     const navigate = useNavigate();
-
-    const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
 
     useEffect(() => {
         const fetchMetadata = async () => {

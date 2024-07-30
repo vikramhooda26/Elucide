@@ -1,16 +1,22 @@
-import React from 'react';
-import { selectorContentType } from '../../types/components/SelectorTypes';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import React from "react";
+import { selectorContentType } from "../../types/components/SelectorTypes";
+import { Label } from "../ui/label";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "../ui/select";
 
-const CutomSelect: React.FC<{ selectorContent: selectorContentType }> = ({ selectorContent }) => {
-    const { title = '', items = [], } = selectorContent?.selectorContent;
+const CutomSelect: React.FC<{ selectorContent: selectorContentType }> = ({
+    selectorContent,
+}) => {
+    const { title = "", items = [] } = selectorContent?.selectorContent;
 
     return (
         <div className="grid gap-3">
-            <Label htmlFor={title?.toLowerCase()} >
-                {title}
-            </Label>
+            <Label htmlFor={title?.toLowerCase()}>{title}</Label>
             <Select>
                 <SelectTrigger
                     id={title?.toLowerCase()}
@@ -20,16 +26,19 @@ const CutomSelect: React.FC<{ selectorContent: selectorContentType }> = ({ selec
                         placeholder={`Select ${title?.toLowerCase()}`}
                     />
                 </SelectTrigger>
-                <SelectContent >
+                <SelectContent>
                     {items?.map((item, i) => (
-                        <SelectItem value={item.value} key={i}>
+                        <SelectItem
+                            value={item.value}
+                            key={i}
+                        >
                             {item?.label}
                         </SelectItem>
                     ))}
                 </SelectContent>
             </Select>
         </div>
-    )
-}
+    );
+};
 
-export default CutomSelect
+export default CutomSelect;
