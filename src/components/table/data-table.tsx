@@ -13,11 +13,11 @@ import { DataTableProps } from "../../types/components/Table"
 import { DataTablePagination } from "./data-table-pagination"
 import { DataTableToolbar } from "./data-table-toolbar"
 
-function DataTable<TData, TValue>({ table, columns, toolbarAttri, callbacks }: DataTableProps<TData, TValue>) {
+function DataTable<TData, TValue>({ table, columns, toolbarAttributes, callbacks }: DataTableProps<TData, TValue>) {
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} toolbarAttri={toolbarAttri} />
+      <DataTableToolbar table={table} toolbarAttributes={toolbarAttributes} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

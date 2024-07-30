@@ -1,6 +1,6 @@
-export type team = {
+export type league = {
     "id": string;
-    "teamName": string;
+    "leagueName": string;
     "createdDate": string;
     "modifiedDate": string | null ;
     "createdBy": {
