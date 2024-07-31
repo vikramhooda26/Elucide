@@ -73,6 +73,12 @@ export const SideMenu = ({
                 label: "100",
                 navigateTo: NAVIGATION_ROUTES.BRAND_LIST,
             },
+            {
+                title: "Mail",
+                icon: Trophy,
+                label: "50",
+                navigateTo: NAVIGATION_ROUTES.TEMP_MAIL,
+            },
         ],
     };
 

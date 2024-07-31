@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import {
     Avatar,
@@ -16,13 +18,11 @@ import {
     DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu";
 import { useAuth } from "../../../features/auth/auth-provider/AuthProvider";
-import AuthService from "../../../services/auth/AuthService";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userAtom } from "../../../store/atoms/user";
-import { loadingAtom } from "../../../store/atoms/global";
-import { useNavigate } from "react-router-dom";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
-import AjaxService from "../../../services/AjaxService";
+import AuthService from "../../../services/auth/AuthService";
+import ErrorService from "../../../services/error/ErrorService";
+import { loadingAtom } from "../../../store/atoms/global";
+import { userAtom } from "../../../store/atoms/user";
 
 export function UserNav() {
     const user = useRecoilValue(userAtom);
@@ -42,7 +42,7 @@ export function UserNav() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = AjaxService.handleCommonErrors(
+            const unknownError = ErrorService.handleCommonErrors(
                 error,
                 logout,
                 navigate

@@ -9,5 +9,9 @@ class AthleteService {
             "POST"
         );
     }
+
+    static getAll(params: any) {
+        return AjaxService.request(API_URL + "/api/admin/athlete", params, "GET");
+    }
 }
 export default AthleteService;

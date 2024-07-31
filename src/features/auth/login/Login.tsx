@@ -13,9 +13,9 @@ import { CustomLabel } from "../../../components/ui/custom-label";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
 import { cn } from "../../../lib/utils";
 import AuthService from "../../../services/auth/AuthService";
+import ErrorService from "../../../services/error/ErrorService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../auth-provider/AuthProvider";
-import AjaxService from "../../../services/AjaxService";
 
 const loginSchema = yup.object().shape({
     username: yup.string().required("Username is required"),
@@ -74,7 +74,7 @@ function LoginPage() {
                 navigate(NAVIGATION_ROUTES.DASHBOARD);
             }
         } catch (error: any) {
-            const unknownError = AjaxService.handleCommonErrors(
+            const unknownError = ErrorService.handleCommonErrors(
                 error,
                 logout,
                 navigate

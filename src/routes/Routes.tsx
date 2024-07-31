@@ -1,26 +1,29 @@
+import { useEffect } from "react";
 import { Navigate, createBrowserRouter } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import AthleteList from "../features/athlete/AthleteList";
 import { useAuth } from "../features/auth/auth-provider/AuthProvider";
 import Login from "../features/auth/login/Login";
 import BrandList from "../features/brand/BrandList";
 import Dashboard from "../features/dashboard/Dashboard";
+import { Home } from "../features/hero-section/Home";
+import { HomePageLayout } from "../features/hero-section/HomePageLayout";
+import TeamForm from "../features/team/TeamForm";
 import TeamList from "../features/team/TeamList";
+import TeamView from "../features/team/TeamView";
 import TemplateLayout from "../features/templates/examples/layout";
 import TaskPage from "../features/templates/examples/tasks/page";
-import MainLayout from "../layouts/main-layout/MainLayout";
-import { HomePageLayout } from "../features/hero-section/HomePageLayout";
-import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
-import { Home } from "../features/hero-section/Home";
-import TeamForm from "../features/team/TeamForm";
-import TeamView from "../features/team/TeamView";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { userAtom } from "../store/atoms/user";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES, TRoles } from "../lib/constants";
 import MailLayout from "../layouts/main-layout/athlete/MailLayout";
-import { useEffect } from "react";
+import MainLayout from "../layouts/main-layout/MainLayout";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES, TRoles } from "../lib/constants";
 import AuthService from "../services/auth/AuthService";
+import ErrorService from "../services/error/ErrorService";
+import { userAtom } from "../store/atoms/user";
 import { loadingBarSelector } from "../store/selectors/global";
-import AjaxService from "../services/AjaxService";
+import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
+import LeagueForm from "../features/league/LeagueForm";
+import LeagueList from "../features/league/LeagueList";
+import LeagueView from "../features/league/LeagueView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -55,16 +58,35 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: NAVIGATION_ROUTES.TEAM,
+        path: NAVIGATION_ROUTES.TEAM + '/:id',
         element: <TeamView />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     //= ============================= team related routes ends here ======================== =//
+    //= ============================= brand related routes starts here ====================== =//
     {
         path: NAVIGATION_ROUTES.BRAND_LIST,
         element: <BrandList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
+    //= ============================= brand related routes ends here ======================== =//
+    //= ============================= league related routes starts here ====================== =//
+    {
+        path: NAVIGATION_ROUTES.CREATE_LEAGUE,
+        element: <LeagueForm />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+    },
+    {
+        path: NAVIGATION_ROUTES.LEAGUE_LIST,
+        element: <LeagueList />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    {
+        path: NAVIGATION_ROUTES.LEAGUE + '/:id',
+        element: <LeagueView />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    //= ============================= league related routes ends here ======================== =//
     {
         path: "/template",
         element: <TemplateLayout />,
@@ -83,7 +105,7 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: NAVIGATION_ROUTES.LEAGUE_LIST,
+        path: NAVIGATION_ROUTES.TEMP_MAIL,
         element: <MailLayout />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
@@ -120,7 +142,7 @@ function Routes() {
                 });
             }
         } catch (error: any) {
-            AjaxService.handleCommonErrors(error, logout);
+            ErrorService.handleCommonErrors(error, logout);
         } finally {
             setIsLoading(false);
         }

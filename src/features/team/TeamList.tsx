@@ -12,38 +12,49 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { toast } from "sonner";
 import DataTable from "../../components/table/data-table";
 import { Button } from "../../components/ui/button";
 import useNavigator from "../../hooks/useNavigator";
-import AthleteService from "../../services/sports/AthleteService";
+import { NAVIGATION_ROUTES } from "../../lib/constants";
+import TeamService from "../../services/features/TeamService";
 import { getTaskList } from "../templates/examples/tasks/data/tasksList";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
-import { NAVIGATION_ROUTES } from "../../lib/constants";
+import { Input } from "../../components/ui/input";
+import { DataTableFacetedFilter } from "../../components/table/data-table-faceted-filter";
+import { team } from "../../types/team/TeamListTypes";
 
 function TeamList() {
     const navigator = useNavigator();
-    const [tasks, setTasks] = useState<Array<any>>([]);
+    const [teamList, setTeamList] = useState<Array<any>>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
-    const fetchTasks = async () => {
-        const resp = getTaskList;
-        setTasks(resp);
-    };
-
-    const handleHit = async () => {
-        const r = await AthleteService.create({});
-        console.log(" r athlete -=- ", r);
+    const fetchTeams = async () => {
+        try {
+            setLoading(true);
+            const resp = await TeamService.getAll({});
+            if (resp?.status !== 200 || resp?.data?.length <= 0) {
+                throw new Error('');
+            }
+            const teams = resp.data;
+            teams.forEach((team: team, i: number) => {
+                teams[i].createdBy = team?.createdBy?.firstName || '';
+                teams[i].modifiedBy = team?.modifiedBy?.firstName || '';
+            });
+            setTeamList(teams);
+        } catch (error) {
+            setLoading(false);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
-        fetchTasks();
+        fetchTeams();
     }, []);
 
     const onView = (id: string) => {
@@ -51,7 +62,7 @@ function TeamList() {
     };
 
     const table = useReactTable({
-        data: tasks,
+        data: teamList,
         columns,
         state: {
             sorting,
@@ -76,6 +87,28 @@ function TeamList() {
         onView: onView,
     };
 
+    const toolbarAttributes = [
+        <Input
+            placeholder="Filter tasks..."
+            value={(table.getColumn("athleteName")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+                table.getColumn("athleteName")?.setFilterValue(event.target.value)
+            }
+            className="h-8 w-[150px] lg:w-[250px]"
+        />,
+        <DataTableFacetedFilter
+            column={table.getColumn("createdDate")}
+            title="Created At"
+            options={statuses}
+        />
+        ,
+        <DataTableFacetedFilter
+            column={table.getColumn("modifiedData")}
+            title="Modiefied At"
+            options={priorities}
+        />,
+    ]
+
     return (
         <div className=" h-full flex-1 flex-col space-y-8  md:flex">
             <div className="flex items-center justify-between space-y-2">
@@ -98,7 +131,7 @@ function TeamList() {
             <DataTable
                 table={table}
                 columns={columns}
-                toolbarAttri={{ statuses, priorities }}
+                toolbarAttributes={toolbarAttributes}
                 callbacks={callbacks}
             />
         </div>

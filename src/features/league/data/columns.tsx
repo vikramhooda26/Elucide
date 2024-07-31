@@ -2,9 +2,9 @@ import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { DataTableColumnHeader } from "../../../components/table/data-table-column-header"
 import { Checkbox } from "../../../components/ui/checkbox"
-import { Brand } from "./schema"
+import { League } from "./schema"
 
-export const columns: ColumnDef<Brand>[] = [
+export const columns: ColumnDef<League>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -30,11 +30,11 @@ export const columns: ColumnDef<Brand>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "brandName",
+    accessorKey: "leagueName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Brand Name" />
+      <DataTableColumnHeader column={column} title="League Name" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("brandName")}</div>,
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("leagueName")}</div>,
     enableSorting: false,
     enableHiding: false,
   },

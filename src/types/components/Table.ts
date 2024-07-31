@@ -3,7 +3,7 @@ import { ColumnDef, Row, Table } from "@tanstack/react-table";
 export interface DataTableProps<TData, TValue,> {
     table: Table<any>;
     columns: ColumnDef<TData, TValue>[];
-    toolbarAttri: ToolbarAttri;
+    toolbarAttributes: JSX.Element[];
     callbacks: {
         onView: (id: string) => void;
     }
@@ -11,7 +11,7 @@ export interface DataTableProps<TData, TValue,> {
 
 export interface DataTableToolbarProps<TData> {
     table: Table<TData>;
-    toolbarAttri: ToolbarAttri;
+    toolbarAttributes: JSX.Element[];
 }
 
 

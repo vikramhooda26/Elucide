@@ -22,23 +22,29 @@ export const NAVIGATION_ROUTES = {
     LOGIN: "/elucide/login",
     HOME: "/elucide/home",
     DASHBOARD: "/dashboard",
-    TEAM: "/team/view/:id",
+
+    TEAM: "/team/view",
     TEAM_LIST: "/team/list",
     CREATE_TEAM: "/team/create",
     EDIT_TEAM: "/team/edit",
+
     LEAGUE: "/league/view/:id",
     LEAGUE_LIST: "/league/list",
     CREATE_LEAGUE: "/league/create",
     EDIT_LEAGUE: "/league/edit",
+
     BRAND: "/brand/view/:id",
     BRAND_LIST: "/brand/list",
     CREATE_BRAND: "/brand/create",
     EDIT_BRAND: "/brand/edit",
+
     ATHLETE: "/athlete/view/:id",
     ATHLETE_LIST: "/athlete/list",
     CREATE_ATHLETE: "/athlete/create",
     EDIT_ATHLETE: "/athlete/edit",
+
     DATA_ENTRY: "/data-entry",
+    TEMP_MAIL:'/mail/list',
 } as const;
 
 export const HTTP_STATUS_CODES = {

@@ -18,33 +18,33 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import useNavigator from "../../hooks/useNavigator";
 import { NAVIGATION_ROUTES } from "../../lib/constants";
-import BrandService from "../../services/features/BrandService";
-import { brand } from "../../types/brand/BrandListTypes";
+import LeagueService from "../../services/features/LeagueService";
+import { league } from "../../types/league/LeagueListTypes";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
 
-function BrandList() {
+function LeagueList() {
   const navigator = useNavigator();
-  const [brandList, setBrandList] = useState<Array<any>>([]);
+  const [leagueList, setLeagueList] = useState<Array<any>>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchBrands = async () => {
+  const fetchLeagues = async () => {
     try {
       setLoading(true);
-      const resp = await BrandService.getAll({});
+      const resp = await LeagueService.getAll({});
       if (resp?.status !== 200 || resp?.data?.length <= 0) {
         throw new Error('');
       }
-      const brands = resp.data;
-      brands.forEach((brand: brand, i: number) => {
-        brands[i].createdBy = brand?.createdBy?.firstName || '';
-        brands[i].modifiedBy = brand?.modifiedBy?.firstName || '';
+      const leagues = resp.data;
+      leagues.forEach((league: league, i: number) => {
+        leagues[i].createdBy = league?.createdBy?.firstName || '';
+        leagues[i].modifiedBy = league?.modifiedBy?.firstName || '';
       });
-      setBrandList(brands);
+      setLeagueList(leagues);
     } catch (error) {
       setLoading(false);
     } finally {
@@ -53,7 +53,7 @@ function BrandList() {
   };
 
   useEffect(() => {
-    fetchBrands();
+    fetchLeagues();
   }, []);
 
   const onView = (id: string) => {
@@ -61,7 +61,7 @@ function BrandList() {
   };
 
   const table = useReactTable({
-    data: brandList,
+    data: leagueList,
     columns,
     state: {
       sorting,
@@ -113,10 +113,10 @@ function BrandList() {
       <div className="flex items-center justify-between space-y-2">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">
-            Brand List
+          League List
           </h2>
           <p className="text-muted-foreground">
-            Here&apos;s a list of brands.
+            Here&apos;s a list of leagues.
           </p>
         </div>
         <div className="flex items-center space-x-2">
@@ -137,4 +137,4 @@ function BrandList() {
   );
 }
 
-export default BrandList;
+export default LeagueList;

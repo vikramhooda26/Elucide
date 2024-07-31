@@ -7,35 +7,14 @@ import { DataTableViewOptions } from "./data-table-view-options";
 
 export function DataTableToolbar<TData>({
   table,
-  toolbarAttri,
+  toolbarAttributes,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
-        <Input
-          placeholder="Filter tasks..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
-          className="h-8 w-[150px] lg:w-[250px]"
-        />
-        {table.getColumn("status") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={toolbarAttri?.statuses}
-          />
-        )}
-        {table.getColumn("priority") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("priority")}
-            title="Year Of Inception"
-            options={toolbarAttri?.priorities}
-          />
-        )}
+        {toolbarAttributes?.length > 0 && toolbarAttributes?.map((jsxAttributes) => (<>{jsxAttributes}</>))}
         {isFiltered && (
           <Button
             variant="ghost"
