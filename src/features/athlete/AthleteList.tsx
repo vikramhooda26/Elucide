@@ -22,6 +22,7 @@ import AthleteService from "../../services/features/AthleteService";
 import { athlete } from "../../types/athlete/AthleteListTypes";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
+import TableSkeleton from "../../components/skeleton/TableSkeleton";
 
 function AthleteList() {
     const navigator = useNavigator();
@@ -110,6 +111,7 @@ function AthleteList() {
 
     return (
         <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+            {loading ? <TableSkeleton /> : null}
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

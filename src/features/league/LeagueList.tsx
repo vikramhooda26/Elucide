@@ -22,6 +22,7 @@ import LeagueService from "../../services/features/LeagueService";
 import { league } from "../../types/league/LeagueListTypes";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
+import TableSkeleton from "../../components/skeleton/TableSkeleton";
 
 function LeagueList() {
   const navigator = useNavigator();
@@ -110,10 +111,11 @@ function LeagueList() {
 
   return (
     <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+      {loading ? <TableSkeleton /> : null}
       <div className="flex items-center justify-between space-y-2">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">
-          League List
+            League List
           </h2>
           <p className="text-muted-foreground">
             Here&apos;s a list of leagues.

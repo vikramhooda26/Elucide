@@ -41,6 +41,7 @@ import { getMetadata } from "../utils/metadataUtils";
 import AjaxService from "../../services/AjaxService";
 import { NAVIGATION_ROUTES } from "../../lib/constants";
 import { toast } from "sonner";
+import ErrorService from "../../services/error/ErrorService";
 
 const initialSelectorState: State = {
     selectedCampaign: [],
@@ -94,30 +95,30 @@ export function TeamForm() {
 
     const taglines: itemType[] = metadataStore?.tagline
         ? metadataStore?.tagline.map((line) => ({
-              label: line.name,
-              value: line.id,
-          }))
+            label: line.name,
+            value: line.id,
+        }))
         : [];
 
     const activeCampaigns: itemType[] = metadataStore?.activeCampaign
         ? metadataStore?.activeCampaign.map((campaign) => ({
-              label: campaign.name,
-              value: campaign.id,
-          }))
+            label: campaign.name,
+            value: campaign.id,
+        }))
         : [];
 
     const primaryMarketingPlatform: itemType[] = metadataStore?.keyMarkets
         ? metadataStore?.keyMarkets.map((market) => ({
-              label: market.zone,
-              value: market.id,
-          }))
+            label: market.zone,
+            value: market.id,
+        }))
         : [];
 
     const marketing: itemType[] = metadataStore?.marketingPlatform
         ? metadataStore?.marketingPlatform.map((platform) => ({
-              label: platform.name,
-              value: platform.id,
-          }))
+            label: platform.name,
+            value: platform.id,
+        }))
         : [];
 
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -135,7 +136,7 @@ export function TeamForm() {
                 );
             } catch (error) {
                 console.error(error);
-                const unknownError = AjaxService.handleCommonErrors(
+                const unknownError = ErrorService.handleCommonErrors(
                     error,
                     logout,
                     navigate

@@ -23,6 +23,7 @@ import { priorities, statuses } from "./data/data";
 import { Input } from "../../components/ui/input";
 import { DataTableFacetedFilter } from "../../components/table/data-table-faceted-filter";
 import { team } from "../../types/team/TeamListTypes";
+import TableSkeleton from "../../components/skeleton/TableSkeleton";
 
 function TeamList() {
     const navigator = useNavigator();
@@ -111,6 +112,7 @@ function TeamList() {
 
     return (
         <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+            {loading ? <TableSkeleton /> : null}
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

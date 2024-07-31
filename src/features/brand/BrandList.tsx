@@ -22,6 +22,7 @@ import BrandService from "../../services/features/BrandService";
 import { brand } from "../../types/brand/BrandListTypes";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
+import TableSkeleton from "../../components/skeleton/TableSkeleton";
 
 function BrandList() {
   const navigator = useNavigator();
@@ -110,6 +111,7 @@ function BrandList() {
 
   return (
     <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+      {loading ? <TableSkeleton /> : null}
       <div className="flex items-center justify-between space-y-2">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">
