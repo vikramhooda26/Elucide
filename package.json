@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.8.0",
+    "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -50,6 +50,7 @@
     "react-hook-form": "^7.52.1",
     "react-resizable-panels": "^2.0.22",
     "react-router-dom": "^6.24.0",
+    "react-select": "^5.8.0",
     "react-spinners": "^0.14.1",
     "react-top-loading-bar": "^2.3.1",
     "react-wrap-balancer": "^1.1.1",

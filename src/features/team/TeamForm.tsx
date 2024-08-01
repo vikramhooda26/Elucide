@@ -1,4 +1,12 @@
 import { ChevronLeft, PlusCircle } from "lucide-react";
+import { useEffect, useReducer, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { toast } from "sonner";
+import { DatePicker } from "../../components/date/DatePicker";
+import CutomSelect from "../../components/selector/CustomSelect";
+import CustomSelectWithSearch from "../../components/selector/CustomSelectWithSearch";
 import { Button } from "../../components/ui/button";
 import {
     Card,
@@ -8,13 +16,9 @@ import {
     CardTitle,
 } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
-import { useEffect, useReducer, useState } from "react";
-import { DatePicker } from "../../components/date/DatePicker";
-import CutomSelect from "../../components/selector/CustomSelect";
-import CustomSelectWithSearch from "../../components/selector/CustomSelectWithSearch";
 import { Label } from "../../components/ui/label";
 import {
-    Select,
+    // Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
@@ -29,19 +33,18 @@ import {
     TableRow,
 } from "../../components/ui/table";
 import { Textarea } from "../../components/ui/textarea";
+import { NAVIGATION_ROUTES } from "../../lib/constants";
+import ErrorService from "../../services/error/ErrorService";
+import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { itemType } from "../../types/components/SelectorTypes";
 import { Action, MetricType, State } from "../../types/team/TeamFormTypes";
-import MatricsForm from "./components/MatricsForm";
-import { useRecoilState } from "recoil";
-import { metadataStoreAtom } from "../../store/atoms/metadata";
-import { TEAM_METADATA } from "./constants/metadata";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { useNavigate } from "react-router-dom";
 import { getMetadata } from "../utils/metadataUtils";
-import AjaxService from "../../services/AjaxService";
-import { NAVIGATION_ROUTES } from "../../lib/constants";
-import { toast } from "sonner";
-import ErrorService from "../../services/error/ErrorService";
+import MatricsForm from "./components/MatricsForm";
+import { TEAM_METADATA, teamFormSchema } from "./constants/metadata";
+import { zodResolver } from '@hookform/resolvers/zod';
+import Select from "react-select";
+import ReactSelect from "../../components/selector/ReactSelect";
 
 const initialSelectorState: State = {
     selectedCampaign: [],
@@ -60,6 +63,16 @@ const selectorReducer = (state: State, action: Action): State => {
 };
 
 export function TeamForm() {
+    const {
+        register,
+        control,
+        handleSubmit,
+        setValue,
+        getValues,
+        formState: { errors },
+        reset,
+    } = useForm({ resolver: zodResolver(teamFormSchema) });
+
     const [selectorState, dispatchSelect] = useReducer(
         selectorReducer,
         initialSelectorState
@@ -210,6 +223,12 @@ export function TeamForm() {
         setMetrics(updatedMetrics);
     };
 
+    const selectArr = [
+        { label: "Draft", value: 'draft' },
+        { label: "Active", value: 'active' },
+        { label: "Archived", value: 'archived' },
+    ];
+
     return (
         <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <div className="mx-auto grid flex-1 auto-rows-max gap-4">
@@ -254,10 +273,24 @@ export function TeamForm() {
                                             id="name"
                                             type="text"
                                             className="w-full"
-                                            defaultValue="Gamer Gear Pro Controller"
+                                            {...register('teamName')}
                                         />
                                     </div>
                                     <div className="grid gap-3">
+                                        <Controller
+                                            name="tagIds"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <Select
+                                                    {...field}
+                                                    options={taglines}
+                                                    isMulti
+                                                    classNamePrefix="select"
+                                                    isClearable
+                                                    isSearchable
+                                                />
+                                            )}
+                                        />
                                         <CutomSelect
                                             selectorContent={{
                                                 selectorContent: {
@@ -558,27 +591,17 @@ export function TeamForm() {
                                             >
                                                 {d?.title}
                                             </Label>
-                                            <Select>
-                                                <SelectTrigger
-                                                    id={d?.title?.toLowerCase()}
-                                                    aria-label="Select status"
-                                                >
-                                                    <SelectValue
-                                                        placeholder={`Select ${d?.title?.toLowerCase()}`}
+                                            <Controller
+                                                name={d?.title}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={selectArr}
                                                     />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="draft">
-                                                        Draft
-                                                    </SelectItem>
-                                                    <SelectItem value="published">
-                                                        Active
-                                                    </SelectItem>
-                                                    <SelectItem value="archived">
-                                                        Archived
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
+
+                                                )}
+                                            />
                                         </div>
                                     ))}
                                 </div>
