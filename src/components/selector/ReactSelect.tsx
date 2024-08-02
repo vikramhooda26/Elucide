@@ -8,7 +8,7 @@ interface OptionType {
 
 interface MySelectComponentProps {
   field: any; // You can replace `any` with the correct type for your field prop
-  selectArr: OptionType[];
+  selectArr: OptionType[] | null | [] | undefined;
 }
 
 const customStyles: StylesConfig<OptionType, true, GroupBase<OptionType>> = {
@@ -27,7 +27,7 @@ const customStyles: StylesConfig<OptionType, true, GroupBase<OptionType>> = {
   }),
   valueContainer: (provided) => ({
     ...provided,
-    padding: '0 1rem', // px-3 py-2
+    padding: '0 1em 0 0', // px-3 py-2
     fontSize: '0.875rem', // text-sm
     overflow: 'hidden',
   }),
@@ -90,7 +90,7 @@ const ReactSelect: React.FC<MySelectComponentProps> = ({ field, selectArr }) => 
       isClearable
       isSearchable
       styles={customStyles}
-      className="w-full h-10"
+      className=""
       aria-label="Select status"
     />
   );

@@ -1,9 +1,12 @@
-type Props = { msg: string; }
-function ErrorMsg({ msg }: Props) {
+type Props = { msg: string; show: Boolean }
+function ErrorMsg({ msg, show = false }: Props) {
     return (
-        <span className="text-red-600 text-xs">
-            {msg}
-        </span>
+        <>{show ?
+            <span className="text-red-600 text-xs">
+                {msg}
+            </span>
+            : null}
+        </>
     )
 }
 

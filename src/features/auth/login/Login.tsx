@@ -1,12 +1,12 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import * as yup from "yup";
+import { z } from "zod";
 import ErrorMsg from "../../../components/error/ErrorMsg";
 import { AnimatedInput } from "../../../components/ui/animated-input";
 import { CustomLabel } from "../../../components/ui/custom-label";
@@ -17,9 +17,9 @@ import ErrorService from "../../../services/error/ErrorService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../auth-provider/AuthProvider";
 
-const loginSchema = yup.object().shape({
-    username: yup.string().required("Username is required"),
-    password: yup.string().required("Please enter your password"),
+const loginSchema = z.object({
+    username: z.string().min(3,'Username is required'),
+    password: z.string().min(3,'Please enter your password'),
 });
 
 function LoginPage() {
@@ -38,7 +38,7 @@ function LoginPage() {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({ resolver: yupResolver(loginSchema) });
+    } = useForm({ resolver: zodResolver(loginSchema) });
 
     const navigate = useNavigate();
 
@@ -47,15 +47,12 @@ function LoginPage() {
 
     const setUser = useSetRecoilState(userAtom);
 
-    const handleLoginSubmit = async (data: {
-        username: string;
-        password: string;
-    }) => {
+    const handleLoginSubmit = async (data: FieldValues) => {
         try {
             setIsSubmitting(true);
             const requestBody = {
-                username: data.username,
-                password: data.password,
+                username: data?.username,
+                password: data?.password,
             };
 
             const response = await AuthService.login(requestBody);
@@ -111,7 +108,7 @@ function LoginPage() {
                             disabled={isSubmitting}
                         />
                         {errors?.username?.message ? (
-                            <ErrorMsg msg="Username is required" />
+                            <ErrorMsg msg="Username is required" show={typeof errors?.username?.message === 'string' && errors?.username?.message?.length > 0} />
                         ) : null}
                     </LabelInputContainer>
                     <LabelInputContainer className="mb-4">
@@ -141,7 +138,7 @@ function LoginPage() {
                             )}
                         </div>
                         {errors?.password?.message ? (
-                            <ErrorMsg msg="Please enter your password" />
+                            <ErrorMsg msg="Please enter your password"  show={typeof errors?.password?.message  === 'string' && errors?.password?.message?.length > 0} />
                         ) : null}
                     </LabelInputContainer>
 

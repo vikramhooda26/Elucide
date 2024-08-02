@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Mail } from "./Mail";
-import {
-    accounts,
-    mails,
-} from "../../../features/templates/examples/mail/data";
+import { accounts, mails } from "./data";
 
 export default function MailLayout() {
     const [defaultLayout, setDefaultLayout] = useState(undefined);

@@ -1,7 +1,7 @@
 import AuthService from "../../services/auth/AuthService";
 import { HTTP_STATUS_CODES } from "../../lib/constants";
 import { TMetadataStore } from "../../store/atoms/metadata";
-import { SetStateAction } from "jotai";
+import { SetStateAction } from "react";
 
 export const getMetadata = async (
     metadataStore: TMetadataStore,
