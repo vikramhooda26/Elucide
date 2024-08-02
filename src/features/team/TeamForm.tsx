@@ -82,29 +82,10 @@ export function TeamForm() {
     ]);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
 
-    const teamAttributes = [
-        {
-            title: "Sports",
-        },
-        {
-            title: "League",
-        },
-        {
-            title: "Owners",
-        },
-        {
-            title: "City",
-        },
-        {
-            title: "State",
-        },
-        {
-            title: "Personality Traits",
-        },
-        {
-            title: "Tier",
-        },
-    ];
+    const onSubmit = (data: any) => {
+        // use form data.
+        console.log('data -=- ', data);
+    }
 
     const taglines: itemType[] = metadataStore?.tagline
         ? metadataStore?.tagline.map((line) => ({
@@ -229,6 +210,44 @@ export function TeamForm() {
         { label: "Archived", value: 'archived' },
     ];
 
+    const teamAttributes = [
+        {
+            title: "Sports",
+            register: "sportId",
+            options: selectArr,
+        },
+        {
+            title: "League",
+            register: "leagueId",
+            options: selectArr,
+        },
+        {
+            title: "Owners",
+            register: "teamOwnerIds",
+            options: selectArr,
+        },
+        {
+            title: "City",
+            register: "hqCityId",
+            options: selectArr,
+        },
+        {
+            title: "State",
+            register: "hqStateId",
+            options: selectArr,
+        },
+        {
+            title: "Personality Traits",
+            register: "personalityTraitIds",
+            options: selectArr,
+        },
+        {
+            title: "Tier",
+            register: "tierIds",
+            options: selectArr,
+        },
+    ];
+
     return (
         <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <div className="mx-auto grid flex-1 auto-rows-max gap-4">
@@ -255,7 +274,7 @@ export function TeamForm() {
                         <Button size="sm">Save Team</Button>
                     </div>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                     <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
                         <Card x-chunk="dashboard-07-chunk-0">
                             <CardHeader>
@@ -276,49 +295,40 @@ export function TeamForm() {
                                             {...register('teamName')}
                                         />
                                     </div>
+
                                     <div className="grid gap-3">
+                                        <Label >Tag Lines</Label>
                                         <Controller
-                                            name="tagIds"
+                                            name={'taglineIds'}
                                             control={control}
                                             render={({ field }) => (
-                                                <Select
-                                                    {...field}
-                                                    options={taglines}
-                                                    isMulti
-                                                    classNamePrefix="select"
-                                                    isClearable
-                                                    isSearchable
+                                                <ReactSelect
+                                                    field={field}
+                                                    selectArr={taglines}
                                                 />
                                             )}
                                         />
-                                        <CutomSelect
-                                            selectorContent={{
-                                                selectorContent: {
-                                                    title: "Tag Lines",
-                                                    items: taglines,
-                                                },
-                                            }}
-                                        />
+
                                     </div>
                                     <div className="grid gap-3">
                                         <Label htmlFor="strategyOverview">
                                             Strategy Overview
                                         </Label>
-                                        <Textarea id="strategyOverview" />
+                                        <Textarea {...register('strategyOverview')} id="strategyOverview" />
                                     </div>
                                     <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
                                         <div className="grid gap-3">
                                             <Label htmlFor="yearOfInception">
                                                 Year Of Inception
                                             </Label>
-                                            <DatePicker placeholder={"Year"} />
+                                            <DatePicker  {...register('yearOfInception')} placeholder={"Year"} />
                                         </div>
                                         <div className="grid gap-3">
                                             <Label htmlFor="top-p">
                                                 Franchise Fee
                                             </Label>
                                             <Input
-                                                id="top-p"
+                                                {...register('franchiseFee')}
                                                 type="number"
                                             />
                                         </div>
@@ -326,22 +336,33 @@ export function TeamForm() {
                                             <Label htmlFor="top-a">
                                                 Association
                                             </Label>
-                                            <Input id="top-a" />
+                                            <Input {...register('associationId')} />
                                         </div>
                                     </div>
                                     <div className="grid gap-3">
-                                        <CustomSelectWithSearch
-                                            selectorContent={{
-                                                selectorContent:
-                                                    activeCampaignsData,
-                                            }}
+                                        <Label >Active Campaigns</Label>
+                                        <Controller
+                                            name={'activeCampaignIds'}
+                                            control={control}
+                                            render={({ field }) => (
+                                                <ReactSelect
+                                                    field={field}
+                                                    selectArr={activeCampaigns}
+                                                />
+                                            )}
                                         />
                                     </div>
                                     <div className="grid gap-3">
-                                        <CustomSelectWithSearch
-                                            selectorContent={{
-                                                selectorContent: incomedata,
-                                            }}
+                                        <Label >NCCS</Label>
+                                        <Controller
+                                            name={'nccsIds'}
+                                            control={control}
+                                            render={({ field }) => (
+                                                <ReactSelect
+                                                    field={field}
+                                                    selectArr={activeCampaigns}
+                                                />
+                                            )}
                                         />
                                     </div>
                                 </div>
@@ -355,56 +376,74 @@ export function TeamForm() {
                             <CardContent>
                                 <div className="grid gap-6  ">
                                     <div className="grid gap-3 grid-cols-2">
+
                                         <div className="grid gap-3">
-                                            <CutomSelect
-                                                selectorContent={{
-                                                    selectorContent: {
-                                                        title: "Main Platforms",
-                                                        items: primaryMarketingPlatform,
-                                                    },
-                                                }}
+                                            <Label >Main Platforms</Label>
+                                            <Controller
+                                                name={'marketingPlatformPrimaryIds'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={primaryMarketingPlatform}
+                                                    />
+                                                )}
                                             />
                                         </div>
+
                                         <div className="grid gap-3">
-                                            <CutomSelect
-                                                selectorContent={{
-                                                    selectorContent: {
-                                                        title: "Sub Platforms",
-                                                        items: primaryMarketingPlatform,
-                                                    },
-                                                }}
+                                            <Label >Sub Platforms</Label>
+                                            <Controller
+                                                name={'marketingPlatformSecondaryIds'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={primaryMarketingPlatform}
+                                                    />
+                                                )}
                                             />
                                         </div>
                                     </div>
                                     <div className="grid gap-3 grid-cols-3">
+
                                         <div className="grid gap-3">
-                                            <CutomSelect
-                                                selectorContent={{
-                                                    selectorContent: {
-                                                        title: "Primary Markets",
-                                                        items: marketing,
-                                                    },
-                                                }}
+                                            <Label >Primary Markets</Label>
+                                            <Controller
+                                                name={'primaryMarketIds'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={marketing}
+                                                    />
+                                                )}
                                             />
                                         </div>
                                         <div className="grid gap-3">
-                                            <CutomSelect
-                                                selectorContent={{
-                                                    selectorContent: {
-                                                        title: "Secondary Markets",
-                                                        items: marketing,
-                                                    },
-                                                }}
+                                            <Label >Secondary Markets</Label>
+                                            <Controller
+                                                name={'secondaryMarketIds'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={marketing}
+                                                    />
+                                                )}
                                             />
                                         </div>
                                         <div className="grid gap-3">
-                                            <CutomSelect
-                                                selectorContent={{
-                                                    selectorContent: {
-                                                        title: "Tertiary Markets",
-                                                        items: marketing,
-                                                    },
-                                                }}
+                                            <Label >Tertiary Markets</Label>
+                                            <Controller
+                                                name={'tertiaryIds'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={marketing}
+                                                    />
+                                                )}
                                             />
                                         </div>
                                     </div>
@@ -487,15 +526,9 @@ export function TeamForm() {
                                                 Instagram
                                             </TableCell>
                                             <TableCell>
-                                                <Label
-                                                    htmlFor="stock-1"
-                                                    className="sr-only"
-                                                >
-                                                    Stock
-                                                </Label>
                                                 <Input
-                                                    id="stock-1"
                                                     type="text"
+                                                    {...register('instagram')}
                                                 />
                                             </TableCell>
                                         </TableRow>
@@ -504,15 +537,9 @@ export function TeamForm() {
                                                 Facebook
                                             </TableCell>
                                             <TableCell>
-                                                <Label
-                                                    htmlFor="stock-2"
-                                                    className="sr-only"
-                                                >
-                                                    Stock
-                                                </Label>
                                                 <Input
-                                                    id="stock-2"
                                                     type="text"
+                                                    {...register('facebook')}
                                                 />
                                             </TableCell>
                                         </TableRow>
@@ -521,33 +548,31 @@ export function TeamForm() {
                                                 Linkedin
                                             </TableCell>
                                             <TableCell>
-                                                <Label
-                                                    htmlFor="stock-3"
-                                                    className="sr-only"
-                                                >
-                                                    Stock
-                                                </Label>
                                                 <Input
-                                                    id="stock-3"
                                                     type="text"
+                                                    {...register('linkedin')}
                                                 />
                                             </TableCell>
                                         </TableRow>
-
+                                        <TableRow>
+                                            <TableCell className="font-semibold">
+                                                Twitter
+                                            </TableCell>
+                                            <TableCell>
+                                                <Input
+                                                    type="text"
+                                                    {...register('twitter')}
+                                                />
+                                            </TableCell>
+                                        </TableRow>
                                         <TableRow>
                                             <TableCell className="font-semibold">
                                                 You Tube
                                             </TableCell>
                                             <TableCell>
-                                                <Label
-                                                    htmlFor="stock-3"
-                                                    className="sr-only"
-                                                >
-                                                    Stock
-                                                </Label>
                                                 <Input
-                                                    id="stock-3"
                                                     type="text"
+                                                    {...register('youtube')}
                                                 />
                                             </TableCell>
                                         </TableRow>
@@ -557,15 +582,9 @@ export function TeamForm() {
                                                 Website
                                             </TableCell>
                                             <TableCell>
-                                                <Label
-                                                    htmlFor="stock-3"
-                                                    className="sr-only"
-                                                >
-                                                    Stock
-                                                </Label>
                                                 <Input
-                                                    id="stock-3"
                                                     type="text"
+                                                    {...register('website')}
                                                 />
                                             </TableCell>
                                         </TableRow>
@@ -592,12 +611,12 @@ export function TeamForm() {
                                                 {d?.title}
                                             </Label>
                                             <Controller
-                                                name={d?.title}
+                                                name={d?.register}
                                                 control={control}
                                                 render={({ field }) => (
                                                     <ReactSelect
                                                         field={field}
-                                                        selectArr={selectArr}
+                                                        selectArr={d?.options}
                                                     />
 
                                                 )}
@@ -608,7 +627,7 @@ export function TeamForm() {
                             </CardContent>
                         </Card>
                     </div>
-                </div>
+                </form>
                 <div className="flex items-center justify-center gap-2 md:hidden">
                     <Button
                         variant="outline"
