@@ -1,14 +1,14 @@
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import DashboardNavbar from "./components/DashboardNavbar";
 import { SideMenu } from "./components/SideMenu";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { accounts, mails } from "../../features/templates/examples/mail/data";
-import { TooltipProvider } from "../../components/ui/tooltip";
 import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "../../components/ui/resizable";
+import { TooltipProvider } from "../../components/ui/tooltip";
+import { accounts, mails } from "./athlete/data";
 
 function MainLayout() {
     const [defaultLayout, setDefaultLayout] = useState(undefined);

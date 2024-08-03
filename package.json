@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.8.0",
+    "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -39,7 +39,6 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.3.17",
-    "jotai": "^2.9.0",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.400.0",
     "mini-svg-data-uri": "^1.4.4",
@@ -50,6 +49,7 @@
     "react-hook-form": "^7.52.1",
     "react-resizable-panels": "^2.0.22",
     "react-router-dom": "^6.24.0",
+    "react-select": "^5.8.0",
     "react-spinners": "^0.14.1",
     "react-top-loading-bar": "^2.3.1",
     "react-wrap-balancer": "^1.1.1",
@@ -62,7 +62,6 @@
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.167.0",
     "ts-node": "^10.9.2",
-    "yup": "^1.4.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

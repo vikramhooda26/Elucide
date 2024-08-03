@@ -1,4 +1,12 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronLeft, PlusCircle } from "lucide-react";
+import { useEffect, useReducer, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { toast } from "sonner";
+import { DatePicker } from "../../components/date/DatePicker";
+import ReactSelect from "../../components/selector/ReactSelect";
 import { Button } from "../../components/ui/button";
 import {
     Card,
@@ -8,18 +16,7 @@ import {
     CardTitle,
 } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
-import { useEffect, useReducer, useState } from "react";
-import { DatePicker } from "../../components/date/DatePicker";
-import CutomSelect from "../../components/selector/CustomSelect";
-import CustomSelectWithSearch from "../../components/selector/CustomSelectWithSearch";
 import { Label } from "../../components/ui/label";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "../../components/ui/select";
 import {
     Table,
     TableBody,
@@ -29,19 +26,16 @@ import {
     TableRow,
 } from "../../components/ui/table";
 import { Textarea } from "../../components/ui/textarea";
+import { NAVIGATION_ROUTES } from "../../lib/constants";
+import ErrorService from "../../services/error/ErrorService";
+import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { itemType } from "../../types/components/SelectorTypes";
 import { Action, MetricType, State } from "../../types/team/TeamFormTypes";
-import MatricsForm from "./components/MatricsForm";
-import { useRecoilState } from "recoil";
-import { metadataStoreAtom } from "../../store/atoms/metadata";
-import { TEAM_METADATA } from "./constants/metadata";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { useNavigate } from "react-router-dom";
 import { getMetadata } from "../utils/metadataUtils";
-import AjaxService from "../../services/AjaxService";
-import { NAVIGATION_ROUTES } from "../../lib/constants";
-import { toast } from "sonner";
-import ErrorService from "../../services/error/ErrorService";
+import MatricsForm from "./components/MatricsForm";
+import { TEAM_METADATA, teamFormSchema } from "./constants/metadata";
+import ErrorMsg from '../../components/error/ErrorMsg';
 
 const initialSelectorState: State = {
     selectedCampaign: [],
@@ -60,6 +54,16 @@ const selectorReducer = (state: State, action: Action): State => {
 };
 
 export function TeamForm() {
+    const {
+        register,
+        control,
+        handleSubmit,
+        setValue,
+        getValues,
+        formState: { errors },
+        reset,
+    } = useForm({ resolver: zodResolver(teamFormSchema) });
+
     const [selectorState, dispatchSelect] = useReducer(
         selectorReducer,
         initialSelectorState
@@ -68,30 +72,12 @@ export function TeamForm() {
         { viewership: "", reach: "", year: "", viewshipType: "" },
     ]);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
+    console.log('metadataStore -=- ', metadataStore);
 
-    const teamAttributes = [
-        {
-            title: "Sports",
-        },
-        {
-            title: "League",
-        },
-        {
-            title: "Owners",
-        },
-        {
-            title: "City",
-        },
-        {
-            title: "State",
-        },
-        {
-            title: "Personality Traits",
-        },
-        {
-            title: "Tier",
-        },
-    ];
+    const onSubmit = (data: any) => {
+        // use form data.
+        console.log('data -=- ', data);
+    }
 
     const taglines: itemType[] = metadataStore?.tagline
         ? metadataStore?.tagline.map((line) => ({
@@ -207,17 +193,64 @@ export function TeamForm() {
 
     const handleRemoveMetric = (index: number) => {
         const updatedMetrics = metrics.filter((_, idx) => idx !== index);
+        setValue(`metrics.${index}`, updatedMetrics);
         setMetrics(updatedMetrics);
     };
 
+    const selectArr = [
+        { label: "Draft", value: 'draft' },
+        { label: "Active", value: 'active' },
+        { label: "Archived", value: 'archived' },
+    ];
+
+    const teamAttributes = [
+        {
+            title: "Sports",
+            register: "sportId",
+            options: metadataStore?.sport,
+        },
+        {
+            title: "League",
+            register: "leagueId",
+            options: metadataStore?.league,
+        },
+        {
+            title: "Owners",
+            register: "teamOwnerIds",
+            options: metadataStore?.teamOwner,
+        },
+        {
+            title: "City",
+            register: "hqCityId",
+            options: metadataStore?.city,
+        },
+        {
+            title: "State",
+            register: "hqStateId",
+            options: metadataStore?.state,
+        },
+        {
+            title: "Personality Traits",
+            register: "personalityTraitIds",
+            options: metadataStore?.personalityTrait,
+        },
+        {
+            title: "Tier",
+            register: "tierIds",
+            options: metadataStore?.tier,
+        },
+    ];
+    console.log('error -=- ', errors);
+
     return (
         <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
-            <div className="mx-auto grid flex-1 auto-rows-max gap-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
                 <div className="flex items-center gap-4">
                     <Button
                         variant="outline"
                         size="icon"
                         className="h-7 w-7"
+
                     >
                         <ChevronLeft className="h-4 w-4" />
                         <span className="sr-only">Back</span>
@@ -233,7 +266,7 @@ export function TeamForm() {
                         >
                             Discard
                         </Button>
-                        <Button size="sm">Save Team</Button>
+                        <Button onSubmit={handleSubmit(onSubmit)} type='submit' size="sm">Save Team</Button>
                     </div>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
@@ -254,62 +287,106 @@ export function TeamForm() {
                                             id="name"
                                             type="text"
                                             className="w-full"
-                                            defaultValue="Gamer Gear Pro Controller"
+                                            {...register('teamName')}
                                         />
+                                        <ErrorMsg msg="Team name required" show={!!errors?.teamName} />
                                     </div>
+
                                     <div className="grid gap-3">
-                                        <CutomSelect
-                                            selectorContent={{
-                                                selectorContent: {
-                                                    title: "Tag Lines",
-                                                    items: taglines,
-                                                },
-                                            }}
+                                        <Label >Tag Lines</Label>
+                                        <Controller
+                                            name={'taglineIds'}
+                                            control={control}
+                                            render={({ field }) => (
+                                                <ReactSelect
+                                                    field={field}
+                                                    selectArr={metadataStore?.tagline}
+                                                />
+                                            )}
                                         />
-                                    </div>
-                                    <div className="grid gap-3">
+                                        <ErrorMsg msg="Tag lines required" show={!!errors?.taglineIds} />
+
                                         <Label htmlFor="strategyOverview">
                                             Strategy Overview
                                         </Label>
-                                        <Textarea id="strategyOverview" />
+                                        <Textarea {...register('strategyOverview')} id="strategyOverview" />
+                                        <ErrorMsg msg=" Strategy Overview required" show={!!errors?.strategyOverview} />
                                     </div>
-                                    <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
+                                    <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
                                         <div className="grid gap-3">
                                             <Label htmlFor="yearOfInception">
                                                 Year Of Inception
                                             </Label>
-                                            <DatePicker placeholder={"Year"} />
+                                            <DatePicker  {...register('yearOfInception')} placeholder={"Year"} />
+                                            <ErrorMsg msg=" Year Of Inception required" show={!!errors?.yearOfInception} />
                                         </div>
                                         <div className="grid gap-3">
-                                            <Label htmlFor="top-p">
+                                            <Label htmlFor="franchise">
                                                 Franchise Fee
                                             </Label>
                                             <Input
-                                                id="top-p"
+                                                id='franchise'
+                                                {...register('franchiseFee')}
                                                 type="number"
                                             />
+                                            <ErrorMsg msg=" Franchise Fee required" show={!!errors?.franchiseFee} />
+                                        </div>
+
+                                    </div>
+                                    <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+                                        <div className="grid gap-3">
+                                            <Label >Association</Label>
+                                            <Controller
+                                                name={'associationLevelId'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={metadataStore?.activeCampaign}
+                                                    />
+                                                )}
+                                            />
+                                            <ErrorMsg msg=" Valid association required" show={!!errors?.associationLevelId} />
                                         </div>
                                         <div className="grid gap-3">
-                                            <Label htmlFor="top-a">
-                                                Association
+                                            <Label htmlFor="associationCost">
+                                                Association Cost (in cr)
                                             </Label>
-                                            <Input id="top-a" />
+                                            <Input
+                                                id='associationCost'
+                                                {...register('associationCost')}
+                                                type="number"
+                                            />
+                                            <ErrorMsg msg=" Valid association cost required" show={!!errors?.associationCost} />
                                         </div>
                                     </div>
                                     <div className="grid gap-3">
-                                        <CustomSelectWithSearch
-                                            selectorContent={{
-                                                selectorContent:
-                                                    activeCampaignsData,
-                                            }}
+                                        <Label >Active Campaigns</Label>
+                                        <Controller
+                                            name={'activeCampaignIds'}
+                                            control={control}
+                                            render={({ field }) => (
+                                                <ReactSelect
+                                                    field={field}
+                                                    selectArr={metadataStore?.activeCampaign}
+                                                />
+                                            )}
                                         />
+                                        <ErrorMsg msg=" Valid active campaigns required" show={!!errors?.activeCampaignIds} />
                                     </div>
                                     <div className="grid gap-3">
-                                        <CustomSelectWithSearch
-                                            selectorContent={{
-                                                selectorContent: incomedata,
-                                            }}
+                                        <Label >NCCS</Label>
+                                        <Controller
+                                            name={'nccsIds'}
+                                            control={control}
+                                            render={({ field }) => (
+                                                <ReactSelect
+                                                    field={field}
+                                                    selectArr={metadataStore?.nccs}
+                                                />
+                                            )}
                                         />
+                                        <ErrorMsg msg=" Valid nccs required" show={!!errors?.nccsIds} />
                                     </div>
                                 </div>
                             </CardContent>
@@ -322,57 +399,80 @@ export function TeamForm() {
                             <CardContent>
                                 <div className="grid gap-6  ">
                                     <div className="grid gap-3 grid-cols-2">
+
                                         <div className="grid gap-3">
-                                            <CutomSelect
-                                                selectorContent={{
-                                                    selectorContent: {
-                                                        title: "Main Platforms",
-                                                        items: primaryMarketingPlatform,
-                                                    },
-                                                }}
+                                            <Label >Main Platforms</Label>
+                                            <Controller
+                                                name={'marketingPlatformPrimaryIds'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={metadataStore?.marketingPlatform}
+                                                    />
+                                                )}
                                             />
+                                            <ErrorMsg msg=" Valid marketing main platforms required" show={!!errors?.marketingPlatformPrimaryIds} />
                                         </div>
+
                                         <div className="grid gap-3">
-                                            <CutomSelect
-                                                selectorContent={{
-                                                    selectorContent: {
-                                                        title: "Sub Platforms",
-                                                        items: primaryMarketingPlatform,
-                                                    },
-                                                }}
+                                            <Label >Sub Platforms</Label>
+                                            <Controller
+                                                name={'marketingPlatformSecondaryIds'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={metadataStore?.marketingPlatform}
+                                                    />
+                                                )}
                                             />
+                                            <ErrorMsg msg=" Valid marketing sub platforms required" show={!!errors?.marketingPlatformSecondaryIds} />
                                         </div>
                                     </div>
                                     <div className="grid gap-3 grid-cols-3">
+
                                         <div className="grid gap-3">
-                                            <CutomSelect
-                                                selectorContent={{
-                                                    selectorContent: {
-                                                        title: "Primary Markets",
-                                                        items: marketing,
-                                                    },
-                                                }}
+                                            <Label >Primary Markets</Label>
+                                            <Controller
+                                                name={'primaryMarketIds'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={metadataStore?.keyMarket}
+                                                    />
+                                                )}
                                             />
+                                            <ErrorMsg msg=" Valid primary markets required" show={!!errors?.primaryMarketIds} />
                                         </div>
                                         <div className="grid gap-3">
-                                            <CutomSelect
-                                                selectorContent={{
-                                                    selectorContent: {
-                                                        title: "Secondary Markets",
-                                                        items: marketing,
-                                                    },
-                                                }}
+                                            <Label >Secondary Markets</Label>
+                                            <Controller
+                                                name={'secondaryMarketIds'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={metadataStore?.keyMarket}
+                                                    />
+                                                )}
                                             />
+                                            <ErrorMsg msg=" Valid secondary markets required" show={!!errors?.secondaryMarketIds} />
                                         </div>
                                         <div className="grid gap-3">
-                                            <CutomSelect
-                                                selectorContent={{
-                                                    selectorContent: {
-                                                        title: "Tertiary Markets",
-                                                        items: marketing,
-                                                    },
-                                                }}
+                                            <Label >Tertiary Markets</Label>
+                                            <Controller
+                                                name={'tertiaryIds'}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={metadataStore?.tertiary}
+                                                    />
+                                                )}
                                             />
+                                            <ErrorMsg msg=" Valid tertiary markets required" show={!!errors?.tertiaryIds} />
                                         </div>
                                     </div>
                                 </div>
@@ -401,6 +501,9 @@ export function TeamForm() {
                                     <TableBody>
                                         {metrics.map((metric, index) => (
                                             <MatricsForm
+                                                register={register}
+                                                control={control}
+                                                index={index}
                                                 metric={metric}
                                                 onChange={(updatedMetric) =>
                                                     handleUpdateMetric(
@@ -413,6 +516,7 @@ export function TeamForm() {
                                                 }
                                             />
                                         ))}
+                                        <ErrorMsg msg=" Valid viewership required" show={!!errors?.matrics} />
                                     </TableBody>
                                 </Table>
 
@@ -454,69 +558,64 @@ export function TeamForm() {
                                                 Instagram
                                             </TableCell>
                                             <TableCell>
-                                                <Label
-                                                    htmlFor="stock-1"
-                                                    className="sr-only"
-                                                >
-                                                    Stock
-                                                </Label>
                                                 <Input
-                                                    id="stock-1"
                                                     type="text"
+                                                    {...register('instagram')}
                                                 />
+
                                             </TableCell>
+                                            <ErrorMsg msg="Instagram link is required" show={!!errors?.instagram} />
                                         </TableRow>
                                         <TableRow>
                                             <TableCell className="font-semibold">
                                                 Facebook
                                             </TableCell>
                                             <TableCell>
-                                                <Label
-                                                    htmlFor="stock-2"
-                                                    className="sr-only"
-                                                >
-                                                    Stock
-                                                </Label>
                                                 <Input
-                                                    id="stock-2"
                                                     type="text"
+                                                    {...register('facebook')}
                                                 />
+
                                             </TableCell>
+                                            <ErrorMsg msg="Facebook link is required" show={!!errors?.facebook} />
                                         </TableRow>
                                         <TableRow>
                                             <TableCell className="font-semibold">
                                                 Linkedin
                                             </TableCell>
                                             <TableCell>
-                                                <Label
-                                                    htmlFor="stock-3"
-                                                    className="sr-only"
-                                                >
-                                                    Stock
-                                                </Label>
                                                 <Input
-                                                    id="stock-3"
                                                     type="text"
+                                                    {...register('linkedin')}
                                                 />
-                                            </TableCell>
-                                        </TableRow>
 
+                                            </TableCell>
+                                            <ErrorMsg msg="Linkedin link is required" show={!!errors?.linkedin} />
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell className="font-semibold">
+                                                Twitter
+                                            </TableCell>
+                                            <TableCell>
+                                                <Input
+                                                    type="text"
+                                                    {...register('twitter')}
+                                                />
+
+                                            </TableCell>
+                                            <ErrorMsg msg="Twitter link is required" show={!!errors?.twitter} />
+                                        </TableRow>
                                         <TableRow>
                                             <TableCell className="font-semibold">
                                                 You Tube
                                             </TableCell>
                                             <TableCell>
-                                                <Label
-                                                    htmlFor="stock-3"
-                                                    className="sr-only"
-                                                >
-                                                    Stock
-                                                </Label>
                                                 <Input
-                                                    id="stock-3"
                                                     type="text"
+                                                    {...register('youtube')}
                                                 />
                                             </TableCell>
+                                            <ErrorMsg msg="You Tube link is required" show={!!errors?.youtube} />
                                         </TableRow>
 
                                         <TableRow>
@@ -524,17 +623,12 @@ export function TeamForm() {
                                                 Website
                                             </TableCell>
                                             <TableCell>
-                                                <Label
-                                                    htmlFor="stock-3"
-                                                    className="sr-only"
-                                                >
-                                                    Stock
-                                                </Label>
                                                 <Input
-                                                    id="stock-3"
                                                     type="text"
+                                                    {...register('website')}
                                                 />
                                             </TableCell>
+                                            <ErrorMsg msg="Website link is required" show={!!errors?.website} />
                                         </TableRow>
                                     </TableBody>
                                 </Table>
@@ -558,29 +652,58 @@ export function TeamForm() {
                                             >
                                                 {d?.title}
                                             </Label>
-                                            <Select>
-                                                <SelectTrigger
-                                                    id={d?.title?.toLowerCase()}
-                                                    aria-label="Select status"
-                                                >
-                                                    <SelectValue
-                                                        placeholder={`Select ${d?.title?.toLowerCase()}`}
+                                            <Controller
+                                                name={d?.register}
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <ReactSelect
+                                                        field={field}
+                                                        selectArr={taglines}
                                                     />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="draft">
-                                                        Draft
-                                                    </SelectItem>
-                                                    <SelectItem value="published">
-                                                        Active
-                                                    </SelectItem>
-                                                    <SelectItem value="archived">
-                                                        Archived
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
+
+                                                )}
+                                            />
+                                            <ErrorMsg msg={`Valid ${d?.title?.toLowerCase()} required`} show={!!errors?.[d?.register]} />
                                         </div>
                                     ))}
+                                </div>
+                            </CardContent>
+                        </Card>
+                        <Card x-chunk="dashboard-07-chunk-3">
+                            <CardHeader>
+                                <CardTitle>Target Audience</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="grid gap-6">
+                                    <div className="grid gap-3">
+                                        <Label> Age</Label>
+                                        <Controller
+                                            name={'ageIds'}
+                                            control={control}
+                                            render={({ field }) => (
+                                                <ReactSelect
+                                                    field={field}
+                                                    selectArr={metadataStore?.age}
+                                                />
+                                            )}
+                                        />
+                                        <ErrorMsg msg="Valid ages required" show={!!errors?.ageIds} />
+                                    </div>
+                                    <div className="grid gap-3">
+                                        <Label> Gender</Label>
+                                        <Controller
+                                            name={'genderIds'}
+                                            control={control}
+                                            render={({ field }) => (
+                                                <ReactSelect
+                                                    field={field}
+                                                    selectArr={metadataStore?.gender}
+                                                />
+                                            )}
+                                        />
+                                        <ErrorMsg msg="Valid genders required" show={!!errors?.genderIds} />
+                                    </div>
+
                                 </div>
                             </CardContent>
                         </Card>
@@ -593,9 +716,9 @@ export function TeamForm() {
                     >
                         Discard
                     </Button>
-                    <Button size="sm">Save Team</Button>
+                    <Button onSubmit={handleSubmit(onSubmit)} type='submit' size="sm">Save Team</Button>
                 </div>
-            </div>
+            </form>
         </div>
     );
 }

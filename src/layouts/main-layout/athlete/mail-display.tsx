@@ -19,7 +19,6 @@ import { Separator } from "../../../components/ui/separator";
 import { Textarea } from "../../../components/ui/textarea";
 import { Label } from "../../../components/ui/label";
 import { Switch } from "../../../components/ui/switch";
-import { TMail } from "../../../features/templates/examples/mail/data";
 import { Popover, PopoverTrigger } from "../../../components/ui/popover";
 import { PopoverContent } from "@radix-ui/react-popover";
 import {
@@ -34,6 +33,7 @@ import {
     DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu";
 import { Calendar } from "../../../components/ui/calendar";
+import { TMail } from "./data";
 
 interface MailDisplayProps {
     mail: TMail | null;

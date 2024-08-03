@@ -1,17 +1,18 @@
 import { ComponentProps } from "react";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
-import { TMail } from "../../../features/templates/examples/mail/data";
-import { useMail } from "../../../features/templates/examples/mail/use-mail";
 import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Badge } from "../../../components/ui/badge";
 import { cn } from "../../../lib/utils";
+import { TMail } from "./data";
+import { useRecoilState } from "recoil";
+import { configAtom } from "./use-mail";
 
 interface MailListProps {
     items: TMail[];
 }
 
 export function MailList({ items }: MailListProps) {
-    const [mail, setMail] = useMail();
+    const [mail, setMail] = useRecoilState(configAtom);
 
     return (
         <ScrollArea className="h-screen">

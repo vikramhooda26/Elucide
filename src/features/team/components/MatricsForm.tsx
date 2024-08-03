@@ -1,14 +1,9 @@
 import { Trash2 } from "lucide-react";
+import { Control, Controller, FieldValues, UseFormRegister } from "react-hook-form";
 import { DatePicker } from "../../../components/date/DatePicker";
+import ReactSelect from "../../../components/selector/ReactSelect";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "../../../components/ui/select";
 import { TableCell, TableRow } from "../../../components/ui/table";
 import { MetricType } from "../../../types/team/TeamFormTypes";
 
@@ -16,13 +11,23 @@ interface MetricFormProps {
     metric: MetricType;
     onChange: (metric: MetricType) => void;
     onRemove?: () => void;
+    register: UseFormRegister<any>
+    index: number;
+    control: Control<FieldValues, any>;
 }
 
 const MatricsForm: React.FC<MetricFormProps> = ({
     metric,
     onChange,
     onRemove,
+    register,
+    index,
+    control,
 }) => {
+    const viewshipType = [
+        { label: 'OTT', value: "OTT", },
+        { label: 'BROADCAST', value: "BROADCAST", }
+    ];
     return (
         <TableRow>
             <TableCell className="font-semibold">
@@ -30,55 +35,30 @@ const MatricsForm: React.FC<MetricFormProps> = ({
                      value={metric.viewership || ''}
                      onChange={(e) => onChange({ ...metric, viewership: e.target.value })}
                 /> */}
-                <DatePicker placeholder={"Year"} />
+                <DatePicker placeholder={"Year"} {...register(`metrics.${index}.year`)} />
             </TableCell>
             <TableCell className="font-semibold">
                 <Input
-                    value={metric.reach || ""}
-                    onChange={(e) =>
-                        onChange({ ...metric, reach: e.target.value })
-                    }
+                    {...register(`metrics.${index}.viewership`)}
                 />
             </TableCell>
             <TableCell className="font-semibold">
                 <Input
-                    value={metric.year || ""}
-                    onChange={(e) =>
-                        onChange({ ...metric, year: e.target.value })
-                    }
+                    {...register(`metrics.${index}.reach`)}
                 />
             </TableCell>
             <TableCell className="font-semibold">
                 <div className="grid gap-3">
-                    <Select>
-                        <SelectTrigger
-                            id={"Viewship Type"}
-                            aria-label="Select status"
-                            onChange={(e) =>
-                                onChange({
-                                    ...metric,
-                                    viewshipType: e.currentTarget
-                                        .value as MetricType["viewshipType"],
-                                })
-                            }
-                        >
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem
-                                value={"OTT"}
-                                key={1}
-                            >
-                                OTT
-                            </SelectItem>
-                            <SelectItem
-                                value={"BROADCAST"}
-                                key={1}
-                            >
-                                BROADCAST
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <Controller
+                        name={'tertiaryIds'}
+                        control={control}
+                        render={({ field }) => (
+                            <ReactSelect
+                                field={field}
+                                selectArr={viewshipType}
+                            />
+                        )}
+                    />
                 </div>
             </TableCell>
             <TableCell className="font-semibold">

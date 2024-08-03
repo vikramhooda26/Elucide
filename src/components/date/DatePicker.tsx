@@ -16,7 +16,7 @@ export function DatePicker({ placeholder = 'date' }) {
             <PopoverTrigger asChild>
                 <Button
                     className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
+                        " pl-3 text-left font-normal",
                         !date && "text-muted-foreground"
                     )}
                     variant="outline"

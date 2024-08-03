@@ -8,11 +8,12 @@ import BrandList from "../features/brand/BrandList";
 import Dashboard from "../features/dashboard/Dashboard";
 import { Home } from "../features/hero-section/Home";
 import { HomePageLayout } from "../features/hero-section/HomePageLayout";
+import LeagueForm from "../features/league/LeagueForm";
+import LeagueList from "../features/league/LeagueList";
+import LeagueView from "../features/league/LeagueView";
 import TeamForm from "../features/team/TeamForm";
 import TeamList from "../features/team/TeamList";
 import TeamView from "../features/team/TeamView";
-import TemplateLayout from "../features/templates/examples/layout";
-import TaskPage from "../features/templates/examples/tasks/page";
 import MailLayout from "../layouts/main-layout/athlete/MailLayout";
 import MainLayout from "../layouts/main-layout/MainLayout";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES, TRoles } from "../lib/constants";
@@ -21,9 +22,6 @@ import ErrorService from "../services/error/ErrorService";
 import { userAtom } from "../store/atoms/user";
 import { loadingBarSelector } from "../store/selectors/global";
 import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
-import LeagueForm from "../features/league/LeagueForm";
-import LeagueList from "../features/league/LeagueList";
-import LeagueView from "../features/league/LeagueView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -87,23 +85,6 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     //= ============================= league related routes ends here ======================== =//
-    {
-        path: "/template",
-        element: <TemplateLayout />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-        children: [
-            {
-                path: "/template/task",
-                element: <TaskPage />,
-                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-            },
-        ],
-    },
-    {
-        path: "/task/list",
-        element: <TaskPage />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-    },
     {
         path: NAVIGATION_ROUTES.TEMP_MAIL,
         element: <MailLayout />,

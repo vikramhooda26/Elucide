@@ -16,7 +16,6 @@ import {
     TabsTrigger,
 } from "../../../components/ui/tabs";
 import { Input } from "../../../components/ui/input";
-import { TMail } from "../../../features/templates/examples/mail/data";
 import { AccountSwitcher } from "./account-switcher";
 import { Nav, NavProps } from "./new-nax";
 import { MailList } from "./mail-list";
@@ -24,6 +23,7 @@ import { MailDisplay } from "./mail-display";
 import { useRecoilValue } from "recoil";
 import { configAtom } from "./use-mail";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
+import { TMail } from "./data";
 
 interface MailProps {
     accounts: {
