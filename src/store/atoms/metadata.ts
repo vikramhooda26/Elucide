@@ -1,147 +1,64 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
+import { Option } from "../../components/ui/multi-select";
 
 const { persistAtom } = recoilPersist();
 
-type TAge = {
-    id: string;
-    range: string;
-};
+interface TAge extends Option {}
 
-type TGender = {
-    id: string;
-    gender: string;
-};
+interface TGender extends Option {}
 
-type TCity = {
-    id: string;
-    name: string;
-};
+interface TCity extends Option {}
 
-type TState = {
-    id: string;
-    name: string;
-};
+interface TState extends Option {}
 
-type TActiveCampaign = {
-    id: string;
-    name: string;
-};
+interface TActiveCampaign extends Option {}
 
-type TAgency = {
-    id: string;
-    name: string;
-};
+interface TAgency extends Option {}
 
-type TAsset = {
-    id: string;
-    name: string;
-};
+interface TAsset extends Option {}
 
-type TBroadcastPartner = {
-    id: string;
-    name: string;
-};
+interface TBroadcastPartner extends Option {}
 
-type TCategory = {
-    id: string;
-    name: string;
-};
+interface TCategory extends Option {}
 
-type TFormat = {
-    id: string;
-    format: string;
-};
+interface TFormat extends Option {}
 
-type TKeyMarket = {
-    id: string;
-    zone: string;
-};
+interface TKeyMarket extends Option {}
 
-type TLeague = {
-    id: string;
-    name: string;
-};
+interface TLeague extends Option {}
 
-type TLeagueOwner = {
-    id: string;
-    name: string;
-};
+interface TLeagueOwner extends Option {}
 
-type TMarketingPlatform = {
-    id: string;
-    name: string;
-};
+interface TMarketingPlatform extends Option {}
 
-type TNCCS = {
-    id: string;
-    class: string;
-};
+interface TNCCS extends Option {}
 
-type TOTTPartner = {
-    id: string;
-    name: string;
-};
+interface TOTTPartner extends Option {}
 
-type TParentOrg = {
-    id: string;
-    name: string;
-};
+interface TParentOrg extends Option {}
 
-type TPersonalityTrait = {
-    id: string;
-    name: string;
-};
+interface TPersonalityTrait extends Option {}
 
-type TSportsDealSummaryLevel = {
-    id: string;
-    name: string;
-};
+interface TSportsDealSummaryLevel extends Option {}
 
-type TSportsDealSummaryStatus = {
-    id: string;
-    status: string;
-};
+interface TSportsDealSummaryStatus extends Option {}
 
-type TSportsDealSummaryTerritory = {
-    id: string;
-    name: string;
-};
+interface TSportsDealSummaryTerritory extends Option {}
 
-type TSportsDealSummaryType = {
-    id: string;
-    name: string;
-};
+interface TSportsDealSummaryType extends Option {}
 
-type TTagline = {
-    id: string;
-    name: string;
-};
+interface TTagline extends Option {}
 
-type TTeamOwner = {
-    id: string;
-    name: string;
-};
+interface TTeamOwner extends Option {}
 
-type TTertiary = {
-    id: string;
-    name: string;
-};
+interface TTertiary extends Option {}
 
-type TSport = {
-    id: string;
-    name: string;
-};
+interface TSport extends Option {}
 
-type TTier = {
-    id: string;
-    name: string;
-};
+interface TTier extends Option {}
 
-type TAssociationLevel = {
-    id: string;
-    name: string;
-};
+interface TAssociationLevel extends Option {}
 
 export type TMetadataStore = {
     age: TAge[];
@@ -154,7 +71,7 @@ export type TMetadataStore = {
     broadcastPartner: TBroadcastPartner[];
     category: TCategory[];
     format: TFormat[];
-    keyMarkets: TKeyMarket[];
+    keyMarket: TKeyMarket[];
     league: TLeague[];
     leagueOwner: TLeagueOwner[];
     marketingPlatform: TMarketingPlatform[];
