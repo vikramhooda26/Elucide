@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
-import { DataTableColumnHeader } from "../../../components/table/data-table-column-header"
+import { DataTableColumnHeader } from "../../../components/data-table/data-table-column-header"
 import { Checkbox } from "../../../components/ui/checkbox"
 import { Athlete } from "./schema"
 
@@ -30,11 +30,11 @@ export const columns: ColumnDef<Athlete>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "athleteName",
+    accessorKey: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Athlete Name" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("athleteName")}</div>,
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue("name")}</div>,
     enableSorting: false,
     enableHiding: false,
   },

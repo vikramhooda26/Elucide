@@ -13,5 +13,9 @@ class AthleteService {
     static getAll(params: any) {
         return AjaxService.request(API_URL + "/api/admin/athlete", params, "GET");
     }
+
+    static getOne(id: string, params?: any,) {
+        return AjaxService.request(API_URL + "/api/admin/athlete/" + id, params, "GET");
+    }
 }
 export default AthleteService;

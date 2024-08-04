@@ -30,17 +30,17 @@ export const NAVIGATION_ROUTES = {
     CREATE_TEAM: "/team/create",
     EDIT_TEAM: "/team/edit",
 
-    LEAGUE: "/league/view/:id",
+    LEAGUE: "/league/view",
     LEAGUE_LIST: "/league/list",
     CREATE_LEAGUE: "/league/create",
     EDIT_LEAGUE: "/league/edit",
 
-    BRAND: "/brand/view/:id",
+    BRAND: "/brand/view",
     BRAND_LIST: "/brand/list",
     CREATE_BRAND: "/brand/create",
     EDIT_BRAND: "/brand/edit",
 
-    ATHLETE: "/athlete/view/:id",
+    ATHLETE: "/athlete/view",
     ATHLETE_LIST: "/athlete/list",
     CREATE_ATHLETE: "/athlete/create",
     EDIT_ATHLETE: "/athlete/edit",

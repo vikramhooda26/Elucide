@@ -5,6 +5,10 @@ class LeagueService {
     static getAll(params: any) {
         return AjaxService.request(API_URL + "/api/admin/league", params, "GET");
     }
+
+    static getOne(id: string, params?: any,) {
+        return AjaxService.request(API_URL + "/api/admin/league/" + id, params, "GET");
+    }
 }
 
 export default LeagueService;
