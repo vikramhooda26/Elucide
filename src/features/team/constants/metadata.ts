@@ -20,18 +20,17 @@ export const TEAM_METADATA = {
     ASSOCIATION_LEVEL: "associationLevel",
 } as const;
 
-// team create
 export const teamFormSchema = z.object({
-    teamName: z.string(),
+    name: z.string(),
     yearOfInception: z.string().optional(),
     sportId: z.string().optional(),
     leagueId: z.string().optional(),
 
-    teamOwnerIds: z.string().array().optional(),
+    ownerIds: z.string().array().optional(),
     franchiseFee: z.string().optional(),
-    hqCityId: z.string().optional(),
-    hqStateId: z.string().optional(),
-    personalityTraitIds: z.string().array().optional(),
+    cityId: z.string().optional(),
+    stateId: z.string().optional(),
+    subPersonalityTraitIds: z.string().array().optional(),
     instagram: z.string().optional(),
     facebook: z.string().optional(),
     linkedin: z.string().optional(),
@@ -44,8 +43,8 @@ export const teamFormSchema = z.object({
 
     activeCampaignIds: z.string().array().optional(),
 
-    marketingPlatformPrimaryIds: z.string().array().optional(),
-    marketingPlatformSecondaryIds: z.string().array().optional(),
+    primaryMarketingPlatformIds: z.string().array().optional(),
+    secondaryMarketingPlatformIds: z.string().array().optional(),
 
     ageIds: z.string().array().optional(),
     genderIds: z.string().array().optional(),
@@ -57,21 +56,26 @@ export const teamFormSchema = z.object({
     nccsIds: z.string().array().optional(),
     associationLevelId: z.string().array().optional(),
     costOfAssociation: z.string().optional(),
-    /**
-     * @todo
-     * Figure out how to use metrics the right way
-     */
-    /**
-     * metrics: z
+    viewershipMetrics: z
         .object({
-            viewership: z.string().optional(),
-            reach: z.string().optional(),
-            year: z.string().optional(),
-            viewshipType: z.enum(["OTT", "BROADCAST"]).optional(),
+            viewership: z.string(),
+            year: z.string(),
+            viewershipType: z.enum(["OTT", "BROADCAST"]).or(z.string()),
         })
         .array()
         .optional(),
-     */
+    reachMetrics: z
+        .object({
+            reach: z.string(),
+            year: z.string(),
+        })
+        .array()
+        .optional(),
+    contactName: z.string().optional(),
+    contactDesignation: z.string().optional(),
+    contactEmail: z.string().optional(),
+    contactNumber: z.string().optional(),
+    contactLinkedin: z.string().optional(),
 });
 
 export type TTeamFormSchema = z.infer<typeof teamFormSchema>;

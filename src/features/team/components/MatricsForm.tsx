@@ -1,19 +1,38 @@
 import { Trash2 } from "lucide-react";
-import { Control, Controller, FieldValues, UseFormRegister } from "react-hook-form";
+import { Control, Controller, UseFormRegister } from "react-hook-form";
 import { DatePicker } from "../../../components/date/DatePicker";
 import ReactSelect from "../../../components/selector/ReactSelect";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { TableCell, TableRow } from "../../../components/ui/table";
 import { MetricType } from "../../../types/team/TeamFormTypes";
+import { TTeamFormSchema } from "../constants/metadata";
+import SelectBox from "../../../components/ui/multi-select";
+import { FormField } from "../../../components/ui/form";
+import { FormItemWrapper } from "../../../components/form/item-wrapper";
+import { getListOfYears } from "../../utils/helpers";
+import { Options } from "react-select";
+
+type TViewershipMetric =
+    | {
+          viewership: string;
+          year: string;
+          viewershipType: "OTT" | "BROADCAST";
+      }
+    | { viewership: string; year: string; viewershipType: string };
+
+type reachMetrics = {
+    reach: string;
+    year: string;
+};
 
 interface MetricFormProps {
     metric: MetricType;
-    onChange: (metric: MetricType) => void;
+    onChange: (metric: TViewershipMetric[] | reachMetrics[]) => void;
     onRemove?: () => void;
-    register: UseFormRegister<any>
+    register: UseFormRegister<any>;
     index: number;
-    control: Control<FieldValues, any>;
+    control: Control<TTeamFormSchema, any>;
 }
 
 const MatricsForm: React.FC<MetricFormProps> = ({
@@ -24,39 +43,61 @@ const MatricsForm: React.FC<MetricFormProps> = ({
     index,
     control,
 }) => {
-    const viewshipType = [
-        { label: 'OTT', value: "OTT", },
-        { label: 'BROADCAST', value: "BROADCAST", }
-    ];
     return (
         <TableRow>
             <TableCell className="font-semibold">
-                {/* <Input
-                     value={metric.viewership || ''}
-                     onChange={(e) => onChange({ ...metric, viewership: e.target.value })}
-                /> */}
-                <DatePicker placeholder={"Year"} {...register(`metrics.${index}.year`)} />
-            </TableCell>
-            <TableCell className="font-semibold">
-                <Input
-                    {...register(`metrics.${index}.viewership`)}
+                <FormField
+                    control={control}
+                    name="viewershipMetrics"
+                    render={({ field }) => (
+                        <FormItemWrapper>
+                            <SelectBox
+                                options={getListOfYears()}
+                                value={field.value?.map((v) => v.year)}
+                                onChange={field.onChange}
+                                placeholder="Select a year"
+                                inputPlaceholder="Search for a year..."
+                                emptyPlaceholder="No year found"
+                            />
+                        </FormItemWrapper>
+                    )}
                 />
             </TableCell>
             <TableCell className="font-semibold">
-                <Input
-                    {...register(`metrics.${index}.reach`)}
+                <FormField
+                    control={control}
+                    name="viewershipMetrics"
+                    render={({ field }) => (
+                        <FormItemWrapper>
+                            <Input
+                                value={field.value?.map((v) => v.viewership)}
+                                onChange={field.onChange}
+                            />
+                        </FormItemWrapper>
+                    )}
                 />
             </TableCell>
             <TableCell className="font-semibold">
                 <div className="grid gap-3">
-                    <Controller
-                        name={'tertiaryIds'}
+                    <FormField
                         control={control}
+                        name="viewershipMetrics"
                         render={({ field }) => (
-                            <ReactSelect
-                                field={field}
-                                selectArr={viewshipType}
-                            />
+                            <FormItemWrapper>
+                                <SelectBox
+                                    //@ts-ignore
+                                    options={field.value!.map(
+                                        (v) => v.viewershipType
+                                    )}
+                                    value={field.value?.map(
+                                        (v) => v.viewershipType
+                                    )}
+                                    onChange={field.onChange}
+                                    placeholder="Select a type"
+                                    inputPlaceholder="Search for a type..."
+                                    emptyPlaceholder="No type found"
+                                />
+                            </FormItemWrapper>
                         )}
                     />
                 </div>
@@ -66,7 +107,9 @@ const MatricsForm: React.FC<MetricFormProps> = ({
                     <Button
                         onClick={onRemove}
                         size="sm"
-                        className="h-7 gap-1 bg-red-500 text-white "
+                        className="h-7 gap-1 text-white"
+                        variant="destructive"
+                        type="button"
                     >
                         <Trash2 className="h-3.5 w-3.5" />
                     </Button>
