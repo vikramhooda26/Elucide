@@ -17,36 +17,50 @@ import { DataTableFacetedFilter } from "../../components/data-table/data-table-f
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import useNavigator from "../../hooks/useNavigator";
-import { NAVIGATION_ROUTES } from "../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import TeamService from "../../services/features/TeamService";
 import { team } from "../../types/team/TeamListTypes";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
+import ErrorService from "../../services/error/ErrorService";
+import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function TeamList() {
     const navigator = useNavigator();
     const [teamList, setTeamList] = useState<Array<any>>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+        {}
+    );
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     const fetchTeams = async () => {
+        const { logout } = useAuth();
+        const navigate = useNavigate();
         try {
             setLoading(true);
-            const resp = await TeamService.getAll({});
-            if (resp?.status !== 200 || resp?.data?.length <= 0) {
-                throw new Error('');
+            const response = await TeamService.getAll({});
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                const teams = response.data;
+                teams.forEach((team: team, i: number) => {
+                    teams[i].createdBy = team?.createdBy?.email || "";
+                    teams[i].modifiedBy = team?.modifiedBy?.email || "";
+                });
+                setTeamList(teams);
             }
-            const teams = resp.data;
-            teams.forEach((team: team, i: number) => {
-                teams[i].createdBy = team?.createdBy?.email || '';
-                teams[i].modifiedBy = team?.modifiedBy?.email || '';
-            });
-            setTeamList(teams);
         } catch (error) {
-            setLoading(false);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError) {
+                toast.error("An unknown error occurred");
+            }
         } finally {
             setLoading(false);
         }
@@ -89,7 +103,9 @@ function TeamList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={(table.getColumn("teamName")?.getFilterValue() as string) ?? ""}
+            value={
+                (table.getColumn("teamName")?.getFilterValue() as string) ?? ""
+            }
             onChange={(event) =>
                 table.getColumn("teamName")?.setFilterValue(event.target.value)
             }
@@ -99,14 +115,13 @@ function TeamList() {
             column={table.getColumn("createdDate")}
             title="Created At"
             options={statuses}
-        />
-        ,
+        />,
         <DataTableFacetedFilter
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
         />,
-    ]
+    ];
 
     return (
         <div className=" h-full flex-1 flex-col space-y-8  md:flex">
