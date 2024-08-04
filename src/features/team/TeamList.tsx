@@ -38,9 +38,10 @@ function TeamList() {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+
     const fetchTeams = async () => {
-        const { logout } = useAuth();
-        const navigate = useNavigate();
         try {
             setLoading(true);
             const response = await TeamService.getAll({});

@@ -32,5 +32,3 @@ export const CardWrapper: React.FC<CardWrapperProps> = ({
         </Card>
     );
 };
-
-CardWrapper;

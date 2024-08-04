@@ -54,7 +54,7 @@ export const teamFormSchema = z.object({
     tertiaryIds: z.string().array().optional(),
 
     nccsIds: z.string().array().optional(),
-    associationLevelId: z.string().array().optional(),
+    associationLevelId: z.string().optional(),
     costOfAssociation: z.string().optional(),
     viewershipMetrics: z
         .object({
@@ -76,6 +76,7 @@ export const teamFormSchema = z.object({
     contactEmail: z.string().optional(),
     contactNumber: z.string().optional(),
     contactLinkedin: z.string().optional(),
+    userId: z.string(),
 });
 
 export type TTeamFormSchema = z.infer<typeof teamFormSchema>;

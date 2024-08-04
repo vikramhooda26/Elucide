@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
+import { getPhoneData } from "../../components/phone-input";
 import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
 import { Button } from "../../components/ui/button";
 import { Form, FormField } from "../../components/ui/form";
@@ -31,12 +33,13 @@ import {
     teamFormSchema,
     TTeamFormSchema,
 } from "./constants/metadata";
-import { getPhoneData, PhoneInput } from "../../components/phone-input";
+import { userAtom } from "../../store/atoms/user";
 
 export function TeamForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
+    const user = useRecoilValue(userAtom);
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -120,48 +123,79 @@ export function TeamForm() {
         >;
         options: any;
         multiple: boolean;
+        type: "DROPDOWN";
     }[] = [
         {
             title: "Sports",
             register: "sportId",
             options: metadataStore.sport,
             multiple: false,
+            type: "DROPDOWN",
         },
         {
             title: "League",
             register: "leagueId",
             options: metadataStore.league,
             multiple: false,
+            type: "DROPDOWN",
         },
         {
             title: "Owners",
             register: "ownerIds",
             options: metadataStore.teamOwner,
             multiple: true,
+            type: "DROPDOWN",
         },
         {
             title: "City",
             register: "cityId",
             options: metadataStore.city,
             multiple: false,
+            type: "DROPDOWN",
         },
         {
             title: "State",
             register: "stateId",
             options: metadataStore.state,
             multiple: false,
+            type: "DROPDOWN",
         },
         {
             title: "Personality Traits",
             register: "subPersonalityTraitIds",
             options: metadataStore.personalityTrait,
             multiple: true,
+            type: "DROPDOWN",
         },
         {
             title: "Tiers",
             register: "tierIds",
             options: metadataStore.tier,
             multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
+
+    const targetAudience: {
+        title: string;
+        register: Extract<keyof TTeamFormSchema, "ageIds" | "genderIds">;
+        options: any;
+        multiple: boolean;
+        type: "DROPDOWN";
+    }[] = [
+        {
+            title: "Age",
+            register: "ageIds",
+            options: metadataStore.age,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Gender",
+            register: "genderIds",
+            options: metadataStore.gender,
+            multiple: true,
+            type: "DROPDOWN",
         },
     ];
 
@@ -175,32 +209,54 @@ export function TeamForm() {
             | "contactLinkedin"
             | "contactEmail"
         >;
-        type: "text" | "number";
+        input: { type: string };
+        placeholder?: string;
+        type: "INPUT" | "PHONE";
     }[] = [
         {
             title: "Contact Name",
             register: "contactName",
-            type: "text",
+            type: "INPUT",
+            input: {
+                type: "text",
+            },
+            placeholder: "Contact name",
         },
         {
             title: "Contact Designation",
             register: "contactDesignation",
-            type: "text",
+            type: "INPUT",
+            input: {
+                type: "text",
+            },
+            placeholder: "Contact designation",
         },
         {
             title: "Contact Number",
             register: "contactNumber",
-            type: "number",
+            type: "PHONE",
+            input: {
+                type: "number",
+            },
+            placeholder: "Contact number",
         },
         {
             title: "Contact Linkedin",
             register: "contactLinkedin",
-            type: "text",
+            type: "INPUT",
+            input: {
+                type: "text",
+            },
+            placeholder: "Contact linkedin",
         },
         {
             title: "Contact Email",
             register: "contactEmail",
-            type: "text",
+            type: "INPUT",
+            input: {
+                type: "email",
+            },
+            placeholder: "Contact email",
         },
     ];
 
@@ -307,6 +363,7 @@ export function TeamForm() {
             reachMetrics: validatedReachMetrics,
             costOfAssociation: convertedCostOfAssociation,
             franchiseFee: convertedFranciseFee,
+            userId: user?.id,
         };
 
         console.log("\n\n\n\nRequest Body:", requestBody);
@@ -497,7 +554,6 @@ export function TeamForm() {
                                                             placeholder="Select a level"
                                                             inputPlaceholder="Search for a level..."
                                                             emptyPlaceholder="No level found"
-                                                            multiple
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -705,7 +761,7 @@ export function TeamForm() {
                                 >
                                     {viewershipMetricFieldArray.fields.map(
                                         (field, index) => (
-                                            <TableRow>
+                                            <TableRow key={index}>
                                                 <TableCell>
                                                     <FormField
                                                         control={form.control}
@@ -832,7 +888,7 @@ export function TeamForm() {
                                 >
                                     {reachMetricFieldArray.fields.map(
                                         (field, index) => (
-                                            <TableRow>
+                                            <TableRow key={index}>
                                                 <TableCell>
                                                     <FormField
                                                         control={form.control}
@@ -927,8 +983,8 @@ export function TeamForm() {
                                         { header: "Link" },
                                     ]}
                                 >
-                                    {socials.map((social) => (
-                                        <TableRow>
+                                    {socials.map((social, index) => (
+                                        <TableRow key={index}>
                                             <TableCell className="capitalize">
                                                 {social.name}
                                             </TableCell>
@@ -953,133 +1009,23 @@ export function TeamForm() {
                         </div>
 
                         <div className="grid auto-rows-max items-start gap-4 ">
-                            <CardWrapper title="Team Attributes">
-                                <div className="grid gap-6">
-                                    {teamAttributes?.map((attribute, index) => (
-                                        <div
-                                            className="grid gap-3"
-                                            key={index}
-                                        >
-                                            <FormField
-                                                control={form.control}
-                                                name={attribute.register}
-                                                render={({ field }) => (
-                                                    <FormItemWrapper
-                                                        label={attribute.title}
-                                                    >
-                                                        <SelectBox
-                                                            options={
-                                                                attribute.options
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder={`Select ${attribute.title.toLowerCase()}`}
-                                                            inputPlaceholder={`Search for ${attribute.title.toLowerCase()}...`}
-                                                            emptyPlaceholder={`No ${attribute.title.toLowerCase()} found`}
-                                                            multiple={
-                                                                attribute.multiple
-                                                            }
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </CardWrapper>
+                            <VerticalFieldsCard
+                                control={form.control}
+                                title="Team Attributes"
+                                displayFields={teamAttributes}
+                            />
 
-                            <CardWrapper title="Target Audience">
-                                <div className="grid gap-6">
-                                    <div className="grid gap-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="ageIds"
-                                            render={({ field }) => (
-                                                <FormItemWrapper label="Age">
-                                                    <SelectBox
-                                                        options={
-                                                            metadataStore?.age
-                                                        }
-                                                        value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                        placeholder="Select age ranges"
-                                                        inputPlaceholder="Search for age ranges..."
-                                                        emptyPlaceholder="No age range found"
-                                                        multiple
-                                                    />
-                                                </FormItemWrapper>
-                                            )}
-                                        />
-                                    </div>
-                                    <div className="grid gap-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="genderIds"
-                                            render={({ field }) => (
-                                                <FormItemWrapper label="Gender">
-                                                    <SelectBox
-                                                        options={
-                                                            metadataStore?.gender
-                                                        }
-                                                        value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                        placeholder="Select genders"
-                                                        inputPlaceholder="Search for genders..."
-                                                        emptyPlaceholder="No genders found"
-                                                        multiple
-                                                    />
-                                                </FormItemWrapper>
-                                            )}
-                                        />
-                                    </div>
-                                </div>
-                            </CardWrapper>
+                            <VerticalFieldsCard
+                                control={form.control}
+                                title="Target Audience"
+                                displayFields={targetAudience}
+                            />
 
-                            <CardWrapper title="Contact Person Details">
-                                <div className="grid gap-6">
-                                    {contactDetails?.map((contact, index) => (
-                                        <div
-                                            className="grid gap-3"
-                                            key={index}
-                                        >
-                                            <FormField
-                                                control={form.control}
-                                                name={contact.register}
-                                                render={({ field }) => (
-                                                    <FormItemWrapper
-                                                        label={contact.title}
-                                                    >
-                                                        {contact.type ===
-                                                        "number" ? (
-                                                            <PhoneInput
-                                                                {...field}
-                                                            />
-                                                        ) : (
-                                                            <Input
-                                                                type={
-                                                                    contact.type
-                                                                }
-                                                                placeholder={
-                                                                    contact.title.split(
-                                                                        " "
-                                                                    )[1]
-                                                                }
-                                                                {...field}
-                                                            />
-                                                        )}
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </CardWrapper>
+                            <VerticalFieldsCard
+                                control={form.control}
+                                title="Contact Person Details"
+                                displayFields={contactDetails}
+                            />
                         </div>
                     </div>
 
