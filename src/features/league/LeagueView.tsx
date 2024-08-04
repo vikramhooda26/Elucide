@@ -57,7 +57,7 @@ function LeagueView() {
   return (
     <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 ">
       <div className="mx-auto auto-rows-max gap-4">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mb-4">
           <Button
             variant="outline"
             size="icon"
