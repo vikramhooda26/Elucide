@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { toast } from "sonner";
-import { DatePicker } from "../../components/date/DatePicker";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { Button } from "../../components/ui/button";
 import {
@@ -39,18 +38,10 @@ import {
 } from "./constants/metadata";
 
 export function TeamForm() {
-    const form = useForm<TTeamFormSchema>({
-        resolver: zodResolver(teamFormSchema),
-    });
-    const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
-
-    const onSubmit = (data: TTeamFormSchema) => {
-        console.log("\n\nForm data:", data);
-    };
-
     const [_isLoading, setIsLoading] = useState<boolean>(false);
     const { logout } = useAuth();
     const navigate = useNavigate();
+    const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
 
     useEffect(() => {
         const fetchMetadata = async () => {
@@ -84,43 +75,75 @@ export function TeamForm() {
         return <div>Loading...</div>;
     }
 
+    const form = useForm<TTeamFormSchema>({
+        resolver: zodResolver(teamFormSchema),
+        defaultValues: {
+            yearOfInception: new Date().getFullYear().toString(),
+        },
+    });
+
+    const getListOfYears = () => {
+        return [...(new Array(new Date().getFullYear()) as number[])]
+            .map((_, index) => ({
+                label: (index + 1).toString(),
+                value: (index + 1).toString(),
+            }))
+            .slice(1900, new Date().getFullYear() + 1)
+            .reverse();
+    };
+
     const teamAttributes = [
         {
             title: "Sports",
             register: "sportId",
             options: metadataStore.sport,
+            multiple: false,
         },
         {
             title: "League",
             register: "leagueId",
             options: metadataStore.league,
+            multiple: false,
         },
         {
             title: "Owners",
             register: "teamOwnerIds",
             options: metadataStore.teamOwner,
+            multiple: true,
         },
         {
             title: "City",
             register: "hqCityId",
             options: metadataStore.city,
+            multiple: false,
         },
         {
             title: "State",
             register: "hqStateId",
             options: metadataStore.state,
+            multiple: false,
         },
         {
             title: "Personality Traits",
             register: "personalityTraitIds",
             options: metadataStore.personalityTrait,
+            multiple: true,
         },
         {
             title: "Tier",
             register: "tierIds",
             options: metadataStore.tier,
+            multiple: true,
         },
     ];
+
+    const onSubmit = (data: TTeamFormSchema) => {
+        /**
+         * @todo
+         * Convert francise fee to number
+         */
+        console.log("\n\nForm data:", data);
+    };
 
     return (
         <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
@@ -176,7 +199,10 @@ export function TeamForm() {
                                                 name="teamName"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Team Name">
-                                                        <Input {...field} />
+                                                        <Input
+                                                            {...field}
+                                                            placeholder="Team name"
+                                                        />
                                                     </FormItemWrapper>
                                                 )}
                                             />
@@ -210,7 +236,9 @@ export function TeamForm() {
                                                     <FormItemWrapper label="Strategy Overview">
                                                         <Textarea
                                                             id="strategyOverview"
+                                                            className="scrollbar"
                                                             {...field}
+                                                            rows={5}
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -223,9 +251,17 @@ export function TeamForm() {
                                                     name="yearOfInception"
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Year of inception">
-                                                            <DatePicker
-                                                                placeholder="Year"
-                                                                {...field}
+                                                            <SelectBox
+                                                                options={getListOfYears()}
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a year"
+                                                                inputPlaceholder="Search for a year..."
+                                                                emptyPlaceholder="No year found"
                                                             />
                                                         </FormItemWrapper>
                                                     )}
@@ -241,6 +277,7 @@ export function TeamForm() {
                                                                 {...field}
                                                                 placeholder="Franchise fees"
                                                                 type="number"
+                                                                min="0"
                                                             />
                                                         </FormItemWrapper>
                                                     )}
@@ -251,12 +288,12 @@ export function TeamForm() {
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
-                                                    name="activeCampaignIds"
+                                                    name="associationLevelId"
                                                     render={({ field }) => (
-                                                        <FormItemWrapper label="Active Campaigns">
+                                                        <FormItemWrapper label="Association Level">
                                                             <SelectBox
                                                                 options={
-                                                                    metadataStore?.activeCampaign
+                                                                    metadataStore?.associationLevel
                                                                 }
                                                                 value={
                                                                     field.value
@@ -264,9 +301,9 @@ export function TeamForm() {
                                                                 onChange={
                                                                     field.onChange
                                                                 }
-                                                                placeholder="Select a campaign"
-                                                                inputPlaceholder="Search for a campaigns..."
-                                                                emptyPlaceholder="No campaign found"
+                                                                placeholder="Select a level"
+                                                                inputPlaceholder="Search for a level..."
+                                                                emptyPlaceholder="No level found"
                                                                 multiple
                                                             />
                                                         </FormItemWrapper>
@@ -276,12 +313,13 @@ export function TeamForm() {
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
-                                                    name="associationCost"
+                                                    name="costOfAssociation"
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Association Cost (in cr)">
                                                             <Input
                                                                 {...field}
                                                                 placeholder="Association cost"
+                                                                min="0"
                                                                 type="number"
                                                             />
                                                         </FormItemWrapper>
@@ -304,7 +342,7 @@ export function TeamForm() {
                                                                 field.onChange
                                                             }
                                                             placeholder="Select a campaign"
-                                                            inputPlaceholder="Search for a campaigns..."
+                                                            inputPlaceholder="Search for campaigns..."
                                                             emptyPlaceholder="No campaign found"
                                                             multiple
                                                         />
@@ -717,7 +755,9 @@ export function TeamForm() {
                                                                     placeholder={`Select a ${attribute.title.toLowerCase()}`}
                                                                     inputPlaceholder={`Search for a ${attribute.title.toLowerCase()}...`}
                                                                     emptyPlaceholder={`No ${attribute.title.toLowerCase()} found`}
-                                                                    multiple
+                                                                    multiple={
+                                                                        attribute.multiple
+                                                                    }
                                                                 />
                                                             </FormItemWrapper>
                                                         )}
@@ -737,12 +777,21 @@ export function TeamForm() {
                                         <div className="grid gap-3">
                                             <FormField
                                                 control={form.control}
-                                                name="age"
+                                                name="ageIds"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Age">
-                                                        <Input
-                                                            {...field}
-                                                            placeholder="Age"
+                                                        <SelectBox
+                                                            options={
+                                                                metadataStore?.age
+                                                            }
+                                                            value={field.value}
+                                                            onChange={
+                                                                field.onChange
+                                                            }
+                                                            placeholder="Select a age range"
+                                                            inputPlaceholder="Search for a age range..."
+                                                            emptyPlaceholder="No age range found"
+                                                            multiple
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -780,6 +829,11 @@ export function TeamForm() {
                         <Button
                             variant="outline"
                             size="sm"
+                            onClick={() =>
+                                navigate(NAVIGATION_ROUTES.TEAM_LIST, {
+                                    replace: true,
+                                })
+                            }
                         >
                             Discard
                         </Button>

@@ -23,14 +23,14 @@ export const TEAM_METADATA = {
 // team create
 export const teamFormSchema = z.object({
     teamName: z.string(),
-    teamId: z.string().array().optional(),
     yearOfInception: z.string().optional(),
-    sportId: z.string().array().optional(),
-    leagueId: z.string().array().optional(),
+    sportId: z.string().optional(),
+    leagueId: z.string().optional(),
+
     teamOwnerIds: z.string().array().optional(),
     franchiseFee: z.string().optional(),
-    hqCityId: z.string().array().optional(),
-    hqStateId: z.string().array().optional(),
+    hqCityId: z.string().optional(),
+    hqStateId: z.string().optional(),
     personalityTraitIds: z.string().array().optional(),
     instagram: z.string().optional(),
     facebook: z.string().optional(),
@@ -47,7 +47,7 @@ export const teamFormSchema = z.object({
     marketingPlatformPrimaryIds: z.string().array().optional(),
     marketingPlatformSecondaryIds: z.string().array().optional(),
 
-    age: z.string().optional(),
+    ageIds: z.string().array().optional(),
     genderIds: z.string().array().optional(),
 
     primaryMarketIds: z.string().array().optional(),
@@ -56,7 +56,22 @@ export const teamFormSchema = z.object({
 
     nccsIds: z.string().array().optional(),
     associationLevelId: z.string().array().optional(),
-    associationCost: z.string().optional(),
+    costOfAssociation: z.string().optional(),
+    /**
+     * @todo
+     * Figure out how to use metrics the right way
+     */
+    /**
+     * metrics: z
+        .object({
+            viewership: z.string().optional(),
+            reach: z.string().optional(),
+            year: z.string().optional(),
+            viewshipType: z.enum(["OTT", "BROADCAST"]).optional(),
+        })
+        .array()
+        .optional(),
+     */
 });
 
 export type TTeamFormSchema = z.infer<typeof teamFormSchema>;

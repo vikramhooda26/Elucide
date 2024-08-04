@@ -2,6 +2,8 @@ export const API_URL =
     import.meta.env.VITE_BACKEND_URL ||
     "https://elucide-sports-backend.vercel.app";
 
+export const Local_URL = "http://localhost:3000";
+
 export const API_VERSION = "v1";
 
 export const ASSET = API_URL + "api/v1/asset/fileView/";
@@ -44,7 +46,7 @@ export const NAVIGATION_ROUTES = {
     EDIT_ATHLETE: "/athlete/edit",
 
     DATA_ENTRY: "/data-entry",
-    TEMP_MAIL:'/mail/list',
+    TEMP_MAIL: "/mail/list",
 } as const;
 
 export const HTTP_STATUS_CODES = {
