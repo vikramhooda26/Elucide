@@ -23,7 +23,7 @@ import BrandService from "../../services/features/BrandService";
 
 function BrandView() {
   const { id } = useParams<string>();
-  const [team, setTeam] = useState<any>({});
+  const [brand, setBrand] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   const fetchTeam = async () => {
@@ -42,7 +42,7 @@ function BrandView() {
       teamObj.createdBy = teamObj?.createdBy?.firstName || '';
       teamObj.modifiedBy = teamObj?.modifiedBy?.firstName || '';
 
-      setTeam(teamObj);
+      setBrand(teamObj);
     } catch (error) {
       setLoading(false);
     } finally {
@@ -67,7 +67,7 @@ function BrandView() {
             <span className="sr-only">Back</span>
           </Button>
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-            Team View
+            Brand View
           </h1>
 
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
@@ -84,7 +84,7 @@ function BrandView() {
                   <li className="flex items-center ">
                     <span className="w-1/2">Company Name</span>
                     <span className="text-muted-foreground">
-                      {team?.companyName || '-'}
+                      {brand?.companyName || '-'}
                     </span>
                   </li>
                   {/* <li className="flex items-center ">
@@ -92,7 +92,7 @@ function BrandView() {
                       Year Of Inception
                     </span>
                     <span className="text-muted-foreground">
-                      {team?.yearOfInception || '-'}
+                      {brand?.yearOfInception || '-'}
                     </span>
                   </li>
                   <li className="flex items-center ">
@@ -100,43 +100,35 @@ function BrandView() {
                       Franchise Fee
                     </span>
                     <span className="text-muted-foreground">
-                      {team?.franchiseFee || '-'}
+                      {brand?.franchiseFee || '-'}
                     </span>
                   </li> */}
                 </ul>
               </div>
             </Card>
 
-            <StrategyOverview strategy={team?.strategyOverview} />
+            <StrategyOverview strategy={brand?.strategyOverview} />
 
-            <TagLines data={team} />
+            <TagLines data={brand} />
 
-            <Marketing data={team} />
+            <Marketing data={brand} />
 
-            <Socials data={team} />
+            <Socials data={brand} />
 
-            <ActiveCampaing data={team} />
+            <ActiveCampaing data={brand} />
 
-            <Endorsements data={team} />
+            <Endorsements data={brand} />
 
-            <Association data={team} />
+            <Association data={brand} />
 
-            <ContactPerson data={team} />
+            <ContactPerson data={brand} />
           </div>
-          <Attributes data={team} title={'Team'} />
+          <Attributes data={brand} title={'Brand'} />
         </div>
         <div className="my-8">
-          <SportsDealSummary data={team} />
+          <SportsDealSummary data={brand} />
         </div>
-        <div className="flex items-center justify-center gap-2 md:hidden">
-          <Button
-            variant="outline"
-            size="sm"
-          >
-            Discard
-          </Button>
-          <Button size="sm">Save Team</Button>
-        </div>
+        
       </div>
     </main >
   );

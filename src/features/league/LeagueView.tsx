@@ -144,15 +144,7 @@ function LeagueView() {
         <div className="my-8">
           <SportsDealSummary data={league} />
         </div>
-        <div className="flex items-center justify-center gap-2 md:hidden">
-          <Button
-            variant="outline"
-            size="sm"
-          >
-            Discard
-          </Button>
-          <Button size="sm">Save Team</Button>
-        </div>
+       
       </div>
     </main >
   );
