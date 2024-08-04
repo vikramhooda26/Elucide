@@ -44,7 +44,10 @@ function DataTable<TData, TValue>({ table, columns, toolbarAttributes, callbacks
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => callbacks?.onView('id')}
+                  onClick={() => {
+                    console.log(row);
+                    callbacks?.onView(row?.original?.id)
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

@@ -12,8 +12,8 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import DataTable from "../../components/table/data-table";
-import { DataTableFacetedFilter } from "../../components/table/data-table-faceted-filter";
+import DataTable from "../../components/data-table/data-table";
+import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import useNavigator from "../../hooks/useNavigator";
@@ -42,8 +42,8 @@ function LeagueList() {
       }
       const leagues = resp.data;
       leagues.forEach((league: league, i: number) => {
-        leagues[i].createdBy = league?.createdBy?.firstName || '';
-        leagues[i].modifiedBy = league?.modifiedBy?.firstName || '';
+        leagues[i].createdBy = league?.createdBy?.email || '';
+        leagues[i].modifiedBy = league?.modifiedBy?.email || '';
       });
       setLeagueList(leagues);
     } catch (error) {
@@ -58,7 +58,7 @@ function LeagueList() {
   }, []);
 
   const onView = (id: string) => {
-    navigator(NAVIGATION_ROUTES.TEAM, ["dsfsdsf"]);
+    navigator(NAVIGATION_ROUTES.LEAGUE, [id]);
   };
 
   const table = useReactTable({
@@ -92,7 +92,7 @@ function LeagueList() {
       placeholder="Filter tasks..."
       value={(table.getColumn("athleteName")?.getFilterValue() as string) ?? ""}
       onChange={(event) =>
-        table.getColumn("athleteName")?.setFilterValue(event.target.value)
+        table.getColumn("leagueName")?.setFilterValue(event.target.value)
       }
       className="h-8 w-[150px] lg:w-[250px]"
     />,
@@ -103,7 +103,7 @@ function LeagueList() {
     />
     ,
     <DataTableFacetedFilter
-      column={table.getColumn("modifiedData")}
+      column={table.getColumn("modifiedDate")}
       title="Modiefied At"
       options={priorities}
     />,

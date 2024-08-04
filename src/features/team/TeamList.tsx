@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import { DataTable } from "../../components/table/data-table";
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -12,18 +11,17 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import DataTable from "../../components/table/data-table";
+import TableSkeleton from "../../components/skeleton/TableSkeleton";
+import DataTable from "../../components/data-table/data-table";
+import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
 import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import useNavigator from "../../hooks/useNavigator";
 import { NAVIGATION_ROUTES } from "../../lib/constants";
 import TeamService from "../../services/features/TeamService";
-import { getTaskList } from "../templates/examples/tasks/data/tasksList";
+import { team } from "../../types/team/TeamListTypes";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
-import { Input } from "../../components/ui/input";
-import { DataTableFacetedFilter } from "../../components/table/data-table-faceted-filter";
-import { team } from "../../types/team/TeamListTypes";
-import TableSkeleton from "../../components/skeleton/TableSkeleton";
 
 function TeamList() {
     const navigator = useNavigator();
@@ -43,8 +41,8 @@ function TeamList() {
             }
             const teams = resp.data;
             teams.forEach((team: team, i: number) => {
-                teams[i].createdBy = team?.createdBy?.firstName || '';
-                teams[i].modifiedBy = team?.modifiedBy?.firstName || '';
+                teams[i].createdBy = team?.createdBy?.email || '';
+                teams[i].modifiedBy = team?.modifiedBy?.email || '';
             });
             setTeamList(teams);
         } catch (error) {
@@ -59,7 +57,7 @@ function TeamList() {
     }, []);
 
     const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.TEAM, ["dsfsdsf"]);
+        navigator(NAVIGATION_ROUTES.TEAM, [id]);
     };
 
     const table = useReactTable({
@@ -91,9 +89,9 @@ function TeamList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={(table.getColumn("athleteName")?.getFilterValue() as string) ?? ""}
+            value={(table.getColumn("teamName")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-                table.getColumn("athleteName")?.setFilterValue(event.target.value)
+                table.getColumn("teamName")?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,
@@ -104,7 +102,7 @@ function TeamList() {
         />
         ,
         <DataTableFacetedFilter
-            column={table.getColumn("modifiedData")}
+            column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
         />,

@@ -22,6 +22,8 @@ import ErrorService from "../services/error/ErrorService";
 import { userAtom } from "../store/atoms/user";
 import { loadingBarSelector } from "../store/selectors/global";
 import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
+import AthleteView from "../features/athlete/AthleteView";
+import BrandView from "../features/brand/BrandView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -39,11 +41,18 @@ const routeChildren: routeChildrenType[] = [
         element: <Dashboard />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
+    //= ============================= athlete related routes starts here ====================== =//
     {
         path: NAVIGATION_ROUTES.ATHLETE_LIST,
         element: <AthleteList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
+    {
+        path: NAVIGATION_ROUTES.ATHLETE + '/:id',
+        element: <AthleteView />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    //= ============================= athlete related routes ends here ======================== =//
     //= ============================= team related routes starts here ====================== =//
     {
         path: NAVIGATION_ROUTES.CREATE_TEAM,
@@ -65,6 +74,11 @@ const routeChildren: routeChildrenType[] = [
     {
         path: NAVIGATION_ROUTES.BRAND_LIST,
         element: <BrandList />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    {
+        path: NAVIGATION_ROUTES.BRAND + '/:id',
+        element: <BrandView />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     //= ============================= brand related routes ends here ======================== =//
@@ -167,10 +181,10 @@ function Routes() {
             element: <HomePageLayout />,
             children: unProtectedRoute,
         },
-        {
-            path: "*",
-            element: <Navigate to={NAVIGATION_ROUTES.HOME} />,
-        },
+        // {
+        //     path: "*",
+        //     element: <Navigate to={NAVIGATION_ROUTES.HOME} />,
+        // },
     ];
 
     return createBrowserRouter(routeObj);

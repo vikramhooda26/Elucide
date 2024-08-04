@@ -12,8 +12,8 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import DataTable from "../../components/table/data-table";
-import { DataTableFacetedFilter } from "../../components/table/data-table-faceted-filter";
+import DataTable from "../../components/data-table/data-table";
+import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import useNavigator from "../../hooks/useNavigator";
@@ -42,8 +42,8 @@ function BrandList() {
       }
       const brands = resp.data;
       brands.forEach((brand: brand, i: number) => {
-        brands[i].createdBy = brand?.createdBy?.firstName || '';
-        brands[i].modifiedBy = brand?.modifiedBy?.firstName || '';
+        brands[i].createdBy = brand?.createdBy?.email || '';
+        brands[i].modifiedBy = brand?.modifiedBy?.email || '';
       });
       setBrandList(brands);
     } catch (error) {
@@ -58,7 +58,7 @@ function BrandList() {
   }, []);
 
   const onView = (id: string) => {
-    navigator(NAVIGATION_ROUTES.TEAM, ["dsfsdsf"]);
+    navigator(NAVIGATION_ROUTES.BRAND, [id]);
   };
 
   const table = useReactTable({
@@ -92,7 +92,7 @@ function BrandList() {
       placeholder="Filter tasks..."
       value={(table.getColumn("athleteName")?.getFilterValue() as string) ?? ""}
       onChange={(event) =>
-        table.getColumn("athleteName")?.setFilterValue(event.target.value)
+        table.getColumn("brandName")?.setFilterValue(event.target.value)
       }
       className="h-8 w-[150px] lg:w-[250px]"
     />,
@@ -103,7 +103,7 @@ function BrandList() {
     />
     ,
     <DataTableFacetedFilter
-      column={table.getColumn("modifiedData")}
+      column={table.getColumn("modifiedDate")}
       title="Modiefied At"
       options={priorities}
     />,
