@@ -1,11 +1,10 @@
 import { FallbackProps } from "react-error-boundary";
-import styles from "./ErrorFallBack.module.css";
 import { Button } from "./ui/button";
 
 function ErrorFallBack({ error, resetErrorBoundary }: FallbackProps) {
     return (
-        <div className={styles.container}>
-            <div className={styles.content}>
+        <div>
+            <div>
                 <h1>Something went wrong 🤔</h1>
                 <pre className="text-default">{error.message}</pre>
                 <Button
