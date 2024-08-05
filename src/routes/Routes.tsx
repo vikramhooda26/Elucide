@@ -27,6 +27,7 @@ import BrandView from "../features/brand/BrandView";
 import AthleteForm from "../features/athlete/AthleteForm";
 import BrandForm from "../features/brand/BrandForm";
 import DataEntryList from "../features/data-entry/DataEntryList";
+import ActivationForm from "../features/activations/ActivationForm";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -112,6 +113,23 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     //= ============================= league related routes ends here ======================== =//
+    //= ============================= activation related routes starts here ====================== =//
+    {
+        path: NAVIGATION_ROUTES.CREATE_ACTIVATION,
+        element: <ActivationForm />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+    },
+    {
+        path: NAVIGATION_ROUTES.ACTIVATION_LIST,
+        element: <LeagueList />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    {
+        path: NAVIGATION_ROUTES.ACTIVATION + "/:id",
+        element: <LeagueView />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    //= ============================= activation related routes ends here ======================== =//
     {
         path: NAVIGATION_ROUTES.DATA_ENTRY_LIST,
         element: <DataEntryList />,
