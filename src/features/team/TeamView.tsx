@@ -1,8 +1,4 @@
-import {
-    ChevronLeft,
-    Pencil
-} from "lucide-react";
-
+import { ChevronLeft, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ActiveCampaing from "../../components/core/common/ActiveCampaing";
@@ -15,38 +11,45 @@ import Socials from "../../components/core/common/Socials";
 import SportsDealSummary from "../../components/core/common/SportsDealSummary";
 import StrategyOverview from "../../components/core/common/StrategyOverview";
 import TagLines from "../../components/core/common/TagLines";
+import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
 import { Button } from "../../components/ui/button";
-import {
-    Card
-} from "../../components/ui/card";
+import { Card } from "../../components/ui/card";
+import { TableCell, TableRow } from "../../components/ui/table";
 import TeamService from "../../services/features/TeamService";
+import { formatNumberWithCommas } from "../utils/helpers";
 
 function TeamView() {
     const { id } = useParams<string>();
     const [team, setTeam] = useState<any>({});
-    const [loading, setLoading] = useState<boolean>(false);
+    const [_isLoading, setIsLoading] = useState<boolean>(false);
+
+    const teamInfoHeaders: { header: string; className?: string }[] = [
+        { header: "Name" },
+        { header: "Year of Inception" },
+        { header: "Franchise Fee (in cr)" },
+    ];
 
     const fetchTeam = async () => {
         try {
-            setLoading(true);
+            setIsLoading(true);
             if (!id) {
-                setLoading(false);
+                setIsLoading(false);
                 return;
             }
-            const resp = await TeamService.getOne(id ? id : '');
+            const resp = await TeamService.getOne(id ? id : "");
             if (resp?.status !== 200 || Object.keys(resp?.data)?.length <= 0) {
-                throw new Error('');
+                throw new Error("");
             }
             const teamObj = resp?.data;
 
-            teamObj.createdBy = teamObj?.createdBy?.firstName || '';
-            teamObj.modifiedBy = teamObj?.modifiedBy?.firstName || '';
+            teamObj.createdBy = teamObj?.createdBy?.firstName || "";
+            teamObj.modifiedBy = teamObj?.modifiedBy?.firstName || "";
 
             setTeam(teamObj);
         } catch (error) {
-            setLoading(false);
+            setIsLoading(false);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
@@ -79,32 +82,19 @@ function TeamView() {
                 <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                     <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                         <Card x-chunk="dashboard-07-chunk-0">
-                            <div className=" m-3">
-                                <ul className="grid gap-3">
-                                    <li className="flex items-center ">
-                                        <span className="w-1/2">Name</span>
-                                        <span className="text-muted-foreground">
-                                            {team?.name || '-'}
-                                        </span>
-                                    </li>
-                                    <li className="flex items-center ">
-                                        <span className="w-1/2">
-                                            Year Of Inception
-                                        </span>
-                                        <span className="text-muted-foreground">
-                                            {team?.yearOfInception || '-'}
-                                        </span>
-                                    </li>
-                                    <li className="flex items-center ">
-                                        <span className="w-1/2">
-                                            Franchise Fee
-                                        </span>
-                                        <span className="text-muted-foreground">
-                                            {team?.franchiseFee || '-'}
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
+                            <TableHeaderWrapper headersArray={teamInfoHeaders}>
+                                <TableRow>
+                                    <TableCell>{team?.name || "-"}</TableCell>
+                                    <TableCell>
+                                        {team?.yearOfInception || "-"}
+                                    </TableCell>
+                                    <TableCell>
+                                        {formatNumberWithCommas(
+                                            team?.franchiseFee
+                                        ) || "-"}
+                                    </TableCell>
+                                </TableRow>
+                            </TableHeaderWrapper>
                         </Card>
 
                         <StrategyOverview strategy={team?.strategyOverview} />
@@ -123,14 +113,16 @@ function TeamView() {
 
                         <ContactPerson data={team} />
                     </div>
-                    <Attributes data={team} title={'Team'} />
+                    <Attributes
+                        data={team}
+                        title={"Team"}
+                    />
                 </div>
                 <div className="my-8">
                     <SportsDealSummary data={team} />
                 </div>
-                
             </div>
-        </main >
+        </main>
     );
 }
 

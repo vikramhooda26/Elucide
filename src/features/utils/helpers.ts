@@ -72,3 +72,7 @@ export const validateMetrics = (
     }
     return [];
 };
+
+export const formatNumberWithCommas = (num: number) => {
+    return new Intl.NumberFormat("en-IN").format(num);
+};

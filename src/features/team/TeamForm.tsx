@@ -505,7 +505,7 @@ export function TeamForm() {
                                                 control={form.control}
                                                 name="yearOfInception"
                                                 render={({ field }) => (
-                                                    <FormItemWrapper label="Year of inception">
+                                                    <FormItemWrapper label="Year of Inception">
                                                         <SelectBox
                                                             options={getListOfYears()}
                                                             value={field.value}
@@ -525,7 +525,7 @@ export function TeamForm() {
                                                 control={form.control}
                                                 name="franchiseFee"
                                                 render={({ field }) => (
-                                                    <FormItemWrapper label="Franchise fees (in cr)">
+                                                    <FormItemWrapper label="Franchise Fee (in cr)">
                                                         <Input
                                                             {...field}
                                                             placeholder="Franchise fees"
