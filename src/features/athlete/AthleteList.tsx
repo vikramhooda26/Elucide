@@ -143,9 +143,11 @@ function AthleteList() {
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
-                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)}
+                        onClick={() =>
+                            navigator(NAVIGATION_ROUTES.CREATE_ATHLETE)
+                        }
                     >
-                        Create
+                        Create Athlete
                     </Button>
                 </div>
             </div>

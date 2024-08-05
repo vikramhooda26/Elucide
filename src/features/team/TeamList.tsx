@@ -140,7 +140,7 @@ function TeamList() {
                     <Button
                         onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)}
                     >
-                        Create
+                        Create Team
                     </Button>
                 </div>
             </div>

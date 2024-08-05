@@ -19,21 +19,17 @@ import { TableCell, TableRow } from "../../components/ui/table";
 import { Textarea } from "../../components/ui/textarea";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
+import LeagueService from "../../services/features/LeagueService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
-import { useAuth } from "../auth/auth-provider/AuthProvider";
-import {
-    convertStringToFloat,
-    getListOfYears,
-    validateMetrics,
-} from "../utils/helpers";
-import { getMetadata } from "../utils/metadataUtils";
 import { userAtom } from "../../store/atoms/user";
+import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { getListOfYears, validateMetrics } from "../utils/helpers";
+import { getMetadata } from "../utils/metadataUtils";
 import {
     LEAGUE_METADATA,
     leagueFormSchema,
     TLeagueFormSchema,
 } from "./constants.ts/metadata";
-import LeagueService from "../../services/features/LeagueService";
 
 function LeagueForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -43,6 +39,9 @@ function LeagueForm() {
 
     const form = useForm<TLeagueFormSchema>({
         resolver: zodResolver(leagueFormSchema),
+        defaultValues: {
+            userId: user?.id,
+        },
     });
 
     const { logout } = useAuth();
@@ -315,21 +314,6 @@ function LeagueForm() {
     ];
 
     const onSubmit = async (leagueFormValues: TLeagueFormSchema) => {
-        const convertedCostOfAssociation = leagueFormValues?.costOfAssociation
-            ? convertStringToFloat(leagueFormValues?.costOfAssociation)
-            : undefined;
-
-        if (convertedCostOfAssociation === null) {
-            form.setError(
-                "costOfAssociation",
-                {
-                    message: "Cost of association cannot be negative",
-                },
-                { shouldFocus: true }
-            );
-            return;
-        }
-
         if (leagueFormValues?.contactNumber) {
             const phoneData = getPhoneData(leagueFormValues?.contactNumber);
             if (!phoneData.isValid) {
@@ -364,8 +348,6 @@ function LeagueForm() {
             ...leagueFormValues,
             viewershipMetrics: validatedViewershipMetrics,
             reachMetrics: validatedReachMetrics,
-            costOfAssociation: convertedCostOfAssociation,
-            userId: user?.id,
         };
 
         console.log("\n\n\n\nRequest Body:", requestBody);

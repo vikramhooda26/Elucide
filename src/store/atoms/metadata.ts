@@ -60,6 +60,12 @@ interface TTier extends Option {}
 
 interface TAssociationLevel extends Option {}
 
+interface TCountry extends Option {}
+
+interface TSocialMediaPlatform extends Option {}
+
+interface TStatus extends Option {}
+
 export type TMetadataStore = {
     age: TAge[];
     gender: TGender[];
@@ -89,6 +95,9 @@ export type TMetadataStore = {
     sport: TSport[];
     tier: TTier[];
     associationLevel: TAssociationLevel[];
+    nationality: TCountry[];
+    socialMedia: TSocialMediaPlatform[];
+    athleteStatus: TStatus[];
 } | null;
 
 export const metadataStoreAtom = atom<TMetadataStore>({

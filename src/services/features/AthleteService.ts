@@ -2,7 +2,7 @@ import { API_URL } from "../../lib/constants";
 import AjaxService from "../AjaxService";
 
 class AthleteService {
-    static create(params: any) {
+    static createAthlete(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/athlete/create",
             params,
@@ -11,11 +11,19 @@ class AthleteService {
     }
 
     static getAll(params: any) {
-        return AjaxService.request(API_URL + "/api/admin/athlete", params, "GET");
+        return AjaxService.request(
+            API_URL + "/api/admin/athlete",
+            params,
+            "GET"
+        );
     }
 
-    static getOne(id: string, params?: any,) {
-        return AjaxService.request(API_URL + "/api/admin/athlete/" + id, params, "GET");
+    static getOne(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/athlete/" + id,
+            params,
+            "GET"
+        );
     }
 }
 export default AthleteService;
