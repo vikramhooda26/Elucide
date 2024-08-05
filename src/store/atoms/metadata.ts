@@ -66,6 +66,12 @@ interface TSocialMediaPlatform extends Option {}
 
 interface TStatus extends Option {}
 
+interface TTeam extends Option {}
+
+interface TBrand extends Option {}
+
+interface TAthlete extends Option {}
+
 export type TMetadataStore = {
     age: TAge[];
     gender: TGender[];
@@ -98,6 +104,9 @@ export type TMetadataStore = {
     nationality: TCountry[];
     socialMedia: TSocialMediaPlatform[];
     athleteStatus: TStatus[];
+    team: TTeam[];
+    athlete: TAthlete[];
+    brand: TBrand[];
 } | null;
 
 export const metadataStoreAtom = atom<TMetadataStore>({
