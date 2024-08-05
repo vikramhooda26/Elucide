@@ -138,9 +138,11 @@ function BrandList() {
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
-                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)}
+                        onClick={() =>
+                            navigator(NAVIGATION_ROUTES.CREATE_BRAND)
+                        }
                     >
-                        Create
+                        Create Brand
                     </Button>
                 </div>
             </div>

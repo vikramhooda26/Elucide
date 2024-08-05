@@ -25,6 +25,7 @@ import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
 import AthleteView from "../features/athlete/AthleteView";
 import BrandView from "../features/brand/BrandView";
 import AthleteForm from "../features/athlete/AthleteForm";
+import BrandForm from "../features/brand/BrandForm";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -77,6 +78,11 @@ const routeChildren: routeChildrenType[] = [
     },
     //= ============================= team related routes ends here ======================== =//
     //= ============================= brand related routes starts here ====================== =//
+    {
+        path: NAVIGATION_ROUTES.CREATE_BRAND,
+        element: <BrandForm />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+    },
     {
         path: NAVIGATION_ROUTES.BRAND_LIST,
         element: <BrandList />,
