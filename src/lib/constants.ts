@@ -50,8 +50,13 @@ export const NAVIGATION_ROUTES = {
     CREATE_ACTIVATION: "/activation/create",
     EDIT_ACTIVATION: "/activation/edit",
 
-    DATA_ENTRY_LIST: "/data-entry/list",
+    DATA_ENTRY_LIST: "/data-entry",
     TEMP_MAIL: "/mail/list",
+
+    LEAGUE_ADMIN: "/data-entry",
+    ATHLETE_ADMIN: "/data-entry/athlete/list",
+    TEAM_ADMIN: "/data-entry/team/list",
+    BRAND_ADMIN: "/data-entry/brand/list",
 } as const;
 
 export const HTTP_STATUS_CODES = {

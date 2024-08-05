@@ -134,6 +134,28 @@ const routeChildren: routeChildrenType[] = [
         path: NAVIGATION_ROUTES.DATA_ENTRY_LIST,
         element: <DataEntryList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+        children: [
+            {
+                path: NAVIGATION_ROUTES.ATHLETE_ADMIN,
+                element: <AthleteList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TEAM_ADMIN,
+                element: <TeamList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.BRAND_ADMIN,
+                element: <BrandList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.LEAGUE_ADMIN,
+                element: <LeagueList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+        ]
     },
     {
         path: NAVIGATION_ROUTES.TEMP_MAIL,

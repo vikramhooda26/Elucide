@@ -8,21 +8,9 @@ import {
   QuestionMarkCircledIcon,
   StopwatchIcon,
 } from "@radix-ui/react-icons"
+import { NAVIGATION_ROUTES } from "../../../lib/constants";
 
-export const labels = [
-  {
-    value: "bug",
-    label: "Bug",
-  },
-  {
-    value: "feature",
-    label: "Feature",
-  },
-  {
-    value: "documentation",
-    label: "Documentation",
-  },
-]
+export const routes = { editRoute: NAVIGATION_ROUTES.EDIT_TEAM, copyRoute: NAVIGATION_ROUTES.EDIT_TEAM, deleteRoute: ()=>{}, }
 
 export const statuses = [
   {
