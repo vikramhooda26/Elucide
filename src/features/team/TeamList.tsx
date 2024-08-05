@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -11,39 +10,41 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import TableSkeleton from "../../components/skeleton/TableSkeleton";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { toast } from "sonner";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import useNavigator from "../../hooks/useNavigator";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
+import ErrorService from "../../services/error/ErrorService";
 import TeamService from "../../services/features/TeamService";
+import { listLoadingAtom } from "../../store/atoms/global";
 import { team } from "../../types/team/TeamListTypes";
+import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
-import ErrorService from "../../services/error/ErrorService";
-import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 
 function TeamList() {
     const navigator = useNavigator();
-    const [teamList, setTeamList] = useState<Array<any>>([]);
+    const [teamList, setTeamList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
         {}
     );
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const setIsLoading = useSetRecoilState(listLoadingAtom);
 
     const { logout } = useAuth();
     const navigate = useNavigate();
 
     const fetchTeams = async () => {
         try {
-            setLoading(true);
+            setIsLoading(true);
             const response = await TeamService.getAll({});
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const teams = response.data;
@@ -63,7 +64,7 @@ function TeamList() {
                 toast.error("An unknown error occurred");
             }
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
@@ -126,7 +127,6 @@ function TeamList() {
 
     return (
         <div className=" h-full flex-1 flex-col space-y-8  md:flex">
-            {loading ? <TableSkeleton /> : null}
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

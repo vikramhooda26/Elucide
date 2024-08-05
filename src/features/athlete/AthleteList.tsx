@@ -12,44 +12,60 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
+import { useSetRecoilState } from "recoil";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import useNavigator from "../../hooks/useNavigator";
-import { NAVIGATION_ROUTES } from "../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import AthleteService from "../../services/features/AthleteService";
+import { listLoadingAtom } from "../../store/atoms/global";
 import { athlete } from "../../types/athlete/AthleteListTypes";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
-import TableSkeleton from "../../components/skeleton/TableSkeleton";
+import ErrorService from "../../services/error/ErrorService";
+import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function AthleteList() {
     const navigator = useNavigator();
     const [athletes, setAthletes] = useState<Array<any>>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+        {}
+    );
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const setIsLoading = useSetRecoilState(listLoadingAtom);
+    const { logout } = useAuth();
+    const navigate = useNavigate();
 
     const fetchAthletes = async () => {
         try {
-            setLoading(true);
-            const resp = await AthleteService.getAll({});
-            if (resp?.status !== 200 || resp?.data?.length <= 0) {
-                throw new Error('');
+            setIsLoading(true);
+            const response = await AthleteService.getAll({});
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                const athleteList = response.data;
+                athleteList.forEach((athlete: athlete, i: number) => {
+                    athleteList[i].createdBy = athlete?.createdBy?.email || "";
+                    athleteList[i].modifiedBy =
+                        athlete?.modifiedBy?.email || "";
+                });
+                setAthletes(athleteList);
             }
-            const athleteList = resp.data;
-            athleteList.forEach((athlete: athlete, i: number) => {
-                athleteList[i].createdBy = athlete?.createdBy?.email || '';
-                athleteList[i].modifiedBy = athlete?.modifiedBy?.email || '';
-            });
-            setAthletes(athleteList);
         } catch (error) {
-            setLoading(false);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError) {
+                toast.error("An unknown error occurred");
+            }
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
@@ -90,9 +106,14 @@ function AthleteList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={(table.getColumn("athleteName")?.getFilterValue() as string) ?? ""}
+            value={
+                (table.getColumn("athleteName")?.getFilterValue() as string) ??
+                ""
+            }
             onChange={(event) =>
-                table.getColumn("athleteName")?.setFilterValue(event.target.value)
+                table
+                    .getColumn("athleteName")
+                    ?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,
@@ -100,18 +121,16 @@ function AthleteList() {
             column={table.getColumn("createdDate")}
             title="Created At"
             options={statuses}
-        />
-        ,
+        />,
         <DataTableFacetedFilter
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
         />,
-    ]
+    ];
 
     return (
         <div className=" h-full flex-1 flex-col space-y-8  md:flex">
-            {loading ? <TableSkeleton /> : null}
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

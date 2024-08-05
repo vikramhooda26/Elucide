@@ -11,10 +11,10 @@ import {
     ResizableHandle,
     ResizablePanel,
 } from "../../../components/ui/resizable";
-import { TMail } from "../../../features/templates/examples/mail/data";
 import { Nav, NavProps } from "../athlete/new-nax";
 import { cn } from "../../../lib/utils";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
+import { TMail } from "../athlete/data";
 
 interface MailProps {
     accounts: {
@@ -29,7 +29,7 @@ interface MailProps {
 }
 
 export const SideMenu = ({
-    defaultLayout = [10],
+    defaultLayout = [15],
     defaultCollapsed = false,
     navCollapsedSize,
 }: MailProps) => {
@@ -73,12 +73,12 @@ export const SideMenu = ({
                 label: "100",
                 navigateTo: NAVIGATION_ROUTES.BRAND_LIST,
             },
-            {
-                title: "Mail",
-                icon: Trophy,
-                label: "50",
-                navigateTo: NAVIGATION_ROUTES.TEMP_MAIL,
-            },
+            // {
+            //     title: "Mail",
+            //     icon: Trophy,
+            //     label: "50",
+            //     navigateTo: NAVIGATION_ROUTES.TEMP_MAIL,
+            // },
         ],
     };
 
@@ -89,7 +89,7 @@ export const SideMenu = ({
                 collapsedSize={navCollapsedSize}
                 collapsible={true}
                 minSize={10}
-                maxSize={12}
+                maxSize={15}
                 className={cn(
                     isCollapsed &&
                         "min-w-[50px] transition-all duration-300 ease-in-out"

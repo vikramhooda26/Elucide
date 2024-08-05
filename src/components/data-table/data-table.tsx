@@ -1,80 +1,116 @@
+import { flexRender } from "@tanstack/react-table";
+import { useRecoilValue } from "recoil";
 import {
-  flexRender
-} from "@tanstack/react-table"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../components/ui/table"
-import { DataTableProps } from "../../types/components/Table"
-import { DataTablePagination } from "./data-table-pagination"
-import { DataTableToolbar } from "./data-table-toolbar"
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "../../components/ui/table";
+import { listLoadingAtom } from "../../store/atoms/global";
+import { DataTableProps } from "../../types/components/Table";
+import { DataTablePagination } from "./data-table-pagination";
+import { DataTableToolbar } from "./data-table-toolbar";
 
-function DataTable<TData, TValue>({ table, columns, toolbarAttributes, callbacks }: DataTableProps<TData, TValue>) {
+function DataTable<TData, TValue>({
+    table,
+    columns,
+    toolbarAttributes,
+    callbacks,
+}: DataTableProps<TData, TValue>) {
+    const isLoading = useRecoilValue(listLoadingAtom);
 
-  return (
-    <div className="space-y-4">
-      <DataTableToolbar table={table} toolbarAttributes={toolbarAttributes} />
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id} colSpan={header.colSpan}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
+    return (
+        <div className="space-y-4">
+            <DataTableToolbar
+                table={table}
+                toolbarAttributes={toolbarAttributes}
+            />
+            <div className="rounded-md border">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+                                    return (
+                                        <TableHead
+                                            key={header.id}
+                                            colSpan={header.colSpan}
+                                        >
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(
+                                                      header.column.columnDef
+                                                          .header,
+                                                      header.getContext()
+                                                  )}
+                                        </TableHead>
+                                    );
+                                })}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {isLoading ? (
+                            <>
+                                {Array.from({ length: 10 }).map(
+                                    (_row, index) => (
+                                        <TableRow
+                                            className="animate-pulse max-h-dvh overflow-hidden"
+                                            key={index}
+                                        >
+                                            {Array.from({
+                                                length: columns.length,
+                                            }).map((_column, index) => (
+                                                <TableCell key={index}>
+                                                    <div className="bg-gray-500 rounded-3xl h-6 w-[69%]" />
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    )
+                                )}
+                            </>
+                        ) : table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={
+                                        row.getIsSelected() && "selected"
+                                    }
+                                    onClick={() => {
+                                        console.log(row);
+                                        callbacks?.onView(row?.original?.id);
+                                    }}
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            <div className="line-clamp-2 text-ellipsis">
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </div>
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={columns.length}
+                                    className="h-24 text-center"
+                                >
+                                    No results.
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </TableHead>
-                  )
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  onClick={() => {
-                    console.log(row);
-                    callbacks?.onView(row?.original?.id)
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <DataTablePagination table={table} />
-    </div>
-  )
+                    </TableBody>
+                </Table>
+            </div>
+            <DataTablePagination table={table} />
+        </div>
+    );
 }
 
 export default DataTable;
