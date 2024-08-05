@@ -3,11 +3,27 @@ import AjaxService from "../AjaxService";
 
 class LeagueService {
     static getAll(params: any) {
-        return AjaxService.request(API_URL + "/api/admin/league", params, "GET");
+        return AjaxService.request(
+            API_URL + "/api/admin/league",
+            params,
+            "GET"
+        );
     }
 
-    static getOne(id: string, params?: any,) {
-        return AjaxService.request(API_URL + "/api/admin/league/" + id, params, "GET");
+    static getOne(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/league/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static createLeague(params?: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/league/create`,
+            params,
+            "POST"
+        );
     }
 }
 

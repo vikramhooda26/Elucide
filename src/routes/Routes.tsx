@@ -24,6 +24,7 @@ import { loadingBarSelector } from "../store/selectors/global";
 import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
 import AthleteView from "../features/athlete/AthleteView";
 import BrandView from "../features/brand/BrandView";
+import AthleteForm from "../features/athlete/AthleteForm";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -43,12 +44,17 @@ const routeChildren: routeChildrenType[] = [
     },
     //= ============================= athlete related routes starts here ====================== =//
     {
+        path: NAVIGATION_ROUTES.CREATE_ATHLETE,
+        element: <AthleteForm />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    {
         path: NAVIGATION_ROUTES.ATHLETE_LIST,
         element: <AthleteList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: NAVIGATION_ROUTES.ATHLETE + '/:id',
+        path: NAVIGATION_ROUTES.ATHLETE + "/:id",
         element: <AthleteView />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
@@ -65,7 +71,7 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: NAVIGATION_ROUTES.TEAM + '/:id',
+        path: NAVIGATION_ROUTES.TEAM + "/:id",
         element: <TeamView />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
@@ -77,7 +83,7 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: NAVIGATION_ROUTES.BRAND + '/:id',
+        path: NAVIGATION_ROUTES.BRAND + "/:id",
         element: <BrandView />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
@@ -94,7 +100,7 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
-        path: NAVIGATION_ROUTES.LEAGUE + '/:id',
+        path: NAVIGATION_ROUTES.LEAGUE + "/:id",
         element: <LeagueView />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
