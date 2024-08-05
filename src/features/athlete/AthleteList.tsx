@@ -49,9 +49,10 @@ function AthleteList() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const athleteList = response.data;
                 athleteList.forEach((athlete: athlete, i: number) => {
-                    athleteList[i].createdBy = athlete?.createdBy?.email || "";
+                    athleteList[i].createdBy =
+                        athlete?.createdBy?.email || "N/A";
                     athleteList[i].modifiedBy =
-                        athlete?.modifiedBy?.email || "";
+                        athlete?.modifiedBy?.email || "N/A";
                 });
                 setAthletes(athleteList);
             }

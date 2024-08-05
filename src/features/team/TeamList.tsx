@@ -49,8 +49,8 @@ function TeamList() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const teams = response.data;
                 teams.forEach((team: team, i: number) => {
-                    teams[i].createdBy = team?.createdBy?.email || "";
-                    teams[i].modifiedBy = team?.modifiedBy?.email || "";
+                    teams[i].createdBy = team?.createdBy?.email || "N/A";
+                    teams[i].modifiedBy = team?.modifiedBy?.email || "N/A";
                 });
                 setTeamList(teams);
             }

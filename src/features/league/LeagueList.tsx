@@ -49,8 +49,8 @@ function LeagueList() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const leagues = response.data;
                 leagues.forEach((league: league, i: number) => {
-                    leagues[i].createdBy = league?.createdBy?.email || "";
-                    leagues[i].modifiedBy = league?.modifiedBy?.email || "";
+                    leagues[i].createdBy = league?.createdBy?.email || "N/A";
+                    leagues[i].modifiedBy = league?.modifiedBy?.email || "N/A";
                 });
                 setLeagueList(leagues);
             }

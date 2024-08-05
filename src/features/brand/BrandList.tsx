@@ -48,8 +48,8 @@ function BrandList() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const brands = response.data;
                 brands.forEach((brand: brand, i: number) => {
-                    brands[i].createdBy = brand?.createdBy?.email || "";
-                    brands[i].modifiedBy = brand?.modifiedBy?.email || "";
+                    brands[i].createdBy = brand?.createdBy?.email || "N/A";
+                    brands[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
                 });
                 setBrandList(brands);
             }
