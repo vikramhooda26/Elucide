@@ -26,6 +26,7 @@ import AthleteView from "../features/athlete/AthleteView";
 import BrandView from "../features/brand/BrandView";
 import AthleteForm from "../features/athlete/AthleteForm";
 import BrandForm from "../features/brand/BrandForm";
+import DataEntryList from "../features/data-entry/DataEntryList";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -111,6 +112,11 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     //= ============================= league related routes ends here ======================== =//
+    {
+        path: NAVIGATION_ROUTES.DATA_ENTRY_LIST,
+        element: <DataEntryList />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+    },
     {
         path: NAVIGATION_ROUTES.TEMP_MAIL,
         element: <MailLayout />,

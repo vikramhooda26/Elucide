@@ -45,7 +45,7 @@ export const NAVIGATION_ROUTES = {
     CREATE_ATHLETE: "/athlete/create",
     EDIT_ATHLETE: "/athlete/edit",
 
-    DATA_ENTRY: "/data-entry",
+    DATA_ENTRY_LIST: "/data-entry/list",
     TEMP_MAIL: "/mail/list",
 } as const;
 

@@ -47,7 +47,7 @@ export const SideMenu = ({
                 title: "Data Entry",
                 icon: FileText,
                 label: "50",
-                navigateTo: NAVIGATION_ROUTES.DATA_ENTRY,
+                navigateTo: NAVIGATION_ROUTES.DATA_ENTRY_LIST,
             },
             {
                 title: "League",
