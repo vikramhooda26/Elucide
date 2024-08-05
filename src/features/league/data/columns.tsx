@@ -2,7 +2,9 @@ import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
 import { DataTableColumnHeader } from "../../../components/data-table/data-table-column-header"
 import { Checkbox } from "../../../components/ui/checkbox"
-import { League } from "./schema"
+import { League, leagueSchema } from "./schema"
+import { routes } from "./data"
+import { DataTableRowActions } from "../../../components/data-table/data-table-row-actions"
 
 export const columns: ColumnDef<League>[] = [
   {
@@ -87,6 +89,10 @@ export const columns: ColumnDef<League>[] = [
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("modifiedBy")}</div>,
     enableSorting: false,
     enableHiding: false,
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <DataTableRowActions row={row} routes={routes} schema={leagueSchema} />,
   },
 ]
 

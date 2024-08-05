@@ -4,24 +4,23 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "../../components/ui/dropdown-menu"
+import useNavigator from "../../hooks/useNavigator"
 import { DataTableRowActionsProps } from "../../types/components/Table"
 
 
 export function DataTableRowActions<TData>({
   row,
-  labels,
+  routes,
   schema,
 }: DataTableRowActionsProps<TData>) {
+  const navigator = useNavigator();
   const task = schema?.parse(row.original)
+  console.log('task -=- ', task);
+
+
 
   return (
     <DropdownMenu>
@@ -35,24 +34,9 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        {/* <DropdownMenuItem>Favorite</DropdownMenuItem> */}
-        {/* <DropdownMenuSeparator /> */}
-        {/* <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={task.label}>
-              {labels.map((label) => (
-                <DropdownMenuRadioItem key={label.value} value={label.value}>
-                  {label.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
-        <DropdownMenuSeparator /> */}
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={(e)=>{e?.stopPropagation(); navigator(routes.editRoute, [task.id]);}}>Edit</DropdownMenuItem>
+        <DropdownMenuItem onClick={(e)=>{e?.stopPropagation(); navigator(routes.editRoute, [task.id]);}}>Make a copy</DropdownMenuItem>
+        <DropdownMenuItem onClick={(e)=>{e?.stopPropagation(); routes.deleteRoute()}}>
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
