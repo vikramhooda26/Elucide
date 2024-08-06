@@ -566,7 +566,16 @@ function LeagueForm() {
                                                             emptyPlaceholder="No campaign found"
                                                             multiple
                                                         />
-                                                        <InputDrawer>
+                                                        <InputDrawer
+                                                            title="Active Campaign"
+                                                            description="Add a new active campaign"
+                                                            field={field}
+                                                            onSubmit={() =>
+                                                                console.log(
+                                                                    "submitted"
+                                                                )
+                                                            }
+                                                        >
                                                             <CirclePlus className="w-5 h-5 cursor-pointer active:brightness-50 select-none text-green-500" />
                                                         </InputDrawer>
                                                     </div>
