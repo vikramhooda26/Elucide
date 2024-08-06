@@ -221,7 +221,6 @@ function ActivationForm() {
                                                         placeholder="Select a brand"
                                                         inputPlaceholder="Search for a brand..."
                                                         emptyPlaceholder="No brand found"
-                                                        multiple
                                                     />
                                                 </FormItemWrapper>
                                             )}
@@ -299,7 +298,6 @@ function ActivationForm() {
                                                                     placeholder={`Select a ${stakeholder.toLowerCase()}`}
                                                                     inputPlaceholder={`Search for a ${stakeholder.toLowerCase()}...`}
                                                                     emptyPlaceholder={`No ${stakeholder.toLowerCase()} found`}
-                                                                    multiple
                                                                 />
                                                             </FormItemWrapper>
                                                         );
