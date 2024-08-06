@@ -55,6 +55,36 @@ export const SideMenu = ({
                 label: "100",
                 navigateTo: NAVIGATION_ROUTES.BRAND_ADMIN,
             },
+            {
+                title: "Age",
+                icon: Building,
+                label: "12",
+                navigateTo: NAVIGATION_ROUTES.AGE_LIST,
+            },
+            {
+                title: "Gender",
+                icon: Building,
+                label: "12",
+                navigateTo: NAVIGATION_ROUTES.GENDER_LIST,
+            },
+            {
+                title: "Activation",
+                icon: Building,
+                label: "12",
+                navigateTo: NAVIGATION_ROUTES.ACTIVATION_LIST,
+            },
+            {
+                title: "Active Campaign",
+                icon: Building,
+                label: "12",
+                navigateTo: NAVIGATION_ROUTES.CAMPAIGN_LIST,
+            },
+            {
+                title: "Personality",
+                icon: Building,
+                label: "12",
+                navigateTo: NAVIGATION_ROUTES.PERSONALITY_LIST,
+            },
         ],
     };
 

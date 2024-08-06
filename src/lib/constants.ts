@@ -20,6 +20,8 @@ export const LOCAL_STORAGE_KEYS = {
     USER: "@user",
 } as const;
 
+const dataEntryRoute = '/data-entry';
+
 export const NAVIGATION_ROUTES = {
     LOGIN: "/elucide/login",
     HOME: "/elucide/home",
@@ -45,8 +47,8 @@ export const NAVIGATION_ROUTES = {
     CREATE_ATHLETE: "/athlete/create",
     EDIT_ATHLETE: "/athlete/edit",
 
-    ACTIVATION: "/activation/view",
-    ACTIVATION_LIST: "/activation/list",
+    // ACTIVATION: "/activation/view",
+    // ACTIVATION_LIST: "/activation/list"
     CREATE_ACTIVATION: "/activation/create",
     EDIT_ACTIVATION: "/activation/edit",
 
@@ -55,13 +57,40 @@ export const NAVIGATION_ROUTES = {
     CREATE_SPORTS_DEAL_SUMMARY: "/sports-deal-summary/create",
     EDIT_SPORTS_DEAL_SUMMARY: "/sports-deal-summary/edit",
 
-    DATA_ENTRY_LIST: "/data-entry",
+    DATA_ENTRY_LIST: dataEntryRoute,
+
+    LEAGUE_ADMIN: dataEntryRoute,
+    ATHLETE_ADMIN: dataEntryRoute + "/athlete/list",
+    TEAM_ADMIN: dataEntryRoute + "/team/list",
+    BRAND_ADMIN: dataEntryRoute + "/brand/list",
+
+    AGE: dataEntryRoute + "/age/view",
+    AGE_LIST: dataEntryRoute + "/age/list",
+    AGE_CREATE: dataEntryRoute + "/age/create",
+    AGE_EDIT: dataEntryRoute + "/age/edit",
+
+    GENDER: dataEntryRoute + "/gender/view",
+    GENDER_LIST: dataEntryRoute + "/gender/list",
+    GENDER_CREATE: dataEntryRoute + "/gender/create",
+    GENDER_EDIT: dataEntryRoute + "/gender/edit",
+
+    ACTIVATION: dataEntryRoute + "/activation/view",
+    ACTIVATION_LIST: dataEntryRoute + "/activation/list",
+    ACTIVATION_CREATE: dataEntryRoute + "/activation/create",
+    ACTIVATION_EDIT: dataEntryRoute + "/activation/edit",
+
+    CAMPAIGN: dataEntryRoute + "/campaign/view",
+    CAMPAIGN_LIST: dataEntryRoute + "/campaign/list",
+    CAMPAIGN_CREATE: dataEntryRoute + "/campaign/create",
+    CAMPAIGN_EDIT: dataEntryRoute + "/campaign/edit",
+
+    PERSONALITY: dataEntryRoute + "/personality/view",
+    PERSONALITY_LIST: dataEntryRoute + "/personality/list",
+    PERSONALITY_CREATE: dataEntryRoute + "/personality/create",
+    PERSONALITY_EDIT: dataEntryRoute + "/personality/edit",
+
     TEMP_MAIL: "/mail/list",
 
-    LEAGUE_ADMIN: "/data-entry",
-    ATHLETE_ADMIN: "/data-entry/athlete/list",
-    TEAM_ADMIN: "/data-entry/team/list",
-    BRAND_ADMIN: "/data-entry/brand/list",
 } as const;
 
 export const HTTP_STATUS_CODES = {
