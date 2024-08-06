@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft, PlusCircle, Trash2 } from "lucide-react";
+import { ChevronLeft, CirclePlus, PlusCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +30,7 @@ import {
     leagueFormSchema,
     TLeagueFormSchema,
 } from "./constants.ts/metadata";
+import { InputDrawer } from "../../components/form/input-drawer";
 
 function LeagueForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -550,19 +551,25 @@ function LeagueForm() {
                                             name="activeCampaignIds"
                                             render={({ field }) => (
                                                 <FormItemWrapper label="Active Campaigns">
-                                                    <SelectBox
-                                                        options={
-                                                            metadataStore?.activeCampaign
-                                                        }
-                                                        value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                        placeholder="Select a campaign"
-                                                        inputPlaceholder="Search for campaigns..."
-                                                        emptyPlaceholder="No campaign found"
-                                                        multiple
-                                                    />
+                                                    <div className="flex items-center gap-3">
+                                                        <SelectBox
+                                                            options={
+                                                                metadataStore?.activeCampaign
+                                                            }
+                                                            className="w-full"
+                                                            value={field.value}
+                                                            onChange={
+                                                                field.onChange
+                                                            }
+                                                            placeholder="Select a campaign"
+                                                            inputPlaceholder="Search for campaigns..."
+                                                            emptyPlaceholder="No campaign found"
+                                                            multiple
+                                                        />
+                                                        <InputDrawer>
+                                                            <CirclePlus className="w-5 h-5 cursor-pointer active:brightness-50 select-none text-green-500" />
+                                                        </InputDrawer>
+                                                    </div>
                                                 </FormItemWrapper>
                                             )}
                                         />

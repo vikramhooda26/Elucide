@@ -52,6 +52,11 @@ export const NAVIGATION_ROUTES = {
     CREATE_ACTIVATION: "/activation/create",
     EDIT_ACTIVATION: "/activation/edit",
 
+    SPORTS_DEAL_SUMMARY: "/sports-deal-summary/view",
+    SPORTS_DEAL_SUMMARY_LIST: "/sports-deal-summary/list",
+    CREATE_SPORTS_DEAL_SUMMARY: "/sports-deal-summary/create",
+    EDIT_SPORTS_DEAL_SUMMARY: "/sports-deal-summary/edit",
+
     DATA_ENTRY_LIST: dataEntryRoute,
 
     LEAGUE_ADMIN: dataEntryRoute,

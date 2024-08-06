@@ -42,6 +42,7 @@ import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
 import PersonalityForm from "../features/metadata/personality/PersonalityForm";
 import PersonalityList from "../features/metadata/personality/PersonalityList";
 import PersonalityView from "../features/metadata/personality/PersonalityView";
+import SportsDealSummaryForm from "../features/sports-deal-summary/SportsDealSummaryForm";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -136,6 +137,23 @@ const routeChildren: routeChildrenType[] = [
 
     //= ============================= activation related routes ends here ======================== =//
 
+    //= ============================= sports deal summary related routes starts here ====================== =//
+    {
+        path: NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY,
+        element: <SportsDealSummaryForm />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+    },
+    {
+        path: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
+        element: <LeagueList />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    {
+        path: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY + "/:id",
+        element: <LeagueView />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    //= ============================= sports deal summary related routes ends here ======================== =//
     {
         path: NAVIGATION_ROUTES.DATA_ENTRY_LIST,
         element: <DataEntryList />,

@@ -1,12 +1,14 @@
 import { toast } from "sonner";
 
-export const getListOfYears = () => {
-    return [...(new Array(new Date().getFullYear()) as number[])]
+export const getListOfYears = (aheadInTime?: boolean) => {
+    const currentYear = new Date().getFullYear();
+    const endYear = aheadInTime ? currentYear + 10 : currentYear;
+
+    return [...new Array(endYear - 1900 + 1)]
         .map((_, index) => ({
-            label: (index + 1).toString(),
-            value: (index + 1).toString(),
+            label: (index + 1900).toString(),
+            value: (index + 1900).toString(),
         }))
-        .slice(1900, new Date().getFullYear() + 1)
         .reverse();
 };
 
