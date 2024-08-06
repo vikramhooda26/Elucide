@@ -1,16 +1,33 @@
 import { useEffect } from "react";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import ActivationForm from "../features/activations/ActivationForm";
+import AthleteForm from "../features/athlete/AthleteForm";
 import AthleteList from "../features/athlete/AthleteList";
+import AthleteView from "../features/athlete/AthleteView";
 import { useAuth } from "../features/auth/auth-provider/AuthProvider";
 import Login from "../features/auth/login/Login";
+import BrandForm from "../features/brand/BrandForm";
 import BrandList from "../features/brand/BrandList";
+import BrandView from "../features/brand/BrandView";
 import Dashboard from "../features/dashboard/Dashboard";
+import DataEntryList from "../features/data-entry/DataEntryList";
 import { Home } from "../features/hero-section/Home";
 import { HomePageLayout } from "../features/hero-section/HomePageLayout";
 import LeagueForm from "../features/league/LeagueForm";
 import LeagueList from "../features/league/LeagueList";
 import LeagueView from "../features/league/LeagueView";
+import ActivationList from "../features/metadata/Activation/ActivationList";
+import ActivationView from "../features/metadata/Activation/ActivationView";
+import ActiveCampaignForm from "../features/metadata/ActiveCampaign/ActiveCampaignForm";
+import ActiveCampaignList from "../features/metadata/ActiveCampaign/ActiveCampaignList";
+import ActiveCampaignView from "../features/metadata/ActiveCampaign/ActiveCampaignView";
+import AgeForm from "../features/metadata/age/AgeForm";
+import AgeList from "../features/metadata/age/AgeList";
+import AgeView from "../features/metadata/age/AgeView";
+import GenderForm from "../features/metadata/gender/GenderForm";
+import GenderList from "../features/metadata/gender/GenderList";
+import GenderView from "../features/metadata/gender/GenderView";
 import TeamForm from "../features/team/TeamForm";
 import TeamList from "../features/team/TeamList";
 import TeamView from "../features/team/TeamView";
@@ -22,12 +39,9 @@ import ErrorService from "../services/error/ErrorService";
 import { userAtom } from "../store/atoms/user";
 import { loadingBarSelector } from "../store/selectors/global";
 import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
-import AthleteView from "../features/athlete/AthleteView";
-import BrandView from "../features/brand/BrandView";
-import AthleteForm from "../features/athlete/AthleteForm";
-import BrandForm from "../features/brand/BrandForm";
-import DataEntryList from "../features/data-entry/DataEntryList";
-import ActivationForm from "../features/activations/ActivationForm";
+import PersonalityForm from "../features/metadata/personality/PersonalityForm";
+import PersonalityList from "../features/metadata/personality/PersonalityList";
+import PersonalityView from "../features/metadata/personality/PersonalityView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -119,17 +133,9 @@ const routeChildren: routeChildrenType[] = [
         element: <ActivationForm />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
     },
-    {
-        path: NAVIGATION_ROUTES.ACTIVATION_LIST,
-        element: <LeagueList />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-    },
-    {
-        path: NAVIGATION_ROUTES.ACTIVATION + "/:id",
-        element: <LeagueView />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-    },
+
     //= ============================= activation related routes ends here ======================== =//
+
     {
         path: NAVIGATION_ROUTES.DATA_ENTRY_LIST,
         element: <DataEntryList />,
@@ -155,6 +161,118 @@ const routeChildren: routeChildrenType[] = [
                 element: <LeagueList />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
+
+            //= ============================= age related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.AGE_CREATE,
+                element: <AgeForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.AGE_EDIT + "/:id",
+                element: <AgeForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.AGE_LIST,
+                element: <AgeList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.AGE + "/:id",
+                element: <AgeView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= age related routes ends here ======================== =//
+            //= ============================= gender related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.GENDER_CREATE,
+                element: <GenderForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.GENDER_EDIT + "/:id",
+                element: <GenderForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.GENDER_LIST,
+                element: <GenderList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.GENDER + "/:id",
+                element: <GenderView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= gender related routes ends here ======================== =//
+            //= ============================= activation related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.ACTIVATION_CREATE,
+                element: <ActivationForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.ACTIVATION_EDIT + "/:id",
+                element: <ActivationForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.ACTIVATION_LIST,
+                element: <ActivationList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.ACTIVATION + "/:id",
+                element: <ActivationView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= activation related routes ends here ======================== =//
+            //= ============================= active campaign related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.CAMPAIGN_CREATE,
+                element: <ActiveCampaignForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.CAMPAIGN_EDIT + "/:id",
+                element: <ActiveCampaignForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.CAMPAIGN_LIST,
+                element: <ActiveCampaignList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.CAMPAIGN + "/:id",
+                element: <ActiveCampaignView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= active campaign related routes ends here ======================== =//
+            //= ============================= personality related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.PERSONALITY_CREATE,
+                element: <PersonalityForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.PERSONALITY_EDIT + "/:id",
+                element: <PersonalityForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.PERSONALITY_LIST,
+                element: <PersonalityList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.PERSONALITY + "/:id",
+                element: <PersonalityView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+        //= ============================= personality related routes ends here ======================== =//
+
         ]
     },
     {
