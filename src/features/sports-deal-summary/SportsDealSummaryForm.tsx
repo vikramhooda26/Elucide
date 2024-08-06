@@ -7,6 +7,7 @@ import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { Button } from "../../components/ui/button";
 import { Form, FormField } from "../../components/ui/form";
@@ -21,12 +22,12 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { getListOfYears } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import {
-    ACTIVATION_KEYS,
-    activationFormSchema,
-    TActivationFormSchema,
+    SPORTS_DEAL_SUMMARY_KEYS,
+    sportsDealSummaryFormSchema,
+    TSportsDealSummaryFormSchema,
 } from "./constants/metadata";
 
-function ActivationForm() {
+function SportsDealSummaryForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
@@ -35,12 +36,29 @@ function ActivationForm() {
     const { logout } = useAuth();
     const navigate = useNavigate();
 
-    const form = useForm<TActivationFormSchema>({
-        resolver: zodResolver(activationFormSchema),
+    const form = useForm<TSportsDealSummaryFormSchema>({
+        resolver: zodResolver(sportsDealSummaryFormSchema),
         defaultValues: {
             userId: user?.id,
             partnerType: "Team",
         },
+    });
+
+    const status = [
+        { value: "Active", label: "Active" },
+        { value: "Expired", label: "Expired" },
+    ];
+
+    const type = [
+        { value: "Sponsorship", label: "Sponsorship" },
+        { value: "Endorsement", label: "Endorsement" },
+        { value: "Media Buy", label: "Media Buy" },
+        { value: "Other", label: "Other" },
+    ];
+
+    const partnerTypeValue = useWatch({
+        control: form.control,
+        name: "partnerType",
     });
 
     useEffect(() => {
@@ -50,7 +68,7 @@ function ActivationForm() {
                 await getMetadata(
                     metadataStore,
                     setMetadataStore,
-                    ACTIVATION_KEYS
+                    SPORTS_DEAL_SUMMARY_KEYS
                 );
             } catch (error) {
                 console.error(error);
@@ -83,10 +101,52 @@ function ActivationForm() {
         return <div>Loading...</div>;
     }
 
-    const partnerTypeValue = useWatch({
-        control: form.control,
-        name: "partnerType",
-    });
+    const sportsDealSummaryAttributes: {
+        title: string;
+        register: Extract<
+            keyof TSportsDealSummaryFormSchema,
+            "assetIds" | "territoryId" | "levelId" | "statusId" | "typeId"
+        >;
+        options: any;
+        multiple: boolean;
+        type: "DROPDOWN";
+    }[] = [
+        {
+            title: "Type",
+            register: "typeId",
+            options: type,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Level",
+            register: "levelId",
+            options: metadataStore.sportsDealSummaryLevel,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Status",
+            register: "statusId",
+            options: status,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Asset",
+            register: "assetIds",
+            options: metadataStore.asset,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Territory",
+            register: "territoryId",
+            options: metadataStore.sportsDealSummaryTerritory,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+    ];
 
     const partnerType = [
         { value: "Team", label: "Team" },
@@ -102,16 +162,18 @@ function ActivationForm() {
             : "Athlete";
     };
 
-    const onSubmit = async (activationFormValues: TActivationFormSchema) => {
-        console.log("\n\n\n\nRequest Body:", activationFormValues);
+    const onSubmit = async (
+        sportsDealSummaryFormValues: TSportsDealSummaryFormSchema
+    ) => {
+        console.log("\n\n\n\nRequest Body:", sportsDealSummaryFormValues);
 
         try {
             setIsSubmitting(true);
-            const response = await MetadataService.createActivation(
-                activationFormValues
+            const response = await MetadataService.createSportsDealSummary(
+                sportsDealSummaryFormValues
             );
             if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Activation summary created successfully");
+                toast.success("Sports deal summary created successfully");
                 form.reset();
             }
         } catch (error) {
@@ -141,16 +203,19 @@ function ActivationForm() {
                             size="icon"
                             className="h-7 w-7"
                             onClick={() =>
-                                navigate(NAVIGATION_ROUTES.ACTIVATION_LIST, {
-                                    replace: true,
-                                })
+                                navigate(
+                                    NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
+                                    {
+                                        replace: true,
+                                    }
+                                )
                             }
                         >
                             <ChevronLeft className="h-4 w-4" />
                             <span className="sr-only">Back</span>
                         </Button>
                         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                            Create Activation
+                            Create Deal
                         </h1>
 
                         <div className="hidden items-center gap-2 md:ml-auto md:flex">
@@ -160,7 +225,7 @@ function ActivationForm() {
                                 disabled={isSubmitting}
                                 onClick={() =>
                                     navigate(
-                                        NAVIGATION_ROUTES.ACTIVATION_LIST,
+                                        NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
                                         {
                                             replace: true,
                                         }
@@ -176,7 +241,7 @@ function ActivationForm() {
                                 className="gap-1"
                                 disabled={isSubmitting}
                             >
-                                <span>Save Activation</span>
+                                <span>Save Deal</span>
                                 {isSubmitting && (
                                     <ClipLoader
                                         size={15}
@@ -186,24 +251,10 @@ function ActivationForm() {
                             </Button>
                         </div>
                     </div>
-                    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:gap-8">
+                    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                         <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
-                            <CardWrapper title="Activation Details">
+                            <CardWrapper title="Sports Deal Summary">
                                 <div className="grid gap-6">
-                                    <div className="grid gap-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="activationName"
-                                            render={({ field }) => (
-                                                <FormItemWrapper label="Activation Name">
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="Activation name"
-                                                    />
-                                                </FormItemWrapper>
-                                            )}
-                                        />
-                                    </div>
                                     <div className="grid gap-3">
                                         <FormField
                                             control={form.control}
@@ -313,25 +364,24 @@ function ActivationForm() {
 
                             <CardWrapper title="Other details">
                                 <div className="grid gap-6  ">
-                                    <div className="grid gap-3 grid-cols-3">
+                                    <div className="grid gap-3 grid-cols-2">
                                         <div className="grid gap-3">
                                             <FormField
                                                 control={form.control}
-                                                name="typeIds"
+                                                name="commencementYear"
                                                 render={({ field }) => (
-                                                    <FormItemWrapper label="Type">
+                                                    <FormItemWrapper label="Commencement Year">
                                                         <SelectBox
-                                                            options={
-                                                                metadataStore?.marketingPlatform
-                                                            }
+                                                            options={getListOfYears(
+                                                                true
+                                                            )}
                                                             value={field.value}
                                                             onChange={
                                                                 field.onChange
                                                             }
-                                                            placeholder="Select a type"
-                                                            inputPlaceholder="Search for a type..."
-                                                            emptyPlaceholder="No type found"
-                                                            multiple
+                                                            placeholder="Select a year"
+                                                            inputPlaceholder="Search for a year..."
+                                                            emptyPlaceholder="No year found"
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -340,34 +390,13 @@ function ActivationForm() {
                                         <div className="grid gap-3">
                                             <FormField
                                                 control={form.control}
-                                                name="marketIds"
+                                                name="expirationDate"
                                                 render={({ field }) => (
-                                                    <FormItemWrapper label="Market">
+                                                    <FormItemWrapper label="Expiration Year">
                                                         <SelectBox
-                                                            options={
-                                                                metadataStore?.state
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a market"
-                                                            inputPlaceholder="Search for a market..."
-                                                            emptyPlaceholder="No market found"
-                                                            multiple
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="year"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Year">
-                                                        <SelectBox
-                                                            options={getListOfYears()}
+                                                            options={getListOfYears(
+                                                                true
+                                                            )}
                                                             value={field.value}
                                                             onChange={
                                                                 field.onChange
@@ -381,8 +410,72 @@ function ActivationForm() {
                                             />
                                         </div>
                                     </div>
+                                    <div className="grid gap-3 grid-cols-2">
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="annualValue"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Annual Value (in cr)">
+                                                        <Input
+                                                            {...field}
+                                                            type="number"
+                                                        />
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="totalValue"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Total value (in cr)">
+                                                        <Input
+                                                            {...field}
+                                                            type="number"
+                                                        />
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="grid gap-3 grid-cols-2">
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="mediaLink"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Media Link">
+                                                        <Input {...field} />
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="duration"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Duration (in yrs)">
+                                                        <Input
+                                                            {...field}
+                                                            type="number"
+                                                        />
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </CardWrapper>
+                        </div>
+                        <div className="grid auto-rows-max items-start gap-4 ">
+                            <VerticalFieldsCard
+                                control={form.control}
+                                title="Deal attributes"
+                                displayFields={sportsDealSummaryAttributes}
+                            />
                         </div>
                     </div>
 
@@ -393,7 +486,7 @@ function ActivationForm() {
                             className="w-full py-5 gap-1"
                             disabled={isSubmitting}
                         >
-                            <span>Save Activation</span>
+                            <span>Save Deal</span>
                             {isSubmitting && (
                                 <ClipLoader
                                     size={15}
@@ -407,9 +500,12 @@ function ActivationForm() {
                             className="w-full py-5"
                             disabled={isSubmitting}
                             onClick={() =>
-                                navigate(NAVIGATION_ROUTES.ACTIVATION_LIST, {
-                                    replace: true,
-                                })
+                                navigate(
+                                    NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
+                                    {
+                                        replace: true,
+                                    }
+                                )
                             }
                             type="button"
                         >
@@ -422,4 +518,4 @@ function ActivationForm() {
     );
 }
 
-export default ActivationForm;
+export default SportsDealSummaryForm;
