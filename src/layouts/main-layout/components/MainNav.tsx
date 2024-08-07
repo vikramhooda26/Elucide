@@ -14,10 +14,10 @@ export function MainNav({
             {...props}
         >
             <Link
-                to="/examples/dashboard"
+                to="/create-user"
                 className="text-sm font-medium transition-colors hover:text-primary"
             >
-                Overview
+                Create user
             </Link>
             <Link
                 to="/examples/dashboard"

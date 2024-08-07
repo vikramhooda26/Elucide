@@ -6,7 +6,7 @@ import AthleteForm from "../features/athlete/AthleteForm";
 import AthleteList from "../features/athlete/AthleteList";
 import AthleteView from "../features/athlete/AthleteView";
 import { useAuth } from "../features/auth/auth-provider/AuthProvider";
-import Login from "../features/auth/login/Login";
+import Login from "../features/auth/Login";
 import BrandForm from "../features/brand/BrandForm";
 import BrandList from "../features/brand/BrandList";
 import BrandView from "../features/brand/BrandView";
@@ -44,6 +44,7 @@ import { loadingBarSelector } from "../store/selectors/global";
 import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
 import SportsDealSummaryForm from "../features/sports-deal-summary/SportsDealSummaryForm";
 import SportsDealSummaryList from "../features/sports-deal-summary/SportsDealSummaryList";
+import SignUpPage from "../features/auth/SignUp";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -60,6 +61,11 @@ const routeChildren: routeChildrenType[] = [
         path: NAVIGATION_ROUTES.DASHBOARD,
         element: <Dashboard />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    {
+        path: NAVIGATION_ROUTES.CREATE_USER,
+        element: <SignUpPage />,
+        access: ["SUPER_ADMIN"],
     },
     //= ============================= athlete related routes starts here ====================== =//
     {
