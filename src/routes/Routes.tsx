@@ -28,6 +28,9 @@ import AgeView from "../features/metadata/age/AgeView";
 import GenderForm from "../features/metadata/gender/GenderForm";
 import GenderList from "../features/metadata/gender/GenderList";
 import GenderView from "../features/metadata/gender/GenderView";
+import PersonalityForm from "../features/metadata/personality/PersonalityForm";
+import PersonalityList from "../features/metadata/personality/PersonalityList";
+import PersonalityView from "../features/metadata/personality/PersonalityView";
 import TeamForm from "../features/team/TeamForm";
 import TeamList from "../features/team/TeamList";
 import TeamView from "../features/team/TeamView";
@@ -39,10 +42,8 @@ import ErrorService from "../services/error/ErrorService";
 import { userAtom } from "../store/atoms/user";
 import { loadingBarSelector } from "../store/selectors/global";
 import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
-import PersonalityForm from "../features/metadata/personality/PersonalityForm";
-import PersonalityList from "../features/metadata/personality/PersonalityList";
-import PersonalityView from "../features/metadata/personality/PersonalityView";
 import SportsDealSummaryForm from "../features/sports-deal-summary/SportsDealSummaryForm";
+import SportsDealSummaryList from "../features/sports-deal-summary/SportsDealSummaryList";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -128,32 +129,7 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     //= ============================= league related routes ends here ======================== =//
-    //= ============================= activation related routes starts here ====================== =//
-    {
-        path: NAVIGATION_ROUTES.CREATE_ACTIVATION,
-        element: <ActivationForm />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
-    },
 
-    //= ============================= activation related routes ends here ======================== =//
-
-    //= ============================= sports deal summary related routes starts here ====================== =//
-    {
-        path: NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY,
-        element: <SportsDealSummaryForm />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
-    },
-    {
-        path: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
-        element: <LeagueList />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-    },
-    {
-        path: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY + "/:id",
-        element: <LeagueView />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-    },
-    //= ============================= sports deal summary related routes ends here ======================== =//
     {
         path: NAVIGATION_ROUTES.DATA_ENTRY_LIST,
         element: <DataEntryList />,
@@ -289,9 +265,30 @@ const routeChildren: routeChildrenType[] = [
                 element: <PersonalityView />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
-        //= ============================= personality related routes ends here ======================== =//
-
-        ]
+            //= ============================= personality related routes ends here ======================== =//
+            //= ============================= sports deal summary related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY,
+                element: <SportsDealSummaryForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            // {
+            //     path: NAVIGATION_ROUTES.PERSONALITY_EDIT + "/:id",
+            //     element: <PersonalityForm />,
+            //     access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            // },
+            {
+                path: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
+                element: <SportsDealSummaryList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            // {
+            //     path: NAVIGATION_ROUTES.PERSONALITY + "/:id",
+            //     element: <PersonalityView />,
+            //     access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            // },
+            //= ============================= sports deal summary related routes ends here ======================== =//
+        ],
     },
     {
         path: NAVIGATION_ROUTES.TEMP_MAIL,
@@ -375,10 +372,10 @@ function Routes() {
             element: <HomePageLayout />,
             children: unProtectedRoute,
         },
-        // {
-        //     path: "*",
-        //     element: <Navigate to={NAVIGATION_ROUTES.HOME} />,
-        // },
+        {
+            path: "*",
+            element: <Navigate to={NAVIGATION_ROUTES.HOME} />,
+        },
     ];
 
     return createBrowserRouter(routeObj);

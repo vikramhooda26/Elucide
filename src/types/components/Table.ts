@@ -1,12 +1,12 @@
 import { ColumnDef, Row, Table } from "@tanstack/react-table";
 
-export interface DataTableProps<TData, TValue,> {
+export interface DataTableProps<TData, TValue> {
     table: Table<any>;
     columns: ColumnDef<TData, TValue>[];
     toolbarAttributes: JSX.Element[];
     callbacks: {
         onView: (id: string) => void;
-    }
+    };
 }
 
 export interface DataTableToolbarProps<TData> {
@@ -14,16 +14,15 @@ export interface DataTableToolbarProps<TData> {
     toolbarAttributes: JSX.Element[];
 }
 
-
 export interface DataTableRowActionsProps<TData> {
     row: Row<TData>;
-    routes: { editRoute: string; copyRoute: String; deleteRoute: () => void; };
+    routes: { editRoute: string; copyRoute?: String; deleteRoute: () => void };
     schema: any;
 }
 
-// { label: string; 
-//     value: string; 
-//     icon?: ComponentType<{ className?: string | undefined; }> | undefined; 
+// { label: string;
+//     value: string;
+//     icon?: ComponentType<{ className?: string | undefined; }> | undefined;
 // }[]
 
 export interface Labels {

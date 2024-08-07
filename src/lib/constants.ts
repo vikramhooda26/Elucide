@@ -20,7 +20,7 @@ export const LOCAL_STORAGE_KEYS = {
     USER: "@user",
 } as const;
 
-const dataEntryRoute = '/data-entry';
+const dataEntryRoute = "/data-entry";
 
 export const NAVIGATION_ROUTES = {
     LOGIN: "/elucide/login",
@@ -47,17 +47,12 @@ export const NAVIGATION_ROUTES = {
     CREATE_ATHLETE: "/athlete/create",
     EDIT_ATHLETE: "/athlete/edit",
 
-    // ACTIVATION: "/activation/view",
-    // ACTIVATION_LIST: "/activation/list"
-    CREATE_ACTIVATION: "/activation/create",
-    EDIT_ACTIVATION: "/activation/edit",
-
-    SPORTS_DEAL_SUMMARY: "/sports-deal-summary/view",
-    SPORTS_DEAL_SUMMARY_LIST: "/sports-deal-summary/list",
-    CREATE_SPORTS_DEAL_SUMMARY: "/sports-deal-summary/create",
-    EDIT_SPORTS_DEAL_SUMMARY: "/sports-deal-summary/edit",
-
     DATA_ENTRY_LIST: dataEntryRoute,
+
+    SPORTS_DEAL_SUMMARY: dataEntryRoute + "/sports-deal-summary/view",
+    SPORTS_DEAL_SUMMARY_LIST: dataEntryRoute + "/sports-deal-summary/list",
+    CREATE_SPORTS_DEAL_SUMMARY: dataEntryRoute + "/sports-deal-summary/create",
+    EDIT_SPORTS_DEAL_SUMMARY: dataEntryRoute + "/sports-deal-summary/edit",
 
     LEAGUE_ADMIN: dataEntryRoute,
     ATHLETE_ADMIN: dataEntryRoute + "/athlete/list",
@@ -90,7 +85,6 @@ export const NAVIGATION_ROUTES = {
     PERSONALITY_EDIT: dataEntryRoute + "/personality/edit",
 
     TEMP_MAIL: "/mail/list",
-
 } as const;
 
 export const HTTP_STATUS_CODES = {

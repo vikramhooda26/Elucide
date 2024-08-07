@@ -8,7 +8,6 @@ import {
 } from "../../components/ui/resizable";
 import { TooltipProvider } from "../../components/ui/tooltip";
 
-
 function DataEntryList() {
     const [defaultLayout, setDefaultLayout] = useState(undefined);
     const [defaultCollapsed, setDefaultCollapsed] = useState(undefined);
@@ -44,7 +43,7 @@ function DataEntryList() {
                             navCollapsedSize={4}
                         />
                         <ResizablePanel>
-                            <div className="w-full h-full py-8 px-4">
+                            <div className="w-full h-full px-4">
                                 <Outlet />
                             </div>
                         </ResizablePanel>

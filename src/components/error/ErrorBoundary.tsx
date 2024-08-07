@@ -1,6 +1,6 @@
 // ErrorBoundary.tsx
-import React, { Component, ReactNode } from 'react';
-import ErrorPage from './ErrorPage';
+import React, { Component, ReactNode } from "react";
+import ErrorPage from "./ErrorPage";
 
 interface ErrorBoundaryProps {
     children: ReactNode;
@@ -22,7 +22,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
         console.error("Error caught by ErrorBoundary:", error, errorInfo);
-        console.log('ErrorBoundary caught an error:', error);
+        console.log("ErrorBoundary caught an error:", error);
     }
 
     render() {

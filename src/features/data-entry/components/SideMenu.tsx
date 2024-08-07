@@ -1,8 +1,12 @@
 import {
-    BarChart,
     Building,
+    CircleArrowOutUpRight,
+    ClipboardCheck,
     Dumbbell,
     FileText,
+    Handshake,
+    PersonStanding,
+    RefreshCcw,
     Trophy,
     Users,
 } from "lucide-react";
@@ -14,7 +18,6 @@ import {
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { cn } from "../../../lib/utils";
 import { Nav, NavProps } from "./new-nax";
-
 
 interface MailProps {
     defaultLayout: number[] | undefined;
@@ -34,55 +37,51 @@ export const SideMenu = ({
             {
                 title: "League",
                 icon: Trophy,
-                label: "50",
                 navigateTo: NAVIGATION_ROUTES.LEAGUE_ADMIN,
             },
             {
                 title: "Athlete",
                 icon: Dumbbell,
-                label: "200",
                 navigateTo: NAVIGATION_ROUTES.ATHLETE_ADMIN,
             },
             {
                 title: "Team",
                 icon: Users,
-                label: "150",
                 navigateTo: NAVIGATION_ROUTES.TEAM_ADMIN,
             },
             {
                 title: "Brand",
                 icon: Building,
-                label: "100",
                 navigateTo: NAVIGATION_ROUTES.BRAND_ADMIN,
             },
             {
+                title: "Activation",
+                icon: ClipboardCheck,
+                navigateTo: NAVIGATION_ROUTES.ACTIVATION_LIST,
+            },
+            {
+                title: "Sports Deal Summary",
+                icon: Handshake,
+                navigateTo: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
+            },
+            {
                 title: "Age",
-                icon: Building,
-                label: "12",
+                icon: RefreshCcw,
                 navigateTo: NAVIGATION_ROUTES.AGE_LIST,
             },
             {
                 title: "Gender",
-                icon: Building,
-                label: "12",
+                icon: CircleArrowOutUpRight,
                 navigateTo: NAVIGATION_ROUTES.GENDER_LIST,
             },
             {
-                title: "Activation",
-                icon: Building,
-                label: "12",
-                navigateTo: NAVIGATION_ROUTES.ACTIVATION_LIST,
-            },
-            {
                 title: "Active Campaign",
-                icon: Building,
-                label: "12",
+                icon: FileText,
                 navigateTo: NAVIGATION_ROUTES.CAMPAIGN_LIST,
             },
             {
                 title: "Personality",
-                icon: Building,
-                label: "12",
+                icon: PersonStanding,
                 navigateTo: NAVIGATION_ROUTES.PERSONALITY_LIST,
             },
         ],
@@ -94,11 +93,11 @@ export const SideMenu = ({
                 defaultSize={defaultLayout[0]}
                 collapsedSize={navCollapsedSize}
                 collapsible={true}
-                minSize={10}
+                minSize={12}
                 maxSize={15}
                 className={cn(
                     isCollapsed &&
-                    "min-w-[50px] transition-all duration-300 ease-in-out"
+                        "min-w-[50px] transition-all duration-300 ease-in-out"
                 )}
                 onCollapse={() => {
                     setIsCollapsed(true);

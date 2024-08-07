@@ -60,7 +60,7 @@ function ActivationList() {
                 logout,
                 navigate
             );
-            if (unknownError) {
+            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("An unknown error occurred");
             }
         } finally {
@@ -138,7 +138,9 @@ function ActivationList() {
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
-                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)}
+                        onClick={() =>
+                            navigator(NAVIGATION_ROUTES.ACTIVATION_CREATE)
+                        }
                     >
                         Create Activation
                     </Button>
