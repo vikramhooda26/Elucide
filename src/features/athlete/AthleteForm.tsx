@@ -29,7 +29,7 @@ import {
     athleteFormSchema,
     TAthleteFormSchema,
 } from "./constants/metadata";
-import { onNumInputChange } from "../utils/helpers";
+import { convertCroreToRupees, onNumInputChange } from "../utils/helpers";
 
 function AthleteForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -102,49 +102,49 @@ function AthleteForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Sports",
-                register: "sportId",
-                options: metadataStore.sport,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Nationality",
-                register: "nationalityId",
-                options: metadataStore.nationality,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "State",
-                register: "stateId",
-                options: metadataStore.state,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "NCCS class",
-                register: "nccsIds",
-                options: metadataStore.nccs,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Personality Traits",
-                register: "subPersonalityTraitIds",
-                options: metadataStore.personalityTrait,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Status",
-                register: "statusId",
-                options: metadataStore.athleteStatus,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Sports",
+            register: "sportId",
+            options: metadataStore.sport,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Nationality",
+            register: "nationalityId",
+            options: metadataStore.nationality,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "State",
+            register: "stateId",
+            options: metadataStore.state,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "NCCS class",
+            register: "nccsIds",
+            options: metadataStore.nccs,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Personality Traits",
+            register: "subPersonalityTraitIds",
+            options: metadataStore.personalityTrait,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Status",
+            register: "statusId",
+            options: metadataStore.athleteStatus,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const contactDetails: {
         title: string;
@@ -160,52 +160,52 @@ function AthleteForm() {
         placeholder?: string;
         type: "INPUT" | "PHONE";
     }[] = [
-            {
-                title: "Contact Name",
-                register: "contactName",
-                type: "INPUT",
-                input: {
-                    type: "text",
-                },
-                placeholder: "Contact name",
+        {
+            title: "Contact Name",
+            register: "contactName",
+            type: "INPUT",
+            input: {
+                type: "text",
             },
-            {
-                title: "Contact Designation",
-                register: "contactDesignation",
-                type: "INPUT",
-                input: {
-                    type: "text",
-                },
-                placeholder: "Contact designation",
+            placeholder: "Contact name",
+        },
+        {
+            title: "Contact Designation",
+            register: "contactDesignation",
+            type: "INPUT",
+            input: {
+                type: "text",
             },
-            {
-                title: "Contact Number",
-                register: "contactNumber",
-                type: "PHONE",
-                input: {
-                    type: "number",
-                },
-                placeholder: "Contact number",
+            placeholder: "Contact designation",
+        },
+        {
+            title: "Contact Number",
+            register: "contactNumber",
+            type: "PHONE",
+            input: {
+                type: "number",
             },
-            {
-                title: "Contact Linkedin",
-                register: "contactLinkedin",
-                type: "INPUT",
-                input: {
-                    type: "text",
-                },
-                placeholder: "Contact linkedin",
+            placeholder: "Contact number",
+        },
+        {
+            title: "Contact Linkedin",
+            register: "contactLinkedin",
+            type: "INPUT",
+            input: {
+                type: "text",
             },
-            {
-                title: "Contact Email",
-                register: "contactEmail",
-                type: "INPUT",
-                input: {
-                    type: "email",
-                },
-                placeholder: "Contact email",
+            placeholder: "Contact linkedin",
+        },
+        {
+            title: "Contact Email",
+            register: "contactEmail",
+            type: "INPUT",
+            input: {
+                type: "email",
             },
-        ];
+            placeholder: "Contact email",
+        },
+    ];
 
     const socials: {
         name: Extract<
@@ -218,25 +218,25 @@ function AthleteForm() {
             | "twitter"
         >;
     }[] = [
-            {
-                name: "instagram",
-            },
-            {
-                name: "facebook",
-            },
-            {
-                name: "twitter",
-            },
-            {
-                name: "linkedin",
-            },
-            {
-                name: "youtube",
-            },
-            {
-                name: "website",
-            },
-        ];
+        {
+            name: "instagram",
+        },
+        {
+            name: "facebook",
+        },
+        {
+            name: "twitter",
+        },
+        {
+            name: "linkedin",
+        },
+        {
+            name: "youtube",
+        },
+        {
+            name: "website",
+        },
+    ];
 
     const onSubmit = async (athleteFormValues: TAthleteFormSchema) => {
         if (athleteFormValues?.contactNumber) {
@@ -250,13 +250,18 @@ function AthleteForm() {
             }
         }
 
+        const convertedCostOfAssociation = convertCroreToRupees(
+            athleteFormValues.costOfAssociation
+        );
+
         console.log("\n\n\n\nRequest Body:", athleteFormValues);
 
         try {
             setIsSubmitting(true);
-            const response = await AthleteService.createAthlete(
-                athleteFormValues
-            );
+            const response = await AthleteService.createAthlete({
+                ...athleteFormValues,
+                costOfAssociation: convertedCostOfAssociation,
+            } as TAthleteFormSchema);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Athlete created successfully");
                 form.reset();
@@ -447,7 +452,13 @@ function AthleteForm() {
                                                             {...field}
                                                             placeholder="Association cost"
                                                             type="text"
-                                                            onChange={(e) => onNumInputChange(form, e, 'costOfAssociation')}
+                                                            onChange={(e) =>
+                                                                onNumInputChange(
+                                                                    form,
+                                                                    e,
+                                                                    "costOfAssociation"
+                                                                )
+                                                            }
                                                         />
                                                     </FormItemWrapper>
                                                 )}

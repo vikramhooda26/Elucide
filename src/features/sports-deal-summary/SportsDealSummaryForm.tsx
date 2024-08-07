@@ -19,7 +19,11 @@ import MetadataService from "../../services/features/MetadataService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { getListOfYears, onNumInputChange } from "../utils/helpers";
+import {
+    convertCroreToRupees,
+    getListOfYears,
+    onNumInputChange,
+} from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import {
     SPORTS_DEAL_SUMMARY_KEYS,
@@ -111,42 +115,42 @@ function SportsDealSummaryForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Type",
-                register: "typeId",
-                options: type,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Level",
-                register: "levelId",
-                options: metadataStore.sportsDealSummaryLevel,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Status",
-                register: "statusId",
-                options: status,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Asset",
-                register: "assetIds",
-                options: metadataStore.asset,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Territory",
-                register: "territoryId",
-                options: metadataStore.sportsDealSummaryTerritory,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Type",
+            register: "typeId",
+            options: type,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Level",
+            register: "levelId",
+            options: metadataStore.sportsDealSummaryLevel,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Status",
+            register: "statusId",
+            options: status,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Asset",
+            register: "assetIds",
+            options: metadataStore.asset,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Territory",
+            register: "territoryId",
+            options: metadataStore.sportsDealSummaryTerritory,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+    ];
 
     const partnerType = [
         { value: "Team", label: "Team" },
@@ -158,20 +162,47 @@ function SportsDealSummaryForm() {
         return partnerTypeValue === "Team"
             ? "Team"
             : partnerTypeValue === "League"
-                ? "League"
-                : "Athlete";
+            ? "League"
+            : "Athlete";
     };
 
     const onSubmit = async (
         sportsDealSummaryFormValues: TSportsDealSummaryFormSchema
     ) => {
+        const convertedAnnualValue = convertCroreToRupees(
+            sportsDealSummaryFormValues.annualValue
+        );
+        const convertedTotalValue = convertCroreToRupees(
+            sportsDealSummaryFormValues.totalValue
+        );
+
+        if (convertedAnnualValue === false) {
+            form.setError(
+                "annualValue",
+                { message: "Annual value must be a number" },
+                { shouldFocus: true }
+            );
+        }
+
+        if (convertedTotalValue === false) {
+            form.setError(
+                "totalValue",
+                { message: "Total value must be a number" },
+                { shouldFocus: true }
+            );
+        }
+
         console.log("\n\n\n\nRequest Body:", sportsDealSummaryFormValues);
 
         try {
             setIsSubmitting(true);
-            const response = await MetadataService.createSportsDealSummary(
-                sportsDealSummaryFormValues
-            );
+
+            const response = await MetadataService.createSportsDealSummary({
+                ...sportsDealSummaryFormValues,
+                totalValue: convertedTotalValue,
+                annualValue: convertedAnnualValue,
+            } as TSportsDealSummaryFormSchema);
+
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sports deal summary created successfully");
                 form.reset();
@@ -312,10 +343,10 @@ function SportsDealSummaryForm() {
                                                         ) === "Team"
                                                             ? "teamId"
                                                             : form.getValues(
-                                                                "partnerType"
-                                                            ) === "League"
-                                                                ? "leagueId"
-                                                                : "athleteId"
+                                                                  "partnerType"
+                                                              ) === "League"
+                                                            ? "leagueId"
+                                                            : "athleteId"
                                                     }
                                                     render={({ field }) => {
                                                         const stakeholder =
@@ -331,14 +362,14 @@ function SportsDealSummaryForm() {
                                                                         form.getValues(
                                                                             "partnerType"
                                                                         ) ===
-                                                                            "Team"
+                                                                        "Team"
                                                                             ? metadataStore.team
                                                                             : form.getValues(
-                                                                                "partnerType"
-                                                                            ) ===
-                                                                                "League"
-                                                                                ? metadataStore.league
-                                                                                : metadataStore.athlete
+                                                                                  "partnerType"
+                                                                              ) ===
+                                                                              "League"
+                                                                            ? metadataStore.league
+                                                                            : metadataStore.athlete
                                                                     }
                                                                     value={
                                                                         field.value
@@ -418,7 +449,13 @@ function SportsDealSummaryForm() {
                                                         <Input
                                                             {...field}
                                                             type="text"
-                                                            onChange={(e) => onNumInputChange(form, e, 'annualValue')}
+                                                            onChange={(e) =>
+                                                                onNumInputChange(
+                                                                    form,
+                                                                    e,
+                                                                    "annualValue"
+                                                                )
+                                                            }
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -433,7 +470,13 @@ function SportsDealSummaryForm() {
                                                         <Input
                                                             {...field}
                                                             type="text"
-                                                            onChange={(e) => onNumInputChange(form, e, 'totalValue')}
+                                                            onChange={(e) =>
+                                                                onNumInputChange(
+                                                                    form,
+                                                                    e,
+                                                                    "totalValue"
+                                                                )
+                                                            }
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -461,7 +504,13 @@ function SportsDealSummaryForm() {
                                                         <Input
                                                             {...field}
                                                             type="text"
-                                                            onChange={(e) => onNumInputChange(form, e, 'duration')}
+                                                            onChange={(e) =>
+                                                                onNumInputChange(
+                                                                    form,
+                                                                    e,
+                                                                    "duration"
+                                                                )
+                                                            }
                                                         />
                                                     </FormItemWrapper>
                                                 )}

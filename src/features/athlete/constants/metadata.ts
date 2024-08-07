@@ -18,7 +18,7 @@ export const ATHLETE_METADATA = {
 export const athleteFormSchema = z.object({
     name: z.string().min(1, "Required"),
     associationLevelId: z.string().optional(),
-    costOfAssociation: z.number().optional(),
+    costOfAssociation: z.string().optional(),
     userId: z.string().min(1, "Required"),
     sportId: z.string().optional(),
     agencyId: z.string().optional(),
