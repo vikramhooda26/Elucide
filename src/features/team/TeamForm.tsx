@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, PlusCircle, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
@@ -25,6 +25,7 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import {
     convertStringToFloat,
     getListOfYears,
+    onNumInputChange,
     validateMetrics,
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
@@ -125,56 +126,56 @@ export function TeamForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Sports",
-            register: "sportId",
-            options: metadataStore.sport,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "League",
-            register: "leagueId",
-            options: metadataStore.league,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Owners",
-            register: "ownerIds",
-            options: metadataStore.teamOwner,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "City",
-            register: "cityId",
-            options: metadataStore.city,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "State",
-            register: "stateId",
-            options: metadataStore.state,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Personality Traits",
-            register: "subPersonalityTraitIds",
-            options: metadataStore.personalityTrait,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Tiers",
-            register: "tierIds",
-            options: metadataStore.tier,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Sports",
+                register: "sportId",
+                options: metadataStore.sport,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "League",
+                register: "leagueId",
+                options: metadataStore.league,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Owners",
+                register: "ownerIds",
+                options: metadataStore.teamOwner,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "City",
+                register: "cityId",
+                options: metadataStore.city,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "State",
+                register: "stateId",
+                options: metadataStore.state,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Personality Traits",
+                register: "subPersonalityTraitIds",
+                options: metadataStore.personalityTrait,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Tiers",
+                register: "tierIds",
+                options: metadataStore.tier,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
     const targetAudience: {
         title: string;
@@ -183,21 +184,21 @@ export function TeamForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Age",
-            register: "ageIds",
-            options: metadataStore.age,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Gender",
-            register: "genderIds",
-            options: metadataStore.gender,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Age",
+                register: "ageIds",
+                options: metadataStore.age,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Gender",
+                register: "genderIds",
+                options: metadataStore.gender,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
     const contactDetails: {
         title: string;
@@ -213,52 +214,52 @@ export function TeamForm() {
         placeholder?: string;
         type: "INPUT" | "PHONE";
     }[] = [
-        {
-            title: "Contact Name",
-            register: "contactName",
-            type: "INPUT",
-            input: {
-                type: "text",
+            {
+                title: "Contact Name",
+                register: "contactName",
+                type: "INPUT",
+                input: {
+                    type: "text",
+                },
+                placeholder: "Contact name",
             },
-            placeholder: "Contact name",
-        },
-        {
-            title: "Contact Designation",
-            register: "contactDesignation",
-            type: "INPUT",
-            input: {
-                type: "text",
+            {
+                title: "Contact Designation",
+                register: "contactDesignation",
+                type: "INPUT",
+                input: {
+                    type: "text",
+                },
+                placeholder: "Contact designation",
             },
-            placeholder: "Contact designation",
-        },
-        {
-            title: "Contact Number",
-            register: "contactNumber",
-            type: "PHONE",
-            input: {
-                type: "number",
+            {
+                title: "Contact Number",
+                register: "contactNumber",
+                type: "PHONE",
+                input: {
+                    type: "number",
+                },
+                placeholder: "Contact number",
             },
-            placeholder: "Contact number",
-        },
-        {
-            title: "Contact Linkedin",
-            register: "contactLinkedin",
-            type: "INPUT",
-            input: {
-                type: "text",
+            {
+                title: "Contact Linkedin",
+                register: "contactLinkedin",
+                type: "INPUT",
+                input: {
+                    type: "text",
+                },
+                placeholder: "Contact linkedin",
             },
-            placeholder: "Contact linkedin",
-        },
-        {
-            title: "Contact Email",
-            register: "contactEmail",
-            type: "INPUT",
-            input: {
-                type: "email",
+            {
+                title: "Contact Email",
+                register: "contactEmail",
+                type: "INPUT",
+                input: {
+                    type: "email",
+                },
+                placeholder: "Contact email",
             },
-            placeholder: "Contact email",
-        },
-    ];
+        ];
 
     const socials: {
         name: Extract<
@@ -271,25 +272,25 @@ export function TeamForm() {
             | "twitter"
         >;
     }[] = [
-        {
-            name: "instagram",
-        },
-        {
-            name: "facebook",
-        },
-        {
-            name: "twitter",
-        },
-        {
-            name: "linkedin",
-        },
-        {
-            name: "youtube",
-        },
-        {
-            name: "website",
-        },
-    ];
+            {
+                name: "instagram",
+            },
+            {
+                name: "facebook",
+            },
+            {
+                name: "twitter",
+            },
+            {
+                name: "linkedin",
+            },
+            {
+                name: "youtube",
+            },
+            {
+                name: "website",
+            },
+        ];
 
     const viewershipType = [
         { label: "OTT", value: "OTT" },
@@ -529,7 +530,8 @@ export function TeamForm() {
                                                         <Input
                                                             {...field}
                                                             placeholder="Franchise fees"
-                                                            type="number"
+                                                            type="text"
+                                                            onChange={(e) => onNumInputChange(form, e, 'franchiseFee')}
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -568,7 +570,8 @@ export function TeamForm() {
                                                         <Input
                                                             {...field}
                                                             placeholder="Association cost"
-                                                            type="number"
+                                                            type="text"
+                                                            onChange={(e) => onNumInputChange(form, e, 'costOfAssociation')}
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -838,20 +841,20 @@ export function TeamForm() {
                                                 <TableCell className="font-semibold">
                                                     {viewershipMetricFieldArray
                                                         .fields.length > 0 && (
-                                                        <Button
-                                                            onClick={() =>
-                                                                viewershipMetricFieldArray.remove(
-                                                                    index
-                                                                )
-                                                            }
-                                                            size="sm"
-                                                            className="h-7 gap-1 text-white"
-                                                            variant="destructive"
-                                                            type="button"
-                                                        >
-                                                            <Trash2 className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    )}
+                                                            <Button
+                                                                onClick={() =>
+                                                                    viewershipMetricFieldArray.remove(
+                                                                        index
+                                                                    )
+                                                                }
+                                                                size="sm"
+                                                                className="h-7 gap-1 text-white"
+                                                                variant="destructive"
+                                                                type="button"
+                                                            >
+                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                            </Button>
+                                                        )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -934,20 +937,20 @@ export function TeamForm() {
                                                 <TableCell className="font-semibold">
                                                     {reachMetricFieldArray
                                                         .fields.length > 0 && (
-                                                        <Button
-                                                            onClick={() =>
-                                                                reachMetricFieldArray.remove(
-                                                                    index
-                                                                )
-                                                            }
-                                                            size="sm"
-                                                            className="h-7 gap-1 text-white"
-                                                            variant="destructive"
-                                                            type="button"
-                                                        >
-                                                            <Trash2 className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    )}
+                                                            <Button
+                                                                onClick={() =>
+                                                                    reachMetricFieldArray.remove(
+                                                                        index
+                                                                    )
+                                                                }
+                                                                size="sm"
+                                                                className="h-7 gap-1 text-white"
+                                                                variant="destructive"
+                                                                type="button"
+                                                            >
+                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                            </Button>
+                                                        )}
                                                 </TableCell>
                                             </TableRow>
                                         )

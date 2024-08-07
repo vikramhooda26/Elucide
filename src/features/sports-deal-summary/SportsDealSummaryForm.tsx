@@ -19,7 +19,7 @@ import MetadataService from "../../services/features/MetadataService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { getListOfYears } from "../utils/helpers";
+import { getListOfYears, onNumInputChange } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import {
     SPORTS_DEAL_SUMMARY_KEYS,
@@ -111,42 +111,42 @@ function SportsDealSummaryForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Type",
-            register: "typeId",
-            options: type,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Level",
-            register: "levelId",
-            options: metadataStore.sportsDealSummaryLevel,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Status",
-            register: "statusId",
-            options: status,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Asset",
-            register: "assetIds",
-            options: metadataStore.asset,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Territory",
-            register: "territoryId",
-            options: metadataStore.sportsDealSummaryTerritory,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Type",
+                register: "typeId",
+                options: type,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Level",
+                register: "levelId",
+                options: metadataStore.sportsDealSummaryLevel,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Status",
+                register: "statusId",
+                options: status,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Asset",
+                register: "assetIds",
+                options: metadataStore.asset,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Territory",
+                register: "territoryId",
+                options: metadataStore.sportsDealSummaryTerritory,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+        ];
 
     const partnerType = [
         { value: "Team", label: "Team" },
@@ -158,8 +158,8 @@ function SportsDealSummaryForm() {
         return partnerTypeValue === "Team"
             ? "Team"
             : partnerTypeValue === "League"
-            ? "League"
-            : "Athlete";
+                ? "League"
+                : "Athlete";
     };
 
     const onSubmit = async (
@@ -312,10 +312,10 @@ function SportsDealSummaryForm() {
                                                         ) === "Team"
                                                             ? "teamId"
                                                             : form.getValues(
-                                                                  "partnerType"
-                                                              ) === "League"
-                                                            ? "leagueId"
-                                                            : "athleteId"
+                                                                "partnerType"
+                                                            ) === "League"
+                                                                ? "leagueId"
+                                                                : "athleteId"
                                                     }
                                                     render={({ field }) => {
                                                         const stakeholder =
@@ -331,14 +331,14 @@ function SportsDealSummaryForm() {
                                                                         form.getValues(
                                                                             "partnerType"
                                                                         ) ===
-                                                                        "Team"
+                                                                            "Team"
                                                                             ? metadataStore.team
                                                                             : form.getValues(
-                                                                                  "partnerType"
-                                                                              ) ===
-                                                                              "League"
-                                                                            ? metadataStore.league
-                                                                            : metadataStore.athlete
+                                                                                "partnerType"
+                                                                            ) ===
+                                                                                "League"
+                                                                                ? metadataStore.league
+                                                                                : metadataStore.athlete
                                                                     }
                                                                     value={
                                                                         field.value
@@ -417,7 +417,8 @@ function SportsDealSummaryForm() {
                                                     <FormItemWrapper label="Annual Value (in cr)">
                                                         <Input
                                                             {...field}
-                                                            type="number"
+                                                            type="text"
+                                                            onChange={(e) => onNumInputChange(form, e, 'annualValue')}
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -431,7 +432,8 @@ function SportsDealSummaryForm() {
                                                     <FormItemWrapper label="Total value (in cr)">
                                                         <Input
                                                             {...field}
-                                                            type="number"
+                                                            type="text"
+                                                            onChange={(e) => onNumInputChange(form, e, 'totalValue')}
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -458,7 +460,8 @@ function SportsDealSummaryForm() {
                                                     <FormItemWrapper label="Duration (in yrs)">
                                                         <Input
                                                             {...field}
-                                                            type="number"
+                                                            type="text"
+                                                            onChange={(e) => onNumInputChange(form, e, 'duration')}
                                                         />
                                                     </FormItemWrapper>
                                                 )}

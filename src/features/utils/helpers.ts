@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react";
+import { RegisterOptions, UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 
 export const getListOfYears = (aheadInTime?: boolean) => {
@@ -35,10 +37,10 @@ export const validateMetrics = (
                 const metricFields =
                     metricType === "viewershipMetrics"
                         ? {
-                              field1: "viewership",
-                              field2: "viewershipType",
-                              field3: "year",
-                          }
+                            field1: "viewership",
+                            field2: "viewershipType",
+                            field3: "year",
+                        }
                         : { field1: "reach", field2: "year", field3: "year" };
 
                 const isAnyProvided =
@@ -59,8 +61,7 @@ export const validateMetrics = (
                         }
                     });
                     toast.error(
-                        `Please fill all the fields in ${
-                            metricType.split("M")[0]
+                        `Please fill all the fields in ${metricType.split("M")[0]
                         } card`
                     );
                     return undefined;
@@ -77,4 +78,27 @@ export const validateMetrics = (
 
 export const formatNumberWithCommas = (num: number) => {
     return new Intl.NumberFormat("en-IN").format(num);
+};
+
+export const onNumInputChange = (form: UseFormReturn<any>, e: ChangeEvent<HTMLInputElement>, key: string) => {
+
+    const inputValue = e.target.value;
+    if (/^\d*\.?\d*$/.test(inputValue) || inputValue === '') {
+        form.setValue(key, inputValue);
+    } else {
+        let hasDot = false;
+        const sanitizedValue = inputValue.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').split('').filter(char => {
+            const charCode = char.charCodeAt(0);
+            if (charCode >= 48 && charCode <= 57) {
+                return true;
+            }
+            if (charCode === 46 && !hasDot) {
+                hasDot = true;
+                return true;
+            }
+            return false;
+        }).join('');
+
+        form.setValue(key, sanitizedValue);
+    }
 };
