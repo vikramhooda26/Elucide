@@ -105,14 +105,9 @@ function LeagueList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={
-                (table.getColumn("athleteName")?.getFilterValue() as string) ??
-                ""
-            }
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-                table
-                    .getColumn("leagueName")
-                    ?.setFilterValue(event.target.value)
+                table.getColumn("name")?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,

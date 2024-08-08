@@ -14,21 +14,21 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import useNavigator from "../../hooks/useNavigator";
-import { listLoadingAtom } from "../../store/atoms/global";
-import { useAuth } from "../auth/auth-provider/AuthProvider";
-import MetadataService from "../../services/features/MetadataService";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import { team } from "../../types/team/TeamListTypes";
-import ErrorService from "../../services/error/ErrorService";
-import { Input } from "../../components/ui/input";
-import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
-import { Button } from "../../components/ui/button";
-import DataTable from "../../components/data-table/data-table";
+import DataTable from "../../../components/data-table/data-table";
+import { DataTableFacetedFilter } from "../../../components/data-table/data-table-faceted-filter";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import useNavigator from "../../../hooks/useNavigator";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
+import ErrorService from "../../../services/error/ErrorService";
+import MetadataService from "../../../services/features/MetadataService";
+import { listLoadingAtom } from "../../../store/atoms/global";
+import { team } from "../../../types/team/TeamListTypes";
+import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
-import { columns } from "./data/column";
+import { columns } from "./data/columns";
 
-function SportsDealSummaryList() {
+function BroadcastPartnerList() {
     const navigator = useNavigator();
     const [dataList, setDataList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
@@ -45,14 +45,18 @@ function SportsDealSummaryList() {
     const fetchList = async () => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.getAllSportsDealSummary({});
+            const response = await MetadataService.getAllBroadcastPartner({});
             if (response.status === HTTP_STATUS_CODES.OK) {
-                const teams = response.data;
-                teams.forEach((team: team, i: number) => {
-                    teams[i].createdBy = team?.createdBy?.email || "N/A";
-                    teams[i].modifiedBy = team?.modifiedBy?.email || "N/A";
-                });
-                setDataList(teams);
+                const broadcastPartners = response.data;
+                broadcastPartners.forEach(
+                    (broadcastPartner: team, i: number) => {
+                        broadcastPartners[i].createdBy =
+                            broadcastPartner?.createdBy?.email || "N/A";
+                        broadcastPartners[i].modifiedBy =
+                            broadcastPartner?.modifiedBy?.email || "N/A";
+                    }
+                );
+                setDataList(broadcastPartners);
             }
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(
@@ -73,7 +77,7 @@ function SportsDealSummaryList() {
     }, []);
 
     const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY, [id]);
+        navigator(NAVIGATION_ROUTES.BROADCAST_PARTNER, [id]);
     };
 
     const table = useReactTable({
@@ -107,12 +111,12 @@ function SportsDealSummaryList() {
             placeholder="Filter tasks..."
             value={
                 (table
-                    .getColumn("sportsDealSummaryName")
+                    .getColumn("broadcastPartnerName")
                     ?.getFilterValue() as string) ?? ""
             }
             onChange={(event) =>
                 table
-                    .getColumn("sportsDealSummaryName")
+                    .getColumn("broadcastPartnerName")
                     ?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
@@ -134,21 +138,19 @@ function SportsDealSummaryList() {
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
-                        Sports Deal Summary List
+                        Broadcast Partner List
                     </h2>
                     <p className="text-muted-foreground">
-                        Here&apos;s a list of sport deal summaries.
+                        Here&apos;s a list of broadcast partners.
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
                         onClick={() =>
-                            navigator(
-                                NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY
-                            )
+                            navigator(NAVIGATION_ROUTES.AGENCY_CREATE)
                         }
                     >
-                        Create Deal
+                        Create Broadcast Partner
                     </Button>
                 </div>
             </div>
@@ -162,4 +164,4 @@ function SportsDealSummaryList() {
     );
 }
 
-export default SportsDealSummaryList;
+export default BroadcastPartnerList;

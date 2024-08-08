@@ -85,6 +85,21 @@ export const NAVIGATION_ROUTES = {
     PERSONALITY_CREATE: dataEntryRoute + "/personality/create",
     PERSONALITY_EDIT: dataEntryRoute + "/personality/edit",
 
+    AGENCY: dataEntryRoute + "/agency/view",
+    AGENCY_LIST: dataEntryRoute + "/agency/list",
+    AGENCY_CREATE: dataEntryRoute + "/agency/create",
+    AGENCY_EDIT: dataEntryRoute + "/agency/edit",
+
+    ASSET: dataEntryRoute + "/asset/view",
+    ASSET_LIST: dataEntryRoute + "/asset/list",
+    ASSET_CREATE: dataEntryRoute + "/asset/create",
+    ASSET_EDIT: dataEntryRoute + "/asset/edit",
+
+    BROADCAST_PARTNER: dataEntryRoute + "/broadcast-partner/view",
+    BROADCAST_PARTNER_LIST: dataEntryRoute + "/broadcast-partner/list",
+    BROADCAST_PARTNER_CREATE: dataEntryRoute + "/broadcast-partner/create",
+    BROADCAST_PARTNER_EDIT: dataEntryRoute + "/broadcast-partner/edit",
+
     TEMP_MAIL: "/mail/list",
 } as const;
 

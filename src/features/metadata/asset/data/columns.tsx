@@ -1,12 +1,12 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import { DataTableColumnHeader } from "../../../../components/data-table/data-table-column-header";
+import { DataTableRowActions } from "../../../../components/data-table/data-table-row-actions";
+import { Checkbox } from "../../../../components/ui/checkbox";
 import { routes } from "./data";
-import { schema, schemaType } from "./schema";
-import { Checkbox } from "../../../components/ui/checkbox";
-import { DataTableColumnHeader } from "../../../components/data-table/data-table-column-header";
-import { DataTableRowActions } from "../../../components/data-table/data-table-row-actions";
+import { assetListSchema, TAssetListSchema } from "./schema";
 
-export const columns: ColumnDef<schemaType>[] = [
+export const columns: ColumnDef<TAssetListSchema>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -34,15 +34,15 @@ export const columns: ColumnDef<schemaType>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "brandName",
+        accessorKey: "assetName",
         header: ({ column }) => (
             <DataTableColumnHeader
                 column={column}
-                title="Brand name"
+                title="Asset Name"
             />
         ),
         cell: ({ row }) => (
-            <div className="w-[80px]">{row.getValue("brandName")}</div>
+            <div className="w-[80px]">{row.getValue("assetName")}</div>
         ),
         enableSorting: false,
         enableHiding: false,
@@ -62,7 +62,7 @@ export const columns: ColumnDef<schemaType>[] = [
                         {row.getValue("createdDate")
                             ? format(
                                   row.getValue("createdDate"),
-                                  "dd-MM-yyyy, hh:mm aaaaaa"
+                                  "dd-MM-yyyy, HH:mm aaaaaa"
                               )
                             : ""}
                     </span>
@@ -99,7 +99,7 @@ export const columns: ColumnDef<schemaType>[] = [
                         {row.getValue("modifiedDate")
                             ? format(
                                   row.getValue("modifiedDate"),
-                                  "dd-MM-yyyy, HH:mm"
+                                  "dd-MM-yyyy, HH:mm aaaaaa"
                               )
                             : ""}
                     </span>
@@ -127,7 +127,7 @@ export const columns: ColumnDef<schemaType>[] = [
             <DataTableRowActions
                 row={row}
                 routes={routes}
-                schema={schema}
+                schema={assetListSchema}
             />
         ),
     },

@@ -1,20 +1,14 @@
 export type team = {
-    "id": string;
-    "teamName": string;
-    "createdDate": string;
-    "modifiedDate": string | null ;
-    "createdBy": {
-        "userId": string;
-        "email": string;
-        "firstName": string;
-        "lastName": string;
-        "username": string;
+    id: string;
+    teamName: string;
+    createdDate: string;
+    modifiedDate: string | null;
+    createdBy: {
+        userId: string;
+        email: string;
     };
-    "modifiedBy": {
-        "userId": string;
-        "email": string;
-        "firstName": string;
-        "lastName": string;
-        "username": string;
+    modifiedBy: {
+        userId: string;
+        email: string;
     };
-}
+};

@@ -84,6 +84,21 @@ export const SideMenu = ({
                 icon: PersonStanding,
                 navigateTo: NAVIGATION_ROUTES.PERSONALITY_LIST,
             },
+            {
+                title: "Agency",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.AGENCY_LIST,
+            },
+            {
+                title: "Asset",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.ASSET_LIST,
+            },
+            {
+                title: "Broadcast Partner",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.BROADCAST_PARTNER_LIST,
+            },
         ],
     };
 

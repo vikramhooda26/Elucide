@@ -17,8 +17,7 @@ import { HomePageLayout } from "../features/hero-section/HomePageLayout";
 import LeagueForm from "../features/league/LeagueForm";
 import LeagueList from "../features/league/LeagueList";
 import LeagueView from "../features/league/LeagueView";
-import ActivationList from "../features/metadata/Activation/ActivationList";
-import ActivationView from "../features/metadata/Activation/ActivationView";
+import ActivationList from "../features/activations/ActivationList";
 import ActiveCampaignForm from "../features/metadata/ActiveCampaign/ActiveCampaignForm";
 import ActiveCampaignList from "../features/metadata/ActiveCampaign/ActiveCampaignList";
 import ActiveCampaignView from "../features/metadata/ActiveCampaign/ActiveCampaignView";
@@ -45,6 +44,16 @@ import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
 import SportsDealSummaryForm from "../features/sports-deal-summary/SportsDealSummaryForm";
 import SportsDealSummaryList from "../features/sports-deal-summary/SportsDealSummaryList";
 import SignUpPage from "../features/auth/SignUp";
+import ActivationView from "../features/activations/constants/ActivationView";
+import AgencyList from "../features/metadata/broadcast-partner/BroadcastPartnerList";
+import AgencyForm from "../features/metadata/broadcast-partner/BroadcastPartnerForm";
+import AgencyView from "../features/metadata/broadcast-partner/BroadcastPartnerView";
+import AssetForm from "../features/metadata/asset/AssetForm";
+import AssetList from "../features/metadata/asset/AssetList";
+import AssetView from "../features/metadata/asset/AssetView";
+import BroadcastPartnerForm from "../features/metadata/broadcast-partner/BroadcastPartnerForm";
+import BroadcastPartnerList from "../features/metadata/broadcast-partner/BroadcastPartnerList";
+import BroadcastPartnerView from "../features/metadata/broadcast-partner/BroadcastPartnerView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -272,6 +281,72 @@ const routeChildren: routeChildrenType[] = [
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
             //= ============================= personality related routes ends here ======================== =//
+            //= ============================= agency related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.AGENCY_CREATE,
+                element: <AgencyForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.AGENCY_EDIT + "/:id",
+                element: <AgencyForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.AGENCY_LIST,
+                element: <AgencyList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.AGENCY + "/:id",
+                element: <AgencyView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= agency related routes ends here ======================== =//
+            //= ============================= asset related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.ASSET_CREATE,
+                element: <AssetForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.ASSET_EDIT + "/:id",
+                element: <AssetForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.ASSET_LIST,
+                element: <AssetList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.ASSET + "/:id",
+                element: <AssetView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= asset related routes ends here ======================== =//
+            //= ============================= broadcast partner related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.BROADCAST_PARTNER_CREATE,
+                element: <BroadcastPartnerForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.BROADCAST_PARTNER_EDIT + "/:id",
+                element: <BroadcastPartnerForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.BROADCAST_PARTNER_LIST,
+                element: <BroadcastPartnerList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.BROADCAST_PARTNER + "/:id",
+                element: <BroadcastPartnerView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= broadcast partner related routes ends here ======================== =//
             //= ============================= sports deal summary related routes starts here ====================== =//
             {
                 path: NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY,

@@ -10,6 +10,30 @@ class MetadataService {
         );
     }
 
+    static getAllBroadcastPartner(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/broadcast-partner/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllAsset(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/asset/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllAgency(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/agency/get-all",
+            params,
+            "GET"
+        );
+    }
+
     static getAllGender(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/gender/get-all",
