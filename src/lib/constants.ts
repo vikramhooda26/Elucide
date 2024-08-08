@@ -145,6 +145,26 @@ export const NAVIGATION_ROUTES = {
     SUB_PERSONALITY_CREATE: dataEntryRoute + "/sub-personality/create",
     SUB_PERSONALITY_EDIT: dataEntryRoute + "/sub-personality/edit",
 
+    MARKETING_PLATFORM: dataEntryRoute + "/marketing-platform/view",
+    MARKETING_PLATFORM_LIST: dataEntryRoute + "/marketing-platform/list",
+    MARKETING_PLATFORM_CREATE: dataEntryRoute + "/marketing-platform/create",
+    MARKETING_PLATFORM_EDIT: dataEntryRoute + "/marketing-platform/edit",
+
+    OTT_PARTNER: dataEntryRoute + "/ott-partner/view",
+    OTT_PARTNER_LIST: dataEntryRoute + "/ott-partner/list",
+    OTT_PARTNER_CREATE: dataEntryRoute + "/ott-partner/create",
+    OTT_PARTNER_EDIT: dataEntryRoute + "/ott-partner/edit",
+
+    PARENT_ORG: dataEntryRoute + "/parent-organization/view",
+    PARENT_ORG_LIST: dataEntryRoute + "/parent-organization/list",
+    PARENT_ORG_CREATE: dataEntryRoute + "/parent-organization/create",
+    PARENT_ORG_EDIT: dataEntryRoute + "/parent-organization/edit",
+
+    SPORT: dataEntryRoute + "/sport/view",
+    SPORT_LIST: dataEntryRoute + "/sport/list",
+    SPORT_CREATE: dataEntryRoute + "/sport/create",
+    SPORT_EDIT: dataEntryRoute + "/sport/edit",
+
     TEMP_MAIL: "/mail/list",
 } as const;
 

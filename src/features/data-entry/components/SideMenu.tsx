@@ -144,6 +144,26 @@ export const SideMenu = ({
                 icon: PersonStanding,
                 navigateTo: NAVIGATION_ROUTES.SUB_PERSONALITY_LIST,
             },
+            {
+                title: "Marketing Platform",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.MARKETING_PLATFORM_LIST,
+            },
+            {
+                title: "OTT Partner",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.OTT_PARTNER_LIST,
+            },
+            {
+                title: "Parent Organization",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.PARENT_ORG_LIST,
+            },
+            {
+                title: "Sport",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.SPORT_LIST,
+            },
         ],
     };
 

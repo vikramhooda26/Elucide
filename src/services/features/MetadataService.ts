@@ -18,6 +18,38 @@ class MetadataService {
         );
     }
 
+    static getAllSport(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/sport/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllParentOrg(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/parent-org/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllMarketingPlatform(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/marketing-platform/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllOttPartner(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/ott-partner/get-all",
+            params,
+            "GET"
+        );
+    }
+
     static getAllSubPersonality(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/sub-personality/get-all",

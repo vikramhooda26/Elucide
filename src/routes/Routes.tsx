@@ -81,6 +81,18 @@ import LevelView from "../features/metadata/level/LevelView";
 import SubPersonalityForm from "../features/metadata/sub-personality/SubPersonalityForm";
 import SubPersonalityList from "../features/metadata/sub-personality/SubPersonalityList";
 import SubPersonalityView from "../features/metadata/sub-personality/SubPersonalityView";
+import MarketingPlatformForm from "../features/metadata/marketing-platform/MarketingPlatformForm";
+import MarketingPlatformList from "../features/metadata/marketing-platform/MarketingPlatformList";
+import MarketingPlatformView from "../features/metadata/marketing-platform/MarketingPlatformView";
+import OttPartnerForm from "../features/metadata/ott-partner/OttPartnerForm";
+import OttPartnerList from "../features/metadata/ott-partner/OttPartnerList";
+import OttPartnerView from "../features/metadata/ott-partner/OttPartnerView";
+import ParentOrgForm from "../features/metadata/parent-organization/ParentOrgForm";
+import ParentOrgList from "../features/metadata/parent-organization/ParentOrgList";
+import ParentOrgView from "../features/metadata/parent-organization/ParentOrgView";
+import SportForm from "../features/metadata/sport/SportForm";
+import SportList from "../features/metadata/sport/SportList";
+import SportView from "../features/metadata/sport/SportView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -572,6 +584,94 @@ const routeChildren: routeChildrenType[] = [
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
             //= ============================= sub personality related routes ends here ======================== =//
+            //= ============================= marketing platform related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.MARKETING_PLATFORM_CREATE,
+                element: <MarketingPlatformForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.MARKETING_PLATFORM_EDIT + "/:id",
+                element: <MarketingPlatformForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.MARKETING_PLATFORM_LIST,
+                element: <MarketingPlatformList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.MARKETING_PLATFORM + "/:id",
+                element: <MarketingPlatformView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= marketing platform related routes ends here ======================== =//
+            //= ============================= ott partner related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.OTT_PARTNER_CREATE,
+                element: <OttPartnerForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.OTT_PARTNER_EDIT + "/:id",
+                element: <OttPartnerForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.OTT_PARTNER_LIST,
+                element: <OttPartnerList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.OTT_PARTNER + "/:id",
+                element: <OttPartnerView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= ott partner related routes ends here ======================== =//
+            //= ============================= parent organization related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.PARENT_ORG_CREATE,
+                element: <ParentOrgForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.PARENT_ORG_EDIT + "/:id",
+                element: <ParentOrgForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.PARENT_ORG_LIST,
+                element: <ParentOrgList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.PARENT_ORG + "/:id",
+                element: <ParentOrgView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= parent organization related routes ends here ======================== =//
+            //= ============================= parent organization related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.SPORT_CREATE,
+                element: <SportForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.SPORT_EDIT + "/:id",
+                element: <SportForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.SPORT_LIST,
+                element: <SportList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.SPORT + "/:id",
+                element: <SportView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= parent organization related routes ends here ======================== =//
             //= ============================= sports deal summary related routes starts here ====================== =//
             {
                 path: NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY,
