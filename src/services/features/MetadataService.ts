@@ -18,9 +18,49 @@ class MetadataService {
         );
     }
 
+    static getAllSubPersonality(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/sub-personality/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllLevel(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/level/get-all",
+            params,
+            "GET"
+        );
+    }
+
     static getAllSubCategory(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/subcategory/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllKeyMarket(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/key-market/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllLeagueOwner(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/league-owner/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllNccs(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/nccs/get-all",
             params,
             "GET"
         );

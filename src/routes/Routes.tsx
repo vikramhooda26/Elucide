@@ -66,6 +66,21 @@ import MainCategoryView from "../features/metadata/main-category/MainCategoryVie
 import AgencyForm from "../features/metadata/agency/AgencyForm";
 import AgencyList from "../features/metadata/agency/AgencyList";
 import AgencyView from "../features/metadata/agency/AgencyView";
+import NccsForm from "../features/metadata/nccs/NccsForm";
+import NccsList from "../features/metadata/nccs/NccsList";
+import NccsView from "../features/metadata/nccs/NccsView";
+import KeyMarketForm from "../features/metadata/key-market/KeyMarketForm";
+import KeyMarketList from "../features/metadata/key-market/KeyMarketList";
+import KeyMarketView from "../features/metadata/key-market/KeyMarketView";
+import LeagueOwnerForm from "../features/metadata/league-owner/LeagueOwnerForm";
+import LeagueOwnerList from "../features/metadata/league-owner/LeagueOwnerList";
+import LeagueOwnerView from "../features/metadata/league-owner/LeagueOwnerView";
+import LevelForm from "../features/metadata/level/LevelForm";
+import LevelList from "../features/metadata/level/LevelList";
+import LevelView from "../features/metadata/level/LevelView";
+import SubPersonalityForm from "../features/metadata/sub-personality/SubPersonalityForm";
+import SubPersonalityList from "../features/metadata/sub-personality/SubPersonalityList";
+import SubPersonalityView from "../features/metadata/sub-personality/SubPersonalityView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -447,6 +462,116 @@ const routeChildren: routeChildrenType[] = [
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
             //= ============================= main category related routes ends here ======================== =//
+            //= ============================= nccs related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.NCCS_CREATE,
+                element: <NccsForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.NCCS_EDIT + "/:id",
+                element: <NccsForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.NCCS_LIST,
+                element: <NccsList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.NCCS + "/:id",
+                element: <NccsView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= nccs related routes ends here ======================== =//
+            //= ============================= key market related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.KEY_MARKET_CREATE,
+                element: <KeyMarketForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.KEY_MARKET_EDIT + "/:id",
+                element: <KeyMarketForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.KEY_MARKET_LIST,
+                element: <KeyMarketList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.KEY_MARKET + "/:id",
+                element: <KeyMarketView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= key market related routes ends here ======================== =//
+            //= ============================= league owner related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.LEAGUE_OWNER_CREATE,
+                element: <LeagueOwnerForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.LEAGUE_OWNER_EDIT + "/:id",
+                element: <LeagueOwnerForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.LEAGUE_OWNER_LIST,
+                element: <LeagueOwnerList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.LEAGUE_OWNER + "/:id",
+                element: <LeagueOwnerView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= league owner related routes ends here ======================== =//
+            //= ============================= level related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.LEVEL_CREATE,
+                element: <LevelForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.LEVEL_EDIT + "/:id",
+                element: <LevelForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.LEVEL_LIST,
+                element: <LevelList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.LEVEL + "/:id",
+                element: <LevelView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= level related routes ends here ======================== =//
+            //= ============================= sub personality related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.SUB_PERSONALITY_CREATE,
+                element: <SubPersonalityForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.SUB_PERSONALITY_EDIT + "/:id",
+                element: <SubPersonalityForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.SUB_PERSONALITY_LIST,
+                element: <SubPersonalityList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.SUB_PERSONALITY + "/:id",
+                element: <SubPersonalityView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= sub personality related routes ends here ======================== =//
             //= ============================= sports deal summary related routes starts here ====================== =//
             {
                 path: NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY,

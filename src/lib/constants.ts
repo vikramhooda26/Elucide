@@ -120,6 +120,31 @@ export const NAVIGATION_ROUTES = {
     MAIN_CATEGORY_CREATE: dataEntryRoute + "/main-category/create",
     MAIN_CATEGORY_EDIT: dataEntryRoute + "/main-category/edit",
 
+    NCCS: dataEntryRoute + "/nccs/view",
+    NCCS_LIST: dataEntryRoute + "/nccs/list",
+    NCCS_CREATE: dataEntryRoute + "/nccs/create",
+    NCCS_EDIT: dataEntryRoute + "/nccs/edit",
+
+    KEY_MARKET: dataEntryRoute + "/key-market/view",
+    KEY_MARKET_LIST: dataEntryRoute + "/key-market/list",
+    KEY_MARKET_CREATE: dataEntryRoute + "/key-market/create",
+    KEY_MARKET_EDIT: dataEntryRoute + "/key-market/edit",
+
+    LEAGUE_OWNER: dataEntryRoute + "/league-owner/view",
+    LEAGUE_OWNER_LIST: dataEntryRoute + "/league-owner/list",
+    LEAGUE_OWNER_CREATE: dataEntryRoute + "/league-owner/create",
+    LEAGUE_OWNER_EDIT: dataEntryRoute + "/league-owner/edit",
+
+    LEVEL: dataEntryRoute + "/level/view",
+    LEVEL_LIST: dataEntryRoute + "/level/list",
+    LEVEL_CREATE: dataEntryRoute + "/level/create",
+    LEVEL_EDIT: dataEntryRoute + "/level/edit",
+
+    SUB_PERSONALITY: dataEntryRoute + "/sub-personality/view",
+    SUB_PERSONALITY_LIST: dataEntryRoute + "/sub-personality/list",
+    SUB_PERSONALITY_CREATE: dataEntryRoute + "/sub-personality/create",
+    SUB_PERSONALITY_EDIT: dataEntryRoute + "/sub-personality/edit",
+
     TEMP_MAIL: "/mail/list",
 } as const;
 

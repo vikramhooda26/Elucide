@@ -119,6 +119,31 @@ export const SideMenu = ({
                 icon: PersonStanding,
                 navigateTo: NAVIGATION_ROUTES.MAIN_CATEGORY_LIST,
             },
+            {
+                title: "Nccs class",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.NCCS_LIST,
+            },
+            {
+                title: "Key Market",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.KEY_MARKET_LIST,
+            },
+            {
+                title: "League Owner",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.LEAGUE_OWNER_LIST,
+            },
+            {
+                title: "Level",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.LEVEL_LIST,
+            },
+            {
+                title: "Sub Personality",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.SUB_PERSONALITY_LIST,
+            },
         ],
     };
 
