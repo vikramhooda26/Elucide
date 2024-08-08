@@ -99,6 +99,26 @@ export const SideMenu = ({
                 icon: PersonStanding,
                 navigateTo: NAVIGATION_ROUTES.BROADCAST_PARTNER_LIST,
             },
+            {
+                title: "City",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.CITY_LIST,
+            },
+            {
+                title: "State",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.STATE_LIST,
+            },
+            {
+                title: "Sub Category",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.SUB_CATEGORY_LIST,
+            },
+            {
+                title: "Main Category",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.MAIN_CATEGORY_LIST,
+            },
         ],
     };
 

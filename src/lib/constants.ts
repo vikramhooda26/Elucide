@@ -100,6 +100,26 @@ export const NAVIGATION_ROUTES = {
     BROADCAST_PARTNER_CREATE: dataEntryRoute + "/broadcast-partner/create",
     BROADCAST_PARTNER_EDIT: dataEntryRoute + "/broadcast-partner/edit",
 
+    CITY: dataEntryRoute + "/city/view",
+    CITY_LIST: dataEntryRoute + "/city/list",
+    CITY_CREATE: dataEntryRoute + "/city/create",
+    CITY_EDIT: dataEntryRoute + "/city/edit",
+
+    STATE: dataEntryRoute + "/state/view",
+    STATE_LIST: dataEntryRoute + "/state/list",
+    STATE_CREATE: dataEntryRoute + "/state/create",
+    STATE_EDIT: dataEntryRoute + "/state/edit",
+
+    SUB_CATEGORY: dataEntryRoute + "/sub-category/view",
+    SUB_CATEGORY_LIST: dataEntryRoute + "/sub-category/list",
+    SUB_CATEGORY_CREATE: dataEntryRoute + "/sub-category/create",
+    SUB_CATEGORY_EDIT: dataEntryRoute + "/sub-category/edit",
+
+    MAIN_CATEGORY: dataEntryRoute + "/main-category/view",
+    MAIN_CATEGORY_LIST: dataEntryRoute + "/main-category/list",
+    MAIN_CATEGORY_CREATE: dataEntryRoute + "/main-category/create",
+    MAIN_CATEGORY_EDIT: dataEntryRoute + "/main-category/edit",
+
     TEMP_MAIL: "/mail/list",
 } as const;
 

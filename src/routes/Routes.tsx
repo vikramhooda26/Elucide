@@ -45,15 +45,27 @@ import SportsDealSummaryForm from "../features/sports-deal-summary/SportsDealSum
 import SportsDealSummaryList from "../features/sports-deal-summary/SportsDealSummaryList";
 import SignUpPage from "../features/auth/SignUp";
 import ActivationView from "../features/activations/constants/ActivationView";
-import AgencyList from "../features/metadata/broadcast-partner/BroadcastPartnerList";
-import AgencyForm from "../features/metadata/broadcast-partner/BroadcastPartnerForm";
-import AgencyView from "../features/metadata/broadcast-partner/BroadcastPartnerView";
 import AssetForm from "../features/metadata/asset/AssetForm";
 import AssetList from "../features/metadata/asset/AssetList";
 import AssetView from "../features/metadata/asset/AssetView";
 import BroadcastPartnerForm from "../features/metadata/broadcast-partner/BroadcastPartnerForm";
 import BroadcastPartnerList from "../features/metadata/broadcast-partner/BroadcastPartnerList";
 import BroadcastPartnerView from "../features/metadata/broadcast-partner/BroadcastPartnerView";
+import CityForm from "../features/metadata/city/CityForm";
+import CityList from "../features/metadata/city/CityList";
+import CityView from "../features/metadata/city/CityView";
+import StateForm from "../features/metadata/state/StateForm";
+import StateList from "../features/metadata/state/StateList";
+import StateView from "../features/metadata/state/StateView";
+import SubCategoryForm from "../features/metadata/sub-category/SubCategoryForm";
+import SubCategoryList from "../features/metadata/sub-category/SubCategoryList";
+import SubCategoryView from "../features/metadata/sub-category/SubCategoryView";
+import MainCategoryForm from "../features/metadata/main-category/MainCategoryForm";
+import MainCategoryList from "../features/metadata/main-category/MainCategoryList";
+import MainCategoryView from "../features/metadata/main-category/MainCategoryView";
+import AgencyForm from "../features/metadata/agency/AgencyForm";
+import AgencyList from "../features/metadata/agency/AgencyList";
+import AgencyView from "../features/metadata/agency/AgencyView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -347,6 +359,94 @@ const routeChildren: routeChildrenType[] = [
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
             //= ============================= broadcast partner related routes ends here ======================== =//
+            //= ============================= city related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.CITY_CREATE,
+                element: <CityForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.CITY_EDIT + "/:id",
+                element: <CityForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.CITY_LIST,
+                element: <CityList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.CITY + "/:id",
+                element: <CityView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= city related routes ends here ======================== =//
+            //= ============================= state related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.STATE_CREATE,
+                element: <StateForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.STATE_EDIT + "/:id",
+                element: <StateForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.STATE_LIST,
+                element: <StateList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.STATE + "/:id",
+                element: <StateView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= state related routes ends here ======================== =//
+            //= ============================= sub category related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.SUB_CATEGORY_CREATE,
+                element: <SubCategoryForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.SUB_CATEGORY_EDIT + "/:id",
+                element: <SubCategoryForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.SUB_CATEGORY_LIST,
+                element: <SubCategoryList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.SUB_CATEGORY + "/:id",
+                element: <SubCategoryView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= sub category related routes ends here ======================== =//
+            //= ============================= main category related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.MAIN_CATEGORY_CREATE,
+                element: <MainCategoryForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.MAIN_CATEGORY_EDIT + "/:id",
+                element: <MainCategoryForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.MAIN_CATEGORY_LIST,
+                element: <MainCategoryList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.MAIN_CATEGORY + "/:id",
+                element: <MainCategoryView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= main category related routes ends here ======================== =//
             //= ============================= sports deal summary related routes starts here ====================== =//
             {
                 path: NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY,

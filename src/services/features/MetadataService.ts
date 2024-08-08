@@ -10,6 +10,38 @@ class MetadataService {
         );
     }
 
+    static getAllCity(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/city/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllSubCategory(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/subcategory/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllMainCategory(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/category/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllState(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/state/get-all",
+            params,
+            "GET"
+        );
+    }
+
     static getAllBroadcastPartner(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/broadcast-partner/get-all",
