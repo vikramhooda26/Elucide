@@ -26,6 +26,46 @@ class MetadataService {
         );
     }
 
+    static getAllCountry(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/nationality/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllTier(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/tier/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllTerritory(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/territory/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllTeamOwner(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/team-owner/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static getAllTagline(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/tagline/get-all",
+            params,
+            "GET"
+        );
+    }
+
     static getAllParentOrg(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/parent-org/get-all",

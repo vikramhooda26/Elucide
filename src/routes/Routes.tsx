@@ -93,6 +93,21 @@ import ParentOrgView from "../features/metadata/parent-organization/ParentOrgVie
 import SportForm from "../features/metadata/sport/SportForm";
 import SportList from "../features/metadata/sport/SportList";
 import SportView from "../features/metadata/sport/SportView";
+import TaglineForm from "../features/metadata/tagline/TaglineForm";
+import TaglineList from "../features/metadata/tagline/TaglineList";
+import TaglineView from "../features/metadata/tagline/TaglineView";
+import TeamOwnerForm from "../features/metadata/team-owner/TeamOwnerForm";
+import TeamOwnerList from "../features/metadata/team-owner/TeamOwnerList";
+import TeamOwnerView from "../features/metadata/team-owner/TeamOwnerView";
+import TerritoryForm from "../features/metadata/territory/TerritoryForm";
+import TerritoryList from "../features/metadata/territory/TerritoryList";
+import TerritoryView from "../features/metadata/territory/TerritoryView";
+import TierForm from "../features/metadata/tier/TierForm";
+import TierList from "../features/metadata/tier/TierList";
+import TierView from "../features/metadata/tier/TierView";
+import CountryForm from "../features/metadata/country/CountryForm";
+import CountryList from "../features/metadata/country/CountryList";
+import CountryView from "../features/metadata/country/CountryView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -650,7 +665,7 @@ const routeChildren: routeChildrenType[] = [
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
             //= ============================= parent organization related routes ends here ======================== =//
-            //= ============================= parent organization related routes starts here ====================== =//
+            //= ============================= sport related routes starts here ====================== =//
             {
                 path: NAVIGATION_ROUTES.SPORT_CREATE,
                 element: <SportForm />,
@@ -671,7 +686,117 @@ const routeChildren: routeChildrenType[] = [
                 element: <SportView />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
-            //= ============================= parent organization related routes ends here ======================== =//
+            //= ============================= sport related routes ends here ======================== =//
+            //= ============================= tagline routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.TAGLINE_CREATE,
+                element: <TaglineForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TAGLINE_EDIT + "/:id",
+                element: <TaglineForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TAGLINE_LIST,
+                element: <TaglineList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TAGLINE + "/:id",
+                element: <TaglineView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= tagline routes ends here ======================== =//
+            //= ============================= team owner routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.TEAM_OWNER_CREATE,
+                element: <TeamOwnerForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TEAM_OWNER_EDIT + "/:id",
+                element: <TeamOwnerForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TEAM_OWNER_LIST,
+                element: <TeamOwnerList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TEAM_OWNER + "/:id",
+                element: <TeamOwnerView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= team owner routes ends here ======================== =//
+            //= ============================= territory routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.TERRITORY_CREATE,
+                element: <TerritoryForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TERRITORY_EDIT + "/:id",
+                element: <TerritoryForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TERRITORY_LIST,
+                element: <TerritoryList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TERRITORY + "/:id",
+                element: <TerritoryView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= territory routes ends here ======================== =//
+            //= ============================= tiers routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.TIER_CREATE,
+                element: <TierForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TIER_EDIT + "/:id",
+                element: <TierForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TIER_LIST,
+                element: <TierList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.TIER + "/:id",
+                element: <TierView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= tiers routes ends here ======================== =//
+            //= ============================= countries routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.COUNTRY_CREATE,
+                element: <CountryForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.COUNTRY_EDIT + "/:id",
+                element: <CountryForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.COUNTRY_LIST,
+                element: <CountryList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.COUNTRY + "/:id",
+                element: <CountryView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= countries routes ends here ======================== =//
             //= ============================= sports deal summary related routes starts here ====================== =//
             {
                 path: NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY,

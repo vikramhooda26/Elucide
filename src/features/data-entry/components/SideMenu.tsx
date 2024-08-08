@@ -164,6 +164,31 @@ export const SideMenu = ({
                 icon: PersonStanding,
                 navigateTo: NAVIGATION_ROUTES.SPORT_LIST,
             },
+            {
+                title: "Tagline",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.TAGLINE_LIST,
+            },
+            {
+                title: "Team Owner",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.TEAM_OWNER_LIST,
+            },
+            {
+                title: "Territory",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.TERRITORY_LIST,
+            },
+            {
+                title: "Tier",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.TIER_LIST,
+            },
+            {
+                title: "Country",
+                icon: PersonStanding,
+                navigateTo: NAVIGATION_ROUTES.COUNTRY_LIST,
+            },
         ],
     };
 

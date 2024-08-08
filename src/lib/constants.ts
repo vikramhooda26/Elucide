@@ -165,6 +165,31 @@ export const NAVIGATION_ROUTES = {
     SPORT_CREATE: dataEntryRoute + "/sport/create",
     SPORT_EDIT: dataEntryRoute + "/sport/edit",
 
+    TAGLINE: dataEntryRoute + "/tagline/view",
+    TAGLINE_LIST: dataEntryRoute + "/tagline/list",
+    TAGLINE_CREATE: dataEntryRoute + "/tagline/create",
+    TAGLINE_EDIT: dataEntryRoute + "/tagline/edit",
+
+    TEAM_OWNER: dataEntryRoute + "/team-owner/view",
+    TEAM_OWNER_LIST: dataEntryRoute + "/team-owner/list",
+    TEAM_OWNER_CREATE: dataEntryRoute + "/team-owner/create",
+    TEAM_OWNER_EDIT: dataEntryRoute + "/team-owner/edit",
+
+    TERRITORY: dataEntryRoute + "/territory/view",
+    TERRITORY_LIST: dataEntryRoute + "/territory/list",
+    TERRITORY_CREATE: dataEntryRoute + "/territory/create",
+    TERRITORY_EDIT: dataEntryRoute + "/territory/edit",
+
+    TIER: dataEntryRoute + "/tier/view",
+    TIER_LIST: dataEntryRoute + "/tier/list",
+    TIER_CREATE: dataEntryRoute + "/tier/create",
+    TIER_EDIT: dataEntryRoute + "/tier/edit",
+
+    COUNTRY: dataEntryRoute + "/nationality/view",
+    COUNTRY_LIST: dataEntryRoute + "/nationality/list",
+    COUNTRY_CREATE: dataEntryRoute + "/nationality/create",
+    COUNTRY_EDIT: dataEntryRoute + "/nationality/edit",
+
     TEMP_MAIL: "/mail/list",
 } as const;
 
