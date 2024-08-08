@@ -149,11 +149,7 @@ const routeChildren: routeChildrenType[] = [
     },
     //= ============================= athlete related routes ends here ======================== =//
     //= ============================= team related routes starts here ====================== =//
-    {
-        path: NAVIGATION_ROUTES.CREATE_TEAM,
-        element: <TeamForm />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
-    },
+
     {
         path: NAVIGATION_ROUTES.TEAM_LIST,
         element: <TeamList />,
@@ -166,11 +162,7 @@ const routeChildren: routeChildrenType[] = [
     },
     //= ============================= team related routes ends here ======================== =//
     //= ============================= brand related routes starts here ====================== =//
-    {
-        path: NAVIGATION_ROUTES.CREATE_BRAND,
-        element: <BrandForm />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
-    },
+
     {
         path: NAVIGATION_ROUTES.BRAND_LIST,
         element: <BrandList />,
@@ -183,11 +175,6 @@ const routeChildren: routeChildrenType[] = [
     },
     //= ============================= brand related routes ends here ======================== =//
     //= ============================= league related routes starts here ====================== =//
-    {
-        path: NAVIGATION_ROUTES.CREATE_LEAGUE,
-        element: <LeagueForm />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
-    },
     {
         path: NAVIGATION_ROUTES.LEAGUE_LIST,
         element: <LeagueList />,
@@ -206,9 +193,24 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
         children: [
             {
+                path: NAVIGATION_ROUTES.CREATE_LEAGUE,
+                element: <LeagueForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.CREATE_BRAND,
+                element: <BrandForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
                 path: NAVIGATION_ROUTES.ATHLETE_ADMIN,
                 element: <AthleteList />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.CREATE_TEAM,
+                element: <TeamForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
             },
             {
                 path: NAVIGATION_ROUTES.TEAM_ADMIN,

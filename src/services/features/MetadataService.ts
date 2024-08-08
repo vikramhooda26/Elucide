@@ -233,5 +233,21 @@ class MetadataService {
             "POST"
         );
     }
+
+    static createActiveCampaign(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/active-campaign/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createAgeRange(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/age-range/create`,
+            params,
+            "POST"
+        );
+    }
 }
 export default MetadataService;

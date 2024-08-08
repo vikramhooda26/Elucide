@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 type TSingleInputFormProps = {
     form: any;
     title: string;
-    onSubmit: () => void;
+    onSubmit: (data: any) => void;
     isSubmitting: boolean;
     children?: React.ReactNode;
 };

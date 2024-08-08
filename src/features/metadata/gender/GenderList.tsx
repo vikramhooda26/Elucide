@@ -106,10 +106,13 @@ function GenderList() {
         <Input
             placeholder="Filter tasks..."
             value={
-                (table.getColumn("teamName")?.getFilterValue() as string) ?? ""
+                (table.getColumn("genderName")?.getFilterValue() as string) ??
+                ""
             }
             onChange={(event) =>
-                table.getColumn("teamName")?.setFilterValue(event.target.value)
+                table
+                    .getColumn("genderName")
+                    ?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,
