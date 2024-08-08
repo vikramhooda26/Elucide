@@ -108,6 +108,7 @@ import TierView from "../features/metadata/tier/TierView";
 import CountryForm from "../features/metadata/country/CountryForm";
 import CountryList from "../features/metadata/country/CountryList";
 import CountryView from "../features/metadata/country/CountryView";
+import SportsDealSummaryView from "../features/sports-deal-summary/SportsDealSummaryView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -803,21 +804,21 @@ const routeChildren: routeChildrenType[] = [
                 element: <SportsDealSummaryForm />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
-            // {
-            //     path: NAVIGATION_ROUTES.PERSONALITY_EDIT + "/:id",
-            //     element: <PersonalityForm />,
-            //     access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
-            // },
+            {
+                path: NAVIGATION_ROUTES.EDIT_SPORTS_DEAL_SUMMARY + "/:id",
+                element: <SportsDealSummaryForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
             {
                 path: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
                 element: <SportsDealSummaryList />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
-            // {
-            //     path: NAVIGATION_ROUTES.PERSONALITY + "/:id",
-            //     element: <PersonalityView />,
-            //     access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-            // },
+            {
+                path: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY + "/:id",
+                element: <SportsDealSummaryView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
             //= ============================= sports deal summary related routes ends here ======================== =//
         ],
     },

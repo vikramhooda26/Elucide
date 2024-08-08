@@ -139,7 +139,7 @@ function ActiveCampaignList() {
                 <div className="flex items-center space-x-2">
                     <Button
                         onClick={() =>
-                            navigator(NAVIGATION_ROUTES.ACTIVATION_CREATE)
+                            navigator(NAVIGATION_ROUTES.CAMPAIGN_CREATE)
                         }
                     >
                         Create
