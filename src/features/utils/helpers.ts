@@ -123,3 +123,15 @@ export const convertCroreToRupees = (num: string | undefined) => {
 
     return (Number(num) * 10000000).toString();
 };
+
+export const convertRupeesToCrore = (num: string | undefined) => {
+    if (num === undefined) {
+        return undefined;
+    }
+
+    if (Number.isNaN(Number(num))) {
+        return false;
+    }
+
+    return (Number(num) / 10000000).toString();
+};

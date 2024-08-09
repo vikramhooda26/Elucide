@@ -138,6 +138,11 @@ const routeChildren: routeChildrenType[] = [
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
     {
+        path: NAVIGATION_ROUTES.EDIT_ATHLETE + "/:id",
+        element: <AthleteForm />,
+        access: ["SUPER_ADMIN", "ADMIN"],
+    },
+    {
         path: NAVIGATION_ROUTES.ATHLETE_LIST,
         element: <AthleteList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
@@ -906,10 +911,10 @@ function Routes() {
             element: <HomePageLayout />,
             children: unProtectedRoute,
         },
-        {
-            path: "*",
-            element: <Navigate to={NAVIGATION_ROUTES.HOME} />,
-        },
+        // {
+        //     path: "*",
+        //     element: <Navigate to={NAVIGATION_ROUTES.HOME} />,
+        // },
     ];
 
     return createBrowserRouter(routeObj);
