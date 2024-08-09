@@ -147,7 +147,9 @@ function BroadcastPartnerList() {
                 <div className="flex items-center space-x-2">
                     <Button
                         onClick={() =>
-                            navigator(NAVIGATION_ROUTES.AGENCY_CREATE)
+                            navigator(
+                                NAVIGATION_ROUTES.BROADCAST_PARTNER_CREATE
+                            )
                         }
                     >
                         Create Broadcast Partner

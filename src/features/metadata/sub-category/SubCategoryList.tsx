@@ -145,7 +145,7 @@ function SubCategoryList() {
                 <div className="flex items-center space-x-2">
                     <Button
                         onClick={() =>
-                            navigator(NAVIGATION_ROUTES.ASSET_CREATE)
+                            navigator(NAVIGATION_ROUTES.SUB_CATEGORY_CREATE)
                         }
                     >
                         Create Sub Category
