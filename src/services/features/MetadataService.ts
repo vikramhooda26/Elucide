@@ -10,6 +10,10 @@ class MetadataService {
         );
     }
 
+    static getOneAgeRange(id: string, params?: any) {
+        return AjaxService.request(API_URL + "/api/admin/age-range/" + id, params, "GET");
+    }
+
     static getAllCity(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/city/get-all",
@@ -194,6 +198,10 @@ class MetadataService {
         );
     }
 
+    static getOneActivation(id: string, params?: any) {
+        return AjaxService.request(API_URL + "/api/admin/activation/" + id, params, "GET");
+    }
+
     static getAllActiveCampaign(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/active-campaign/get-all",
@@ -210,6 +218,10 @@ class MetadataService {
         );
     }
 
+    static getOnePersonality(id: string, params?: any) {
+        return AjaxService.request(API_URL + "/api/admin/personality/" + id, params, "GET");
+    }
+
     static getAllSportsDealSummary(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/sports-deal-summary/get-all",
@@ -224,6 +236,10 @@ class MetadataService {
             params,
             "POST"
         );
+    }
+
+    static getOneSportsDealSummary(id: string, params?: any) {
+        return AjaxService.request(API_URL + "/api/admin/sports-deal-summary/" + id, params, "GET");
     }
 
     static createActivation(params: any) {

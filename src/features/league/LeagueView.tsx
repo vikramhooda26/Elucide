@@ -15,6 +15,7 @@ import TagLines from "../../components/core/common/TagLines";
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import LeagueService from "../../services/features/LeagueService";
+import BackButton from "../../components/button/BackButton";
 
 function LeagueView() {
     const { id } = useParams<string>();
@@ -53,14 +54,7 @@ function LeagueView() {
         <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 ">
             <div className="mx-auto auto-rows-max gap-4">
                 <div className="flex items-center gap-4 mb-4">
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-7 w-7"
-                    >
-                        <ChevronLeft className="h-4 w-4" />
-                        <span className="sr-only">Back</span>
-                    </Button>
+                    <BackButton />
                     <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                         League View
                     </h1>

@@ -20,6 +20,7 @@ import {
   Card
 } from "../../components/ui/card";
 import BrandService from "../../services/features/BrandService";
+import BackButton from "../../components/button/BackButton";
 
 function BrandView() {
   const { id } = useParams<string>();
@@ -58,14 +59,7 @@ function BrandView() {
     <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 ">
       <div className="mx-auto auto-rows-max gap-4">
         <div className="flex items-center gap-4 mb-4">
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-7 w-7"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Back</span>
-          </Button>
+          <BackButton />
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
             Brand View
           </h1>
@@ -82,9 +76,9 @@ function BrandView() {
               <div className=" m-3">
                 <ul className="grid gap-3">
                   <li className="flex items-center ">
-                    <span className="w-1/2">Company Name</span>
+                    <span className="w-1/2">Name</span>
                     <span className="text-muted-foreground">
-                      {brand?.companyName || '-'}
+                      {brand?.name || '-'}
                     </span>
                   </li>
                   {/* <li className="flex items-center ">
@@ -128,7 +122,7 @@ function BrandView() {
         <div className="my-8">
           <SportsDealSummary data={brand} />
         </div>
-        
+
       </div>
     </main >
   );

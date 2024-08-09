@@ -92,8 +92,7 @@ export function NoActionTable({ data, columns, searchableKey }: Props) {
       columnVisibility,
       rowSelection,
     },
-  })
-  console.log('table -=- ', table);
+  });
 
   return (
     <div className="">

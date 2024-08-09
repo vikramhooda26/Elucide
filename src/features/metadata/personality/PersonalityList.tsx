@@ -73,7 +73,7 @@ function PersonalityList() {
     }, []);
 
     const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.GENDER, [id]);
+        navigator(NAVIGATION_ROUTES.PERSONALITY, [id]);
     };
 
     const table = useReactTable({
@@ -130,7 +130,7 @@ function PersonalityList() {
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
-                    PersonalityList List
+                        PersonalityList List
                     </h2>
                     <p className="text-muted-foreground">
                         Here&apos;s a list of personalityList.
