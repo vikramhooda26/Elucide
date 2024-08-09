@@ -4,6 +4,7 @@ import { TooltipContent, TooltipTrigger } from "../../../components/ui/tooltip";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "../../../lib/utils";
 import { buttonVariants } from "../../../components/ui/button";
+import { useEffect } from "react";
 
 export interface NavProps {
     isCollapsed: boolean;
@@ -18,6 +19,14 @@ export interface NavProps {
 
 export function Nav({ links, isCollapsed }: NavProps) {
     const pathname = useLocation().pathname;
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+        });
+    }, [pathname]);
 
     const getVariant = (navigateTo: string) => {
         return pathname.toLowerCase().startsWith(navigateTo.toLowerCase())
