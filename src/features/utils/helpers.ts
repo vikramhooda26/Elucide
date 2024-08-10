@@ -121,7 +121,7 @@ export const convertCroreToRupees = (num: string | undefined) => {
         return false;
     }
 
-    return (Number(num) * 10000000).toString();
+    return Number(num) * 10000000;
 };
 
 export const convertRupeesToCrore = (num: string | undefined) => {

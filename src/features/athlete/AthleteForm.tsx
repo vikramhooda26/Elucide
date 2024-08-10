@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format, parseISO } from "date-fns";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -23,6 +24,11 @@ import AthleteService from "../../services/features/AthleteService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import {
+    convertCroreToRupees,
+    convertRupeesToCrore,
+    onNumInputChange,
+} from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import {
     ATHLETE_METADATA,
@@ -30,16 +36,12 @@ import {
     TAthleteFormSchema,
     TEditAthleteFormSchema,
 } from "./constants/metadata";
-import {
-    convertCroreToRupees,
-    convertRupeesToCrore,
-    onNumInputChange,
-} from "../utils/helpers";
 
 function AthleteForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
+    let associationId: string | undefined;
     const user = useRecoilValue(userAtom);
 
     const { id } = useParams();
@@ -90,7 +92,12 @@ function AthleteForm() {
                 const response = await AthleteService.getOne(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     const athleteData: TEditAthleteFormSchema = response.data;
-                    console.log(response.data);
+                    console.log(
+                        "\n\nAPI called for edit response data:",
+                        response.data
+                    );
+                    console.log("\n\nTypeof age:", typeof athleteData.age);
+                    associationId = athleteData.associationId;
                     form.reset({
                         name: athleteData?.name || undefined,
                         nationalityId:
@@ -175,9 +182,9 @@ function AthleteForm() {
                                     )
                                 )
                                 .map((trait) => trait.value) || undefined,
-                        ...(!Number.isNaN(Number(athleteData?.age)) && {
-                            age: athleteData?.age?.toString(),
-                        }),
+                        age: athleteData?.age
+                            ? parseISO(athleteData?.age)
+                            : undefined,
                         associationLevelId:
                             metadataStore?.associationLevel.find(
                                 (storeLevel) =>
@@ -215,6 +222,22 @@ function AthleteForm() {
                             convertRupeesToCrore(
                                 athleteData?.costOfAssociation
                             ) || undefined,
+                        userId: user?.id,
+                        contactName: athleteData.contactPersons?.length
+                            ? athleteData.contactPersons?.[0].name
+                            : undefined,
+                        contactDesignation: athleteData.contactPersons?.length
+                            ? athleteData.contactPersons?.[0].designation
+                            : undefined,
+                        contactEmail: athleteData.contactPersons?.length
+                            ? athleteData.contactPersons?.[0].email
+                            : undefined,
+                        contactLinkedin: athleteData.contactPersons?.length
+                            ? athleteData.contactPersons?.[0].linkedin
+                            : undefined,
+                        contactNumber: athleteData.contactPersons?.length
+                            ? athleteData.contactPersons?.[0].number
+                            : undefined,
                     });
                 }
             } catch (error) {
@@ -426,6 +449,10 @@ function AthleteForm() {
             athleteFormValues.costOfAssociation
         );
 
+        const formatedDOB = athleteFormValues.age
+            ? format(athleteFormValues.age, "yyyy-MM-dd")
+            : undefined;
+
         console.log("\n\n\n\nRequest Body:", athleteFormValues);
 
         try {
@@ -434,6 +461,8 @@ function AthleteForm() {
                 const response = await AthleteService.editAthlete(id, {
                     ...athleteFormValues,
                     costOfAssociation: convertedCostOfAssociation,
+                    associationId: associationId,
+                    age: formatedDOB,
                 } as TAthleteFormSchema);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
@@ -444,6 +473,7 @@ function AthleteForm() {
             const response = await AthleteService.createAthlete({
                 ...athleteFormValues,
                 costOfAssociation: convertedCostOfAssociation,
+                age: formatedDOB,
             } as TAthleteFormSchema);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Athlete created successfully");

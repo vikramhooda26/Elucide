@@ -23,7 +23,7 @@ export const athleteFormSchema = z.object({
     userId: z.string().min(1, "Required"),
     sportId: z.string().optional(),
     agencyId: z.string().optional(),
-    age: z.string().optional(),
+    age: z.date().optional(),
     facebook: z.string().optional(),
     instagram: z.string().optional(),
     twitter: z.string().optional(),
@@ -55,6 +55,7 @@ export type TEditAthleteFormSchema = {
     id?: string;
     name?: string;
     nationality?: string;
+    associationId?: string;
     sport?: string;
     agency?: string;
     instagram?: string;
@@ -71,8 +72,8 @@ export type TEditAthleteFormSchema = {
     tier?: (string | undefined)[];
     subPersonalityTraits?: string[];
     mainPersonalityTraits?: string[];
-    age?: number | null;
-    associationLevel?: string | null;
+    age?: string;
+    associationLevel?: string;
     costOfAssociation?: string;
     activations?: {
         year?: string | null;
@@ -105,10 +106,10 @@ export type TEditAthleteFormSchema = {
     contactPersons?: {
         id: string;
         name: string;
-        email?: string | null;
-        linkedin?: string | null;
-        number?: string | null;
-        designation?: string | null;
+        email?: string;
+        linkedin?: string;
+        number?: string;
+        designation?: string;
     }[];
     gender?: string[];
     nccs?: string[];

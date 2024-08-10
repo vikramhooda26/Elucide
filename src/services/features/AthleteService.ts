@@ -14,7 +14,7 @@ class AthleteService {
         return AjaxService.request(
             API_URL + "/api/admin/athlete/edit/" + id,
             params,
-            "POST"
+            "PUT"
         );
     }
 
