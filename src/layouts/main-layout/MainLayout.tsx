@@ -51,7 +51,7 @@ function MainLayout() {
                             navCollapsedSize={4}
                         />
                         <ResizablePanel>
-                            <div className="w-full h-full py-8 px-4">
+                            <div className="w-full h-full px-4">
                                 <Outlet />
                             </div>
                         </ResizablePanel>
