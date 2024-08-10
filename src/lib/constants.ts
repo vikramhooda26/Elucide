@@ -30,22 +30,22 @@ export const NAVIGATION_ROUTES = {
 
     TEAM: "/team/view",
     TEAM_LIST: "/team/list",
-    CREATE_TEAM: "/team/create",
+    CREATE_TEAM: dataEntryRoute + "/team/create",
     EDIT_TEAM: "/team/edit",
 
     LEAGUE: "/league/view",
     LEAGUE_LIST: "/league/list",
-    CREATE_LEAGUE: "/league/create",
+    CREATE_LEAGUE: dataEntryRoute + "/league/create",
     EDIT_LEAGUE: "/league/edit",
 
     BRAND: "/brand/view",
     BRAND_LIST: "/brand/list",
-    CREATE_BRAND: "/brand/create",
+    CREATE_BRAND: dataEntryRoute + "/brand/create",
     EDIT_BRAND: "/brand/edit",
 
     ATHLETE: "/athlete/view",
     ATHLETE_LIST: "/athlete/list",
-    CREATE_ATHLETE: "/athlete/create",
+    CREATE_ATHLETE: dataEntryRoute + "/athlete/create",
     EDIT_ATHLETE: "/athlete/edit",
 
     DATA_ENTRY_LIST: dataEntryRoute,

@@ -72,6 +72,10 @@ interface TBrand extends Option {}
 
 interface TAthlete extends Option {}
 
+interface TMaincategory extends Option {}
+
+interface TMainpersonality extends Option {}
+
 export type TMetadataStore = {
     age: TAge[];
     gender: TGender[];
@@ -107,6 +111,8 @@ export type TMetadataStore = {
     team: TTeam[];
     athlete: TAthlete[];
     brand: TBrand[];
+    maincategory: TMaincategory[];
+    mainpersonality: TMainpersonality[];
 } | null;
 
 export const metadataStoreAtom = atom<TMetadataStore>({

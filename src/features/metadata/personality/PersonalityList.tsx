@@ -106,10 +106,14 @@ function PersonalityList() {
         <Input
             placeholder="Filter tasks..."
             value={
-                (table.getColumn("teamName")?.getFilterValue() as string) ?? ""
+                (table
+                    .getColumn("personalityName")
+                    ?.getFilterValue() as string) ?? ""
             }
             onChange={(event) =>
-                table.getColumn("teamName")?.setFilterValue(event.target.value)
+                table
+                    .getColumn("personalityName")
+                    ?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,
@@ -130,17 +134,19 @@ function PersonalityList() {
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
-                        PersonalityList List
+                        Personality List
                     </h2>
                     <p className="text-muted-foreground">
-                        Here&apos;s a list of personalityList.
+                        Here&apos;s a list of personalities .
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
-                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)}
+                        onClick={() =>
+                            navigator(NAVIGATION_ROUTES.PERSONALITY_CREATE)
+                        }
                     >
-                        Create
+                        Create Main Personality
                     </Button>
                 </div>
             </div>

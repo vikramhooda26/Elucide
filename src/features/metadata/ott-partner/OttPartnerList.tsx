@@ -143,7 +143,9 @@ function OttPartnerList() {
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
-                        onClick={() => navigator(NAVIGATION_ROUTES.OTT_PARTNER)}
+                        onClick={() =>
+                            navigator(NAVIGATION_ROUTES.OTT_PARTNER_CREATE)
+                        }
                     >
                         Create OTT Partner
                     </Button>

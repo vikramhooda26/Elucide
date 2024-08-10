@@ -13,6 +13,7 @@ export const ATHLETE_METADATA = {
     NATIONALITY: "nationality",
     SOCIAL_MEDIA: "socialMedia",
     ATHLETE_STATUS: "athleteStatus",
+    TIER: "tier",
 } as const;
 
 export const athleteFormSchema = z.object({
@@ -30,7 +31,8 @@ export const athleteFormSchema = z.object({
     youtube: z.string().optional(),
     website: z.string().optional(),
     subPersonalityTraitIds: z.string().array().optional(),
-    genderId: z.string().optional(),
+    tierIds: z.string().array().optional(),
+    genderIds: z.string().array().optional(),
     nccsIds: z.string().array().optional(),
     primaryMarketIds: z.string().array().optional(),
     secondaryMarketIds: z.string().array().optional(),
@@ -48,3 +50,70 @@ export const athleteFormSchema = z.object({
 });
 
 export type TAthleteFormSchema = z.infer<typeof athleteFormSchema>;
+
+export type TEditAthleteFormSchema = {
+    id?: string;
+    name?: string;
+    nationality?: string;
+    sport?: string;
+    agency?: string;
+    instagram?: string;
+    linkedin?: string;
+    youtube?: string;
+    website?: string;
+    twitter?: string;
+    facebook?: string;
+    primaryKeyMarket?: string[];
+    secondaryKeyMarket?: string[];
+    tertiary?: string[];
+    primarySocialMedia?: (string | undefined)[];
+    secondarySocialMedia?: (string | undefined)[];
+    tier?: (string | undefined)[];
+    subPersonalityTraits?: string[];
+    mainPersonalityTraits?: string[];
+    age?: number | null;
+    associationLevel?: string | null;
+    costOfAssociation?: string;
+    activations?: {
+        year?: string | null;
+        name?: string | null;
+        type?: string[];
+        assets?: string[];
+        market?: string[];
+        brandName?: string;
+        athleteName?: string;
+        leagueName?: string;
+        teamName?: string;
+    }[];
+    sportsDealsummary?: {
+        annualValue?: string | null;
+        totalValue?: string | null;
+        assets?: string[];
+        commencementDate?: string | null;
+        expirationDate?: string | null;
+        duration?: string | null;
+        territory?: string | null;
+        mediaLink?: string | null;
+        level?: string | null;
+        status?: string | null;
+        type?: string | null;
+        brandName?: string;
+        athleteName?: string;
+        leagueName?: string;
+        teamName?: string;
+    }[];
+    contactPersons?: {
+        id: string;
+        name: string;
+        email?: string | null;
+        linkedin?: string | null;
+        number?: string | null;
+        designation?: string | null;
+    }[];
+    gender?: string[];
+    nccs?: string[];
+    primaryMarketingPlatform?: string;
+    secondaryMarketingPlatform?: string;
+    status?: string;
+    state?: string;
+};

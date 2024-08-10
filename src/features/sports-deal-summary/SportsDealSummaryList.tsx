@@ -106,14 +106,10 @@ function SportsDealSummaryList() {
         <Input
             placeholder="Filter tasks..."
             value={
-                (table
-                    .getColumn("sportsDealSummaryName")
-                    ?.getFilterValue() as string) ?? ""
+                (table.getColumn("brandName")?.getFilterValue() as string) ?? ""
             }
             onChange={(event) =>
-                table
-                    .getColumn("sportsDealSummaryName")
-                    ?.setFilterValue(event.target.value)
+                table.getColumn("brandName")?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,

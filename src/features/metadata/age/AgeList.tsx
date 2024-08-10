@@ -106,10 +106,10 @@ function AgeList() {
         <Input
             placeholder="Filter tasks..."
             value={
-                (table.getColumn("teamName")?.getFilterValue() as string) ?? ""
+                (table.getColumn("ageRange")?.getFilterValue() as string) ?? ""
             }
             onChange={(event) =>
-                table.getColumn("teamName")?.setFilterValue(event.target.value)
+                table.getColumn("ageRange")?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,
@@ -138,7 +138,7 @@ function AgeList() {
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
-                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)}
+                        onClick={() => navigator(NAVIGATION_ROUTES.AGE_CREATE)}
                     >
                         Create Age
                     </Button>

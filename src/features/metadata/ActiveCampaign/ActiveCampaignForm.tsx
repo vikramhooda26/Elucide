@@ -9,22 +9,59 @@ import { Input } from "../../../components/ui/input";
 import { userAtom } from "../../../store/atoms/user";
 import { TActivationFormSchema } from "../../activations/constants/metadata";
 import { SingleInputForm } from "../SingleInputForm";
-import { activeCampaignFormSchema } from "./constants/metadata";
+import {
+    activeCampaignFormSchema,
+    TActiveCampaignFormSchema,
+} from "./constants/metadata";
+import MetadataService from "../../../services/features/MetadataService";
+import { HTTP_STATUS_CODES } from "../../../lib/constants";
+import { toast } from "sonner";
+import ErrorService from "../../../services/error/ErrorService";
+import { useAuth } from "../../auth/auth-provider/AuthProvider";
 
 function ActiveCampaignForm() {
+    const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const onSubmit = () => {};
 
     const user = useRecoilValue(userAtom);
 
     const navigate = useNavigate();
 
-    const form = useForm<TActivationFormSchema>({
+    const form = useForm<TActiveCampaignFormSchema>({
         resolver: zodResolver(activeCampaignFormSchema),
         defaultValues: {
             userId: user?.id,
         },
     });
+
+    const onSubmit = async (
+        activeCampaignFormValues: TActivationFormSchema
+    ) => {
+        try {
+            setIsSubmitting(true);
+            const response = await MetadataService.createActiveCampaign(
+                activeCampaignFormValues
+            );
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                toast.success("Active campaign created successfully");
+                form.reset({
+                    activeCampaignName: "",
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError) {
+                toast.error("An unknown error occurred");
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     useEffect(() => {
         if (isSubmitting) {
@@ -43,12 +80,12 @@ function ActiveCampaignForm() {
         >
             <FormField
                 control={form.control}
-                name="activationName"
+                name="activeCampaignName"
                 render={({ field }) => (
-                    <FormItemWrapper label="Active Campaign Name">
+                    <FormItemWrapper label="Campaign Name">
                         <Input
                             {...field}
-                            placeholder="Active Campaign name"
+                            placeholder="Campaign name"
                         />
                     </FormItemWrapper>
                 )}

@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
@@ -28,8 +28,13 @@ import {
     ATHLETE_METADATA,
     athleteFormSchema,
     TAthleteFormSchema,
+    TEditAthleteFormSchema,
 } from "./constants/metadata";
-import { convertCroreToRupees, onNumInputChange } from "../utils/helpers";
+import {
+    convertCroreToRupees,
+    convertRupeesToCrore,
+    onNumInputChange,
+} from "../utils/helpers";
 
 function AthleteForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -37,8 +42,17 @@ function AthleteForm() {
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
 
+    const { id } = useParams();
+
     const { logout } = useAuth();
     const navigate = useNavigate();
+
+    const form = useForm<TAthleteFormSchema>({
+        resolver: zodResolver(athleteFormSchema),
+        defaultValues: {
+            userId: user?.id,
+        },
+    });
 
     useEffect(() => {
         const fetchMetadata = async () => {
@@ -69,6 +83,163 @@ function AthleteForm() {
     }, []);
 
     useEffect(() => {
+        const fetchAthleteDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+
+                const response = await AthleteService.getOne(id);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    const athleteData: TEditAthleteFormSchema = response.data;
+                    console.log(response.data);
+                    form.reset({
+                        name: athleteData?.name || undefined,
+                        nationalityId:
+                            metadataStore?.nationality.find(
+                                (nationality) =>
+                                    nationality.label ===
+                                    athleteData?.nationality
+                            )?.value || undefined,
+                        sportId:
+                            metadataStore?.sport.find(
+                                (sport) => sport.label === athleteData?.sport
+                            )?.value || undefined,
+                        agencyId:
+                            metadataStore?.agency.find(
+                                (agency) => agency.label === athleteData?.agency
+                            )?.value || undefined,
+                        instagram: athleteData?.instagram || undefined,
+                        facebook: athleteData?.facebook || undefined,
+                        twitter: athleteData?.twitter || undefined,
+                        linkedin: athleteData?.linkedin || undefined,
+                        website: athleteData?.website || undefined,
+                        youtube: athleteData?.youtube || undefined,
+                        primaryMarketIds:
+                            metadataStore?.keyMarket
+                                .filter((market) =>
+                                    athleteData?.primaryKeyMarket?.some(
+                                        (primaryMarket: string) =>
+                                            primaryMarket === market.label
+                                    )
+                                )
+                                .map((market) => market.value) || undefined,
+                        secondaryMarketIds:
+                            metadataStore?.keyMarket
+                                .filter((market) =>
+                                    athleteData?.secondaryKeyMarket?.some(
+                                        (primaryMarket: string) =>
+                                            primaryMarket === market.label
+                                    )
+                                )
+                                .map((market) => market.value) || undefined,
+                        tertiaryIds:
+                            metadataStore?.state
+                                .filter((state) =>
+                                    athleteData?.tertiary?.some(
+                                        (tertiary: string) =>
+                                            tertiary === state.label
+                                    )
+                                )
+                                .map((state) => state.value) || undefined,
+                        primarySocialMediaPlatformIds:
+                            metadataStore?.socialMedia
+                                .filter((social) =>
+                                    athleteData?.primarySocialMedia?.some(
+                                        (socialMedia) =>
+                                            socialMedia === social.label
+                                    )
+                                )
+                                .map((social) => social.value) || undefined,
+                        secondarySocialMediaPlatformIds:
+                            metadataStore?.socialMedia
+                                .filter((social) =>
+                                    athleteData?.secondarySocialMedia?.some(
+                                        (socialMedia) =>
+                                            socialMedia === social.label
+                                    )
+                                )
+                                .map((social) => social.value) || undefined,
+                        tierIds:
+                            metadataStore?.tier
+                                .filter((tier) =>
+                                    athleteData?.tier?.some(
+                                        (athleteTier) =>
+                                            tier.label === athleteTier
+                                    )
+                                )
+                                .map((tier) => tier.value) || undefined,
+                        subPersonalityTraitIds:
+                            metadataStore?.personalityTrait
+                                .filter((storeTrait) =>
+                                    athleteData?.subPersonalityTraits?.some(
+                                        (tier) => tier === storeTrait.label
+                                    )
+                                )
+                                .map((trait) => trait.value) || undefined,
+                        ...(!Number.isNaN(Number(athleteData?.age)) && {
+                            age: athleteData?.age?.toString(),
+                        }),
+                        associationLevelId:
+                            metadataStore?.associationLevel.find(
+                                (storeLevel) =>
+                                    athleteData?.associationLevel ===
+                                    storeLevel.label
+                            )?.value || undefined,
+                        genderIds:
+                            metadataStore?.gender
+                                .filter((storeGender) =>
+                                    athleteData?.gender?.some(
+                                        (gender: string) =>
+                                            gender === storeGender.label
+                                    )
+                                )
+                                .map((gender) => gender.value) || undefined,
+
+                        nccsIds:
+                            metadataStore?.nccs
+                                .filter((storeNccs) =>
+                                    athleteData?.nccs?.some(
+                                        (nccs: string) =>
+                                            nccs === storeNccs.label
+                                    )
+                                )
+                                .map((nccs) => nccs.value) || undefined,
+                        statusId:
+                            metadataStore?.athleteStatus.find(
+                                (status) => status.label === athleteData?.status
+                            )?.value || undefined,
+                        stateId:
+                            metadataStore?.state.find(
+                                (state) => state.label === athleteData?.state
+                            )?.value || undefined,
+                        costOfAssociation:
+                            convertRupeesToCrore(
+                                athleteData?.costOfAssociation
+                            ) || undefined,
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchAthleteDetails(id);
+        }
+    }, [id]);
+
+    useEffect(() => {
         if (isSubmitting) {
             form.control._disableForm(true);
         } else {
@@ -80,13 +251,6 @@ function AthleteForm() {
         return <div>Loading...</div>;
     }
 
-    const form = useForm<TAthleteFormSchema>({
-        resolver: zodResolver(athleteFormSchema),
-        defaultValues: {
-            userId: user?.id,
-        },
-    });
-
     const athleteAttributes: {
         title: string;
         register: Extract<
@@ -97,6 +261,7 @@ function AthleteForm() {
             | "nccsIds"
             | "nationalityId"
             | "statusId"
+            | "tierIds"
         >;
         options: any;
         multiple: boolean;
@@ -127,7 +292,7 @@ function AthleteForm() {
             title: "NCCS class",
             register: "nccsIds",
             options: metadataStore.nccs,
-            multiple: false,
+            multiple: true,
             type: "DROPDOWN",
         },
         {
@@ -141,6 +306,13 @@ function AthleteForm() {
             title: "Status",
             register: "statusId",
             options: metadataStore.athleteStatus,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Tier",
+            register: "tierIds",
+            options: metadataStore.tier,
             multiple: true,
             type: "DROPDOWN",
         },
@@ -258,6 +430,17 @@ function AthleteForm() {
 
         try {
             setIsSubmitting(true);
+            if (id) {
+                const response = await AthleteService.editAthlete(id, {
+                    ...athleteFormValues,
+                    costOfAssociation: convertedCostOfAssociation,
+                } as TAthleteFormSchema);
+
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Athlete updated successfully");
+                }
+                return;
+            }
             const response = await AthleteService.createAthlete({
                 ...athleteFormValues,
                 costOfAssociation: convertedCostOfAssociation,
@@ -293,7 +476,7 @@ function AthleteForm() {
                             size="icon"
                             className="h-7 w-7"
                             onClick={() =>
-                                navigate(NAVIGATION_ROUTES.LEAGUE_LIST, {
+                                navigate(NAVIGATION_ROUTES.ATHLETE_LIST, {
                                     replace: true,
                                 })
                             }
@@ -390,7 +573,6 @@ function AthleteForm() {
                                                             placeholder="Select a agency"
                                                             inputPlaceholder="Search for a agency..."
                                                             emptyPlaceholder="No agency found"
-                                                            multiple
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -399,7 +581,7 @@ function AthleteForm() {
                                         <div className="grid gap-3">
                                             <FormField
                                                 control={form.control}
-                                                name="genderId"
+                                                name="genderIds"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Gender">
                                                         <SelectBox
@@ -413,6 +595,7 @@ function AthleteForm() {
                                                             placeholder="Select a gender"
                                                             inputPlaceholder="Search for a gender..."
                                                             emptyPlaceholder="No gender found"
+                                                            multiple
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -607,20 +790,17 @@ function AthleteForm() {
                                             <TableCell className="capitalize">
                                                 {social.name}
                                             </TableCell>
-                                            <FormField
-                                                control={form.control}
-                                                name={social.name}
-                                                render={({ field }) => (
-                                                    <TableCell>
+                                            <TableCell>
+                                                <FormField
+                                                    control={form.control}
+                                                    name={social.name}
+                                                    render={({ field }) => (
                                                         <FormItemWrapper>
-                                                            <Input
-                                                                type="text"
-                                                                {...field}
-                                                            />
+                                                            <Input {...field} />
                                                         </FormItemWrapper>
-                                                    </TableCell>
-                                                )}
-                                            />
+                                                    )}
+                                                />
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableHeaderWrapper>

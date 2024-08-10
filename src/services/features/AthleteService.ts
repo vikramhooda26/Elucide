@@ -10,6 +10,14 @@ class AthleteService {
         );
     }
 
+    static editAthlete(id: string, params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/athlete/edit/" + id,
+            params,
+            "POST"
+        );
+    }
+
     static getAll(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/athlete",

@@ -138,9 +138,7 @@ function NccsList() {
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
-                        onClick={() =>
-                            navigator(NAVIGATION_ROUTES.ASSET_CREATE)
-                        }
+                        onClick={() => navigator(NAVIGATION_ROUTES.NCCS_CREATE)}
                     >
                         Create Nccs class
                     </Button>

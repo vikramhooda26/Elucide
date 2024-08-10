@@ -73,12 +73,6 @@ export const SideMenu = ({
                 label: "100",
                 navigateTo: NAVIGATION_ROUTES.BRAND_LIST,
             },
-            // {
-            //     title: "Mail",
-            //     icon: Trophy,
-            //     label: "50",
-            //     navigateTo: NAVIGATION_ROUTES.TEMP_MAIL,
-            // },
         ],
     };
 
@@ -92,7 +86,7 @@ export const SideMenu = ({
                 maxSize={15}
                 className={cn(
                     isCollapsed &&
-                        "min-w-[50px] transition-all duration-300 ease-in-out"
+                        "min-w-[50px] transition-all duration-300 ease-in-out relative"
                 )}
                 onCollapse={() => {
                     setIsCollapsed(true);

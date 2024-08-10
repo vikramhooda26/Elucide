@@ -261,5 +261,213 @@ class MetadataService {
             "POST"
         );
     }
+
+    static createActiveCampaign(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/active-campaign/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createGender(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/gender/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createAgency(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/agency/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createAsset(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/asset/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createTagline(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/tagline/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createSport(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/sport/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createNationality(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/nationality/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createTier(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/tier/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createTerritory(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/territory/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createTeamOwner(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/team-owner/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createParentOrg(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/parent-org/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createOttPartner(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/ott-partner/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createMarketingPlatform(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/marketing-platform/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createLevel(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/level/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createSubpersonality(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/sub-personality/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createLeagueOwner(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/league-owner/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createKeyMarket(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/key-market/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createNccs(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/nccs/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createMaincategory(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/category/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createCity(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/city/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createState(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/state/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createSubcategory(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/subcategory/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createBroadcastPartner(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/broadcast-partner/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createMainPersonality(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/personality/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createSubPersonality(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/sub-personality/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static createAgeRange(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/age-range/create`,
+            params,
+            "POST"
+        );
+    }
 }
 export default MetadataService;

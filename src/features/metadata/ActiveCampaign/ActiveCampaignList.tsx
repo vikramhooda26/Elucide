@@ -106,10 +106,14 @@ function ActiveCampaignList() {
         <Input
             placeholder="Filter tasks..."
             value={
-                (table.getColumn("teamName")?.getFilterValue() as string) ?? ""
+                (table
+                    .getColumn("activeCampaignName")
+                    ?.getFilterValue() as string) ?? ""
             }
             onChange={(event) =>
-                table.getColumn("teamName")?.setFilterValue(event.target.value)
+                table
+                    .getColumn("activeCampaignName")
+                    ?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,
@@ -133,7 +137,7 @@ function ActiveCampaignList() {
                         Active Campaign List
                     </h2>
                     <p className="text-muted-foreground">
-                        Here&apos;s a list of active campaign.
+                        Here&apos;s a list of active campaigns
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -142,7 +146,7 @@ function ActiveCampaignList() {
                             navigator(NAVIGATION_ROUTES.CAMPAIGN_CREATE)
                         }
                     >
-                        Create
+                        Create Campaign
                     </Button>
                 </div>
             </div>

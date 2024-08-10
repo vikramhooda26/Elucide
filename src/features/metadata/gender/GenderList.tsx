@@ -106,10 +106,13 @@ function GenderList() {
         <Input
             placeholder="Filter tasks..."
             value={
-                (table.getColumn("teamName")?.getFilterValue() as string) ?? ""
+                (table.getColumn("genderName")?.getFilterValue() as string) ??
+                ""
             }
             onChange={(event) =>
-                table.getColumn("teamName")?.setFilterValue(event.target.value)
+                table
+                    .getColumn("genderName")
+                    ?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,
@@ -138,7 +141,9 @@ function GenderList() {
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
-                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)}
+                        onClick={() =>
+                            navigator(NAVIGATION_ROUTES.GENDER_CREATE)
+                        }
                     >
                         Create Gender
                     </Button>

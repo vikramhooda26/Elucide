@@ -85,7 +85,7 @@ function DataTable<TData, TValue>({
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
-                                            <div className="line-clamp-2 text-ellipsis">
+                                            <div className="line-clamp-2 text-ellipsis cursor-pointer">
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
