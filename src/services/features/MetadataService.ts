@@ -441,17 +441,5 @@ class MetadataService {
             "POST"
         );
     }
-
-    static editGenderById(id: string, params: any) {
-        return AjaxService.request(
-            `${API_URL}/api/admin/gender/edit/` + id,
-            params,
-            "POST"
-        );
-    }
-
-    static getGenderById(id: string) {
-        return AjaxService.request(`${API_URL}/api/admin/gender/` + id, "GET");
-    }
 }
 export default MetadataService;
