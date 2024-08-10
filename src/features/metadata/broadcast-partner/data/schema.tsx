@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const broadcastPartnerListSchema = z.object({
-    broadcastPartnerId: z.string(),
+    id: z.string(),
     broadcastPartnerName: z.string(),
     createdDate: z.string(),
     modifiedDate: z.string(),

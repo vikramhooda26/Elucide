@@ -44,7 +44,7 @@ import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
 import SportsDealSummaryForm from "../features/sports-deal-summary/SportsDealSummaryForm";
 import SportsDealSummaryList from "../features/sports-deal-summary/SportsDealSummaryList";
 import SignUpPage from "../features/auth/SignUp";
-import ActivationView from "../features/activations/constants/ActivationView";
+import ActivationView from "../features/activations/ActivationView";
 import AssetForm from "../features/metadata/asset/AssetForm";
 import AssetList from "../features/metadata/asset/AssetList";
 import AssetView from "../features/metadata/asset/AssetView";
@@ -340,6 +340,11 @@ const routeChildren: routeChildrenType[] = [
             {
                 path: NAVIGATION_ROUTES.PERSONALITY + "/:id",
                 element: <PersonalityView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.ACTIVATION + "/:id",
+                element: <ActivationView />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
             //= ============================= personality related routes ends here ======================== =//

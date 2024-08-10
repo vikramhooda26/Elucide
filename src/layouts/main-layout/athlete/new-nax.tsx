@@ -21,12 +21,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
     const pathname = useLocation().pathname;
 
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: "smooth",
-        });
-    }, [pathname]);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [location.pathname]);
 
     const getVariant = (navigateTo: string) => {
         return pathname.toLowerCase().startsWith(navigateTo.toLowerCase())
@@ -58,8 +54,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                         }),
                                         "h-9 w-9",
                                         getVariant(link.navigateTo) ===
-                                            "default" &&
-                                            "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+                                        "default" &&
+                                        "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                                     )}
                                 >
                                     <link.icon className="h-4 w-4" />
@@ -90,7 +86,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                     size: "sm",
                                 }),
                                 getVariant(link.navigateTo) === "default" &&
-                                    "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                                "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
                                 "justify-start"
                             )}
                         >
@@ -101,8 +97,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                     className={cn(
                                         "ml-auto",
                                         getVariant(link.navigateTo) ===
-                                            "default" &&
-                                            "text-background dark:text-white"
+                                        "default" &&
+                                        "text-background dark:text-white"
                                     )}
                                 >
                                     {link.label}
