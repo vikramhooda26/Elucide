@@ -11,6 +11,7 @@ type SliderProps = {
     formatLabel?: (value: number) => string;
     value?: number[] | readonly number[];
     onValueChange?: (values: number[]) => void;
+    isSingle?: boolean;
 };
 
 const RangeSlider = React.forwardRef(
@@ -23,19 +24,27 @@ const RangeSlider = React.forwardRef(
             formatLabel,
             value,
             onValueChange,
+            isSingle = false,
             ...props
         }: SliderProps,
         ref
     ) => {
-        const initialValue = Array.isArray(value) ? value : [min, max];
+        const initialValue = Array.isArray(value)
+            ? value
+            : isSingle
+            ? [min]
+            : [min, max];
         const [localValues, setLocalValues] = useState(initialValue);
 
         useEffect(() => {
             // Update localValues when the external value prop changes
-            setLocalValues(Array.isArray(value) ? value : [min, max]);
-        }, [min, max, value]);
+            setLocalValues(
+                Array.isArray(value) ? value : isSingle ? [min] : [min, max]
+            );
+        }, [min, max, value, isSingle]);
 
         const handleValueChange = (newValues: number[]) => {
+            console.log("\nnewValues:", newValues);
             setLocalValues(newValues);
             if (onValueChange) {
                 onValueChange(newValues);

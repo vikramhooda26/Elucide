@@ -92,11 +92,6 @@ function AthleteForm() {
                 const response = await AthleteService.getOne(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     const athleteData: TEditAthleteFormSchema = response.data;
-                    console.log(
-                        "\n\nAPI called for edit response data:",
-                        response.data
-                    );
-                    console.log("\n\nTypeof age:", typeof athleteData.age);
                     associationId = athleteData.associationId;
                     form.reset({
                         name: athleteData?.name || undefined,
@@ -515,7 +510,7 @@ function AthleteForm() {
                             <span className="sr-only">Back</span>
                         </Button>
                         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                            Create Athlete
+                            {id ? "Edit" : "Create"} Athlete
                         </h1>
 
                         <div className="hidden items-center gap-2 md:ml-auto md:flex">

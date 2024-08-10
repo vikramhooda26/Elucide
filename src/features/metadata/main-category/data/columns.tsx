@@ -62,7 +62,7 @@ export const columns: ColumnDef<TMainCategoryListSchema>[] = [
                         {row.getValue("createdDate")
                             ? format(
                                   row.getValue("createdDate"),
-                                  "dd-MM-yyyy, HH:mm aaaaaa"
+                                  "dd-MM-yyyy, hh:mm aaaaaa"
                               )
                             : ""}
                     </span>

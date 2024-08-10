@@ -6,18 +6,17 @@ import { useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
 import { FormField } from "../../../components/ui/form";
+import SelectBox from "../../../components/ui/multi-select";
 import { RangeSlider } from "../../../components/ui/RangeSlider";
 import { HTTP_STATUS_CODES } from "../../../lib/constants";
+import { cn } from "../../../lib/utils";
 import ErrorService from "../../../services/error/ErrorService";
 import MetadataService from "../../../services/features/MetadataService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
-import { ageRangeFormSchema, TAgeRangeFormSchema } from "./constants/metadata";
-import { cn } from "../../../lib/utils";
 import { getConvertedAgeRange } from "./constants/helpers";
-import SelectBox from "../../../components/ui/multi-select";
-import { SingleSlider } from "../../../components/ui/SingleSlider";
+import { ageRangeFormSchema, TAgeRangeFormSchema } from "./constants/metadata";
 
 function AgeForm() {
     const { logout } = useAuth();
@@ -47,11 +46,13 @@ function AgeForm() {
             setIsSubmitting(true);
 
             console.log(ageRangeFormValues.ageRange);
-            return;
 
-            const convertedAgeRange = getConvertedAgeRange(
-                ageRangeFormValues.ageRange
-            );
+            const convertedAgeRange =
+                ageTypeValue === "Range"
+                    ? getConvertedAgeRange(ageRangeFormValues.ageRange)
+                    : ageRangeFormValues.ageRange.length === 1
+                    ? `${ageRangeFormValues.ageRange}+`
+                    : null;
 
             if (convertedAgeRange === null) {
                 toast.error("Invalid range. Contact developer");
@@ -71,7 +72,7 @@ function AgeForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Age range created successfully");
                 form.reset({
-                    ageRange: [18, 25],
+                    ageRange: [0, 100],
                 });
             }
         } catch (error) {
@@ -121,20 +122,16 @@ function AgeForm() {
                     render={({ field }) => (
                         <FormItemWrapper label="Age Range">
                             <div>
-                                {ageTypeValue === "Range" ? (
-                                    <RangeSlider
-                                        minStepsBetweenThumbs={1}
-                                        max={100}
-                                        min={1}
-                                        step={1}
-                                        onValueChange={field.onChange}
-                                        className={cn("w-full")}
-                                    />
-                                ) : (
-                                    <SingleSlider
-                                        onValueChange={field.onChange}
-                                    />
-                                )}
+                                <RangeSlider
+                                    key={ageTypeValue}
+                                    minStepsBetweenThumbs={1}
+                                    max={100}
+                                    min={0}
+                                    step={1}
+                                    onValueChange={field.onChange}
+                                    className={cn("w-full")}
+                                    isSingle={ageTypeValue === "Max"}
+                                />
                             </div>
                         </FormItemWrapper>
                     )}
