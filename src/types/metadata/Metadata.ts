@@ -10,11 +10,19 @@ export type activation = {
     brandName?: string;
 };
 
+export type nameAndId = { id: string; name: string };
+
 export type personality = {
     personalityId: string;
     personalityName: string;
+    subpersonalities: [nameAndId]
 };
 
+export type subPersonality = {
+    id: string;
+    subpersonalityName: string;
+    personality: nameAndId;
+};
 
 export type sportsDealSummary = {
     id?: string;
@@ -36,4 +44,16 @@ export type sportsDealSummary = {
 export type ageRange = {
     ageRangeId: string;
     ageRange: string;
+};
+
+export type mainCategory = {
+    categoryId: string;
+    categoryName: string;
+    subcategories: [nameAndId];
+};
+
+export type subCategory = {
+    subcategoryId: string;
+    subcategoryName: string;
+    category: nameAndId;
 };

@@ -102,6 +102,10 @@ class MetadataService {
         );
     }
 
+    static getOneSubPersonality(id: string, params?: any) {
+        return AjaxService.request(API_URL + "/api/admin/sub-personality/" + id, params, "GET");
+    }
+
     static getAllLevel(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/level/get-all",
@@ -116,6 +120,10 @@ class MetadataService {
             params,
             "GET"
         );
+    }
+
+    static getOneSubCategory(id: string, params?: any) {
+        return AjaxService.request(API_URL + "/api/admin/subcategory/" + id, params, "GET");
     }
 
     static getAllKeyMarket(params: any) {
@@ -148,6 +156,10 @@ class MetadataService {
             params,
             "GET"
         );
+    }
+
+    static getOneCategory(id: string, params?: any) {
+        return AjaxService.request(API_URL + "/api/admin/category/" + id, params, "GET");
     }
 
     static getAllState(params: any) {

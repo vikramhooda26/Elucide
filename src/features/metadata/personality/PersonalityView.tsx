@@ -1,13 +1,15 @@
-import { Pencil } from 'lucide-react';
+import { Pencil, SquareArrowOutUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import BackButton from '../../../components/button/BackButton';
+import NoDataText from '../../../components/no-data/NoDataText';
 import { TableHeaderWrapper } from '../../../components/table/table-header-wrapper';
 import { Button } from '../../../components/ui/button';
 import { Card } from '../../../components/ui/card';
 import { TableCell, TableRow } from '../../../components/ui/table';
+import { NAVIGATION_ROUTES } from '../../../lib/constants';
 import MetadataService from '../../../services/features/MetadataService';
-import { personality } from '../../../types/metadata/Metadata';
+import { nameAndId, personality } from '../../../types/metadata/Metadata';
 
 function PersonalityView() {
   const { id } = useParams<string>();
@@ -51,7 +53,7 @@ function PersonalityView() {
         <div className="flex items-center gap-4 mb-4">
           <BackButton />
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-            Personality View
+            Personality Trait View
           </h1>
 
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
@@ -69,7 +71,31 @@ function PersonalityView() {
                 </TableRow>
               </TableHeaderWrapper>
             </Card>
+            <div className="grid gap-3 border rounded-md p-4">
+              <div>
+                Sub Personality Traits
+              </div>
+              <ul className="grid gap-3 grid-cols-2">
+                {viewData?.subpersonalities && viewData?.subpersonalities?.length > 0 ? viewData?.subpersonalities?.map(
+                  (subp: nameAndId, i: number) => (
+                    <li
+                      key={i}
+                      className="flex items-center gap-2"
+                    >
+                      <Link to={NAVIGATION_ROUTES.SUB_PERSONALITY + `/${subp.id}`} className="flex items-center gap-2">
+                        <span >
+                          {i + 1}
+                        </span>
+                        <span className="text-muted-foreground">{subp.name}</span>
 
+                        <SquareArrowOutUpRight className="w-4 h-4" />
+                      </Link>
+                    </li>))
+                  :
+                  <NoDataText />
+                }
+              </ul>
+            </div>
           </div>
         </div>
       </div>

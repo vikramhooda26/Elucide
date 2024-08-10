@@ -75,7 +75,7 @@ function MainCategoryList() {
     }, []);
 
     const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.CITY, [id]);
+        navigator(NAVIGATION_ROUTES.MAIN_CATEGORY, [id]);
     };
 
     const table = useReactTable({
