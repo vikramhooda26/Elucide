@@ -23,6 +23,7 @@ import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import AthleteService from "../../services/features/AthleteService";
 import BackButton from "../../components/button/BackButton";
+import { differenceInYears } from "date-fns";
 
 function AthleteView() {
     const { id } = useParams<string>();
@@ -45,6 +46,10 @@ function AthleteView() {
 
             athleteObj.createdBy = athleteObj?.createdBy?.firstName || "";
             athleteObj.modifiedBy = athleteObj?.modifiedBy?.firstName || "";
+
+            if (athleteObj?.age) {
+                athleteObj.age = differenceInYears(new Date(), athleteObj?.age);
+            }
 
             setAthlete(athleteObj);
         } catch (error) {
