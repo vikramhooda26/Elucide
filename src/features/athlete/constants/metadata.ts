@@ -42,11 +42,16 @@ export const athleteFormSchema = z.object({
     primarySocialMediaPlatformIds: z.string().array().optional(),
     secondarySocialMediaPlatformIds: z.string().array().optional(),
     statusId: z.string().optional(),
-    contactName: z.string().optional(),
-    contactDesignation: z.string().optional(),
-    contactEmail: z.string().optional(),
-    contactNumber: z.string().optional(),
-    contactLinkedin: z.string().optional(),
+    contactPerson: z.array(
+        z.object({
+            id: z.string().optional(),
+            contactName: z.string().optional(),
+            contactDesignation: z.string().optional(),
+            contactEmail: z.string().optional(),
+            contactNumber: z.string().optional(),
+            contactLinkedin: z.string().optional(),
+        })
+    ).optional(),
 });
 
 export type TAthleteFormSchema = z.infer<typeof athleteFormSchema>;

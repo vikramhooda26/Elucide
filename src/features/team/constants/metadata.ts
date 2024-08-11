@@ -71,11 +71,15 @@ export const teamFormSchema = z.object({
         })
         .array()
         .optional(),
-    contactName: z.string().optional(),
-    contactDesignation: z.string().optional(),
-    contactEmail: z.string().optional(),
-    contactNumber: z.string().optional(),
-    contactLinkedin: z.string().optional(),
+    contactPerson: z.array(
+        z.object({
+            contactName: z.string().optional(),
+            contactDesignation: z.string().optional(),
+            contactEmail: z.string().optional(),
+            contactNumber: z.string().optional(),
+            contactLinkedin: z.string().optional(),
+        })
+    ).optional(),
     userId: z.string(),
 });
 

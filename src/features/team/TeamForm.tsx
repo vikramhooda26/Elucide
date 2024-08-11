@@ -35,6 +35,7 @@ import {
     teamFormSchema,
     TTeamFormSchema,
 } from "./constants/metadata";
+import ContactPersonCard from "../../components/core/form/contact-person-card";
 
 export function TeamForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -129,56 +130,56 @@ export function TeamForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Sports",
-            register: "sportId",
-            options: metadataStore.sport,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "League",
-            register: "leagueId",
-            options: metadataStore.league,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Owners",
-            register: "ownerIds",
-            options: metadataStore.teamOwner,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "City",
-            register: "cityId",
-            options: metadataStore.city,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "State",
-            register: "stateId",
-            options: metadataStore.state,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Personality Traits",
-            register: "subPersonalityTraitIds",
-            options: metadataStore.personalityTrait,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Tiers",
-            register: "tierIds",
-            options: metadataStore.tier,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Sports",
+                register: "sportId",
+                options: metadataStore.sport,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "League",
+                register: "leagueId",
+                options: metadataStore.league,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Owners",
+                register: "ownerIds",
+                options: metadataStore.teamOwner,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "City",
+                register: "cityId",
+                options: metadataStore.city,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "State",
+                register: "stateId",
+                options: metadataStore.state,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Personality Traits",
+                register: "subPersonalityTraitIds",
+                options: metadataStore.personalityTrait,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Tiers",
+                register: "tierIds",
+                options: metadataStore.tier,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
     const targetAudience: {
         title: string;
@@ -187,82 +188,21 @@ export function TeamForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Age",
-            register: "ageIds",
-            options: metadataStore.age,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Gender",
-            register: "genderIds",
-            options: metadataStore.gender,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
-
-    const contactDetails: {
-        title: string;
-        register: Extract<
-            keyof TTeamFormSchema,
-            | "contactName"
-            | "contactDesignation"
-            | "contactNumber"
-            | "contactLinkedin"
-            | "contactEmail"
-        >;
-        input: { type: string };
-        placeholder?: string;
-        type: "INPUT" | "PHONE";
-    }[] = [
-        {
-            title: "Contact Name",
-            register: "contactName",
-            type: "INPUT",
-            input: {
-                type: "text",
+            {
+                title: "Age",
+                register: "ageIds",
+                options: metadataStore.age,
+                multiple: true,
+                type: "DROPDOWN",
             },
-            placeholder: "Contact name",
-        },
-        {
-            title: "Contact Designation",
-            register: "contactDesignation",
-            type: "INPUT",
-            input: {
-                type: "text",
+            {
+                title: "Gender",
+                register: "genderIds",
+                options: metadataStore.gender,
+                multiple: true,
+                type: "DROPDOWN",
             },
-            placeholder: "Contact designation",
-        },
-        {
-            title: "Contact Number",
-            register: "contactNumber",
-            type: "PHONE",
-            input: {
-                type: "number",
-            },
-            placeholder: "Contact number",
-        },
-        {
-            title: "Contact Linkedin",
-            register: "contactLinkedin",
-            type: "INPUT",
-            input: {
-                type: "text",
-            },
-            placeholder: "Contact linkedin",
-        },
-        {
-            title: "Contact Email",
-            register: "contactEmail",
-            type: "INPUT",
-            input: {
-                type: "email",
-            },
-            placeholder: "Contact email",
-        },
-    ];
+        ];
 
     const socials: {
         name: Extract<
@@ -275,25 +215,25 @@ export function TeamForm() {
             | "twitter"
         >;
     }[] = [
-        {
-            name: "instagram",
-        },
-        {
-            name: "facebook",
-        },
-        {
-            name: "twitter",
-        },
-        {
-            name: "linkedin",
-        },
-        {
-            name: "youtube",
-        },
-        {
-            name: "website",
-        },
-    ];
+            {
+                name: "instagram",
+            },
+            {
+                name: "facebook",
+            },
+            {
+                name: "twitter",
+            },
+            {
+                name: "linkedin",
+            },
+            {
+                name: "youtube",
+            },
+            {
+                name: "website",
+            },
+        ];
 
     const viewershipType = [
         { label: "OTT", value: "OTT" },
@@ -331,15 +271,19 @@ export function TeamForm() {
             return;
         }
 
-        if (teamFormValues?.contactNumber) {
-            const phoneData = getPhoneData(teamFormValues?.contactNumber);
-            if (!phoneData.isValid) {
-                form.setError("contactNumber", {
-                    type: "manual",
-                    message: "Invalid phone number",
-                });
-                return;
-            }
+        if (teamFormValues?.contactPerson) {
+            teamFormValues?.contactPerson?.forEach((d, i) => {
+                if (d?.contactNumber) {
+                    const phoneData = getPhoneData(d?.contactNumber);
+                    if (!phoneData.isValid) {
+                        form.setError(`contactPerson.${i}.contactNumber`, {
+                            type: "manual",
+                            message: "Invalid phone number",
+                        });
+                        return;
+                    }
+                }
+            })
         }
 
         const validatedViewershipMetrics = validateMetrics(
@@ -855,20 +799,20 @@ export function TeamForm() {
                                                 <TableCell className="font-semibold">
                                                     {viewershipMetricFieldArray
                                                         .fields.length > 0 && (
-                                                        <Button
-                                                            onClick={() =>
-                                                                viewershipMetricFieldArray.remove(
-                                                                    index
-                                                                )
-                                                            }
-                                                            size="sm"
-                                                            className="h-7 gap-1 text-white"
-                                                            variant="destructive"
-                                                            type="button"
-                                                        >
-                                                            <Trash2 className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    )}
+                                                            <Button
+                                                                onClick={() =>
+                                                                    viewershipMetricFieldArray.remove(
+                                                                        index
+                                                                    )
+                                                                }
+                                                                size="sm"
+                                                                className="h-7 gap-1 text-white"
+                                                                variant="destructive"
+                                                                type="button"
+                                                            >
+                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                            </Button>
+                                                        )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -951,20 +895,20 @@ export function TeamForm() {
                                                 <TableCell className="font-semibold">
                                                     {reachMetricFieldArray
                                                         .fields.length > 0 && (
-                                                        <Button
-                                                            onClick={() =>
-                                                                reachMetricFieldArray.remove(
-                                                                    index
-                                                                )
-                                                            }
-                                                            size="sm"
-                                                            className="h-7 gap-1 text-white"
-                                                            variant="destructive"
-                                                            type="button"
-                                                        >
-                                                            <Trash2 className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    )}
+                                                            <Button
+                                                                onClick={() =>
+                                                                    reachMetricFieldArray.remove(
+                                                                        index
+                                                                    )
+                                                                }
+                                                                size="sm"
+                                                                className="h-7 gap-1 text-white"
+                                                                variant="destructive"
+                                                                type="button"
+                                                            >
+                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                            </Button>
+                                                        )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -1023,6 +967,7 @@ export function TeamForm() {
                                     ))}
                                 </TableHeaderWrapper>
                             </CardWrapper>
+                            <ContactPersonCard control={form.control} />
                         </div>
 
                         <div className="grid auto-rows-max items-start gap-4 ">
@@ -1038,11 +983,6 @@ export function TeamForm() {
                                 displayFields={targetAudience}
                             />
 
-                            <VerticalFieldsCard
-                                control={form.control}
-                                title="Contact Person Details"
-                                displayFields={contactDetails}
-                            />
                         </div>
                     </div>
 

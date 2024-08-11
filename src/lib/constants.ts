@@ -1,5 +1,5 @@
 export const API_URL =
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+    import.meta.env.VITE_BACKEND_URL || "https://elucide-sports-backend.vercel.app";
 
 //"https://elucide-sports-backend.vercel.app"
 
@@ -32,22 +32,22 @@ export const NAVIGATION_ROUTES = {
     TEAM: "/team/view",
     TEAM_LIST: "/team/list",
     CREATE_TEAM: dataEntryRoute + "/team/create",
-    EDIT_TEAM: "/team/edit",
+    EDIT_TEAM: dataEntryRoute + "/team/edit",
 
     LEAGUE: "/league/view",
     LEAGUE_LIST: "/league/list",
     CREATE_LEAGUE: dataEntryRoute + "/league/create",
-    EDIT_LEAGUE: "/league/edit",
+    EDIT_LEAGUE: dataEntryRoute + "/league/edit",
 
     BRAND: "/brand/view",
     BRAND_LIST: "/brand/list",
     CREATE_BRAND: dataEntryRoute + "/brand/create",
-    EDIT_BRAND: "/brand/edit",
+    EDIT_BRAND: dataEntryRoute + "/brand/edit",
 
     ATHLETE: "/athlete/view",
     ATHLETE_LIST: "/athlete/list",
     CREATE_ATHLETE: dataEntryRoute + "/athlete/create",
-    EDIT_ATHLETE: "/athlete/edit",
+    EDIT_ATHLETE: dataEntryRoute + "/athlete/edit",
 
     DATA_ENTRY_LIST: dataEntryRoute,
 

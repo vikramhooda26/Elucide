@@ -36,6 +36,7 @@ import {
     TAthleteFormSchema,
     TEditAthleteFormSchema,
 } from "./constants/metadata";
+import ContactPersonCard from "../../components/core/form/contact-person-card";
 
 function AthleteForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -218,21 +219,16 @@ function AthleteForm() {
                                 athleteData?.costOfAssociation
                             ) || undefined,
                         userId: user?.id,
-                        contactName: athleteData.contactPersons?.length
-                            ? athleteData.contactPersons?.[0].name
-                            : undefined,
-                        contactDesignation: athleteData.contactPersons?.length
-                            ? athleteData.contactPersons?.[0].designation
-                            : undefined,
-                        contactEmail: athleteData.contactPersons?.length
-                            ? athleteData.contactPersons?.[0].email
-                            : undefined,
-                        contactLinkedin: athleteData.contactPersons?.length
-                            ? athleteData.contactPersons?.[0].linkedin
-                            : undefined,
-                        contactNumber: athleteData.contactPersons?.length
-                            ? athleteData.contactPersons?.[0].number
-                            : undefined,
+                        contactPerson: athleteData.contactPersons && athleteData.contactPersons?.length > 0 ? athleteData.contactPersons?.map((detail, i) => {
+                            return {
+                                id: detail?.id || '',
+                                contactName: detail?.name || '',
+                                contactDesignation: detail?.designation || '',
+                                contactEmail: detail?.email || '',
+                                contactNumber: detail?.number,
+                                contactLinkedin: detail?.linkedin,
+                            }
+                        }) : undefined,
                     });
                 }
             } catch (error) {
@@ -285,117 +281,56 @@ function AthleteForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Sports",
-            register: "sportId",
-            options: metadataStore.sport,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Nationality",
-            register: "nationalityId",
-            options: metadataStore.nationality,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "State",
-            register: "stateId",
-            options: metadataStore.state,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "NCCS class",
-            register: "nccsIds",
-            options: metadataStore.nccs,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Personality Traits",
-            register: "subPersonalityTraitIds",
-            options: metadataStore.personalityTrait,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Status",
-            register: "statusId",
-            options: metadataStore.athleteStatus,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Tier",
-            register: "tierIds",
-            options: metadataStore.tier,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
-
-    const contactDetails: {
-        title: string;
-        register: Extract<
-            keyof TAthleteFormSchema,
-            | "contactName"
-            | "contactDesignation"
-            | "contactNumber"
-            | "contactLinkedin"
-            | "contactEmail"
-        >;
-        input: { type: string };
-        placeholder?: string;
-        type: "INPUT" | "PHONE";
-    }[] = [
-        {
-            title: "Contact Name",
-            register: "contactName",
-            type: "INPUT",
-            input: {
-                type: "text",
+            {
+                title: "Sports",
+                register: "sportId",
+                options: metadataStore.sport,
+                multiple: false,
+                type: "DROPDOWN",
             },
-            placeholder: "Contact name",
-        },
-        {
-            title: "Contact Designation",
-            register: "contactDesignation",
-            type: "INPUT",
-            input: {
-                type: "text",
+            {
+                title: "Nationality",
+                register: "nationalityId",
+                options: metadataStore.nationality,
+                multiple: false,
+                type: "DROPDOWN",
             },
-            placeholder: "Contact designation",
-        },
-        {
-            title: "Contact Number",
-            register: "contactNumber",
-            type: "PHONE",
-            input: {
-                type: "number",
+            {
+                title: "State",
+                register: "stateId",
+                options: metadataStore.state,
+                multiple: false,
+                type: "DROPDOWN",
             },
-            placeholder: "Contact number",
-        },
-        {
-            title: "Contact Linkedin",
-            register: "contactLinkedin",
-            type: "INPUT",
-            input: {
-                type: "text",
+            {
+                title: "NCCS class",
+                register: "nccsIds",
+                options: metadataStore.nccs,
+                multiple: true,
+                type: "DROPDOWN",
             },
-            placeholder: "Contact linkedin",
-        },
-        {
-            title: "Contact Email",
-            register: "contactEmail",
-            type: "INPUT",
-            input: {
-                type: "email",
+            {
+                title: "Personality Traits",
+                register: "subPersonalityTraitIds",
+                options: metadataStore.personalityTrait,
+                multiple: true,
+                type: "DROPDOWN",
             },
-            placeholder: "Contact email",
-        },
-    ];
+            {
+                title: "Status",
+                register: "statusId",
+                options: metadataStore.athleteStatus,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Tier",
+                register: "tierIds",
+                options: metadataStore.tier,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
     const socials: {
         name: Extract<
@@ -408,36 +343,40 @@ function AthleteForm() {
             | "twitter"
         >;
     }[] = [
-        {
-            name: "instagram",
-        },
-        {
-            name: "facebook",
-        },
-        {
-            name: "twitter",
-        },
-        {
-            name: "linkedin",
-        },
-        {
-            name: "youtube",
-        },
-        {
-            name: "website",
-        },
-    ];
+            {
+                name: "instagram",
+            },
+            {
+                name: "facebook",
+            },
+            {
+                name: "twitter",
+            },
+            {
+                name: "linkedin",
+            },
+            {
+                name: "youtube",
+            },
+            {
+                name: "website",
+            },
+        ];
 
     const onSubmit = async (athleteFormValues: TAthleteFormSchema) => {
-        if (athleteFormValues?.contactNumber) {
-            const phoneData = getPhoneData(athleteFormValues?.contactNumber);
-            if (!phoneData.isValid) {
-                form.setError("contactNumber", {
-                    type: "manual",
-                    message: "Invalid phone number",
-                });
-                return;
-            }
+        if (athleteFormValues?.contactPerson) {
+            athleteFormValues?.contactPerson?.forEach((d, i) => {
+                if (d?.contactNumber) {
+                    const phoneData = getPhoneData(d?.contactNumber);
+                    if (!phoneData.isValid) {
+                        form.setError(`contactPerson.${i}.contactNumber`, {
+                            type: "manual",
+                            message: "Invalid phone number",
+                        });
+                        return;
+                    }
+                }
+            })
         }
 
         const convertedCostOfAssociation = convertCroreToRupees(
@@ -830,6 +769,9 @@ function AthleteForm() {
                                     ))}
                                 </TableHeaderWrapper>
                             </CardWrapper>
+
+                            <ContactPersonCard control={form.control} />
+
                         </div>
 
                         <div className="grid auto-rows-max items-start gap-4 ">
@@ -839,11 +781,6 @@ function AthleteForm() {
                                 displayFields={athleteAttributes}
                             />
 
-                            <VerticalFieldsCard
-                                control={form.control}
-                                title="Contact Person Details"
-                                displayFields={contactDetails}
-                            />
                         </div>
                     </div>
 

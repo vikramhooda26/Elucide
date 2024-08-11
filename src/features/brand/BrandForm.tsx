@@ -29,6 +29,7 @@ import {
     brandFormSchema,
     TBrandFormSchema,
 } from "./constants/metadata";
+import ContactPersonCard from "../../components/core/form/contact-person-card";
 
 function BrandForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -101,49 +102,49 @@ function BrandForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Category",
-            register: "subCategoryIds",
-            options: metadataStore.category,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "City",
-            register: "cityId",
-            options: metadataStore.city,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "State",
-            register: "stateId",
-            options: metadataStore.state,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Personality Traits",
-            register: "subPersonalityTraitIds",
-            options: metadataStore.personalityTrait,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Tiers",
-            register: "tierIds",
-            options: metadataStore.tier,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "NCCS class",
-            register: "nccsIds",
-            options: metadataStore.tier,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Category",
+                register: "subCategoryIds",
+                options: metadataStore.category,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "City",
+                register: "cityId",
+                options: metadataStore.city,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "State",
+                register: "stateId",
+                options: metadataStore.state,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Personality Traits",
+                register: "subPersonalityTraitIds",
+                options: metadataStore.personalityTrait,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Tiers",
+                register: "tierIds",
+                options: metadataStore.tier,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "NCCS class",
+                register: "nccsIds",
+                options: metadataStore.tier,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
     const targetAudience: {
         title: string;
@@ -152,82 +153,21 @@ function BrandForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Age",
-            register: "ageIds",
-            options: metadataStore.age,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Gender",
-            register: "genderIds",
-            options: metadataStore.gender,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
-
-    const contactDetails: {
-        title: string;
-        register: Extract<
-            keyof TBrandFormSchema,
-            | "contactName"
-            | "contactDesignation"
-            | "contactNumber"
-            | "contactLinkedin"
-            | "contactEmail"
-        >;
-        input: { type: string };
-        placeholder?: string;
-        type: "INPUT" | "PHONE";
-    }[] = [
-        {
-            title: "Contact Name",
-            register: "contactName",
-            type: "INPUT",
-            input: {
-                type: "text",
+            {
+                title: "Age",
+                register: "ageIds",
+                options: metadataStore.age,
+                multiple: true,
+                type: "DROPDOWN",
             },
-            placeholder: "Contact name",
-        },
-        {
-            title: "Contact Designation",
-            register: "contactDesignation",
-            type: "INPUT",
-            input: {
-                type: "text",
+            {
+                title: "Gender",
+                register: "genderIds",
+                options: metadataStore.gender,
+                multiple: true,
+                type: "DROPDOWN",
             },
-            placeholder: "Contact designation",
-        },
-        {
-            title: "Contact Number",
-            register: "contactNumber",
-            type: "PHONE",
-            input: {
-                type: "number",
-            },
-            placeholder: "Contact number",
-        },
-        {
-            title: "Contact Linkedin",
-            register: "contactLinkedin",
-            type: "INPUT",
-            input: {
-                type: "text",
-            },
-            placeholder: "Contact linkedin",
-        },
-        {
-            title: "Contact Email",
-            register: "contactEmail",
-            type: "INPUT",
-            input: {
-                type: "email",
-            },
-            placeholder: "Contact email",
-        },
-    ];
+        ];
 
     const socials: {
         name: Extract<
@@ -240,36 +180,40 @@ function BrandForm() {
             | "twitter"
         >;
     }[] = [
-        {
-            name: "instagram",
-        },
-        {
-            name: "facebook",
-        },
-        {
-            name: "twitter",
-        },
-        {
-            name: "linkedin",
-        },
-        {
-            name: "youtube",
-        },
-        {
-            name: "website",
-        },
-    ];
+            {
+                name: "instagram",
+            },
+            {
+                name: "facebook",
+            },
+            {
+                name: "twitter",
+            },
+            {
+                name: "linkedin",
+            },
+            {
+                name: "youtube",
+            },
+            {
+                name: "website",
+            },
+        ];
 
     const onSubmit = async (brandFormValues: TBrandFormSchema) => {
-        if (brandFormValues?.contactNumber) {
-            const phoneData = getPhoneData(brandFormValues?.contactNumber);
-            if (!phoneData.isValid) {
-                form.setError("contactNumber", {
-                    type: "manual",
-                    message: "Invalid phone number",
-                });
-                return;
-            }
+        if (brandFormValues?.contactPerson) {
+            brandFormValues?.contactPerson?.forEach((d, i) => {
+                if (d?.contactNumber) {
+                    const phoneData = getPhoneData(d?.contactNumber);
+                    if (!phoneData.isValid) {
+                        form.setError(`contactPerson.${i}.contactNumber`, {
+                            type: "manual",
+                            message: "Invalid phone number",
+                        });
+                        return;
+                    }
+                }
+            })
         }
 
         console.log("\n\n\n\nRequest Body:", brandFormValues);
@@ -636,6 +580,9 @@ function BrandForm() {
                                     ))}
                                 </TableHeaderWrapper>
                             </CardWrapper>
+
+                            <ContactPersonCard control={form.control} />
+
                         </div>
 
                         <div className="grid auto-rows-max items-start gap-4 ">
@@ -651,11 +598,6 @@ function BrandForm() {
                                 displayFields={targetAudience}
                             />
 
-                            <VerticalFieldsCard
-                                control={form.control}
-                                title="Contact Person Details"
-                                displayFields={contactDetails}
-                            />
                         </div>
                     </div>
 

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft, CirclePlus, PlusCircle, Trash2 } from "lucide-react";
+import { ChevronLeft, CirclePlus, MinusCircle, PlusCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -36,6 +36,7 @@ import {
     TLeagueFormSchema,
 } from "./constants.ts/metadata";
 import { InputDrawer } from "../../components/form/input-drawer";
+import ContactPersonCard from "../../components/core/form/contact-person-card";
 
 function LeagueForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -129,49 +130,49 @@ function LeagueForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Sport",
-            register: "sportId",
-            options: metadataStore.sport,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Format",
-            register: "formatId",
-            options: metadataStore.format,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Owners",
-            register: "ownerIds",
-            options: metadataStore.leagueOwner,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "NCCS Class",
-            register: "nccsIds",
-            options: metadataStore.nccs,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Personality Traits",
-            register: "subPersonalityTraitIds",
-            options: metadataStore.personalityTrait,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Tiers",
-            register: "tierIds",
-            options: metadataStore.tier,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Sport",
+                register: "sportId",
+                options: metadataStore.sport,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Format",
+                register: "formatId",
+                options: metadataStore.format,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Owners",
+                register: "ownerIds",
+                options: metadataStore.leagueOwner,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "NCCS Class",
+                register: "nccsIds",
+                options: metadataStore.nccs,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Personality Traits",
+                register: "subPersonalityTraitIds",
+                options: metadataStore.personalityTrait,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Tiers",
+                register: "tierIds",
+                options: metadataStore.tier,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
     const partnerships: {
         title: string;
@@ -183,21 +184,21 @@ function LeagueForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Broadcast Partner",
-            register: "broadCastPartnerId",
-            options: metadataStore.broadcastPartner,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "OTT Partner",
-            register: "ottPartnerId",
-            options: metadataStore.ottPartner,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Broadcast Partner",
+                register: "broadCastPartnerId",
+                options: metadataStore.broadcastPartner,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "OTT Partner",
+                register: "ottPartnerId",
+                options: metadataStore.ottPartner,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+        ];
 
     const targetAudience: {
         title: string;
@@ -206,82 +207,22 @@ function LeagueForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Age",
-            register: "ageIds",
-            options: metadataStore.age,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Gender",
-            register: "genderIds",
-            options: metadataStore.gender,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Age",
+                register: "ageIds",
+                options: metadataStore.age,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Gender",
+                register: "genderIds",
+                options: metadataStore.gender,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
-    const contactDetails: {
-        title: string;
-        register: Extract<
-            keyof TLeagueFormSchema,
-            | "contactName"
-            | "contactDesignation"
-            | "contactNumber"
-            | "contactLinkedin"
-            | "contactEmail"
-        >;
-        input: { type: string };
-        placeholder?: string;
-        type: "INPUT" | "PHONE";
-    }[] = [
-        {
-            title: "Contact Name",
-            register: "contactName",
-            type: "INPUT",
-            input: {
-                type: "text",
-            },
-            placeholder: "Contact name",
-        },
-        {
-            title: "Contact Designation",
-            register: "contactDesignation",
-            type: "INPUT",
-            input: {
-                type: "text",
-            },
-            placeholder: "Contact designation",
-        },
-        {
-            title: "Contact Number",
-            register: "contactNumber",
-            type: "PHONE",
-            input: {
-                type: "number",
-            },
-            placeholder: "Contact number",
-        },
-        {
-            title: "Contact Linkedin",
-            register: "contactLinkedin",
-            type: "INPUT",
-            input: {
-                type: "text",
-            },
-            placeholder: "Contact linkedin",
-        },
-        {
-            title: "Contact Email",
-            register: "contactEmail",
-            type: "INPUT",
-            input: {
-                type: "email",
-            },
-            placeholder: "Contact email",
-        },
-    ];
 
     const socials: {
         name: Extract<
@@ -294,25 +235,25 @@ function LeagueForm() {
             | "twitter"
         >;
     }[] = [
-        {
-            name: "instagram",
-        },
-        {
-            name: "facebook",
-        },
-        {
-            name: "twitter",
-        },
-        {
-            name: "linkedin",
-        },
-        {
-            name: "youtube",
-        },
-        {
-            name: "website",
-        },
-    ];
+            {
+                name: "instagram",
+            },
+            {
+                name: "facebook",
+            },
+            {
+                name: "twitter",
+            },
+            {
+                name: "linkedin",
+            },
+            {
+                name: "youtube",
+            },
+            {
+                name: "website",
+            },
+        ];
 
     const viewershipType = [
         { label: "OTT", value: "OTT" },
@@ -320,15 +261,20 @@ function LeagueForm() {
     ];
 
     const onSubmit = async (leagueFormValues: TLeagueFormSchema) => {
-        if (leagueFormValues?.contactNumber) {
-            const phoneData = getPhoneData(leagueFormValues?.contactNumber);
-            if (!phoneData.isValid) {
-                form.setError("contactNumber", {
-                    type: "manual",
-                    message: "Invalid phone number",
-                });
-                return;
-            }
+
+        if (leagueFormValues?.contactPerson) {
+            leagueFormValues?.contactPerson?.forEach((d, i) => {
+                if (d?.contactNumber) {
+                    const phoneData = getPhoneData(d?.contactNumber);
+                    if (!phoneData.isValid) {
+                        form.setError(`contactPerson.${i}.contactNumber`, {
+                            type: "manual",
+                            message: "Invalid phone number",
+                        });
+                        return;
+                    }
+                }
+            })
         }
 
         const validatedViewershipMetrics = validateMetrics(
@@ -828,20 +774,20 @@ function LeagueForm() {
                                                 <TableCell className="font-semibold">
                                                     {viewershipMetricFieldArray
                                                         .fields.length > 0 && (
-                                                        <Button
-                                                            onClick={() =>
-                                                                viewershipMetricFieldArray.remove(
-                                                                    index
-                                                                )
-                                                            }
-                                                            size="sm"
-                                                            className="h-7 gap-1 text-white"
-                                                            variant="destructive"
-                                                            type="button"
-                                                        >
-                                                            <Trash2 className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    )}
+                                                            <Button
+                                                                onClick={() =>
+                                                                    viewershipMetricFieldArray.remove(
+                                                                        index
+                                                                    )
+                                                                }
+                                                                size="sm"
+                                                                className="h-7 gap-1 text-white"
+                                                                variant="destructive"
+                                                                type="button"
+                                                            >
+                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                            </Button>
+                                                        )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -924,20 +870,20 @@ function LeagueForm() {
                                                 <TableCell className="font-semibold">
                                                     {reachMetricFieldArray
                                                         .fields.length > 0 && (
-                                                        <Button
-                                                            onClick={() =>
-                                                                reachMetricFieldArray.remove(
-                                                                    index
-                                                                )
-                                                            }
-                                                            size="sm"
-                                                            className="h-7 gap-1 text-white"
-                                                            variant="destructive"
-                                                            type="button"
-                                                        >
-                                                            <Trash2 className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    )}
+                                                            <Button
+                                                                onClick={() =>
+                                                                    reachMetricFieldArray.remove(
+                                                                        index
+                                                                    )
+                                                                }
+                                                                size="sm"
+                                                                className="h-7 gap-1 text-white"
+                                                                variant="destructive"
+                                                                type="button"
+                                                            >
+                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                            </Button>
+                                                        )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -996,6 +942,10 @@ function LeagueForm() {
                                     ))}
                                 </TableHeaderWrapper>
                             </CardWrapper>
+
+
+                            <ContactPersonCard control={form.control} />
+
                         </div>
 
                         <div className="grid auto-rows-max items-start gap-4 ">
@@ -1017,11 +967,6 @@ function LeagueForm() {
                                 displayFields={targetAudience}
                             />
 
-                            <VerticalFieldsCard
-                                control={form.control}
-                                title="Contact Person Details"
-                                displayFields={contactDetails}
-                            />
                         </div>
                     </div>
 
