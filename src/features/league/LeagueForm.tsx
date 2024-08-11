@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft, CirclePlus, MinusCircle, PlusCircle, Trash2 } from "lucide-react";
+import { ChevronLeft, CirclePlus, PlusCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,9 @@ import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
+import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { getPhoneData } from "../../components/phone-input";
 import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
@@ -35,8 +37,6 @@ import {
     leagueFormSchema,
     TLeagueFormSchema,
 } from "./constants.ts/metadata";
-import { InputDrawer } from "../../components/form/input-drawer";
-import ContactPersonCard from "../../components/core/form/contact-person-card";
 
 function LeagueForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -130,49 +130,49 @@ function LeagueForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Sport",
-                register: "sportId",
-                options: metadataStore.sport,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Format",
-                register: "formatId",
-                options: metadataStore.format,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Owners",
-                register: "ownerIds",
-                options: metadataStore.leagueOwner,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "NCCS Class",
-                register: "nccsIds",
-                options: metadataStore.nccs,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Personality Traits",
-                register: "subPersonalityTraitIds",
-                options: metadataStore.personalityTrait,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Tiers",
-                register: "tierIds",
-                options: metadataStore.tier,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Sport",
+            register: "sportId",
+            options: metadataStore.sport,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Format",
+            register: "formatId",
+            options: metadataStore.format,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Owners",
+            register: "ownerIds",
+            options: metadataStore.leagueOwner,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "NCCS Class",
+            register: "nccsIds",
+            options: metadataStore.nccs,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Personality Traits",
+            register: "subPersonalityTraitIds",
+            options: metadataStore.personalityTrait,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Tiers",
+            register: "tierIds",
+            options: metadataStore.tier,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const partnerships: {
         title: string;
@@ -184,21 +184,21 @@ function LeagueForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Broadcast Partner",
-                register: "broadCastPartnerId",
-                options: metadataStore.broadcastPartner,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "OTT Partner",
-                register: "ottPartnerId",
-                options: metadataStore.ottPartner,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Broadcast Partner",
+            register: "broadCastPartnerId",
+            options: metadataStore.broadcastPartner,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "OTT Partner",
+            register: "ottPartnerId",
+            options: metadataStore.ottPartner,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+    ];
 
     const targetAudience: {
         title: string;
@@ -207,22 +207,21 @@ function LeagueForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Age",
-                register: "ageIds",
-                options: metadataStore.age,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Gender",
-                register: "genderIds",
-                options: metadataStore.gender,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
-
+        {
+            title: "Age",
+            register: "ageIds",
+            options: metadataStore.age,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Gender",
+            register: "genderIds",
+            options: metadataStore.gender,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const socials: {
         name: Extract<
@@ -235,25 +234,25 @@ function LeagueForm() {
             | "twitter"
         >;
     }[] = [
-            {
-                name: "instagram",
-            },
-            {
-                name: "facebook",
-            },
-            {
-                name: "twitter",
-            },
-            {
-                name: "linkedin",
-            },
-            {
-                name: "youtube",
-            },
-            {
-                name: "website",
-            },
-        ];
+        {
+            name: "instagram",
+        },
+        {
+            name: "facebook",
+        },
+        {
+            name: "twitter",
+        },
+        {
+            name: "linkedin",
+        },
+        {
+            name: "youtube",
+        },
+        {
+            name: "website",
+        },
+    ];
 
     const viewershipType = [
         { label: "OTT", value: "OTT" },
@@ -261,7 +260,6 @@ function LeagueForm() {
     ];
 
     const onSubmit = async (leagueFormValues: TLeagueFormSchema) => {
-
         if (leagueFormValues?.contactPerson) {
             leagueFormValues?.contactPerson?.forEach((d, i) => {
                 if (d?.contactNumber) {
@@ -274,7 +272,7 @@ function LeagueForm() {
                         return;
                     }
                 }
-            })
+            });
         }
 
         const validatedViewershipMetrics = validateMetrics(
@@ -774,20 +772,20 @@ function LeagueForm() {
                                                 <TableCell className="font-semibold">
                                                     {viewershipMetricFieldArray
                                                         .fields.length > 0 && (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    viewershipMetricFieldArray.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                                size="sm"
-                                                                className="h-7 gap-1 text-white"
-                                                                variant="destructive"
-                                                                type="button"
-                                                            >
-                                                                <Trash2 className="h-3.5 w-3.5" />
-                                                            </Button>
-                                                        )}
+                                                        <Button
+                                                            onClick={() =>
+                                                                viewershipMetricFieldArray.remove(
+                                                                    index
+                                                                )
+                                                            }
+                                                            size="sm"
+                                                            className="h-7 gap-1 text-white"
+                                                            variant="destructive"
+                                                            type="button"
+                                                        >
+                                                            <Trash2 className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -870,20 +868,20 @@ function LeagueForm() {
                                                 <TableCell className="font-semibold">
                                                     {reachMetricFieldArray
                                                         .fields.length > 0 && (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    reachMetricFieldArray.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                                size="sm"
-                                                                className="h-7 gap-1 text-white"
-                                                                variant="destructive"
-                                                                type="button"
-                                                            >
-                                                                <Trash2 className="h-3.5 w-3.5" />
-                                                            </Button>
-                                                        )}
+                                                        <Button
+                                                            onClick={() =>
+                                                                reachMetricFieldArray.remove(
+                                                                    index
+                                                                )
+                                                            }
+                                                            size="sm"
+                                                            className="h-7 gap-1 text-white"
+                                                            variant="destructive"
+                                                            type="button"
+                                                        >
+                                                            <Trash2 className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -942,10 +940,6 @@ function LeagueForm() {
                                     ))}
                                 </TableHeaderWrapper>
                             </CardWrapper>
-
-
-                            <ContactPersonCard control={form.control} />
-
                         </div>
 
                         <div className="grid auto-rows-max items-start gap-4 ">
@@ -966,7 +960,9 @@ function LeagueForm() {
                                 title="Target Audience"
                                 displayFields={targetAudience}
                             />
-
+                        </div>
+                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-3">
+                            <ContactPersonCard control={form.control} />
                         </div>
                     </div>
 

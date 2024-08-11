@@ -102,49 +102,49 @@ function BrandForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Category",
-                register: "subCategoryIds",
-                options: metadataStore.category,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "City",
-                register: "cityId",
-                options: metadataStore.city,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "State",
-                register: "stateId",
-                options: metadataStore.state,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Personality Traits",
-                register: "subPersonalityTraitIds",
-                options: metadataStore.personalityTrait,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Tiers",
-                register: "tierIds",
-                options: metadataStore.tier,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "NCCS class",
-                register: "nccsIds",
-                options: metadataStore.tier,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Category",
+            register: "subCategoryIds",
+            options: metadataStore.category,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "City",
+            register: "cityId",
+            options: metadataStore.city,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "State",
+            register: "stateId",
+            options: metadataStore.state,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Personality Traits",
+            register: "subPersonalityTraitIds",
+            options: metadataStore.personalityTrait,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Tiers",
+            register: "tierIds",
+            options: metadataStore.tier,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "NCCS class",
+            register: "nccsIds",
+            options: metadataStore.tier,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const targetAudience: {
         title: string;
@@ -153,21 +153,21 @@ function BrandForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Age",
-                register: "ageIds",
-                options: metadataStore.age,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Gender",
-                register: "genderIds",
-                options: metadataStore.gender,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Age",
+            register: "ageIds",
+            options: metadataStore.age,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Gender",
+            register: "genderIds",
+            options: metadataStore.gender,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const socials: {
         name: Extract<
@@ -180,25 +180,25 @@ function BrandForm() {
             | "twitter"
         >;
     }[] = [
-            {
-                name: "instagram",
-            },
-            {
-                name: "facebook",
-            },
-            {
-                name: "twitter",
-            },
-            {
-                name: "linkedin",
-            },
-            {
-                name: "youtube",
-            },
-            {
-                name: "website",
-            },
-        ];
+        {
+            name: "instagram",
+        },
+        {
+            name: "facebook",
+        },
+        {
+            name: "twitter",
+        },
+        {
+            name: "linkedin",
+        },
+        {
+            name: "youtube",
+        },
+        {
+            name: "website",
+        },
+    ];
 
     const onSubmit = async (brandFormValues: TBrandFormSchema) => {
         if (brandFormValues?.contactPerson) {
@@ -213,7 +213,7 @@ function BrandForm() {
                         return;
                     }
                 }
-            })
+            });
         }
 
         console.log("\n\n\n\nRequest Body:", brandFormValues);
@@ -580,9 +580,6 @@ function BrandForm() {
                                     ))}
                                 </TableHeaderWrapper>
                             </CardWrapper>
-
-                            <ContactPersonCard control={form.control} />
-
                         </div>
 
                         <div className="grid auto-rows-max items-start gap-4 ">
@@ -597,7 +594,9 @@ function BrandForm() {
                                 title="Target Audience"
                                 displayFields={targetAudience}
                             />
-
+                        </div>
+                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-3">
+                            <ContactPersonCard control={form.control} />
                         </div>
                     </div>
 

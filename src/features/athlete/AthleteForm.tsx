@@ -8,6 +8,7 @@ import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { DatePicker } from "../../components/date/DatePicker";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
@@ -36,7 +37,6 @@ import {
     TAthleteFormSchema,
     TEditAthleteFormSchema,
 } from "./constants/metadata";
-import ContactPersonCard from "../../components/core/form/contact-person-card";
 
 function AthleteForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -219,16 +219,23 @@ function AthleteForm() {
                                 athleteData?.costOfAssociation
                             ) || undefined,
                         userId: user?.id,
-                        contactPerson: athleteData.contactPersons && athleteData.contactPersons?.length > 0 ? athleteData.contactPersons?.map((detail, i) => {
-                            return {
-                                id: detail?.id || '',
-                                contactName: detail?.name || '',
-                                contactDesignation: detail?.designation || '',
-                                contactEmail: detail?.email || '',
-                                contactNumber: detail?.number,
-                                contactLinkedin: detail?.linkedin,
-                            }
-                        }) : undefined,
+                        contactPerson:
+                            athleteData.contactPersons &&
+                            athleteData.contactPersons?.length > 0
+                                ? athleteData.contactPersons?.map(
+                                      (detail, i) => {
+                                          return {
+                                              id: detail?.id || "",
+                                              contactName: detail?.name || "",
+                                              contactDesignation:
+                                                  detail?.designation || "",
+                                              contactEmail: detail?.email || "",
+                                              contactNumber: detail?.number,
+                                              contactLinkedin: detail?.linkedin,
+                                          };
+                                      }
+                                  )
+                                : undefined,
                     });
                 }
             } catch (error) {
@@ -281,56 +288,56 @@ function AthleteForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Sports",
-                register: "sportId",
-                options: metadataStore.sport,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Nationality",
-                register: "nationalityId",
-                options: metadataStore.nationality,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "State",
-                register: "stateId",
-                options: metadataStore.state,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "NCCS class",
-                register: "nccsIds",
-                options: metadataStore.nccs,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Personality Traits",
-                register: "subPersonalityTraitIds",
-                options: metadataStore.personalityTrait,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Status",
-                register: "statusId",
-                options: metadataStore.athleteStatus,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Tier",
-                register: "tierIds",
-                options: metadataStore.tier,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Sports",
+            register: "sportId",
+            options: metadataStore.sport,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Nationality",
+            register: "nationalityId",
+            options: metadataStore.nationality,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "State",
+            register: "stateId",
+            options: metadataStore.state,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "NCCS class",
+            register: "nccsIds",
+            options: metadataStore.nccs,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Personality Traits",
+            register: "subPersonalityTraitIds",
+            options: metadataStore.personalityTrait,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Status",
+            register: "statusId",
+            options: metadataStore.athleteStatus,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Tier",
+            register: "tierIds",
+            options: metadataStore.tier,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const socials: {
         name: Extract<
@@ -343,25 +350,25 @@ function AthleteForm() {
             | "twitter"
         >;
     }[] = [
-            {
-                name: "instagram",
-            },
-            {
-                name: "facebook",
-            },
-            {
-                name: "twitter",
-            },
-            {
-                name: "linkedin",
-            },
-            {
-                name: "youtube",
-            },
-            {
-                name: "website",
-            },
-        ];
+        {
+            name: "instagram",
+        },
+        {
+            name: "facebook",
+        },
+        {
+            name: "twitter",
+        },
+        {
+            name: "linkedin",
+        },
+        {
+            name: "youtube",
+        },
+        {
+            name: "website",
+        },
+    ];
 
     const onSubmit = async (athleteFormValues: TAthleteFormSchema) => {
         if (athleteFormValues?.contactPerson) {
@@ -376,7 +383,7 @@ function AthleteForm() {
                         return;
                     }
                 }
-            })
+            });
         }
 
         const convertedCostOfAssociation = convertCroreToRupees(
@@ -769,9 +776,6 @@ function AthleteForm() {
                                     ))}
                                 </TableHeaderWrapper>
                             </CardWrapper>
-
-                            <ContactPersonCard control={form.control} />
-
                         </div>
 
                         <div className="grid auto-rows-max items-start gap-4 ">
@@ -780,7 +784,9 @@ function AthleteForm() {
                                 title="Athlete Attributes"
                                 displayFields={athleteAttributes}
                             />
-
+                        </div>
+                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-3">
+                            <ContactPersonCard control={form.control} />
                         </div>
                     </div>
 

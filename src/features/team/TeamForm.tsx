@@ -130,56 +130,56 @@ export function TeamForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Sports",
-                register: "sportId",
-                options: metadataStore.sport,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "League",
-                register: "leagueId",
-                options: metadataStore.league,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Owners",
-                register: "ownerIds",
-                options: metadataStore.teamOwner,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "City",
-                register: "cityId",
-                options: metadataStore.city,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "State",
-                register: "stateId",
-                options: metadataStore.state,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Personality Traits",
-                register: "subPersonalityTraitIds",
-                options: metadataStore.personalityTrait,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Tiers",
-                register: "tierIds",
-                options: metadataStore.tier,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Sports",
+            register: "sportId",
+            options: metadataStore.sport,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "League",
+            register: "leagueId",
+            options: metadataStore.league,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Owners",
+            register: "ownerIds",
+            options: metadataStore.teamOwner,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "City",
+            register: "cityId",
+            options: metadataStore.city,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "State",
+            register: "stateId",
+            options: metadataStore.state,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Personality Traits",
+            register: "subPersonalityTraitIds",
+            options: metadataStore.personalityTrait,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Tiers",
+            register: "tierIds",
+            options: metadataStore.tier,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const targetAudience: {
         title: string;
@@ -188,21 +188,21 @@ export function TeamForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Age",
-                register: "ageIds",
-                options: metadataStore.age,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Gender",
-                register: "genderIds",
-                options: metadataStore.gender,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Age",
+            register: "ageIds",
+            options: metadataStore.age,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Gender",
+            register: "genderIds",
+            options: metadataStore.gender,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const socials: {
         name: Extract<
@@ -215,25 +215,25 @@ export function TeamForm() {
             | "twitter"
         >;
     }[] = [
-            {
-                name: "instagram",
-            },
-            {
-                name: "facebook",
-            },
-            {
-                name: "twitter",
-            },
-            {
-                name: "linkedin",
-            },
-            {
-                name: "youtube",
-            },
-            {
-                name: "website",
-            },
-        ];
+        {
+            name: "instagram",
+        },
+        {
+            name: "facebook",
+        },
+        {
+            name: "twitter",
+        },
+        {
+            name: "linkedin",
+        },
+        {
+            name: "youtube",
+        },
+        {
+            name: "website",
+        },
+    ];
 
     const viewershipType = [
         { label: "OTT", value: "OTT" },
@@ -283,7 +283,7 @@ export function TeamForm() {
                         return;
                     }
                 }
-            })
+            });
         }
 
         const validatedViewershipMetrics = validateMetrics(
@@ -799,20 +799,20 @@ export function TeamForm() {
                                                 <TableCell className="font-semibold">
                                                     {viewershipMetricFieldArray
                                                         .fields.length > 0 && (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    viewershipMetricFieldArray.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                                size="sm"
-                                                                className="h-7 gap-1 text-white"
-                                                                variant="destructive"
-                                                                type="button"
-                                                            >
-                                                                <Trash2 className="h-3.5 w-3.5" />
-                                                            </Button>
-                                                        )}
+                                                        <Button
+                                                            onClick={() =>
+                                                                viewershipMetricFieldArray.remove(
+                                                                    index
+                                                                )
+                                                            }
+                                                            size="sm"
+                                                            className="h-7 gap-1 text-white"
+                                                            variant="destructive"
+                                                            type="button"
+                                                        >
+                                                            <Trash2 className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -895,20 +895,20 @@ export function TeamForm() {
                                                 <TableCell className="font-semibold">
                                                     {reachMetricFieldArray
                                                         .fields.length > 0 && (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    reachMetricFieldArray.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                                size="sm"
-                                                                className="h-7 gap-1 text-white"
-                                                                variant="destructive"
-                                                                type="button"
-                                                            >
-                                                                <Trash2 className="h-3.5 w-3.5" />
-                                                            </Button>
-                                                        )}
+                                                        <Button
+                                                            onClick={() =>
+                                                                reachMetricFieldArray.remove(
+                                                                    index
+                                                                )
+                                                            }
+                                                            size="sm"
+                                                            className="h-7 gap-1 text-white"
+                                                            variant="destructive"
+                                                            type="button"
+                                                        >
+                                                            <Trash2 className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -967,7 +967,6 @@ export function TeamForm() {
                                     ))}
                                 </TableHeaderWrapper>
                             </CardWrapper>
-                            <ContactPersonCard control={form.control} />
                         </div>
 
                         <div className="grid auto-rows-max items-start gap-4 ">
@@ -982,7 +981,9 @@ export function TeamForm() {
                                 title="Target Audience"
                                 displayFields={targetAudience}
                             />
-
+                        </div>
+                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-3">
+                            <ContactPersonCard control={form.control} />
                         </div>
                     </div>
 
