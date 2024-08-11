@@ -42,16 +42,18 @@ export const athleteFormSchema = z.object({
     primarySocialMediaPlatformIds: z.string().array().optional(),
     secondarySocialMediaPlatformIds: z.string().array().optional(),
     statusId: z.string().optional(),
-    contactPerson: z.array(
-        z.object({
-            id: z.string().optional(),
-            contactName: z.string().optional(),
-            contactDesignation: z.string().optional(),
-            contactEmail: z.string().optional(),
-            contactNumber: z.string().optional(),
-            contactLinkedin: z.string().optional(),
-        })
-    ).optional(),
+    contactPerson: z
+        .array(
+            z.object({
+                contactId: z.string().optional(),
+                contactName: z.string().optional(),
+                contactDesignation: z.string().optional(),
+                contactEmail: z.string().optional(),
+                contactNumber: z.string().optional(),
+                contactLinkedin: z.string().optional(),
+            })
+        )
+        .optional(),
 });
 
 export type TAthleteFormSchema = z.infer<typeof athleteFormSchema>;
@@ -59,67 +61,165 @@ export type TAthleteFormSchema = z.infer<typeof athleteFormSchema>;
 export type TEditAthleteFormSchema = {
     id?: string;
     name?: string;
-    nationality?: string;
-    associationId?: string;
-    sport?: string;
-    agency?: string;
+    nationality?: {
+        id?: string;
+        name?: string;
+    };
+    sport?: {
+        id?: string;
+        name?: string;
+    };
+    agency?: {
+        id?: string;
+        name?: string;
+    };
     instagram?: string;
     linkedin?: string;
     youtube?: string;
     website?: string;
     twitter?: string;
     facebook?: string;
-    primaryKeyMarket?: string[];
-    secondaryKeyMarket?: string[];
-    tertiary?: string[];
-    primarySocialMedia?: (string | undefined)[];
-    secondarySocialMedia?: (string | undefined)[];
-    tier?: (string | undefined)[];
-    subPersonalityTraits?: string[];
-    mainPersonalityTraits?: string[];
+    primaryKeyMarket?: {
+        id?: string;
+        name?: string;
+    }[];
+    secondaryKeyMarket?: {
+        id?: string;
+        name?: string;
+    }[];
+    tertiary?: {
+        id?: string;
+        name?: string;
+    }[];
+    primarySocialMedia?: {
+        id?: string;
+        name?: string;
+    }[];
+    secondarySocialMedia?: {
+        id?: string;
+        name?: string;
+    }[];
+    tier?: {
+        id?: string;
+        name?: string;
+    }[];
+    subPersonalityTraits?: {
+        id?: string;
+        name?: string;
+    }[];
+    mainPersonalityTraits?: {
+        id?: string;
+        name?: string;
+    }[];
     age?: string;
-    associationLevel?: string;
+    associationLevel?: {
+        id?: string;
+        name?: string;
+    };
     costOfAssociation?: string;
+    associationId?: string;
     activations?: {
-        year?: string | null;
-        name?: string | null;
-        type?: string[];
-        assets?: string[];
-        market?: string[];
-        brandName?: string;
-        athleteName?: string;
-        leagueName?: string;
-        teamName?: string;
+        id?: string;
+        year?: string;
+        name?: string;
+        type?: {
+            id?: string;
+            name?: string;
+        }[];
+        assets?: {
+            id?: string;
+            name?: string;
+        }[];
+        market?: {
+            id?: string;
+            name?: string;
+        }[];
+        brandName?: {
+            id?: string;
+            name?: string;
+        };
+        athleteName?: {
+            id?: string;
+            name?: string;
+        };
+        leagueName?: {
+            id?: string;
+            name?: string;
+        };
+        teamName?: {
+            id?: string;
+            name?: string;
+        };
     }[];
     sportsDealsummary?: {
-        annualValue?: string | null;
-        totalValue?: string | null;
-        assets?: string[];
-        commencementDate?: string | null;
-        expirationDate?: string | null;
-        duration?: string | null;
-        territory?: string | null;
-        mediaLink?: string | null;
-        level?: string | null;
-        status?: string | null;
-        type?: string | null;
-        brandName?: string;
-        athleteName?: string;
-        leagueName?: string;
-        teamName?: string;
+        id?: string;
+        annualValue?: string;
+        totalValue?: string;
+        assets?: {
+            id: string;
+            name: string;
+        }[];
+        commencementDate?: string;
+        expirationDate?: string;
+        duration?: string;
+        territory?: {
+            id?: string;
+            name?: string;
+        };
+        mediaLink?: string;
+        level?: {
+            id?: string;
+            name?: string;
+        };
+        status?: string;
+        type?: string;
+        brandName?: {
+            id?: string;
+            name?: string;
+        };
+        athleteName?: {
+            id?: string;
+            name?: string;
+        };
+        leagueName?: {
+            id?: string;
+            name?: string;
+        };
+        teamName?: {
+            id?: string;
+            name?: string;
+        };
     }[];
     contactPersons?: {
-        id: string;
-        name: string;
-        email?: string;
-        linkedin?: string;
-        number?: string;
-        designation?: string;
+        contactId: string;
+        contactName: string;
+        contactEmail?: string;
+        contactLinkedin?: string;
+        contactNumber?: string;
+        contactDesignation?: string;
     }[];
-    gender?: string[];
-    nccs?: string[];
-    primaryMarketingPlatform?: string;
-    secondaryMarketingPlatform?: string;
-    status?: string;
-    state?: string;
+    gender?: {
+        id?: string;
+        name?: string;
+    }[];
+    nccs?: {
+        id?: string;
+        name?: string;
+    }[];
+    primaryMarketingPlatform?: {
+        id?: string;
+        name?: string;
+    };
+    secondaryMarketingPlatform?: {
+        id?: string;
+        name?: string;
+    };
+    status?: {
+        id?: string;
+        name?: string;
+    };
+    state?: {
+        id?: string;
+        name?: string;
+    };
 };
