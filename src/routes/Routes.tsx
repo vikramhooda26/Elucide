@@ -133,16 +133,6 @@ const routeChildren: routeChildrenType[] = [
     },
     //= ============================= athlete related routes starts here ====================== =//
     {
-        path: NAVIGATION_ROUTES.CREATE_ATHLETE,
-        element: <AthleteForm />,
-        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
-    },
-    {
-        path: NAVIGATION_ROUTES.EDIT_ATHLETE + "/:id",
-        element: <AthleteForm />,
-        access: ["SUPER_ADMIN", "ADMIN"],
-    },
-    {
         path: NAVIGATION_ROUTES.ATHLETE_LIST,
         element: <AthleteList />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
@@ -232,7 +222,16 @@ const routeChildren: routeChildrenType[] = [
                 element: <LeagueList />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
-
+            {
+                path: NAVIGATION_ROUTES.CREATE_ATHLETE,
+                element: <AthleteForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.EDIT_ATHLETE + "/:id",
+                element: <AthleteForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
             //= ============================= age related routes starts here ====================== =//
             {
                 path: NAVIGATION_ROUTES.AGE_CREATE,

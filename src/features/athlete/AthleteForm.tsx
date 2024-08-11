@@ -222,19 +222,17 @@ function AthleteForm() {
                         contactPerson:
                             athleteData.contactPersons &&
                             athleteData.contactPersons?.length > 0
-                                ? athleteData.contactPersons?.map(
-                                      (detail, i) => {
-                                          return {
-                                              id: detail?.id || "",
-                                              contactName: detail?.name || "",
-                                              contactDesignation:
-                                                  detail?.designation || "",
-                                              contactEmail: detail?.email || "",
-                                              contactNumber: detail?.number,
-                                              contactLinkedin: detail?.linkedin,
-                                          };
-                                      }
-                                  )
+                                ? athleteData.contactPersons?.map((detail) => {
+                                      return {
+                                          id: detail?.id || "",
+                                          contactName: detail?.name || "",
+                                          contactDesignation:
+                                              detail?.designation || "",
+                                          contactEmail: detail?.email || "",
+                                          contactNumber: detail?.number,
+                                          contactLinkedin: detail?.linkedin,
+                                      };
+                                  })
                                 : undefined,
                     });
                 }
