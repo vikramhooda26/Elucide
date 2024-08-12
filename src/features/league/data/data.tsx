@@ -1,59 +1,49 @@
 import {
   ArrowDownIcon,
-  ArrowRightIcon,
-  ArrowUpIcon,
-  CheckCircledIcon,
-  CircleIcon,
-  CrossCircledIcon,
-  QuestionMarkCircledIcon,
-  StopwatchIcon,
+  ArrowUpIcon
 } from "@radix-ui/react-icons"
-import { NAVIGATION_ROUTES } from "../../../lib/constants"
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants"
+import MetadataService from "../../../services/features/MetadataService";
+import { toast } from "sonner";
+import { useSetRecoilState } from "recoil";
+import { isDeletedAtom, listLoadingAtom } from "../../../store/atoms/global";
 
-export const routes = { editRoute: NAVIGATION_ROUTES.EDIT_LEAGUE, copyRoute: NAVIGATION_ROUTES.EDIT_LEAGUE, deleteRoute: ()=>{}, }
+const deleteCall = async (id: string) => {
+  // const setIsDeleted = useSetRecoilState(isDeletedAtom);
+  const response = await MetadataService.deleteData(id, '/api/admin/league/delete/');
+  if (response.status === HTTP_STATUS_CODES.OK) {
+    // setIsDeleted(true);
+    toast.success("Deleted successfully");
+  } else {
+    // setIsDeleted(false);
+    toast.error("Unable to delete.");
+  }
+}
+
+export const routes = { editRoute: NAVIGATION_ROUTES.EDIT_LEAGUE, copyRoute: NAVIGATION_ROUTES.EDIT_LEAGUE, deleteCall: (id: string) => { deleteCall(id) }, }
 
 export const statuses = [
   {
-    value: "backlog",
-    label: "Backlog",
-    icon: QuestionMarkCircledIcon,
+    value: "recent",
+    label: "Recent",
+    icon: ArrowDownIcon,
   },
   {
-    value: "todo",
-    label: "Todo",
-    icon: CircleIcon,
-  },
-  {
-    value: "in progress",
-    label: "In Progress",
-    icon: StopwatchIcon,
-  },
-  {
-    value: "done",
-    label: "Done",
-    icon: CheckCircledIcon,
-  },
-  {
-    value: "canceled",
-    label: "Canceled",
-    icon: CrossCircledIcon,
+    value: "earlier",
+    label: "Earlier",
+    icon: ArrowUpIcon,
   },
 ]
 
 export const priorities = [
   {
-    label: "2020",
-    value: "low",
+    value: "recent",
+    label: "Recent",
     icon: ArrowDownIcon,
   },
   {
-    label: "2023",
-    value: "medium",
-    icon: ArrowRightIcon,
-  },
-  {
-    label: "2024",
-    value: "high",
+    value: "earlier",
+    label: "Earlier",
     icon: ArrowUpIcon,
   },
 ]

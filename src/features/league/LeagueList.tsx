@@ -13,7 +13,7 @@ import {
     VisibilityState,
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
@@ -23,7 +23,7 @@ import useNavigator from "../../hooks/useNavigator";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import LeagueService from "../../services/features/LeagueService";
-import { listLoadingAtom } from "../../store/atoms/global";
+import { isDeletedAtom, listLoadingAtom } from "../../store/atoms/global";
 import { league } from "../../types/league/LeagueListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { columns } from "./data/columns";
@@ -41,6 +41,7 @@ function LeagueList() {
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
+    const rowDeleted = useRecoilValue(isDeletedAtom);
 
     const fetchLeagues = async () => {
         try {
@@ -71,6 +72,12 @@ function LeagueList() {
     useEffect(() => {
         fetchLeagues();
     }, []);
+
+    useEffect(() => {
+        if (rowDeleted) {
+            fetchLeagues();
+        }
+    }, [rowDeleted]);
 
     const onView = (id: string) => {
         navigator(NAVIGATION_ROUTES.LEAGUE, [id]);
@@ -124,7 +131,7 @@ function LeagueList() {
     ];
 
     return (
-        <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+        <div className=" h-full flex-1 flex-col space-y-8  md:flex py-8">
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

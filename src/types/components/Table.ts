@@ -16,7 +16,7 @@ export interface DataTableToolbarProps<TData> {
 
 export interface DataTableRowActionsProps<TData> {
     row: Row<TData>;
-    routes: { editRoute: string; copyRoute?: String; deleteRoute: () => void };
+    routes: { editRoute: string; copyRoute?: String; deleteCall: (id: string) => void };
     schema: any;
 }
 
