@@ -8,9 +8,20 @@ import {
   QuestionMarkCircledIcon,
   StopwatchIcon,
 } from "@radix-ui/react-icons"
-import { NAVIGATION_ROUTES } from "../../../lib/constants"
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants"
+import { toast } from "sonner";
+import MetadataService from "../../../services/features/MetadataService";
 
-export const routes = { editRoute: NAVIGATION_ROUTES.EDIT_ATHLETE, copyRoute: NAVIGATION_ROUTES.EDIT_ATHLETE, deleteRoute: ()=>{}, }
+const deleteCall = async (id: string) => {
+  const response = await MetadataService.deleteData(id, '/api/admin/athlete/delete/');
+  if (response.status === HTTP_STATUS_CODES.OK) {
+    toast.success("Deleted successfully");
+  } else {
+    toast.error("Unable to delete.");
+  }
+}
+
+export const routes = { editRoute: NAVIGATION_ROUTES.EDIT_ATHLETE, copyRoute: NAVIGATION_ROUTES.EDIT_ATHLETE, deleteCall: (id: string) => { deleteCall(id) }, }
 
 export const statuses = [
   {

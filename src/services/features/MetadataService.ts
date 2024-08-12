@@ -469,5 +469,13 @@ class MetadataService {
             "POST"
         );
     }
+
+    static deleteData(id: string, apiEndPoint: string) {
+        return AjaxService.request(
+            API_URL + apiEndPoint + id,
+            {},
+            "DELETE"
+        );
+    }
 }
 export default MetadataService;
