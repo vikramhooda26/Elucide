@@ -16,8 +16,12 @@ type TDialogBoxProps = {
     description?: string;
     positiveTitle?: string;
     negativeTitle?: string;
-    positiveOnClick?: () => void;
-    negativeOnClick?: () => void;
+    positiveOnClick?: (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => void;
+    negativeOnClick?: (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => void;
     PositiveButtonStyles?: string;
 };
 

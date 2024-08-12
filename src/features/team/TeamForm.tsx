@@ -2,11 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, PlusCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { getPhoneData } from "../../components/phone-input";
@@ -18,6 +19,7 @@ import SelectBox from "../../components/ui/multi-select";
 import { TableCell, TableRow } from "../../components/ui/table";
 import { Textarea } from "../../components/ui/textarea";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
+import { printLogs } from "../../lib/logs";
 import ErrorService from "../../services/error/ErrorService";
 import TeamService from "../../services/features/TeamService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
@@ -25,6 +27,7 @@ import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import {
     convertCroreToRupees,
+    convertRupeesToCrore,
     getListOfYears,
     onNumInputChange,
     validateMetrics,
@@ -33,18 +36,26 @@ import { getMetadata } from "../utils/metadataUtils";
 import {
     TEAM_METADATA,
     teamFormSchema,
+    TEditTeamFormSchema,
     TTeamFormSchema,
 } from "./constants/metadata";
-import ContactPersonCard from "../../components/core/form/contact-person-card";
 
 export function TeamForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
+    const { id } = useParams();
 
     const { logout } = useAuth();
     const navigate = useNavigate();
+
+    const form = useForm<TTeamFormSchema>({
+        resolver: zodResolver(teamFormSchema),
+        defaultValues: {
+            userId: user?.id,
+        },
+    });
 
     useEffect(() => {
         const fetchMetadata = async () => {
@@ -75,6 +86,136 @@ export function TeamForm() {
     }, []);
 
     useEffect(() => {
+        const fetchTeamDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await TeamService.getOne(id);
+
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    printLogs(
+                        "Get team by id response for edit page:",
+                        response.data
+                    );
+                    const teamData: TEditTeamFormSchema = response.data;
+
+                    form.reset({
+                        userId: user?.id || undefined,
+                        name: teamData.name || undefined,
+                        taglineIds:
+                            teamData.taglines?.map((tagline) => tagline.id) ||
+                            undefined,
+                        strategyOverview:
+                            teamData.strategyOverview || undefined,
+                        yearOfInception: teamData.yearOfInception || undefined,
+                        franchiseFee:
+                            convertRupeesToCrore(teamData.franchiseFee) ||
+                            undefined,
+                        associationLevelId:
+                            teamData.associationLevel?.id || undefined,
+                        costOfAssociation:
+                            convertRupeesToCrore(teamData.costOfAssociation) ||
+                            undefined,
+                        activeCampaignIds:
+                            teamData.activeCampaigns?.map(
+                                (campaign) => campaign.id
+                            ) || undefined,
+                        nccsIds:
+                            teamData.nccs?.map((nccs) => nccs.id) || undefined,
+                        primaryMarketingPlatformIds:
+                            teamData.primaryMarketingPlatform?.map(
+                                (platform) => platform.id
+                            ) || undefined,
+                        secondaryMarketingPlatformIds:
+                            teamData.secondaryMarketingPlatform?.map(
+                                (platform) => platform.id
+                            ) || undefined,
+                        primaryMarketIds:
+                            teamData.primaryKeyMarket?.map(
+                                (market) => market.id
+                            ) || undefined,
+                        secondaryMarketIds:
+                            teamData.secondaryKeyMarket?.map(
+                                (market) => market.id
+                            ) || undefined,
+                        tertiaryIds:
+                            teamData.tertiary?.map((tertiary) => tertiary.id) ||
+                            undefined,
+                        viewershipMetrics:
+                            teamData.viewershipMetrics?.map((metric) => ({
+                                id: metric.id || undefined,
+                                viewership: metric.viewership || undefined,
+                                viewershipType:
+                                    metric.viewershipType || undefined,
+                                year: metric.year || undefined,
+                            })) || undefined,
+                        reachMetrics:
+                            teamData.reachMetrics?.map((metric) => ({
+                                id: metric.id || undefined,
+                                reach: metric.reach || undefined,
+                                year: metric.year || undefined,
+                            })) || undefined,
+                        instagram: teamData?.instagram || undefined,
+                        facebook: teamData?.facebook || undefined,
+                        twitter: teamData?.twitter || undefined,
+                        linkedin: teamData?.linkedin || undefined,
+                        website: teamData?.website || undefined,
+                        youtube: teamData?.youtube || undefined,
+                        contactPerson:
+                            teamData.contactPersons?.map((details) => ({
+                                contactId: details.contactId || undefined,
+                                contactName: details.contactName || undefined,
+                                contactEmail: details.contactEmail || undefined,
+                                contactLinkedin:
+                                    details.contactLinkedin || undefined,
+                                contactDesignation:
+                                    details.contactDesignation || undefined,
+                                contactNumber:
+                                    details.contactNumber || undefined,
+                            })) || undefined,
+                        sportId: teamData.sport?.id || undefined,
+                        leagueId: teamData.league?.id || undefined,
+                        ownerIds:
+                            teamData.owners?.map((owner) => owner.id) ||
+                            undefined,
+                        cityId: teamData.city?.id || undefined,
+                        stateId: teamData.state?.id || undefined,
+                        subPersonalityTraitIds:
+                            teamData.subPersonalityTraits?.map(
+                                (trait) => trait.id
+                            ) || undefined,
+                        tierIds:
+                            teamData.tiers
+                                ?.filter((tier) => tier.id !== undefined)
+                                .map((tier) => tier.id) || undefined,
+                        ageIds: teamData.age?.map((age) => age.id) || undefined,
+                        genderIds:
+                            teamData.gender?.map((gender) => gender.id) ||
+                            undefined,
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchTeamDetails(id);
+        }
+    }, [id]);
+
+    useEffect(() => {
         if (isSubmitting) {
             form.control._disableForm(true);
         } else {
@@ -85,13 +226,6 @@ export function TeamForm() {
     if (!metadataStore) {
         return <div>Loading...</div>;
     }
-
-    const form = useForm<TTeamFormSchema>({
-        resolver: zodResolver(teamFormSchema),
-        defaultValues: {
-            userId: user?.id,
-        },
-    });
 
     const viewershipMetricFieldArray = useFieldArray({
         name: "viewershipMetrics",
@@ -272,18 +406,52 @@ export function TeamForm() {
         }
 
         if (teamFormValues?.contactPerson) {
-            teamFormValues?.contactPerson?.forEach((d, i) => {
+            const isNotValid = teamFormValues?.contactPerson?.find((d, i) => {
                 if (d?.contactNumber) {
                     const phoneData = getPhoneData(d?.contactNumber);
                     if (!phoneData.isValid) {
-                        form.setError(`contactPerson.${i}.contactNumber`, {
-                            type: "manual",
-                            message: "Invalid phone number",
-                        });
-                        return;
+                        form.setError(
+                            `contactPerson.${i}.contactNumber`,
+                            {
+                                message: "Invalid phone number",
+                            },
+                            { shouldFocus: true }
+                        );
+                        toast.error("Invalid phone number");
+                        return true;
+                    } else {
+                        return false;
                     }
                 }
             });
+
+            if (isNotValid) {
+                return;
+            }
+        }
+
+        if (teamFormValues.contactPerson?.length) {
+            let hasErrors: boolean = false;
+            teamFormValues.contactPerson.forEach((details, i) => {
+                const hasValue =
+                    details.contactDesignation ||
+                    details.contactEmail ||
+                    details.contactLinkedin ||
+                    details.contactNumber ||
+                    details.contactName;
+                if (hasValue && !details.contactName) {
+                    hasErrors = true;
+                    form.setError(
+                        `contactPerson.${i}.contactName`,
+                        { message: "Name is required" },
+                        { shouldFocus: true }
+                    );
+                }
+            });
+
+            if (hasErrors) {
+                return;
+            }
         }
 
         const validatedViewershipMetrics = validateMetrics(
@@ -317,6 +485,15 @@ export function TeamForm() {
 
         try {
             setIsSubmitting(true);
+            if (id) {
+                printLogs("id found making API call for edit");
+                const response = await TeamService.editTeam(id, requestBody);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Team updated successfully");
+                }
+                return;
+            }
+            printLogs("id not found making API call for create");
             const response = await TeamService.createTeam(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Team created successfully");

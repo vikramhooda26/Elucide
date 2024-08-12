@@ -21,5 +21,13 @@ class BrandService {
             "POST"
         );
     }
+
+    static editBrand(id: string, params?: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/brand/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
 }
 export default BrandService;

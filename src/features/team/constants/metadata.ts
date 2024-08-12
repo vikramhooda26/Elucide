@@ -58,6 +58,7 @@ export const teamFormSchema = z.object({
     costOfAssociation: z.string().optional(),
     viewershipMetrics: z
         .object({
+            id: z.string().optional(),
             viewership: z.string(),
             year: z.string(),
             viewershipType: z.enum(["OTT", "BROADCAST"]).or(z.string()),
@@ -66,21 +67,212 @@ export const teamFormSchema = z.object({
         .optional(),
     reachMetrics: z
         .object({
+            id: z.string().optional(),
             reach: z.string(),
             year: z.string(),
         })
         .array()
         .optional(),
-    contactPerson: z.array(
-        z.object({
-            contactName: z.string().optional(),
-            contactDesignation: z.string().optional(),
-            contactEmail: z.string().optional(),
-            contactNumber: z.string().optional(),
-            contactLinkedin: z.string().optional(),
-        })
-    ).optional(),
+    contactPerson: z
+        .array(
+            z.object({
+                contactId: z.string().optional(),
+                contactName: z.string().optional(),
+                contactDesignation: z.string().optional(),
+                contactEmail: z.string().optional(),
+                contactNumber: z.string().optional(),
+                contactLinkedin: z.string().optional(),
+            })
+        )
+        .optional(),
     userId: z.string(),
 });
 
 export type TTeamFormSchema = z.infer<typeof teamFormSchema>;
+
+type viewship_type = "OTT" | "BROADCAST";
+
+export type TEditTeamFormSchema = {
+    id?: string;
+    name?: string;
+    owners?: {
+        id?: string;
+        name?: string;
+    }[];
+    sport?: {
+        id?: string;
+        name?: string;
+    };
+    league?: {
+        id?: string;
+        name?: string;
+    };
+    yearOfInception?: string;
+    franchiseFee?: string;
+    city?: {
+        id?: string;
+        name?: string;
+    };
+    state?: {
+        id?: string;
+        name?: string;
+    };
+    instagram?: string;
+    facebook?: string;
+    twitter?: string;
+    linkedin?: string;
+    youtube?: string;
+    website?: string;
+    strategyOverview?: string;
+    taglines?: {
+        id?: string;
+        name?: string;
+    }[];
+    endorsements?: {
+        id?: string;
+        name?: string;
+    }[];
+    activeCampaigns?: {
+        id?: string;
+        name?: string;
+    }[];
+    primaryMarketingPlatform?: {
+        id?: string;
+        name?: string;
+    }[];
+    secondaryMarketingPlatform?: {
+        id?: string;
+        name?: string;
+    }[];
+    age?: {
+        id?: string;
+        name?: string;
+    }[];
+    gender?: {
+        id?: string;
+        name?: string;
+    }[];
+    nccs?: {
+        id?: string;
+        name?: string;
+    }[];
+    primaryKeyMarket?: {
+        id?: string;
+        name?: string;
+    }[];
+    secondaryKeyMarket?: {
+        id?: string;
+        name?: string;
+    }[];
+    tertiary?: {
+        id?: string;
+        name?: string;
+    }[];
+    associationLevel?: {
+        id?: string;
+        name?: string;
+    };
+    costOfAssociation?: string;
+    associationId?: string;
+    tiers?: {
+        id?: string;
+        name?: string;
+    }[];
+    subPersonalityTraits?: {
+        id?: string;
+        name?: string;
+    }[];
+    mainPersonalityTraits?: {
+        id?: string;
+        name?: string;
+    }[];
+    sportsDealSummary?: {
+        annualValue: string;
+        assets: {
+            id?: string;
+            name?: string;
+        }[];
+        commencementDate: string;
+        duration: string;
+        expirationDate: string;
+        level: {
+            id?: string;
+            name?: string;
+        };
+        mediaLink: string;
+        athleteName?: {
+            id?: string;
+            name?: string;
+        };
+        leagueName?: {
+            id?: string;
+            name?: string;
+        };
+        teamName?: {
+            id?: string;
+            name?: string;
+        };
+        brandName?: {
+            id?: string;
+            name?: string;
+        };
+        status: string;
+        territory?: {
+            id?: string;
+            name?: string;
+        };
+        totalValue: string;
+        type: string;
+    }[];
+    activationSummary?: {
+        asset: {
+            id?: string;
+            name?: string;
+        }[];
+        market: {
+            id?: string;
+            name?: string;
+        }[];
+        name: string;
+        type: {
+            id?: string;
+            name?: string;
+        }[];
+        year: string;
+        athleteName?: {
+            id?: string;
+            name?: string;
+        };
+        leagueName?: {
+            id?: string;
+            name?: string;
+        };
+        teamName?: {
+            id?: string;
+            name?: string;
+        };
+        brandName?: {
+            id?: string;
+            name?: string;
+        };
+    }[];
+    contactPersons?: {
+        contactId: string;
+        contactName: string;
+        contactDesignation: string;
+        contactEmail: string;
+        contactNumber: string;
+        contactLinkedin: string;
+    }[];
+    viewershipMetrics?: {
+        id?: string;
+        viewership: string;
+        viewershipType: viewship_type;
+        year: string;
+    }[];
+    reachMetrics?: {
+        id?: string;
+        reach: string;
+        year: string;
+    }[];
+};

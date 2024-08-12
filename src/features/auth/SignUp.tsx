@@ -102,7 +102,7 @@ function SignUpPage() {
     };
 
     return (
-        <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
+        <div className="flex-1 gap-4 py-8 md:gap-8">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(handleLoginSubmit)}

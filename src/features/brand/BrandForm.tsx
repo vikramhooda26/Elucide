@@ -2,11 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { getPhoneData } from "../../components/phone-input";
@@ -18,6 +19,7 @@ import SelectBox from "../../components/ui/multi-select";
 import { TableCell, TableRow } from "../../components/ui/table";
 import { Textarea } from "../../components/ui/textarea";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
+import { printLogs } from "../../lib/logs";
 import ErrorService from "../../services/error/ErrorService";
 import BrandService from "../../services/features/BrandService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
@@ -28,14 +30,22 @@ import {
     BRAND_METADATA,
     brandFormSchema,
     TBrandFormSchema,
+    TEditBrandformSchema,
 } from "./constants/metadata";
-import ContactPersonCard from "../../components/core/form/contact-person-card";
 
 function BrandForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
+    const { id } = useParams();
+
+    const form = useForm<TBrandFormSchema>({
+        resolver: zodResolver(brandFormSchema),
+        defaultValues: {
+            userId: user?.id,
+        },
+    });
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -68,6 +78,119 @@ function BrandForm() {
         fetchMetadata();
     }, []);
 
+    if (!metadataStore) {
+        return <div>Loading...</div>;
+    }
+
+    useEffect(() => {
+        const fetchBrandDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await BrandService.getOne(id);
+
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    printLogs(
+                        "Get brand by id response for edit page:",
+                        response.data
+                    );
+                    const brandData: TEditBrandformSchema = response.data;
+
+                    form.reset({
+                        userId: user?.id || undefined,
+                        name: brandData.name || undefined,
+                        taglineIds:
+                            brandData.taglines?.map((tier) => tier.id) ||
+                            undefined,
+                        strategyOverview:
+                            brandData.strategyOverview || undefined,
+                        agencyId: brandData.agency?.id || undefined,
+                        parentOrgId: brandData.parentOrg?.id || undefined,
+                        activeCampaignIds:
+                            brandData.activeCampaigns?.map(
+                                (campaign) => campaign.id
+                            ) || undefined,
+                        primaryMarketingPlatformIds:
+                            brandData.primaryMarketingPlatform?.map(
+                                (platform) => platform.id
+                            ) || undefined,
+                        secondaryMarketingPlatformIds:
+                            brandData.secondaryMarketingPlatform?.map(
+                                (platform) => platform.id
+                            ) || undefined,
+                        primaryMarketIds:
+                            brandData.primaryKeyMarket?.map(
+                                (market) => market.id
+                            ) || undefined,
+                        secondaryMarketIds:
+                            brandData.secondaryKeyMarket?.map(
+                                (market) => market.id
+                            ) || undefined,
+                        tertiaryIds:
+                            brandData.tertiary?.map(
+                                (tertiary) => tertiary.id
+                            ) || undefined,
+                        instagram: brandData?.instagram || undefined,
+                        facebook: brandData?.facebook || undefined,
+                        twitter: brandData?.twitter || undefined,
+                        linkedin: brandData?.linkedin || undefined,
+                        website: brandData?.website || undefined,
+                        youtube: brandData?.youtube || undefined,
+                        contactPerson:
+                            brandData.contactPersons?.map((details) => ({
+                                contactId: details.contactId || undefined,
+                                contactName: details.contactName || undefined,
+                                contactEmail: details.contactEmail || undefined,
+                                contactLinkedin:
+                                    details.contactLinkedin || undefined,
+                                contactDesignation:
+                                    details.contactDesignation || undefined,
+                                contactNumber:
+                                    details.contactNumber || undefined,
+                            })) || undefined,
+                        subCategoryIds:
+                            brandData.subcategory?.map(
+                                (category) => category.id
+                            ) || undefined,
+                        cityId: brandData.city?.id || undefined,
+                        stateId: brandData.state?.id || undefined,
+                        subPersonalityTraitIds:
+                            brandData.subPersonalityTraits?.map(
+                                (trait) => trait.id
+                            ) || undefined,
+                        tierIds:
+                            brandData.tier
+                                ?.filter((tier) => tier.id !== undefined)
+                                .map((tier) => tier.id) || undefined,
+                        nccsIds:
+                            brandData.nccs?.map((nccs) => nccs.id) || undefined,
+                        ageIds:
+                            brandData.age?.map((age) => age.id) || undefined,
+                        genderIds:
+                            brandData.gender?.map((gender) => gender.id) ||
+                            undefined,
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        if (id) {
+            fetchBrandDetails(id);
+        }
+    }, [id]);
+
     useEffect(() => {
         if (isSubmitting) {
             form.control._disableForm(true);
@@ -75,17 +198,6 @@ function BrandForm() {
             form.control._disableForm(false);
         }
     }, [isSubmitting]);
-
-    if (!metadataStore) {
-        return <div>Loading...</div>;
-    }
-
-    const form = useForm<TBrandFormSchema>({
-        resolver: zodResolver(brandFormSchema),
-        defaultValues: {
-            userId: user?.id,
-        },
-    });
 
     const brandAttributes: {
         title: string;
@@ -202,24 +314,43 @@ function BrandForm() {
 
     const onSubmit = async (brandFormValues: TBrandFormSchema) => {
         if (brandFormValues?.contactPerson) {
-            brandFormValues?.contactPerson?.forEach((d, i) => {
+            const isNotValid = brandFormValues?.contactPerson?.find((d, i) => {
                 if (d?.contactNumber) {
                     const phoneData = getPhoneData(d?.contactNumber);
                     if (!phoneData.isValid) {
-                        form.setError(`contactPerson.${i}.contactNumber`, {
-                            type: "manual",
-                            message: "Invalid phone number",
-                        });
-                        return;
+                        form.setError(
+                            `contactPerson.${i}.contactNumber`,
+                            {
+                                message: "Invalid phone number",
+                            },
+                            { shouldFocus: true }
+                        );
+                        toast.error("Invalid phone number");
+                        return true;
+                    } else {
+                        return false;
                     }
                 }
             });
+
+            if (isNotValid) {
+                return;
+            }
         }
 
         console.log("\n\n\n\nRequest Body:", brandFormValues);
 
         try {
             setIsSubmitting(true);
+            if (id) {
+                const response = await BrandService.editBrand(
+                    id,
+                    brandFormValues
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Brand updated successfully");
+                }
+            }
             const response = await BrandService.createBrand(brandFormValues);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Brand created successfully");

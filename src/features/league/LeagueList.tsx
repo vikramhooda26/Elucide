@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import { DataTable } from "../../components/table/data-table";
 import {
     ColumnFiltersState,
     getCoreRowModel,
