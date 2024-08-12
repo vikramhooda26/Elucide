@@ -1,172 +1,56 @@
-import { ColumnDef } from "@tanstack/react-table"
-import { format } from "date-fns"
-import { DataTableColumnHeader } from "../../../components/data-table/data-table-column-header"
-import { Checkbox } from "../../../components/ui/checkbox"
-import { Team, teamSchema } from "./schema"
-import { DataTableRowActions } from "../../../components/data-table/data-table-row-actions"
-import { routes } from "./data"
+import { Team, teamSchema } from "./schema";
+import { routes } from "./data";
+import { generateColumns } from "../../../components/data-table/data-table-columns";
+import { TableConfig } from "../../../types/table/TableColumns";
+import { format } from "date-fns";
 
-export const columns: ColumnDef<Team>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Team Name" />
-    ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("name")}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "createdDate",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created At" />
-    ),
-    cell: ({ row }) => {
-
-      return (
+const teamConfig: TableConfig<Team> = {
+  schema: teamSchema,
+  routes: routes,
+  showCheckbox: false,
+  columns: [
+    {
+      key: "name",
+      title: "Team Name",
+      sortable: false,
+      hideable: false,
+      route: "/teams",
+    },
+    {
+      key: "createdDate",
+      title: "Created At",
+      customRender: ({ row }) => (
         <div className="flex space-x-2">
           <span className="max-w-[400px] truncate font-medium">
-            {row.getValue("createdDate") ? format(row.getValue("createdDate"), 'dd-MM-yyyy, HH:mm') : ''}
+            {row.getValue("createdDate")
+              ? format(row.getValue("createdDate"), "dd-MM-yyyy, HH:mm")
+              : ""}
           </span>
         </div>
-      )
+      ),
     },
-  },
-  {
-    accessorKey: "createdBy",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created By" />
-    ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("createdBy")}</div>,
-    enableSorting: true,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "modifiedDate",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Modified At" />
-    ),
-    cell: ({ row }) => {
-
-      return (
+    {
+      key: "createdBy",
+      title: "Created By",
+    },
+    {
+      key: "modifiedDate",
+      title: "Modified At",
+      customRender: ({ row }) => (
         <div className="flex space-x-2">
           <span className="max-w-[400px] truncate font-medium">
-            {row.getValue("modifiedDate") ? format(row.getValue("modifiedDate"), 'dd-MM-yyyy, HH:mm') : ''}
+            {row.getValue("modifiedDate")
+              ? format(row.getValue("modifiedDate"), "dd-MM-yyyy, HH:mm")
+              : ""}
           </span>
         </div>
-      )
+      ),
     },
-  },
-  {
-    accessorKey: "modifiedBy",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Modified By" />
-    ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("modifiedBy")}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} routes={routes} schema={teamSchema} />,
-  },
-]
-// {
-//   accessorKey: "status",
-//   header: ({ column }) => (
-//     <DataTableColumnHeader column={column} title="Status" />
-//   ),
-//   cell: ({ row }) => {
-//     const status = statuses.find(
-//       (status) => status.value === row.getValue("status")
-//     )
+    {
+      key: "modifiedBy",
+      title: "Modified By",
+    },
+  ],
+};
 
-//     if (!status) {
-//       return null
-//     }
-
-//     return (
-//       <div className="flex w-[100px] items-center">
-//         {status.icon && (
-//           <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-//         )}
-//         <span>{status.label}</span>
-//       </div>
-//     )
-//   },
-//   filterFn: (row, id, value) => {
-//     return value.includes(row.getValue(id))
-//   },
-// },
-// {
-//   accessorKey: "priority",
-//   header: ({ column }) => (
-//     <DataTableColumnHeader column={column} title="Year Of Inception" />
-//   ),
-//   cell: ({ row }) => {
-//     const priority = priorities.find(
-//       (priority) => priority.value === row.getValue("priority")
-//     )
-
-//     if (!priority) {
-//       return null
-//     }
-
-//     return (
-//       <div className="flex items-center">
-//         {priority.icon && (
-//           <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-//         )}
-//         <span>{priority.label}</span>
-//       </div>
-//     )
-//   },
-//   filterFn: (row, id, value) => {
-//     return value.includes(row.getValue(id))
-//   },
-// },
-// {
-//   accessorKey: "id",
-//   header: ({ column }) => (
-//     <DataTableColumnHeader column={column} title="Sports" />
-//   ),
-//   cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
-//   enableSorting: false,
-// },
-// {
-//   accessorKey: "id",
-//   header: ({ column }) => (
-//     <DataTableColumnHeader column={column} title="League" />
-//   ),
-//   cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
-//   enableSorting: false,
-// },
-// {
-//   id: "actions",
-//   cell: ({ row }) => <DataTableRowActions row={row} labels={labels} schema={taskSchema} />,
-// },
-
+export const columns = generateColumns(teamConfig);

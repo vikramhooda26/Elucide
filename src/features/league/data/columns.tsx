@@ -1,98 +1,53 @@
-import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns"
-import { DataTableColumnHeader } from "../../../components/data-table/data-table-column-header"
-import { Checkbox } from "../../../components/ui/checkbox"
-import { League, leagueSchema } from "./schema"
+import { generateColumns } from "../../../components/data-table/data-table-columns"
+import { NAVIGATION_ROUTES } from "../../../lib/constants"
+import { TableConfig } from "../../../types/table/TableColumns"
 import { routes } from "./data"
-import { DataTableRowActions } from "../../../components/data-table/data-table-row-actions"
+import { League, leagueSchema } from "./schema"
 
-export const columns: ColumnDef<League>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="League Name" />
-    ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("name")}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "createdDate",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created At" />
-    ),
-    cell: ({ row }) => {
-
-      return (
+const leagueConfig: TableConfig<League> = {
+  schema: leagueSchema,
+  routes: routes,
+  showCheckbox: false,
+  columns: [
+    {
+      key: "name",
+      title: "League Name",
+      sortable: false,
+      hideable: false,
+      route: NAVIGATION_ROUTES.LEAGUE,
+    },
+    {
+      key: "createdDate",
+      title: "Created At",
+      customRender: ({ row }) => (
         <div className="flex space-x-2">
           <span className="max-w-[400px] truncate font-medium">
-            {row.getValue("createdDate") ? format(row.getValue("createdDate"), 'dd-MM-yyyy, HH:mm') : ''}
+            {row.getValue("createdDate") ? format(row.getValue("createdDate"), "dd-MM-yyyy, HH:mm") : ""}
           </span>
         </div>
-      )
+      ),
     },
-  },
-  {
-    accessorKey: "createdBy",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created By" />
-    ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("createdBy")}</div>,
-    enableSorting: true,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "modifiedDate",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Modified At" />
-    ),
-    cell: ({ row }) => {
-
-      return (
+    {
+      key: "createdBy",
+      title: "Created By",
+    },
+    {
+      key: "modifiedDate",
+      title: "Modified At",
+      customRender: ({ row }) => (
         <div className="flex space-x-2">
           <span className="max-w-[400px] truncate font-medium">
-            {row.getValue("modifiedDate") ? format(row.getValue("modifiedDate"), 'dd-MM-yyyy, HH:mm') : ''}
+            {row.getValue("modifiedDate") ? format(row.getValue("modifiedDate"), "dd-MM-yyyy, HH:mm") : ""}
           </span>
         </div>
-      )
+      ),
     },
-  },
-  {
-    accessorKey: "modifiedBy",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Modified By" />
-    ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("modifiedBy")}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} routes={routes} schema={leagueSchema} />,
-  },
-]
+    {
+      key: "modifiedBy",
+      title: "Modified By",
+    },
+  ],
+};
 
+export const columns = generateColumns(leagueConfig);
