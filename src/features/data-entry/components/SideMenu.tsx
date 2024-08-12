@@ -202,7 +202,7 @@ export const SideMenu = ({
                 maxSize={15}
                 className={cn(
                     isCollapsed &&
-                        "min-w-[50px] transition-all duration-300 ease-in-out"
+                        "min-w-[50px] transition-all duration-300 ease-in-out relative"
                 )}
                 onCollapse={() => {
                     setIsCollapsed(true);

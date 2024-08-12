@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, CirclePlus, PlusCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
@@ -20,6 +20,7 @@ import SelectBox from "../../components/ui/multi-select";
 import { TableCell, TableRow } from "../../components/ui/table";
 import { Textarea } from "../../components/ui/textarea";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
+import { printLogs } from "../../lib/logs";
 import ErrorService from "../../services/error/ErrorService";
 import LeagueService from "../../services/features/LeagueService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
@@ -27,6 +28,7 @@ import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import {
     convertCroreToRupees,
+    convertRupeesToCrore,
     getListOfYears,
     onNumInputChange,
     validateMetrics,
@@ -35,6 +37,7 @@ import { getMetadata } from "../utils/metadataUtils";
 import {
     LEAGUE_METADATA,
     leagueFormSchema,
+    TEditLeagueFormSchema,
     TLeagueFormSchema,
 } from "./constants.ts/metadata";
 
@@ -43,6 +46,7 @@ function LeagueForm() {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
+    const { id } = useParams();
 
     const form = useForm<TLeagueFormSchema>({
         resolver: zodResolver(leagueFormSchema),
@@ -81,6 +85,148 @@ function LeagueForm() {
 
         fetchMetadata();
     }, []);
+
+    useEffect(() => {
+        const fetchLeagueDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+
+                const response = await LeagueService.getOne(id);
+
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    printLogs(
+                        "Get leagues by id response for edit page:",
+                        response.data
+                    );
+                    const leagueData: TEditLeagueFormSchema = response.data;
+
+                    console.log(
+                        "owners",
+                        leagueData.owners?.map((owner) => owner.id)
+                    );
+
+                    printLogs("league owners", metadataStore?.leagueOwner);
+
+                    form.reset({
+                        name: leagueData.name || undefined,
+                        taglineIds:
+                            leagueData.taglines?.map((tagline) => tagline.id) ||
+                            undefined,
+                        strategyOverview:
+                            leagueData.strategyOverview || undefined,
+                        associationLevelId:
+                            leagueData.associationLevel?.id || undefined,
+                        costOfAssociation:
+                            convertRupeesToCrore(
+                                leagueData.costOfAssociation
+                            ) || undefined,
+                        associationId: leagueData.associationId || undefined,
+                        yearOfInception:
+                            leagueData.yearOfInception || undefined,
+                        activeCampaignIds:
+                            leagueData.activeCampaigns?.map(
+                                (campaign) => campaign.id
+                            ) || undefined,
+                        primaryMarketingPlatformIds:
+                            leagueData.primaryMarketingPlatform?.map(
+                                (platform) => platform.id
+                            ) || undefined,
+                        secondaryMarketingPlatformIds:
+                            leagueData.secondaryMarketingPlatform?.map(
+                                (platform) => platform.id
+                            ) || undefined,
+                        primaryMarketIds:
+                            leagueData.primaryKeyMarket?.map(
+                                (market) => market.id
+                            ) || undefined,
+                        secondaryMarketIds:
+                            leagueData.secondaryKeyMarket?.map(
+                                (market) => market.id
+                            ) || undefined,
+                        tertiaryIds:
+                            leagueData.tertiary?.map(
+                                (tertiaries) => tertiaries.id
+                            ) || undefined,
+                        viewershipMetrics:
+                            leagueData.viewershipMetrics?.map((metric) => ({
+                                id: metric.id || undefined,
+                                viewership: metric.viewership || undefined,
+                                viewershipType:
+                                    metric.viewershipType || undefined,
+                                year: metric.year || undefined,
+                            })) || undefined,
+                        reachMetrics:
+                            leagueData.reachMetrics?.map((metric) => ({
+                                id: metric.id || undefined,
+                                reach: metric.reach || undefined,
+                                year: metric.year || undefined,
+                            })) || undefined,
+                        instagram: leagueData?.instagram || undefined,
+                        facebook: leagueData?.facebook || undefined,
+                        twitter: leagueData?.twitter || undefined,
+                        linkedin: leagueData?.linkedin || undefined,
+                        website: leagueData?.website || undefined,
+                        youtube: leagueData?.youtube || undefined,
+                        contactPerson:
+                            leagueData.contactPersons?.map((details) => ({
+                                contactId: details.contactId || undefined,
+                                contactName: details.contactName || undefined,
+                                contactEmail: details.contactEmail || undefined,
+                                contactLinkedin:
+                                    details.contactLinkedin || undefined,
+                                contactDesignation:
+                                    details.contactDesignation || undefined,
+                                contactNumber:
+                                    details.contactNumber || undefined,
+                            })) || undefined,
+                        sportId: leagueData.sport?.id || undefined,
+                        formatId: leagueData.format?.id || undefined,
+                        ownerIds:
+                            leagueData.owners?.map((owner) => owner.id) ||
+                            undefined,
+                        nccsIds:
+                            leagueData.nccs?.map((nccs) => nccs.id) ||
+                            undefined,
+                        subPersonalityTraitIds:
+                            leagueData.subPersonalityTriats?.map(
+                                (traits) => traits.id
+                            ) || undefined,
+                        tierIds: leagueData.tiers
+                            ?.filter((tier) => tier?.id !== undefined)
+                            .map((tier) => tier.id),
+                        broadCastPartnerId:
+                            leagueData.broadcastPartner?.id || undefined,
+                        ottPartnerId: leagueData.ottPartner?.id || undefined,
+                        ageIds:
+                            leagueData.age?.map((ageRange) => ageRange.id) ||
+                            undefined,
+                        genderIds:
+                            leagueData.gender?.map((gender) => gender.id) ||
+                            undefined,
+                        userId: user?.id,
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchLeagueDetails(id);
+        }
+    }, [id]);
 
     useEffect(() => {
         if (isSubmitting) {
@@ -261,18 +407,52 @@ function LeagueForm() {
 
     const onSubmit = async (leagueFormValues: TLeagueFormSchema) => {
         if (leagueFormValues?.contactPerson) {
-            leagueFormValues?.contactPerson?.forEach((d, i) => {
+            const isNotValid = leagueFormValues?.contactPerson?.find((d, i) => {
                 if (d?.contactNumber) {
                     const phoneData = getPhoneData(d?.contactNumber);
                     if (!phoneData.isValid) {
-                        form.setError(`contactPerson.${i}.contactNumber`, {
-                            type: "manual",
-                            message: "Invalid phone number",
-                        });
-                        return;
+                        form.setError(
+                            `contactPerson.${i}.contactNumber`,
+                            {
+                                message: "Invalid phone number",
+                            },
+                            { shouldFocus: true }
+                        );
+                        toast.error("Invalid phone number");
+                        return true;
+                    } else {
+                        return false;
                     }
                 }
             });
+
+            if (isNotValid) {
+                return;
+            }
+        }
+
+        if (leagueFormValues.contactPerson?.length) {
+            let hasErrors: boolean = false;
+            leagueFormValues.contactPerson.forEach((details, i) => {
+                const hasValue =
+                    details.contactDesignation ||
+                    details.contactEmail ||
+                    details.contactLinkedin ||
+                    details.contactNumber ||
+                    details.contactName;
+                if (hasValue && !details.contactName) {
+                    hasErrors = true;
+                    form.setError(
+                        `contactPerson.${i}.contactName`,
+                        { message: "Name is required" },
+                        { shouldFocus: true }
+                    );
+                }
+            });
+
+            if (hasErrors) {
+                return;
+            }
         }
 
         const validatedViewershipMetrics = validateMetrics(
@@ -320,6 +500,16 @@ function LeagueForm() {
 
         try {
             setIsSubmitting(true);
+            if (id) {
+                const response = await LeagueService.editLeague(
+                    id,
+                    requestBody
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("League updated successfully");
+                }
+                return;
+            }
             const response = await LeagueService.createLeague(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("League created successfully");
