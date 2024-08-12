@@ -121,6 +121,7 @@ export function TeamForm() {
                             ) || undefined,
                         nccsIds:
                             teamData.nccs?.map((nccs) => nccs.id) || undefined,
+                        associationId: teamData.associationId || undefined,
                         primaryMarketingPlatformIds:
                             teamData.primaryMarketingPlatform?.map(
                                 (platform) => platform.id

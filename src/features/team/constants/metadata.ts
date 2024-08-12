@@ -25,7 +25,7 @@ export const teamFormSchema = z.object({
     yearOfInception: z.string().optional(),
     sportId: z.string().optional(),
     leagueId: z.string().optional(),
-
+    associationId: z.string().optional(),
     ownerIds: z.string().array().optional(),
     franchiseFee: z.string().optional(),
     cityId: z.string().optional(),
