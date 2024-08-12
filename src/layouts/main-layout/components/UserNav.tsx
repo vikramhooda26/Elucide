@@ -23,6 +23,7 @@ import AuthService from "../../../services/auth/AuthService";
 import ErrorService from "../../../services/error/ErrorService";
 import { loadingAtom } from "../../../store/atoms/global";
 import { userAtom } from "../../../store/atoms/user";
+import { Alert } from "../../../components/Alert";
 
 export function UserNav() {
     const user = useRecoilValue(userAtom);
@@ -96,10 +97,6 @@ export function UserNav() {
                         Profile
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
-                    {/* <DropdownMenuItem>
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem> */}
                     <DropdownMenuItem>
                         Settings
                         <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
@@ -107,9 +104,22 @@ export function UserNav() {
                     <DropdownMenuItem>New Team</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogOut}>
-                    Log out
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+
+                <DropdownMenuItem asChild>
+                    <Alert
+                        title="You are about to logout"
+                        description="Are you sure you want to logout?"
+                        positiveOnClick={handleLogOut}
+                        positiveTitle="Logout"
+                    >
+                        <Button
+                            variant="ghost"
+                            className="px-2 w-full !py-1"
+                        >
+                            Log out
+                            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                        </Button>
+                    </Alert>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
