@@ -78,14 +78,14 @@ function DataTable<TData, TValue>({
                                     data-state={
                                         row.getIsSelected() && "selected"
                                     }
-                                    onClick={() => {
-                                        console.log(row);
-                                        callbacks?.onView(row?.original?.id);
-                                    }}
+                                    // onClick={() => {
+                                    //     console.log(row);
+                                    //     callbacks?.onView(row?.original?.id);
+                                    // }}
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
-                                            <div className="line-clamp-2 text-ellipsis cursor-pointer">
+                                            <div className="line-clamp-2 text-ellipsis">
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()

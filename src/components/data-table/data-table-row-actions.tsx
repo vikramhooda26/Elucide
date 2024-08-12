@@ -17,23 +17,21 @@ export function DataTableRowActions<TData>({
             <Button
                 size="sm"
                 className="flex h-8 w-8 p-1 data-[state=open]:bg-muted"
-                onClick={(e) => {
-                    e?.stopPropagation();
+                onClick={() => {
                     navigator(routes.editRoute, [task.id]);
                 }}
             >
                 <Pencil className="w-4 h-4" />
             </Button>
             <Alert
-                title={`You're about to delete this data ${task.name}`}
+                title={`You're about to delete ${task.name} data`}
                 description="Are you sure you want to complete this action. It is irreversible and all data will be lost permanently."
-                positiveOnClick={(e) => {
-                    e?.stopPropagation();
+                positiveOnClick={() => {
                     task.id && routes.deleteCall(task.id);
                     console.log("row --- ", row);
                 }}
                 positiveTitle="Delete"
-                PositiveButtonStyles="bg-destructive"
+                PositiveButtonStyles="bg-destructive hover:bg-destructive/60"
             >
                 <Button
                     size="sm"
