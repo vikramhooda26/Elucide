@@ -193,6 +193,11 @@ const routeChildren: routeChildrenType[] = [
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
             },
             {
+                path: NAVIGATION_ROUTES.EDIT_LEAGUE + "/:id",
+                element: <LeagueForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
                 path: NAVIGATION_ROUTES.CREATE_BRAND,
                 element: <BrandForm />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF"],

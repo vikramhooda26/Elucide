@@ -25,6 +25,14 @@ class LeagueService {
             "POST"
         );
     }
+
+    static editLeague(id: string, params?: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/league/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
 }
 
 export default LeagueService;
