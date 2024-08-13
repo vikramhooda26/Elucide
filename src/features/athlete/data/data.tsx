@@ -13,15 +13,32 @@ import { toast } from "sonner";
 import MetadataService from "../../../services/features/MetadataService";
 
 const deleteCall = async (id: string) => {
-  const response = await MetadataService.deleteData(id, '/api/admin/athlete/delete/');
-  if (response.status === HTTP_STATUS_CODES.OK) {
-    toast.success("Deleted successfully");
-  } else {
-    toast.error("Unable to delete.");
+  try {
+      const response = await MetadataService.deleteData(
+          id,
+          "/api/admin/athlete/delete/"
+      );
+      if (response.status === HTTP_STATUS_CODES.OK) {
+          toast.success("Deleted successfully");
+          return true;
+      } else {
+          toast.error("Unable to delete.");
+          return false;
+      }
+  } catch (error) {
+      toast.error("Unable to delete.");
+      return false;
   }
-}
+};
 
-export const routes = { editRoute: NAVIGATION_ROUTES.EDIT_ATHLETE, copyRoute: NAVIGATION_ROUTES.EDIT_ATHLETE, deleteCall: (id: string) => { deleteCall(id) }, }
+export const routes = {
+  editRoute: NAVIGATION_ROUTES.EDIT_ATHLETE,
+  copyRoute: NAVIGATION_ROUTES.EDIT_ATHLETE,
+  deleteCall: async (id: string) => {
+    const isDeleted = await deleteCall(id);
+    return isDeleted;
+  },
+}
 
 export const statuses = [
   {

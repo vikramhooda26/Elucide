@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
@@ -22,7 +22,7 @@ import useNavigator from "../../hooks/useNavigator";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import BrandService from "../../services/features/BrandService";
-import { listLoadingAtom } from "../../store/atoms/global";
+import { isDeletedAtom, listLoadingAtom } from "../../store/atoms/global";
 import { brand } from "../../types/brand/BrandListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { columns } from "./data/columns";
@@ -40,6 +40,7 @@ function BrandList() {
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
+    const [rowDeleted, setIsDeleted] = useRecoilState(isDeletedAtom);
 
     const fetchBrands = async () => {
         try {
@@ -70,6 +71,15 @@ function BrandList() {
     useEffect(() => {
         fetchBrands();
     }, []);
+
+    useEffect(() => {
+        console.log('rowDeleted -=- ', rowDeleted);
+
+        if (rowDeleted) {
+            fetchBrands();
+            setIsDeleted(false);
+        }
+    }, [rowDeleted]);
 
     const onView = (id: string) => {
         navigator(NAVIGATION_ROUTES.BRAND, [id]);

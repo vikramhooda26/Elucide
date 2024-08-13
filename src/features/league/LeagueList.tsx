@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -11,8 +10,9 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
@@ -40,7 +40,7 @@ function LeagueList() {
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
-    const rowDeleted = useRecoilValue(isDeletedAtom);
+    const [rowDeleted, setIsDeleted] = useRecoilState(isDeletedAtom);
 
     const fetchLeagues = async () => {
         try {
@@ -75,6 +75,7 @@ function LeagueList() {
     useEffect(() => {
         if (rowDeleted) {
             fetchLeagues();
+            setIsDeleted(false);
         }
     }, [rowDeleted]);
 

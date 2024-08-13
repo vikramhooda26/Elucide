@@ -4,25 +4,30 @@ import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
 import MetadataService from "../../../services/features/MetadataService";
 
 const deleteCall = async (id: string) => {
-    // const setIsDeleted = useSetRecoilState(isDeletedAtom);
-    const response = await MetadataService.deleteData(
-        id,
-        "/api/admin/league/delete/"
-    );
-    if (response.status === HTTP_STATUS_CODES.OK) {
-        // setIsDeleted(true);
-        toast.success("Deleted successfully");
-    } else {
-        // setIsDeleted(false);
+    try {
+        const response = await MetadataService.deleteData(
+            id,
+            "/api/admin/league/delete/"
+        );
+        if (response.status === HTTP_STATUS_CODES.OK) {
+            toast.success("Deleted successfully");
+            return true;
+        } else {
+            toast.error("Unable to delete.");
+            return false;
+        }
+    } catch (error) {
         toast.error("Unable to delete.");
+        return false;
     }
 };
 
 export const routes = {
     editRoute: NAVIGATION_ROUTES.EDIT_LEAGUE,
     copyRoute: NAVIGATION_ROUTES.EDIT_LEAGUE,
-    deleteCall: (id: string) => {
-        deleteCall(id);
+    deleteCall: async (id: string) => {
+        const isDeleted = await deleteCall(id);
+        return isDeleted;
     },
 };
 

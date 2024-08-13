@@ -25,7 +25,6 @@ export const teamFormSchema = z.object({
     yearOfInception: z.string().optional(),
     sportId: z.string().optional(),
     leagueId: z.string().optional(),
-    associationId: z.string().optional(),
     ownerIds: z.string().array().optional(),
     franchiseFee: z.string().optional(),
     cityId: z.string().optional(),
@@ -54,8 +53,18 @@ export const teamFormSchema = z.object({
     tertiaryIds: z.string().array().optional(),
 
     nccsIds: z.string().array().optional(),
-    associationLevelId: z.string().optional(),
-    costOfAssociation: z.string().optional(),
+    association: z.array(
+        z.object({
+            associationId: z.string().optional(),
+            associationLevelId: z.string().optional(),
+            costOfAssociation: z.string().optional(),
+            brands: z.array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })).optional(),
+        })).optional(),
+
     viewershipMetrics: z
         .object({
             id: z.string().optional(),
@@ -168,12 +177,18 @@ export type TEditTeamFormSchema = {
         id?: string;
         name?: string;
     }[];
-    associationLevel?: {
-        id?: string;
-        name?: string;
-    };
-    costOfAssociation?: string;
-    associationId?: string;
+
+    association?:
+    {
+        associationId?: string;
+        costOfAssociation?: string;
+        associationLevelId?: string;
+        brands?:
+        {
+            id: string;
+            name: string;
+        }[],
+    }[],
     tiers?: {
         id?: string;
         name?: string;

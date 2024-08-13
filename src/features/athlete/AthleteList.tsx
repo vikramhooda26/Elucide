@@ -12,22 +12,22 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { useSetRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { toast } from "sonner";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import useNavigator from "../../hooks/useNavigator";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
+import ErrorService from "../../services/error/ErrorService";
 import AthleteService from "../../services/features/AthleteService";
-import { listLoadingAtom } from "../../store/atoms/global";
+import { isDeletedAtom, listLoadingAtom } from "../../store/atoms/global";
 import { athlete } from "../../types/athlete/AthleteListTypes";
+import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { columns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
-import ErrorService from "../../services/error/ErrorService";
-import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 
 function AthleteList() {
     const navigator = useNavigator();
@@ -41,6 +41,7 @@ function AthleteList() {
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
+    const [rowDeleted, setIsDeleted] = useRecoilState(isDeletedAtom);
 
     const fetchAthletes = async () => {
         try {
@@ -73,6 +74,13 @@ function AthleteList() {
     useEffect(() => {
         fetchAthletes();
     }, []);
+
+    useEffect(() => {
+        if (rowDeleted) {
+            fetchAthletes();
+            setIsDeleted(false);
+        }
+    }, [rowDeleted]);
 
     const onView = (id: string) => {
         navigator(NAVIGATION_ROUTES.ATHLETE, [id]);

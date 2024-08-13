@@ -4,6 +4,8 @@ import useNavigator from "../../hooks/useNavigator";
 import { DataTableRowActionsProps } from "../../types/components/Table";
 import { Alert } from "../Alert";
 import { useUser } from "../../hooks/useUser.tsx";
+import { useSetRecoilState } from "recoil";
+import { isDeletedAtom } from "../../store/atoms/global.ts";
 
 export function DataTableRowActions<TData>({
     row,
@@ -13,6 +15,7 @@ export function DataTableRowActions<TData>({
     const navigator = useNavigator();
     const task = schema?.parse(row.original);
     const user = useUser();
+    const setIsDeleted = useSetRecoilState(isDeletedAtom);
 
     return (
         <>
@@ -30,8 +33,12 @@ export function DataTableRowActions<TData>({
                     <Alert
                         title={`You're about to delete ${task.name}`}
                         description="Are you sure you want to complete this action? It's irreversible and all the data will be lost forever."
-                        positiveOnClick={() => {
-                            task.id && routes.deleteCall(task.id);
+                        positiveOnClick={async () => {
+                            if (task.id) {
+                                const isDeleted = await routes.deleteCall(task.id);
+                                console.log('isDeleted -=-', isDeleted);
+                                setIsDeleted(isDeleted);
+                            }
                         }}
                         positiveTitle="Delete"
                         PositiveButtonStyles="bg-destructive hover:bg-destructive/60"
