@@ -109,6 +109,9 @@ import CountryForm from "../features/metadata/country/CountryForm";
 import CountryList from "../features/metadata/country/CountryList";
 import CountryView from "../features/metadata/country/CountryView";
 import SportsDealSummaryView from "../features/sports-deal-summary/SportsDealSummaryView";
+import AssociationLevelForm from "../features/metadata/association-level/AssociationLevelForm";
+import AssociationLevelList from "../features/metadata/association-level/AssociationLevelList";
+import AssociationLevelView from "../features/metadata/association-level/AssociationLevelView";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -846,6 +849,28 @@ const routeChildren: routeChildrenType[] = [
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
             },
             //= ============================= sports deal summary related routes ends here ======================== =//
+            //= ============================= association level related routes starts here ====================== =//
+            {
+                path: NAVIGATION_ROUTES.ASSOCIATION_LEVEL_CREATE,
+                element: <AssociationLevelForm />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+            },
+            {
+                path: NAVIGATION_ROUTES.ASSOCIATION_LEVEL_EDIT + "/:id",
+                element: <AssociationLevelForm />,
+                access: ["SUPER_ADMIN", "ADMIN"],
+            },
+            {
+                path: NAVIGATION_ROUTES.ASSOCIATION_LEVEL_LIST,
+                element: <AssociationLevelList />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            {
+                path: NAVIGATION_ROUTES.ASSOCIATION_LEVEL + "/:id",
+                element: <AssociationLevelView />,
+                access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+            },
+            //= ============================= association level related routes ends here ======================== =//
         ],
     },
     {

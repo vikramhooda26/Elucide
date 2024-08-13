@@ -8,22 +8,33 @@ import {
     QuestionMarkCircledIcon,
     StopwatchIcon,
 } from "@radix-ui/react-icons";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../../lib/constants";
 import { toast } from "sonner";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
-import MetadataService from "../../../services/features/MetadataService";
+import MetadataService from "../../../../services/features/MetadataService";
 
 const deleteCall = async (id: string) => {
-    const response = await MetadataService.deleteData(id, '/api/admin/sports-deal-summary/delete/');
-    if (response.status === HTTP_STATUS_CODES.OK) {
-        toast.success("Deleted successfully");
-    } else {
+    try {
+        const response = await MetadataService.deleteData(id, "/api/admin/association-level/delete/");
+
+        if (response.status === HTTP_STATUS_CODES.OK) {
+            toast.success("Deleted successfully");
+            return true;
+        } else {
+            toast.error("Unable to delete.");
+            return false;
+        }
+    } catch (error) {
         toast.error("Unable to delete.");
+        return false;
     }
-}
+};
 
 export const routes = {
-    editRoute: NAVIGATION_ROUTES.EDIT_SPORTS_DEAL_SUMMARY,
-    deleteCall: (id: string) => { deleteCall(id) },
+    editRoute: NAVIGATION_ROUTES.PARENT_ORG,
+    deleteCall: async (id: string) => {
+        const isDeleted = await deleteCall(id);
+        return isDeleted;
+    },
 };
 
 export const statuses = [

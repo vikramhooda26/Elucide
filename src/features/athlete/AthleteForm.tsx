@@ -38,6 +38,7 @@ import {
     TEditAthleteFormSchema,
 } from "./constants/metadata";
 import { printLogs } from "../../lib/logs";
+import AssociationCard from "../../components/core/form/association-card";
 
 function AthleteForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -98,7 +99,7 @@ function AthleteForm() {
                         response.data
                     );
                     const athleteData: TEditAthleteFormSchema = response.data;
-                    associationId = athleteData.associationId;
+
                     form.reset({
                         name: athleteData?.name || undefined,
                         nationalityId: athleteData.nationality?.id || undefined,
@@ -135,17 +136,19 @@ function AthleteForm() {
                         age: athleteData?.age
                             ? parseISO(athleteData?.age)
                             : undefined,
-                        associationLevelId: athleteData.associationLevel?.id,
                         genderIds: athleteData.gender?.map(
                             (gender) => gender.id
                         ),
                         nccsIds: athleteData.nccs?.map((nccs) => nccs.id),
                         statusId: athleteData.status?.id,
                         stateId: athleteData.state?.id,
-                        costOfAssociation:
-                            convertRupeesToCrore(
-                                athleteData?.costOfAssociation
-                            ) || undefined,
+                        association: athleteData.association?.map((asso) => ({
+                            associationId: asso.associationId,
+                            associationLevelId: asso.associationLevel?.id,
+                            costOfAssociation:
+                                convertRupeesToCrore(asso?.costOfAssociation) ||
+                                undefined,
+                        })),
                         userId: user?.id,
                         contactPerson: athleteData.contactPersons?.map(
                             (details) => ({
@@ -212,56 +215,56 @@ function AthleteForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Sports",
-            register: "sportId",
-            options: metadataStore.sport,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Nationality",
-            register: "nationalityId",
-            options: metadataStore.nationality,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "State",
-            register: "stateId",
-            options: metadataStore.state,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "NCCS class",
-            register: "nccsIds",
-            options: metadataStore.nccs,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Personality Traits",
-            register: "subPersonalityTraitIds",
-            options: metadataStore.personalityTrait,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Status",
-            register: "statusId",
-            options: metadataStore.athleteStatus,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Tier",
-            register: "tierIds",
-            options: metadataStore.tier,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Sports",
+                register: "sportId",
+                options: metadataStore.sport,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Nationality",
+                register: "nationalityId",
+                options: metadataStore.nationality,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "State",
+                register: "stateId",
+                options: metadataStore.state,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "NCCS class",
+                register: "nccsIds",
+                options: metadataStore.nccs,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Personality Traits",
+                register: "subPersonalityTraitIds",
+                options: metadataStore.personalityTrait,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Status",
+                register: "statusId",
+                options: metadataStore.athleteStatus,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Tier",
+                register: "tierIds",
+                options: metadataStore.tier,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
     const socials: {
         name: Extract<
@@ -274,27 +277,59 @@ function AthleteForm() {
             | "twitter"
         >;
     }[] = [
-        {
-            name: "instagram",
-        },
-        {
-            name: "facebook",
-        },
-        {
-            name: "twitter",
-        },
-        {
-            name: "linkedin",
-        },
-        {
-            name: "youtube",
-        },
-        {
-            name: "website",
-        },
-    ];
+            {
+                name: "instagram",
+            },
+            {
+                name: "facebook",
+            },
+            {
+                name: "twitter",
+            },
+            {
+                name: "linkedin",
+            },
+            {
+                name: "youtube",
+            },
+            {
+                name: "website",
+            },
+        ];
 
     const onSubmit = async (athleteFormValues: TAthleteFormSchema) => {
+
+        let hasErrors = false;
+        const convertedCostOfAssociations: number[] = [];
+
+        athleteFormValues?.association?.forEach((association, i) => {
+            const convertedCostOfAssociation = convertCroreToRupees(
+                association?.costOfAssociation
+            );
+
+            if (convertedCostOfAssociation === false) {
+                hasErrors = true;
+                form.setError(
+                    `association.${i}.costOfAssociation`,
+                    {
+                        message: "Cost of association must be a number",
+                    },
+                    { shouldFocus: true }
+                );
+                return;
+            } else {
+                if (convertedCostOfAssociation) {
+                    convertedCostOfAssociations.push(
+                        convertedCostOfAssociation
+                    );
+                }
+            }
+        });
+
+        if (hasErrors) {
+            return;
+        }
+
         if (athleteFormValues?.contactPerson) {
             const isNotValid = athleteFormValues?.contactPerson?.find(
                 (d, i) => {
@@ -323,7 +358,6 @@ function AthleteForm() {
         }
 
         if (athleteFormValues.contactPerson?.length) {
-            let hasErrors: boolean = false;
             athleteFormValues.contactPerson.forEach((details, i) => {
                 const hasValue =
                     details.contactDesignation ||
@@ -346,10 +380,6 @@ function AthleteForm() {
             }
         }
 
-        const convertedCostOfAssociation = convertCroreToRupees(
-            athleteFormValues.costOfAssociation
-        );
-
         const formatedDOB = athleteFormValues.age
             ? format(athleteFormValues.age, "yyyy-MM-dd")
             : undefined;
@@ -361,9 +391,12 @@ function AthleteForm() {
             if (id) {
                 const response = await AthleteService.editAthlete(id, {
                     ...athleteFormValues,
-                    costOfAssociation: convertedCostOfAssociation,
                     associationId: associationId,
                     age: formatedDOB,
+                    association: athleteFormValues.association?.map((asso, index) => ({
+                        ...asso,
+                        costOfAssociation: convertedCostOfAssociations[index],
+                    })),
                 } as TAthleteFormSchema);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
@@ -373,8 +406,11 @@ function AthleteForm() {
             }
             const response = await AthleteService.createAthlete({
                 ...athleteFormValues,
-                costOfAssociation: convertedCostOfAssociation,
                 age: formatedDOB,
+                association: athleteFormValues.association?.map((asso, index) => ({
+                    ...asso,
+                    costOfAssociation: convertedCostOfAssociations[index],
+                })),
             } as TAthleteFormSchema);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Athlete created successfully");
@@ -533,54 +569,13 @@ function AthleteForm() {
                                             />
                                         </div>
                                     </div>
-                                    <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="associationLevelId"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Association Level">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.associationLevel
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a level"
-                                                            inputPlaceholder="Search for a level..."
-                                                            emptyPlaceholder="No level found"
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="costOfAssociation"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Association Cost (in cr)">
-                                                        <Input
-                                                            {...field}
-                                                            placeholder="Association cost"
-                                                            type="text"
-                                                            onChange={(e) =>
-                                                                onNumInputChange(
-                                                                    form,
-                                                                    e,
-                                                                    "costOfAssociation"
-                                                                )
-                                                            }
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
                                 </div>
                             </CardWrapper>
+
+                            <AssociationCard
+                                form={form}
+                                metadataStore={metadataStore}
+                            />
 
                             <CardWrapper title="Marketing">
                                 <div className="grid gap-6  ">
@@ -705,6 +700,7 @@ function AthleteForm() {
                                     </div>
                                 </div>
                             </CardWrapper>
+
 
                             <CardWrapper title="Socials">
                                 <TableHeaderWrapper

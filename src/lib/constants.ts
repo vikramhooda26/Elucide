@@ -191,6 +191,11 @@ export const NAVIGATION_ROUTES = {
     COUNTRY_CREATE: dataEntryRoute + "/nationality/create",
     COUNTRY_EDIT: dataEntryRoute + "/nationality/edit",
 
+    ASSOCIATION_LEVEL: dataEntryRoute + "/association-level/view",
+    ASSOCIATION_LEVEL_LIST: dataEntryRoute + "/association-level/list",
+    ASSOCIATION_LEVEL_CREATE: dataEntryRoute + "/association-level/create",
+    ASSOCIATION_LEVEL_EDIT: dataEntryRoute + "/association-level/edit",
+
     TEMP_MAIL: "/mail/list",
 } as const;
 

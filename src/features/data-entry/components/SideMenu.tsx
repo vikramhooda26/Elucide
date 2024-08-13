@@ -65,6 +65,11 @@ export const SideMenu = ({
                 navigateTo: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
             },
             {
+                title: "Association Level",
+                icon: Handshake,
+                navigateTo: NAVIGATION_ROUTES.ASSOCIATION_LEVEL_LIST,
+            },
+            {
                 title: "Age",
                 icon: RefreshCcw,
                 navigateTo: NAVIGATION_ROUTES.AGE_LIST,
@@ -202,7 +207,7 @@ export const SideMenu = ({
                 maxSize={15}
                 className={cn(
                     isCollapsed &&
-                        "min-w-[50px] transition-all duration-300 ease-in-out relative"
+                    "min-w-[50px] transition-all duration-300 ease-in-out relative"
                 )}
                 onCollapse={() => {
                     setIsCollapsed(true);

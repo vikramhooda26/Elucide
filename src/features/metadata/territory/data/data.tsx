@@ -17,46 +17,27 @@ export const routes = {
 
 export const statuses = [
     {
-        value: "backlog",
-        label: "Backlog",
-        icon: QuestionMarkCircledIcon,
-    },
-    {
-        value: "todo",
-        label: "Todo",
-        icon: CircleIcon,
-    },
-    {
-        value: "in progress",
-        label: "In Progress",
-        icon: StopwatchIcon,
-    },
-    {
-        value: "done",
-        label: "Done",
-        icon: CheckCircledIcon,
-    },
-    {
-        value: "canceled",
-        label: "Canceled",
-        icon: CrossCircledIcon,
-    },
-];
-
-export const priorities = [
-    {
-        label: "2020",
-        value: "low",
+        value: "recent",
+        label: "Recent",
         icon: ArrowDownIcon,
     },
     {
-        label: "2023",
-        value: "medium",
-        icon: ArrowRightIcon,
-    },
-    {
-        label: "2024",
-        value: "high",
+        value: "earlier",
+        label: "Earlier",
         icon: ArrowUpIcon,
     },
-];
+  ];
+  
+  export const priorities = [
+    {
+        value: "recent",
+        label: "Recent",
+        icon: ArrowDownIcon,
+    },
+    {
+        value: "earlier",
+        label: "Earlier",
+        icon: ArrowUpIcon,
+    },
+  ];
+  

@@ -39,6 +39,7 @@ import {
     TEditLeagueFormSchema,
     TLeagueFormSchema,
 } from "./constants.ts/metadata";
+import AssociationCard from "../../components/core/form/association-card";
 
 function LeagueForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -113,13 +114,13 @@ function LeagueForm() {
                             undefined,
                         strategyOverview:
                             leagueData.strategyOverview || undefined,
-                        associationLevelId:
-                            leagueData.associationLevel?.id || undefined,
-                        costOfAssociation:
-                            convertRupeesToCrore(
-                                leagueData.costOfAssociation
-                            ) || undefined,
-                        associationId: leagueData.associationId || undefined,
+                        association: leagueData.association?.map((asso) => ({
+                            associationId: asso.associationId,
+                            associationLevelId: asso.associationLevel?.id,
+                            costOfAssociation:
+                                convertRupeesToCrore(asso?.costOfAssociation) ||
+                                undefined,
+                        })),
                         yearOfInception:
                             leagueData.yearOfInception || undefined,
                         activeCampaignIds:
@@ -275,49 +276,49 @@ function LeagueForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Sport",
-            register: "sportId",
-            options: metadataStore.sport,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Format",
-            register: "formatId",
-            options: metadataStore.format,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Owners",
-            register: "ownerIds",
-            options: metadataStore.leagueOwner,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "NCCS Class",
-            register: "nccsIds",
-            options: metadataStore.nccs,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Personality Traits",
-            register: "subPersonalityTraitIds",
-            options: metadataStore.personalityTrait,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Tiers",
-            register: "tierIds",
-            options: metadataStore.tier,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Sport",
+                register: "sportId",
+                options: metadataStore.sport,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Format",
+                register: "formatId",
+                options: metadataStore.format,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Owners",
+                register: "ownerIds",
+                options: metadataStore.leagueOwner,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "NCCS Class",
+                register: "nccsIds",
+                options: metadataStore.nccs,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Personality Traits",
+                register: "subPersonalityTraitIds",
+                options: metadataStore.personalityTrait,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Tiers",
+                register: "tierIds",
+                options: metadataStore.tier,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
     const partnerships: {
         title: string;
@@ -329,21 +330,21 @@ function LeagueForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Broadcast Partner",
-            register: "broadCastPartnerId",
-            options: metadataStore.broadcastPartner,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "OTT Partner",
-            register: "ottPartnerId",
-            options: metadataStore.ottPartner,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Broadcast Partner",
+                register: "broadCastPartnerId",
+                options: metadataStore.broadcastPartner,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "OTT Partner",
+                register: "ottPartnerId",
+                options: metadataStore.ottPartner,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+        ];
 
     const targetAudience: {
         title: string;
@@ -352,21 +353,21 @@ function LeagueForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Age",
-            register: "ageIds",
-            options: metadataStore.age,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Gender",
-            register: "genderIds",
-            options: metadataStore.gender,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Age",
+                register: "ageIds",
+                options: metadataStore.age,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Gender",
+                register: "genderIds",
+                options: metadataStore.gender,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
     const socials: {
         name: Extract<
@@ -379,25 +380,25 @@ function LeagueForm() {
             | "twitter"
         >;
     }[] = [
-        {
-            name: "instagram",
-        },
-        {
-            name: "facebook",
-        },
-        {
-            name: "twitter",
-        },
-        {
-            name: "linkedin",
-        },
-        {
-            name: "youtube",
-        },
-        {
-            name: "website",
-        },
-    ];
+            {
+                name: "instagram",
+            },
+            {
+                name: "facebook",
+            },
+            {
+                name: "twitter",
+            },
+            {
+                name: "linkedin",
+            },
+            {
+                name: "youtube",
+            },
+            {
+                name: "website",
+            },
+        ];
 
     const viewershipType = [
         { label: "OTT", value: "OTT" },
@@ -405,6 +406,38 @@ function LeagueForm() {
     ];
 
     const onSubmit = async (leagueFormValues: TLeagueFormSchema) => {
+
+        let hasErrors = false;
+        const convertedCostOfAssociations: number[] = [];
+
+        leagueFormValues?.association?.forEach((association, i) => {
+            const convertedCostOfAssociation = convertCroreToRupees(
+                association?.costOfAssociation
+            );
+
+            if (convertedCostOfAssociation === false) {
+                hasErrors = true;
+                form.setError(
+                    `association.${i}.costOfAssociation`,
+                    {
+                        message: "Cost of association must be a number",
+                    },
+                    { shouldFocus: true }
+                );
+                return;
+            } else {
+                if (convertedCostOfAssociation) {
+                    convertedCostOfAssociations.push(
+                        convertedCostOfAssociation
+                    );
+                }
+            }
+        });
+
+        if (hasErrors) {
+            return;
+        }
+
         if (leagueFormValues?.contactPerson) {
             const isNotValid = leagueFormValues?.contactPerson?.find((d, i) => {
                 if (d?.contactNumber) {
@@ -431,7 +464,6 @@ function LeagueForm() {
         }
 
         if (leagueFormValues.contactPerson?.length) {
-            let hasErrors: boolean = false;
             leagueFormValues.contactPerson.forEach((details, i) => {
                 const hasValue =
                     details.contactDesignation ||
@@ -473,26 +505,14 @@ function LeagueForm() {
             return;
         }
 
-        const convertedCostOfAssociation = convertCroreToRupees(
-            leagueFormValues.costOfAssociation
-        );
-
-        if (convertedCostOfAssociation === false) {
-            form.setError(
-                "costOfAssociation",
-                {
-                    message: "Cost of association must be a number",
-                },
-                { shouldFocus: true }
-            );
-            return;
-        }
-
         const requestBody = {
             ...leagueFormValues,
             viewershipMetrics: validatedViewershipMetrics,
             reachMetrics: validatedReachMetrics,
-            costOfAssociation: convertedCostOfAssociation,
+            association: leagueFormValues.association?.map((asso, index) => ({
+                ...asso,
+                costOfAssociation: convertedCostOfAssociations[index],
+            })),
         };
 
         console.log("\n\n\n\nRequest Body: ", requestBody);
@@ -638,52 +658,6 @@ function LeagueForm() {
                                             )}
                                         />
                                     </div>
-                                    <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="associationLevelId"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Association Level">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.associationLevel
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a level"
-                                                            inputPlaceholder="Search for a level..."
-                                                            emptyPlaceholder="No level found"
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="costOfAssociation"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Association Cost (in cr)">
-                                                        <Input
-                                                            {...field}
-                                                            placeholder="Association cost"
-                                                            type="text"
-                                                            onChange={(e) =>
-                                                                onNumInputChange(
-                                                                    form,
-                                                                    e,
-                                                                    "costOfAssociation"
-                                                                )
-                                                            }
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
 
                                     <div className="grid gap-3">
                                         <FormField
@@ -734,6 +708,11 @@ function LeagueForm() {
                                     </div>
                                 </div>
                             </CardWrapper>
+
+                            <AssociationCard
+                                form={form}
+                                metadataStore={metadataStore}
+                            />
 
                             <CardWrapper title="Marketing">
                                 <div className="grid gap-6  ">
@@ -949,20 +928,20 @@ function LeagueForm() {
                                                 <TableCell className="font-semibold">
                                                     {viewershipMetricFieldArray
                                                         .fields.length > 0 && (
-                                                        <Button
-                                                            onClick={() =>
-                                                                viewershipMetricFieldArray.remove(
-                                                                    index
-                                                                )
-                                                            }
-                                                            size="sm"
-                                                            className="h-7 gap-1 text-white"
-                                                            variant="destructive"
-                                                            type="button"
-                                                        >
-                                                            <Trash2 className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    )}
+                                                            <Button
+                                                                onClick={() =>
+                                                                    viewershipMetricFieldArray.remove(
+                                                                        index
+                                                                    )
+                                                                }
+                                                                size="sm"
+                                                                className="h-7 gap-1 text-white"
+                                                                variant="destructive"
+                                                                type="button"
+                                                            >
+                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                            </Button>
+                                                        )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -1045,20 +1024,20 @@ function LeagueForm() {
                                                 <TableCell className="font-semibold">
                                                     {reachMetricFieldArray
                                                         .fields.length > 0 && (
-                                                        <Button
-                                                            onClick={() =>
-                                                                reachMetricFieldArray.remove(
-                                                                    index
-                                                                )
-                                                            }
-                                                            size="sm"
-                                                            className="h-7 gap-1 text-white"
-                                                            variant="destructive"
-                                                            type="button"
-                                                        >
-                                                            <Trash2 className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    )}
+                                                            <Button
+                                                                onClick={() =>
+                                                                    reachMetricFieldArray.remove(
+                                                                        index
+                                                                    )
+                                                                }
+                                                                size="sm"
+                                                                className="h-7 gap-1 text-white"
+                                                                variant="destructive"
+                                                                type="button"
+                                                            >
+                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                            </Button>
+                                                        )}
                                                 </TableCell>
                                             </TableRow>
                                         )

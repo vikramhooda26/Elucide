@@ -477,5 +477,33 @@ class MetadataService {
             "DELETE"
         );
     }
+
+    static getAllAssociationLevel(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/association-level/get-all",
+            params,
+            "GET"
+        );
+    }
+
+    static createAssociationLevel(params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/association-level/create`,
+            params,
+            "POST"
+        );
+    }
+
+    static editAssociationLevel(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/team/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
+    static getOneAssociationLevel(id: string, params?: any) {
+        return AjaxService.request(API_URL + "/api/admin/association-level/" + id, params, "GET");
+    }
 }
 export default MetadataService;

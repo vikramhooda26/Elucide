@@ -18,8 +18,6 @@ export const ATHLETE_METADATA = {
 
 export const athleteFormSchema = z.object({
     name: z.string().min(1, "Required"),
-    associationLevelId: z.string().optional(),
-    costOfAssociation: z.string().optional(),
     userId: z.string().min(1, "Required"),
     sportId: z.string().optional(),
     agencyId: z.string().optional(),
@@ -42,6 +40,14 @@ export const athleteFormSchema = z.object({
     primarySocialMediaPlatformIds: z.string().array().optional(),
     secondarySocialMediaPlatformIds: z.string().array().optional(),
     statusId: z.string().optional(),
+    association: z
+        .object({
+            associationId: z.string().optional(),
+            associationLevelId: z.string().optional(),
+            costOfAssociation: z.string().optional(),
+        })
+        .array()
+        .optional(),
     contactPerson: z
         .array(
             z.object({
@@ -112,12 +118,14 @@ export type TEditAthleteFormSchema = {
         name?: string;
     }[];
     age?: string;
-    associationLevel?: {
-        id?: string;
-        name?: string;
-    };
-    costOfAssociation?: string;
-    associationId?: string;
+    association?: {
+        associationId?: string;
+        associationLevel?: {
+            id?: string;
+            name?: string;
+        };
+        costOfAssociation?: string;
+    }[];
     activations?: {
         id?: string;
         year?: string;

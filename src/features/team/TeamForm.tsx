@@ -380,9 +380,7 @@ export function TeamForm() {
     ];
 
     const onSubmit = async (teamFormValues: TTeamFormSchema) => {
-        const convertedFranciseFee = convertCroreToRupees(
-            teamFormValues?.franchiseFee
-        );
+        const convertedFranciseFee = convertCroreToRupees(teamFormValues?.franchiseFee);
 
         if (convertedFranciseFee === false) {
             form.setError(
@@ -751,6 +749,7 @@ export function TeamForm() {
                             <AssociationCard
                                 form={form}
                                 metadataStore={metadataStore}
+                                showBrand={true}
                             />
 
                             <CardWrapper title="Marketing">

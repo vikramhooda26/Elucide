@@ -63,9 +63,14 @@ export const leagueFormSchema = z.object({
         })
         .array()
         .optional(),
-    associationLevelId: z.string().optional(),
-    costOfAssociation: z.string().optional(),
-    associationId: z.string().optional(),
+    association: z
+        .object({
+            associationId: z.string().optional(),
+            associationLevelId: z.string().optional(),
+            costOfAssociation: z.string().optional(),
+        })
+        .array()
+        .optional(),
     contactPerson: z
         .array(
             z.object({
@@ -105,7 +110,6 @@ export type TEditLeagueFormSchema = {
         id?: string;
         name?: string;
     };
-    associationId?: string;
     instagram?: string;
     facebook?: string;
     linkedin?: string;
@@ -141,11 +145,14 @@ export type TEditLeagueFormSchema = {
         id?: string;
         name?: string;
     }[];
-    associationLevel?: {
-        id?: string;
-        name?: string;
-    };
-    costOfAssociation?: string;
+    association?: {
+        associationId?: string;
+        associationLevel?: {
+            id?: string;
+            name?: string;
+        };
+        costOfAssociation?: string;
+    }[];
     tiers?: {
         id?: string;
         name?: string;
