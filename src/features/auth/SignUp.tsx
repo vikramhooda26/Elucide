@@ -93,8 +93,10 @@ function SignUpPage() {
                 logout,
                 navigate
             );
-            if (unknownError) {
-                toast.error("An unknown error occured");
+            if (unknownError.response.status === HTTP_STATUS_CODES.CONFLICT) {
+                toast.error("Username already exists!");
+            } else {
+                toast.error("An unknown error occurred");
             }
         } finally {
             setIsSubmitting(false);

@@ -30,6 +30,7 @@ import {
     convertRupeesToCrore,
     getListOfYears,
     onNumInputChange,
+    validateAssociation,
     validateMetrics,
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
@@ -111,13 +112,14 @@ export function TeamForm() {
                         franchiseFee:
                             convertRupeesToCrore(teamData.franchiseFee) ||
                             undefined,
-                        association: teamData.association?.map((details) => ({
-                            associationId: details.associationId,
-                            associationLevelId: details.associationLevelId,
-                            costOfAssociation: convertRupeesToCrore(details.costOfAssociation) || undefined,
-                            brands: details.brands,
-                        })) || undefined,
-
+                        association: teamData.association?.map((asso) => ({
+                            associationId: asso.associationId,
+                            associationLevelId: asso.associationLevel?.id,
+                            costOfAssociation:
+                                convertRupeesToCrore(asso?.costOfAssociation) ||
+                                undefined,
+                            brandIds: asso.brand?.map((brand) => brand.id),
+                        })),
                         activeCampaignIds:
                             teamData.activeCampaigns?.map(
                                 (campaign) => campaign.id
@@ -267,56 +269,56 @@ export function TeamForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Sports",
-                register: "sportId",
-                options: metadataStore.sport,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "League",
-                register: "leagueId",
-                options: metadataStore.league,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Owners",
-                register: "ownerIds",
-                options: metadataStore.teamOwner,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "City",
-                register: "cityId",
-                options: metadataStore.city,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "State",
-                register: "stateId",
-                options: metadataStore.state,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Personality Traits",
-                register: "subPersonalityTraitIds",
-                options: metadataStore.personalityTrait,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Tiers",
-                register: "tierIds",
-                options: metadataStore.tier,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Sports",
+            register: "sportId",
+            options: metadataStore.sport,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "League",
+            register: "leagueId",
+            options: metadataStore.league,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Owners",
+            register: "ownerIds",
+            options: metadataStore.teamOwner,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "City",
+            register: "cityId",
+            options: metadataStore.city,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "State",
+            register: "stateId",
+            options: metadataStore.state,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Personality Traits",
+            register: "subPersonalityTraitIds",
+            options: metadataStore.personalityTrait,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Tiers",
+            register: "tierIds",
+            options: metadataStore.tier,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const targetAudience: {
         title: string;
@@ -325,21 +327,21 @@ export function TeamForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Age",
-                register: "ageIds",
-                options: metadataStore.age,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Gender",
-                register: "genderIds",
-                options: metadataStore.gender,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Age",
+            register: "ageIds",
+            options: metadataStore.age,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Gender",
+            register: "genderIds",
+            options: metadataStore.gender,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const socials: {
         name: Extract<
@@ -352,25 +354,25 @@ export function TeamForm() {
             | "twitter"
         >;
     }[] = [
-            {
-                name: "instagram",
-            },
-            {
-                name: "facebook",
-            },
-            {
-                name: "twitter",
-            },
-            {
-                name: "linkedin",
-            },
-            {
-                name: "youtube",
-            },
-            {
-                name: "website",
-            },
-        ];
+        {
+            name: "instagram",
+        },
+        {
+            name: "facebook",
+        },
+        {
+            name: "twitter",
+        },
+        {
+            name: "linkedin",
+        },
+        {
+            name: "youtube",
+        },
+        {
+            name: "website",
+        },
+    ];
 
     const viewershipType = [
         { label: "OTT", value: "OTT" },
@@ -393,13 +395,16 @@ export function TeamForm() {
             return;
         }
 
-        teamFormValues?.association?.forEach((association, i) => {
+        let hasErrors = false;
+        const convertedCostOfAssociations: number[] = [];
 
+        teamFormValues?.association?.forEach((association, i) => {
             const convertedCostOfAssociation = convertCroreToRupees(
                 association?.costOfAssociation
             );
 
             if (convertedCostOfAssociation === false) {
+                hasErrors = true;
                 form.setError(
                     `association.${i}.costOfAssociation`,
                     {
@@ -409,12 +414,17 @@ export function TeamForm() {
                 );
                 return;
             } else {
-                if (teamFormValues?.association?.[i]) {
-                    teamFormValues.association[i].costOfAssociation = convertedCostOfAssociation ? convertedCostOfAssociation + '' : '';
+                if (convertedCostOfAssociation) {
+                    convertedCostOfAssociations.push(
+                        convertedCostOfAssociation
+                    );
                 }
             }
-        })
+        });
 
+        if (hasErrors) {
+            return;
+        }
 
         if (teamFormValues?.contactPerson) {
             const isNotValid = teamFormValues?.contactPerson?.find((d, i) => {
@@ -477,9 +487,16 @@ export function TeamForm() {
             form.setError
         );
 
+        const validatedAssociation = validateAssociation(
+            "TEAM",
+            teamFormValues?.association,
+            form.setError
+        );
+
         if (
             validatedViewershipMetrics === undefined ||
-            validatedReachMetrics === undefined
+            validatedReachMetrics === undefined ||
+            validatedAssociation === undefined
         ) {
             return;
         }
@@ -489,6 +506,10 @@ export function TeamForm() {
             viewershipMetrics: validatedViewershipMetrics,
             reachMetrics: validatedReachMetrics,
             franchiseFee: convertedFranciseFee,
+            association: teamFormValues.association?.map((asso, index) => ({
+                ...asso,
+                costOfAssociation: convertedCostOfAssociations[index],
+            })),
         };
 
         console.log("\n\n\n\nRequest Body:", requestBody);
@@ -727,7 +748,10 @@ export function TeamForm() {
                                 </div>
                             </CardWrapper>
 
-                            <AssociationCard control={form.control} metadataStore={metadataStore} />
+                            <AssociationCard
+                                form={form}
+                                metadataStore={metadataStore}
+                            />
 
                             <CardWrapper title="Marketing">
                                 <div className="grid gap-6  ">
@@ -943,20 +967,20 @@ export function TeamForm() {
                                                 <TableCell className="font-semibold">
                                                     {viewershipMetricFieldArray
                                                         .fields.length > 0 && (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    viewershipMetricFieldArray.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                                size="sm"
-                                                                className="h-7 gap-1 text-white"
-                                                                variant="destructive"
-                                                                type="button"
-                                                            >
-                                                                <Trash2 className="h-3.5 w-3.5" />
-                                                            </Button>
-                                                        )}
+                                                        <Button
+                                                            onClick={() =>
+                                                                viewershipMetricFieldArray.remove(
+                                                                    index
+                                                                )
+                                                            }
+                                                            size="sm"
+                                                            className="h-7 gap-1 text-white"
+                                                            variant="destructive"
+                                                            type="button"
+                                                        >
+                                                            <Trash2 className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -1039,20 +1063,20 @@ export function TeamForm() {
                                                 <TableCell className="font-semibold">
                                                     {reachMetricFieldArray
                                                         .fields.length > 0 && (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    reachMetricFieldArray.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                                size="sm"
-                                                                className="h-7 gap-1 text-white"
-                                                                variant="destructive"
-                                                                type="button"
-                                                            >
-                                                                <Trash2 className="h-3.5 w-3.5" />
-                                                            </Button>
-                                                        )}
+                                                        <Button
+                                                            onClick={() =>
+                                                                reachMetricFieldArray.remove(
+                                                                    index
+                                                                )
+                                                            }
+                                                            size="sm"
+                                                            className="h-7 gap-1 text-white"
+                                                            variant="destructive"
+                                                            type="button"
+                                                        >
+                                                            <Trash2 className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    )}
                                                 </TableCell>
                                             </TableRow>
                                         )

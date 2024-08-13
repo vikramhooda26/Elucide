@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, UseFormSetError } from "react-hook-form";
 import { toast } from "sonner";
 
 export const getListOfYears = (aheadInTime?: boolean) => {
@@ -110,6 +110,61 @@ export const onNumInputChange = (
 
         form.setValue(key, sanitizedValue);
     }
+};
+
+export const validateAssociation = (
+    stakeholderType: "TEAM" | "OTHERS",
+    association: any[] | undefined,
+    setError: UseFormSetError<any>
+) => {
+    if (association && association.length > 0) {
+        const result = association
+            .map((association, index) => {
+                const associationFields =
+                    stakeholderType === "TEAM"
+                        ? {
+                              field1: "associationLevelId",
+                              field2: "costOfAssociation",
+                              field3: "brandIds",
+                          }
+                        : {
+                              field1: "associationLevelId",
+                              field2: "costOfAssociation",
+                              field3: "costOfAssociation",
+                          };
+
+                const isAnyProvided =
+                    association[associationFields.field1] ||
+                    association[associationFields.field2] ||
+                    association[associationFields.field3]
+                        ? true
+                        : false;
+                const isAssociationLevelProvided = association[
+                    associationFields.field1
+                ]
+                    ? true
+                    : false;
+                if (isAnyProvided && !isAssociationLevelProvided) {
+                    if (!association["associationLevelId"]) {
+                        setError(
+                            `${"association"}.${index}.${"associationLevelId"}`,
+                            {
+                                message: "Association level is required",
+                            },
+                            { shouldFocus: true }
+                        );
+                    }
+                    toast.error("Please select an association level");
+                    return undefined;
+                }
+
+                return isAnyProvided ? association : null;
+            })
+            .filter((association) => association !== null);
+
+        return result.some((v) => v === undefined) ? undefined : result;
+    }
+    return [];
 };
 
 export const convertCroreToRupees = (num: string | undefined) => {

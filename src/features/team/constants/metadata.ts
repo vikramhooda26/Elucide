@@ -53,17 +53,15 @@ export const teamFormSchema = z.object({
     tertiaryIds: z.string().array().optional(),
 
     nccsIds: z.string().array().optional(),
-    association: z.array(
-        z.object({
+    association: z
+        .object({
             associationId: z.string().optional(),
             associationLevelId: z.string().optional(),
             costOfAssociation: z.string().optional(),
-            brands: z.array(
-                z.object({
-                    id: z.string().optional(),
-                    name: z.string().optional(),
-                })).optional(),
-        })).optional(),
+            brandIds: z.string().array().optional(),
+        })
+        .array()
+        .optional(),
 
     viewershipMetrics: z
         .object({
@@ -178,17 +176,18 @@ export type TEditTeamFormSchema = {
         name?: string;
     }[];
 
-    association?:
-    {
+    association?: {
         associationId?: string;
+        associationLevel?: {
+            id?: string;
+            name?: string;
+        };
+        brand?: {
+            id?: string;
+            name?: string;
+        }[];
         costOfAssociation?: string;
-        associationLevelId?: string;
-        brands?:
-        {
-            id: string;
-            name: string;
-        }[],
-    }[],
+    }[];
     tiers?: {
         id?: string;
         name?: string;
