@@ -31,6 +31,7 @@ function ActivationForm() {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
+    // const { id } = useParams();
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -70,6 +71,15 @@ function ActivationForm() {
 
         fetchMetadata();
     }, []);
+
+    // useEffect(() => {
+    //     const fetchActivationDetails = async (id: string) => {
+    //         const response = await MetadataService.getOneActivation(id);
+    //     };
+    //     if (id) {
+    //         fetchActivationDetails(id);
+    //     }
+    // }, [id]);
 
     useEffect(() => {
         if (isSubmitting) {

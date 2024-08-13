@@ -193,7 +193,7 @@ const routeChildren: routeChildrenType[] = [
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
             },
             {
-                path: NAVIGATION_ROUTES.EDIT_LEAGUE + '/:id',
+                path: NAVIGATION_ROUTES.EDIT_LEAGUE + "/:id",
                 element: <LeagueForm />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
             },
@@ -218,7 +218,7 @@ const routeChildren: routeChildrenType[] = [
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
             },
             {
-                path: NAVIGATION_ROUTES.EDIT_TEAM + '/:id',
+                path: NAVIGATION_ROUTES.EDIT_TEAM + "/:id",
                 element: <TeamForm />,
                 access: ["SUPER_ADMIN", "ADMIN", "STAFF"],
             },
@@ -930,10 +930,10 @@ function Routes() {
             element: <HomePageLayout />,
             children: unProtectedRoute,
         },
-        // {
-        //     path: "*",
-        //     element: <Navigate to={NAVIGATION_ROUTES.HOME} />,
-        // },
+        {
+            path: "*",
+            element: <Navigate to={NAVIGATION_ROUTES.HOME} />,
+        },
     ];
 
     return createBrowserRouter(routeObj);

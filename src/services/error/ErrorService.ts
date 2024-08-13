@@ -17,11 +17,11 @@ class ErrorService {
                     toast.error("Login failed!");
                 } else {
                     toast.error("Session expired!");
-                }
-                if (navigate) {
-                    navigate(NAVIGATION_ROUTES.HOME, { replace: true });
-                } else {
-                    window.location.href = NAVIGATION_ROUTES.HOME;
+                    if (navigate) {
+                        navigate(NAVIGATION_ROUTES.HOME, { replace: true });
+                    } else {
+                        window.location.href = NAVIGATION_ROUTES.HOME;
+                    }
                 }
                 break;
             case HTTP_STATUS_CODES.BAD_REQUEST:

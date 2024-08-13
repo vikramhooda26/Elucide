@@ -392,7 +392,7 @@ function BrandForm() {
                             <span className="sr-only">Back</span>
                         </Button>
                         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                            Create Brand
+                            {id ? "Edit" : "Create"} Brand
                         </h1>
 
                         <div className="hidden items-center gap-2 md:ml-auto md:flex">

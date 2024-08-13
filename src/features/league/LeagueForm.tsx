@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft, CirclePlus, PlusCircle, Trash2 } from "lucide-react";
+import { ChevronLeft, PlusCircle, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,7 +9,6 @@ import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
-import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { getPhoneData } from "../../components/phone-input";
 import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
@@ -551,7 +550,7 @@ function LeagueForm() {
                             <span className="sr-only">Back</span>
                         </Button>
                         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                            Create League
+                            {id ? "Edit" : "Create"} League
                         </h1>
 
                         <div className="hidden items-center gap-2 md:ml-auto md:flex">
@@ -728,18 +727,6 @@ function LeagueForm() {
                                                             emptyPlaceholder="No campaign found"
                                                             multiple
                                                         />
-                                                        <InputDrawer
-                                                            title="Active Campaign"
-                                                            description="Add a new active campaign"
-                                                            field={field}
-                                                            onSubmit={() =>
-                                                                console.log(
-                                                                    "submitted"
-                                                                )
-                                                            }
-                                                        >
-                                                            <CirclePlus className="w-5 h-5 cursor-pointer active:brightness-50 select-none text-green-500" />
-                                                        </InputDrawer>
                                                     </div>
                                                 </FormItemWrapper>
                                             )}

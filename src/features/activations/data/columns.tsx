@@ -122,6 +122,12 @@ export const columns: ColumnDef<schemaType>[] = [
         enableHiding: false,
     },
     {
+        header: ({ column }) => (
+            <DataTableColumnHeader
+                column={column}
+                title="Actions"
+            />
+        ),
         id: "actions",
         cell: ({ row }) => (
             <DataTableRowActions
