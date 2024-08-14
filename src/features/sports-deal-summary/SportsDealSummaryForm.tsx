@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
@@ -21,6 +21,7 @@ import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import {
     convertCroreToRupees,
+    convertRupeesToCrore,
     getListOfYears,
     onNumInputChange,
 } from "../utils/helpers";
@@ -28,14 +29,21 @@ import { getMetadata } from "../utils/metadataUtils";
 import {
     SPORTS_DEAL_SUMMARY_KEYS,
     sportsDealSummaryFormSchema,
+    TEditSportsDealSummaryFormSchema,
     TSportsDealSummaryFormSchema,
 } from "./constants/metadata";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import { TPartnerType } from "../activations/constants/metadata";
+import { printLogs } from "../../lib/logs";
 
 function SportsDealSummaryForm() {
-    const [_isLoading, setIsLoading] = useState<boolean>(false);
+    const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] =
+        useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
+    const { id } = useParams();
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -44,20 +52,19 @@ function SportsDealSummaryForm() {
         resolver: zodResolver(sportsDealSummaryFormSchema),
         defaultValues: {
             userId: user?.id,
-            partnerType: "Team",
         },
     });
 
     const status = [
-        { value: "Active", label: "Active" },
-        { value: "Expired", label: "Expired" },
+        { value: "active", label: "Active" },
+        { value: "expired", label: "Expired" },
     ];
 
     const type = [
-        { value: "Sponsorship", label: "Sponsorship" },
-        { value: "Endorsement", label: "Endorsement" },
-        { value: "Media Buy", label: "Media Buy" },
-        { value: "Other", label: "Other" },
+        { value: "sponsorship", label: "Sponsorship" },
+        { value: "endorsement", label: "Endorsement" },
+        { value: "media buy", label: "Media Buy" },
+        { value: "other", label: "Other" },
     ];
 
     const partnerTypeValue = useWatch({
@@ -68,7 +75,7 @@ function SportsDealSummaryForm() {
     useEffect(() => {
         const fetchMetadata = async () => {
             try {
-                setIsLoading(true);
+                setIsFetchingMetadata(true);
                 await getMetadata(
                     metadataStore,
                     setMetadataStore,
@@ -86,12 +93,109 @@ function SportsDealSummaryForm() {
                     navigate(NAVIGATION_ROUTES.DASHBOARD);
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingMetadata(false);
             }
         };
 
         fetchMetadata();
     }, []);
+
+    const getStakeholderType = (
+        activationData: TEditSportsDealSummaryFormSchema
+    ) => {
+        const partner: { type: TPartnerType; data: any } | undefined =
+            (activationData.athlete?.id && {
+                type: "Athlete",
+                data: activationData.athlete.id,
+            }) ||
+            (activationData.team?.id && {
+                type: "Team",
+                data: activationData.team.id,
+            }) ||
+            (activationData.league?.id && {
+                type: "League",
+                data: activationData.league.id,
+            }) ||
+            undefined;
+
+        return partner;
+    };
+
+    useEffect(() => {
+        const fetchSportsDealSummaryDetails = async (id: string) => {
+            try {
+                setIsFetchingDetails(true);
+                const response = await MetadataService.getOneSportsDealSummary(
+                    id
+                );
+
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    const sportsDealSummaryDetails: TEditSportsDealSummaryFormSchema =
+                        response.data;
+
+                    printLogs(
+                        "sportsDealSummaryDetails:",
+                        sportsDealSummaryDetails
+                    );
+
+                    const partner = getStakeholderType(
+                        sportsDealSummaryDetails
+                    );
+
+                    form.reset({
+                        brandId:
+                            sportsDealSummaryDetails.brand?.id || undefined,
+                        partnerType: partner?.type || undefined,
+                        ...(partner?.type === "Athlete"
+                            ? { athleteId: partner.data }
+                            : partner?.type === "Team"
+                            ? { teamId: partner.data }
+                            : { leagueId: partner?.data }),
+                        userId: user?.id || undefined,
+                        assetIds:
+                            sportsDealSummaryDetails.assets?.map(
+                                (asset) => asset.id
+                            ) || undefined,
+                        commencementYear:
+                            sportsDealSummaryDetails.commencementDate,
+                        expirationDate: sportsDealSummaryDetails.expirationDate,
+                        annualValue:
+                            convertRupeesToCrore(
+                                sportsDealSummaryDetails.annualValue
+                            ) || undefined,
+                        totalValue:
+                            convertRupeesToCrore(
+                                sportsDealSummaryDetails.totalValue
+                            ) || undefined,
+                        mediaLink: sportsDealSummaryDetails.mediaLink,
+                        duration: sportsDealSummaryDetails.duration,
+                        type: sportsDealSummaryDetails?.type,
+                        levelId: sportsDealSummaryDetails.level?.id,
+                        status: sportsDealSummaryDetails.status,
+                        territoryId: sportsDealSummaryDetails.territory?.id,
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsFetchingDetails(false);
+            }
+        };
+
+        if (id) {
+            fetchSportsDealSummaryDetails(id);
+        }
+    }, [id]);
 
     useEffect(() => {
         if (isSubmitting) {
@@ -109,7 +213,7 @@ function SportsDealSummaryForm() {
         title: string;
         register: Extract<
             keyof TSportsDealSummaryFormSchema,
-            "assetIds" | "territoryId" | "levelId" | "statusId" | "typeId"
+            "assetIds" | "territoryId" | "levelId" | "status" | "type"
         >;
         options: any;
         multiple: boolean;
@@ -117,7 +221,7 @@ function SportsDealSummaryForm() {
     }[] = [
         {
             title: "Type",
-            register: "typeId",
+            register: "type",
             options: type,
             multiple: false,
             type: "DROPDOWN",
@@ -131,7 +235,7 @@ function SportsDealSummaryForm() {
         },
         {
             title: "Status",
-            register: "statusId",
+            register: "status",
             options: status,
             multiple: false,
             type: "DROPDOWN",
@@ -166,6 +270,26 @@ function SportsDealSummaryForm() {
             : "Athlete";
     };
 
+    const getStakeholderName = () => {
+        if (partnerTypeValue === "Team") {
+            return "teamId";
+        } else if (partnerTypeValue === "League") {
+            return "leagueId";
+        } else {
+            return "athleteId";
+        }
+    };
+
+    const getStakeholderOptions = () => {
+        if (partnerTypeValue === "Team") {
+            return metadataStore.team;
+        } else if (partnerTypeValue === "League") {
+            return metadataStore.league;
+        } else {
+            return metadataStore.athlete;
+        }
+    };
+
     const onSubmit = async (
         sportsDealSummaryFormValues: TSportsDealSummaryFormSchema
     ) => {
@@ -197,11 +321,27 @@ function SportsDealSummaryForm() {
         try {
             setIsSubmitting(true);
 
-            const response = await MetadataService.createSportsDealSummary({
+            const requestBody = {
                 ...sportsDealSummaryFormValues,
                 totalValue: convertedTotalValue,
                 annualValue: convertedAnnualValue,
-            });
+            };
+
+            if (id) {
+                const response = await MetadataService.editSportsDealSummary(
+                    id,
+                    requestBody
+                );
+
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Sports deal summary updated successfully");
+                }
+                return;
+            }
+
+            const response = await MetadataService.createSportsDealSummary(
+                requestBody
+            );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sports deal summary created successfully");
@@ -246,14 +386,18 @@ function SportsDealSummaryForm() {
                             <span className="sr-only">Back</span>
                         </Button>
                         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                            Create Deal
+                            {id ? "Edit" : "Create"} Deal
                         </h1>
 
                         <div className="hidden items-center gap-2 md:ml-auto md:flex">
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={isSubmitting}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingDetails ||
+                                    isFetchingMetadata
+                                }
                                 onClick={() =>
                                     navigate(
                                         NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
@@ -270,7 +414,11 @@ function SportsDealSummaryForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={isSubmitting}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingDetails ||
+                                    isFetchingMetadata
+                                }
                             >
                                 <span>Save Deal</span>
                                 {isSubmitting && (
@@ -282,53 +430,134 @@ function SportsDealSummaryForm() {
                             </Button>
                         </div>
                     </div>
-                    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
-                            <CardWrapper title="Sports Deal Summary">
-                                <div className="grid gap-6">
-                                    <div className="grid gap-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="brandId"
-                                            render={({ field }) => (
-                                                <FormItemWrapper label="Brand">
-                                                    <SelectBox
-                                                        options={
-                                                            metadataStore?.brand
-                                                        }
-                                                        value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                        placeholder="Select a brand"
-                                                        inputPlaceholder="Search for a brand..."
-                                                        emptyPlaceholder="No brand found"
+                    {isFetchingDetails || isFetchingMetadata ? (
+                        <FormSkeleton />
+                    ) : (
+                        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
+                                <CardWrapper title="Sports Deal Summary">
+                                    <div className="grid gap-6">
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="brandId"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Brand">
+                                                        <SelectBox
+                                                            options={
+                                                                metadataStore?.brand
+                                                            }
+                                                            value={field.value}
+                                                            onChange={
+                                                                field.onChange
+                                                            }
+                                                            placeholder="Select a brand"
+                                                            inputPlaceholder="Search for a brand..."
+                                                            emptyPlaceholder="No brand found"
+                                                        />
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <div className="grid gap-3 grid-cols-2">
+                                                <div className="grid gap-3">
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="partnerType"
+                                                        render={({ field }) => (
+                                                            <FormItemWrapper label="Stakeholder">
+                                                                <SelectBox
+                                                                    options={
+                                                                        partnerType
+                                                                    }
+                                                                    value={
+                                                                        field.value
+                                                                    }
+                                                                    onChange={(
+                                                                        selected
+                                                                    ) => {
+                                                                        form.setValue(
+                                                                            "teamId",
+                                                                            ""
+                                                                        );
+                                                                        form.setValue(
+                                                                            "leagueId",
+                                                                            ""
+                                                                        );
+                                                                        form.setValue(
+                                                                            "athleteId",
+                                                                            ""
+                                                                        );
+                                                                        field.onChange(
+                                                                            selected
+                                                                        );
+                                                                    }}
+                                                                    placeholder="Select a stakeholder"
+                                                                    inputPlaceholder="Search for a stakeholder..."
+                                                                    emptyPlaceholder="No stakeholder found"
+                                                                />
+                                                            </FormItemWrapper>
+                                                        )}
                                                     />
-                                                </FormItemWrapper>
-                                            )}
-                                        />
+                                                </div>
+                                                <div className="grid gap-3">
+                                                    <FormField
+                                                        control={form.control}
+                                                        name={getStakeholderName()}
+                                                        render={({ field }) => {
+                                                            const stakeholder =
+                                                                getStakeholderTitle();
+                                                            return (
+                                                                <FormItemWrapper
+                                                                    label={
+                                                                        stakeholder
+                                                                    }
+                                                                >
+                                                                    <SelectBox
+                                                                        options={getStakeholderOptions()}
+                                                                        value={
+                                                                            field.value
+                                                                        }
+                                                                        onChange={
+                                                                            field.onChange
+                                                                        }
+                                                                        placeholder={`Select a ${stakeholder.toLowerCase()}`}
+                                                                        inputPlaceholder={`Search for a ${stakeholder.toLowerCase()}...`}
+                                                                        emptyPlaceholder={`No ${stakeholder.toLowerCase()} found`}
+                                                                    />
+                                                                </FormItemWrapper>
+                                                            );
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="grid gap-3">
+                                </CardWrapper>
+
+                                <CardWrapper title="Other details">
+                                    <div className="grid gap-6  ">
                                         <div className="grid gap-3 grid-cols-2">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
-                                                    name="partnerType"
+                                                    name="commencementYear"
                                                     render={({ field }) => (
-                                                        <FormItemWrapper label="Stakeholder">
+                                                        <FormItemWrapper label="Commencement Year">
                                                             <SelectBox
-                                                                options={
-                                                                    partnerType
-                                                                }
+                                                                options={getListOfYears(
+                                                                    true
+                                                                )}
                                                                 value={
                                                                     field.value
                                                                 }
                                                                 onChange={
                                                                     field.onChange
                                                                 }
-                                                                placeholder="Select a stakeholder"
-                                                                inputPlaceholder="Search for a stakeholder..."
-                                                                emptyPlaceholder="No stakeholder found"
+                                                                placeholder="Select a year"
+                                                                inputPlaceholder="Search for a year..."
+                                                                emptyPlaceholder="No year found"
                                                             />
                                                         </FormItemWrapper>
                                                     )}
@@ -337,204 +566,129 @@ function SportsDealSummaryForm() {
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
-                                                    name={
-                                                        form.getValues(
-                                                            "partnerType"
-                                                        ) === "Team"
-                                                            ? "teamId"
-                                                            : form.getValues(
-                                                                  "partnerType"
-                                                              ) === "League"
-                                                            ? "leagueId"
-                                                            : "athleteId"
-                                                    }
-                                                    render={({ field }) => {
-                                                        const stakeholder =
-                                                            getStakeholderTitle();
-                                                        return (
-                                                            <FormItemWrapper
-                                                                label={
-                                                                    stakeholder
+                                                    name="expirationDate"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Expiration Year">
+                                                            <SelectBox
+                                                                options={getListOfYears(
+                                                                    true
+                                                                )}
+                                                                value={
+                                                                    field.value
                                                                 }
-                                                            >
-                                                                <SelectBox
-                                                                    options={
-                                                                        form.getValues(
-                                                                            "partnerType"
-                                                                        ) ===
-                                                                        "Team"
-                                                                            ? metadataStore.team
-                                                                            : form.getValues(
-                                                                                  "partnerType"
-                                                                              ) ===
-                                                                              "League"
-                                                                            ? metadataStore.league
-                                                                            : metadataStore.athlete
-                                                                    }
-                                                                    value={
-                                                                        field.value
-                                                                    }
-                                                                    onChange={
-                                                                        field.onChange
-                                                                    }
-                                                                    placeholder={`Select a ${stakeholder.toLowerCase()}`}
-                                                                    inputPlaceholder={`Search for a ${stakeholder.toLowerCase()}...`}
-                                                                    emptyPlaceholder={`No ${stakeholder.toLowerCase()} found`}
-                                                                />
-                                                            </FormItemWrapper>
-                                                        );
-                                                    }}
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a year"
+                                                                inputPlaceholder="Search for a year..."
+                                                                emptyPlaceholder="No year found"
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="grid gap-3 grid-cols-2">
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="annualValue"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Annual Value (in cr)">
+                                                            <Input
+                                                                {...field}
+                                                                type="text"
+                                                                onChange={(e) =>
+                                                                    onNumInputChange(
+                                                                        form,
+                                                                        e,
+                                                                        "annualValue"
+                                                                    )
+                                                                }
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="totalValue"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Total value (in cr)">
+                                                            <Input
+                                                                {...field}
+                                                                type="text"
+                                                                onChange={(e) =>
+                                                                    onNumInputChange(
+                                                                        form,
+                                                                        e,
+                                                                        "totalValue"
+                                                                    )
+                                                                }
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="grid gap-3 grid-cols-2">
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="mediaLink"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Media Link">
+                                                            <Input {...field} />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="duration"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Duration (in yrs)">
+                                                            <Input
+                                                                {...field}
+                                                                type="text"
+                                                                onChange={(e) =>
+                                                                    onNumInputChange(
+                                                                        form,
+                                                                        e,
+                                                                        "duration"
+                                                                    )
+                                                                }
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
                                                 />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </CardWrapper>
-
-                            <CardWrapper title="Other details">
-                                <div className="grid gap-6  ">
-                                    <div className="grid gap-3 grid-cols-2">
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="commencementYear"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Commencement Year">
-                                                        <SelectBox
-                                                            options={getListOfYears(
-                                                                true
-                                                            )}
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a year"
-                                                            inputPlaceholder="Search for a year..."
-                                                            emptyPlaceholder="No year found"
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="expirationDate"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Expiration Year">
-                                                        <SelectBox
-                                                            options={getListOfYears(
-                                                                true
-                                                            )}
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a year"
-                                                            inputPlaceholder="Search for a year..."
-                                                            emptyPlaceholder="No year found"
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid gap-3 grid-cols-2">
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="annualValue"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Annual Value (in cr)">
-                                                        <Input
-                                                            {...field}
-                                                            type="text"
-                                                            onChange={(e) =>
-                                                                onNumInputChange(
-                                                                    form,
-                                                                    e,
-                                                                    "annualValue"
-                                                                )
-                                                            }
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="totalValue"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Total value (in cr)">
-                                                        <Input
-                                                            {...field}
-                                                            type="text"
-                                                            onChange={(e) =>
-                                                                onNumInputChange(
-                                                                    form,
-                                                                    e,
-                                                                    "totalValue"
-                                                                )
-                                                            }
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid gap-3 grid-cols-2">
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="mediaLink"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Media Link">
-                                                        <Input {...field} />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="duration"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Duration (in yrs)">
-                                                        <Input
-                                                            {...field}
-                                                            type="text"
-                                                            onChange={(e) =>
-                                                                onNumInputChange(
-                                                                    form,
-                                                                    e,
-                                                                    "duration"
-                                                                )
-                                                            }
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </CardWrapper>
+                                </CardWrapper>
+                            </div>
+                            <div className="grid auto-rows-max items-start gap-4 ">
+                                <VerticalFieldsCard
+                                    control={form.control}
+                                    title="Deal attributes"
+                                    displayFields={sportsDealSummaryAttributes}
+                                />
+                            </div>
                         </div>
-                        <div className="grid auto-rows-max items-start gap-4 ">
-                            <VerticalFieldsCard
-                                control={form.control}
-                                title="Deal attributes"
-                                displayFields={sportsDealSummaryAttributes}
-                            />
-                        </div>
-                    </div>
+                    )}
 
                     <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
                         <Button
                             type="submit"
                             size="sm"
                             className="w-full py-5 gap-1"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingDetails ||
+                                isFetchingMetadata
+                            }
                         >
                             <span>Save Deal</span>
                             {isSubmitting && (
@@ -548,7 +702,11 @@ function SportsDealSummaryForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingDetails ||
+                                isFetchingMetadata
+                            }
                             onClick={() =>
                                 navigate(
                                     NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,

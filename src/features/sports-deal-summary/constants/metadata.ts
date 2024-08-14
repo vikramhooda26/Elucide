@@ -1,8 +1,8 @@
 import z from "zod";
 
 export const sportsDealSummaryFormSchema = z.object({
-    typeId: z.string(),
-    statusId: z.string().optional(),
+    type: z.string().min(1, "Brand is required"),
+    status: z.string().optional(),
     levelId: z.string().optional(),
     commencementYear: z.string().optional(),
     expirationDate: z.string().optional(),
@@ -12,7 +12,7 @@ export const sportsDealSummaryFormSchema = z.object({
     territoryId: z.string().optional(),
     mediaLink: z.string().optional(),
     assetIds: z.string().array().optional(),
-    brandId: z.string(),
+    brandId: z.string().min(1, "Brand is required"),
     leagueId: z.string().optional(),
     teamId: z.string().optional(),
     athleteId: z.string().optional(),
@@ -35,3 +35,43 @@ export const SPORTS_DEAL_SUMMARY_KEYS = {
     ATHLETE: "athlete",
     LEAGUE: "league",
 } as const;
+
+export type TEditSportsDealSummaryFormSchema = {
+    id?: string;
+    brand?: {
+        id?: string;
+        name?: string;
+    };
+    athlete?: {
+        id?: string;
+        name?: string;
+    };
+    league?: {
+        id?: string;
+        name?: string;
+    };
+    team?: {
+        id?: string;
+        name?: string;
+    };
+    type?: string;
+    status?: string;
+    level?: {
+        id?: string;
+        name?: string;
+    };
+    commencementDate?: string;
+    expirationDate?: string;
+    duration?: string;
+    annualValue?: string;
+    totalValue?: string;
+    territory?: {
+        id?: string;
+        name?: string;
+    };
+    mediaLink?: string;
+    assets?: {
+        id?: string;
+        name?: string;
+    }[];
+};

@@ -10,7 +10,7 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -26,7 +26,8 @@ import { DataTableFacetedFilter } from "../../components/data-table/data-table-f
 import { Button } from "../../components/ui/button";
 import DataTable from "../../components/data-table/data-table";
 import { priorities, statuses } from "./data/data";
-import { columns } from "./data/column";
+import { getSportsDealSummaryColumns } from "./data/column";
+import { useUser } from "../../hooks/useUser";
 
 function SportsDealSummaryList() {
     const navigator = useNavigator();
@@ -38,21 +39,63 @@ function SportsDealSummaryList() {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
+    const userRole = useUser()?.role;
+
+    if (!userRole) {
+        return;
+    }
 
     const { logout } = useAuth();
     const navigate = useNavigate();
+
+    const onDelete = useCallback(async (id: string) => {
+        try {
+            setIsLoading(true);
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/sports-deal-summary/delete/"
+            );
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                toast.success("Deleted successfully");
+                setDataList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                setDataList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            } else {
+                toast.error("Could not delete this data");
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const onEdit = useCallback((id: string) => {
+        navigate(`${NAVIGATION_ROUTES.EDIT_SPORTS_DEAL_SUMMARY}/${id}`);
+    }, []);
 
     const fetchList = async () => {
         try {
             setIsLoading(true);
             const response = await MetadataService.getAllSportsDealSummary({});
             if (response.status === HTTP_STATUS_CODES.OK) {
-                const teams = response.data;
-                teams.forEach((team: team, i: number) => {
-                    teams[i].createdBy = team?.createdBy?.email || "N/A";
-                    teams[i].modifiedBy = team?.modifiedBy?.email || "N/A";
+                const deals = response.data;
+                deals.forEach((deal: team, i: number) => {
+                    deals[i].createdBy = deal?.createdBy?.email || "N/A";
+                    deals[i].modifiedBy = deal?.modifiedBy?.email || "N/A";
                 });
-                setDataList(teams);
+                setDataList(deals);
             }
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(
@@ -75,6 +118,11 @@ function SportsDealSummaryList() {
     const onView = (id: string) => {
         navigator(NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY, [id]);
     };
+
+    const columns = useMemo(
+        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole }),
+        []
+    );
 
     const table = useReactTable({
         data: dataList,
@@ -105,11 +153,9 @@ function SportsDealSummaryList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={
-                (table.getColumn("brandName")?.getFilterValue() as string) ?? ""
-            }
+            value={(table.getColumn("brand")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-                table.getColumn("brandName")?.setFilterValue(event.target.value)
+                table.getColumn("brand")?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,
@@ -120,7 +166,7 @@ function SportsDealSummaryList() {
         />,
         <DataTableFacetedFilter
             column={table.getColumn("modifiedDate")}
-            title="Modiefied At"
+            title="Modified At"
             options={priorities}
         />,
     ];
@@ -136,17 +182,19 @@ function SportsDealSummaryList() {
                         Here&apos;s a list of sport deal summaries.
                     </p>
                 </div>
-                <div className="flex items-center space-x-2">
-                    <Button
-                        onClick={() =>
-                            navigator(
-                                NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY
-                            )
-                        }
-                    >
-                        Create Deal
-                    </Button>
-                </div>
+                {userRole !== "USER" && (
+                    <div className="flex items-center space-x-2">
+                        <Button
+                            onClick={() =>
+                                navigator(
+                                    NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY
+                                )
+                            }
+                        >
+                            Create Deal
+                        </Button>
+                    </div>
+                )}
             </div>
             <DataTable
                 table={table}

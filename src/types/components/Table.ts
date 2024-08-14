@@ -1,4 +1,5 @@
 import { ColumnDef, Row, Table } from "@tanstack/react-table";
+import { NavigateFunction } from "react-router-dom";
 
 export interface DataTableProps<TData, TValue> {
     table: Table<any>;
@@ -16,11 +17,8 @@ export interface DataTableToolbarProps<TData> {
 
 export interface DataTableRowActionsProps<TData> {
     row: Row<TData>;
-    routes: {
-        editRoute: string;
-        copyRoute?: String;
-        deleteCall?: (id: string) => Promise<boolean>;
-    };
+    onDelete: (id: string) => void;
+    onEdit: (id: string) => void;
     schema: any;
 }
 

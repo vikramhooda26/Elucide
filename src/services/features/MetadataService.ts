@@ -274,6 +274,14 @@ class MetadataService {
         );
     }
 
+    static editSportsDealSummary(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/sports-deal-summary/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static getOneSportsDealSummary(id: string, params?: any) {
         return AjaxService.request(
             API_URL + "/api/admin/sports-deal-summary/" + id,
