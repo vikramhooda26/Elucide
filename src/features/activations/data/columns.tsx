@@ -34,7 +34,7 @@ export const columns: ColumnDef<schemaType>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "activationName",
+        accessorKey: "name",
         header: ({ column }) => (
             <DataTableColumnHeader
                 column={column}
@@ -42,7 +42,7 @@ export const columns: ColumnDef<schemaType>[] = [
             />
         ),
         cell: ({ row }) => (
-            <div className="w-[80px]">{row.getValue("activationName")}</div>
+            <div className="w-[80px]">{row.getValue("name")}</div>
         ),
         enableSorting: false,
         enableHiding: false,
@@ -62,7 +62,7 @@ export const columns: ColumnDef<schemaType>[] = [
                         {row.getValue("createdDate")
                             ? format(
                                   row.getValue("createdDate"),
-                                  "dd-MM-yyyy, HH:mm"
+                                  "dd-MM-yyyy, hh:mm aaaaaa"
                               )
                             : ""}
                     </span>
@@ -99,7 +99,7 @@ export const columns: ColumnDef<schemaType>[] = [
                         {row.getValue("modifiedDate")
                             ? format(
                                   row.getValue("modifiedDate"),
-                                  "dd-MM-yyyy, HH:mm"
+                                  "dd-MM-yyyy, hh:mm aaaaaa"
                               )
                             : ""}
                     </span>
@@ -132,7 +132,6 @@ export const columns: ColumnDef<schemaType>[] = [
         cell: ({ row }) => (
             <DataTableRowActions
                 row={row}
-                //@ts-ignore
                 routes={routes}
                 schema={schema}
             />

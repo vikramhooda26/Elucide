@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
@@ -24,14 +24,19 @@ import {
     ACTIVATION_KEYS,
     activationFormSchema,
     TActivationFormSchema,
+    TEditActivationFormSchema,
+    TPartnerType,
 } from "./constants/metadata";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 function ActivationForm() {
-    const [_isLoading, setIsLoading] = useState<boolean>(false);
+    const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] =
+        useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
-    // const { id } = useParams();
+    const { id } = useParams();
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -40,14 +45,32 @@ function ActivationForm() {
         resolver: zodResolver(activationFormSchema),
         defaultValues: {
             userId: user?.id,
-            partnerType: "Team",
         },
     });
+
+    const getStakeholderType = (activationData: TEditActivationFormSchema) => {
+        const partner: { type: TPartnerType; data: any } | undefined =
+            (activationData.athlete?.id && {
+                type: "Athlete",
+                data: activationData.athlete.id,
+            }) ||
+            (activationData.team?.id && {
+                type: "Team",
+                data: activationData.team.id,
+            }) ||
+            (activationData.league?.id && {
+                type: "League",
+                data: activationData.league.id,
+            }) ||
+            undefined;
+
+        return partner;
+    };
 
     useEffect(() => {
         const fetchMetadata = async () => {
             try {
-                setIsLoading(true);
+                setIsFetchingMetadata(true);
                 await getMetadata(
                     metadataStore,
                     setMetadataStore,
@@ -65,21 +88,69 @@ function ActivationForm() {
                     navigate(NAVIGATION_ROUTES.DASHBOARD);
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingMetadata(false);
             }
         };
 
         fetchMetadata();
     }, []);
 
-    // useEffect(() => {
-    //     const fetchActivationDetails = async (id: string) => {
-    //         const response = await MetadataService.getOneActivation(id);
-    //     };
-    //     if (id) {
-    //         fetchActivationDetails(id);
-    //     }
-    // }, [id]);
+    useEffect(() => {
+        const fetchActivationDetails = async (id: string) => {
+            try {
+                setIsFetchingDetails(true);
+                const response = await MetadataService.getOneActivation(id);
+
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    const activationData: TEditActivationFormSchema =
+                        response.data;
+
+                    const partner = getStakeholderType(activationData);
+
+                    console.log(partner);
+
+                    form.reset({
+                        name: activationData.name || undefined,
+                        brandId: activationData.brand?.id || undefined,
+                        partnerType: partner?.type || undefined,
+                        assetIds:
+                            activationData.asset?.map((asset) => asset.id) ||
+                            undefined,
+                        typeIds:
+                            activationData.type?.map((type) => type.id) ||
+                            undefined,
+                        year: activationData.year,
+                        marketIds: activationData.marketIds?.map(
+                            (market) => market.id
+                        ),
+                        ...(partner?.type === "Athlete"
+                            ? { athleteId: partner.data }
+                            : partner?.type === "Team"
+                            ? { teamId: partner.data }
+                            : { leagueId: partner?.data }),
+                        userId: user?.id,
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsFetchingDetails(false);
+            }
+        };
+        if (id) {
+            fetchActivationDetails(id);
+        }
+    }, [id]);
 
     useEffect(() => {
         if (isSubmitting) {
@@ -112,17 +183,59 @@ function ActivationForm() {
             : "Athlete";
     };
 
+    const getStakeholderName = () => {
+        if (partnerTypeValue === "Team") {
+            return "teamId";
+        } else if (partnerTypeValue === "League") {
+            return "leagueId";
+        } else {
+            return "athleteId";
+        }
+    };
+
+    const getStakeholderOptions = () => {
+        if (partnerTypeValue === "Team") {
+            return metadataStore.team;
+        } else if (partnerTypeValue === "League") {
+            return metadataStore.league;
+        } else {
+            return metadataStore.athlete;
+        }
+    };
+
     const onSubmit = async (activationFormValues: TActivationFormSchema) => {
         console.log("\n\n\n\nRequest Body:", activationFormValues);
 
         try {
             setIsSubmitting(true);
+            if (id) {
+                const response = await MetadataService.editActivationSummary(
+                    id,
+                    activationFormValues
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Activation summary updated successfully");
+                }
+                return;
+            }
             const response = await MetadataService.createActivation(
                 activationFormValues
             );
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Activation summary created successfully");
-                form.reset();
+                form.reset({
+                    name: "",
+                    assetIds: undefined,
+                    athleteId: undefined,
+                    brandId: undefined,
+                    leagueId: undefined,
+                    marketIds: undefined,
+                    partnerType: "Team",
+                    teamId: undefined,
+                    typeIds: undefined,
+                    userId: undefined,
+                    year: undefined,
+                });
             }
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(
@@ -160,14 +273,18 @@ function ActivationForm() {
                             <span className="sr-only">Back</span>
                         </Button>
                         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                            Create Activation
+                            {id ? "Edit" : "Create"} Activation
                         </h1>
 
                         <div className="hidden items-center gap-2 md:ml-auto md:flex">
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={isSubmitting}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingDetails ||
+                                    isFetchingMetadata
+                                }
                                 onClick={() =>
                                     navigate(
                                         NAVIGATION_ROUTES.ACTIVATION_LIST,
@@ -184,7 +301,11 @@ function ActivationForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={isSubmitting}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingDetails ||
+                                    isFetchingMetadata
+                                }
                             >
                                 <span>Save Activation</span>
                                 {isSubmitting && (
@@ -196,57 +317,132 @@ function ActivationForm() {
                             </Button>
                         </div>
                     </div>
-                    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:gap-8">
-                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
-                            <CardWrapper title="Activation Details">
-                                <div className="grid gap-6">
-                                    <div className="grid gap-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="activationName"
-                                            render={({ field }) => (
-                                                <FormItemWrapper label="Activation Name">
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="Activation name"
+                    {isFetchingDetails || isFetchingMetadata ? (
+                        <FormSkeleton />
+                    ) : (
+                        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:gap-8">
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
+                                <CardWrapper title="Activation Details">
+                                    <div className="grid gap-6">
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="name"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Activation Name">
+                                                        <Input
+                                                            {...field}
+                                                            placeholder="Activation name"
+                                                        />
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="brandId"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Brand">
+                                                        <SelectBox
+                                                            options={
+                                                                metadataStore?.brand
+                                                            }
+                                                            value={field.value}
+                                                            onChange={
+                                                                field.onChange
+                                                            }
+                                                            placeholder="Select a brand"
+                                                            inputPlaceholder="Search for a brand..."
+                                                            emptyPlaceholder="No brand found"
+                                                        />
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <div className="grid gap-3 grid-cols-2">
+                                                <div className="grid gap-3">
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="partnerType"
+                                                        render={({ field }) => (
+                                                            <FormItemWrapper label="Stakeholder">
+                                                                <SelectBox
+                                                                    options={
+                                                                        partnerType
+                                                                    }
+                                                                    value={
+                                                                        field.value
+                                                                    }
+                                                                    onChange={(
+                                                                        selected
+                                                                    ) => {
+                                                                        form.setValue(
+                                                                            "teamId",
+                                                                            ""
+                                                                        );
+                                                                        form.setValue(
+                                                                            "leagueId",
+                                                                            ""
+                                                                        );
+                                                                        form.setValue(
+                                                                            "athleteId",
+                                                                            ""
+                                                                        );
+                                                                        field.onChange(
+                                                                            selected
+                                                                        );
+                                                                    }}
+                                                                    placeholder="Select a stakeholder"
+                                                                    inputPlaceholder="Search for a stakeholder..."
+                                                                    emptyPlaceholder="No stakeholder found"
+                                                                />
+                                                            </FormItemWrapper>
+                                                        )}
                                                     />
-                                                </FormItemWrapper>
-                                            )}
-                                        />
-                                    </div>
-                                    <div className="grid gap-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="brandId"
-                                            render={({ field }) => (
-                                                <FormItemWrapper label="Brand">
-                                                    <SelectBox
-                                                        options={
-                                                            metadataStore?.brand
-                                                        }
-                                                        value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                        placeholder="Select a brand"
-                                                        inputPlaceholder="Search for a brand..."
-                                                        emptyPlaceholder="No brand found"
+                                                </div>
+                                                <div className="grid gap-3">
+                                                    <FormField
+                                                        control={form.control}
+                                                        name={getStakeholderName()}
+                                                        render={({ field }) => (
+                                                            <FormItemWrapper
+                                                                label={getStakeholderTitle()}
+                                                            >
+                                                                <SelectBox
+                                                                    options={getStakeholderOptions()}
+                                                                    value={
+                                                                        field.value
+                                                                    }
+                                                                    onChange={
+                                                                        field.onChange
+                                                                    }
+                                                                    placeholder={`Select a ${getStakeholderTitle().toLowerCase()}`}
+                                                                    inputPlaceholder={`Search for a ${getStakeholderTitle().toLowerCase()}...`}
+                                                                    emptyPlaceholder={`No ${getStakeholderTitle().toLowerCase()} found`}
+                                                                />
+                                                            </FormItemWrapper>
+                                                        )}
                                                     />
-                                                </FormItemWrapper>
-                                            )}
-                                        />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="grid gap-3">
-                                        <div className="grid gap-3 grid-cols-2">
+                                </CardWrapper>
+
+                                <CardWrapper title="Other details">
+                                    <div className="grid gap-6  ">
+                                        <div className="grid gap-3 grid-cols-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
-                                                    name="partnerType"
+                                                    name="typeIds"
                                                     render={({ field }) => (
-                                                        <FormItemWrapper label="Stakeholder">
+                                                        <FormItemWrapper label="Type">
                                                             <SelectBox
                                                                 options={
-                                                                    partnerType
+                                                                    metadataStore?.marketingPlatform
                                                                 }
                                                                 value={
                                                                     field.value
@@ -254,9 +450,10 @@ function ActivationForm() {
                                                                 onChange={
                                                                     field.onChange
                                                                 }
-                                                                placeholder="Select a stakeholder"
-                                                                inputPlaceholder="Search for a stakeholder..."
-                                                                emptyPlaceholder="No stakeholder found"
+                                                                placeholder="Select a type"
+                                                                inputPlaceholder="Search for a type..."
+                                                                emptyPlaceholder="No type found"
+                                                                multiple
                                                             />
                                                         </FormItemWrapper>
                                                     )}
@@ -265,141 +462,90 @@ function ActivationForm() {
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
-                                                    name={
-                                                        form.getValues(
-                                                            "partnerType"
-                                                        ) === "Team"
-                                                            ? "teamId"
-                                                            : form.getValues(
-                                                                  "partnerType"
-                                                              ) === "League"
-                                                            ? "leagueId"
-                                                            : "athleteId"
-                                                    }
-                                                    render={({ field }) => {
-                                                        const stakeholder =
-                                                            getStakeholderTitle();
-                                                        return (
-                                                            <FormItemWrapper
-                                                                label={
-                                                                    stakeholder
+                                                    name="marketIds"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Market">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.state
                                                                 }
-                                                            >
-                                                                <SelectBox
-                                                                    options={
-                                                                        form.getValues(
-                                                                            "partnerType"
-                                                                        ) ===
-                                                                        "Team"
-                                                                            ? metadataStore.team
-                                                                            : form.getValues(
-                                                                                  "partnerType"
-                                                                              ) ===
-                                                                              "League"
-                                                                            ? metadataStore.league
-                                                                            : metadataStore.athlete
-                                                                    }
-                                                                    value={
-                                                                        field.value
-                                                                    }
-                                                                    onChange={
-                                                                        field.onChange
-                                                                    }
-                                                                    placeholder={`Select a ${stakeholder.toLowerCase()}`}
-                                                                    inputPlaceholder={`Search for a ${stakeholder.toLowerCase()}...`}
-                                                                    emptyPlaceholder={`No ${stakeholder.toLowerCase()} found`}
-                                                                />
-                                                            </FormItemWrapper>
-                                                        );
-                                                    }}
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a market"
+                                                                inputPlaceholder="Search for a market..."
+                                                                emptyPlaceholder="No market found"
+                                                                multiple
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="year"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Year">
+                                                            <SelectBox
+                                                                options={getListOfYears()}
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a year"
+                                                                inputPlaceholder="Search for a year..."
+                                                                emptyPlaceholder="No year found"
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
                                                 />
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </CardWrapper>
-
-                            <CardWrapper title="Other details">
-                                <div className="grid gap-6  ">
-                                    <div className="grid gap-3 grid-cols-3">
                                         <div className="grid gap-3">
                                             <FormField
                                                 control={form.control}
-                                                name="typeIds"
+                                                name="assetIds"
                                                 render={({ field }) => (
-                                                    <FormItemWrapper label="Type">
+                                                    <FormItemWrapper label="Asset">
                                                         <SelectBox
                                                             options={
-                                                                metadataStore?.marketingPlatform
+                                                                metadataStore.asset
                                                             }
                                                             value={field.value}
                                                             onChange={
                                                                 field.onChange
                                                             }
-                                                            placeholder="Select a type"
-                                                            inputPlaceholder="Search for a type..."
-                                                            emptyPlaceholder="No type found"
+                                                            placeholder="Select an asset"
+                                                            inputPlaceholder="Search for a asset..."
+                                                            emptyPlaceholder="No asset found"
                                                             multiple
                                                         />
                                                     </FormItemWrapper>
                                                 )}
                                             />
                                         </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="marketIds"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Market">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.state
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a market"
-                                                            inputPlaceholder="Search for a market..."
-                                                            emptyPlaceholder="No market found"
-                                                            multiple
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="year"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Year">
-                                                        <SelectBox
-                                                            options={getListOfYears()}
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a year"
-                                                            inputPlaceholder="Search for a year..."
-                                                            emptyPlaceholder="No year found"
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
                                     </div>
-                                </div>
-                            </CardWrapper>
+                                </CardWrapper>
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
                         <Button
                             type="submit"
                             size="sm"
                             className="w-full py-5 gap-1"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingDetails ||
+                                isFetchingMetadata
+                            }
                         >
                             <span>Save Activation</span>
                             {isSubmitting && (
@@ -413,7 +559,11 @@ function ActivationForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingDetails ||
+                                isFetchingMetadata
+                            }
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.ACTIVATION_LIST, {
                                     replace: true,

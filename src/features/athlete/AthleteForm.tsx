@@ -38,7 +38,9 @@ import {
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 function AthleteForm() {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] =
+        useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     let associationId: string | undefined;
@@ -59,7 +61,7 @@ function AthleteForm() {
     useEffect(() => {
         const fetchMetadata = async () => {
             try {
-                setIsLoading(true);
+                setIsFetchingMetadata(true);
                 await getMetadata(
                     metadataStore,
                     setMetadataStore,
@@ -79,7 +81,7 @@ function AthleteForm() {
                     navigate(NAVIGATION_ROUTES.DASHBOARD);
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingMetadata(false);
             }
         };
 
@@ -89,7 +91,7 @@ function AthleteForm() {
     useEffect(() => {
         const fetchAthleteDetails = async (id: string) => {
             try {
-                setIsLoading(true);
+                setIsFetchingDetails(true);
 
                 const response = await AthleteService.getOne(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
@@ -177,7 +179,7 @@ function AthleteForm() {
                     toast.error("An unknown error occurred");
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingDetails(false);
             }
         };
 
@@ -462,7 +464,11 @@ function AthleteForm() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={isSubmitting}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingMetadata ||
+                                    isFetchingDetails
+                                }
                                 onClick={() =>
                                     navigate(NAVIGATION_ROUTES.ATHLETE_LIST, {
                                         replace: true,
@@ -476,7 +482,11 @@ function AthleteForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={isSubmitting}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingMetadata ||
+                                    isFetchingDetails
+                                }
                             >
                                 <span>Save Athlete</span>
                                 {isSubmitting && (
@@ -488,7 +498,7 @@ function AthleteForm() {
                             </Button>
                         </div>
                     </div>
-                    {isLoading ? (
+                    {isFetchingDetails || isFetchingMetadata ? (
                         <FormSkeleton />
                     ) : (
                         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
@@ -772,7 +782,11 @@ function AthleteForm() {
                             type="submit"
                             size="sm"
                             className="w-full py-5 gap-1"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingMetadata ||
+                                isFetchingDetails
+                            }
                         >
                             <span>Save Athlete</span>
                             {isSubmitting && (
@@ -786,7 +800,11 @@ function AthleteForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingMetadata ||
+                                isFetchingDetails
+                            }
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.ATHLETE_LIST, {
                                     replace: true,

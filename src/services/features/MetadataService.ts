@@ -526,6 +526,14 @@ class MetadataService {
         );
     }
 
+    static editActivationSummary(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/activation/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static getOneAssociationLevel(id: string, params?: any) {
         return AjaxService.request(
             API_URL + "/api/admin/association-level/" + id,

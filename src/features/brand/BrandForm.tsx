@@ -35,7 +35,9 @@ import {
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 function BrandForm() {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] =
+        useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
@@ -54,7 +56,7 @@ function BrandForm() {
     useEffect(() => {
         const fetchMetadata = async () => {
             try {
-                setIsLoading(true);
+                setIsFetchingMetadata(true);
                 await getMetadata(
                     metadataStore,
                     setMetadataStore,
@@ -72,7 +74,7 @@ function BrandForm() {
                     navigate(NAVIGATION_ROUTES.DASHBOARD);
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingMetadata(false);
             }
         };
 
@@ -86,7 +88,7 @@ function BrandForm() {
     useEffect(() => {
         const fetchBrandDetails = async (id: string) => {
             try {
-                setIsLoading(true);
+                setIsFetchingDetails(true);
                 const response = await BrandService.getOne(id);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
@@ -184,7 +186,7 @@ function BrandForm() {
                     toast.error("An unknown error occurred");
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingDetails(false);
             }
         };
         if (id) {
@@ -400,7 +402,11 @@ function BrandForm() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={isSubmitting}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingDetails ||
+                                    isFetchingMetadata
+                                }
                                 onClick={() =>
                                     navigate(NAVIGATION_ROUTES.BRAND_LIST, {
                                         replace: true,
@@ -414,7 +420,11 @@ function BrandForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={isSubmitting}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingDetails ||
+                                    isFetchingMetadata
+                                }
                             >
                                 <span>Save Brand</span>
                                 {isSubmitting && (
@@ -426,7 +436,7 @@ function BrandForm() {
                             </Button>
                         </div>
                     </div>
-                    {isLoading ? (
+                    {isFetchingDetails || isFetchingMetadata ? (
                         <FormSkeleton />
                     ) : (
                         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
@@ -755,7 +765,11 @@ function BrandForm() {
                             type="submit"
                             size="sm"
                             className="w-full py-5 gap-1"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingDetails ||
+                                isFetchingMetadata
+                            }
                         >
                             <span>Save Brand</span>
                             {isSubmitting && (
@@ -769,7 +783,11 @@ function BrandForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingDetails ||
+                                isFetchingMetadata
+                            }
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.BRAND_LIST, {
                                     replace: true,

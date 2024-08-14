@@ -35,8 +35,10 @@ export function DataTableRowActions<TData>({
                         description="Are you sure you want to complete this action? It's irreversible and all the data will be lost forever."
                         positiveOnClick={async () => {
                             if (task.id) {
-                                const isDeleted = await routes.deleteCall(task.id);
-                                console.log('isDeleted -=-', isDeleted);
+                                const isDeleted = await routes.deleteCall(
+                                    task.id
+                                );
+                                console.log("isDeleted -=-", isDeleted);
                                 setIsDeleted(isDeleted);
                             }
                         }}

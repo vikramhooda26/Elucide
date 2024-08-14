@@ -1,19 +1,11 @@
-import {
-    ArrowDownIcon,
-    ArrowRightIcon,
-    ArrowUpIcon,
-    CheckCircledIcon,
-    CircleIcon,
-    CrossCircledIcon,
-    QuestionMarkCircledIcon,
-    StopwatchIcon,
-} from "@radix-ui/react-icons";
+import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 
 export const routes = {
     editRoute: NAVIGATION_ROUTES.ACTIVATION_EDIT,
     copyRoute: NAVIGATION_ROUTES.ACTIVATION_EDIT,
     deleteRoute: () => {},
+    deleteCall: async () => false,
 };
 
 export const statuses = [
@@ -27,9 +19,9 @@ export const statuses = [
         label: "Earlier",
         icon: ArrowUpIcon,
     },
-  ];
-  
-  export const priorities = [
+];
+
+export const priorities = [
     {
         value: "recent",
         label: "Recent",
@@ -40,5 +32,4 @@ export const statuses = [
         label: "Earlier",
         icon: ArrowUpIcon,
     },
-  ];
-  
+];

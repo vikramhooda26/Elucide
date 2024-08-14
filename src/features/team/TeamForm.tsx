@@ -44,7 +44,9 @@ import AssociationCard from "../../components/core/form/association-card";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 export function TeamForm() {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] =
+        useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
@@ -63,7 +65,7 @@ export function TeamForm() {
     useEffect(() => {
         const fetchMetadata = async () => {
             try {
-                setIsLoading(true);
+                setIsFetchingMetadata(true);
                 await getMetadata(
                     metadataStore,
                     setMetadataStore,
@@ -81,7 +83,7 @@ export function TeamForm() {
                     navigate(NAVIGATION_ROUTES.DASHBOARD);
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingMetadata(false);
             }
         };
 
@@ -91,7 +93,7 @@ export function TeamForm() {
     useEffect(() => {
         const fetchTeamDetails = async (id: string) => {
             try {
-                setIsLoading(true);
+                setIsFetchingDetails(true);
                 const response = await TeamService.getOne(id);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
@@ -212,7 +214,7 @@ export function TeamForm() {
                     toast.error("An unknown error occurred");
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingDetails(false);
             }
         };
 
@@ -572,7 +574,11 @@ export function TeamForm() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={isSubmitting}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingDetails ||
+                                    isFetchingMetadata
+                                }
                                 onClick={() =>
                                     navigate(NAVIGATION_ROUTES.TEAM_LIST, {
                                         replace: true,
@@ -586,7 +592,11 @@ export function TeamForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={isSubmitting}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingDetails ||
+                                    isFetchingMetadata
+                                }
                             >
                                 <span>Save Team</span>
                                 {isSubmitting && (
@@ -598,7 +608,7 @@ export function TeamForm() {
                             </Button>
                         </div>
                     </div>
-                    {isLoading ? (
+                    {isFetchingDetails || isFetchingMetadata ? (
                         <FormSkeleton />
                     ) : (
                         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
@@ -1193,7 +1203,11 @@ export function TeamForm() {
                             type="submit"
                             size="sm"
                             className="w-full py-5 gap-1"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingDetails ||
+                                isFetchingMetadata
+                            }
                         >
                             <span>Save Team</span>
                             {isSubmitting && (
@@ -1207,7 +1221,11 @@ export function TeamForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={isSubmitting}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingDetails ||
+                                isFetchingMetadata
+                            }
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.TEAM_LIST, {
                                     replace: true,

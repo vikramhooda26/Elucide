@@ -7,7 +7,9 @@ import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import AssociationCard from "../../components/core/form/association-card";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { getPhoneData } from "../../components/phone-input";
@@ -29,7 +31,6 @@ import {
     convertCroreToRupees,
     convertRupeesToCrore,
     getListOfYears,
-    onNumInputChange,
     validateMetrics,
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
@@ -39,11 +40,11 @@ import {
     TEditLeagueFormSchema,
     TLeagueFormSchema,
 } from "./constants.ts/metadata";
-import AssociationCard from "../../components/core/form/association-card";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 function LeagueForm() {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] =
+        useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
@@ -62,7 +63,7 @@ function LeagueForm() {
     useEffect(() => {
         const fetchMetadata = async () => {
             try {
-                setIsLoading(true);
+                setIsFetchingMetadata(true);
                 await getMetadata(
                     metadataStore,
                     setMetadataStore,
@@ -80,7 +81,7 @@ function LeagueForm() {
                     navigate(NAVIGATION_ROUTES.DASHBOARD);
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingMetadata(false);
             }
         };
 
@@ -90,7 +91,7 @@ function LeagueForm() {
     useEffect(() => {
         const fetchLeagueDetails = async (id: string) => {
             try {
-                setIsLoading(true);
+                setIsFetchingDetails(true);
 
                 const response = await LeagueService.getOne(id);
 
@@ -220,14 +221,14 @@ function LeagueForm() {
                     toast.error("An unknown error occurred");
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingDetails(false);
             }
         };
 
         if (id) {
             fetchLeagueDetails(id);
         }
-    }, [id]);
+    }, []);
 
     useEffect(() => {
         if (isSubmitting) {
@@ -577,7 +578,11 @@ function LeagueForm() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={isSubmitting || isLoading}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingDetails ||
+                                    isFetchingMetadata
+                                }
                                 onClick={() =>
                                     navigate(NAVIGATION_ROUTES.LEAGUE_LIST, {
                                         replace: true,
@@ -591,7 +596,11 @@ function LeagueForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={isSubmitting || isLoading}
+                                disabled={
+                                    isSubmitting ||
+                                    isFetchingDetails ||
+                                    isFetchingMetadata
+                                }
                             >
                                 <span>Save League</span>
                                 {isSubmitting && (
@@ -603,7 +612,7 @@ function LeagueForm() {
                             </Button>
                         </div>
                     </div>
-                    {isLoading ? (
+                    {isFetchingDetails || isFetchingMetadata ? (
                         <FormSkeleton />
                     ) : (
                         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
@@ -1160,7 +1169,11 @@ function LeagueForm() {
                             type="submit"
                             size="sm"
                             className="w-full py-5 gap-1"
-                            disabled={isSubmitting || isLoading}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingDetails ||
+                                isFetchingMetadata
+                            }
                         >
                             <span>Save League</span>
                             {isSubmitting && (
@@ -1174,7 +1187,11 @@ function LeagueForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={isSubmitting || isLoading}
+                            disabled={
+                                isSubmitting ||
+                                isFetchingDetails ||
+                                isFetchingMetadata
+                            }
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.LEAGUE_LIST, {
                                     replace: true,

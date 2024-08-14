@@ -5,16 +5,11 @@ export const FormSkeleton: React.FC = (): JSX.Element => {
         <div className="h-dvh w-full animate-pulse relative">
             <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                 <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
-                    <CardWrapper
-                        options={[
-                            { rows: 1 },
-                            { rows: 1, multiple: true },
-                            { rows: 1, multiple: true },
-                            { rows: 1 },
-                        ]}
-                    />
+                    <CardWrapper options={[{ rows: 4 }]} />
                     <CardWrapper options={[{ rows: 2, multiple: true }]} />
-                    <CardWrapper options={[{ rows: 2 }]} />
+                    <CardWrapper
+                        options={[{ rows: 1, multiple: true }, { rows: 1 }]}
+                    />
                     <CardWrapper
                         options={[{ rows: 1 }, { rows: 1, multiple: true }]}
                     />
