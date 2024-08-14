@@ -32,9 +32,10 @@ import {
     TBrandFormSchema,
     TEditBrandformSchema,
 } from "./constants/metadata";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 function BrandForm() {
-    const [_isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
@@ -425,80 +426,22 @@ function BrandForm() {
                             </Button>
                         </div>
                     </div>
-                    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
-                            <CardWrapper title="Brand Details">
-                                <div className="grid gap-6">
-                                    <div className="grid gap-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="name"
-                                            render={({ field }) => (
-                                                <FormItemWrapper label="Brand Name">
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="Brand name"
-                                                    />
-                                                </FormItemWrapper>
-                                            )}
-                                        />
-                                    </div>
-                                    <div className="grid gap-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="taglineIds"
-                                            render={({ field }) => (
-                                                <FormItemWrapper label="Taglines">
-                                                    <SelectBox
-                                                        options={
-                                                            metadataStore?.tagline
-                                                        }
-                                                        value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                        placeholder="Select a tagline"
-                                                        inputPlaceholder="Search for a tagline..."
-                                                        emptyPlaceholder="No tagline found"
-                                                        multiple
-                                                    />
-                                                </FormItemWrapper>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="strategyOverview"
-                                            render={({ field }) => (
-                                                <FormItemWrapper label="Strategy Overview">
-                                                    <Textarea
-                                                        id="strategyOverview"
-                                                        className="scrollbar"
-                                                        {...field}
-                                                        rows={5}
-                                                    />
-                                                </FormItemWrapper>
-                                            )}
-                                        />
-                                    </div>
-
-                                    <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+                    {isLoading ? (
+                        <FormSkeleton />
+                    ) : (
+                        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
+                                <CardWrapper title="Brand Details">
+                                    <div className="grid gap-6">
                                         <div className="grid gap-3">
                                             <FormField
                                                 control={form.control}
-                                                name="agencyId"
+                                                name="name"
                                                 render={({ field }) => (
-                                                    <FormItemWrapper label="Agency">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.agency
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a agency"
-                                                            inputPlaceholder="Search for agencys..."
-                                                            emptyPlaceholder="No agency found"
+                                                    <FormItemWrapper label="Brand Name">
+                                                        <Input
+                                                            {...field}
+                                                            placeholder="Brand name"
                                                         />
                                                     </FormItemWrapper>
                                                 )}
@@ -507,229 +450,305 @@ function BrandForm() {
                                         <div className="grid gap-3">
                                             <FormField
                                                 control={form.control}
-                                                name="parentOrgId"
+                                                name="taglineIds"
                                                 render={({ field }) => (
-                                                    <FormItemWrapper label="Parent Organization">
+                                                    <FormItemWrapper label="Taglines">
                                                         <SelectBox
                                                             options={
-                                                                metadataStore?.parentOrg
+                                                                metadataStore?.tagline
                                                             }
                                                             value={field.value}
                                                             onChange={
                                                                 field.onChange
                                                             }
-                                                            placeholder="Select a organization"
-                                                            inputPlaceholder="Search for organizations..."
-                                                            emptyPlaceholder="No organization found"
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid gap-3">
-                                        <FormField
-                                            control={form.control}
-                                            name="activeCampaignIds"
-                                            render={({ field }) => (
-                                                <FormItemWrapper label="Active Campaigns">
-                                                    <SelectBox
-                                                        options={
-                                                            metadataStore?.activeCampaign
-                                                        }
-                                                        value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                        placeholder="Select a campaign"
-                                                        inputPlaceholder="Search for campaigns..."
-                                                        emptyPlaceholder="No campaign found"
-                                                        multiple
-                                                    />
-                                                </FormItemWrapper>
-                                            )}
-                                        />
-                                    </div>
-                                </div>
-                            </CardWrapper>
-
-                            <CardWrapper title="Marketing">
-                                <div className="grid gap-6  ">
-                                    <div className="grid gap-3 grid-cols-2">
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="primaryMarketingPlatformIds"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Primary Marketing Platform">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.marketingPlatform
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a platform"
-                                                            inputPlaceholder="Search for a platform..."
-                                                            emptyPlaceholder="No platform found"
+                                                            placeholder="Select a tagline"
+                                                            inputPlaceholder="Search for a tagline..."
+                                                            emptyPlaceholder="No tagline found"
                                                             multiple
+                                                        />
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={form.control}
+                                                name="strategyOverview"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Strategy Overview">
+                                                        <Textarea
+                                                            id="strategyOverview"
+                                                            className="scrollbar"
+                                                            {...field}
+                                                            rows={5}
                                                         />
                                                     </FormItemWrapper>
                                                 )}
                                             />
                                         </div>
 
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="secondaryMarketingPlatformIds"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Secondary Marketing Platform">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.marketingPlatform
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a platform"
-                                                            inputPlaceholder="Search for a platform..."
-                                                            emptyPlaceholder="No platform found"
-                                                            multiple
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="grid gap-3 grid-cols-3">
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="primaryMarketIds"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Primary key Market">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.keyMarket
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a market"
-                                                            inputPlaceholder="Search for a market..."
-                                                            emptyPlaceholder="No market found"
-                                                            multiple
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="secondaryMarketIds"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Secondary key Market">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.keyMarket
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a market"
-                                                            inputPlaceholder="Search for a market..."
-                                                            emptyPlaceholder="No market found"
-                                                            multiple
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="tertiaryIds"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Tertiary Market">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.state
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a state"
-                                                            inputPlaceholder="Search for a state..."
-                                                            emptyPlaceholder="No state found"
-                                                            multiple
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </CardWrapper>
-
-                            <CardWrapper title="Socials">
-                                <TableHeaderWrapper
-                                    headersArray={[
-                                        {
-                                            header: "Platforms",
-                                            className: "w-[120px]",
-                                        },
-                                        { header: "Link" },
-                                    ]}
-                                >
-                                    {socials.map((social, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell className="capitalize">
-                                                {social.name}
-                                            </TableCell>
-                                            <FormField
-                                                control={form.control}
-                                                name={social.name}
-                                                render={({ field }) => (
-                                                    <TableCell>
-                                                        <FormItemWrapper>
-                                                            <Input
-                                                                type="text"
-                                                                {...field}
+                                        <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="agencyId"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Agency">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.agency
+                                                                }
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a agency"
+                                                                inputPlaceholder="Search for agencys..."
+                                                                emptyPlaceholder="No agency found"
                                                             />
                                                         </FormItemWrapper>
-                                                    </TableCell>
+                                                    )}
+                                                />
+                                            </div>
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="parentOrgId"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Parent Organization">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.parentOrg
+                                                                }
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a organization"
+                                                                inputPlaceholder="Search for organizations..."
+                                                                emptyPlaceholder="No organization found"
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="activeCampaignIds"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Active Campaigns">
+                                                        <SelectBox
+                                                            options={
+                                                                metadataStore?.activeCampaign
+                                                            }
+                                                            value={field.value}
+                                                            onChange={
+                                                                field.onChange
+                                                            }
+                                                            placeholder="Select a campaign"
+                                                            inputPlaceholder="Search for campaigns..."
+                                                            emptyPlaceholder="No campaign found"
+                                                            multiple
+                                                        />
+                                                    </FormItemWrapper>
                                                 )}
                                             />
-                                        </TableRow>
-                                    ))}
-                                </TableHeaderWrapper>
-                            </CardWrapper>
-                        </div>
+                                        </div>
+                                    </div>
+                                </CardWrapper>
 
-                        <div className="grid auto-rows-max items-start gap-4 ">
-                            <VerticalFieldsCard
-                                control={form.control}
-                                title="Brand Attributes"
-                                displayFields={brandAttributes}
-                            />
+                                <CardWrapper title="Marketing">
+                                    <div className="grid gap-6  ">
+                                        <div className="grid gap-3 grid-cols-2">
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="primaryMarketingPlatformIds"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Primary Marketing Platform">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.marketingPlatform
+                                                                }
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a platform"
+                                                                inputPlaceholder="Search for a platform..."
+                                                                emptyPlaceholder="No platform found"
+                                                                multiple
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
 
-                            <VerticalFieldsCard
-                                control={form.control}
-                                title="Target Audience"
-                                displayFields={targetAudience}
-                            />
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="secondaryMarketingPlatformIds"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Secondary Marketing Platform">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.marketingPlatform
+                                                                }
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a platform"
+                                                                inputPlaceholder="Search for a platform..."
+                                                                emptyPlaceholder="No platform found"
+                                                                multiple
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="grid gap-3 grid-cols-3">
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="primaryMarketIds"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Primary key Market">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.keyMarket
+                                                                }
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a market"
+                                                                inputPlaceholder="Search for a market..."
+                                                                emptyPlaceholder="No market found"
+                                                                multiple
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="secondaryMarketIds"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Secondary key Market">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.keyMarket
+                                                                }
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a market"
+                                                                inputPlaceholder="Search for a market..."
+                                                                emptyPlaceholder="No market found"
+                                                                multiple
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
+                                            <div className="grid gap-3">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="tertiaryIds"
+                                                    render={({ field }) => (
+                                                        <FormItemWrapper label="Tertiary Market">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.state
+                                                                }
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a state"
+                                                                inputPlaceholder="Search for a state..."
+                                                                emptyPlaceholder="No state found"
+                                                                multiple
+                                                            />
+                                                        </FormItemWrapper>
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </CardWrapper>
+
+                                <CardWrapper title="Socials">
+                                    <TableHeaderWrapper
+                                        headersArray={[
+                                            {
+                                                header: "Platforms",
+                                                className: "w-[120px]",
+                                            },
+                                            { header: "Link" },
+                                        ]}
+                                    >
+                                        {socials.map((social, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell className="capitalize">
+                                                    {social.name}
+                                                </TableCell>
+                                                <FormField
+                                                    control={form.control}
+                                                    name={social.name}
+                                                    render={({ field }) => (
+                                                        <TableCell>
+                                                            <FormItemWrapper>
+                                                                <Input
+                                                                    type="text"
+                                                                    {...field}
+                                                                />
+                                                            </FormItemWrapper>
+                                                        </TableCell>
+                                                    )}
+                                                />
+                                            </TableRow>
+                                        ))}
+                                    </TableHeaderWrapper>
+                                </CardWrapper>
+                            </div>
+
+                            <div className="grid auto-rows-max items-start gap-4 ">
+                                <VerticalFieldsCard
+                                    control={form.control}
+                                    title="Brand Attributes"
+                                    displayFields={brandAttributes}
+                                />
+
+                                <VerticalFieldsCard
+                                    control={form.control}
+                                    title="Target Audience"
+                                    displayFields={targetAudience}
+                                />
+                            </div>
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-3">
+                                <ContactPersonCard control={form.control} />
+                            </div>
                         </div>
-                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-3">
-                            <ContactPersonCard control={form.control} />
-                        </div>
-                    </div>
+                    )}
 
                     <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
                         <Button

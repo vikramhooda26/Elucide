@@ -69,7 +69,7 @@ const AssociationCard = <T extends FieldValues>({
 
         const newFilteredOptions = fieldArray.fields.map((_, index) => {
             return (
-                metadataStore?.tagline.filter((option) => {
+                metadataStore?.associationLevel.filter((option) => {
                     return (
                         option.value === selectedAssociationLevels[index] ||
                         !selectedValues.includes(option.value)
@@ -79,7 +79,11 @@ const AssociationCard = <T extends FieldValues>({
         });
 
         setFilteredOptions(newFilteredOptions);
-    }, [selectedAssociationLevels, metadataStore?.tagline, fieldArray.fields]);
+    }, [
+        selectedAssociationLevels,
+        metadataStore?.associationLevel,
+        fieldArray.fields,
+    ]);
 
     const associationDetails = (index: number): Array<TDisplayFields<T>> => {
         const fields: Array<TDisplayFields<T>> = [
@@ -218,7 +222,7 @@ const AssociationCard = <T extends FieldValues>({
                     >
                         <PlusCircle className="h-3.5 w-3.5" />
                         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                            Add Association
+                            Add
                         </span>
                     </Button>
                 </div>
