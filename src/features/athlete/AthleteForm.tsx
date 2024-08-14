@@ -8,6 +8,7 @@ import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import AssociationCard from "../../components/core/form/association-card";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { DatePicker } from "../../components/date/DatePicker";
@@ -20,16 +21,13 @@ import { Input } from "../../components/ui/input";
 import SelectBox from "../../components/ui/multi-select";
 import { TableCell, TableRow } from "../../components/ui/table";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
+import { printLogs } from "../../lib/logs";
 import ErrorService from "../../services/error/ErrorService";
 import AthleteService from "../../services/features/AthleteService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import {
-    convertCroreToRupees,
-    convertRupeesToCrore,
-    onNumInputChange,
-} from "../utils/helpers";
+import { convertCroreToRupees, convertRupeesToCrore } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import {
     ATHLETE_METADATA,
@@ -37,8 +35,6 @@ import {
     TAthleteFormSchema,
     TEditAthleteFormSchema,
 } from "./constants/metadata";
-import { printLogs } from "../../lib/logs";
-import AssociationCard from "../../components/core/form/association-card";
 
 function AthleteForm() {
     const [_isLoading, setIsLoading] = useState<boolean>(false);
@@ -75,7 +71,9 @@ function AthleteForm() {
                     logout,
                     navigate
                 );
-                if (unknownError) {
+                if (
+                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+                ) {
                     toast.error("An unknown error occurred");
                     navigate(NAVIGATION_ROUTES.DASHBOARD);
                 }
@@ -215,56 +213,56 @@ function AthleteForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Sports",
-                register: "sportId",
-                options: metadataStore.sport,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Nationality",
-                register: "nationalityId",
-                options: metadataStore.nationality,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "State",
-                register: "stateId",
-                options: metadataStore.state,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "NCCS class",
-                register: "nccsIds",
-                options: metadataStore.nccs,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Personality Traits",
-                register: "subPersonalityTraitIds",
-                options: metadataStore.personalityTrait,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Status",
-                register: "statusId",
-                options: metadataStore.athleteStatus,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Tier",
-                register: "tierIds",
-                options: metadataStore.tier,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Sports",
+            register: "sportId",
+            options: metadataStore.sport,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Nationality",
+            register: "nationalityId",
+            options: metadataStore.nationality,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "State",
+            register: "stateId",
+            options: metadataStore.state,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "NCCS class",
+            register: "nccsIds",
+            options: metadataStore.nccs,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Personality Traits",
+            register: "subPersonalityTraitIds",
+            options: metadataStore.personalityTrait,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Status",
+            register: "statusId",
+            options: metadataStore.athleteStatus,
+            multiple: false,
+            type: "DROPDOWN",
+        },
+        {
+            title: "Tier",
+            register: "tierIds",
+            options: metadataStore.tier,
+            multiple: true,
+            type: "DROPDOWN",
+        },
+    ];
 
     const socials: {
         name: Extract<
@@ -277,28 +275,27 @@ function AthleteForm() {
             | "twitter"
         >;
     }[] = [
-            {
-                name: "instagram",
-            },
-            {
-                name: "facebook",
-            },
-            {
-                name: "twitter",
-            },
-            {
-                name: "linkedin",
-            },
-            {
-                name: "youtube",
-            },
-            {
-                name: "website",
-            },
-        ];
+        {
+            name: "instagram",
+        },
+        {
+            name: "facebook",
+        },
+        {
+            name: "twitter",
+        },
+        {
+            name: "linkedin",
+        },
+        {
+            name: "youtube",
+        },
+        {
+            name: "website",
+        },
+    ];
 
     const onSubmit = async (athleteFormValues: TAthleteFormSchema) => {
-
         let hasErrors = false;
         const convertedCostOfAssociations: number[] = [];
 
@@ -393,10 +390,13 @@ function AthleteForm() {
                     ...athleteFormValues,
                     associationId: associationId,
                     age: formatedDOB,
-                    association: athleteFormValues.association?.map((asso, index) => ({
-                        ...asso,
-                        costOfAssociation: convertedCostOfAssociations[index],
-                    })),
+                    association: athleteFormValues.association?.map(
+                        (asso, index) => ({
+                            ...asso,
+                            costOfAssociation:
+                                convertedCostOfAssociations[index],
+                        })
+                    ),
                 } as TAthleteFormSchema);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
@@ -407,10 +407,12 @@ function AthleteForm() {
             const response = await AthleteService.createAthlete({
                 ...athleteFormValues,
                 age: formatedDOB,
-                association: athleteFormValues.association?.map((asso, index) => ({
-                    ...asso,
-                    costOfAssociation: convertedCostOfAssociations[index],
-                })),
+                association: athleteFormValues.association?.map(
+                    (asso, index) => ({
+                        ...asso,
+                        costOfAssociation: convertedCostOfAssociations[index],
+                    })
+                ),
             } as TAthleteFormSchema);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Athlete created successfully");
@@ -700,7 +702,6 @@ function AthleteForm() {
                                     </div>
                                 </div>
                             </CardWrapper>
-
 
                             <CardWrapper title="Socials">
                                 <TableHeaderWrapper

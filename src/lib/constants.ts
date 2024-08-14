@@ -1,5 +1,6 @@
 export const API_URL =
-    import.meta.env.VITE_BACKEND_URL || "https://elucide-sports-backend.vercel.app";
+    import.meta.env.VITE_BACKEND_URL ||
+    "https://elucide-sports-backend.vercel.app";
 
 //"https://elucide-sports-backend.vercel.app"
 

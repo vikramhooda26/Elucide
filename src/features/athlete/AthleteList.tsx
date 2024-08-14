@@ -63,7 +63,7 @@ function AthleteList() {
                 logout,
                 navigate
             );
-            if (unknownError) {
+            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("An unknown error occurred");
             }
         } finally {

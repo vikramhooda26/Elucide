@@ -70,6 +70,12 @@ export const dataEntrySideMenuLinks: Pick<NavProps, "links"> = {
             roles: ["SUPER_ADMIN"],
         },
         {
+            title: "Association Level",
+            icon: RefreshCcw,
+            navigateTo: NAVIGATION_ROUTES.ASSOCIATION_LEVEL_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
             title: "Gender",
             icon: CircleArrowOutUpRight,
             navigateTo: NAVIGATION_ROUTES.GENDER_LIST,

@@ -13,7 +13,7 @@ import MetadataService from "../../../services/features/MetadataService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
-import { associationSchema, TAssociationSchema, } from "./constants/metadata";
+import { associationSchema, TAssociationSchema } from "./constants/metadata";
 
 function AssociationLevelForm() {
     const { logout } = useAuth();
@@ -37,7 +37,7 @@ function AssociationLevelForm() {
                 associationLevelFormValues
             );
             if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Parent Organization created successfully");
+                toast.success("Association level created successfully");
                 form.reset({
                     associationLevelName: "",
                 });

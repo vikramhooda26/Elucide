@@ -32,7 +32,9 @@ function AssociationLevelList() {
     const navigator = useNavigator();
     const [dataList, setDataList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+        {}
+    );
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -45,12 +47,12 @@ function AssociationLevelList() {
             setIsLoading(true);
             const response = await MetadataService.getAllAssociationLevel({});
             if (response.status === HTTP_STATUS_CODES.OK) {
-                const orgs = response.data;
-                orgs.forEach((org: team, i: number) => {
-                    orgs[i].createdBy = org?.createdBy?.email || "N/A";
-                    orgs[i].modifiedBy = org?.modifiedBy?.email || "N/A";
+                const levels = response.data;
+                levels.forEach((level: team, i: number) => {
+                    levels[i].createdBy = level?.createdBy?.email || "N/A";
+                    levels[i].modifiedBy = level?.modifiedBy?.email || "N/A";
                 });
-                setDataList(orgs);
+                setDataList(levels);
             }
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(
@@ -71,7 +73,7 @@ function AssociationLevelList() {
     }, []);
 
     const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.PARENT_ORG, [id]);
+        navigator(NAVIGATION_ROUTES.ASSOCIATION_LEVEL, [id]);
     };
 
     const table = useReactTable({
@@ -132,7 +134,7 @@ function AssociationLevelList() {
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
-                    Association Level List
+                        Association Level List
                     </h2>
                     <p className="text-muted-foreground">
                         Here&apos;s a list of association levels.
@@ -141,10 +143,12 @@ function AssociationLevelList() {
                 <div className="flex items-center space-x-2">
                     <Button
                         onClick={() =>
-                            navigator(NAVIGATION_ROUTES.ASSOCIATION_LEVEL_CREATE)
+                            navigator(
+                                NAVIGATION_ROUTES.ASSOCIATION_LEVEL_CREATE
+                            )
                         }
                     >
-                        Create
+                        Create Level
                     </Button>
                 </div>
             </div>

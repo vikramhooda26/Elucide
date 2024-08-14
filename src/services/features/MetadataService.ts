@@ -11,7 +11,11 @@ class MetadataService {
     }
 
     static getOneAgeRange(id: string, params?: any) {
-        return AjaxService.request(API_URL + "/api/admin/age-range/" + id, params, "GET");
+        return AjaxService.request(
+            API_URL + "/api/admin/age-range/" + id,
+            params,
+            "GET"
+        );
     }
 
     static getAllCity(params: any) {
@@ -103,7 +107,11 @@ class MetadataService {
     }
 
     static getOneSubPersonality(id: string, params?: any) {
-        return AjaxService.request(API_URL + "/api/admin/sub-personality/" + id, params, "GET");
+        return AjaxService.request(
+            API_URL + "/api/admin/sub-personality/" + id,
+            params,
+            "GET"
+        );
     }
 
     static getAllLevel(params: any) {
@@ -123,7 +131,11 @@ class MetadataService {
     }
 
     static getOneSubCategory(id: string, params?: any) {
-        return AjaxService.request(API_URL + "/api/admin/subcategory/" + id, params, "GET");
+        return AjaxService.request(
+            API_URL + "/api/admin/subcategory/" + id,
+            params,
+            "GET"
+        );
     }
 
     static getAllKeyMarket(params: any) {
@@ -159,7 +171,11 @@ class MetadataService {
     }
 
     static getOneCategory(id: string, params?: any) {
-        return AjaxService.request(API_URL + "/api/admin/category/" + id, params, "GET");
+        return AjaxService.request(
+            API_URL + "/api/admin/category/" + id,
+            params,
+            "GET"
+        );
     }
 
     static getAllState(params: any) {
@@ -211,7 +227,11 @@ class MetadataService {
     }
 
     static getOneActivation(id: string, params?: any) {
-        return AjaxService.request(API_URL + "/api/admin/activation/" + id, params, "GET");
+        return AjaxService.request(
+            API_URL + "/api/admin/activation/" + id,
+            params,
+            "GET"
+        );
     }
 
     static getAllActiveCampaign(params: any) {
@@ -231,7 +251,11 @@ class MetadataService {
     }
 
     static getOnePersonality(id: string, params?: any) {
-        return AjaxService.request(API_URL + "/api/admin/personality/" + id, params, "GET");
+        return AjaxService.request(
+            API_URL + "/api/admin/personality/" + id,
+            params,
+            "GET"
+        );
     }
 
     static getAllSportsDealSummary(params: any) {
@@ -251,7 +275,11 @@ class MetadataService {
     }
 
     static getOneSportsDealSummary(id: string, params?: any) {
-        return AjaxService.request(API_URL + "/api/admin/sports-deal-summary/" + id, params, "GET");
+        return AjaxService.request(
+            API_URL + "/api/admin/sports-deal-summary/" + id,
+            params,
+            "GET"
+        );
     }
 
     static createActivation(params: any) {
@@ -471,11 +499,7 @@ class MetadataService {
     }
 
     static deleteData(id: string, apiEndPoint: string) {
-        return AjaxService.request(
-            API_URL + apiEndPoint + id,
-            {},
-            "DELETE"
-        );
+        return AjaxService.request(API_URL + apiEndPoint + id, {}, "DELETE");
     }
 
     static getAllAssociationLevel(params: any) {
@@ -503,7 +527,11 @@ class MetadataService {
     }
 
     static getOneAssociationLevel(id: string, params?: any) {
-        return AjaxService.request(API_URL + "/api/admin/association-level/" + id, params, "GET");
+        return AjaxService.request(
+            API_URL + "/api/admin/association-level/" + id,
+            params,
+            "GET"
+        );
     }
 }
 export default MetadataService;
