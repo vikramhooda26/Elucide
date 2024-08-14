@@ -11,6 +11,7 @@ export const columns: ColumnDef<TMainCategoryListSchema>[] = [
         id: "select",
         header: ({ table }) => (
             <Checkbox
+                //@ts-ignore
                 checked={
                     table.getIsAllPageRowsSelected() ||
                     (table.getIsSomePageRowsSelected() && "indeterminate")
@@ -126,6 +127,7 @@ export const columns: ColumnDef<TMainCategoryListSchema>[] = [
         cell: ({ row }) => (
             <DataTableRowActions
                 row={row}
+                //@ts-ignore
                 routes={routes}
                 schema={mainCategoryListSchema}
             />
