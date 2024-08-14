@@ -15,6 +15,7 @@ export function generateColumns<T extends object>(
             id: "select",
             header: ({ table }) => (
                 <Checkbox
+                    //@ts-ignore
                     checked={
                         table.getIsAllPageRowsSelected() ||
                         (table.getIsSomePageRowsSelected() && "indeterminate")

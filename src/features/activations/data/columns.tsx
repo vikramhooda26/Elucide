@@ -132,6 +132,7 @@ export const columns: ColumnDef<schemaType>[] = [
         cell: ({ row }) => (
             <DataTableRowActions
                 row={row}
+                //@ts-ignore
                 routes={routes}
                 schema={schema}
             />
