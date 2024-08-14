@@ -24,6 +24,7 @@ import { useRecoilValue } from "recoil";
 import { configAtom } from "./use-mail";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { TMail } from "./data";
+import { SideMenuLinks } from "../components/SideMenu";
 
 interface MailProps {
     accounts: {
@@ -36,47 +37,6 @@ interface MailProps {
     defaultCollapsed?: boolean;
     navCollapsedSize: number;
 }
-
-const SideMenuLinks: Pick<NavProps, "links"> = {
-    links: [
-        {
-            title: "Dashboard",
-            icon: File,
-            label: "50",
-            navigateTo: NAVIGATION_ROUTES.DASHBOARD,
-        },
-        {
-            title: "Data Entry",
-            icon: Trophy,
-            label: "50",
-            navigateTo: NAVIGATION_ROUTES.DATA_ENTRY,
-        },
-        {
-            title: "League",
-            icon: Trophy,
-            label: "50",
-            navigateTo: NAVIGATION_ROUTES.LEAGUE_LIST,
-        },
-        {
-            title: "Athlete",
-            icon: Dumbbell,
-            label: "200",
-            navigateTo: NAVIGATION_ROUTES.ATHLETE_LIST,
-        },
-        {
-            title: "Team",
-            icon: Users,
-            label: "150",
-            navigateTo: NAVIGATION_ROUTES.TEAM_LIST,
-        },
-        {
-            title: "Brand",
-            icon: ArchiveX,
-            label: "100",
-            navigateTo: NAVIGATION_ROUTES.BRAND_LIST,
-        },
-    ],
-};
 
 export function Mail({
     mails,

@@ -397,7 +397,7 @@ function AthleteForm() {
                                 convertedCostOfAssociations[index],
                         })
                     ),
-                } as TAthleteFormSchema);
+                });
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Athlete updated successfully");
@@ -413,7 +413,7 @@ function AthleteForm() {
                         costOfAssociation: convertedCostOfAssociations[index],
                     })
                 ),
-            } as TAthleteFormSchema);
+            });
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Athlete created successfully");
                 form.reset();
