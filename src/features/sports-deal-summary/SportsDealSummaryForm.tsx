@@ -201,7 +201,7 @@ function SportsDealSummaryForm() {
                 ...sportsDealSummaryFormValues,
                 totalValue: convertedTotalValue,
                 annualValue: convertedAnnualValue,
-            } as TSportsDealSummaryFormSchema);
+            });
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sports deal summary created successfully");
