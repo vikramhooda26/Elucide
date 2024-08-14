@@ -73,9 +73,8 @@ function BrandList() {
     }, []);
 
     useEffect(() => {
-        console.log('rowDeleted -=- ', rowDeleted);
-
         if (rowDeleted) {
+            console.log('rowDeleted -=- ', rowDeleted);
             fetchBrands();
             setIsDeleted(false);
         }

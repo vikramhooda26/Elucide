@@ -7,19 +7,17 @@ import ErrorBoundary from "../components/error/ErrorBoundary";
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     return (
-        <ErrorBoundary>
-            <RecoilRoot>
-                <ThemeProvider
-                    defaultTheme="dark"
-                    storageKey="vite-ui-theme"
-                >
-                    <AuthProvider>
-                        <Toaster richColors />
-                        <LoadingBarWrapper />
-                        {children}
-                    </AuthProvider>
-                </ThemeProvider>
-            </RecoilRoot>
-        </ErrorBoundary>
+        <RecoilRoot>
+            <ThemeProvider
+                defaultTheme="dark"
+                storageKey="vite-ui-theme"
+            >
+                <AuthProvider>
+                    <Toaster richColors />
+                    <LoadingBarWrapper />
+                    {children}
+                </AuthProvider>
+            </ThemeProvider>
+        </RecoilRoot>
     );
 };

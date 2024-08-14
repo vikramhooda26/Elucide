@@ -12,5 +12,5 @@ export const listLoadingAtom = atom<boolean>({
 
 export const isDeletedAtom = atom<boolean>({
     key: "isDeletedAtom",
-    default: true,
+    default: false,
 });
