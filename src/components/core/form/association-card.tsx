@@ -1,12 +1,6 @@
+import { useEffect, useState } from "react";
+import { useWatch, useFieldArray, UseFormReturn, Path, ArrayPath, FieldValues } from "react-hook-form";
 import { MinusCircle, PlusCircle } from "lucide-react";
-import {
-    ArrayPath,
-    FieldValues,
-    Path,
-    useFieldArray,
-    UseFormReturn,
-} from "react-hook-form";
-import { onNumInputChange } from "../../../features/utils/helpers";
 import { cn } from "../../../lib/utils";
 import { TMetadataStore } from "../../../store/atoms/metadata";
 import { CardWrapper } from "../../card/card-wrapper";
@@ -16,6 +10,7 @@ import { CardFooter } from "../../ui/card";
 import { FormField } from "../../ui/form";
 import { Input } from "../../ui/input";
 import SelectBox, { Option } from "../../ui/multi-select";
+import { onNumInputChange } from "../../../features/utils/helpers";
 
 const initialValue = {
     associationLevelId: "",
@@ -38,42 +33,73 @@ type TDisplayFields<T> = {
 type TVerticalFieldsCardProps<T extends FieldValues> = {
     form: UseFormReturn<T>;
     metadataStore: TMetadataStore;
+    showBrand?: boolean;
 };
 
 const AssociationCard = <T extends FieldValues>({
     metadataStore,
     form,
+    showBrand = false,
 }: TVerticalFieldsCardProps<T>): JSX.Element => {
     const fieldArray = useFieldArray<T>({
         control: form.control,
         name: "association" as ArrayPath<T>,
     });
 
-    const associationDetails = (index: number): Array<TDisplayFields<T>> => [
-        {
-            title: "Association Level",
-            register: `association.${index}.associationLevelId` as Path<T>,
-            type: "SELECT",
-            placeholder: "Select an association level",
-            data: metadataStore?.associationLevel,
-            isMultiple: false,
-        },
-        {
-            title: "Cost of Association",
-            register: `association.${index}.costOfAssociation` as Path<T>,
-            type: "INPUT",
-            input: { type: "text" },
-            placeholder: "Cost of association",
-        },
-        {
-            title: "Brand",
-            register: `association.${index}.brandIds` as Path<T>,
-            type: "SELECT",
-            placeholder: "Select a brand",
-            data: metadataStore?.brand,
-            isMultiple: true,
-        },
-    ];
+    const [filteredOptions, setFilteredOptions] = useState<Array<Option[]>>([]);
+
+    const selectedAssociationLevels = useWatch({
+        control: form.control,
+        name: fieldArray.fields.map((_, index) => `association.${index}.associationLevelId` as Path<T>) as Path<T>[],
+    });
+
+    useEffect(() => {
+        const selectedValues = selectedAssociationLevels.filter(value => value) as string[];
+
+        const newFilteredOptions = fieldArray.fields.map((field, index) => {
+            return metadataStore?.tagline.filter(option => {
+                return (
+                    option.value === selectedAssociationLevels[index] ||
+                    !selectedValues.includes(option.value)
+                );
+            }) || [];
+        });
+
+        setFilteredOptions(newFilteredOptions);
+    }, [selectedAssociationLevels, metadataStore?.tagline, fieldArray.fields]);
+
+    const associationDetails = (index: number): Array<TDisplayFields<T>> => {
+        const fields: Array<TDisplayFields<T>> = [
+            {
+                title: "Association Level",
+                register: `association.${index}.associationLevelId` as Path<T>,
+                type: "SELECT",
+                placeholder: "Select an association level",
+                data: filteredOptions[index] || [],
+                isMultiple: false,
+            },
+            {
+                title: "Cost of Association",
+                register: `association.${index}.costOfAssociation` as Path<T>,
+                type: "INPUT",
+                input: { type: "text" },
+                placeholder: "Cost of association",
+            },
+        ];
+
+        if (showBrand) {
+            fields.push({
+                title: "Brand",
+                register: `association.${index}.brandIds` as Path<T>,
+                type: "SELECT",
+                placeholder: "Select a brand",
+                data: metadataStore?.brand,
+                isMultiple: true,
+            });
+        }
+
+        return fields;
+    };
 
     if (!metadataStore) {
         return <></>;
@@ -104,33 +130,22 @@ const AssociationCard = <T extends FieldValues>({
                                             {fieldDetails.type === "INPUT" ? (
                                                 <Input
                                                     {...field}
-                                                    onChange={(e) =>
-                                                        onNumInputChange(
-                                                            form,
-                                                            e,
-                                                            fieldDetails.register
-                                                        )
-                                                    }
-                                                    type={
-                                                        fieldDetails.input?.type
-                                                    }
-                                                    placeholder={
-                                                        fieldDetails.placeholder
-                                                    }
+                                                    value={field.value || ""}
+                                                    onChange={(e) => {
+                                                        onNumInputChange(form, e, fieldDetails.register);
+                                                    }}
+                                                    type={fieldDetails.input?.type}
+                                                    placeholder={fieldDetails.placeholder}
                                                 />
                                             ) : (
                                                 <SelectBox
                                                     options={fieldDetails.data!}
                                                     value={field.value}
                                                     onChange={field.onChange}
-                                                    placeholder={
-                                                        fieldDetails.placeholder
-                                                    }
+                                                    placeholder={fieldDetails.placeholder}
                                                     inputPlaceholder={`Search for a ${fieldDetails.title?.toLowerCase()}...`}
                                                     emptyPlaceholder={`No ${fieldDetails.title?.toLowerCase()} found`}
-                                                    multiple={
-                                                        fieldDetails.isMultiple
-                                                    }
+                                                    multiple={fieldDetails.isMultiple}
                                                 />
                                             )}
                                         </FormItemWrapper>
@@ -139,20 +154,26 @@ const AssociationCard = <T extends FieldValues>({
                             ))}
 
                             {fieldArray.fields.length > 0 && (
-                                <div className="flex items-end justify-end mt-4">
-                                    <Button
-                                        onClick={() => fieldArray.remove(index)}
-                                        size="sm"
-                                        className="h-7 gap-1"
-                                        variant="destructive"
-                                        type="button"
-                                    >
-                                        <MinusCircle className="h-3.5 w-3.5" />
-                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                            Remove
-                                        </span>
-                                    </Button>
-                                </div>
+                                <>
+                                    {!showBrand ?
+                                        <div>
+                                        </div>
+                                        : null}
+                                    <div className="flex items-end justify-end mt-4">
+                                        <Button
+                                            onClick={() => fieldArray.remove(index)}
+                                            size="sm"
+                                            className="h-7 gap-1"
+                                            variant="destructive"
+                                            type="button"
+                                        >
+                                            <MinusCircle className="h-3.5 w-3.5" />
+                                            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                                                Remove
+                                            </span>
+                                        </Button>
+                                    </div>
+                                </>
                             )}
                         </div>
                     </CardWrapper>
@@ -181,41 +202,5 @@ const AssociationCard = <T extends FieldValues>({
         </CardWrapper>
     );
 };
-
-// type TBrandsFieldArrayProps<T extends FieldValues> = {
-//     control: Control<T>;
-//     index: number;
-//     metadataStore: TMetadataStore;
-// };
-
-// const BrandsFieldArray = <T extends FieldValues>({
-//     control,
-//     index,
-//     metadataStore,
-// }: TBrandsFieldArrayProps<T>): JSX.Element => {
-//     if (!metadataStore) {
-//         return <div>loading...</div>;
-//     }
-
-//     return (
-//         <FormField
-//             control={control}
-//             name={`association.${index}.brand` as Path<T>}
-//             render={({ field }) => (
-//                 <FormItemWrapper label="Select Brands">
-//                     <SelectBox
-//                         options={metadataStore.brand}
-//                         value={field.value}
-//                         onChange={field.onChange}
-//                         placeholder="Select a brand"
-//                         inputPlaceholder="Search for a brand..."
-//                         emptyPlaceholder="No brand found"
-//                         multiple
-//                     />
-//                 </FormItemWrapper>
-//             )}
-//         />
-//     );
-// };
 
 export default AssociationCard;

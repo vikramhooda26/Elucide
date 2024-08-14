@@ -14,46 +14,26 @@ export const routes = { editRoute: NAVIGATION_ROUTES.ACTIVATION_EDIT, copyRoute:
 
 export const statuses = [
   {
-    value: "backlog",
-    label: "Backlog",
-    icon: QuestionMarkCircledIcon,
+      value: "recent",
+      label: "Recent",
+      icon: ArrowDownIcon,
   },
   {
-    value: "todo",
-    label: "Todo",
-    icon: CircleIcon,
+      value: "earlier",
+      label: "Earlier",
+      icon: ArrowUpIcon,
   },
-  {
-    value: "in progress",
-    label: "In Progress",
-    icon: StopwatchIcon,
-  },
-  {
-    value: "done",
-    label: "Done",
-    icon: CheckCircledIcon,
-  },
-  {
-    value: "canceled",
-    label: "Canceled",
-    icon: CrossCircledIcon,
-  },
-]
+];
 
 export const priorities = [
   {
-    label: "2020",
-    value: "low",
-    icon: ArrowDownIcon,
+      value: "recent",
+      label: "Recent",
+      icon: ArrowDownIcon,
   },
   {
-    label: "2023",
-    value: "medium",
-    icon: ArrowRightIcon,
+      value: "earlier",
+      label: "Earlier",
+      icon: ArrowUpIcon,
   },
-  {
-    label: "2024",
-    value: "high",
-    icon: ArrowUpIcon,
-  },
-]
+];
