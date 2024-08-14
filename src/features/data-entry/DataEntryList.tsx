@@ -26,7 +26,10 @@ function DataEntryList() {
 
     return (
         <div className="w-full h-full">
-            <div className="h-full flex w-full relative">
+            <div className="w-full h-full px-4 py-8 lg:hidden relative">
+                <Outlet />
+            </div>
+            <div className="h-full flex w-full relative max-lg:hidden">
                 <TooltipProvider delayDuration={0}>
                     <ResizablePanelGroup
                         direction="horizontal"

@@ -17,7 +17,6 @@ function DataTable<TData, TValue>({
     table,
     columns,
     toolbarAttributes,
-    callbacks,
 }: DataTableProps<TData, TValue>) {
     const isLoading = useRecoilValue(listLoadingAtom);
 

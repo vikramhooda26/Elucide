@@ -28,9 +28,9 @@ type TDialogBoxProps = {
 export const Alert: React.FC<TDialogBoxProps> = ({
     children,
     description,
-    negativeTitle = "cancel",
+    negativeTitle = "Cancel",
     positiveOnClick,
-    positiveTitle = "Continue",
+    positiveTitle = "Done",
     title,
     negativeOnClick,
     PositiveButtonStyles,

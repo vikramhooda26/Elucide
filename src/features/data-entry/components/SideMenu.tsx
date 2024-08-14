@@ -25,172 +25,203 @@ interface MailProps {
     navCollapsedSize: number;
 }
 
+export const dataEntrySideMenuLinks: Pick<NavProps, "links"> = {
+    links: [
+        {
+            title: "League",
+            icon: Trophy,
+            navigateTo: NAVIGATION_ROUTES.LEAGUE_ADMIN,
+            roles: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+        },
+        {
+            title: "Athlete",
+            icon: Dumbbell,
+            navigateTo: NAVIGATION_ROUTES.ATHLETE_ADMIN,
+            roles: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+        },
+        {
+            title: "Team",
+            icon: Users,
+            navigateTo: NAVIGATION_ROUTES.TEAM_ADMIN,
+            roles: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+        },
+        {
+            title: "Brand",
+            icon: Building,
+            navigateTo: NAVIGATION_ROUTES.BRAND_ADMIN,
+            roles: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+        },
+        {
+            title: "Activation",
+            icon: ClipboardCheck,
+            navigateTo: NAVIGATION_ROUTES.ACTIVATION_LIST,
+            roles: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+        },
+        {
+            title: "Sports Deal Summary",
+            icon: Handshake,
+            navigateTo: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
+            roles: ["SUPER_ADMIN", "ADMIN", "STAFF"],
+        },
+        {
+            title: "Age",
+            icon: RefreshCcw,
+            navigateTo: NAVIGATION_ROUTES.AGE_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Gender",
+            icon: CircleArrowOutUpRight,
+            navigateTo: NAVIGATION_ROUTES.GENDER_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Active Campaign",
+            icon: FileText,
+            navigateTo: NAVIGATION_ROUTES.CAMPAIGN_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Personality",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.PERSONALITY_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Agency",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.AGENCY_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Asset",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.ASSET_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Broadcast Partner",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.BROADCAST_PARTNER_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "City",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.CITY_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "State",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.STATE_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Sub Category",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.SUB_CATEGORY_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Main Category",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.MAIN_CATEGORY_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Nccs class",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.NCCS_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Key Market",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.KEY_MARKET_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "League Owner",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.LEAGUE_OWNER_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Level",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.LEVEL_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Sub Personality",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.SUB_PERSONALITY_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Marketing Platform",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.MARKETING_PLATFORM_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "OTT Partner",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.OTT_PARTNER_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Parent Organization",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.PARENT_ORG_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Sport",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.SPORT_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Tagline",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.TAGLINE_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Team Owner",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.TEAM_OWNER_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Territory",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.TERRITORY_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Tier",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.TIER_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
+            title: "Country",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.COUNTRY_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+    ],
+};
+
 export const SideMenu = ({
     defaultLayout = [15],
     defaultCollapsed = false,
     navCollapsedSize,
 }: MailProps) => {
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
-
-    const SideMenuLinks: Pick<NavProps, "links"> = {
-        links: [
-            {
-                title: "League",
-                icon: Trophy,
-                navigateTo: NAVIGATION_ROUTES.LEAGUE_ADMIN,
-            },
-            {
-                title: "Athlete",
-                icon: Dumbbell,
-                navigateTo: NAVIGATION_ROUTES.ATHLETE_ADMIN,
-            },
-            {
-                title: "Team",
-                icon: Users,
-                navigateTo: NAVIGATION_ROUTES.TEAM_ADMIN,
-            },
-            {
-                title: "Brand",
-                icon: Building,
-                navigateTo: NAVIGATION_ROUTES.BRAND_ADMIN,
-            },
-            {
-                title: "Activation",
-                icon: ClipboardCheck,
-                navigateTo: NAVIGATION_ROUTES.ACTIVATION_LIST,
-            },
-            {
-                title: "Sports Deal Summary",
-                icon: Handshake,
-                navigateTo: NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
-            },
-            {
-                title: "Age",
-                icon: RefreshCcw,
-                navigateTo: NAVIGATION_ROUTES.AGE_LIST,
-            },
-            {
-                title: "Gender",
-                icon: CircleArrowOutUpRight,
-                navigateTo: NAVIGATION_ROUTES.GENDER_LIST,
-            },
-            {
-                title: "Active Campaign",
-                icon: FileText,
-                navigateTo: NAVIGATION_ROUTES.CAMPAIGN_LIST,
-            },
-            {
-                title: "Personality",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.PERSONALITY_LIST,
-            },
-            {
-                title: "Agency",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.AGENCY_LIST,
-            },
-            {
-                title: "Asset",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.ASSET_LIST,
-            },
-            {
-                title: "Broadcast Partner",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.BROADCAST_PARTNER_LIST,
-            },
-            {
-                title: "City",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.CITY_LIST,
-            },
-            {
-                title: "State",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.STATE_LIST,
-            },
-            {
-                title: "Sub Category",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.SUB_CATEGORY_LIST,
-            },
-            {
-                title: "Main Category",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.MAIN_CATEGORY_LIST,
-            },
-            {
-                title: "Nccs class",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.NCCS_LIST,
-            },
-            {
-                title: "Key Market",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.KEY_MARKET_LIST,
-            },
-            {
-                title: "League Owner",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.LEAGUE_OWNER_LIST,
-            },
-            {
-                title: "Level",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.LEVEL_LIST,
-            },
-            {
-                title: "Sub Personality",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.SUB_PERSONALITY_LIST,
-            },
-            {
-                title: "Marketing Platform",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.MARKETING_PLATFORM_LIST,
-            },
-            {
-                title: "OTT Partner",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.OTT_PARTNER_LIST,
-            },
-            {
-                title: "Parent Organization",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.PARENT_ORG_LIST,
-            },
-            {
-                title: "Sport",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.SPORT_LIST,
-            },
-            {
-                title: "Tagline",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.TAGLINE_LIST,
-            },
-            {
-                title: "Team Owner",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.TEAM_OWNER_LIST,
-            },
-            {
-                title: "Territory",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.TERRITORY_LIST,
-            },
-            {
-                title: "Tier",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.TIER_LIST,
-            },
-            {
-                title: "Country",
-                icon: PersonStanding,
-                navigateTo: NAVIGATION_ROUTES.COUNTRY_LIST,
-            },
-        ],
-    };
 
     return (
         <>
@@ -219,7 +250,7 @@ export const SideMenu = ({
             >
                 <Nav
                     isCollapsed={isCollapsed}
-                    links={SideMenuLinks.links}
+                    links={dataEntrySideMenuLinks.links}
                 />
             </ResizablePanel>
             <ResizableHandle

@@ -78,6 +78,12 @@ export function generateColumns<T extends object>(
 
     columns.push({
         id: "actions",
+        header: ({ column }) => (
+            <DataTableColumnHeader
+                column={column}
+                title={"Actions"}
+            />
+        ),
         cell: ({ row }: CellContext<T, unknown>) => (
             <DataTableRowActions
                 row={row}

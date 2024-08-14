@@ -27,12 +27,17 @@ function MainLayout() {
     }, []);
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full relative">
             <div className="w-full h-full">
-                <DashboardNavbar />
+                <div className="relative w-full h-20">
+                    <DashboardNavbar />
+                </div>
+                <div className="w-full h-full px-4 lg:hidden relative">
+                    <Outlet />
+                </div>
             </div>
 
-            <div className="h-full flex w-full relative">
+            <div className="h-full flex w-full relative max-lg:hidden">
                 <TooltipProvider delayDuration={0}>
                     <ResizablePanelGroup
                         direction="horizontal"

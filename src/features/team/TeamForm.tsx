@@ -452,7 +452,6 @@ export function TeamForm() {
         }
 
         if (teamFormValues.contactPerson?.length) {
-            let hasErrors: boolean = false;
             teamFormValues.contactPerson.forEach((details, i) => {
                 const hasValue =
                     details.contactDesignation ||
@@ -461,7 +460,6 @@ export function TeamForm() {
                     details.contactNumber ||
                     details.contactName;
                 if (hasValue && !details.contactName) {
-                    hasErrors = true;
                     form.setError(
                         `contactPerson.${i}.contactName`,
                         { message: "Name is required" },

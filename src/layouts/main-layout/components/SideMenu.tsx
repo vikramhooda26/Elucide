@@ -28,59 +28,59 @@ interface MailProps {
     navCollapsedSize: number;
 }
 
+export const SideMenuLinks: Pick<NavProps, "links"> = {
+    links: [
+        {
+            title: "Dashboard",
+            icon: BarChart,
+            label: "50",
+            navigateTo: NAVIGATION_ROUTES.DASHBOARD,
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+        },
+        {
+            title: "Data Entry",
+            icon: FileText,
+            label: "50",
+            navigateTo: NAVIGATION_ROUTES.DATA_ENTRY_LIST,
+            roles: ["ADMIN", "SUPER_ADMIN", "STAFF"],
+        },
+        {
+            title: "League",
+            icon: Trophy,
+            label: "50",
+            navigateTo: NAVIGATION_ROUTES.LEAGUE_LIST,
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+        },
+        {
+            title: "Athlete",
+            icon: Dumbbell,
+            label: "200",
+            navigateTo: NAVIGATION_ROUTES.ATHLETE_LIST,
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+        },
+        {
+            title: "Team",
+            icon: Users,
+            label: "150",
+            navigateTo: NAVIGATION_ROUTES.TEAM_LIST,
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+        },
+        {
+            title: "Brand",
+            icon: Building,
+            label: "100",
+            navigateTo: NAVIGATION_ROUTES.BRAND_LIST,
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+        },
+    ],
+};
+
 export const SideMenu = ({
     defaultLayout = [15],
     defaultCollapsed = false,
     navCollapsedSize,
 }: MailProps) => {
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
-
-    const SideMenuLinks: Pick<NavProps, "links"> = {
-        links: [
-            {
-                title: "Dashboard",
-                icon: BarChart,
-                label: "50",
-                navigateTo: NAVIGATION_ROUTES.DASHBOARD,
-                roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
-            },
-            {
-                title: "Data Entry",
-                icon: FileText,
-                label: "50",
-                navigateTo: NAVIGATION_ROUTES.DATA_ENTRY_LIST,
-                roles: ["ADMIN", "SUPER_ADMIN", "STAFF"],
-            },
-            {
-                title: "League",
-                icon: Trophy,
-                label: "50",
-                navigateTo: NAVIGATION_ROUTES.LEAGUE_LIST,
-                roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
-            },
-            {
-                title: "Athlete",
-                icon: Dumbbell,
-                label: "200",
-                navigateTo: NAVIGATION_ROUTES.ATHLETE_LIST,
-                roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
-            },
-            {
-                title: "Team",
-                icon: Users,
-                label: "150",
-                navigateTo: NAVIGATION_ROUTES.TEAM_LIST,
-                roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
-            },
-            {
-                title: "Brand",
-                icon: Building,
-                label: "100",
-                navigateTo: NAVIGATION_ROUTES.BRAND_LIST,
-                roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
-            },
-        ],
-    };
 
     return (
         <>

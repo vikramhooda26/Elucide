@@ -29,7 +29,7 @@ export function MainNav({
             >
                 Staff
             </Link>
-            <Link
+            {/* <Link
                 to="#"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
@@ -40,7 +40,7 @@ export function MainNav({
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
                 Settings
-            </Link>
+            </Link> */}
         </nav>
     );
 }

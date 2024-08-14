@@ -4,6 +4,7 @@ import { TooltipContent, TooltipTrigger } from "../../../components/ui/tooltip";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "../../../lib/utils";
 import { buttonVariants } from "../../../components/ui/button";
+import { TRoles } from "../../../lib/constants";
 
 export interface NavProps {
     isCollapsed: boolean;
@@ -13,6 +14,7 @@ export interface NavProps {
         icon: LucideIcon;
         variant?: "default" | "ghost";
         navigateTo: string;
+        roles: TRoles[];
     }[];
 }
 
