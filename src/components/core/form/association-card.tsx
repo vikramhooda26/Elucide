@@ -1,6 +1,14 @@
-import { useEffect, useState } from "react";
-import { useWatch, useFieldArray, UseFormReturn, Path, ArrayPath, FieldValues } from "react-hook-form";
 import { MinusCircle, PlusCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+    ArrayPath,
+    FieldValues,
+    Path,
+    useFieldArray,
+    UseFormReturn,
+    useWatch,
+} from "react-hook-form";
+import { onNumInputChange } from "../../../features/utils/helpers";
 import { cn } from "../../../lib/utils";
 import { TMetadataStore } from "../../../store/atoms/metadata";
 import { CardWrapper } from "../../card/card-wrapper";
@@ -10,7 +18,6 @@ import { CardFooter } from "../../ui/card";
 import { FormField } from "../../ui/form";
 import { Input } from "../../ui/input";
 import SelectBox, { Option } from "../../ui/multi-select";
-import { onNumInputChange } from "../../../features/utils/helpers";
 
 const initialValue = {
     associationLevelId: "",
@@ -50,19 +57,25 @@ const AssociationCard = <T extends FieldValues>({
 
     const selectedAssociationLevels = useWatch({
         control: form.control,
-        name: fieldArray.fields.map((_, index) => `association.${index}.associationLevelId` as Path<T>) as Path<T>[],
+        name: fieldArray.fields.map(
+            (_, index) => `association.${index}.associationLevelId` as Path<T>
+        ) as Path<T>[],
     });
 
     useEffect(() => {
-        const selectedValues = selectedAssociationLevels.filter(value => value) as string[];
+        const selectedValues = selectedAssociationLevels.filter(
+            (value) => value
+        ) as string[];
 
-        const newFilteredOptions = fieldArray.fields.map((field, index) => {
-            return metadataStore?.tagline.filter(option => {
-                return (
-                    option.value === selectedAssociationLevels[index] ||
-                    !selectedValues.includes(option.value)
-                );
-            }) || [];
+        const newFilteredOptions = fieldArray.fields.map((_, index) => {
+            return (
+                metadataStore?.tagline.filter((option) => {
+                    return (
+                        option.value === selectedAssociationLevels[index] ||
+                        !selectedValues.includes(option.value)
+                    );
+                }) || []
+            );
         });
 
         setFilteredOptions(newFilteredOptions);
@@ -132,20 +145,32 @@ const AssociationCard = <T extends FieldValues>({
                                                     {...field}
                                                     value={field.value || ""}
                                                     onChange={(e) => {
-                                                        onNumInputChange(form, e, fieldDetails.register);
+                                                        onNumInputChange(
+                                                            form,
+                                                            e,
+                                                            fieldDetails.register
+                                                        );
                                                     }}
-                                                    type={fieldDetails.input?.type}
-                                                    placeholder={fieldDetails.placeholder}
+                                                    type={
+                                                        fieldDetails.input?.type
+                                                    }
+                                                    placeholder={
+                                                        fieldDetails.placeholder
+                                                    }
                                                 />
                                             ) : (
                                                 <SelectBox
                                                     options={fieldDetails.data!}
                                                     value={field.value}
                                                     onChange={field.onChange}
-                                                    placeholder={fieldDetails.placeholder}
+                                                    placeholder={
+                                                        fieldDetails.placeholder
+                                                    }
                                                     inputPlaceholder={`Search for a ${fieldDetails.title?.toLowerCase()}...`}
                                                     emptyPlaceholder={`No ${fieldDetails.title?.toLowerCase()} found`}
-                                                    multiple={fieldDetails.isMultiple}
+                                                    multiple={
+                                                        fieldDetails.isMultiple
+                                                    }
                                                 />
                                             )}
                                         </FormItemWrapper>
@@ -155,13 +180,12 @@ const AssociationCard = <T extends FieldValues>({
 
                             {fieldArray.fields.length > 0 && (
                                 <>
-                                    {!showBrand ?
-                                        <div>
-                                        </div>
-                                        : null}
+                                    {!showBrand ? <div></div> : null}
                                     <div className="flex items-end justify-end mt-4">
                                         <Button
-                                            onClick={() => fieldArray.remove(index)}
+                                            onClick={() =>
+                                                fieldArray.remove(index)
+                                            }
                                             size="sm"
                                             className="h-7 gap-1"
                                             variant="destructive"
