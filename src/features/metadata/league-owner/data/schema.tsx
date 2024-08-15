@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const leagueOwnerListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     leagueOwnerName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const leagueOwnerListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TLeagueOwnerListSchema = z.infer<typeof leagueOwnerListSchema>;
+export type schemaType = z.infer<typeof schema>;

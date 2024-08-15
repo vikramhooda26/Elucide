@@ -10,7 +10,7 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -26,7 +26,8 @@ import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
-import { columns } from "./data/columns";
+import { getColumns } from "./data/columns";
+import { useUser } from "../../../hooks/useUser";
 
 function LevelList() {
     const navigator = useNavigator();
@@ -41,6 +42,11 @@ function LevelList() {
 
     const { logout } = useAuth();
     const navigate = useNavigate();
+
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchList = async () => {
         try {
@@ -72,9 +78,47 @@ function LevelList() {
         fetchList();
     }, []);
 
-    const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.LEVEL, [id]);
-    };
+    const onDelete = useCallback(async (id: string) => {
+        try {
+            setIsLoading(true);
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/level/delete/"
+            );
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                toast.success("Deleted successfully");
+                setDataList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                setDataList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            } else {
+                toast.error("Could not delete this data");
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const onEdit = useCallback((id: string) => {
+        navigate(`${NAVIGATION_ROUTES.LEVEL_EDIT}/${id}`);
+    }, []);
+
+    const columns = useMemo(
+        () => getColumns({ onDelete, onEdit, userRole }),
+        []
+    );
 
     const table = useReactTable({
         data: dataList,
@@ -97,10 +141,6 @@ function LevelList() {
         getFacetedRowModel: getFacetedRowModel(),
         getFacetedUniqueValues: getFacetedUniqueValues(),
     });
-
-    const callbacks = {
-        onView: onView,
-    };
 
     const toolbarAttributes = [
         <Input
@@ -150,7 +190,6 @@ function LevelList() {
                 table={table}
                 columns={columns}
                 toolbarAttributes={toolbarAttributes}
-                callbacks={callbacks}
             />
         </div>
     );

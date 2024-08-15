@@ -26,7 +26,7 @@ import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
-import { getSportsDealSummaryColumns } from "./data/columns";
+import { getColumns } from "./data/columns";
 import { useUser } from "../../../hooks/useUser";
 
 function CountryList() {
@@ -88,7 +88,7 @@ function CountryList() {
             );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                console.log();
+                
 
                 toast.success("Deleted successfully");
                 setDataList((prevDataList) =>
@@ -119,7 +119,7 @@ function CountryList() {
     }, []);
 
     const columns = useMemo(
-        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole }),
+        () => getColumns({ onDelete, onEdit, userRole }),
         []
     );
 

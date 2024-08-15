@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const nccsListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     nccsName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const nccsListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TNccsListSchema = z.infer<typeof nccsListSchema>;
+export type schemaType = z.infer<typeof schema>;

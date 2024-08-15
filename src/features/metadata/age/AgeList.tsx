@@ -27,7 +27,7 @@ import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
-import { getSportsDealSummaryColumns } from "./data/columns";
+import { getColumns } from "./data/columns";
 
 function AgeList() {
     const navigator = useNavigator();
@@ -87,7 +87,7 @@ function AgeList() {
             );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                console.log();
+                
 
                 toast.success("Deleted successfully");
                 setDataList((prevDataList) =>
@@ -118,7 +118,7 @@ function AgeList() {
     }, []);
 
     const columns = useMemo(
-        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole }),
+        () => getColumns({ onDelete, onEdit, userRole }),
         []
     );
 

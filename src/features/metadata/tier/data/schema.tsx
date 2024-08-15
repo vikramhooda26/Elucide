@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const tierListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     tierName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const tierListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TTierListSchema = z.infer<typeof tierListSchema>;
+export type schemaType = z.infer<typeof schema>;

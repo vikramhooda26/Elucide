@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const ottPartnerListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     ottpartnerName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const ottPartnerListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TOttPartnerListSchema = z.infer<typeof ottPartnerListSchema>;
+export type schemaType = z.infer<typeof schema>;

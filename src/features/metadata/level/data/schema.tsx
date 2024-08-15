@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const levelListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     levelName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const levelListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TLevelListSchema = z.infer<typeof levelListSchema>;
+export type schemaType = z.infer<typeof schema>;

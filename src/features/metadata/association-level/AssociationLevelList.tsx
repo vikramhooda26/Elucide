@@ -25,7 +25,7 @@ import MetadataService from "../../../services/features/MetadataService";
 import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
-import { getSportsDealSummaryColumns } from "./data/columns";
+import { getColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
 
@@ -87,7 +87,7 @@ function AssociationLevelList() {
             );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                console.log();
+                
 
                 toast.success("Deleted successfully");
                 setDataList((prevDataList) =>
@@ -118,7 +118,7 @@ function AssociationLevelList() {
     }, []);
 
     const columns = useMemo(
-        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole }),
+        () => getColumns({ onDelete, onEdit, userRole }),
         []
     );
 

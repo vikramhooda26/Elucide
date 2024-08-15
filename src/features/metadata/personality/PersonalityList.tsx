@@ -10,7 +10,7 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -25,8 +25,9 @@ import MetadataService from "../../../services/features/MetadataService";
 import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
-import { columns } from "./data/columns";
+import { getColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
+import { useUser } from "../../../hooks/useUser";
 
 function PersonalityList() {
     const navigator = useNavigator();
@@ -41,6 +42,11 @@ function PersonalityList() {
 
     const { logout } = useAuth();
     const navigate = useNavigate();
+
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchList = async () => {
         try {
@@ -72,9 +78,39 @@ function PersonalityList() {
         fetchList();
     }, []);
 
-    const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.PERSONALITY, [id]);
-    };
+    const onDelete = useCallback(async (id: string) => {
+        try {
+            setIsLoading(true);
+            const response = await MetadataService.deleteData(id, "/api/admin/personality/delete/");
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                toast.success("Deleted successfully");
+                setDataList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                setDataList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            } else {
+                toast.error("Could not delete this data");
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const onEdit = useCallback((id: string) => {
+        navigate(`${NAVIGATION_ROUTES.PERSONALITY_EDIT}/${id}`);
+    }, []);
+
+    const viewRoute = NAVIGATION_ROUTES.PERSONALITY;
+
+    const columns = useMemo(() => getColumns({ onDelete, onEdit, userRole, viewRoute }), []);
 
     const table = useReactTable({
         data: dataList,
@@ -97,10 +133,6 @@ function PersonalityList() {
         getFacetedRowModel: getFacetedRowModel(),
         getFacetedUniqueValues: getFacetedUniqueValues(),
     });
-
-    const callbacks = {
-        onView: onView,
-    };
 
     const toolbarAttributes = [
         <Input
@@ -154,7 +186,6 @@ function PersonalityList() {
                 table={table}
                 columns={columns}
                 toolbarAttributes={toolbarAttributes}
-                callbacks={callbacks}
             />
         </div>
     );
