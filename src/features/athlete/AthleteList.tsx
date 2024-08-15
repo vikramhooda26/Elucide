@@ -12,7 +12,7 @@ import {
     VisibilityState,
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
@@ -22,13 +22,13 @@ import useNavigator from "../../hooks/useNavigator";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import AthleteService from "../../services/features/AthleteService";
-import { isDeletedAtom, listLoadingAtom } from "../../store/atoms/global";
 import { athlete } from "../../types/athlete/AthleteListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { getSportsDealSummaryColumns } from "./data/columns";
+import { getColumns } from "./data/common-columns";
 import { priorities, statuses } from "./data/data";
 import MetadataService from "../../services/features/MetadataService";
 import { useUser } from "../../hooks/useUser";
+import { listLoadingAtom } from "../../store/atoms/global";
 
 function AthleteList() {
     const navigator = useNavigator();
@@ -42,50 +42,44 @@ function AthleteList() {
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
-    const [rowDeleted, setIsDeleted] = useRecoilState(isDeletedAtom);
     const userRole = useUser()?.role;
+
     if (!userRole) {
         return;
     }
 
-    const fetchAthletes = async () => {
-        try {
-            setIsLoading(true);
-            const response = await AthleteService.getAll({});
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                const athleteList = response.data;
-                athleteList.forEach((athlete: athlete, i: number) => {
-                    athleteList[i].createdBy =
-                        athlete?.createdBy?.email || "N/A";
-                    athleteList[i].modifiedBy =
-                        athlete?.modifiedBy?.email || "N/A";
-                });
-                setAthletes(athleteList);
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
-                toast.error("An unknown error occurred");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     useEffect(() => {
+        const fetchAthletes = async () => {
+            try {
+                setIsLoading(true);
+                const response = await AthleteService.getAll();
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    const athleteList = response.data;
+                    athleteList.forEach((athlete: athlete, i: number) => {
+                        athleteList[i].createdBy =
+                            athlete?.createdBy?.email || "N/A";
+                        athleteList[i].modifiedBy =
+                            athlete?.modifiedBy?.email || "N/A";
+                    });
+                    setAthletes(athleteList);
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
         fetchAthletes();
     }, []);
-
-    useEffect(() => {
-        if (rowDeleted) {
-            fetchAthletes();
-            setIsDeleted(false);
-        }
-    }, [rowDeleted]);
 
     const onDelete = useCallback(async (id: string) => {
         try {
@@ -129,7 +123,15 @@ function AthleteList() {
     const viewRoute = NAVIGATION_ROUTES.ATHLETE;
 
     const columns = useMemo(
-        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole, viewRoute }),
+        () =>
+            getColumns({
+                onDelete,
+                onEdit,
+                userRole,
+                viewRoute,
+                searchQuerykey: "name",
+                title: "Athlete name",
+            }),
         []
     );
 
@@ -154,7 +156,6 @@ function AthleteList() {
         getFacetedRowModel: getFacetedRowModel(),
         getFacetedUniqueValues: getFacetedUniqueValues(),
     });
-
 
     const toolbarAttributes = [
         <Input

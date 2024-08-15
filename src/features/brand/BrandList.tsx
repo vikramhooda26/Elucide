@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
@@ -22,7 +22,7 @@ import useNavigator from "../../hooks/useNavigator";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import BrandService from "../../services/features/BrandService";
-import { isDeletedAtom, listLoadingAtom } from "../../store/atoms/global";
+import { listLoadingAtom } from "../../store/atoms/global";
 import { brand } from "../../types/brand/BrandListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { getSportsDealSummaryColumns } from "./data/columns";
@@ -42,7 +42,6 @@ function BrandList() {
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
-    const [rowDeleted, setIsDeleted] = useRecoilState(isDeletedAtom);
 
     const userRole = useUser()?.role;
     if (!userRole) {
@@ -121,7 +120,13 @@ function BrandList() {
     const viewRoute = NAVIGATION_ROUTES.BRAND;
 
     const columns = useMemo(
-        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole, viewRoute }),
+        () =>
+            getSportsDealSummaryColumns({
+                onDelete,
+                onEdit,
+                userRole,
+                viewRoute,
+            }),
         []
     );
     const table = useReactTable({

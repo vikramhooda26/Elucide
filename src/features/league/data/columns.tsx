@@ -14,7 +14,7 @@ interface TColumnProps {
     viewRoute?: string;
 }
 
-export const getSportsDealSummaryColumns = ({
+export const getColumns = ({
     onEdit,
     onDelete,
     userRole,
@@ -63,14 +63,17 @@ export const getSportsDealSummaryColumns = ({
                             to={`${viewRoute}/${id}`}
                             className="cursor-pointer hover:text-blue-800 "
                         >
-                            <div className="w-[80px]">{row.getValue("name")}</div>
+                            <div className="w-[80px]">
+                                {row.getValue("name")}
+                            </div>
                         </Link>
-                    )
+                    );
                 } else {
-                    return (<div className="w-[80px]">{row.getValue("name")}</div>)
+                    return (
+                        <div className="w-[80px]">{row.getValue("name")}</div>
+                    );
                 }
-            }
-            ,
+            },
             enableSorting: false,
             enableHiding: false,
         },
@@ -88,9 +91,9 @@ export const getSportsDealSummaryColumns = ({
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("createdDate")
                                 ? format(
-                                    row.getValue("createdDate"),
-                                    "dd-MM-yyyy, hh:mm aaaaaa"
-                                )
+                                      row.getValue("createdDate"),
+                                      "dd-MM-yyyy, hh:mm aaaaaa"
+                                  )
                                 : ""}
                         </span>
                     </div>
@@ -125,9 +128,9 @@ export const getSportsDealSummaryColumns = ({
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("modifiedDate")
                                 ? format(
-                                    row.getValue("modifiedDate"),
-                                    "dd-MM-yyyy, HH:mm"
-                                )
+                                      row.getValue("modifiedDate"),
+                                      "dd-MM-yyyy, HH:mm"
+                                  )
                                 : ""}
                         </span>
                     </div>
@@ -153,6 +156,12 @@ export const getSportsDealSummaryColumns = ({
     if (userRole === "SUPER_ADMIN") {
         column.push({
             id: "actions",
+            header: ({ column }) => (
+                <DataTableColumnHeader
+                    column={column}
+                    title="Actions"
+                />
+            ),
             cell: ({ row }) => (
                 <DataTableRowActions
                     row={row}

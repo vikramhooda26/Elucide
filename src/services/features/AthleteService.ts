@@ -18,12 +18,8 @@ class AthleteService {
         );
     }
 
-    static getAll(params: any) {
-        return AjaxService.request(
-            API_URL + "/api/admin/athlete",
-            params,
-            "GET"
-        );
+    static getAll() {
+        return AjaxService.request(API_URL + "/api/admin/athlete", "GET");
     }
 
     static getOne(id: string, params?: any) {

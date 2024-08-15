@@ -22,7 +22,7 @@ import useNavigator from "../../hooks/useNavigator";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import TeamService from "../../services/features/TeamService";
-import { isDeletedAtom, listLoadingAtom } from "../../store/atoms/global";
+import { listLoadingAtom } from "../../store/atoms/global";
 import { team } from "../../types/team/TeamListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { getSportsDealSummaryColumns } from "./data/columns";
@@ -40,7 +40,6 @@ function TeamList() {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
-    const [rowDeleted, setIsDeleted] = useRecoilState(isDeletedAtom);
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -122,7 +121,13 @@ function TeamList() {
     const viewRoute = NAVIGATION_ROUTES.TEAM;
 
     const columns = useMemo(
-        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole, viewRoute }),
+        () =>
+            getSportsDealSummaryColumns({
+                onDelete,
+                onEdit,
+                userRole,
+                viewRoute,
+            }),
         []
     );
 

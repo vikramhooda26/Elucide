@@ -12,23 +12,23 @@ import {
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import useNavigator from "../../hooks/useNavigator";
+import { useUser } from "../../hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import LeagueService from "../../services/features/LeagueService";
-import { isDeletedAtom, listLoadingAtom } from "../../store/atoms/global";
+import MetadataService from "../../services/features/MetadataService";
+import { listLoadingAtom } from "../../store/atoms/global";
 import { league } from "../../types/league/LeagueListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { getSportsDealSummaryColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
-import { useUser } from "../../hooks/useUser";
-import MetadataService from "../../services/features/MetadataService";
+import { getColumns } from "../athlete/data/common-columns";
 
 function LeagueList() {
     const navigator = useNavigator();
@@ -42,7 +42,6 @@ function LeagueList() {
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
-    const [rowDeleted, setIsDeleted] = useRecoilState(isDeletedAtom);
 
     const userRole = useUser()?.role;
     if (!userRole) {
@@ -121,7 +120,15 @@ function LeagueList() {
     const viewRoute = NAVIGATION_ROUTES.LEAGUE;
 
     const columns = useMemo(
-        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole, viewRoute }),
+        () =>
+            getColumns({
+                onDelete,
+                onEdit,
+                userRole,
+                viewRoute,
+                searchQuerykey: "name",
+                title: "League list",
+            }),
         []
     );
 
