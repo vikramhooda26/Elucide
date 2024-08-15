@@ -36,6 +36,7 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
                             variant="outline"
                             size="icon"
                             className="h-7 w-7"
+                            type="button"
                             onClick={() => navigate(-1)}
                         >
                             <ChevronLeft className="h-4 w-4" />

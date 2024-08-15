@@ -18,6 +18,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import { getConvertedAgeRange } from "./constants/helpers";
 import { ageRangeFormSchema, TAgeRangeFormSchema } from "./constants/metadata";
+import { printLogs } from "../../../lib/logs";
 
 function AgeForm() {
     const { logout } = useAuth();
@@ -34,6 +35,7 @@ function AgeForm() {
         resolver: zodResolver(ageRangeFormSchema),
         defaultValues: {
             userId: user?.id,
+            ageType: id ? undefined : "Range",
         },
     });
 
@@ -67,14 +69,10 @@ function AgeForm() {
                 setIsLoading(true);
                 const response = await MetadataService.getOneAgeRange(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
-                    form.setValue(
-                        "ageRange",
-                        convertRangeToArray(response.data.ageRange)
-                    );
-                    form.setValue(
-                        "ageType",
-                        getAgeRangeType(response.data.ageRange)
-                    );
+                    form.reset({
+                        ageRange: convertRangeToArray(response.data.ageRange),
+                        ageType: getAgeRangeType(response.data.ageRange),
+                    });
                 }
             } catch (error) {
                 const unknownError = ErrorService.handleCommonErrors(
@@ -101,6 +99,8 @@ function AgeForm() {
 
     const ageTypeValue = useWatch({ control: form.control, name: "ageType" });
 
+    printLogs("ageTypeValue:", ageTypeValue);
+
     const onSubmit = async (ageRangeFormValues: TAgeRangeFormSchema) => {
         try {
             setIsSubmitting(true);
@@ -111,8 +111,8 @@ function AgeForm() {
                 ageTypeValue === "Range"
                     ? getConvertedAgeRange(ageRangeFormValues.ageRange)
                     : ageRangeFormValues.ageRange.length === 1
-                        ? `${ageRangeFormValues.ageRange}+`
-                        : null;
+                    ? `${ageRangeFormValues.ageRange}+`
+                    : null;
 
             if (convertedAgeRange === null) {
                 toast.error("Invalid range. Contact developer");
@@ -188,7 +188,8 @@ function AgeForm() {
             onSubmit={onSubmit}
             form={form}
             title="Age"
-            isSubmitting={isSubmitting}
+            isSubmitting={isSubmitting || isLoading}
+            isEdit={Boolean(id)}
         >
             <div className="grid gap-6">
                 {isLoading ? (
@@ -200,19 +201,20 @@ function AgeForm() {
                             name="ageRange"
                             render={({ field }) => (
                                 <FormItemWrapper label="Age Range">
-                                    <div>
-                                        <RangeSlider
-                                            key={ageTypeValue}
-                                            minStepsBetweenThumbs={1}
-                                            min={0}
-                                            max={100}
-                                            step={1}
-                                            onValueChange={field.onChange}
-                                            className={cn("w-full")}
-                                            isSingle={ageTypeValue === "Max"}
-                                            value={form.getValues('ageRange')}
-                                        />
-                                    </div>
+                                    <RangeSlider
+                                        minStepsBetweenThumbs={1}
+                                        min={0}
+                                        max={100}
+                                        step={1}
+                                        onValueChange={field.onChange}
+                                        className={cn("w-full")}
+                                        isSingle={ageTypeValue === "Max"}
+                                        value={
+                                            Boolean(id)
+                                                ? field.value
+                                                : undefined
+                                        }
+                                    />
                                 </FormItemWrapper>
                             )}
                         />
@@ -224,7 +226,17 @@ function AgeForm() {
                                     <SelectBox
                                         options={ageType}
                                         value={field.value}
-                                        onChange={field.onChange}
+                                        onChange={(selected) => {
+                                            if (ageTypeValue === "Range") {
+                                                form.setValue("ageRange", [0]);
+                                            } else {
+                                                form.setValue(
+                                                    "ageRange",
+                                                    [0, 100]
+                                                );
+                                            }
+                                            field.onChange(selected);
+                                        }}
                                         placeholder="Select a type"
                                         inputPlaceholder="Search for a type..."
                                         emptyPlaceholder="No type found"

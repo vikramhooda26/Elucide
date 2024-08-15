@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const keyMarketFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     keyMarketName: z.string(),
 });
 

@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const assetFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     assetName: z.string(),
 });
 

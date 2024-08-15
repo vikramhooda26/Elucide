@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const persoanlityFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     personalityName: z.string(),
 });
 

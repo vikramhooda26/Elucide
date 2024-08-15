@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const broadcastPartnerFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     broadcastPartnerName: z.string(),
 });
 

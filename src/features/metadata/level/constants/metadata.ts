@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const levelFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     levelName: z.string(),
 });
 

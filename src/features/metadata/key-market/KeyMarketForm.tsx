@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
@@ -17,10 +17,14 @@ import {
     keyMarketFormSchema,
     TKeyMarketFormSchema,
 } from "./constants/metadata";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function KeyMarketForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { id } = useParams();
 
     const user = useRecoilValue(userAtom);
 
@@ -33,12 +37,58 @@ function KeyMarketForm() {
         },
     });
 
+    useEffect(() => {
+        const fetchKeyMarketDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await MetadataService.getOneKeyMarket(id);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    form.reset({
+                        keyMarketName: response.data.keyMarketName,
+                    });
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("This market does not exists");
+                    navigate(-1);
+                } else {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchKeyMarketDetails(id);
+        }
+    }, [id]);
+
     const onSubmit = async (keyMarketFormValues: TKeyMarketFormSchema) => {
         try {
             setIsSubmitting(true);
-            const response = await MetadataService.createKeyMarket(
-                keyMarketFormValues
-            );
+            const requestBody = {
+                ...keyMarketFormValues,
+                userId: user?.id,
+            };
+            if (id) {
+                const response = await MetadataService.editKeyMarket(
+                    id,
+                    requestBody
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Key market updated successfully");
+                }
+                return;
+            }
+            const response = await MetadataService.createKeyMarket(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Key market created successfully");
                 form.reset({
@@ -73,20 +123,25 @@ function KeyMarketForm() {
             onSubmit={onSubmit}
             form={form}
             title="Key market"
-            isSubmitting={isSubmitting}
+            isSubmitting={isSubmitting || isLoading}
+            isEdit={Boolean(id)}
         >
-            <FormField
-                control={form.control}
-                name="keyMarketName"
-                render={({ field }) => (
-                    <FormItemWrapper label="Key market zone">
-                        <Input
-                            {...field}
-                            placeholder="Key market zone"
-                        />
-                    </FormItemWrapper>
-                )}
-            />
+            {isLoading ? (
+                <FormSkeleton />
+            ) : (
+                <FormField
+                    control={form.control}
+                    name="keyMarketName"
+                    render={({ field }) => (
+                        <FormItemWrapper label="Key market zone">
+                            <Input
+                                {...field}
+                                placeholder="Key market zone"
+                            />
+                        </FormItemWrapper>
+                    )}
+                />
+            )}
         </SingleInputForm>
     );
 }

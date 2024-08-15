@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
@@ -20,12 +20,17 @@ import {
 import { getMetadata } from "../../utils/metadataUtils";
 import { metadataStoreAtom } from "../../../store/atoms/metadata";
 import SelectBox from "../../../components/ui/multi-select";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function SubCategoryForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [_isLoading, setIsLoading] = useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] =
+        useState<boolean>(false);
+    const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
+
+    const { id } = useParams();
 
     const user = useRecoilValue(userAtom);
 
@@ -41,7 +46,7 @@ function SubCategoryForm() {
     useEffect(() => {
         const fetchMetadata = async () => {
             try {
-                setIsLoading(true);
+                setIsFetchingMetadata(true);
                 await getMetadata(metadataStore, setMetadataStore, {
                     MAIN_CATEGORY: "maincategory",
                 });
@@ -57,18 +62,67 @@ function SubCategoryForm() {
                     navigate(NAVIGATION_ROUTES.DASHBOARD);
                 }
             } finally {
-                setIsLoading(false);
+                setIsFetchingMetadata(false);
             }
         };
 
         fetchMetadata();
     }, []);
 
+    useEffect(() => {
+        const fetchSubcategoryDetails = async (id: string) => {
+            try {
+                setIsFetchingDetails(true);
+                const response = await MetadataService.getOneSubcategory(id);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    form.reset({
+                        subcategoryName: response.data.subcategoryName,
+                        categoryId: response.data.category.id,
+                    });
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("This sub category does not exists");
+                    navigate(-1);
+                } else {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsFetchingDetails(false);
+            }
+        };
+
+        if (id) {
+            fetchSubcategoryDetails(id);
+        }
+    }, [id]);
+
     const onSubmit = async (subcategoryFormValues: TSubCategoryFormSchema) => {
         try {
             setIsSubmitting(true);
+            const requestBody = {
+                ...subcategoryFormValues,
+                userId: user?.id,
+            };
+            if (id) {
+                const response = await MetadataService.editSubcategory(
+                    id,
+                    requestBody
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Sub Category updated successfully");
+                }
+                return;
+            }
             const response = await MetadataService.createSubcategory(
-                subcategoryFormValues
+                requestBody
             );
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sub Category created successfully");
@@ -108,38 +162,45 @@ function SubCategoryForm() {
             onSubmit={onSubmit}
             form={form}
             title="Sub Category"
-            isSubmitting={isSubmitting}
+            isSubmitting={
+                isSubmitting || isFetchingMetadata || isFetchingDetails
+            }
+            isEdit={Boolean(id)}
         >
-            <div className="grid gap-6">
-                <FormField
-                    control={form.control}
-                    name="categoryId"
-                    render={({ field }) => (
-                        <FormItemWrapper label="Main Category">
-                            <SelectBox
-                                options={metadataStore?.maincategory}
-                                value={field.value}
-                                onChange={field.onChange}
-                                placeholder="Select a category"
-                                inputPlaceholder="Search for a category..."
-                                emptyPlaceholder="No category found"
-                            />
-                        </FormItemWrapper>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="subcategoryName"
-                    render={({ field }) => (
-                        <FormItemWrapper label="Sub Category name">
-                            <Input
-                                {...field}
-                                placeholder="Sub Category name"
-                            />
-                        </FormItemWrapper>
-                    )}
-                />
-            </div>
+            {isFetchingMetadata || isFetchingDetails ? (
+                <FormSkeleton />
+            ) : (
+                <div className="grid gap-6">
+                    <FormField
+                        control={form.control}
+                        name="categoryId"
+                        render={({ field }) => (
+                            <FormItemWrapper label="Main Category">
+                                <SelectBox
+                                    options={metadataStore?.maincategory}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    placeholder="Select a category"
+                                    inputPlaceholder="Search for a category..."
+                                    emptyPlaceholder="No category found"
+                                />
+                            </FormItemWrapper>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="subcategoryName"
+                        render={({ field }) => (
+                            <FormItemWrapper label="Sub Category name">
+                                <Input
+                                    {...field}
+                                    placeholder="Sub Category name"
+                                />
+                            </FormItemWrapper>
+                        )}
+                    />
+                </div>
+            )}
         </SingleInputForm>
     );
 }

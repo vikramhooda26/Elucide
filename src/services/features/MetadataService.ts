@@ -26,6 +26,74 @@ class MetadataService {
         );
     }
 
+    static getOneKeyMarket(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/key-market/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneMarketingPlatform(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/marketing-platform/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static editMarketingPlatform(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/marketing-platform/edit/" + id,
+            params,
+            "PUT"
+        );
+    }
+
+    static getOneNccsClass(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/nccs/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneCity(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/city/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static editCity(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/city/edit/" + id,
+            params,
+            "PUT"
+        );
+    }
+
+    static editCategory(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/category/edit/" + id,
+            params,
+            "PUT"
+        );
+    }
+
+    static getOneState(id: string) {
+        return AjaxService.request(API_URL + "/api/admin/state/" + id, "GET");
+    }
+
+    static getOneBroadcastPartner(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/broadcast-partner/" + id,
+            params,
+            "GET"
+        );
+    }
+
     static getAllCity(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/city/get-all",
@@ -119,6 +187,14 @@ class MetadataService {
             API_URL + "/api/admin/sub-personality/" + id,
             params,
             "GET"
+        );
+    }
+
+    static editSubPersonality(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/sub-personality/edit/" + id,
+            params,
+            "PUT"
         );
     }
 
@@ -346,11 +422,27 @@ class MetadataService {
         );
     }
 
+    static editAgency(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/agency/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static createAsset(params: any) {
         return AjaxService.request(
             `${API_URL}/api/admin/asset/create`,
             params,
             "POST"
+        );
+    }
+
+    static editAsset(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/asset/edit/${id}`,
+            params,
+            "PUT"
         );
     }
 
@@ -434,6 +526,14 @@ class MetadataService {
         );
     }
 
+    static editLevel(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/level/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static createSubpersonality(params: any) {
         return AjaxService.request(
             `${API_URL}/api/admin/sub-personality/create`,
@@ -450,6 +550,14 @@ class MetadataService {
         );
     }
 
+    static editLeagueOwner(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/league-owner/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static createKeyMarket(params: any) {
         return AjaxService.request(
             `${API_URL}/api/admin/key-market/create`,
@@ -458,11 +566,27 @@ class MetadataService {
         );
     }
 
+    static editKeyMarket(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/key-market/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static createNccs(params: any) {
         return AjaxService.request(
             `${API_URL}/api/admin/nccs/create`,
             params,
             "POST"
+        );
+    }
+
+    static editNccs(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/nccs/edit/${id}`,
+            params,
+            "PUT"
         );
     }
 
@@ -490,11 +614,27 @@ class MetadataService {
         );
     }
 
+    static editState(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/state/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static createSubcategory(params: any) {
         return AjaxService.request(
             `${API_URL}/api/admin/subcategory/create`,
             params,
             "POST"
+        );
+    }
+
+    static editSubcategory(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/subcategory/edit/${id}`,
+            params,
+            "PUT"
         );
     }
 
@@ -506,11 +646,27 @@ class MetadataService {
         );
     }
 
+    static editBroadcastPartner(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/broadcast-partner/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static createMainPersonality(params: any) {
         return AjaxService.request(
             `${API_URL}/api/admin/personality/create`,
             params,
             "POST"
+        );
+    }
+
+    static editMainPersonality(id: String, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/personality/edit/${id}`,
+            params,
+            "PUT"
         );
     }
 
@@ -577,6 +733,46 @@ class MetadataService {
     static getOneGender(id: string, params?: any) {
         return AjaxService.request(
             API_URL + "/api/admin/gender/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneLevel(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/level/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneLeagueOwner(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/league-owner/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneSubcategory(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/subcategory/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneAsset(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/asset/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneAgency(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/agency/" + id,
             params,
             "GET"
         );

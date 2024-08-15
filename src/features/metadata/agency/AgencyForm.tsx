@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
@@ -14,10 +14,14 @@ import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import { agencyFormSchema, TAgencyFormSchema } from "./constants/metadata";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function AgencyForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { id } = useParams();
 
     const user = useRecoilValue(userAtom);
 
@@ -30,12 +34,58 @@ function AgencyForm() {
         },
     });
 
+    useEffect(() => {
+        const fetchAgencyDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await MetadataService.getOneAgency(id);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    form.reset({
+                        agencyName: response.data.agencyName,
+                    });
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("This agency does not exists");
+                    navigate(-1);
+                } else {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchAgencyDetails(id);
+        }
+    }, [id]);
+
     const onSubmit = async (agencyFormValues: TAgencyFormSchema) => {
         try {
             setIsSubmitting(true);
-            const response = await MetadataService.createAgency(
-                agencyFormValues
-            );
+            const requestBody = {
+                ...agencyFormValues,
+                userId: user?.id,
+            };
+            if (id) {
+                const response = await MetadataService.editAgency(
+                    id,
+                    requestBody
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Agency updated successfully");
+                }
+                return;
+            }
+            const response = await MetadataService.createAgency(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Agency created successfully");
                 form.reset({
@@ -70,20 +120,25 @@ function AgencyForm() {
             onSubmit={onSubmit}
             form={form}
             title="Agency"
-            isSubmitting={isSubmitting}
+            isSubmitting={isSubmitting || isLoading}
+            isEdit={Boolean(id)}
         >
-            <FormField
-                control={form.control}
-                name="agencyName"
-                render={({ field }) => (
-                    <FormItemWrapper label="Agency name">
-                        <Input
-                            {...field}
-                            placeholder="Agency name"
-                        />
-                    </FormItemWrapper>
-                )}
-            />
+            {isLoading ? (
+                <FormSkeleton />
+            ) : (
+                <FormField
+                    control={form.control}
+                    name="agencyName"
+                    render={({ field }) => (
+                        <FormItemWrapper label="Agency name">
+                            <Input
+                                {...field}
+                                placeholder="Agency name"
+                            />
+                        </FormItemWrapper>
+                    )}
+                />
+            )}
         </SingleInputForm>
     );
 }

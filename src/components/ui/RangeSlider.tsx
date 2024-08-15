@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "../../lib/utils";
+import { printLogs } from "../../lib/logs";
 
 type SliderProps = {
     className?: string;
@@ -12,6 +13,7 @@ type SliderProps = {
     value?: number[] | readonly number[];
     onValueChange?: (values: number[]) => void;
     isSingle?: boolean;
+    isEdit?: boolean;
 };
 
 const RangeSlider = React.forwardRef(
@@ -25,6 +27,7 @@ const RangeSlider = React.forwardRef(
             value,
             onValueChange,
             isSingle = false,
+            isEdit = false,
             ...props
         }: SliderProps,
         ref
@@ -34,6 +37,7 @@ const RangeSlider = React.forwardRef(
             : isSingle
             ? [min]
             : [min, max];
+
         const [localValues, setLocalValues] = useState(initialValue);
 
         useEffect(() => {

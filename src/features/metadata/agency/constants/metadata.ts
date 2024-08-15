@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const agencyFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     agencyName: z.string(),
 });
 

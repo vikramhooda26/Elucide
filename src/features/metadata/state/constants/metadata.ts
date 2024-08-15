@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const stateFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     stateName: z.string(),
 });
 

@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const leagueOwnerFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     leagueOwnerName: z.string(),
 });
 
