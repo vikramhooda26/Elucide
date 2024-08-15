@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
@@ -14,10 +14,14 @@ import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import { tierFormSchema, TTierFormSchema } from "./constants/metadata";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function TierForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { id } = useParams();
 
     const user = useRecoilValue(userAtom);
 
@@ -30,10 +34,58 @@ function TierForm() {
         },
     });
 
+    useEffect(() => {
+        const fetchTierDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await MetadataService.getOneTier(id);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    form.reset({
+                        tierName: response.data.tierName,
+                    });
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("This tier does not exists");
+                    navigate(-1);
+                } else {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchTierDetails(id);
+        }
+    }, [id]);
+
     const onSubmit = async (tierFormValues: TTierFormSchema) => {
         try {
             setIsSubmitting(true);
-            const response = await MetadataService.createTier(tierFormValues);
+            const requestBody = {
+                ...tierFormValues,
+                userId: user?.id,
+            };
+            if (id) {
+                const response = await MetadataService.updateTier(
+                    id,
+                    requestBody
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Tier updated successfully");
+                }
+                return;
+            }
+            const response = await MetadataService.createTier(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Tier created successfully");
                 form.reset({
@@ -68,20 +120,25 @@ function TierForm() {
             onSubmit={onSubmit}
             form={form}
             title="Tier"
-            isSubmitting={isSubmitting}
+            isSubmitting={isSubmitting || isLoading}
+            isEdit={Boolean(id)}
         >
-            <FormField
-                control={form.control}
-                name="tierName"
-                render={({ field }) => (
-                    <FormItemWrapper label="Tier name">
-                        <Input
-                            {...field}
-                            placeholder="Tier name"
-                        />
-                    </FormItemWrapper>
-                )}
-            />
+            {isLoading ? (
+                <FormSkeleton />
+            ) : (
+                <FormField
+                    control={form.control}
+                    name="tierName"
+                    render={({ field }) => (
+                        <FormItemWrapper label="Tier name">
+                            <Input
+                                {...field}
+                                placeholder="Tier name"
+                            />
+                        </FormItemWrapper>
+                    )}
+                />
+            )}
         </SingleInputForm>
     );
 }

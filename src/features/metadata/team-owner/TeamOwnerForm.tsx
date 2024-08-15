@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
@@ -17,10 +17,14 @@ import {
     TTeamOwnerFormSchema,
 } from "./constants/metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function TeamOwnerForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { id } = useParams();
 
     const user = useRecoilValue(userAtom);
 
@@ -33,12 +37,58 @@ function TeamOwnerForm() {
         },
     });
 
+    useEffect(() => {
+        const fetchTeamOwnerDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await MetadataService.getOneTeamOwner(id);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    form.reset({
+                        teamOwnerName: response.data.teamOwnerName,
+                    });
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("This team owner does not exists");
+                    navigate(-1);
+                } else {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchTeamOwnerDetails(id);
+        }
+    }, [id]);
+
     const onSubmit = async (teamOwnerFormValues: TTeamOwnerFormSchema) => {
         try {
             setIsSubmitting(true);
-            const response = await MetadataService.createTeamOwner(
-                teamOwnerFormValues
-            );
+            const requestBody = {
+                ...teamOwnerFormValues,
+                userId: user?.id,
+            };
+            if (id) {
+                const response = await MetadataService.editTeamOwner(
+                    id,
+                    requestBody
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Team owner updated successfully");
+                }
+                return;
+            }
+            const response = await MetadataService.createTeamOwner(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Team owner created successfully");
                 form.reset({
@@ -73,20 +123,25 @@ function TeamOwnerForm() {
             onSubmit={onSubmit}
             form={form}
             title="Team owner"
-            isSubmitting={isSubmitting}
+            isSubmitting={isSubmitting || isLoading}
+            isEdit={Boolean(id)}
         >
-            <FormField
-                control={form.control}
-                name="teamOwnerName"
-                render={({ field }) => (
-                    <FormItemWrapper label="Team owner name">
-                        <Input
-                            {...field}
-                            placeholder="Team owner name"
-                        />
-                    </FormItemWrapper>
-                )}
-            />
+            {isLoading ? (
+                <FormSkeleton />
+            ) : (
+                <FormField
+                    control={form.control}
+                    name="teamOwnerName"
+                    render={({ field }) => (
+                        <FormItemWrapper label="Team owner name">
+                            <Input
+                                {...field}
+                                placeholder="Team owner name"
+                            />
+                        </FormItemWrapper>
+                    )}
+                />
+            )}
         </SingleInputForm>
     );
 }

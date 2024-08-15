@@ -18,9 +18,89 @@ class MetadataService {
         );
     }
 
+    static editTerritory(id: string, params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/territory/edit/" + id,
+            params,
+            "PUT"
+        );
+    }
+
+    static editTagline(id: string, params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/tagline/edit/" + id,
+            params,
+            "PUT"
+        );
+    }
+
+    static editSport(id: string, params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/sport/edit/" + id,
+            params,
+            "PUT"
+        );
+    }
+
     static getOneAgeRange(id: string, params?: any) {
         return AjaxService.request(
             API_URL + "/api/admin/age-range/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneNationality(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/nationality/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneTier(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/tier/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneTeamOwner(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/team-owner/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneTagline(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/tagline/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneSport(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/sport/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneParentOrg(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/parent-org/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneOttPartner(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/ott-partner/" + id,
             params,
             "GET"
         );
@@ -470,11 +550,27 @@ class MetadataService {
         );
     }
 
+    static editNationality(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/nationality/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static createTier(params: any) {
         return AjaxService.request(
             `${API_URL}/api/admin/tier/create`,
             params,
             "POST"
+        );
+    }
+
+    static updateTier(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/tier/edit/${id}`,
+            params,
+            "PUT"
         );
     }
 
@@ -502,11 +598,35 @@ class MetadataService {
         );
     }
 
+    static editParentOrg(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/parent-org/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
+    static editTeamOwner(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/team-owner/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static createOttPartner(params: any) {
         return AjaxService.request(
             `${API_URL}/api/admin/ott-partner/create`,
             params,
             "POST"
+        );
+    }
+
+    static editOttPartner(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/ott-partner/edit/${id}`,
+            params,
+            "PUT"
         );
     }
 
@@ -733,6 +853,14 @@ class MetadataService {
     static getOneGender(id: string, params?: any) {
         return AjaxService.request(
             API_URL + "/api/admin/gender/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneTerritory(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/territory/" + id,
             params,
             "GET"
         );

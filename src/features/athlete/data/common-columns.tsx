@@ -162,12 +162,12 @@ export const getColumns = ({
     if (userRole === "SUPER_ADMIN") {
         column.push({
             id: "actions",
-            header: ({ column }) => {
+            header: ({ column }) => (
                 <DataTableColumnHeader
                     column={column}
                     title="Actions"
-                />;
-            },
+                />
+            ),
             cell: ({ row }) => (
                 <DataTableRowActions
                     row={row}

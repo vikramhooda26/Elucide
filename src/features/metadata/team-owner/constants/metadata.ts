@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const teamOwnerFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     teamOwnerName: z.string().min(1, "Required"),
 });
 

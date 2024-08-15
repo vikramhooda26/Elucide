@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
@@ -14,10 +14,14 @@ import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import { sportFormSchema, TSportFormSchema } from "./constants/metadata";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function SportForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { id } = useParams();
 
     const user = useRecoilValue(userAtom);
 
@@ -30,10 +34,58 @@ function SportForm() {
         },
     });
 
+    useEffect(() => {
+        const fetchSportDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await MetadataService.getOneSport(id);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    form.reset({
+                        sportName: response.data.sportName,
+                    });
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("This sport does not exists");
+                    navigate(-1);
+                } else {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchSportDetails(id);
+        }
+    }, [id]);
+
     const onSubmit = async (sportFormValues: TSportFormSchema) => {
         try {
             setIsSubmitting(true);
-            const response = await MetadataService.createSport(sportFormValues);
+            const requestBody = {
+                ...sportFormValues,
+                userId: user?.id,
+            };
+            if (id) {
+                const response = await MetadataService.editSport(
+                    id,
+                    requestBody
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Sport updated successfully");
+                }
+                return;
+            }
+            const response = await MetadataService.createSport(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sport created successfully");
                 form.reset({
@@ -68,20 +120,25 @@ function SportForm() {
             onSubmit={onSubmit}
             form={form}
             title="Sport"
-            isSubmitting={isSubmitting}
+            isSubmitting={isSubmitting || isLoading}
+            isEdit={Boolean(id)}
         >
-            <FormField
-                control={form.control}
-                name="sportName"
-                render={({ field }) => (
-                    <FormItemWrapper label="Sport name">
-                        <Input
-                            {...field}
-                            placeholder="Sport name"
-                        />
-                    </FormItemWrapper>
-                )}
-            />
+            {isLoading ? (
+                <FormSkeleton />
+            ) : (
+                <FormField
+                    control={form.control}
+                    name="sportName"
+                    render={({ field }) => (
+                        <FormItemWrapper label="Sport name">
+                            <Input
+                                {...field}
+                                placeholder="Sport name"
+                            />
+                        </FormItemWrapper>
+                    )}
+                />
+            )}
         </SingleInputForm>
     );
 }

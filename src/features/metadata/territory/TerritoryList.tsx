@@ -83,7 +83,10 @@ function TerritoryList() {
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(id, "/api/admin/territory/delete/");
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/territory/delete/"
+            );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
@@ -92,7 +95,11 @@ function TerritoryList() {
                 );
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
 
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 setDataList((prevDataList) =>
@@ -110,7 +117,10 @@ function TerritoryList() {
         navigate(`${NAVIGATION_ROUTES.TERRITORY_EDIT}/${id}`);
     }, []);
 
-    const columns = useMemo(() => getColumns({ onDelete, onEdit, userRole }), []);
+    const columns = useMemo(
+        () => getColumns({ onDelete, onEdit, userRole }),
+        []
+    );
 
     const table = useReactTable({
         data: dataList,

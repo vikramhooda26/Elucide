@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
@@ -17,10 +17,14 @@ import {
     territoryFormSchema,
     TTerritoryFormSchema,
 } from "./constants/metadata";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function TerritoryForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { id } = useParams();
 
     const user = useRecoilValue(userAtom);
 
@@ -33,12 +37,58 @@ function TerritoryForm() {
         },
     });
 
+    useEffect(() => {
+        const fetchTerritoryDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await MetadataService.getOneTerritory(id);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    form.reset({
+                        territoryName: response.data.territoryName,
+                    });
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("This territory does not exists");
+                    navigate(-1);
+                } else {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchTerritoryDetails(id);
+        }
+    }, [id]);
+
     const onSubmit = async (territoryFormValues: TTerritoryFormSchema) => {
         try {
             setIsSubmitting(true);
-            const response = await MetadataService.createTerritory(
-                territoryFormValues
-            );
+            const requestBody = {
+                ...territoryFormValues,
+                userId: user?.id,
+            };
+            if (id) {
+                const response = await MetadataService.editTerritory(
+                    id,
+                    requestBody
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Territory updated successfully");
+                }
+                return;
+            }
+            const response = await MetadataService.createTerritory(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Territory created successfully");
                 form.reset({
@@ -73,20 +123,25 @@ function TerritoryForm() {
             onSubmit={onSubmit}
             form={form}
             title="Territory"
-            isSubmitting={isSubmitting}
+            isSubmitting={isSubmitting || isLoading}
+            isEdit={Boolean(id)}
         >
-            <FormField
-                control={form.control}
-                name="territoryName"
-                render={({ field }) => (
-                    <FormItemWrapper label="Territory name">
-                        <Input
-                            {...field}
-                            placeholder="Territory name"
-                        />
-                    </FormItemWrapper>
-                )}
-            />
+            {isLoading ? (
+                <FormSkeleton />
+            ) : (
+                <FormField
+                    control={form.control}
+                    name="territoryName"
+                    render={({ field }) => (
+                        <FormItemWrapper label="Territory name">
+                            <Input
+                                {...field}
+                                placeholder="Territory name"
+                            />
+                        </FormItemWrapper>
+                    )}
+                />
+            )}
         </SingleInputForm>
     );
 }

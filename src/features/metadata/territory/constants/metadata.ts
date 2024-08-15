@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const territoryFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     territoryName: z.string().min(1, "Required"),
 });
 

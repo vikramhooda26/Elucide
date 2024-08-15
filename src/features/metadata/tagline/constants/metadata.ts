@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const taglineFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     taglineName: z.string().min(1, "Required"),
 });
 

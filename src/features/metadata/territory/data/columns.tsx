@@ -48,7 +48,7 @@ export const getColumns = ({
             enableHiding: false,
         },
         {
-            accessorKey: "Territory Name",
+            accessorKey: "territoryName",
             header: ({ column }) => (
                 <DataTableColumnHeader
                     column={column}
@@ -63,11 +63,17 @@ export const getColumns = ({
                             to={`${viewRoute}/${id}`}
                             className="cursor-pointer hover:text-blue-800 "
                         >
-                            <div className="w-[80px]">{row.getValue("territoryName")}</div>
+                            <div className="w-[80px]">
+                                {row.getValue("territoryName")}
+                            </div>
                         </Link>
-                    )
+                    );
                 } else {
-                    return (<div className="w-[80px]">{row.getValue("territoryName")}</div>)
+                    return (
+                        <div className="w-[80px]">
+                            {row.getValue("territoryName")}
+                        </div>
+                    );
                 }
             },
             enableSorting: false,
@@ -87,9 +93,9 @@ export const getColumns = ({
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("createdDate")
                                 ? format(
-                                    row.getValue("createdDate"),
-                                    "dd-MM-yyyy, hh:mm aaaaaa"
-                                )
+                                      row.getValue("createdDate"),
+                                      "dd-MM-yyyy, hh:mm aaaaaa"
+                                  )
                                 : ""}
                         </span>
                     </div>
@@ -124,9 +130,9 @@ export const getColumns = ({
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("modifiedDate")
                                 ? format(
-                                    row.getValue("modifiedDate"),
-                                    "dd-MM-yyyy, HH:mm"
-                                )
+                                      row.getValue("modifiedDate"),
+                                      "dd-MM-yyyy, hh:mm aaaaaa"
+                                  )
                                 : ""}
                         </span>
                     </div>
@@ -152,6 +158,12 @@ export const getColumns = ({
     if (userRole === "SUPER_ADMIN") {
         column.push({
             id: "actions",
+            header: ({ column }) => (
+                <DataTableColumnHeader
+                    column={column}
+                    title="Actions"
+                />
+            ),
             cell: ({ row }) => (
                 <DataTableRowActions
                     row={row}

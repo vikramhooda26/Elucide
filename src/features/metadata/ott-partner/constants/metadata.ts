@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const ottPartnerFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     ottPartnerName: z.string(),
 });
 

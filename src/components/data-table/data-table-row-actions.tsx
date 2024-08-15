@@ -25,7 +25,7 @@ export function DataTableRowActions<TData>({
                         <Pencil className="w-4 h-4" />
                     </Button>
                     <Alert
-                        title={`You're about to delete ${task.name}`}
+                        title={`You're about to delete this data`}
                         description="Are you sure you want to complete this action? It's irreversible and all the data will be lost forever."
                         positiveOnClick={async () => onDelete(task.id)}
                         positiveTitle="Delete"
