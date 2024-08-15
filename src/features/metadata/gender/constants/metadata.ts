@@ -1,6 +1,6 @@
 import { z } from "zod";
 export const genderFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     gender: z.string(),
 });
 

@@ -11,6 +11,7 @@ type TSingleInputFormProps = {
     onSubmit: (data: any) => void;
     isSubmitting: boolean;
     children?: React.ReactNode;
+    isEdit?: boolean;
 };
 
 export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
@@ -19,6 +20,7 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
     onSubmit,
     children,
     isSubmitting,
+    isEdit,
 }): JSX.Element => {
     const navigate = useNavigate();
 
@@ -40,7 +42,7 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
                             <span className="sr-only">Back</span>
                         </Button>
                         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                            {`Create ${title}`}
+                            {`${isEdit ? "Edit" : "Create"} ${title}`}
                         </h1>
 
                         <div className="hidden items-center gap-2 md:ml-auto md:flex">

@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
 import { FormField } from "../../../components/ui/form";
@@ -18,10 +18,14 @@ import { HTTP_STATUS_CODES } from "../../../lib/constants";
 import { toast } from "sonner";
 import ErrorService from "../../../services/error/ErrorService";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function ActiveCampaignForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { id } = useParams();
 
     const user = useRecoilValue(userAtom);
 
@@ -34,13 +38,61 @@ function ActiveCampaignForm() {
         },
     });
 
+    useEffect(() => {
+        const fetchActiveCampaignDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await MetadataService.getOneActiveCampaign(id);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    form.reset({
+                        activeCampaignName: response.data.activeCampaignName,
+                    });
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("This active campaign does not exists");
+                    navigate(-1);
+                } else {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchActiveCampaignDetails(id);
+        }
+    }, [id]);
+
     const onSubmit = async (
         activeCampaignFormValues: TActivationFormSchema
     ) => {
         try {
             setIsSubmitting(true);
+            const requestBody = {
+                ...activeCampaignFormValues,
+                userId: user?.id,
+            };
+            if (id) {
+                const response = await MetadataService.editActiveCampign(
+                    id,
+                    requestBody
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Active campaign updated successfully");
+                }
+                return;
+            }
             const response = await MetadataService.createActiveCampaign(
-                activeCampaignFormValues
+                requestBody
             );
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Active campaign created successfully");
@@ -76,20 +128,25 @@ function ActiveCampaignForm() {
             onSubmit={onSubmit}
             form={form}
             title="Active Campaign"
-            isSubmitting={isSubmitting}
+            isSubmitting={isSubmitting || isLoading}
+            isEdit={Boolean(id)}
         >
-            <FormField
-                control={form.control}
-                name="activeCampaignName"
-                render={({ field }) => (
-                    <FormItemWrapper label="Campaign Name">
-                        <Input
-                            {...field}
-                            placeholder="Campaign name"
-                        />
-                    </FormItemWrapper>
-                )}
-            />
+            {isLoading ? (
+                <FormSkeleton />
+            ) : (
+                <FormField
+                    control={form.control}
+                    name="activeCampaignName"
+                    render={({ field }) => (
+                        <FormItemWrapper label="Campaign Name">
+                            <Input
+                                {...field}
+                                placeholder="Campaign name"
+                            />
+                        </FormItemWrapper>
+                    )}
+                />
+            )}
         </SingleInputForm>
     );
 }

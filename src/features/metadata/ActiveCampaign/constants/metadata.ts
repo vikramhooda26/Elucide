@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const activeCampaignFormSchema = z.object({
-    userId: z.string(),
+    userId: z.string().optional(),
     activeCampaignName: z.string(),
 });
 

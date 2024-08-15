@@ -127,6 +127,7 @@ function AgeForm() {
             const requestBody = {
                 ...ageRangeFormValues,
                 ageRange: convertedAgeRange,
+                userId: user?.id,
             };
 
             if (id) {

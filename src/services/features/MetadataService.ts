@@ -314,11 +314,27 @@ class MetadataService {
         );
     }
 
+    static editActiveCampign(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/active-campaign/edit/${id}`,
+            params,
+            "PUT"
+        );
+    }
+
     static createGender(params: any) {
         return AjaxService.request(
             `${API_URL}/api/admin/gender/create`,
             params,
             "POST"
+        );
+    }
+
+    static editGender(id: string, params: any) {
+        return AjaxService.request(
+            `${API_URL}/api/admin/gender/edit/${id}`,
+            params,
+            "PUT"
         );
     }
 
@@ -536,7 +552,7 @@ class MetadataService {
 
     static editAssociationLevel(id: string, params: any) {
         return AjaxService.request(
-            `${API_URL}/api/admin/team/edit/${id}`,
+            `${API_URL}/api/admin/association-level/edit/${id}`,
             params,
             "PUT"
         );
@@ -553,6 +569,22 @@ class MetadataService {
     static getOneAssociationLevel(id: string, params?: any) {
         return AjaxService.request(
             API_URL + "/api/admin/association-level/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneGender(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/gender/" + id,
+            params,
+            "GET"
+        );
+    }
+
+    static getOneActiveCampaign(id: string, params?: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/active-campaign/" + id,
             params,
             "GET"
         );

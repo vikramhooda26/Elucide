@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { toast } from "sonner";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
 import { FormField } from "../../../components/ui/form";
 import { Input } from "../../../components/ui/input";
@@ -18,6 +19,9 @@ import { associationSchema, TAssociationSchema } from "./constants/metadata";
 function AssociationLevelForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { id } = useParams();
 
     const user = useRecoilValue(userAtom);
 
@@ -30,12 +34,68 @@ function AssociationLevelForm() {
         },
     });
 
+    useEffect(() => {
+        const fetchAssociationLevelDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await MetadataService.getOneAssociationLevel(
+                    id
+                );
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    form.reset({
+                        associationLevelName:
+                            response.data.associationLevelName,
+                    });
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("This association level does not exists");
+                    navigate(-1);
+                } else {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchAssociationLevelDetails(id);
+        }
+    }, [id]);
+
     const onSubmit = async (associationLevelFormValues: TAssociationSchema) => {
         try {
             setIsSubmitting(true);
+
+            const requestBody = {
+                ...associationLevelFormValues,
+                userId: user?.id,
+            };
+
+            if (id) {
+                const response = await MetadataService.editAssociationLevel(
+                    id,
+                    requestBody
+                );
+
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Association level updated successfully");
+                }
+                return;
+            }
+
             const response = await MetadataService.createAssociationLevel(
-                associationLevelFormValues
+                requestBody
             );
+
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Association level created successfully");
                 form.reset({
@@ -70,20 +130,25 @@ function AssociationLevelForm() {
             onSubmit={onSubmit}
             form={form}
             title="Association Level"
-            isSubmitting={isSubmitting}
+            isSubmitting={isSubmitting || isLoading}
+            isEdit={Boolean(id)}
         >
-            <FormField
-                control={form.control}
-                name="associationLevelName"
-                render={({ field }) => (
-                    <FormItemWrapper label="Association level name">
-                        <Input
-                            {...field}
-                            placeholder="Association level name"
-                        />
-                    </FormItemWrapper>
-                )}
-            />
+            {isLoading ? (
+                <FormSkeleton />
+            ) : (
+                <FormField
+                    control={form.control}
+                    name="associationLevelName"
+                    render={({ field }) => (
+                        <FormItemWrapper label="Association level name">
+                            <Input
+                                {...field}
+                                placeholder="Association level name"
+                            />
+                        </FormItemWrapper>
+                    )}
+                />
+            )}
         </SingleInputForm>
     );
 }
