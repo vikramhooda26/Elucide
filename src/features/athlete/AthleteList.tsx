@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -25,8 +25,10 @@ import AthleteService from "../../services/features/AthleteService";
 import { isDeletedAtom, listLoadingAtom } from "../../store/atoms/global";
 import { athlete } from "../../types/athlete/AthleteListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { columns } from "./data/columns";
+import { getSportsDealSummaryColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
+import MetadataService from "../../services/features/MetadataService";
+import { useUser } from "../../hooks/useUser";
 
 function AthleteList() {
     const navigator = useNavigator();
@@ -41,6 +43,10 @@ function AthleteList() {
     const { logout } = useAuth();
     const navigate = useNavigate();
     const [rowDeleted, setIsDeleted] = useRecoilState(isDeletedAtom);
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchAthletes = async () => {
         try {
@@ -81,9 +87,51 @@ function AthleteList() {
         }
     }, [rowDeleted]);
 
-    const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.ATHLETE, [id]);
-    };
+    const onDelete = useCallback(async (id: string) => {
+        try {
+            setIsLoading(true);
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/athlete/delete/"
+            );
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                console.log();
+
+                toast.success("Deleted successfully");
+                setAthletes((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                setAthletes((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            } else {
+                toast.error("Could not delete this data");
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const onEdit = useCallback((id: string) => {
+        navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`);
+    }, []);
+
+    const viewRoute = NAVIGATION_ROUTES.ATHLETE;
+
+    const columns = useMemo(
+        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole, viewRoute }),
+        []
+    );
 
     const table = useReactTable({
         data: athletes,
@@ -107,9 +155,6 @@ function AthleteList() {
         getFacetedUniqueValues: getFacetedUniqueValues(),
     });
 
-    const callbacks = {
-        onView: onView,
-    };
 
     const toolbarAttributes = [
         <Input
@@ -157,7 +202,6 @@ function AthleteList() {
                 table={table}
                 columns={columns}
                 toolbarAttributes={toolbarAttributes}
-                callbacks={callbacks}
             />
         </div>
     );

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const associationListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     associationLevelName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const associationListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TAssociationLevelListSchema = z.infer<typeof associationListSchema>;
+export type schemaType = z.infer<typeof schema>;

@@ -10,7 +10,7 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -25,8 +25,10 @@ import BrandService from "../../services/features/BrandService";
 import { isDeletedAtom, listLoadingAtom } from "../../store/atoms/global";
 import { brand } from "../../types/brand/BrandListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { columns } from "./data/columns";
+import { getSportsDealSummaryColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
+import MetadataService from "../../services/features/MetadataService";
+import { useUser } from "../../hooks/useUser";
 
 function BrandList() {
     const navigator = useNavigator();
@@ -41,6 +43,11 @@ function BrandList() {
     const { logout } = useAuth();
     const navigate = useNavigate();
     const [rowDeleted, setIsDeleted] = useRecoilState(isDeletedAtom);
+
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchBrands = async () => {
         try {
@@ -72,18 +79,51 @@ function BrandList() {
         fetchBrands();
     }, []);
 
-    useEffect(() => {
-        if (rowDeleted) {
-            console.log('rowDeleted -=- ', rowDeleted);
-            fetchBrands();
-            setIsDeleted(false);
+    const onDelete = useCallback(async (id: string) => {
+        try {
+            setIsLoading(true);
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/brand/delete/"
+            );
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                console.log();
+
+                toast.success("Deleted successfully");
+                setBrandList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                setBrandList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            } else {
+                toast.error("Could not delete this data");
+            }
+        } finally {
+            setIsLoading(false);
         }
-    }, [rowDeleted]);
+    }, []);
 
-    const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.BRAND, [id]);
-    };
+    const onEdit = useCallback((id: string) => {
+        navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`);
+    }, []);
 
+    const viewRoute = NAVIGATION_ROUTES.BRAND;
+
+    const columns = useMemo(
+        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole, viewRoute }),
+        []
+    );
     const table = useReactTable({
         data: brandList,
         columns,
@@ -105,10 +145,6 @@ function BrandList() {
         getFacetedRowModel: getFacetedRowModel(),
         getFacetedUniqueValues: getFacetedUniqueValues(),
     });
-
-    const callbacks = {
-        onView: onView,
-    };
 
     const toolbarAttributes = [
         <Input
@@ -156,7 +192,6 @@ function BrandList() {
                 table={table}
                 columns={columns}
                 toolbarAttributes={toolbarAttributes}
-                callbacks={callbacks}
             />
         </div>
     );

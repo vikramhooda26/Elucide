@@ -5,7 +5,7 @@ export interface DataTableProps<TData, TValue> {
     table: Table<any>;
     columns: ColumnDef<TData, TValue>[];
     toolbarAttributes: JSX.Element[];
-    callbacks: {
+    callbacks?: {
         onView: (id: string) => void;
     };
 }

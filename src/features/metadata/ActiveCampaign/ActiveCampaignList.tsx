@@ -10,7 +10,7 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -25,8 +25,9 @@ import MetadataService from "../../../services/features/MetadataService";
 import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
-import { columns } from "./data/columns";
+import { getSportsDealSummaryColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
+import { useUser } from "../../../hooks/useUser";
 
 function ActiveCampaignList() {
     const navigator = useNavigator();
@@ -38,6 +39,11 @@ function ActiveCampaignList() {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
+
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -72,9 +78,52 @@ function ActiveCampaignList() {
         fetchList();
     }, []);
 
-    const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.GENDER, [id]);
-    };
+    const onDelete = useCallback(async (id: string) => {
+        try {
+            setIsLoading(true);
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/active-campaign/delete/"
+            );
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                console.log();
+
+                toast.success("Deleted successfully");
+                setDataList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                setDataList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            } else {
+                toast.error("Could not delete this data");
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const onEdit = useCallback((id: string) => {
+        navigate(`${NAVIGATION_ROUTES.CAMPAIGN_EDIT}/${id}`);
+    }, []);
+
+    const viewRoute = NAVIGATION_ROUTES.CAMPAIGN;
+
+    const columns = useMemo(
+        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole, viewRoute }),
+        []
+    );
+
 
     const table = useReactTable({
         data: dataList,
@@ -97,10 +146,6 @@ function ActiveCampaignList() {
         getFacetedRowModel: getFacetedRowModel(),
         getFacetedUniqueValues: getFacetedUniqueValues(),
     });
-
-    const callbacks = {
-        onView: onView,
-    };
 
     const toolbarAttributes = [
         <Input
@@ -154,7 +199,6 @@ function ActiveCampaignList() {
                 table={table}
                 columns={columns}
                 toolbarAttributes={toolbarAttributes}
-                callbacks={callbacks}
             />
         </div>
     );

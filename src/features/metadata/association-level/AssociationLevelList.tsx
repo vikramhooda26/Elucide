@@ -10,7 +10,7 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -25,8 +25,9 @@ import MetadataService from "../../../services/features/MetadataService";
 import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
-import { columns } from "./data/columns";
+import { getSportsDealSummaryColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
+import { useUser } from "../../../hooks/useUser";
 
 function AssociationLevelList() {
     const navigator = useNavigator();
@@ -41,6 +42,11 @@ function AssociationLevelList() {
 
     const { logout } = useAuth();
     const navigate = useNavigate();
+
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchList = async () => {
         try {
@@ -72,9 +78,49 @@ function AssociationLevelList() {
         fetchList();
     }, []);
 
-    const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.ASSOCIATION_LEVEL, [id]);
-    };
+    const onDelete = useCallback(async (id: string) => {
+        try {
+            setIsLoading(true);
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/association-level/delete/"
+            );
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                console.log();
+
+                toast.success("Deleted successfully");
+                setDataList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                setDataList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            } else {
+                toast.error("Could not delete this data");
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const onEdit = useCallback((id: string) => {
+        navigate(`${NAVIGATION_ROUTES.ASSOCIATION_LEVEL_EDIT}/${id}`);
+    }, []);
+
+    const columns = useMemo(
+        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole }),
+        []
+    );
 
     const table = useReactTable({
         data: dataList,
@@ -97,10 +143,6 @@ function AssociationLevelList() {
         getFacetedRowModel: getFacetedRowModel(),
         getFacetedUniqueValues: getFacetedUniqueValues(),
     });
-
-    const callbacks = {
-        onView: onView,
-    };
 
     const toolbarAttributes = [
         <Input
@@ -156,7 +198,6 @@ function AssociationLevelList() {
                 table={table}
                 columns={columns}
                 toolbarAttributes={toolbarAttributes}
-                callbacks={callbacks}
             />
         </div>
     );

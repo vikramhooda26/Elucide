@@ -10,7 +10,7 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -25,8 +25,10 @@ import TeamService from "../../services/features/TeamService";
 import { isDeletedAtom, listLoadingAtom } from "../../store/atoms/global";
 import { team } from "../../types/team/TeamListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { columns } from "./data/columns";
+import { getSportsDealSummaryColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
+import { useUser } from "../../hooks/useUser";
+import MetadataService from "../../services/features/MetadataService";
 
 function TeamList() {
     const navigator = useNavigator();
@@ -42,6 +44,11 @@ function TeamList() {
 
     const { logout } = useAuth();
     const navigate = useNavigate();
+
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchTeams = async () => {
         try {
@@ -73,16 +80,51 @@ function TeamList() {
         fetchTeams();
     }, []);
 
-    useEffect(() => {
-        if (rowDeleted) {
-            fetchTeams();
-            setIsDeleted(false);
-        }
-    }, [rowDeleted]);
+    const onDelete = useCallback(async (id: string) => {
+        try {
+            setIsLoading(true);
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/team/delete/"
+            );
 
-    const onView = (id: string) => {
-        navigator(NAVIGATION_ROUTES.TEAM, [id]);
-    };
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                console.log();
+
+                toast.success("Deleted successfully");
+                setTeamList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                setTeamList((prevDataList) =>
+                    prevDataList.filter((data) => data.id !== id)
+                );
+            } else {
+                toast.error("Could not delete this data");
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    const onEdit = useCallback((id: string) => {
+        navigate(`${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`);
+    }, []);
+
+    const viewRoute = NAVIGATION_ROUTES.TEAM;
+
+    const columns = useMemo(
+        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole, viewRoute }),
+        []
+    );
 
     const table = useReactTable({
         data: teamList,
@@ -105,10 +147,6 @@ function TeamList() {
         getFacetedRowModel: getFacetedRowModel(),
         getFacetedUniqueValues: getFacetedUniqueValues(),
     });
-
-    const callbacks = {
-        onView: onView,
-    };
 
     const toolbarAttributes = [
         <Input
@@ -154,7 +192,6 @@ function TeamList() {
                 table={table}
                 columns={columns}
                 toolbarAttributes={toolbarAttributes}
-                callbacks={callbacks}
             />
         </div>
     );
