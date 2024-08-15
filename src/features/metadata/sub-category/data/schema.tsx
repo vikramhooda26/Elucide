@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const subcategoryListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     subcategoryName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const subcategoryListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TSubcategoryListSchema = z.infer<typeof subcategoryListSchema>;
+export type schemaType = z.infer<typeof schema>;

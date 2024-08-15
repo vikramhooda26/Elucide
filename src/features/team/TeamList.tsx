@@ -25,7 +25,7 @@ import TeamService from "../../services/features/TeamService";
 import { listLoadingAtom } from "../../store/atoms/global";
 import { team } from "../../types/team/TeamListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { getSportsDealSummaryColumns } from "./data/columns";
+import { getColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../hooks/useUser";
 import MetadataService from "../../services/features/MetadataService";
@@ -88,7 +88,7 @@ function TeamList() {
             );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                console.log();
+                
 
                 toast.success("Deleted successfully");
                 setTeamList((prevDataList) =>
@@ -122,7 +122,7 @@ function TeamList() {
 
     const columns = useMemo(
         () =>
-            getSportsDealSummaryColumns({
+            getColumns({
                 onDelete,
                 onEdit,
                 userRole,

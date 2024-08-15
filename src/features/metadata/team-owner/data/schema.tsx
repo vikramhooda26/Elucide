@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const teamOwnerListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     teamOwnerName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const teamOwnerListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TTeamOwnerListSchema = z.infer<typeof teamOwnerListSchema>;
+export type schemaType = z.infer<typeof schema>;

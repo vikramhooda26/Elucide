@@ -14,7 +14,7 @@ interface TColumnProps {
     viewRoute?: string;
 }
 
-export const getSportsDealSummaryColumns = ({
+export const getColumns = ({
     onEdit,
     onDelete,
     userRole,

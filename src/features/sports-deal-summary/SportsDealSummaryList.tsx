@@ -26,7 +26,7 @@ import { DataTableFacetedFilter } from "../../components/data-table/data-table-f
 import { Button } from "../../components/ui/button";
 import DataTable from "../../components/data-table/data-table";
 import { priorities, statuses } from "./data/data";
-import { getSportsDealSummaryColumns } from "./data/column";
+import { getColumns } from "./data/column";
 import { useUser } from "../../hooks/useUser";
 
 function SportsDealSummaryList() {
@@ -120,7 +120,7 @@ function SportsDealSummaryList() {
     };
 
     const columns = useMemo(
-        () => getSportsDealSummaryColumns({ onDelete, onEdit, userRole }),
+        () => getColumns({ onDelete, onEdit, userRole }),
         []
     );
 
