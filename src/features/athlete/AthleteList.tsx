@@ -90,7 +90,7 @@ function AthleteList() {
             );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                console.log();
+                
 
                 toast.success("Deleted successfully");
                 setAthletes((prevDataList) =>

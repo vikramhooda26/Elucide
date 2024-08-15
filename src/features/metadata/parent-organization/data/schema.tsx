@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const parentOrgListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     parentOrgName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const parentOrgListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TParentOrgListSchema = z.infer<typeof parentOrgListSchema>;
+export type schemaType = z.infer<typeof schema>;

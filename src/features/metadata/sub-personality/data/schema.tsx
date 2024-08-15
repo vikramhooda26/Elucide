@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const subPersonalityListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     subpersonalityName: z.string(),
     createdDate: z.string(),
@@ -9,6 +9,4 @@ export const subPersonalityListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TSubPersonalityListSchema = z.infer<
-    typeof subPersonalityListSchema
->;
+export type schemaType = z.infer<typeof schema>;

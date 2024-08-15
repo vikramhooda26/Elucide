@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const sportListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     sportName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const sportListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TSportListSchema = z.infer<typeof sportListSchema>;
+export type schemaType = z.infer<typeof schema>;

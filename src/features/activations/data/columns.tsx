@@ -12,7 +12,7 @@ interface TColumnProps {
     userRole: TRoles;
 }
 
-export const getSportsDealSummaryColumns = ({
+export const getColumns = ({
     onEdit,
     onDelete,
     userRole,

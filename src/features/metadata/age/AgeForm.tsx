@@ -111,8 +111,8 @@ function AgeForm() {
                 ageTypeValue === "Range"
                     ? getConvertedAgeRange(ageRangeFormValues.ageRange)
                     : ageRangeFormValues.ageRange.length === 1
-                    ? `${ageRangeFormValues.ageRange}+`
-                    : null;
+                        ? `${ageRangeFormValues.ageRange}+`
+                        : null;
 
             if (convertedAgeRange === null) {
                 toast.error("Invalid range. Contact developer");
@@ -210,6 +210,7 @@ function AgeForm() {
                                             onValueChange={field.onChange}
                                             className={cn("w-full")}
                                             isSingle={ageTypeValue === "Max"}
+                                            value={form.getValues('ageRange')}
                                         />
                                     </div>
                                 </FormItemWrapper>

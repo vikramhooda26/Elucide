@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const taglineListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     taglineName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const taglineListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TTaglineListSchema = z.infer<typeof taglineListSchema>;
+export type schemaType = z.infer<typeof schema>;

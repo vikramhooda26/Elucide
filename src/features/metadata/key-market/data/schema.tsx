@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const keyMarketListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     keyMarketName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const keyMarketListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TKeyMarketListSchema = z.infer<typeof keyMarketListSchema>;
+export type schemaType = z.infer<typeof schema>;
