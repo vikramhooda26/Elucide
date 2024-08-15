@@ -48,7 +48,7 @@ function AgeForm() {
         } else {
             return ageRange
                 .split("+")
-                .slice(0, 0)
+                .slice(0, 1)
                 .map((v) => Number(v));
         }
     };
