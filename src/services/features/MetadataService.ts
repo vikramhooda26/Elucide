@@ -10,6 +10,14 @@ class MetadataService {
         );
     }
 
+    static editAgeRange(id: string, params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/age-range/edit/" + id,
+            params,
+            "PUT"
+        );
+    }
+
     static getOneAgeRange(id: string, params?: any) {
         return AjaxService.request(
             API_URL + "/api/admin/age-range/" + id,

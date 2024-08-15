@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { toast } from "sonner";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
 import { FormField } from "../../../components/ui/form";
 import SelectBox from "../../../components/ui/multi-select";
@@ -21,6 +22,9 @@ import { ageRangeFormSchema, TAgeRangeFormSchema } from "./constants/metadata";
 function AgeForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { id } = useParams();
 
     const user = useRecoilValue(userAtom);
 
@@ -30,7 +34,6 @@ function AgeForm() {
         resolver: zodResolver(ageRangeFormSchema),
         defaultValues: {
             userId: user?.id,
-            ageType: "Range",
         },
     });
 
@@ -38,6 +41,63 @@ function AgeForm() {
         { value: "Range", label: "Range" },
         { value: "Max", label: "Max" },
     ];
+
+    const convertRangeToArray = (ageRange: string) => {
+        if (ageRange.includes("-")) {
+            return ageRange.split("-").map((v) => Number(v));
+        } else {
+            return ageRange
+                .split("+")
+                .slice(0, 0)
+                .map((v) => Number(v));
+        }
+    };
+
+    const getAgeRangeType = (ageRange: string) => {
+        if (ageRange.includes("-")) {
+            return "Range";
+        } else {
+            return "Max";
+        }
+    };
+
+    useEffect(() => {
+        const fetchAgeDetails = async (id: string) => {
+            try {
+                setIsLoading(true);
+                const response = await MetadataService.getOneAgeRange(id);
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    form.setValue(
+                        "ageRange",
+                        convertRangeToArray(response.data.ageRange)
+                    );
+                    form.setValue(
+                        "ageType",
+                        getAgeRangeType(response.data.ageRange)
+                    );
+                }
+            } catch (error) {
+                const unknownError = ErrorService.handleCommonErrors(
+                    error,
+                    logout,
+                    navigate
+                );
+                if (
+                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
+                ) {
+                    toast.error("This age range does not exists");
+                    navigate(-1);
+                } else {
+                    toast.error("An unknown error occurred");
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        if (id) {
+            fetchAgeDetails(id);
+        }
+    }, [id]);
 
     const ageTypeValue = useWatch({ control: form.control, name: "ageType" });
 
@@ -64,10 +124,24 @@ function AgeForm() {
                 return;
             }
 
-            const response = await MetadataService.createAgeRange({
+            const requestBody = {
                 ...ageRangeFormValues,
                 ageRange: convertedAgeRange,
-            });
+            };
+
+            if (id) {
+                const response = await MetadataService.editAgeRange(
+                    id,
+                    requestBody
+                );
+
+                if (response.status === HTTP_STATUS_CODES.OK) {
+                    toast.success("Age range updated successfully");
+                }
+                return;
+            }
+
+            const response = await MetadataService.createAgeRange(requestBody);
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Age range created successfully");
@@ -116,42 +190,48 @@ function AgeForm() {
             isSubmitting={isSubmitting}
         >
             <div className="grid gap-6">
-                <FormField
-                    control={form.control}
-                    name="ageRange"
-                    render={({ field }) => (
-                        <FormItemWrapper label="Age Range">
-                            <div>
-                                <RangeSlider
-                                    key={ageTypeValue}
-                                    minStepsBetweenThumbs={1}
-                                    max={100}
-                                    min={0}
-                                    step={1}
-                                    onValueChange={field.onChange}
-                                    className={cn("w-full")}
-                                    isSingle={ageTypeValue === "Max"}
-                                />
-                            </div>
-                        </FormItemWrapper>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="ageType"
-                    render={({ field }) => (
-                        <FormItemWrapper label="Age Range Type">
-                            <SelectBox
-                                options={ageType}
-                                value={field.value}
-                                onChange={field.onChange}
-                                placeholder="Select a type"
-                                inputPlaceholder="Search for a type..."
-                                emptyPlaceholder="No type found"
-                            />
-                        </FormItemWrapper>
-                    )}
-                />
+                {isLoading ? (
+                    <FormSkeleton />
+                ) : (
+                    <>
+                        <FormField
+                            control={form.control}
+                            name="ageRange"
+                            render={({ field }) => (
+                                <FormItemWrapper label="Age Range">
+                                    <div>
+                                        <RangeSlider
+                                            key={ageTypeValue}
+                                            minStepsBetweenThumbs={1}
+                                            min={0}
+                                            max={100}
+                                            step={1}
+                                            onValueChange={field.onChange}
+                                            className={cn("w-full")}
+                                            isSingle={ageTypeValue === "Max"}
+                                        />
+                                    </div>
+                                </FormItemWrapper>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="ageType"
+                            render={({ field }) => (
+                                <FormItemWrapper label="Age Range Type">
+                                    <SelectBox
+                                        options={ageType}
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        placeholder="Select a type"
+                                        inputPlaceholder="Search for a type..."
+                                        emptyPlaceholder="No type found"
+                                    />
+                                </FormItemWrapper>
+                            )}
+                        />
+                    </>
+                )}
             </div>
         </SingleInputForm>
     );
