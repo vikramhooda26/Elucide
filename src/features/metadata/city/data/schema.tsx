@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const cityListSchema = z.object({
+export const schema = z.object({
     id: z.string().optional(),
     cityName: z.string(),
     createdDate: z.string(),
@@ -9,4 +9,4 @@ export const cityListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TCityListSchema = z.infer<typeof cityListSchema>;
+export type schemaType = z.infer<typeof schema>;

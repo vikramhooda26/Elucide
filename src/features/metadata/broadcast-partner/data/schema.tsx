@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const broadcastPartnerListSchema = z.object({
+export const schema = z.object({
     id: z.string(),
     broadcastPartnerName: z.string(),
     createdDate: z.string(),
@@ -9,6 +9,4 @@ export const broadcastPartnerListSchema = z.object({
     modifiedBy: z.string(),
 });
 
-export type TBroadcastPartnerListSchema = z.infer<
-    typeof broadcastPartnerListSchema
->;
+export type schemaType = z.infer<typeof schema>;
