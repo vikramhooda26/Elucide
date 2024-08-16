@@ -1,6 +1,7 @@
 import { Activity } from "lucide-react";
 import NoDataText from "../../no-data/NoDataText";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { nameAndId } from "../../../types/metadata/Metadata";
 
 type Props = {
     data: any;
@@ -14,7 +15,7 @@ function TagLines({ data }: Props) {
             <CardContent className="grid gap-8">
                 <ul className="grid gap-3">
                     {data?.taglines?.length > 0 ? (
-                        data?.taglines?.map((tag: string, i: number) => (
+                        data?.taglines?.map((tag: nameAndId, i: number) => (
                             <li
                                 key={i}
                                 className="flex items-center gap-2"
@@ -22,7 +23,7 @@ function TagLines({ data }: Props) {
                                 <span className="text-muted-foreground">
                                     <Activity className="w-4 h-4" />
                                 </span>
-                                <span>{tag}</span>
+                                <span>{tag?.name}</span>
                             </li>
                         ))
                     ) : (

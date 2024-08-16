@@ -10,11 +10,12 @@ import { TableCell, TableRow } from '../../../components/ui/table';
 import { NAVIGATION_ROUTES } from '../../../lib/constants';
 import MetadataService from '../../../services/features/MetadataService';
 import { subPersonality } from '../../../types/metadata/Metadata';
+import { FormSkeleton } from '../../../components/core/form/form-skeleton';
 
 function SubPersonalityView() {
     const { id } = useParams<string>();
     const [viewData, setViewData] = useState<subPersonality>();
-    const [loading, setLoading] = useState<boolean>(false);
+    const [isLoading, setLoading] = useState<boolean>(false);
 
     const fetchTeam = async () => {
         try {
@@ -62,18 +63,22 @@ function SubPersonalityView() {
                         </Button>
                     </div>
                 </div>
-                <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                    <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                        <Card x-chunk="dashboard-07-chunk-0">
-                            <TableHeaderWrapper headersArray={infoHeaders}>
-                                <TableRow>
-                                    <TableCell>{viewData?.subpersonalityName || "-"}</TableCell>
-                                </TableRow>
-                            </TableHeaderWrapper>
-                        </Card>
-                        <NameIdList data={[viewData?.personality]} navLink={NAVIGATION_ROUTES.PERSONALITY} title={'Main Personality'} />
+                {isLoading ? (
+                    <FormSkeleton />
+                ) : (<>
+                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                            <Card x-chunk="dashboard-07-chunk-0">
+                                <TableHeaderWrapper headersArray={infoHeaders}>
+                                    <TableRow>
+                                        <TableCell>{viewData?.subpersonalityName || "-"}</TableCell>
+                                    </TableRow>
+                                </TableHeaderWrapper>
+                            </Card>
+                            <NameIdList data={[viewData?.personality]} navLink={NAVIGATION_ROUTES.PERSONALITY} title={'Main Personality'} />
+                        </div>
                     </div>
-                </div>
+                </>)}
             </div>
         </main>
     )

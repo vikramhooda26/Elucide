@@ -2,6 +2,7 @@ import { Dot } from 'lucide-react';
 import NoDataText from '../../no-data/NoDataText';
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Label } from '../../ui/label';
+import { nameAndId } from '../../../types/metadata/Metadata';
 
 type Props = {
     data: any;
@@ -22,10 +23,10 @@ function Marketing({ data }: Props) {
                             </Label>
                             <ul className="grid gap-3">
                                 {data?.primaryMarketingPlatforms?.length > 0 ?
-                                    data?.primaryMarketingPlatforms?.map((market: string, i: number) => (
+                                    data?.primaryMarketingPlatforms?.map((market: nameAndId, i: number) => (
                                         <li className="flex items-center text-sm text-muted-foreground">
                                             <Dot />
-                                            <span>{market || '-'}</span>
+                                            <span>{market?.name || '-'}</span>
                                         </li>
                                     ))
                                     : <NoDataText />
@@ -38,11 +39,11 @@ function Marketing({ data }: Props) {
                                 Secondary Marketing Platform
                             </Label>
                             <ul className="grid gap-3">
-                                {data?.secondaryMarketingPlatforms?.length > 0  
-                                    ? data?.secondaryMarketingPlatforms?.map((market: string, i: number) => (
+                                {data?.secondaryMarketingPlatforms?.length > 0
+                                    ? data?.secondaryMarketingPlatforms?.map((market: nameAndId, i: number) => (
                                         <li className="flex items-center text-sm text-muted-foreground">
                                             <Dot />
-                                            <span>{market || '-'}</span>
+                                            <span>{market?.name || '-'}</span>
                                         </li>
                                     ))
                                     : <NoDataText />
@@ -57,10 +58,10 @@ function Marketing({ data }: Props) {
                                 Primary key Market
                             </Label>
                             <ul className="grid gap-3">
-                                {data?.keyMarketPrimary?.map((market: string, i: number) => (
+                                {data?.primaryKeyMarket?.map((market: nameAndId, i: number) => (
                                     <li className="flex items-center text-sm text-muted-foreground">
                                         <Dot />
-                                        <span>{market || '-'}</span>
+                                        <span>{market?.name || '-'}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -71,10 +72,10 @@ function Marketing({ data }: Props) {
                                 Secondary key Market
                             </Label>
                             <ul className="grid gap-3">
-                                {data?.keyMarketSecondary?.map((market: string, i: number) => (
+                                {data?.secondaryKeyMarket?.map((market: nameAndId, i: number) => (
                                     <li className="flex items-center text-sm text-muted-foreground">
                                         <Dot />
-                                        <span>{market || '-'}</span>
+                                        <span>{market?.name || '-'}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -85,10 +86,10 @@ function Marketing({ data }: Props) {
                                 Tertiary Market
                             </Label>
                             <ul className="grid gap-3">
-                                {data?.keyMarketTertiary?.map((market: string, i: number) => (
+                                {data?.tertiary?.map((market: nameAndId, i: number) => (
                                     <li className="flex items-center text-sm text-muted-foreground">
                                         <Dot />
-                                        <span>{market || '-'}</span>
+                                        <span>{market?.name || '-'}</span>
                                     </li>
                                 ))}
                             </ul>

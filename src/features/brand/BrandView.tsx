@@ -21,11 +21,12 @@ import {
 } from "../../components/ui/card";
 import BrandService from "../../services/features/BrandService";
 import BackButton from "../../components/button/BackButton";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 function BrandView() {
   const { id } = useParams<string>();
   const [brand, setBrand] = useState<any>({});
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const fetchTeam = async () => {
     try {
@@ -56,7 +57,7 @@ function BrandView() {
   }, []);
 
   return (
-    <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 ">
+    <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 my-8">
       <div className="mx-auto auto-rows-max gap-4">
         <div className="flex items-center gap-4 mb-4">
           <BackButton />
@@ -70,18 +71,21 @@ function BrandView() {
             </Button>
           </div>
         </div>
-        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-          <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-            <Card x-chunk="dashboard-07-chunk-0">
-              <div className=" m-3">
-                <ul className="grid gap-3">
-                  <li className="flex items-center ">
-                    <span className="w-1/2">Name</span>
-                    <span className="text-muted-foreground">
-                      {brand?.name || '-'}
-                    </span>
-                  </li>
-                  {/* <li className="flex items-center ">
+        {isLoading ? (
+          <FormSkeleton />
+        ) : (<>
+          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+              <Card x-chunk="dashboard-07-chunk-0">
+                <div className=" m-3">
+                  <ul className="grid gap-3">
+                    <li className="flex items-center ">
+                      <span className="w-1/2">Name</span>
+                      <span className="text-muted-foreground">
+                        {brand?.name || '-'}
+                      </span>
+                    </li>
+                    {/* <li className="flex items-center ">
                     <span className="w-1/2">
                       Year Of Inception
                     </span>
@@ -97,32 +101,32 @@ function BrandView() {
                       {brand?.franchiseFee || '-'}
                     </span>
                   </li> */}
-                </ul>
-              </div>
-            </Card>
+                  </ul>
+                </div>
+              </Card>
 
-            <StrategyOverview strategy={brand?.strategyOverview} />
+              <StrategyOverview strategy={brand?.strategyOverview} />
 
-            <TagLines data={brand} />
+              <TagLines data={brand} />
 
-            <Marketing data={brand} />
+              <Marketing data={brand} />
 
-            <Socials data={brand} />
+              <Socials data={brand} />
 
-            <ActiveCampaing data={brand} />
+              <ActiveCampaing data={brand} />
 
-            <Endorsements data={brand} />
+              <Endorsements data={brand} />
 
-            <Association data={brand} />
+              <Association data={brand} />
 
-            <ContactPerson data={brand} />
+              <ContactPerson data={brand} />
+            </div>
+            <Attributes data={brand} title={'Brand'} />
           </div>
-          <Attributes data={brand} title={'Brand'} />
-        </div>
-        <div className="my-8">
-          <SportsDealSummary data={brand} />
-        </div>
-
+          <div className="my-8">
+            <SportsDealSummary data={brand} />
+          </div>
+        </>)}
       </div>
     </main >
   );

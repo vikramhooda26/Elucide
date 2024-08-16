@@ -10,11 +10,12 @@ import { TableCell, TableRow } from '../../../components/ui/table';
 import { NAVIGATION_ROUTES } from '../../../lib/constants';
 import MetadataService from '../../../services/features/MetadataService';
 import { nameAndId, personality } from '../../../types/metadata/Metadata';
+import { FormSkeleton } from '../../../components/core/form/form-skeleton';
 
 function PersonalityView() {
   const { id } = useParams<string>();
   const [viewData, setViewData] = useState<personality>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const fetchTeam = async () => {
     try {
@@ -62,42 +63,46 @@ function PersonalityView() {
             </Button>
           </div>
         </div>
-        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-          <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-            <Card x-chunk="dashboard-07-chunk-0">
-              <TableHeaderWrapper headersArray={infoHeaders}>
-                <TableRow>
-                  <TableCell>{viewData?.personalityName || "-"}</TableCell>
-                </TableRow>
-              </TableHeaderWrapper>
-            </Card>
-            <div className="grid gap-3 border rounded-md p-4">
-              <div>
-                Sub Personality Traits
-              </div>
-              <ul className="grid gap-3 grid-cols-2">
-                {viewData?.subpersonalities && viewData?.subpersonalities?.length > 0 ? viewData?.subpersonalities?.map(
-                  (subp: nameAndId, i: number) => (
-                    <li
-                      key={i}
-                      className="flex items-center gap-2"
-                    >
-                      <Link to={NAVIGATION_ROUTES.SUB_PERSONALITY + `/${subp.id}`} className="flex items-center gap-2">
-                        <span >
-                          {i + 1}
-                        </span>
-                        <span className="text-muted-foreground">{subp.name}</span>
+        {isLoading ? (
+          <FormSkeleton />
+        ) : (<>
+          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+              <Card x-chunk="dashboard-07-chunk-0">
+                <TableHeaderWrapper headersArray={infoHeaders}>
+                  <TableRow>
+                    <TableCell>{viewData?.personalityName || "-"}</TableCell>
+                  </TableRow>
+                </TableHeaderWrapper>
+              </Card>
+              <div className="grid gap-3 border rounded-md p-4">
+                <div>
+                  Sub Personality Traits
+                </div>
+                <ul className="grid gap-3 grid-cols-2">
+                  {viewData?.subpersonalities && viewData?.subpersonalities?.length > 0 ? viewData?.subpersonalities?.map(
+                    (subp: nameAndId, i: number) => (
+                      <li
+                        key={i}
+                        className="flex items-center gap-2"
+                      >
+                        <Link to={NAVIGATION_ROUTES.SUB_PERSONALITY + `/${subp.id}`} className="flex items-center gap-2">
+                          <span >
+                            {i + 1}
+                          </span>
+                          <span className="text-muted-foreground">{subp.name}</span>
 
-                        <SquareArrowOutUpRight className="w-4 h-4" />
-                      </Link>
-                    </li>))
-                  :
-                  <NoDataText />
-                }
-              </ul>
+                          <SquareArrowOutUpRight className="w-4 h-4" />
+                        </Link>
+                      </li>))
+                    :
+                    <NoDataText />
+                  }
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
+        </>)}
       </div>
     </main>
   )

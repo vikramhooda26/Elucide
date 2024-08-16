@@ -10,11 +10,12 @@ import { TableCell, TableRow } from '../../../components/ui/table';
 import { NAVIGATION_ROUTES } from '../../../lib/constants';
 import MetadataService from '../../../services/features/MetadataService';
 import { mainCategory } from '../../../types/metadata/Metadata';
+import { FormSkeleton } from '../../../components/core/form/form-skeleton';
 
 function MainCategoryView() {
     const { id } = useParams<string>();
     const [viewData, setViewData] = useState<mainCategory>();
-    const [loading, setLoading] = useState<boolean>(false);
+    const [isLoading, setLoading] = useState<boolean>(false);
 
     const fetchTeam = async () => {
         try {
@@ -62,18 +63,22 @@ function MainCategoryView() {
                         </Button>
                     </div>
                 </div>
-                <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                    <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                        <Card x-chunk="dashboard-07-chunk-0">
-                            <TableHeaderWrapper headersArray={infoHeaders}>
-                                <TableRow>
-                                    <TableCell>{viewData?.categoryName || "-"}</TableCell>
-                                </TableRow>
-                            </TableHeaderWrapper>
-                        </Card>
-                        <NameIdList data={viewData?.subcategories} navLink={NAVIGATION_ROUTES.SUB_CATEGORY} title={'Category'} />
+                {isLoading ? (
+                    <FormSkeleton />
+                ) : (<>
+                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                            <Card x-chunk="dashboard-07-chunk-0">
+                                <TableHeaderWrapper headersArray={infoHeaders}>
+                                    <TableRow>
+                                        <TableCell>{viewData?.categoryName || "-"}</TableCell>
+                                    </TableRow>
+                                </TableHeaderWrapper>
+                            </Card>
+                            <NameIdList data={viewData?.subcategories} navLink={NAVIGATION_ROUTES.SUB_CATEGORY} title={'Category'} />
+                        </div>
                     </div>
-                </div>
+                </>)}
             </div>
         </main>
     )

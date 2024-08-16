@@ -16,12 +16,12 @@ function NameIdList({ data, navLink, title }: Props) {
             <div>
                 {title}
             </div>
-            <ul className="grid gap-3 grid-cols-2">
+            <ul className="grid gap-3 grid-cols-2 ">
                 {data && data?.length > 0 ? data?.map(
                     (sub: nameAndId | undefined, i: number) => (
                         <li
                             key={i}
-                            className="flex items-center gap-2"
+                            className="flex items-center gap-2 me-5"
                         >
                             <Link to={navLink + `/${sub?.id}`} className="flex items-center gap-2">
                                 <span >

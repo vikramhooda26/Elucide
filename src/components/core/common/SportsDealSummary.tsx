@@ -9,7 +9,7 @@ type Props = {
 function SportsDealSummary({ data }: Props) {
     const sportsDealColumn = [
         {
-            key: 'level',
+            key: 'level.name',
             name: 'Level',
         },
         {

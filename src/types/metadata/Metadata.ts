@@ -26,17 +26,33 @@ export type subPersonality = {
 
 export type sportsDealSummary = {
     id?: string;
-    brandName?: string;
-    partnerName?: string;
+    brand?: {
+        id: string; 
+        name: string;
+    };
+    partner?: {
+        id: string; 
+        name: string;
+    };
     type?: string;
     status?: string | null;
-    level?: string;
+    level?: {
+        id: string; 
+        name: string;
+    };
+    athlete?: {
+        id: string; 
+        name: string;
+    };
     commencementDate?: string | null;
     expirationDate?: string | null;
     duration?: string | null;
     annualValue?: string;
     totalValue?: string;
-    territory?: string;
+    territory?: {
+        id: string; 
+        name: string;
+    };
     mediaLink?: string | null;
     assets?: string[];
 }
@@ -57,3 +73,12 @@ export type subCategory = {
     subcategoryName: string;
     category: nameAndId;
 };
+
+export type contactPersons = {
+    "contactId": string;
+    "contactName": string;
+    "contactDesignation": string;
+    "contactEmail": string;
+    "contactLinkedin": string;
+    "contactNumber": number;
+}

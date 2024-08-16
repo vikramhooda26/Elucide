@@ -5,17 +5,20 @@ import { DataTableRowActions } from "../../../components/data-table/data-table-r
 import { Checkbox } from "../../../components/ui/checkbox";
 import { schema, schemaType } from "./schema";
 import { TRoles } from "../../../lib/constants";
+import { Link } from "react-router-dom";
 
 interface TColumnProps {
     onEdit: (id: string) => void;
     onDelete: (id: string) => void;
     userRole: TRoles;
+    viewRoute?: string;
 }
 
 export const getColumns = ({
     onEdit,
     onDelete,
     userRole,
+    viewRoute,
 }: TColumnProps): ColumnDef<schemaType>[] => {
     const column: ColumnDef<schemaType>[] = [
         {
@@ -52,9 +55,21 @@ export const getColumns = ({
                     title="Brand name"
                 />
             ),
-            cell: ({ row }) => (
-                <div className="w-[80px]">{row.getValue("brand")}</div>
-            ),
+            cell: ({ row }) => {
+                const id = (row.original as { id: string }).id;
+                if (id && viewRoute && viewRoute?.length > 0) {
+                    return (
+                        <Link
+                            to={`${viewRoute}/${id}`}
+                            className="cursor-pointer hover:text-blue-800 "
+                        >
+                            <div className="w-[80px]">{row.getValue("brand")}</div>
+                        </Link>
+                    )
+                } else {
+                    return (<div className="w-[80px]">{row.getValue("brand")}</div>)
+                }
+            },
             enableSorting: false,
             enableHiding: false,
         },
@@ -72,9 +87,9 @@ export const getColumns = ({
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("createdDate")
                                 ? format(
-                                      row.getValue("createdDate"),
-                                      "dd-MM-yyyy, hh:mm aaaaaa"
-                                  )
+                                    row.getValue("createdDate"),
+                                    "dd-MM-yyyy, hh:mm aaaaaa"
+                                )
                                 : ""}
                         </span>
                     </div>
@@ -109,9 +124,9 @@ export const getColumns = ({
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("modifiedDate")
                                 ? format(
-                                      row.getValue("modifiedDate"),
-                                      "dd-MM-yyyy, HH:mm"
-                                  )
+                                    row.getValue("modifiedDate"),
+                                    "dd-MM-yyyy, HH:mm"
+                                )
                                 : ""}
                         </span>
                     </div>

@@ -94,6 +94,12 @@ export const dataEntrySideMenuLinks: Pick<NavProps, "links"> = {
             roles: ["SUPER_ADMIN"],
         },
         {
+            title: "Sub Personality",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.SUB_PERSONALITY_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+        {
             title: "Agency",
             icon: PersonStanding,
             navigateTo: NAVIGATION_ROUTES.AGENCY_LIST,
@@ -123,18 +129,20 @@ export const dataEntrySideMenuLinks: Pick<NavProps, "links"> = {
             navigateTo: NAVIGATION_ROUTES.STATE_LIST,
             roles: ["SUPER_ADMIN"],
         },
-        {
-            title: "Sub Category",
-            icon: PersonStanding,
-            navigateTo: NAVIGATION_ROUTES.SUB_CATEGORY_LIST,
-            roles: ["SUPER_ADMIN"],
-        },
+
         {
             title: "Main Category",
             icon: PersonStanding,
             navigateTo: NAVIGATION_ROUTES.MAIN_CATEGORY_LIST,
             roles: ["SUPER_ADMIN"],
         },
+        {
+            title: "Sub Category",
+            icon: PersonStanding,
+            navigateTo: NAVIGATION_ROUTES.SUB_CATEGORY_LIST,
+            roles: ["SUPER_ADMIN"],
+        },
+
         {
             title: "Nccs class",
             icon: PersonStanding,
@@ -157,12 +165,6 @@ export const dataEntrySideMenuLinks: Pick<NavProps, "links"> = {
             title: "Level",
             icon: PersonStanding,
             navigateTo: NAVIGATION_ROUTES.LEVEL_LIST,
-            roles: ["SUPER_ADMIN"],
-        },
-        {
-            title: "Sub Personality",
-            icon: PersonStanding,
-            navigateTo: NAVIGATION_ROUTES.SUB_PERSONALITY_LIST,
             roles: ["SUPER_ADMIN"],
         },
         {
@@ -239,7 +241,7 @@ export const SideMenu = ({
                 maxSize={15}
                 className={cn(
                     isCollapsed &&
-                        "min-w-[50px] transition-all duration-300 ease-in-out relative"
+                    "min-w-[50px] transition-all duration-300 ease-in-out relative"
                 )}
                 onCollapse={() => {
                     setIsCollapsed(true);

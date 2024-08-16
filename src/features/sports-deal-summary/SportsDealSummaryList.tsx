@@ -119,8 +119,10 @@ function SportsDealSummaryList() {
         navigator(NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY, [id]);
     };
 
+    const viewRoute = NAVIGATION_ROUTES?.SPORTS_DEAL_SUMMARY;
+
     const columns = useMemo(
-        () => getColumns({ onDelete, onEdit, userRole }),
+        () => getColumns({ onDelete, onEdit, userRole, viewRoute }),
         []
     );
 

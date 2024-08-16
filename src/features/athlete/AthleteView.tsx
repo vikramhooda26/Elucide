@@ -24,11 +24,13 @@ import { Card } from "../../components/ui/card";
 import AthleteService from "../../services/features/AthleteService";
 import BackButton from "../../components/button/BackButton";
 import { differenceInYears } from "date-fns";
+import { nameAndId } from "../../types/metadata/Metadata";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 function AthleteView() {
     const { id } = useParams<string>();
     const [athlete, setAthlete] = useState<any>({});
-    const [loading, setLoading] = useState<boolean>(false);
+    const [isLoading, setLoading] = useState<boolean>(false);
 
     const fetchTeam = async () => {
         try {
@@ -88,7 +90,7 @@ function AthleteView() {
     };
 
     return (
-        <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 ">
+        <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 my-8 ">
             <div className="mx-auto grid flex-1 auto-rows-max gap-4">
                 <div className="flex items-center gap-4 mb-4">
                     <BackButton />
@@ -102,53 +104,57 @@ function AthleteView() {
                         </Button>
                     </div>
                 </div>
-                <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                    <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                        <Card x-chunk="dashboard-07-chunk-0">
-                            <div className=" m-3">
-                                <ul className="grid gap-3">
-                                    <li className="flex items-center ">
-                                        <span className="w-1/2">Name</span>
-                                        <span className="text-muted-foreground">
-                                            {athlete?.name || "-"}
-                                        </span>
-                                    </li>
-                                    <li className="flex items-center ">
-                                        <span className="w-1/2">Age</span>
-                                        <span className="text-muted-foreground">
-                                            {athlete?.age || "-"}
-                                        </span>
-                                    </li>
-                                    <li className="flex items-center ">
-                                        <span className="w-1/2">Gender</span>
-                                        {athlete?.gender?.map(
-                                            (gender: string, i: number) => (
-                                                <span className="text-muted-foreground">
-                                                    {gender || "-"}
-                                                </span>
-                                            )
-                                        )}
-                                    </li>
-                                </ul>
-                            </div>
-                        </Card>
+                {isLoading ? (
+                    <FormSkeleton />
+                ) : (<>
+                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                            <Card x-chunk="dashboard-07-chunk-0">
+                                <div className=" m-3">
+                                    <ul className="grid gap-3">
+                                        <li className="flex items-center ">
+                                            <span className="w-1/2">Name</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.name || "-"}
+                                            </span>
+                                        </li>
+                                        <li className="flex items-center ">
+                                            <span className="w-1/2">Age</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.age || "-"}
+                                            </span>
+                                        </li>
+                                        <li className="flex items-center ">
+                                            <span className="w-1/2">Gender</span>
+                                            {athlete?.gender?.map(
+                                                (gender: nameAndId, i: number) => (
+                                                    <span className="text-muted-foreground">
+                                                        {gender?.name || "-"}
+                                                    </span>
+                                                )
+                                            )}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </Card>
 
-                        <Marketing data={athlete} />
+                            <Marketing data={athlete} />
 
-                        <Socials data={athlete} />
+                            <Socials data={athlete} />
 
-                        <ContactPerson data={athlete} />
+                            <ContactPerson data={athlete} />
+                        </div>
+                        <Attributes
+                            data={athlete}
+                            title={"Athlete"}
+                        />
                     </div>
-                    <Attributes
-                        data={athlete}
-                        title={"Athlete"}
-                    />
-                </div>
-                <div>
-                    <SportsDealSummary data={athlete} />
-                </div>
+                    <div>
+                        <SportsDealSummary data={athlete} />
+                    </div>
+                </>)}
             </div>
-        </main>
+        </div>
     );
 }
 

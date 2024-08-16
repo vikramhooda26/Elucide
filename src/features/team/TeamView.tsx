@@ -18,11 +18,12 @@ import { TableCell, TableRow } from "../../components/ui/table";
 import TeamService from "../../services/features/TeamService";
 import { formatNumberWithCommas } from "../utils/helpers";
 import BackButton from "../../components/button/BackButton";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 function TeamView() {
     const { id } = useParams<string>();
     const [team, setTeam] = useState<any>({});
-    const [_isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const teamInfoHeaders: { header: string; className?: string }[] = [
         { header: "Name" },
@@ -59,7 +60,7 @@ function TeamView() {
     }, []);
 
     return (
-        <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 ">
+        <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 my-8">
             <div className="mx-auto auto-rows-max gap-4">
                 <div className="flex items-center gap-4 mb-4">
                     <BackButton />
@@ -73,48 +74,50 @@ function TeamView() {
                         </Button>
                     </div>
                 </div>
-                <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                    <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                        <Card x-chunk="dashboard-07-chunk-0">
-                            <TableHeaderWrapper headersArray={teamInfoHeaders}>
-                                <TableRow>
-                                    <TableCell>{team?.name || "-"}</TableCell>
-                                    <TableCell>
-                                        {team?.yearOfInception || "-"}
-                                    </TableCell>
-                                    <TableCell>
-                                        {formatNumberWithCommas(
-                                            team?.franchiseFee
-                                        ) || "-"}
-                                    </TableCell>
-                                </TableRow>
-                            </TableHeaderWrapper>
-                        </Card>
+                {isLoading ? (
+                    <FormSkeleton />
+                ) : (<>
+                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                            <Card x-chunk="dashboard-07-chunk-0">
+                                <TableHeaderWrapper headersArray={teamInfoHeaders}>
+                                    <TableRow>
+                                        <TableCell>{team?.name || "-"}</TableCell>
+                                        <TableCell>
+                                            {team?.yearOfInception || "-"}
+                                        </TableCell>
+                                        <TableCell>
+                                            {team?.franchiseFee > 0 ? formatNumberWithCommas(team?.franchiseFee) : "-"}
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHeaderWrapper>
+                            </Card>
 
-                        <StrategyOverview strategy={team?.strategyOverview} />
+                            <StrategyOverview strategy={team?.strategyOverview} />
 
-                        <TagLines data={team} />
+                            <TagLines data={team} />
 
-                        <Marketing data={team} />
+                            <Marketing data={team} />
 
-                        <Socials data={team} />
+                            <Socials data={team} />
 
-                        <ActiveCampaing data={team} />
+                            <ActiveCampaing data={team} />
 
-                        <Endorsements data={team} />
+                            <Endorsements data={team} />
 
-                        <Association data={team} />
+                            <Association data={team} />
 
-                        <ContactPerson data={team} />
+                            <ContactPerson data={team} />
+                        </div>
+                        <Attributes
+                            data={team}
+                            title={"Team"}
+                        />
                     </div>
-                    <Attributes
-                        data={team}
-                        title={"Team"}
-                    />
-                </div>
-                <div className="my-8">
-                    <SportsDealSummary data={team} />
-                </div>
+                    <div className="my-8">
+                        <SportsDealSummary data={team} />
+                    </div>
+                </>)}
             </div>
         </main>
     );

@@ -14,6 +14,7 @@ import {
 } from "../../ui/card";
 import { Separator } from "../../ui/separator";
 import NoDataText from "../../no-data/NoDataText";
+import { nameAndId } from "../../../types/metadata/Metadata";
 
 const targetAudience = ["Team"];
 const league = ["Team", "Athlete"];
@@ -41,14 +42,14 @@ function Attributes({ data, title = "" }: Props) {
                                 <span className="text-muted-foreground">
                                     Sports
                                 </span>
-                                <span>{data?.sport || "-"}</span>
+                                <span>{data?.sport?.name || "-"}</span>
                             </li>
                             {league?.some((l) => l === title) ? (
                                 <li className="flex items-center justify-between">
                                     <span className="text-muted-foreground">
                                         League
                                     </span>
-                                    <span>{data?.league || "-"}</span>
+                                    <span>{data?.league?.name || "-"}</span>
                                 </li>
                             ) : null}
                         </ul>
@@ -58,7 +59,7 @@ function Attributes({ data, title = "" }: Props) {
                                 <div className="font-semibold">Team Owners</div>
                                 <ul className="grid gap-3">
                                     {data?.owners?.map(
-                                        (owner: string, i: number) => (
+                                        (owner: nameAndId, i: number) => (
                                             <li
                                                 key={i}
                                                 className="flex items-center gap-2"
@@ -66,7 +67,7 @@ function Attributes({ data, title = "" }: Props) {
                                                 <span className="text-muted-foreground">
                                                     <Diamond className="w-4 h-4" />
                                                 </span>
-                                                <span>{owner}</span>
+                                                <span>{owner?.name}</span>
                                             </li>
                                         )
                                     )}
@@ -77,7 +78,7 @@ function Attributes({ data, title = "" }: Props) {
                         <div className="font-semibold">NCCS</div>
                         <ul className="grid gap-3">
                             {data?.nccs?.length > 0 ? (
-                                data?.nccs?.map((nccs: string, i: number) => (
+                                data?.nccs?.map((nccs: nameAndId, i: number) => (
                                     <li
                                         key={i}
                                         className="flex items-center gap-2"
@@ -85,7 +86,7 @@ function Attributes({ data, title = "" }: Props) {
                                         <span className="text-muted-foreground">
                                             <Unlink2 className="w-4 h-4" />
                                         </span>
-                                        <span>{nccs}</span>
+                                        <span>{nccs?.name}</span>
                                     </li>
                                 ))
                             ) : (
@@ -112,7 +113,7 @@ function Attributes({ data, title = "" }: Props) {
                                             className="grid gap-3"
                                         >
                                             <div className="text-muted-foreground">
-                                                {trait?.mainPersonalityTrait}
+                                                {trait?.mainPersonalityTrait?.name}
                                             </div>
                                         </div>
                                         <div
@@ -120,7 +121,7 @@ function Attributes({ data, title = "" }: Props) {
                                             className="grid auto-rows-max gap-3"
                                         >
                                             <div className="text-muted-foreground">
-                                                {trait?.subPersonalityTraits}
+                                                {trait?.subPersonalityTraits?.name}
                                             </div>
                                         </div>
                                     </>
@@ -135,11 +136,11 @@ function Attributes({ data, title = "" }: Props) {
                         <dl className="grid gap-3">
                             <div className="flex items-center justify-between">
                                 <dt className="text-muted-foreground">City</dt>
-                                <dd>{data?.hqCity || "-"}</dd>
+                                <dd>{data?.hqCity?.name || "-"}</dd>
                             </div>
                             <div className="flex items-center justify-between">
                                 <dt className="text-muted-foreground">State</dt>
-                                <dd>{data?.hqState || "-"}</dd>
+                                <dd>{data?.hqState?.name || "-"}</dd>
                             </div>
                         </dl>
                     </div>
@@ -148,7 +149,7 @@ function Attributes({ data, title = "" }: Props) {
                         <div className="font-semibold">Tiers</div>
                         <dl className="grid gap-3">
                             {data?.tiers?.length > 0 ? (
-                                data?.tiers?.map((tier: string, i: number) => (
+                                data?.tiers?.map((tier: nameAndId, i: number) => (
                                     <>
                                         {tier ? (
                                             <div
@@ -158,7 +159,7 @@ function Attributes({ data, title = "" }: Props) {
                                                 <dt className="">
                                                     <SquareStack className="h-4 w-4" />
                                                 </dt>
-                                                <dd>{tier || "-"}</dd>
+                                                <dd>{tier?.name || "-"}</dd>
                                             </div>
                                         ) : null}
                                     </>
@@ -193,7 +194,7 @@ function Attributes({ data, title = "" }: Props) {
                                     {typeof data?.age === "object" ? (
                                         data?.age?.length ? (
                                             data?.age?.map(
-                                                (age: string, i: number) => (
+                                                (age: nameAndId, i: number) => (
                                                     <>
                                                         {age ? (
                                                             <div
@@ -204,7 +205,7 @@ function Attributes({ data, title = "" }: Props) {
                                                                     <MoveHorizontal className="h-4 w-4" />
                                                                 </dt>
                                                                 <dd>
-                                                                    {age || "-"}
+                                                                    {age?.name || "-"}
                                                                 </dd>
                                                             </div>
                                                         ) : null}
@@ -219,7 +220,7 @@ function Attributes({ data, title = "" }: Props) {
                                             <dt className="">
                                                 <MoveHorizontal className="h-4 w-4" />
                                             </dt>
-                                            <dd>{data?.age || "-"}</dd>
+                                            <dd>{data?.age?.name || "-"}</dd>
                                         </div>
                                     )}
                                 </dl>
@@ -230,7 +231,7 @@ function Attributes({ data, title = "" }: Props) {
                                 <dl className="grid gap-3">
                                     {data?.gender?.length ? (
                                         data?.gender?.map(
-                                            (gender: string, i: number) => (
+                                            (gender: nameAndId, i: number) => (
                                                 <>
                                                     {gender ? (
                                                         <div
@@ -241,7 +242,7 @@ function Attributes({ data, title = "" }: Props) {
                                                                 <PersonStanding className="h-4 w-4" />
                                                             </dt>
                                                             <dd>
-                                                                {gender || "-"}
+                                                                {gender?.name || "-"}
                                                             </dd>
                                                         </div>
                                                     ) : null}
