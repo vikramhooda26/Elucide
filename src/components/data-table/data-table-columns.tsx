@@ -87,6 +87,7 @@ export function generateColumns<T extends object>(
         cell: ({ row }: CellContext<T, unknown>) => (
             <DataTableRowActions
                 row={row}
+                //@ts-ignore
                 routes={config.routes}
                 schema={config.schema}
             />
