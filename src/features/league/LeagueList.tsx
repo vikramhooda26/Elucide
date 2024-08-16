@@ -44,6 +44,7 @@ function LeagueList() {
     const navigate = useNavigate();
 
     const userRole = useUser()?.role;
+
     if (!userRole) {
         return;
     }
@@ -51,7 +52,7 @@ function LeagueList() {
     const fetchLeagues = async () => {
         try {
             setIsLoading(true);
-            const response = await LeagueService.getAll({});
+            const response = await LeagueService.getAll();
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const leagues = response.data;
                 leagues.forEach((league: league, i: number) => {
@@ -87,8 +88,6 @@ function LeagueList() {
             );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                
-
                 toast.success("Deleted successfully");
                 setLeagueList((prevDataList) =>
                     prevDataList.filter((data) => data.id !== id)

@@ -23,12 +23,12 @@ export function MainNav({
                     Create user
                 </Link>
             )}
-            <Link
+            {/* <Link
                 to="#"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
                 Staff
-            </Link>
+            </Link> */}
             {/* <Link
                 to="#"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"

@@ -1,9 +1,8 @@
 import { RecoilRoot } from "recoil";
-import { ThemeProvider } from "./theme/theme-provider";
-import { AuthProvider } from "../features/auth/auth-provider/AuthProvider";
 import { Toaster } from "sonner";
+import { AuthProvider } from "../features/auth/auth-provider/AuthProvider";
 import LoadingBarWrapper from "./loading-wrapper";
-import ErrorBoundary from "../components/error/ErrorBoundary";
+import { ThemeProvider } from "./theme/theme-provider";
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     return (
