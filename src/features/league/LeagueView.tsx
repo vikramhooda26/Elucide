@@ -1,7 +1,7 @@
-import { ChevronLeft, Pencil } from "lucide-react";
-
+import { Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import BackButton from "../../components/button/BackButton";
 import ActiveCampaing from "../../components/core/common/ActiveCampaing";
 import Association from "../../components/core/common/Association";
 import Attributes from "../../components/core/common/Attributes";
@@ -12,11 +12,10 @@ import Socials from "../../components/core/common/Socials";
 import SportsDealSummary from "../../components/core/common/SportsDealSummary";
 import StrategyOverview from "../../components/core/common/StrategyOverview";
 import TagLines from "../../components/core/common/TagLines";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import LeagueService from "../../services/features/LeagueService";
-import BackButton from "../../components/button/BackButton";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 function LeagueView() {
     const { id } = useParams<string>();
@@ -68,77 +67,89 @@ function LeagueView() {
                 </div>
                 {isLoading ? (
                     <FormSkeleton />
-                ) : (<>
-                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                            <Card x-chunk="dashboard-07-chunk-0">
-                                <div className=" m-3">
-                                    <ul className="grid gap-3">
-                                        <li className="flex items-center ">
-                                            <span className="w-1/2">Name</span>
-                                            <span className="text-muted-foreground">
-                                                {league?.name || "-"}
-                                            </span>
-                                        </li>
-                                        <li className="flex items-center ">
-                                            <span className="w-1/2">
-                                                Year Of Inception
-                                            </span>
-                                            <span className="text-muted-foreground">
-                                                {league?.yearOfInception || "-"}
-                                            </span>
-                                        </li>
-                                        <li className="flex items-center ">
-                                            <span className="w-1/2">Format</span>
-                                            <span className="text-muted-foreground">
-                                                {league?.format?.name || "-"}
-                                            </span>
-                                        </li>
-                                        <li className="flex items-center ">
-                                            <span className="w-1/2">
-                                                Broadcast Partner
-                                            </span>
-                                            <span className="text-muted-foreground">
-                                                {league?.broadcastPartner?.name || "-"}
-                                            </span>
-                                        </li>
-                                        <li className="flex items-center ">
-                                            <span className="w-1/2">
-                                                OTT Partner
-                                            </span>
-                                            <span className="text-muted-foreground">
-                                                {league?.ottPartner?.name || "-"}
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </Card>
+                ) : (
+                    <>
+                        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                                <Card x-chunk="dashboard-07-chunk-0">
+                                    <div className=" m-3">
+                                        <ul className="grid gap-3">
+                                            <li className="flex items-center ">
+                                                <span className="w-1/2">
+                                                    Name
+                                                </span>
+                                                <span className="text-muted-foreground">
+                                                    {league?.name || "-"}
+                                                </span>
+                                            </li>
+                                            <li className="flex items-center ">
+                                                <span className="w-1/2">
+                                                    Year Of Inception
+                                                </span>
+                                                <span className="text-muted-foreground">
+                                                    {league?.yearOfInception ||
+                                                        "-"}
+                                                </span>
+                                            </li>
+                                            <li className="flex items-center ">
+                                                <span className="w-1/2">
+                                                    Format
+                                                </span>
+                                                <span className="text-muted-foreground">
+                                                    {league?.format?.name ||
+                                                        "-"}
+                                                </span>
+                                            </li>
+                                            <li className="flex items-center ">
+                                                <span className="w-1/2">
+                                                    Broadcast Partner
+                                                </span>
+                                                <span className="text-muted-foreground">
+                                                    {league?.broadcastPartner
+                                                        ?.name || "-"}
+                                                </span>
+                                            </li>
+                                            <li className="flex items-center ">
+                                                <span className="w-1/2">
+                                                    OTT Partner
+                                                </span>
+                                                <span className="text-muted-foreground">
+                                                    {league?.ottPartner?.name ||
+                                                        "-"}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </Card>
 
-                            <StrategyOverview strategy={league?.strategyOverview} />
+                                <StrategyOverview
+                                    strategy={league?.strategyOverview}
+                                />
 
-                            <TagLines data={league} />
+                                <TagLines data={league} />
 
-                            <Marketing data={league} />
+                                <Marketing data={league} />
 
-                            <Socials data={league} />
+                                <Socials data={league} />
 
-                            <ActiveCampaing data={league} />
+                                <ActiveCampaing data={league} />
 
-                            <Endorsements data={league} />
+                                <Endorsements data={league} />
 
-                            <Association data={league} />
+                                <Association data={league} />
 
-                            <ContactPerson data={league} />
+                                <ContactPerson data={league} />
+                            </div>
+                            <Attributes
+                                data={league}
+                                title={"League"}
+                            />
                         </div>
-                        <Attributes
-                            data={league}
-                            title={"League"}
-                        />
-                    </div>
-                    <div className="my-8">
-                        <SportsDealSummary data={league} />
-                    </div>
-                </>)}
+                        <div className="my-8">
+                            <SportsDealSummary data={league} />
+                        </div>
+                    </>
+                )}
             </div>
         </main>
     );
