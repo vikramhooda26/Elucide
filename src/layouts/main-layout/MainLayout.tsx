@@ -9,10 +9,12 @@ import {
 } from "../../components/ui/resizable";
 import { TooltipProvider } from "../../components/ui/tooltip";
 import { accounts, mails } from "./athlete/data";
+import useWindowDimensions from "../../hooks/useWindowDimension";
 
 function MainLayout() {
     const [defaultLayout, setDefaultLayout] = useState(undefined);
     const [defaultCollapsed, setDefaultCollapsed] = useState(undefined);
+    const { width } = useWindowDimensions();
 
     useEffect(() => {
         const layout = Cookies.get("react-resizable-panels:layout:mail");
@@ -33,7 +35,7 @@ function MainLayout() {
                     <DashboardNavbar />
                 </div>
                 <div className="w-full h-full px-4 lg:hidden relative">
-                    <Outlet />
+                    {width <= 1024 && <Outlet />}
                 </div>
             </div>
 
@@ -57,7 +59,7 @@ function MainLayout() {
                         />
                         <ResizablePanel>
                             <div className="w-full h-full px-4">
-                                <Outlet />
+                                {width > 1024 && <Outlet />}
                             </div>
                         </ResizablePanel>
                     </ResizablePanelGroup>
