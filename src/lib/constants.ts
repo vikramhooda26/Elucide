@@ -28,6 +28,11 @@ export const NAVIGATION_ROUTES = {
     HOME: "/elucide/home",
     DASHBOARD: "/dashboard",
 
+    BRAND_DASHBOARD: "/brand/dashboard",
+    League_DASHBOARD: "/league/dashboard",
+    TEAM_DASHBOARD: "/team/dashboard",
+    ATHLETE_DASHBOARD: "/athlete/dashboard",
+
     TEAM: "/team/view",
     TEAM_LIST: "/team/list",
     CREATE_TEAM: dataEntryRoute + "/team/create",

@@ -45,31 +45,31 @@ export const SideMenuLinks: Pick<NavProps, "links"> = {
             roles: ["ADMIN", "SUPER_ADMIN", "STAFF"],
         },
         {
-            title: "League",
-            icon: Trophy,
-            label: "50",
-            navigateTo: NAVIGATION_ROUTES.LEAGUE_LIST,
+            title: "Brand",
+            icon: Building,
+            label: "100",
+            navigateTo: NAVIGATION_ROUTES.BRAND_DASHBOARD,
             roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
         },
         {
-            title: "Athlete",
-            icon: Dumbbell,
-            label: "200",
-            navigateTo: NAVIGATION_ROUTES.ATHLETE_LIST,
+            title: "League",
+            icon: Trophy,
+            label: "50",
+            navigateTo: NAVIGATION_ROUTES.League_DASHBOARD,
             roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
         },
         {
             title: "Team",
             icon: Users,
             label: "150",
-            navigateTo: NAVIGATION_ROUTES.TEAM_LIST,
+            navigateTo: NAVIGATION_ROUTES.TEAM_DASHBOARD,
             roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
         },
         {
-            title: "Brand",
-            icon: Building,
-            label: "100",
-            navigateTo: NAVIGATION_ROUTES.BRAND_LIST,
+            title: "Athlete",
+            icon: Dumbbell,
+            label: "200",
+            navigateTo: NAVIGATION_ROUTES.ATHLETE_DASHBOARD,
             roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
         },
     ],
@@ -92,7 +92,7 @@ export const SideMenu = ({
                 maxSize={15}
                 className={cn(
                     isCollapsed &&
-                        "min-w-[50px] transition-all duration-300 ease-in-out relative"
+                    "min-w-[50px] transition-all duration-300 ease-in-out relative"
                 )}
                 onCollapse={() => {
                     setIsCollapsed(true);

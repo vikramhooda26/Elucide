@@ -112,6 +112,10 @@ import SportsDealSummaryView from "../features/sports-deal-summary/SportsDealSum
 import AssociationLevelForm from "../features/metadata/association-level/AssociationLevelForm";
 import AssociationLevelList from "../features/metadata/association-level/AssociationLevelList";
 import AssociationLevelView from "../features/metadata/association-level/AssociationLevelView";
+import BrandDashboardLayout from "../features/dashboard/brand/BrandDashboardLayout";
+import LeagueDashboardLayout from "../features/dashboard/league/LeagueDashboardLayout";
+import TeamDashboardLayout from "../features/dashboard/team/TeamDashboardLayout";
+import AthleteDashboardLayout from "../features/dashboard/athlete/AthleteDashboardLayout";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -124,11 +128,35 @@ const routeChildren: routeChildrenType[] = [
         ),
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
+
+    //= ====================== dashboard routes starts here ========================= =//
     {
         path: NAVIGATION_ROUTES.DASHBOARD,
         element: <Dashboard />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
     },
+    {
+        path: NAVIGATION_ROUTES.BRAND_DASHBOARD,
+        element: <BrandDashboardLayout />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    {
+        path: NAVIGATION_ROUTES.League_DASHBOARD,
+        element: <LeagueDashboardLayout />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    {
+        path: NAVIGATION_ROUTES.TEAM_DASHBOARD,
+        element: <TeamDashboardLayout />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    {
+        path: NAVIGATION_ROUTES.ATHLETE_DASHBOARD,
+        element: <AthleteDashboardLayout />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"],
+    },
+    //= ====================== dashboard routes ends here ========================= =//
+
     {
         path: NAVIGATION_ROUTES.CREATE_USER,
         element: <SignUpPage />,
