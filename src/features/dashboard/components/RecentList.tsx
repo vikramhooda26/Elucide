@@ -13,7 +13,7 @@ type Props = {
 
 function RecentList({ title, list, operation, nameKey, dateKey, operationKey }: Props) {
     return (
-        <Card className="col-span-4">
+        <Card className="col-span-3">
             <CardHeader>
                 <CardTitle>Recently <span className='ms-1'>{title || ''}</span></CardTitle>
                 <CardDescription>

@@ -4,8 +4,29 @@ import AthleteRecentList from '../athlete/component/AthleteRecentList';
 import BrandRecentList from '../brand/component/BrandRecentList';
 import LeagueRecentList from '../league/component/LeagueRecentList';
 import TeamRecentList from '../team/component/TeamRecentList';
+import BrandDashboard from '../brand/BrandDashboard';
+import LeagueDashboard from '../league/LeagueDashboard';
+import TeamDashboard from '../team/TeamDashboard';
+import AthleteDashboard from '../athlete/AthleteDashboard';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs';
 
 function OverView() {
+
+    const tabs = [
+        {
+            value: 'brand', name: 'Brands', component: <BrandDashboard />,
+        },
+        {
+            value: 'league', name: 'Leagues', component: <LeagueDashboard />,
+        },
+        {
+            value: 'team', name: 'Teams', component: <TeamDashboard />,
+        },
+        {
+            value: 'athlete', name: 'Athletes', component: <AthleteDashboard />,
+        },
+    ];
+
     return (
         <div className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -64,7 +85,19 @@ function OverView() {
                     </CardContent>
                 </Card>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
+            <Tabs defaultValue="brand" className="space-y-4">
+                <TabsList>
+                    {tabs?.map((tab, i) => (
+                        <TabsTrigger value={tab?.value} key={i}>{tab?.name}</TabsTrigger>
+                    ))}
+                </TabsList>
+                {tabs?.map((content) => (
+                    <TabsContent value={content?.value} className="space-y-4">
+                        {content?.component}
+                    </TabsContent>
+                ))}
+            </Tabs>
+            {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
                 <BrandRecentList />
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
@@ -75,7 +108,7 @@ function OverView() {
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
                 <AthleteRecentList />
-            </div>
+            </div> */}
         </div>
     )
 }

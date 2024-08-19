@@ -14,24 +14,6 @@ import TeamDashboard from "./team/TeamDashboard"
 
 export default function Dashboard() {
 
-  const tabs = [
-    {
-      value: 'overview', name: 'Overview', component: <OverView />,
-    },
-    {
-      value: 'brand', name: 'Brands', component: <BrandDashboard />,
-    },
-    {
-      value: 'league', name: 'Leagues', component: <LeagueDashboard />,
-    },
-    {
-      value: 'team', name: 'Teams', component: <TeamDashboard />,
-    },
-    {
-      value: 'athlete', name: 'Athletes', component: <AthleteDashboard />,
-    },
-  ];
-
   return (
     <>
       <div className=" flex-col md:flex">
@@ -44,18 +26,7 @@ export default function Dashboard() {
               <Button>Search</Button>
             </div>
           </div>
-          <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList>
-              {tabs?.map((tab, i) => (
-                <TabsTrigger value={tab?.value} key={i}>{tab?.name}</TabsTrigger>
-              ))}
-            </TabsList>
-            {tabs?.map((content) => (
-              <TabsContent value={content?.value} className="space-y-4">
-                {content?.component}
-              </TabsContent>
-            ))}
-          </Tabs>
+          <OverView />
         </div>
       </div>
     </>
