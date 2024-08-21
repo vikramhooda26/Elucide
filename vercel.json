@@ -1,8 +1,3 @@
 {
-	"rewrites": [
-		{
-			"source": "/api/(.*)",
-			"destination": "https://elucide-sports-backend.vercel.app/api/$1"
-		}
-	]
+	"rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
