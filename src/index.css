@@ -113,6 +113,19 @@
         background: #3576df;
     }
 
+    /* Text selection styles */
+
+    ::-moz-selection {
+        /* Code for Firefox */
+        color: black;
+        background: #e9d2fd;
+    }
+
+    ::selection {
+        color: black;
+        background: #e9d2fd;
+    }
+
     /* Input field styles */
 
     /* Chrome, Safari, Edge, Opera */
@@ -188,3 +201,5 @@
         }
     }
 }
+
+/* #E9D2FD */

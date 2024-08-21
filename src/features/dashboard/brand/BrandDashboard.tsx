@@ -1,10 +1,13 @@
-import { Building } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "../../../components/ui/card";
 import { Overview } from "../components/overview";
 import BrandRecentList from "./component/BrandRecentList";
 
 function BrandDashboard() {
-
     return (
         <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
@@ -16,7 +19,7 @@ function BrandDashboard() {
                         <Overview />
                     </CardContent>
                 </Card>
-            {/* </div>
+                {/* </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8"> */}
                 <BrandRecentList />
             </div>
