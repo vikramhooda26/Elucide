@@ -1,13 +1,32 @@
 import {
+    AudioLines,
+    BadgeDollarSign,
+    Bike,
+    BriefcaseBusiness,
     Building,
+    Caravan,
+    CaseLower,
     CircleArrowOutUpRight,
+    Clapperboard,
     ClipboardCheck,
     Dumbbell,
+    Fence,
     FileText,
     Handshake,
+    Landmark,
+    LandPlot,
+    MapPin,
+    Milestone,
+    MonitorSmartphone,
     PersonStanding,
+    Plane,
     RefreshCcw,
+    School,
     Trophy,
+    Tv,
+    TypeIcon,
+    University,
+    User,
     Users
 } from "lucide-react";
 import * as React from "react";
@@ -71,7 +90,7 @@ export const dataEntrySideMenuLinks: Pick<NavProps, "links"> = {
         },
         {
             title: "Association Level",
-            icon: RefreshCcw,
+            icon: Milestone,
             navigateTo: NAVIGATION_ROUTES.ASSOCIATION_LEVEL_LIST,
             roles: ["SUPER_ADMIN"]
         },
@@ -101,123 +120,123 @@ export const dataEntrySideMenuLinks: Pick<NavProps, "links"> = {
         },
         {
             title: "Agency",
-            icon: PersonStanding,
+            icon: BriefcaseBusiness,
             navigateTo: NAVIGATION_ROUTES.AGENCY_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Asset",
-            icon: PersonStanding,
+            icon: LandPlot,
             navigateTo: NAVIGATION_ROUTES.ASSET_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Broadcast Partner",
-            icon: PersonStanding,
+            icon: Tv,
             navigateTo: NAVIGATION_ROUTES.BROADCAST_PARTNER_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "City",
-            icon: PersonStanding,
+            icon: University,
             navigateTo: NAVIGATION_ROUTES.CITY_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "State",
-            icon: PersonStanding,
+            icon: Landmark,
             navigateTo: NAVIGATION_ROUTES.STATE_LIST,
             roles: ["SUPER_ADMIN"]
         },
 
         {
             title: "Main Category",
-            icon: PersonStanding,
+            icon: Plane,
             navigateTo: NAVIGATION_ROUTES.MAIN_CATEGORY_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Sub Category",
-            icon: PersonStanding,
+            icon: Caravan,
             navigateTo: NAVIGATION_ROUTES.SUB_CATEGORY_LIST,
             roles: ["SUPER_ADMIN"]
         },
 
         {
             title: "Nccs class",
-            icon: PersonStanding,
+            icon: School,
             navigateTo: NAVIGATION_ROUTES.NCCS_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Key Market",
-            icon: PersonStanding,
+            icon: BadgeDollarSign,
             navigateTo: NAVIGATION_ROUTES.KEY_MARKET_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "League Owner",
-            icon: PersonStanding,
+            icon: User,
             navigateTo: NAVIGATION_ROUTES.LEAGUE_OWNER_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Level",
-            icon: PersonStanding,
+            icon: AudioLines,
             navigateTo: NAVIGATION_ROUTES.LEVEL_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Marketing Platform",
-            icon: PersonStanding,
+            icon: MonitorSmartphone,
             navigateTo: NAVIGATION_ROUTES.MARKETING_PLATFORM_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "OTT Partner",
-            icon: PersonStanding,
+            icon: Clapperboard,
             navigateTo: NAVIGATION_ROUTES.OTT_PARTNER_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Parent Organization",
-            icon: PersonStanding,
+            icon: Building,
             navigateTo: NAVIGATION_ROUTES.PARENT_ORG_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Sport",
-            icon: PersonStanding,
+            icon: Bike,
             navigateTo: NAVIGATION_ROUTES.SPORT_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Tagline",
-            icon: PersonStanding,
+            icon: CaseLower,
             navigateTo: NAVIGATION_ROUTES.TAGLINE_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Team Owner",
-            icon: PersonStanding,
+            icon: User,
             navigateTo: NAVIGATION_ROUTES.TEAM_OWNER_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Territory",
-            icon: PersonStanding,
+            icon: Fence,
             navigateTo: NAVIGATION_ROUTES.TERRITORY_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Tier",
-            icon: PersonStanding,
+            icon: TypeIcon,
             navigateTo: NAVIGATION_ROUTES.TIER_LIST,
             roles: ["SUPER_ADMIN"]
         },
         {
             title: "Country",
-            icon: PersonStanding,
+            icon: MapPin,
             navigateTo: NAVIGATION_ROUTES.COUNTRY_LIST,
             roles: ["SUPER_ADMIN"]
         }
