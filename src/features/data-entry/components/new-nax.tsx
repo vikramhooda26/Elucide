@@ -28,15 +28,12 @@ export function Nav({ links, isCollapsed }: NavProps) {
     return (
         <div
             data-collapsed={isCollapsed}
-            className="group flex flex-col max-h-dvh overflow-auto scrollbar py-8"
+            className="scrollbar group !sticky !top-0 flex max-h-dvh flex-col overflow-auto py-8"
         >
             <nav className="grid gap-3 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
                 {links.map((link, index) =>
                     isCollapsed ? (
-                        <Tooltip
-                            key={index}
-                            delayDuration={0}
-                        >
+                        <Tooltip key={index} delayDuration={0}>
                             <TooltipTrigger asChild>
                                 <Link
                                     to={link.navigateTo}
@@ -45,7 +42,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                             variant: getVariant(
                                                 link.navigateTo
                                             ),
-                                            size: "icon",
+                                            size: "icon"
                                         }),
                                         "h-9 w-9",
                                         getVariant(link.navigateTo) ===
@@ -78,7 +75,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                             className={cn(
                                 buttonVariants({
                                     variant: getVariant(link.navigateTo),
-                                    size: "sm",
+                                    size: "sm"
                                 }),
                                 getVariant(link.navigateTo) === "default" &&
                                     "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",

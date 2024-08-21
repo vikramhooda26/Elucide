@@ -4,13 +4,15 @@ import { Outlet } from "react-router-dom";
 import { SideMenu } from "./components/SideMenu";
 import {
     ResizablePanel,
-    ResizablePanelGroup,
+    ResizablePanelGroup
 } from "../../components/ui/resizable";
 import { TooltipProvider } from "../../components/ui/tooltip";
+import useWindowDimensions from "../../hooks/useWindowDimension";
 
 function DataEntryList() {
     const [defaultLayout, setDefaultLayout] = useState(undefined);
     const [defaultCollapsed, setDefaultCollapsed] = useState(undefined);
+    const { width } = useWindowDimensions();
 
     useEffect(() => {
         const layout = Cookies.get("react-resizable-panels:layout:mail");
@@ -25,11 +27,11 @@ function DataEntryList() {
     }, []);
 
     return (
-        <div className="w-full h-full">
-            <div className="w-full h-full px-4 py-8 lg:hidden relative">
-                <Outlet />
+        <div className="h-full w-full">
+            <div className="relative h-full w-full px-4 py-8 lg:hidden">
+                {width <= 1024 && <Outlet />}
             </div>
-            <div className="h-full flex w-full relative max-lg:hidden">
+            <div className="relative flex h-full w-full max-lg:hidden">
                 <TooltipProvider delayDuration={0}>
                     <ResizablePanelGroup
                         direction="horizontal"
@@ -39,6 +41,7 @@ function DataEntryList() {
                             )}`;
                         }}
                         className="h-full items-stretch gap-4"
+                        style={{ overflow: "clip" }}
                     >
                         <SideMenu
                             defaultLayout={defaultLayout}
@@ -46,8 +49,8 @@ function DataEntryList() {
                             navCollapsedSize={4}
                         />
                         <ResizablePanel>
-                            <div className="w-full h-full px-4 py-8">
-                                <Outlet />
+                            <div className="h-full w-full px-4 py-8">
+                                {width > 1024 && <Outlet />}
                             </div>
                         </ResizablePanel>
                     </ResizablePanelGroup>

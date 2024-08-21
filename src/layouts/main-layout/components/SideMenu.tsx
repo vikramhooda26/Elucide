@@ -5,11 +5,11 @@ import {
     FileText,
     Trophy,
     Users,
-    Building,
+    Building
 } from "lucide-react";
 import {
     ResizableHandle,
-    ResizablePanel,
+    ResizablePanel
 } from "../../../components/ui/resizable";
 import { Nav, NavProps } from "../athlete/new-nax";
 import { cn } from "../../../lib/utils";
@@ -35,50 +35,50 @@ export const SideMenuLinks: Pick<NavProps, "links"> = {
             icon: BarChart,
             label: "50",
             navigateTo: NAVIGATION_ROUTES.DASHBOARD,
-            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
         },
         {
             title: "Data Entry",
             icon: FileText,
             label: "50",
             navigateTo: NAVIGATION_ROUTES.DATA_ENTRY_LIST,
-            roles: ["ADMIN", "SUPER_ADMIN", "STAFF"],
+            roles: ["ADMIN", "SUPER_ADMIN", "STAFF"]
         },
         {
             title: "Brand",
             icon: Building,
             label: "100",
             navigateTo: NAVIGATION_ROUTES.BRAND_DASHBOARD,
-            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
         },
         {
             title: "League",
             icon: Trophy,
             label: "50",
             navigateTo: NAVIGATION_ROUTES.League_DASHBOARD,
-            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
         },
         {
             title: "Team",
             icon: Users,
             label: "150",
             navigateTo: NAVIGATION_ROUTES.TEAM_DASHBOARD,
-            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
         },
         {
             title: "Athlete",
             icon: Dumbbell,
             label: "200",
             navigateTo: NAVIGATION_ROUTES.ATHLETE_DASHBOARD,
-            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
-        },
-    ],
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
+        }
+    ]
 };
 
 export const SideMenu = ({
     defaultLayout = [15],
     defaultCollapsed = false,
-    navCollapsedSize,
+    navCollapsedSize
 }: MailProps) => {
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
 
@@ -92,7 +92,7 @@ export const SideMenu = ({
                 maxSize={15}
                 className={cn(
                     isCollapsed &&
-                    "min-w-[50px] transition-all duration-300 ease-in-out relative"
+                        "relative min-w-[50px] transition-all duration-300 ease-in-out"
                 )}
                 onCollapse={() => {
                     setIsCollapsed(true);
@@ -106,16 +106,11 @@ export const SideMenu = ({
                         false
                     )}`;
                 }}
+                style={{ overflow: "clip" }}
             >
-                <Nav
-                    isCollapsed={isCollapsed}
-                    links={SideMenuLinks.links}
-                />
+                <Nav isCollapsed={isCollapsed} links={SideMenuLinks.links} />
             </ResizablePanel>
-            <ResizableHandle
-                withHandle
-                className="min-h-dvh"
-            />
+            <ResizableHandle withHandle className="min-h-dvh" />
         </>
     );
 };

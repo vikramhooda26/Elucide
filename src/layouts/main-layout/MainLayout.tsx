@@ -5,7 +5,7 @@ import DashboardNavbar from "./components/DashboardNavbar";
 import { SideMenu } from "./components/SideMenu";
 import {
     ResizablePanel,
-    ResizablePanelGroup,
+    ResizablePanelGroup
 } from "../../components/ui/resizable";
 import { TooltipProvider } from "../../components/ui/tooltip";
 import { accounts, mails } from "./athlete/data";
@@ -29,17 +29,17 @@ function MainLayout() {
     }, []);
 
     return (
-        <div className="w-full h-full relative">
-            <div className="w-full h-full">
-                <div className="relative w-full h-20">
+        <div className="relative h-full w-full">
+            <div className="h-full w-full">
+                <div className="relative h-20 w-full">
                     <DashboardNavbar />
                 </div>
-                <div className="w-full h-full px-4 lg:hidden relative">
+                <div className="relative h-full w-full px-4 lg:hidden">
                     {width <= 1024 && <Outlet />}
                 </div>
             </div>
 
-            <div className="h-full flex w-full relative max-lg:hidden">
+            <div className="relative flex h-full w-full max-lg:hidden">
                 <TooltipProvider delayDuration={0}>
                     <ResizablePanelGroup
                         direction="horizontal"
@@ -57,8 +57,8 @@ function MainLayout() {
                             defaultCollapsed={defaultCollapsed}
                             navCollapsedSize={4}
                         />
-                        <ResizablePanel>
-                            <div className="w-full h-full px-4">
+                        <ResizablePanel style={{ overflow: "clip" }}>
+                            <div className="h-full w-full px-4">
                                 {width > 1024 && <Outlet />}
                             </div>
                         </ResizablePanel>
