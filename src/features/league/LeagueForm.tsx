@@ -31,14 +31,14 @@ import {
     convertCroreToRupees,
     convertRupeesToCrore,
     getListOfYears,
-    validateMetrics,
+    validateMetrics
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import {
     LEAGUE_METADATA,
     leagueFormSchema,
     TEditLeagueFormSchema,
-    TLeagueFormSchema,
+    TLeagueFormSchema
 } from "./constants.ts/metadata";
 
 function LeagueForm() {
@@ -53,8 +53,8 @@ function LeagueForm() {
     const form = useForm<TLeagueFormSchema>({
         resolver: zodResolver(leagueFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     const { logout } = useAuth();
@@ -121,7 +121,7 @@ function LeagueForm() {
                             associationLevelId: asso.associationLevel?.id,
                             costOfAssociation:
                                 convertRupeesToCrore(asso?.costOfAssociation) ||
-                                undefined,
+                                undefined
                         })),
                         yearOfInception:
                             leagueData.yearOfInception || undefined,
@@ -155,13 +155,13 @@ function LeagueForm() {
                                 viewership: metric.viewership || undefined,
                                 viewershipType:
                                     metric.viewershipType || undefined,
-                                year: metric.year || undefined,
+                                year: metric.year || undefined
                             })) || undefined,
                         reachMetrics:
                             leagueData.reachMetrics?.map((metric) => ({
                                 id: metric.id || undefined,
                                 reach: metric.reach || undefined,
-                                year: metric.year || undefined,
+                                year: metric.year || undefined
                             })) || undefined,
                         instagram: leagueData?.instagram || undefined,
                         facebook: leagueData?.facebook || undefined,
@@ -179,7 +179,7 @@ function LeagueForm() {
                                 contactDesignation:
                                     details.contactDesignation || undefined,
                                 contactNumber:
-                                    details.contactNumber || undefined,
+                                    details.contactNumber || undefined
                             })) || undefined,
                         sportId: leagueData.sport?.id || undefined,
                         formatId: leagueData.format?.id || undefined,
@@ -205,7 +205,7 @@ function LeagueForm() {
                         genderIds:
                             leagueData.gender?.map((gender) => gender.id) ||
                             undefined,
-                        userId: user?.id,
+                        userId: user?.id
                     });
                 }
             } catch (error) {
@@ -244,23 +244,23 @@ function LeagueForm() {
 
     const viewershipMetricFieldArray = useFieldArray({
         name: "viewershipMetrics",
-        control: form.control,
+        control: form.control
     });
 
     const reachMetricFieldArray = useFieldArray({
         name: "reachMetrics",
-        control: form.control,
+        control: form.control
     });
 
     const defaultViewershipMetric = {
         viewership: "",
         year: "",
-        viewershipType: "",
+        viewershipType: ""
     };
 
     const defaultReachMetric = {
         reach: "",
-        year: "",
+        year: ""
     };
 
     const leagueAttributes: {
@@ -283,43 +283,43 @@ function LeagueForm() {
             register: "sportId",
             options: metadataStore.sport,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Format",
             register: "formatId",
             options: metadataStore.format,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Owners",
             register: "ownerIds",
             options: metadataStore.leagueOwner,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "NCCS Class",
             register: "nccsIds",
             options: metadataStore.nccs,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Personality Traits",
             register: "subPersonalityTraitIds",
             options: metadataStore.personalityTrait,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Tiers",
             register: "tierIds",
             options: metadataStore.tier,
             multiple: true,
-            type: "DROPDOWN",
-        },
+            type: "DROPDOWN"
+        }
     ];
 
     const partnerships: {
@@ -337,15 +337,15 @@ function LeagueForm() {
             register: "broadCastPartnerId",
             options: metadataStore.broadcastPartner,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "OTT Partner",
             register: "ottPartnerId",
             options: metadataStore.ottPartner,
             multiple: false,
-            type: "DROPDOWN",
-        },
+            type: "DROPDOWN"
+        }
     ];
 
     const targetAudience: {
@@ -360,15 +360,15 @@ function LeagueForm() {
             register: "ageIds",
             options: metadataStore.age,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Gender",
             register: "genderIds",
             options: metadataStore.gender,
             multiple: true,
-            type: "DROPDOWN",
-        },
+            type: "DROPDOWN"
+        }
     ];
 
     const socials: {
@@ -383,28 +383,28 @@ function LeagueForm() {
         >;
     }[] = [
         {
-            name: "instagram",
+            name: "instagram"
         },
         {
-            name: "facebook",
+            name: "facebook"
         },
         {
-            name: "twitter",
+            name: "twitter"
         },
         {
-            name: "linkedin",
+            name: "linkedin"
         },
         {
-            name: "youtube",
+            name: "youtube"
         },
         {
-            name: "website",
-        },
+            name: "website"
+        }
     ];
 
     const viewershipType = [
         { label: "OTT", value: "OTT" },
-        { label: "BROADCAST", value: "BROADCAST" },
+        { label: "BROADCAST", value: "BROADCAST" }
     ];
 
     const onSubmit = async (leagueFormValues: TLeagueFormSchema) => {
@@ -421,7 +421,7 @@ function LeagueForm() {
                 form.setError(
                     `association.${i}.costOfAssociation`,
                     {
-                        message: "Cost of association must be a number",
+                        message: "Cost of association must be a number"
                     },
                     { shouldFocus: true }
                 );
@@ -447,7 +447,7 @@ function LeagueForm() {
                         form.setError(
                             `contactPerson.${i}.contactNumber`,
                             {
-                                message: "Invalid phone number",
+                                message: "Invalid phone number"
                             },
                             { shouldFocus: true }
                         );
@@ -512,8 +512,8 @@ function LeagueForm() {
             reachMetrics: validatedReachMetrics,
             association: leagueFormValues.association?.map((asso, index) => ({
                 ...asso,
-                costOfAssociation: convertedCostOfAssociations[index],
-            })),
+                costOfAssociation: convertedCostOfAssociations[index]
+            }))
         };
 
         console.log("\n\n\n\nRequest Body: ", requestBody);
@@ -563,7 +563,7 @@ function LeagueForm() {
                             className="h-7 w-7"
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.LEAGUE_LIST, {
-                                    replace: true,
+                                    replace: true
                                 })
                             }
                         >
@@ -585,7 +585,7 @@ function LeagueForm() {
                                 }
                                 onClick={() =>
                                     navigate(NAVIGATION_ROUTES.LEAGUE_LIST, {
-                                        replace: true,
+                                        replace: true
                                     })
                                 }
                                 type="button"
@@ -604,10 +604,7 @@ function LeagueForm() {
                             >
                                 <span>Save League</span>
                                 {isSubmitting && (
-                                    <ClipLoader
-                                        size={15}
-                                        color="#020817"
-                                    />
+                                    <ClipLoader size={15} color="#020817" />
                                 )}
                             </Button>
                         </div>
@@ -616,7 +613,7 @@ function LeagueForm() {
                         <FormSkeleton />
                     ) : (
                         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
                                 <CardWrapper title="League Details">
                                     <div className="grid gap-6">
                                         <div className="grid gap-3">
@@ -724,8 +721,8 @@ function LeagueForm() {
                                 </CardWrapper>
 
                                 <CardWrapper title="Marketing">
-                                    <div className="grid gap-6  ">
-                                        <div className="grid gap-3 grid-cols-2">
+                                    <div className="grid gap-6">
+                                        <div className="grid grid-cols-2 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -778,7 +775,7 @@ function LeagueForm() {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="grid gap-3 grid-cols-3">
+                                        <div className="grid grid-cols-3 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -865,7 +862,7 @@ function LeagueForm() {
                                         headersArray={[
                                             { header: "Year" },
                                             { header: "Viewership" },
-                                            { header: "Viewership type" },
+                                            { header: "Viewership type" }
                                         ]}
                                     >
                                         {viewershipMetricFieldArray.fields.map(
@@ -879,7 +876,7 @@ function LeagueForm() {
                                                             key={field.id}
                                                             name={`viewershipMetrics.${index}.year`}
                                                             render={({
-                                                                field,
+                                                                field
                                                             }) => (
                                                                 <FormItemWrapper>
                                                                     <SelectBox
@@ -906,7 +903,7 @@ function LeagueForm() {
                                                             key={field.id}
                                                             name={`viewershipMetrics.${index}.viewership`}
                                                             render={({
-                                                                field,
+                                                                field
                                                             }) => (
                                                                 <FormItemWrapper>
                                                                     <Input
@@ -930,7 +927,7 @@ function LeagueForm() {
                                                                 key={field.id}
                                                                 name={`viewershipMetrics.${index}.viewershipType`}
                                                                 render={({
-                                                                    field,
+                                                                    field
                                                                 }) => (
                                                                     <FormItemWrapper>
                                                                         <SelectBox
@@ -976,7 +973,7 @@ function LeagueForm() {
                                         )}
                                     </TableHeaderWrapper>
 
-                                    <div className="flex justify-end mt-4">
+                                    <div className="mt-4 flex justify-end">
                                         <Button
                                             onClick={() =>
                                                 viewershipMetricFieldArray.append(
@@ -1001,7 +998,7 @@ function LeagueForm() {
                                     <TableHeaderWrapper
                                         headersArray={[
                                             { header: "Year" },
-                                            { header: "Reach" },
+                                            { header: "Reach" }
                                         ]}
                                     >
                                         {reachMetricFieldArray.fields.map(
@@ -1015,7 +1012,7 @@ function LeagueForm() {
                                                             key={field.id}
                                                             name={`reachMetrics.${index}.year`}
                                                             render={({
-                                                                field,
+                                                                field
                                                             }) => (
                                                                 <FormItemWrapper>
                                                                     <SelectBox
@@ -1042,7 +1039,7 @@ function LeagueForm() {
                                                             key={field.id}
                                                             name={`reachMetrics.${index}.reach`}
                                                             render={({
-                                                                field,
+                                                                field
                                                             }) => (
                                                                 <FormItemWrapper>
                                                                     <Input
@@ -1081,7 +1078,7 @@ function LeagueForm() {
                                         )}
                                     </TableHeaderWrapper>
 
-                                    <div className="flex justify-end mt-4">
+                                    <div className="mt-4 flex justify-end">
                                         <Button
                                             onClick={() =>
                                                 reachMetricFieldArray.append(
@@ -1105,9 +1102,9 @@ function LeagueForm() {
                                         headersArray={[
                                             {
                                                 header: "Platforms",
-                                                className: "w-[120px]",
+                                                className: "w-[120px]"
                                             },
-                                            { header: "Link" },
+                                            { header: "Link" }
                                         ]}
                                     >
                                         {socials.map((social, index) => (
@@ -1135,7 +1132,7 @@ function LeagueForm() {
                                 </CardWrapper>
                             </div>
 
-                            <div className="grid auto-rows-max items-start gap-4 ">
+                            <div className="grid auto-rows-max items-start gap-4">
                                 <VerticalFieldsCard
                                     control={form.control}
                                     title="League Attributes"
@@ -1164,11 +1161,11 @@ function LeagueForm() {
                         </div>
                     )}
 
-                    <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
+                    <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
                         <Button
                             type="submit"
                             size="sm"
-                            className="w-full py-5 gap-1"
+                            className="w-full gap-1 py-5"
                             disabled={
                                 isSubmitting ||
                                 isFetchingDetails ||
@@ -1177,10 +1174,7 @@ function LeagueForm() {
                         >
                             <span>Save League</span>
                             {isSubmitting && (
-                                <ClipLoader
-                                    size={15}
-                                    color="#020817"
-                                />
+                                <ClipLoader size={15} color="#020817" />
                             )}
                         </Button>
                         <Button
@@ -1194,7 +1188,7 @@ function LeagueForm() {
                             }
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.LEAGUE_LIST, {
-                                    replace: true,
+                                    replace: true
                                 })
                             }
                             type="button"
