@@ -27,18 +27,18 @@ const newUserSchema = z
             .string()
             .min(8, "Password must be minimum 8 characters long"),
         confirmPassword: z.string(),
-        role: z.enum(["SUPER_ADMIN", "ADMIN", "STAFF", "USER"]),
+        role: z.enum(["SUPER_ADMIN", "ADMIN", "STAFF", "USER"])
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: "Password doesn't match",
-        path: ["confirmPassword"],
+        path: ["confirmPassword"]
     });
 
 const roles = [
     { value: "SUPER_ADMIN", label: "SUPER_ADMIN" },
     { value: "ADMIN", label: "ADMIN" },
     { value: "STAFF", label: "STAFF" },
-    { value: "USER", label: "USER" },
+    { value: "USER", label: "USER" }
 ];
 
 type TNewUserSchema = z.infer<typeof newUserSchema>;
@@ -50,8 +50,8 @@ function SignUpPage() {
     const form = useForm<TNewUserSchema>({
         resolver: zodResolver(newUserSchema),
         defaultValues: {
-            role: "USER",
-        },
+            role: "USER"
+        }
     });
 
     const [isPasswordVisible, setisPasswordVisible] = useState<boolean>(false);
@@ -70,7 +70,7 @@ function SignUpPage() {
                 email: userDetails.email,
                 username: userDetails.username,
                 password: userDetails.password,
-                role: userDetails.role,
+                role: userDetails.role
             };
 
             const response = await AuthService.createUser(requestBody);
@@ -84,7 +84,7 @@ function SignUpPage() {
                     lastName: "",
                     password: "",
                     confirmPassword: "",
-                    role: "USER",
+                    role: "USER"
                 });
             }
         } catch (error: any) {
@@ -116,6 +116,7 @@ function SignUpPage() {
                             size="icon"
                             className="h-7 w-7"
                             onClick={() => navigate(-1)}
+                            type="button"
                         >
                             <ChevronLeft className="h-4 w-4" />
                             <span className="sr-only">Back</span>
@@ -142,10 +143,7 @@ function SignUpPage() {
                             >
                                 <span>Create User</span>
                                 {isSubmitting && (
-                                    <ClipLoader
-                                        size={15}
-                                        color="#020817"
-                                    />
+                                    <ClipLoader size={15} color="#020817" />
                                 )}
                             </Button>
                         </div>
@@ -185,7 +183,7 @@ function SignUpPage() {
                                         </div>
                                     </div>
                                     <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
-                                        <div className="grid gap-3 ">
+                                        <div className="grid gap-3">
                                             <FormField
                                                 control={form.control}
                                                 name="username"
@@ -256,7 +254,7 @@ function SignUpPage() {
                                                             />
                                                             {isPasswordVisible ? (
                                                                 <EyeOff
-                                                                    className="absolute right-2 top-1/2 -translate-y-1/2 size-5 cursor-pointer select-none"
+                                                                    className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
                                                                     onClick={() =>
                                                                         setisPasswordVisible(
                                                                             (
@@ -268,7 +266,7 @@ function SignUpPage() {
                                                                 />
                                                             ) : (
                                                                 <Eye
-                                                                    className="absolute right-2 top-1/2 -translate-y-1/2 size-5 cursor-pointer select-none"
+                                                                    className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
                                                                     onClick={() =>
                                                                         setisPasswordVisible(
                                                                             (
@@ -302,7 +300,7 @@ function SignUpPage() {
                                                             />
                                                             {isConfirmPasswordVisible ? (
                                                                 <EyeOff
-                                                                    className="absolute right-2 top-1/2 -translate-y-1/2 size-5 cursor-pointer select-none"
+                                                                    className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
                                                                     onClick={() =>
                                                                         setisConfirmPasswordVisible(
                                                                             (
@@ -314,7 +312,7 @@ function SignUpPage() {
                                                                 />
                                                             ) : (
                                                                 <Eye
-                                                                    className="absolute right-2 top-1/2 -translate-y-1/2 size-5 cursor-pointer select-none"
+                                                                    className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
                                                                     onClick={() =>
                                                                         setisConfirmPasswordVisible(
                                                                             (
@@ -336,19 +334,16 @@ function SignUpPage() {
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
+                    <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
                         <Button
                             type="submit"
                             size="sm"
-                            className="w-full py-5 gap-1"
+                            className="w-full gap-1 py-5"
                             disabled={isSubmitting}
                         >
                             <span>Save User</span>
                             {isSubmitting && (
-                                <ClipLoader
-                                    size={15}
-                                    color="#020817"
-                                />
+                                <ClipLoader size={15} color="#020817" />
                             )}
                         </Button>
                         <Button
