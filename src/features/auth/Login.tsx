@@ -21,25 +21,20 @@ import { LabelInputContainer } from "./components/label-input-container";
 
 const loginSchema = z.object({
     username: z.string().min(3, "Username is required"),
-    password: z.string().min(3, "Please enter your password"),
+    password: z.string().min(3, "Please enter your password")
 });
 
 function LoginPage() {
     const { login, isAuthenticated, logout } = useAuth();
 
     if (isAuthenticated) {
-        return (
-            <Navigate
-                to={NAVIGATION_ROUTES.DASHBOARD}
-                replace
-            />
-        );
+        return <Navigate to={NAVIGATION_ROUTES.DASHBOARD} replace />;
     }
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors }
     } = useForm({ resolver: zodResolver(loginSchema) });
 
     const navigate = useNavigate();
@@ -54,7 +49,7 @@ function LoginPage() {
             setIsSubmitting(true);
             const requestBody = {
                 username: data?.username,
-                password: data?.password,
+                password: data?.password
             };
 
             const response = await AuthService.login(requestBody);
@@ -66,11 +61,13 @@ function LoginPage() {
                     lastName: response.data.lastName,
                     username: response.data.username,
                     email: response.data.email,
-                    role: response.data.role,
+                    role: response.data.role
                 });
                 login();
                 toast.success("Logged in successfully");
                 navigate(NAVIGATION_ROUTES.DASHBOARD);
+            } else {
+                toast.error("Internal server error");
             }
         } catch (error: any) {
             const unknownError = ErrorService.handleCommonErrors(
@@ -87,12 +84,12 @@ function LoginPage() {
     };
 
     return (
-        <div className="min-h-[calc(100dvh-82px)] w-full flex items-center justify-center bg-black py-16">
-            <div className="max-w-md w-[90%] rounded-2xl px-8 py-16 shadow-input shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]">
-                <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200 text-center">
+        <div className="flex min-h-[calc(100dvh-82px)] w-full items-center justify-center bg-black py-16">
+            <div className="w-[90%] max-w-md rounded-2xl px-8 py-16 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] shadow-input">
+                <h2 className="text-center text-xl font-bold text-neutral-800 dark:text-neutral-200">
                     Welcome to Elucide Sports
                 </h2>
-                <p className="text-neutral-600 text-sm text-center max-w-sm mt-2 dark:text-neutral-300">
+                <p className="mt-2 max-w-sm text-center text-sm text-neutral-600 dark:text-neutral-300">
                     Login to elucide sports to start taking data backed
                     decisions
                 </p>
@@ -132,14 +129,14 @@ function LoginPage() {
                             />
                             {isPasswordVisible ? (
                                 <EyeOff
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 size-5 cursor-pointer select-none"
+                                    className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
                                     onClick={() =>
                                         setisPasswordVisible((p) => !p)
                                     }
                                 />
                             ) : (
                                 <Eye
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 size-5 cursor-pointer select-none"
+                                    className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
                                     onClick={() =>
                                         setisPasswordVisible((p) => !p)
                                     }
@@ -159,7 +156,7 @@ function LoginPage() {
                     </LabelInputContainer>
 
                     <button
-                        className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] !mt-10 active:brightness-50 transition-all duration-300 ease-in-out"
+                        className="group/btn relative !mt-10 block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] transition-all duration-300 ease-in-out active:brightness-50 dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
                         type="submit"
                         disabled={isSubmitting}
                     >
@@ -171,10 +168,7 @@ function LoginPage() {
                         >
                             <span>Login</span>
                             {isSubmitting ? (
-                                <ClipLoader
-                                    size={15}
-                                    color="#FFFF"
-                                />
+                                <ClipLoader size={15} color="#FFFF" />
                             ) : (
                                 <ArrowRight className="size-4" />
                             )}
