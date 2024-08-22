@@ -1,6 +1,6 @@
-import { ChevronLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '../ui/button';
+import { ChevronLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
 
 function BackButton() {
     const navigate = useNavigate();
@@ -15,6 +15,7 @@ function BackButton() {
             size="icon"
             className="h-7 w-7"
             onClick={handleBack}
+            type="button"
         >
             <ChevronLeft className="h-4 w-4" />
             <span className="sr-only">Back</span>

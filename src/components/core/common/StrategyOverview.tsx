@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 
 type Props = {
-    strategy: string;
+    strategy: string | undefined;
 };
 function StrategyOverview({ strategy }: Props) {
     return (

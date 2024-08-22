@@ -16,7 +16,7 @@ export const LEAGUE_METADATA = {
     BROADCAST_PARTNER: "broadcastPartner",
     OTT_PARTNER: "ottPartner",
     ASSOCIATION_LEVEL: "associationLevel",
-    TAGLINE: "tagline",
+    TAGLINE: "tagline"
 } as const;
 
 export const leagueFormSchema = z.object({
@@ -51,7 +51,7 @@ export const leagueFormSchema = z.object({
             id: z.string().optional(),
             viewership: z.string(),
             year: z.string(),
-            viewershipType: z.enum(["OTT", "BROADCAST"]).or(z.string()),
+            viewershipType: z.enum(["OTT", "BROADCAST"]).or(z.string())
         })
         .array()
         .optional(),
@@ -59,7 +59,7 @@ export const leagueFormSchema = z.object({
         .object({
             id: z.string().optional(),
             reach: z.string(),
-            year: z.string(),
+            year: z.string()
         })
         .array()
         .optional(),
@@ -67,7 +67,7 @@ export const leagueFormSchema = z.object({
         .object({
             associationId: z.string().optional(),
             associationLevelId: z.string().optional(),
-            costOfAssociation: z.string().optional(),
+            costOfAssociation: z.string().optional()
         })
         .array()
         .optional(),
@@ -79,11 +79,11 @@ export const leagueFormSchema = z.object({
                 contactDesignation: z.string().optional(),
                 contactEmail: z.string().optional(),
                 contactNumber: z.string().optional(),
-                contactLinkedin: z.string().optional(),
+                contactLinkedin: z.string().optional()
             })
         )
         .optional(),
-    userId: z.string(),
+    userId: z.string()
 });
 
 export type TLeagueFormSchema = z.infer<typeof leagueFormSchema>;
@@ -101,6 +101,16 @@ export type TEditLeagueFormSchema = {
         id?: string;
         name?: string;
     }[];
+    createdBy?: {
+        id?: string;
+        name?: string;
+    };
+    modifiedBy?: {
+        id?: string;
+        name?: string;
+    };
+    createdDate?: string;
+    modifiedDate?: string;
     yearOfInception?: string;
     broadcastPartner?: {
         id?: string;

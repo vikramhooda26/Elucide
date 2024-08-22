@@ -1,14 +1,14 @@
 import {
     InstagramLogoIcon,
     LinkedInLogoIcon,
-    TwitterLogoIcon,
+    TwitterLogoIcon
 } from "@radix-ui/react-icons";
 import {
     CheckIcon,
     CopyIcon,
     FacebookIcon,
     Globe,
-    YoutubeIcon,
+    YoutubeIcon
 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -21,7 +21,7 @@ import {
     CardContent,
     CardDescription,
     CardHeader,
-    CardTitle,
+    CardTitle
 } from "../../ui/card";
 
 type Props = {
@@ -35,33 +35,26 @@ function Socials({ data }: Props) {
         { key: "twitter", name: "Twitter", icon: <TwitterLogoIcon /> },
         { key: "linkedin", name: "Linkedin", icon: <LinkedInLogoIcon /> },
         { key: "youtube", name: "You Tube", icon: <YoutubeIcon /> },
-        { key: "website", name: "Website", icon: <Globe /> },
+        { key: "website", name: "Website", icon: <Globe /> }
     ];
 
     const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
     const socialsUi = socials
-        ?.filter((d) => data[d?.key]?.length > 0)
-        .map((d, i) => (
+        ?.filter((social) => data[social?.key]?.length > 0)
+        .map((social, i) => (
             <div className="flex items-center gap-4">
-                <Link
-                    to={data[d?.key]}
-                    target="_blank"
-                    key={i}
-                >
+                <Link to={data[social?.key]} target="_blank" key={i}>
                     <div>
                         <Avatar className="hidden h-9 w-9 sm:flex">
-                            <AvatarImage
-                                src="/avatars/01.png"
-                                alt="Avatar"
-                            />
-                            <AvatarFallback>{d?.icon}</AvatarFallback>
+                            <AvatarImage src="/avatars/01.png" alt="Avatar" />
+                            <AvatarFallback>{social?.icon}</AvatarFallback>
                         </Avatar>
                     </div>
                 </Link>
                 <div className="grid gap-1">
                     <p className="text-sm font-medium leading-none">
-                        {data[d?.key]}
+                        {data[social?.key]}
                     </p>
                 </div>
                 <div className="ml-auto font-medium">
@@ -69,9 +62,9 @@ function Socials({ data }: Props) {
                         size="icon"
                         variant="outline"
                         className="h-6 w-6 opacity-100"
-                        onClick={() => handleCopy(d?.key)}
+                        onClick={() => handleCopy(social?.key)}
                     >
-                        {copiedKey === d.key ? (
+                        {copiedKey === social.key ? (
                             <CheckIcon className="h-3 w-3" />
                         ) : (
                             <CopyIcon className="h-3 w-3" />

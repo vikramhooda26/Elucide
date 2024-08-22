@@ -1,6 +1,10 @@
-import React from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from '../../../components/ui/avatar';
-import { format } from 'date-fns';
+import React from "react";
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage
+} from "../../../components/ui/avatar";
+import { format } from "date-fns";
 
 type Props = {
     list: Array<any>;
@@ -8,36 +12,58 @@ type Props = {
     nameKey: string;
     dateKey: string;
     operationKey: string;
-}
+};
 
-function ListCard({ list = [], operation = '', nameKey = '', dateKey = '', operationKey = '' }: Props) {
+function ListCard({
+    list = [],
+    operation = "",
+    nameKey = "",
+    dateKey = "",
+    operationKey = ""
+}: Props) {
     return (
         <div className="space-y-8">
             {list?.map((data, i) => (
-                <div className="flex items-center">
+                <div className="flex items-center" key={i}>
                     <Avatar className="h-9 w-9">
                         <AvatarImage src="/avatars/01.png" alt="Avatar" />
                         <AvatarFallback>{i + 1}</AvatarFallback>
                     </Avatar>
                     <div className="ml-4 space-y-1">
-                        <p className="text-sm font-medium leading-none">{data?.[nameKey] ? data?.[nameKey] : 'N/A'}</p>
+                        <p className="text-sm font-medium leading-none">
+                            {data?.[nameKey] ? data?.[nameKey] : "N/A"}
+                        </p>
                         <p className="text-sm text-muted-foreground">
-                            <span><span className='me-1'>{operation}</span> {data?.[operationKey]?.length > 0 ? data?.[operationKey] : '-'} </span>
+                            <span>
+                                <span className="me-1">{operation}</span>{" "}
+                                {data?.[operationKey]?.length > 0
+                                    ? data?.[operationKey]
+                                    : "-"}{" "}
+                            </span>
                         </p>
                     </div>
-                    {data?.[dateKey] ?
+                    {data?.[dateKey] ? (
                         <div className="ml-auto font-medium">
-                            {data?.[dateKey] ?
+                            {data?.[dateKey] ? (
                                 <div>
-                                    <div>{format(data?.[dateKey], 'dd-MM-yyyy')} </div>
-                                    <div>{format(data?.[dateKey], 'hh:mm aaaa')} </div>
+                                    <div>
+                                        {format(data?.[dateKey], "dd-MM-yyyy")}{" "}
+                                    </div>
+                                    <div>
+                                        {format(data?.[dateKey], "hh:mm aaaa")}{" "}
+                                    </div>
                                 </div>
-                                : 'N/A'}
-                        </div> : '-'}
+                            ) : (
+                                "N/A"
+                            )}
+                        </div>
+                    ) : (
+                        "-"
+                    )}
                 </div>
             ))}
         </div>
-    )
+    );
 }
 
 export default ListCard;

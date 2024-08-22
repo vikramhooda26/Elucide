@@ -119,12 +119,12 @@
         /* Code for Firefox */
         color: black;
         /* background: #e9d2fd; */
-        background: #f1c40f;
+        background: #3576df;
     }
 
     ::selection {
         color: black;
-        background: #f1c40f;
+        background: #3576df;
     }
 
     /* Input field styles */
