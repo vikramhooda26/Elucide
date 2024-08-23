@@ -27,7 +27,9 @@ import { Button } from "../../components/ui/button";
 import DataTable from "../../components/data-table/data-table";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../hooks/useUser";
-import { getColumns } from "../../components/core/common/common-columns";
+import { getColumns } from "../../components/core/common/summary-columns";
+import SelectBox from "../../components/ui/multi-select";
+import { printLogs } from "../../lib/logs";
 
 function SportsDealSummaryList() {
     const navigator = useNavigator();
@@ -119,6 +121,13 @@ function SportsDealSummaryList() {
         navigator(NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY, [id]);
     };
 
+    const filterColumnOptions = [
+        { label: "Brand", value: "brand" },
+        { label: "Partner", value: "partner" }
+    ];
+
+    const [filterField, setFilterField] = useState<string>("");
+
     const viewRoute = NAVIGATION_ROUTES?.SPORTS_DEAL_SUMMARY;
 
     const columns = useMemo(
@@ -128,8 +137,10 @@ function SportsDealSummaryList() {
                 onEdit,
                 userRole,
                 viewRoute,
-                searchQuerykey: "brand",
-                title: "Brand name"
+                brandSearchQuerykey: "brand",
+                partnerSearchQueryKey: "partner",
+                brandTitle: "Brand name",
+                partnerTitle: "Partner name"
             }),
         []
     );
@@ -163,9 +174,15 @@ function SportsDealSummaryList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={(table.getColumn("brand")?.getFilterValue() as string) ?? ""}
+            value={
+                (table
+                    .getColumn(filterField || "brand")
+                    ?.getFilterValue() as string) ?? ""
+            }
             onChange={(event) =>
-                table.getColumn("brand")?.setFilterValue(event.target.value)
+                table
+                    .getColumn(filterField || "brand")
+                    ?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,
@@ -178,6 +195,15 @@ function SportsDealSummaryList() {
             column={table.getColumn("modifiedDate")}
             title="Modified At"
             options={priorities}
+        />,
+        <SelectBox
+            options={filterColumnOptions}
+            onChange={(value) => setFilterField(value as string)}
+            value={filterField}
+            placeholder="Select filter key"
+            inputPlaceholder="Search for a key..."
+            emptyPlaceholder="Not found"
+            className="w-fit"
         />
     ];
 
