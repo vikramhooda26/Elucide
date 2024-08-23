@@ -6,7 +6,7 @@ import {
     TableCell,
     TableHead,
     TableHeader,
-    TableRow,
+    TableRow
 } from "../../components/ui/table";
 import { listLoadingAtom } from "../../store/atoms/global";
 import { DataTableProps } from "../../types/components/Table";
@@ -16,7 +16,7 @@ import { DataTableToolbar } from "./data-table-toolbar";
 function DataTable<TData, TValue>({
     table,
     columns,
-    toolbarAttributes,
+    toolbarAttributes
 }: DataTableProps<TData, TValue>) {
     const isLoading = useRecoilValue(listLoadingAtom);
 
@@ -56,14 +56,14 @@ function DataTable<TData, TValue>({
                                 {Array.from({ length: 10 }).map(
                                     (_row, index) => (
                                         <TableRow
-                                            className="animate-pulse max-h-dvh overflow-hidden"
+                                            className="max-h-dvh animate-pulse overflow-hidden"
                                             key={index}
                                         >
                                             {Array.from({
-                                                length: columns.length,
+                                                length: columns.length
                                             }).map((_column, index) => (
                                                 <TableCell key={index}>
-                                                    <div className="bg-gray-500 rounded-3xl h-6 w-[69%]" />
+                                                    <div className="h-6 w-[69%] rounded-3xl bg-gray-500" />
                                                 </TableCell>
                                             ))}
                                         </TableRow>

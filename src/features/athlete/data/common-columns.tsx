@@ -22,42 +22,39 @@ export const getColumns = ({
     userRole,
     viewRoute,
     searchQuerykey,
-    title,
+    title
 }: TColumnProps): ColumnDef<schemaType>[] => {
     const column: ColumnDef<schemaType>[] = [
-        {
-            id: "select",
-            header: ({ table }) => (
-                <Checkbox
-                    checked={
-                        table.getIsAllPageRowsSelected() ||
-                        (table.getIsSomePageRowsSelected() && "indeterminate")
-                    }
-                    onCheckedChange={(value) =>
-                        table.toggleAllPageRowsSelected(!!value)
-                    }
-                    aria-label="Select all"
-                    className="translate-y-[2px]"
-                />
-            ),
-            cell: ({ row }) => (
-                <Checkbox
-                    checked={row.getIsSelected()}
-                    onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label="Select row"
-                    className="translate-y-[2px]"
-                />
-            ),
-            enableSorting: false,
-            enableHiding: false,
-        },
+        // {
+        //     id: "select",
+        //     header: ({ table }) => (
+        //         <Checkbox
+        //             checked={
+        //                 table.getIsAllPageRowsSelected() ||
+        //                 (table.getIsSomePageRowsSelected() && "indeterminate")
+        //             }
+        //             onCheckedChange={(value) =>
+        //                 table.toggleAllPageRowsSelected(!!value)
+        //             }
+        //             aria-label="Select all"
+        //             className="translate-y-[2px]"
+        //         />
+        //     ),
+        //     cell: ({ row }) => (
+        //         <Checkbox
+        //             checked={row.getIsSelected()}
+        //             onCheckedChange={(value) => row.toggleSelected(!!value)}
+        //             aria-label="Select row"
+        //             className="translate-y-[2px]"
+        //         />
+        //     ),
+        //     enableSorting: false,
+        //     enableHiding: false
+        // },
         {
             accessorKey: searchQuerykey,
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title={title}
-                />
+                <DataTableColumnHeader column={column} title={title} />
             ),
             cell: ({ row }) => {
                 const id = (row.original as { id: string }).id;
@@ -67,29 +64,26 @@ export const getColumns = ({
                             to={`${viewRoute}/${id}`}
                             className="cursor-pointer hover:text-blue-600 hover:underline"
                         >
-                            <div className="w-[80px]">
+                            <div className="w-[120px]">
                                 {row.getValue(searchQuerykey)}
                             </div>
                         </Link>
                     );
                 } else {
                     return (
-                        <div className="w-[80px]">
+                        <div className="w-[120px]">
                             {row.getValue(searchQuerykey)}
                         </div>
                     );
                 }
             },
             enableSorting: false,
-            enableHiding: false,
+            enableHiding: false
         },
         {
             accessorKey: "createdDate",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title="Created At"
-                />
+                <DataTableColumnHeader column={column} title="Created At" />
             ),
             cell: ({ row }) => {
                 return (
@@ -104,29 +98,23 @@ export const getColumns = ({
                         </span>
                     </div>
                 );
-            },
+            }
         },
         {
             accessorKey: "createdBy",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title="Created By"
-                />
+                <DataTableColumnHeader column={column} title="Created By" />
             ),
             cell: ({ row }) => (
                 <div className="w-[80px]">{row.getValue("createdBy")}</div>
             ),
             enableSorting: true,
-            enableHiding: false,
+            enableHiding: false
         },
         {
             accessorKey: "modifiedDate",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title="Modified At"
-                />
+                <DataTableColumnHeader column={column} title="Modified At" />
             ),
             cell: ({ row }) => {
                 return (
@@ -135,38 +123,32 @@ export const getColumns = ({
                             {row.getValue("modifiedDate")
                                 ? format(
                                       row.getValue("modifiedDate"),
-                                      "dd-MM-yyyy, HH:mm"
+                                      "dd-MM-yyyy, hh:mm aaaaaa"
                                   )
                                 : ""}
                         </span>
                     </div>
                 );
-            },
+            }
         },
         {
             accessorKey: "modifiedBy",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title="Modified By"
-                />
+                <DataTableColumnHeader column={column} title="Modified By" />
             ),
             cell: ({ row }) => (
                 <div className="w-[80px]">{row.getValue("modifiedBy")}</div>
             ),
             enableSorting: false,
-            enableHiding: false,
-        },
+            enableHiding: false
+        }
     ];
 
     if (userRole === "SUPER_ADMIN") {
         column.push({
             id: "actions",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title="Actions"
-                />
+                <DataTableColumnHeader column={column} title="Actions" />
             ),
             cell: ({ row }) => (
                 <DataTableRowActions
@@ -175,7 +157,7 @@ export const getColumns = ({
                     onEdit={onEdit}
                     schema={schema}
                 />
-            ),
+            )
         });
     }
 
