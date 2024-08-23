@@ -2,50 +2,36 @@ import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Label } from '../../ui/label';
 import { Dot } from 'lucide-react';
+import { TableHeaderWrapper } from '../../table/table-header-wrapper';
+import { TableCell, TableRow } from '../../ui/table';
+import { formatNumberWithCommas } from '../../../features/utils/helpers';
 
 type Props = {
     data: any;
 }
 function Association({ data }: Props) {
+    const associationHeaders: { header: string; className?: string }[] = [
+        { header: "Association Level" },
+        { header: "Cost Of Association (in cr)" },
+    ];
+
     return (
         <Card x-chunk="dashboard-07-chunk-0 w-full">
             <CardHeader>
                 <CardTitle>Association</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="grid gap-6  ">
-                    <div className="grid gap-3 grid-cols-2">
-                        <div className="grid gap-3 border rounded-md p-4">
-                            <Label>
-                                Association Level
-                            </Label>
-                            <ul className="grid gap-3">
-                                {data?.primaryMarketingPlatforms?.map((market: string, i: number) => (
-                                    <li className="flex items-center text-sm text-muted-foreground">
-                                        <Dot />
-                                        <span>{market || '-'}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                <TableHeaderWrapper headersArray={associationHeaders}>
+                    {data?.association?.map((d: any, i: number) => (
+                        <TableRow key={i}>
+                            <TableCell>{d?.associationLevel?.name || "-"}</TableCell>
+                            <TableCell>
+                                {d?.costOfAssociation > 0 ? formatNumberWithCommas(d?.costOfAssociation) : "-"}
+                            </TableCell>
+                        </TableRow>
+                    ))}
 
-                        <div className="grid gap-3 border rounded-md p-4">
-                            <Label>
-                                Association Cost
-                            </Label>
-                            <ul className="grid gap-3">
-                                {data?.secondaryMarketingPlatforms?.map((market: string, i: number) => (
-                                    <li className="flex items-center text-sm text-muted-foreground">
-                                        <Dot />
-                                        <span>{market || '-'}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                    </div>
-
-                </div>
+                </TableHeaderWrapper>
             </CardContent>
         </Card>
     )

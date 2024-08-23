@@ -4,7 +4,7 @@ import {
 } from "lucide-react";
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ActiveCampaing from "../../components/core/common/ActiveCampaing";
 import Association from "../../components/core/common/Association";
 import Attributes from "../../components/core/common/Attributes";
@@ -22,11 +22,19 @@ import {
 import BrandService from "../../services/features/BrandService";
 import BackButton from "../../components/button/BackButton";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import { useUser } from "../../hooks/useUser";
+import { NAVIGATION_ROUTES } from "../../lib/constants";
+import CategoriesCard from "../../components/core/common/CategoriesCard";
 
 function BrandView() {
   const { id } = useParams<string>();
   const [brand, setBrand] = useState<any>({});
   const [isLoading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const userRole = useUser()?.role;
+  if (!userRole) {
+    return;
+  }
 
   const fetchTeam = async () => {
     try {
@@ -66,9 +74,13 @@ function BrandView() {
           </h1>
 
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
-            <Button size="sm">
-              <Pencil className="w-4 h-4" />{" "}
-            </Button>
+            {userRole === "SUPER_ADMIN" ?
+              <Button size="sm"
+                onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`)}
+              >
+                <Pencil className="w-4 h-4" />{" "}
+              </Button>
+              : null}
           </div>
         </div>
         {isLoading ? (
@@ -83,6 +95,18 @@ function BrandView() {
                       <span className="w-1/2">Name</span>
                       <span className="text-muted-foreground">
                         {brand?.name || '-'}
+                      </span>
+                    </li>
+                    <li className="flex items-center ">
+                      <span className="w-1/2">Parent Company</span>
+                      <span className="text-muted-foreground">
+                        {brand?.parentOrg?.name || '-'}
+                      </span>
+                    </li>
+                    <li className="flex items-center ">
+                      <span className="w-1/2">Agency</span>
+                      <span className="text-muted-foreground">
+                        {brand?.agency?.name || '-'}
                       </span>
                     </li>
                     {/* <li className="flex items-center ">
@@ -107,6 +131,8 @@ function BrandView() {
 
               <StrategyOverview strategy={brand?.strategyOverview} />
 
+              <CategoriesCard data={brand} />
+
               <TagLines data={brand} />
 
               <Marketing data={brand} />
@@ -116,8 +142,6 @@ function BrandView() {
               <ActiveCampaing data={brand} />
 
               <Endorsements data={brand} />
-
-              <Association data={brand} />
 
               <ContactPerson data={brand} />
             </div>

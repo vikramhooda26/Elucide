@@ -1,6 +1,6 @@
 import { ChevronLeft, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ActiveCampaing from "../../components/core/common/ActiveCampaing";
 import Association from "../../components/core/common/Association";
 import Attributes from "../../components/core/common/Attributes";
@@ -19,11 +19,19 @@ import TeamService from "../../services/features/TeamService";
 import { formatNumberWithCommas } from "../utils/helpers";
 import BackButton from "../../components/button/BackButton";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import { NAVIGATION_ROUTES } from "../../lib/constants";
+import { useUser } from "../../hooks/useUser";
+import Activation from "../../components/core/common/Activation";
 
 function TeamView() {
     const { id } = useParams<string>();
     const [team, setTeam] = useState<any>({});
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const teamInfoHeaders: { header: string; className?: string }[] = [
         { header: "Name" },
@@ -69,9 +77,13 @@ function TeamView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        <Button size="sm">
-                            <Pencil className="w-4 h-4" />{" "}
-                        </Button>
+                        {userRole === "SUPER_ADMIN" ?
+                            <Button size="sm"
+                                onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`)}
+                            >
+                                <Pencil className="w-4 h-4" />{" "}
+                            </Button>
+                            : null}
                     </div>
                 </div>
                 {isLoading ? (
@@ -98,6 +110,8 @@ function TeamView() {
                             <TagLines data={team} />
 
                             <Marketing data={team} />
+
+                            <Activation data={team} />
 
                             <Socials data={team} />
 

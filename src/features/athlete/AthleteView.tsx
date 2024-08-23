@@ -12,7 +12,7 @@ import {
     TwitterLogoIcon,
 } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import Attributes from "../../components/core/common/Attributes";
 import ContactPerson from "../../components/core/common/ContactPerson";
@@ -23,14 +23,23 @@ import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import AthleteService from "../../services/features/AthleteService";
 import BackButton from "../../components/button/BackButton";
-import { differenceInYears } from "date-fns";
+import { differenceInYears, format } from "date-fns";
 import { nameAndId } from "../../types/metadata/Metadata";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import { useUser } from "../../hooks/useUser";
+import { NAVIGATION_ROUTES } from "../../lib/constants";
+import Association from "../../components/core/common/Association";
+import Activation from "../../components/core/common/Activation";
 
 function AthleteView() {
     const { id } = useParams<string>();
     const [athlete, setAthlete] = useState<any>({});
     const [isLoading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchTeam = async () => {
         try {
@@ -49,8 +58,9 @@ function AthleteView() {
             athleteObj.createdBy = athleteObj?.createdBy?.firstName || "";
             athleteObj.modifiedBy = athleteObj?.modifiedBy?.firstName || "";
 
-            if (athleteObj?.age) {
-                athleteObj.age = differenceInYears(new Date(), athleteObj?.age);
+            if (athleteObj?.athleteAge) {
+                athleteObj.dob = format(athleteObj?.athleteAge, 'dd-MM-yyyy');
+                athleteObj.athleteAge = differenceInYears(new Date(), athleteObj?.athleteAge);
             }
 
             setAthlete(athleteObj);
@@ -99,9 +109,13 @@ function AthleteView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        <Button size="sm">
-                            <Pencil className="w-4 h-4" />{" "}
-                        </Button>
+                        {userRole === "SUPER_ADMIN" ?
+                            <Button size="sm"
+                                onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`)}
+                            >
+                                <Pencil className="w-4 h-4" />{" "}
+                            </Button>
+                            : null}
                     </div>
                 </div>
                 {isLoading ? (
@@ -119,9 +133,15 @@ function AthleteView() {
                                             </span>
                                         </li>
                                         <li className="flex items-center ">
+                                            <span className="w-1/2">DOB</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.dob || "-"}
+                                            </span>
+                                        </li>
+                                        <li className="flex items-center ">
                                             <span className="w-1/2">Age</span>
                                             <span className="text-muted-foreground">
-                                                {athlete?.age || "-"}
+                                                {athlete?.athleteAge || "-"}
                                             </span>
                                         </li>
                                         <li className="flex items-center ">
@@ -134,15 +154,37 @@ function AthleteView() {
                                                 )
                                             )}
                                         </li>
+                                        <li className="flex items-center ">
+                                            <span className="w-1/2">Nationality</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.nationality?.name || "-"}
+                                            </span>
+                                        </li>
+                                        <li className="flex items-center ">
+                                            <span className="w-1/2">Agency</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.agency?.name || "-"}
+                                            </span>
+                                        </li>
+                                        <li className="flex items-center ">
+                                            <span className="w-1/2">Status</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.status?.name || "-"}
+                                            </span>
+                                        </li>
                                     </ul>
                                 </div>
                             </Card>
 
                             <Marketing data={athlete} />
 
+                            <Activation data={athlete} />
+
                             <Socials data={athlete} />
 
                             <ContactPerson data={athlete} />
+
+                            <Association data={athlete} />
                         </div>
                         <Attributes
                             data={athlete}

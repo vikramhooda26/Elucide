@@ -1,6 +1,6 @@
 export const API_URL =
     import.meta.env.VITE_BACKEND_URL ||
-    "https://elucide-sports-dev-backend.vercel.app";
+    "https://elucide-sports-backend.vercel.app";
 
 export const Local_URL = "http://localhost:3000";
 
