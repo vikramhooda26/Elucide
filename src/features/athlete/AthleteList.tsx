@@ -9,7 +9,7 @@ import {
     getSortedRowModel,
     SortingState,
     useReactTable,
-    VisibilityState,
+    VisibilityState
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -24,11 +24,11 @@ import ErrorService from "../../services/error/ErrorService";
 import AthleteService from "../../services/features/AthleteService";
 import { athlete } from "../../types/athlete/AthleteListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { getColumns } from "./data/common-columns";
 import { priorities, statuses } from "./data/data";
 import MetadataService from "../../services/features/MetadataService";
 import { useUser } from "../../hooks/useUser";
 import { listLoadingAtom } from "../../store/atoms/global";
+import { getColumns } from "../../components/core/common/common-columns";
 
 function AthleteList() {
     const navigator = useNavigator();
@@ -90,8 +90,6 @@ function AthleteList() {
             );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                
-
                 toast.success("Deleted successfully");
                 setAthletes((prevDataList) =>
                     prevDataList.filter((data) => data.id !== id)
@@ -130,7 +128,7 @@ function AthleteList() {
                 userRole,
                 viewRoute,
                 searchQuerykey: "name",
-                title: "Athlete name",
+                title: "Athlete name"
             }),
         []
     );
@@ -142,7 +140,7 @@ function AthleteList() {
             sorting,
             columnVisibility,
             rowSelection,
-            columnFilters,
+            columnFilters
         },
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
@@ -154,7 +152,7 @@ function AthleteList() {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
+        getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
     const toolbarAttributes = [
@@ -175,11 +173,11 @@ function AthleteList() {
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
-        />,
+        />
     ];
 
     return (
-        <div className=" h-full flex-1 flex-col space-y-8  md:flex py-8">
+        <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

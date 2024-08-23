@@ -8,7 +8,7 @@ import {
     getSortedRowModel,
     SortingState,
     useReactTable,
-    VisibilityState,
+    VisibilityState
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,8 +26,8 @@ import { DataTableFacetedFilter } from "../../components/data-table/data-table-f
 import { Button } from "../../components/ui/button";
 import DataTable from "../../components/data-table/data-table";
 import { priorities, statuses } from "./data/data";
-import { getColumns } from "./data/column";
 import { useUser } from "../../hooks/useUser";
+import { getColumns } from "../../components/core/common/common-columns";
 
 function SportsDealSummaryList() {
     const navigator = useNavigator();
@@ -122,7 +122,15 @@ function SportsDealSummaryList() {
     const viewRoute = NAVIGATION_ROUTES?.SPORTS_DEAL_SUMMARY;
 
     const columns = useMemo(
-        () => getColumns({ onDelete, onEdit, userRole, viewRoute }),
+        () =>
+            getColumns({
+                onDelete,
+                onEdit,
+                userRole,
+                viewRoute,
+                searchQuerykey: "brand",
+                title: "Brand name"
+            }),
         []
     );
 
@@ -133,7 +141,7 @@ function SportsDealSummaryList() {
             sorting,
             columnVisibility,
             rowSelection,
-            columnFilters,
+            columnFilters
         },
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
@@ -145,11 +153,11 @@ function SportsDealSummaryList() {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
+        getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
     const callbacks = {
-        onView: onView,
+        onView: onView
     };
 
     const toolbarAttributes = [
@@ -170,11 +178,11 @@ function SportsDealSummaryList() {
             column={table.getColumn("modifiedDate")}
             title="Modified At"
             options={priorities}
-        />,
+        />
     ];
 
     return (
-        <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+        <div className="h-full flex-1 flex-col space-y-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

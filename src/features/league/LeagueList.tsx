@@ -8,7 +8,7 @@ import {
     getSortedRowModel,
     SortingState,
     useReactTable,
-    VisibilityState,
+    VisibilityState
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ import { listLoadingAtom } from "../../store/atoms/global";
 import { league } from "../../types/league/LeagueListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
-import { getColumns } from "../athlete/data/common-columns";
+import { getColumns } from "../../components/core/common/common-columns";
 
 function LeagueList() {
     const navigator = useNavigator();
@@ -126,7 +126,7 @@ function LeagueList() {
                 userRole,
                 viewRoute,
                 searchQuerykey: "name",
-                title: "League list",
+                title: "League name"
             }),
         []
     );
@@ -138,7 +138,7 @@ function LeagueList() {
             sorting,
             columnVisibility,
             rowSelection,
-            columnFilters,
+            columnFilters
         },
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
@@ -150,7 +150,7 @@ function LeagueList() {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
+        getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
     const toolbarAttributes = [
@@ -171,11 +171,11 @@ function LeagueList() {
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
-        />,
+        />
     ];
 
     return (
-        <div className=" h-full flex-1 flex-col space-y-8  md:flex py-8">
+        <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

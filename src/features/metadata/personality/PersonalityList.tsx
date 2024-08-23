@@ -8,7 +8,7 @@ import {
     getSortedRowModel,
     SortingState,
     useReactTable,
-    VisibilityState,
+    VisibilityState
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,9 +25,9 @@ import MetadataService from "../../../services/features/MetadataService";
 import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
-import { getColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
+import { getColumns } from "../../../components/core/common/common-columns";
 
 function PersonalityList() {
     const navigator = useNavigator();
@@ -81,7 +81,10 @@ function PersonalityList() {
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(id, "/api/admin/personality/delete/");
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/personality/delete/"
+            );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
@@ -90,7 +93,11 @@ function PersonalityList() {
                 );
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
 
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 setDataList((prevDataList) =>
@@ -110,7 +117,18 @@ function PersonalityList() {
 
     const viewRoute = NAVIGATION_ROUTES.PERSONALITY;
 
-    const columns = useMemo(() => getColumns({ onDelete, onEdit, userRole, viewRoute }), []);
+    const columns = useMemo(
+        () =>
+            getColumns({
+                onDelete,
+                onEdit,
+                userRole,
+                viewRoute,
+                searchQuerykey: "personalityName",
+                title: "Main Personality"
+            }),
+        []
+    );
 
     const table = useReactTable({
         data: dataList,
@@ -119,7 +137,7 @@ function PersonalityList() {
             sorting,
             columnVisibility,
             rowSelection,
-            columnFilters,
+            columnFilters
         },
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
@@ -131,7 +149,7 @@ function PersonalityList() {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
+        getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
     const toolbarAttributes = [
@@ -158,11 +176,11 @@ function PersonalityList() {
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
-        />,
+        />
     ];
 
     return (
-        <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+        <div className="h-full flex-1 flex-col space-y-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

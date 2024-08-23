@@ -8,7 +8,7 @@ import {
     getSortedRowModel,
     SortingState,
     useReactTable,
-    VisibilityState,
+    VisibilityState
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,10 +25,10 @@ import TeamService from "../../services/features/TeamService";
 import { listLoadingAtom } from "../../store/atoms/global";
 import { team } from "../../types/team/TeamListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { getColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../hooks/useUser";
 import MetadataService from "../../services/features/MetadataService";
+import { getColumns } from "../../components/core/common/common-columns";
 
 function TeamList() {
     const navigator = useNavigator();
@@ -88,8 +88,6 @@ function TeamList() {
             );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                
-
                 toast.success("Deleted successfully");
                 setTeamList((prevDataList) =>
                     prevDataList.filter((data) => data.id !== id)
@@ -127,6 +125,8 @@ function TeamList() {
                 onEdit,
                 userRole,
                 viewRoute,
+                searchQuerykey: "name",
+                title: "Team name"
             }),
         []
     );
@@ -138,7 +138,7 @@ function TeamList() {
             sorting,
             columnVisibility,
             rowSelection,
-            columnFilters,
+            columnFilters
         },
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
@@ -150,7 +150,7 @@ function TeamList() {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
+        getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
     const toolbarAttributes = [
@@ -171,11 +171,11 @@ function TeamList() {
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
-        />,
+        />
     ];
 
     return (
-        <div className=" h-full flex-1 flex-col space-y-8  md:flex py-8">
+        <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

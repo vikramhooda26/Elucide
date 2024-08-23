@@ -8,7 +8,7 @@ import {
     getSortedRowModel,
     SortingState,
     useReactTable,
-    VisibilityState,
+    VisibilityState
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,9 +25,9 @@ import MetadataService from "../../../services/features/MetadataService";
 import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
-import { getColumns } from "./data/columns";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
+import { getColumns } from "../../../components/core/common/common-columns";
 
 function GenderList() {
     const navigator = useNavigator();
@@ -47,7 +47,6 @@ function GenderList() {
     if (!userRole) {
         return;
     }
-
 
     const fetchList = async () => {
         try {
@@ -88,8 +87,6 @@ function GenderList() {
             );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                
-
                 toast.success("Deleted successfully");
                 setDataList((prevDataList) =>
                     prevDataList.filter((data) => data.id !== id)
@@ -119,7 +116,14 @@ function GenderList() {
     }, []);
 
     const columns = useMemo(
-        () => getColumns({ onDelete, onEdit, userRole }),
+        () =>
+            getColumns({
+                onDelete,
+                onEdit,
+                userRole,
+                searchQuerykey: "genderName",
+                title: "Gender"
+            }),
         []
     );
 
@@ -130,7 +134,7 @@ function GenderList() {
             sorting,
             columnVisibility,
             rowSelection,
-            columnFilters,
+            columnFilters
         },
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
@@ -142,7 +146,7 @@ function GenderList() {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
+        getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
     const toolbarAttributes = [
@@ -168,11 +172,11 @@ function GenderList() {
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
-        />,
+        />
     ];
 
     return (
-        <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+        <div className="h-full flex-1 flex-col space-y-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

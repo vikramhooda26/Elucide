@@ -8,7 +8,7 @@ import {
     getSortedRowModel,
     SortingState,
     useReactTable,
-    VisibilityState,
+    VisibilityState
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,8 +26,8 @@ import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
-import { getColumns } from "./data/columns";
 import { useUser } from "../../../hooks/useUser";
+import { getColumns } from "../../../components/core/common/common-columns";
 
 function SubPersonalityList() {
     const navigator = useNavigator();
@@ -83,7 +83,10 @@ function SubPersonalityList() {
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(id, "/api/admin/sub-personality/delete/");
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/sub-personality/delete/"
+            );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
@@ -92,7 +95,11 @@ function SubPersonalityList() {
                 );
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
 
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 setDataList((prevDataList) =>
@@ -110,9 +117,20 @@ function SubPersonalityList() {
         navigate(`${NAVIGATION_ROUTES.SUB_PERSONALITY_EDIT}/${id}`);
     }, []);
 
-    const viewRoute = NAVIGATION_ROUTES.SUB_PERSONALITY
+    const viewRoute = NAVIGATION_ROUTES.SUB_PERSONALITY;
 
-    const columns = useMemo(() => getColumns({ onDelete, onEdit, userRole, viewRoute }), []);
+    const columns = useMemo(
+        () =>
+            getColumns({
+                onDelete,
+                onEdit,
+                userRole,
+                viewRoute,
+                searchQuerykey: "subpersonalityName",
+                title: "Sub Personality"
+            }),
+        []
+    );
 
     const table = useReactTable({
         data: dataList,
@@ -121,7 +139,7 @@ function SubPersonalityList() {
             sorting,
             columnVisibility,
             rowSelection,
-            columnFilters,
+            columnFilters
         },
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
@@ -133,7 +151,7 @@ function SubPersonalityList() {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
+        getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
     const toolbarAttributes = [
@@ -160,11 +178,11 @@ function SubPersonalityList() {
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
-        />,
+        />
     ];
 
     return (
-        <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+        <div className="h-full flex-1 flex-col space-y-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

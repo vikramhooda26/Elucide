@@ -1,11 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 import { DataTableColumnHeader } from "../../../components/data-table/data-table-column-header";
 import { DataTableRowActions } from "../../../components/data-table/data-table-row-actions";
-import { Checkbox } from "../../../components/ui/checkbox";
-import { schema, schemaType } from "./schema";
 import { TRoles } from "../../../lib/constants";
-import { Link } from "react-router-dom";
+import { createSchema } from "../schema/schema";
+import z from "zod";
 
 interface TColumnProps {
     onEdit: (id: string) => void;
@@ -13,7 +13,7 @@ interface TColumnProps {
     userRole: TRoles;
     viewRoute?: string;
     title: string;
-    searchQuerykey: keyof schemaType;
+    searchQuerykey: string;
 }
 
 export const getColumns = ({
@@ -23,8 +23,10 @@ export const getColumns = ({
     viewRoute,
     searchQuerykey,
     title
-}: TColumnProps): ColumnDef<schemaType>[] => {
-    const column: ColumnDef<schemaType>[] = [
+}: TColumnProps) => {
+    const schema = createSchema({ name: searchQuerykey });
+    type TSchemaType = z.infer<typeof schema>;
+    const column: ColumnDef<TSchemaType>[] = [
         // {
         //     id: "select",
         //     header: ({ table }) => (

@@ -8,7 +8,7 @@ import {
     getSortedRowModel,
     SortingState,
     useReactTable,
-    VisibilityState,
+    VisibilityState
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,8 +26,8 @@ import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
-import { getColumns } from "./data/columns";
 import { useUser } from "../../../hooks/useUser";
+import { getColumns } from "../../../components/core/common/common-columns";
 
 function MarketingPlatformList() {
     const navigator = useNavigator();
@@ -83,7 +83,10 @@ function MarketingPlatformList() {
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(id, "/api/admin/marketing-platform/delete/");
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/marketing-platform/delete/"
+            );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
@@ -115,7 +118,14 @@ function MarketingPlatformList() {
     }, []);
 
     const columns = useMemo(
-        () => getColumns({ onDelete, onEdit, userRole }),
+        () =>
+            getColumns({
+                onDelete,
+                onEdit,
+                userRole,
+                searchQuerykey: "marketingPlatformName",
+                title: "Marketing platform"
+            }),
         []
     );
 
@@ -126,7 +136,7 @@ function MarketingPlatformList() {
             sorting,
             columnVisibility,
             rowSelection,
-            columnFilters,
+            columnFilters
         },
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
@@ -138,7 +148,7 @@ function MarketingPlatformList() {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
+        getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
     const toolbarAttributes = [
@@ -165,11 +175,11 @@ function MarketingPlatformList() {
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
-        />,
+        />
     ];
 
     return (
-        <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+        <div className="h-full flex-1 flex-col space-y-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

@@ -8,7 +8,7 @@ import {
     getSortedRowModel,
     SortingState,
     useReactTable,
-    VisibilityState,
+    VisibilityState
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,8 +26,8 @@ import { listLoadingAtom } from "../../../store/atoms/global";
 import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
-import { getColumns } from "./data/columns";
 import { useUser } from "../../../hooks/useUser";
+import { getColumns } from "../../../components/core/common/common-columns";
 
 function TierList() {
     const navigator = useNavigator();
@@ -81,7 +81,10 @@ function TierList() {
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(id, "/api/admin/tier/delete/");
+            const response = await MetadataService.deleteData(
+                id,
+                "/api/admin/tier/delete/"
+            );
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
@@ -90,7 +93,11 @@ function TierList() {
                 );
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
 
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 setDataList((prevDataList) =>
@@ -108,7 +115,17 @@ function TierList() {
         navigate(`${NAVIGATION_ROUTES.TIER_EDIT}/${id}`);
     }, []);
 
-    const columns = useMemo(() => getColumns({ onDelete, onEdit, userRole }), []);
+    const columns = useMemo(
+        () =>
+            getColumns({
+                onDelete,
+                onEdit,
+                userRole,
+                searchQuerykey: "tierName",
+                title: "Tier"
+            }),
+        []
+    );
 
     const table = useReactTable({
         data: dataList,
@@ -117,7 +134,7 @@ function TierList() {
             sorting,
             columnVisibility,
             rowSelection,
-            columnFilters,
+            columnFilters
         },
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
@@ -129,7 +146,7 @@ function TierList() {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues(),
+        getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
     const toolbarAttributes = [
@@ -152,11 +169,11 @@ function TierList() {
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
-        />,
+        />
     ];
 
     return (
-        <div className=" h-full flex-1 flex-col space-y-8  md:flex">
+        <div className="h-full flex-1 flex-col space-y-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
