@@ -205,7 +205,7 @@ export const dataEntrySideMenuLinks: Pick<NavProps, "links"> = {
             roles: ["SUPER_ADMIN"]
         },
         {
-            title: "Sport",
+            title: "Sports",
             icon: Bike,
             navigateTo: NAVIGATION_ROUTES.SPORT_LIST,
             roles: ["SUPER_ADMIN"]

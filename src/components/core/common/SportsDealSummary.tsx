@@ -9,7 +9,7 @@ type Props = {
 function SportsDealSummary({ data }: Props) {
     const sportsDealColumn = [
         {
-            key: "level.name",
+            key: "level",
             name: "Level",
         },
         {
@@ -37,15 +37,26 @@ function SportsDealSummary({ data }: Props) {
             name: "Partner",
         },
     ];
+
+    const sportsDealSummary: Array<any> = [];
+
+    if (data?.sportsDealSummary?.length > 0) {
+        data?.sportsDealSummary?.forEach((d: any, i: number) => {
+            const sportsDeal: any = Object.assign({}, d);
+            sportsDeal.level = d?.level?.name;
+            sportsDealSummary?.push(sportsDeal);
+        })
+    }
+
     return (
         <Card x-chunk="dashboard-06-chunk-0">
             <CardHeader>
                 <CardTitle>Sports Deal Summary</CardTitle>
             </CardHeader>
             <CardContent>
-                {data?.sportsDealSummary?.length > 0 ? (
+                {sportsDealSummary?.length > 0 ? (
                     <NoActionTable
-                        data={data?.sportsDealSummary}
+                        data={sportsDealSummary}
                         columns={sportsDealColumn}
                         searchableKey={"level"}
                     />

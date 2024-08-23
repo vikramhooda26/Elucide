@@ -22,15 +22,13 @@ function Marketing({ data }: Props) {
                         <div className="grid gap-3 rounded-md border p-4">
                             <Label>Primary Marketing Platform</Label>
                             <ul className="grid gap-3">
-                                {data?.primaryMarketingPlatforms?.length > 0 ? (
-                                    data?.primaryMarketingPlatforms?.map(
+                                {data?.primaryMarketingPlatform?.length > 0 ? (
+                                    data?.primaryMarketingPlatform?.map(
                                         (market: any, i: number) => (
                                             <li className="flex items-center text-sm text-muted-foreground">
                                                 <Dot />
                                                 <span>
-                                                    {market
-                                                        ?.primaryMarketingPlatform
-                                                        ?.name || "-"}
+                                                    {market?.name || "-"}
                                                 </span>
                                             </li>
                                         )
@@ -44,9 +42,9 @@ function Marketing({ data }: Props) {
                         <div className="grid gap-3 rounded-md border p-4">
                             <Label>Secondary Marketing Platform</Label>
                             <ul className="grid gap-3">
-                                {data?.secondaryMarketingPlatforms?.length >
+                                {data?.secondaryMarketingPlatform?.length >
                                 0 ? (
-                                    data?.secondaryMarketingPlatforms?.map(
+                                    data?.secondaryMarketingPlatform?.map(
                                         (market: nameAndId, i: number) => (
                                             <li className="flex items-center text-sm text-muted-foreground">
                                                 <Dot />

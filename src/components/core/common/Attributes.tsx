@@ -17,8 +17,10 @@ import NoDataText from "../../no-data/NoDataText";
 import { nameAndId } from "../../../types/metadata/Metadata";
 import { TEditLeagueFormSchema } from "../../../features/league/constants.ts/metadata";
 
-const targetAudience = ["Team"];
-const league = ["Team", "Athlete"];
+const targetAudience = ["Team", "League", "Brand", "Athlete"];
+const league = ["Team",];
+const city = ["Team", "Brand", "Athlete"];
+const sports = ["Team", "League", "Athlete"];
 
 type Props = {
     data: any;
@@ -38,27 +40,34 @@ function Attributes({ data, title = "" }: Props) {
                 </CardHeader>
                 <CardContent className="p-6 text-sm">
                     <div className="grid gap-3">
-                        <ul className="grid gap-3">
-                            <li className="flex items-center justify-between">
-                                <span className="text-muted-foreground">
-                                    Sport
-                                </span>
-                                <span>{data?.sport?.name || "-"}</span>
-                            </li>
-                            {league?.some((l) => l === title) ? (
-                                <li className="flex items-center justify-between">
-                                    <span className="text-muted-foreground">
-                                        League
-                                    </span>
-                                    <span>{data?.league?.name || "-"}</span>
-                                </li>
-                            ) : null}
-                        </ul>
+                        {sports?.some((formName) => formName === title) || league?.some((l) => l === title) ?
+                            <>
+                                <ul className="grid gap-3">
+                                    {sports?.some((formName) => formName === title) ? (
+                                        <li className="flex items-center justify-between">
+                                            <span className="text-muted-foreground">
+                                                Sports
+                                            </span>
+                                            <span>{data?.sport?.name || "-"}</span>
+                                        </li>)
+                                        : null}
+                                    {league?.some((l) => l === title) ? (
+                                        <li className="flex items-center justify-between">
+                                            <span className="text-muted-foreground">
+                                                League
+                                            </span>
+                                            <span>{data?.league?.name || "-"}</span>
+                                        </li>
+                                    ) : null}
+                                </ul>
+                                <Separator className="my-2" />
+                            </>
+                            : null}
                         {data?.owners?.length > 0 ? (
                             <>
-                                <Separator className="my-2" />
+
                                 <div className="font-semibold">
-                                    League Owners
+                                    {title} Owners
                                 </div>
                                 <ul className="grid gap-3">
                                     {data?.owners?.map(
@@ -75,9 +84,10 @@ function Attributes({ data, title = "" }: Props) {
                                         )
                                     )}
                                 </ul>
+                                <Separator className="my-2" />
                             </>
                         ) : null}
-                        <Separator className="my-2" />
+
                         <div className="font-semibold">NCCS</div>
                         <ul className="grid gap-3">
                             {data?.nccs?.length > 0 ? (
@@ -103,10 +113,10 @@ function Attributes({ data, title = "" }: Props) {
                     <div className="font-semibold">Personality Traits</div>
                     <div className="my-4 grid grid-cols-2 gap-2">
                         <div className="grid gap-3">
-                            <div className="font-semibold">Main Traits</div>
+                            <div className="font-semibold text-xs">Main Traits</div>
                         </div>
                         <div className="grid auto-rows-max gap-3">
-                            <div className="font-semibold">Sub Traits</div>
+                            <div className="font-semibold text-xs">Sub Traits</div>
                         </div>
                         <div className="grid gap-1">
                             {data?.mainPersonalityTraits?.length ? (
@@ -124,8 +134,8 @@ function Attributes({ data, title = "" }: Props) {
                             )}
                         </div>
                         <div className="grid gap-1">
-                            {data?.subPersonalityTriats?.length ? (
-                                data?.subPersonalityTriats?.map(
+                            {data?.subPersonalityTraits?.length ? (
+                                data?.subPersonalityTraits?.map(
                                     (trait: any, i: number) => (
                                         <div key={i} className="grid gap-3">
                                             <div className="text-muted-foreground">
@@ -139,19 +149,22 @@ function Attributes({ data, title = "" }: Props) {
                             )}
                         </div>
                     </div>
-                    <Separator className="my-4" />
-                    <div className="grid gap-3">
-                        <dl className="grid gap-3">
-                            <div className="flex items-center justify-between">
-                                <dt className="text-muted-foreground">City</dt>
-                                <dd>{data?.city?.name || "-"}</dd>
+                    {city?.some((formName) => formName === title) ? (
+                        <>
+                            <Separator className="my-4" />
+                            <div className="grid gap-3">
+                                <dl className="grid gap-3">
+                                    <div className="flex items-center justify-between">
+                                        <dt className="text-muted-foreground">City</dt>
+                                        <dd>{data?.city?.name || "-"}</dd>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <dt className="text-muted-foreground">State</dt>
+                                        <dd>{data?.state?.name || "-"}</dd>
+                                    </div>
+                                </dl>
                             </div>
-                            <div className="flex items-center justify-between">
-                                <dt className="text-muted-foreground">State</dt>
-                                <dd>{data?.state?.name || "-"}</dd>
-                            </div>
-                        </dl>
-                    </div>
+                        </>) : null}
                     <Separator className="my-4" />
                     <div className="grid gap-3">
                         <div className="font-semibold">Tiers</div>

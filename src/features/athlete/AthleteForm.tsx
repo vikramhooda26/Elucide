@@ -134,8 +134,8 @@ function AthleteForm() {
                             athleteData.subPersonalityTraits?.map(
                                 (trait) => trait.id
                             ),
-                        age: athleteData?.age
-                            ? parseISO(athleteData?.age)
+                        athleteAge: athleteData?.athleteAge
+                            ? parseISO(athleteData?.athleteAge)
                             : undefined,
                         genderIds: athleteData.gender?.map(
                             (gender) => gender.id
@@ -216,56 +216,56 @@ function AthleteForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-        {
-            title: "Sports",
-            register: "sportId",
-            options: metadataStore.sport,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Nationality",
-            register: "nationalityId",
-            options: metadataStore.nationality,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "State",
-            register: "stateId",
-            options: metadataStore.state,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "NCCS class",
-            register: "nccsIds",
-            options: metadataStore.nccs,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Personality Traits",
-            register: "subPersonalityTraitIds",
-            options: metadataStore.personalityTrait,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Status",
-            register: "statusId",
-            options: metadataStore.athleteStatus,
-            multiple: false,
-            type: "DROPDOWN",
-        },
-        {
-            title: "Tier",
-            register: "tierIds",
-            options: metadataStore.tier,
-            multiple: true,
-            type: "DROPDOWN",
-        },
-    ];
+            {
+                title: "Sports",
+                register: "sportId",
+                options: metadataStore.sport,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Nationality",
+                register: "nationalityId",
+                options: metadataStore.nationality,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "State",
+                register: "stateId",
+                options: metadataStore.state,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "NCCS class",
+                register: "nccsIds",
+                options: metadataStore.nccs,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Personality Traits",
+                register: "subPersonalityTraitIds",
+                options: metadataStore.personalityTrait,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Status",
+                register: "statusId",
+                options: metadataStore.athleteStatus,
+                multiple: false,
+                type: "DROPDOWN",
+            },
+            {
+                title: "Tier",
+                register: "tierIds",
+                options: metadataStore.tier,
+                multiple: true,
+                type: "DROPDOWN",
+            },
+        ];
 
     const socials: {
         name: Extract<
@@ -278,25 +278,25 @@ function AthleteForm() {
             | "twitter"
         >;
     }[] = [
-        {
-            name: "instagram",
-        },
-        {
-            name: "facebook",
-        },
-        {
-            name: "twitter",
-        },
-        {
-            name: "linkedin",
-        },
-        {
-            name: "youtube",
-        },
-        {
-            name: "website",
-        },
-    ];
+            {
+                name: "instagram",
+            },
+            {
+                name: "facebook",
+            },
+            {
+                name: "twitter",
+            },
+            {
+                name: "linkedin",
+            },
+            {
+                name: "youtube",
+            },
+            {
+                name: "website",
+            },
+        ];
 
     const onSubmit = async (athleteFormValues: TAthleteFormSchema) => {
         let hasErrors = false;
@@ -380,8 +380,8 @@ function AthleteForm() {
             }
         }
 
-        const formatedDOB = athleteFormValues.age
-            ? format(athleteFormValues.age, "yyyy-MM-dd")
+        const formatedDOB = athleteFormValues.athleteAge
+            ? format(athleteFormValues.athleteAge, "yyyy-MM-dd")
             : undefined;
 
         console.log("\n\n\n\nRequest Body:", athleteFormValues);
@@ -392,7 +392,7 @@ function AthleteForm() {
                 const response = await AthleteService.editAthlete(id, {
                     ...athleteFormValues,
                     associationId: associationId,
-                    age: formatedDOB,
+                    athleteAge: formatedDOB,
                     association: athleteFormValues.association?.map(
                         (asso, index) => ({
                             ...asso,
@@ -409,7 +409,7 @@ function AthleteForm() {
             }
             const response = await AthleteService.createAthlete({
                 ...athleteFormValues,
-                age: formatedDOB,
+                athleteAge: formatedDOB,
                 association: athleteFormValues.association?.map(
                     (asso, index) => ({
                         ...asso,
@@ -523,7 +523,7 @@ function AthleteForm() {
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
-                                                    name="age"
+                                                    name="athleteAge"
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Athlete Age">
                                                             <div className="grid">

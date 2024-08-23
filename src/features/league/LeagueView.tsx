@@ -17,11 +17,13 @@ import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import LeagueService from "../../services/features/LeagueService";
 import ErrorService from "../../services/error/ErrorService";
-import { HTTP_STATUS_CODES } from "../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { toast } from "sonner";
 import { printLogs } from "../../lib/logs";
 import { TEditLeagueFormSchema } from "./constants.ts/metadata";
+import { useUser } from "../../hooks/useUser";
+import Activation from "../../components/core/common/Activation";
 
 function LeagueView() {
     const { id } = useParams();
@@ -29,6 +31,10 @@ function LeagueView() {
     const [isLoading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const { logout } = useAuth();
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchLeague = async (id: string) => {
         try {
@@ -76,9 +82,13 @@ function LeagueView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        <Button size="sm">
-                            <Pencil className="h-4 w-4" />{" "}
-                        </Button>
+                        {userRole === "SUPER_ADMIN" ?
+                            <Button size="sm"
+                                onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`)}
+                            >
+                                <Pencil className="w-4 h-4" />{" "}
+                            </Button>
+                            : null}
                     </div>
                 </div>
                 {isLoading ? (
@@ -145,6 +155,8 @@ function LeagueView() {
                                 <TagLines data={league} />
 
                                 <Marketing data={league} />
+
+                                <Activation data={league} />
 
                                 <Socials data={league} />
 
