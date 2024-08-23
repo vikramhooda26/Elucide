@@ -123,7 +123,8 @@ function SportsDealSummaryList() {
 
     const filterColumnOptions = [
         { label: "Brand", value: "brand" },
-        { label: "Partner", value: "partner" }
+        { label: "Partner", value: "partner" },
+        { label: "Status", value: "status" }
     ];
 
     const [filterField, setFilterField] = useState<string>("");

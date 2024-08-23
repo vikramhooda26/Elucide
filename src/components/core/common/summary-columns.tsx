@@ -119,6 +119,17 @@ export const getColumns = ({
             enableHiding: false
         },
         {
+            accessorKey: "status",
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title={"Status"} />
+            ),
+            cell: ({ row }) => (
+                <div className="w-[80px]">{row.getValue("status")}</div>
+            ),
+            enableSorting: true,
+            enableHiding: true
+        },
+        {
             accessorKey: "createdDate",
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Created At" />
@@ -147,7 +158,7 @@ export const getColumns = ({
                 <div className="w-[80px]">{row.getValue("createdBy")}</div>
             ),
             enableSorting: true,
-            enableHiding: false
+            enableHiding: true
         },
         {
             accessorKey: "modifiedDate",
