@@ -27,7 +27,7 @@ import { Button } from "../../components/ui/button";
 import DataTable from "../../components/data-table/data-table";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../hooks/useUser";
-import { getColumns } from "../../components/core/common/summary-columns";
+import { getColumns } from "../../components/core/view/summary-columns";
 import SelectBox from "../../components/ui/multi-select";
 import { printLogs } from "../../lib/logs";
 

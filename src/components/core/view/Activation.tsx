@@ -13,8 +13,7 @@ function Activation({ data }: Props) {
     printLogs("Marketing data:", data?.activations);
     return (
         <Card x-chunk="dashboard-07-chunk-0 w-full">
-            {data?.activations?.map((activationData: any, i: number) => (
-
+            {data?.activations?.length > 0 ? data?.activations?.map((activationData: any, i: number) => (
                 <>
                     <CardHeader>
                         <CardTitle>{i + 1} .Activation Summary </CardTitle>
@@ -117,9 +116,17 @@ function Activation({ data }: Props) {
                         </div>
                     </CardContent>
                 </>
-            ))}
-
-        </Card>
+            )) :
+                <>
+                    <CardHeader>
+                        <CardTitle>Activation Summary </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <NoDataText />
+                    </CardContent>
+                </>
+            }
+        </Card >
     );
 }
 

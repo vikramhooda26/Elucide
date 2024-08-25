@@ -28,7 +28,7 @@ import { priorities, statuses } from "./data/data";
 import MetadataService from "../../services/features/MetadataService";
 import { useUser } from "../../hooks/useUser";
 import { listLoadingAtom } from "../../store/atoms/global";
-import { getColumns } from "../../components/core/common/common-columns";
+import { getColumns } from "../../components/core/view/common-columns";
 
 function AthleteList() {
     const navigator = useNavigator();

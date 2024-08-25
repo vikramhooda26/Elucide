@@ -28,7 +28,7 @@ import { listLoadingAtom } from "../../store/atoms/global";
 import { league } from "../../types/league/LeagueListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
-import { getColumns } from "../../components/core/common/common-columns";
+import { getColumns } from "../../components/core/view/common-columns";
 
 function LeagueList() {
     const navigator = useNavigator();

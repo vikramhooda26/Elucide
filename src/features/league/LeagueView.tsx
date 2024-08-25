@@ -2,16 +2,16 @@ import { Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../../components/button/BackButton";
-import ActiveCampaing from "../../components/core/common/ActiveCampaing";
-import Association from "../../components/core/common/Association";
-import Attributes from "../../components/core/common/Attributes";
-import ContactPerson from "../../components/core/common/ContactPerson";
-import Endorsements from "../../components/core/common/Endorsements";
-import Marketing from "../../components/core/common/Marketing";
-import Socials from "../../components/core/common/Socials";
-import SportsDealSummary from "../../components/core/common/SportsDealSummary";
-import StrategyOverview from "../../components/core/common/StrategyOverview";
-import TagLines from "../../components/core/common/TagLines";
+import ActiveCampaing from "../../components/core/view/ActiveCampaing";
+import Association from "../../components/core/view/Association";
+import Attributes from "../../components/core/view/Attributes";
+import ContactPerson from "../../components/core/view/ContactPerson";
+import Endorsements from "../../components/core/view/Endorsements";
+import Marketing from "../../components/core/view/Marketing";
+import Socials from "../../components/core/view/Socials";
+import SportsDealSummary from "../../components/core/view/SportsDealSummary";
+import StrategyOverview from "../../components/core/view/StrategyOverview";
+import TagLines from "../../components/core/view/TagLines";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
@@ -23,7 +23,10 @@ import { toast } from "sonner";
 import { printLogs } from "../../lib/logs";
 import { TEditLeagueFormSchema } from "./constants.ts/metadata";
 import { useUser } from "../../hooks/useUser";
-import Activation from "../../components/core/common/Activation";
+import Activation from "../../components/core/view/Activation";
+import Owners from "../../components/core/view/Owners";
+import { Separator } from "../../components/ui/separator";
+import ViewershipReach from "../../components/core/view/ViewershipReach";
 
 function LeagueView() {
     const { id } = useParams();
@@ -108,6 +111,28 @@ function LeagueView() {
                                                     {league?.name || "-"}
                                                 </span>
                                             </li>
+                                            <li >
+                                                <Separator className="my-2" />
+                                                <div className="flex ">
+                                                    <span className="w-1/2">
+                                                        League Owners
+                                                    </span>
+                                                    <span className="text-muted-foreground">
+                                                        <Owners data={league} title={"League"} />
+                                                    </span>
+                                                </div>
+                                                <Separator className="my-2" />
+                                            </li>
+                                            <li className="flex ">
+                                                <span className="w-1/2">
+                                                    Sports
+                                                </span>
+                                                <span className="text-muted-foreground">
+                                                    {league?.sport?.name || "-"}
+                                                </span>
+                                            </li>
+
+
                                             <li className="flex items-center">
                                                 <span className="w-1/2">
                                                     Year Of Inception
@@ -148,30 +173,35 @@ function LeagueView() {
                                     </div>
                                 </Card>
 
+                                <ViewershipReach data={league} />
+
                                 <StrategyOverview
                                     strategy={league?.strategyOverview}
                                 />
 
-                                <TagLines data={league} />
+                                <Socials data={league} />
 
                                 <Marketing data={league} />
 
-                                <Activation data={league} />
-
-                                <Socials data={league} />
-
-                                <ActiveCampaing data={league} />
+                                <TagLines data={league} />
 
                                 <Endorsements data={league} />
 
+                                <ActiveCampaing data={league} />
+
                                 <Association data={league} />
 
-                                <ContactPerson data={league} />
                             </div>
                             <Attributes data={league} title={"League"} />
                         </div>
                         <div className="my-8">
                             <SportsDealSummary data={league} />
+                        </div>
+                        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                                <Activation data={league} />
+                                <ContactPerson data={league} />
+                            </div>
                         </div>
                     </>
                 )}
