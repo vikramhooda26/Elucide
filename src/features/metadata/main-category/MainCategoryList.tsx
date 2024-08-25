@@ -119,6 +119,8 @@ function MainCategoryList() {
 
     const viewRoute = NAVIGATION_ROUTES.MAIN_CATEGORY;
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -127,7 +129,8 @@ function MainCategoryList() {
                 userRole,
                 viewRoute,
                 searchQuerykey: "categoryName",
-                title: "Main Category"
+                title: "Main Category",
+                canEdit
             }),
         []
     );

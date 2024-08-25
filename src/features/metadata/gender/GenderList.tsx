@@ -115,6 +115,8 @@ function GenderList() {
         navigate(`${NAVIGATION_ROUTES.GENDER_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function GenderList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "genderName",
-                title: "Gender"
+                title: "Gender",
+                canEdit
             }),
         []
     );

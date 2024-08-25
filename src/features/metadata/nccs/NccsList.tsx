@@ -115,6 +115,8 @@ function NccsList() {
         navigate(`${NAVIGATION_ROUTES.NCCS_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function NccsList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "nccsName",
-                title: "Nccs class"
+                title: "Nccs class",
+                canEdit
             }),
         []
     );

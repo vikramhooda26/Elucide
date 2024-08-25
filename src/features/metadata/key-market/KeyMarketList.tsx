@@ -117,6 +117,8 @@ function KeyMarketList() {
         navigate(`${NAVIGATION_ROUTES.KEY_MARKET_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -124,7 +126,8 @@ function KeyMarketList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "keyMarketName",
-                title: "Key market"
+                title: "Key market",
+                canEdit
             }),
         []
     );

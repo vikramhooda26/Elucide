@@ -20,6 +20,7 @@ export interface DataTableRowActionsProps<TData> {
     onDelete: (id: string) => void;
     onEdit: (id: string) => void;
     schema: any;
+    canEdit?: boolean;
 }
 
 // { label: string;

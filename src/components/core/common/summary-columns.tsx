@@ -10,23 +10,23 @@ import { createSummarySchema } from "../schema/summary-schema";
 interface TColumnProps {
     onEdit: (id: string) => void;
     onDelete: (id: string) => void;
-    userRole: TRoles;
     viewRoute?: string;
     brandTitle: string;
     partnerTitle: string;
     brandSearchQuerykey: string;
     partnerSearchQueryKey: string;
+    canEdit?: boolean;
 }
 
 export const getColumns = ({
     onEdit,
     onDelete,
-    userRole,
     viewRoute,
     brandSearchQuerykey,
     partnerSearchQueryKey,
     brandTitle,
-    partnerTitle
+    partnerTitle,
+    canEdit = false
 }: TColumnProps) => {
     const schema = createSummarySchema({
         brandName: brandSearchQuerykey,
@@ -193,22 +193,21 @@ export const getColumns = ({
         }
     ];
 
-    if (userRole === "SUPER_ADMIN") {
-        column.push({
-            id: "actions",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Actions" />
-            ),
-            cell: ({ row }) => (
-                <DataTableRowActions
-                    row={row}
-                    onDelete={onDelete}
-                    onEdit={onEdit}
-                    schema={schema}
-                />
-            )
-        });
-    }
+    column.push({
+        id: "actions",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Actions" />
+        ),
+        cell: ({ row }) => (
+            <DataTableRowActions
+                row={row}
+                onDelete={onDelete}
+                onEdit={onEdit}
+                schema={schema}
+                canEdit={canEdit}
+            />
+        )
+    });
 
     return column;
 };

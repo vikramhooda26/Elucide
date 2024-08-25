@@ -115,6 +115,8 @@ function AssociationLevelList() {
         navigate(`${NAVIGATION_ROUTES.ASSOCIATION_LEVEL_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function AssociationLevelList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "associationLevelName",
-                title: "Association level"
+                title: "Association level",
+                canEdit
             }),
         []
     );

@@ -117,6 +117,8 @@ function MarketingPlatformList() {
         navigate(`${NAVIGATION_ROUTES.MARKETING_PLATFORM_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -124,7 +126,8 @@ function MarketingPlatformList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "marketingPlatformName",
-                title: "Marketing platform"
+                title: "Marketing platform",
+                canEdit
             }),
         []
     );

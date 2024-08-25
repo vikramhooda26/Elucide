@@ -115,6 +115,8 @@ function ParentOrgList() {
         navigate(`${NAVIGATION_ROUTES.PARENT_ORG_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function ParentOrgList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "parentOrgName",
-                title: "Parent organization"
+                title: "Parent organization",
+                canEdit
             }),
         []
     );

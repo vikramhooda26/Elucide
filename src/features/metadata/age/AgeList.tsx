@@ -115,6 +115,8 @@ function AgeList() {
         navigate(`${NAVIGATION_ROUTES.AGE_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function AgeList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "ageRange",
-                title: "Age range"
+                title: "Age range",
+                canEdit
             }),
         []
     );

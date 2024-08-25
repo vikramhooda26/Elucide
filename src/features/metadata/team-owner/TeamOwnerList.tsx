@@ -115,6 +115,8 @@ function TeamOwnerList() {
         navigate(`${NAVIGATION_ROUTES.TEAM_OWNER_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function TeamOwnerList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "teamOwnerName",
-                title: "Team owner"
+                title: "Team owner",
+                canEdit
             }),
         []
     );

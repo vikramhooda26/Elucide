@@ -115,6 +115,8 @@ function LevelList() {
         navigate(`${NAVIGATION_ROUTES.LEVEL_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function LevelList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "levelName",
-                title: "Level"
+                title: "Level",
+                canEdit
             }),
         []
     );

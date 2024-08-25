@@ -115,6 +115,8 @@ function ActivationList() {
         navigate(`${NAVIGATION_ROUTES.ACTIVATION_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     // Just pass onView to make the name clickable
     const columns = useMemo(
         () =>
@@ -123,7 +125,8 @@ function ActivationList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "name",
-                title: "Activation name"
+                title: "Activation name",
+                canEdit
             }),
         []
     );

@@ -117,6 +117,8 @@ function ActiveCampaignList() {
 
     const viewRoute = NAVIGATION_ROUTES.CAMPAIGN;
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -125,7 +127,8 @@ function ActiveCampaignList() {
                 userRole,
                 viewRoute,
                 searchQuerykey: "activeCampaignName",
-                title: "Active campaign"
+                title: "Active campaign",
+                canEdit
             }),
         []
     );

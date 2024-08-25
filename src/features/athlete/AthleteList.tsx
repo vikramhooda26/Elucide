@@ -120,6 +120,8 @@ function AthleteList() {
 
     const viewRoute = NAVIGATION_ROUTES.ATHLETE;
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -128,7 +130,8 @@ function AthleteList() {
                 userRole,
                 viewRoute,
                 searchQuerykey: "name",
-                title: "Athlete name"
+                title: "Athlete name",
+                canEdit
             }),
         []
     );

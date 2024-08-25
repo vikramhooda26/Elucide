@@ -118,6 +118,8 @@ function TeamList() {
 
     const viewRoute = NAVIGATION_ROUTES.TEAM;
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -126,7 +128,8 @@ function TeamList() {
                 userRole,
                 viewRoute,
                 searchQuerykey: "name",
-                title: "Team name"
+                title: "Team name",
+                canEdit
             }),
         []
     );

@@ -117,6 +117,8 @@ function BrandList() {
 
     const viewRoute = NAVIGATION_ROUTES.BRAND;
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -125,7 +127,8 @@ function BrandList() {
                 userRole,
                 viewRoute,
                 searchQuerykey: "name",
-                title: "Brand name"
+                title: "Brand name",
+                canEdit
             }),
         []
     );

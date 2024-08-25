@@ -131,17 +131,19 @@ function SportsDealSummaryList() {
 
     const viewRoute = NAVIGATION_ROUTES?.SPORTS_DEAL_SUMMARY;
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
                 onDelete,
                 onEdit,
-                userRole,
                 viewRoute,
                 brandSearchQuerykey: "brand",
                 partnerSearchQueryKey: "partner",
                 brandTitle: "Brand name",
-                partnerTitle: "Partner name"
+                partnerTitle: "Partner name",
+                canEdit
             }),
         []
     );

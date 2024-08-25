@@ -115,6 +115,8 @@ function TierList() {
         navigate(`${NAVIGATION_ROUTES.TIER_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function TierList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "tierName",
-                title: "Tier"
+                title: "Tier",
+                canEdit
             }),
         []
     );

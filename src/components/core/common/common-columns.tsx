@@ -14,6 +14,7 @@ interface TColumnProps {
     viewRoute?: string;
     title: string;
     searchQuerykey: string;
+    canEdit?: boolean;
 }
 
 export const getColumns = ({
@@ -22,7 +23,8 @@ export const getColumns = ({
     userRole,
     viewRoute,
     searchQuerykey,
-    title
+    title,
+    canEdit = false
 }: TColumnProps) => {
     const schema = createSchema({ name: searchQuerykey });
     type TSchemaType = z.infer<typeof schema>;
@@ -146,7 +148,7 @@ export const getColumns = ({
         }
     ];
 
-    if (userRole === "SUPER_ADMIN") {
+    if (userRole === "SUPER_ADMIN" || userRole === "ADMIN") {
         column.push({
             id: "actions",
             header: ({ column }) => (
@@ -158,6 +160,7 @@ export const getColumns = ({
                     onDelete={onDelete}
                     onEdit={onEdit}
                     schema={schema}
+                    canEdit={canEdit}
                 />
             )
         });

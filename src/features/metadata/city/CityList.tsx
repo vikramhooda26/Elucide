@@ -115,6 +115,8 @@ function CityList() {
         navigate(`${NAVIGATION_ROUTES.CITY_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function CityList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "cityName",
-                title: "City"
+                title: "City",
+                canEdit
             }),
         []
     );

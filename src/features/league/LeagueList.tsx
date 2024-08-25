@@ -118,6 +118,8 @@ function LeagueList() {
 
     const viewRoute = NAVIGATION_ROUTES.LEAGUE;
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -125,6 +127,7 @@ function LeagueList() {
                 onEdit,
                 userRole,
                 viewRoute,
+                canEdit,
                 searchQuerykey: "name",
                 title: "League name"
             }),

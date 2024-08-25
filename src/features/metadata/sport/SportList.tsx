@@ -115,6 +115,8 @@ function SportList() {
         navigate(`${NAVIGATION_ROUTES.SPORT_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function SportList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "sportName",
-                title: "Sport"
+                title: "Sport",
+                canEdit
             }),
         []
     );

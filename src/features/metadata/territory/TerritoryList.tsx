@@ -117,6 +117,8 @@ function TerritoryList() {
         navigate(`${NAVIGATION_ROUTES.TERRITORY_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -124,7 +126,8 @@ function TerritoryList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "territoryName",
-                title: "Territory"
+                title: "Territory",
+                canEdit
             }),
         []
     );

@@ -119,6 +119,8 @@ function SubCategoryList() {
 
     const viewRoute = NAVIGATION_ROUTES.SUB_CATEGORY;
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -127,7 +129,8 @@ function SubCategoryList() {
                 userRole,
                 viewRoute,
                 searchQuerykey: "subcategoryName",
-                title: "Sub Category"
+                title: "Sub Category",
+                canEdit
             }),
         []
     );

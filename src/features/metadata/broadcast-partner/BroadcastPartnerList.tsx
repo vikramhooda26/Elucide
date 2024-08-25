@@ -119,6 +119,8 @@ function BroadcastPartnerList() {
         navigate(`${NAVIGATION_ROUTES.BROADCAST_PARTNER_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -126,7 +128,8 @@ function BroadcastPartnerList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "broadcastPartnerName",
-                title: "Broadcast Partner"
+                title: "Broadcast Partner",
+                canEdit
             }),
         []
     );

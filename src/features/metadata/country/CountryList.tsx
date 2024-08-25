@@ -116,6 +116,8 @@ function CountryList() {
         navigate(`${NAVIGATION_ROUTES.COUNTRY_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -123,7 +125,8 @@ function CountryList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "nationalityName",
-                title: "Country"
+                title: "Country",
+                canEdit
             }),
         []
     );

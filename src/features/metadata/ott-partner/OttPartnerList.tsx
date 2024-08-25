@@ -116,6 +116,8 @@ function OttPartnerList() {
         navigate(`${NAVIGATION_ROUTES.OTT_PARTNER_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -123,7 +125,8 @@ function OttPartnerList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "ottpartnerName",
-                title: "OTT partner"
+                title: "OTT partner",
+                canEdit
             }),
         []
     );

@@ -115,6 +115,8 @@ function AssetList() {
         navigate(`${NAVIGATION_ROUTES.ASSET_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function AssetList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "assetName",
-                title: "Asset"
+                title: "Asset",
+                canEdit
             }),
         []
     );

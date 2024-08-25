@@ -115,6 +115,8 @@ function LeagueOwnerList() {
         navigate(`${NAVIGATION_ROUTES.LEAGUE_OWNER_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function LeagueOwnerList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "leagueOwnerName",
-                title: "League owner"
+                title: "League owner",
+                canEdit
             }),
         []
     );

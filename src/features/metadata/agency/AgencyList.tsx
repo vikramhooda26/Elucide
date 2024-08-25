@@ -115,6 +115,8 @@ function AgencyList() {
         navigate(`${NAVIGATION_ROUTES.AGENCY_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -122,7 +124,8 @@ function AgencyList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "agencyName",
-                title: "Agency name"
+                title: "Agency name",
+                canEdit
             }),
         []
     );

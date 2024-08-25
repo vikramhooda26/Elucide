@@ -116,6 +116,8 @@ function TaglineList() {
         navigate(`${NAVIGATION_ROUTES.TAGLINE_EDIT}/${id}`);
     }, []);
 
+    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -123,7 +125,8 @@ function TaglineList() {
                 onEdit,
                 userRole,
                 searchQuerykey: "taglineName",
-                title: "Tagline"
+                title: "Tagline",
+                canEdit
             }),
         []
     );

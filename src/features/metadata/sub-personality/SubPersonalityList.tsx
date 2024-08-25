@@ -119,6 +119,8 @@ function SubPersonalityList() {
 
     const viewRoute = NAVIGATION_ROUTES.SUB_PERSONALITY;
 
+    const canEdit = userRole === "SUPER_ADMIN";
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -127,7 +129,8 @@ function SubPersonalityList() {
                 userRole,
                 viewRoute,
                 searchQuerykey: "subpersonalityName",
-                title: "Sub Personality"
+                title: "Sub Personality",
+                canEdit
             }),
         []
     );
