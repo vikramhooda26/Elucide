@@ -30,6 +30,7 @@ import { useUser } from "../../hooks/useUser";
 import { getColumns } from "../../components/core/view/summary-columns";
 import SelectBox from "../../components/ui/multi-select";
 import { printLogs } from "../../lib/logs";
+import { ConditionalButton } from "../../components/button/ConditionalButton";
 
 function SportsDealSummaryList() {
     const navigator = useNavigator();
@@ -223,15 +224,16 @@ function SportsDealSummaryList() {
                 </div>
                 {userRole !== "USER" && (
                     <div className="flex items-center space-x-2">
-                        <Button
+                        <ConditionalButton
                             onClick={() =>
                                 navigator(
                                     NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY
                                 )
                             }
+                            accessLevel="all_staff"
                         >
                             Create Deal
-                        </Button>
+                        </ConditionalButton>
                     </div>
                 )}
             </div>

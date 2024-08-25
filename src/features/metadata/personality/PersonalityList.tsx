@@ -28,6 +28,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
 import { getColumns } from "../../../components/core/view/common-columns";
+import { ConditionalButton } from "../../../components/button/ConditionalButton";
 
 function PersonalityList() {
     const navigator = useNavigator();
@@ -194,13 +195,14 @@ function PersonalityList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.PERSONALITY_CREATE)
                         }
+                        accessLevel="super_admin"
                     >
                         Create Main Personality
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable

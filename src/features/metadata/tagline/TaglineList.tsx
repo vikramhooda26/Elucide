@@ -28,6 +28,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
 import { getColumns } from "../../../components/core/view/common-columns";
+import { ConditionalButton } from "../../../components/button/ConditionalButton";
 
 function TaglineList() {
     const navigator = useNavigator();
@@ -191,13 +192,14 @@ function TaglineList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.TAGLINE_CREATE)
                         }
+                        accessLevel="all_staff"
                     >
                         Create Tagline
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable

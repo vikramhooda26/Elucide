@@ -28,6 +28,7 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../hooks/useUser";
 import { getColumns } from "../../components/core/view/common-columns";
+import { ConditionalButton } from "../../components/button/ConditionalButton";
 
 function ActivationList() {
     const navigator = useNavigator();
@@ -186,13 +187,14 @@ function ActivationList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.ACTIVATION_CREATE)
                         }
+                        accessLevel="all_staff"
                     >
                         Create Activation
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable

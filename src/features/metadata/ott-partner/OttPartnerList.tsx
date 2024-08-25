@@ -28,6 +28,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
 import { getColumns } from "../../../components/core/view/common-columns";
+import { ConditionalButton } from "../../../components/button/ConditionalButton";
 
 function OttPartnerList() {
     const navigator = useNavigator();
@@ -192,13 +193,14 @@ function OttPartnerList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.OTT_PARTNER_CREATE)
                         }
+                        accessLevel="all_staff"
                     >
                         Create OTT Partner
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable

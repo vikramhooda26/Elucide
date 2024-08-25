@@ -29,6 +29,7 @@ import { priorities, statuses } from "./data/data";
 import MetadataService from "../../services/features/MetadataService";
 import { useUser } from "../../hooks/useUser";
 import { getColumns } from "../../components/core/view/common-columns";
+import { ConditionalButton } from "../../components/button/ConditionalButton";
 
 function BrandList() {
     const navigator = useNavigator();
@@ -187,13 +188,14 @@ function BrandList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.CREATE_BRAND)
                         }
+                        accessLevel="all_staff"
                     >
                         Create Brand
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable

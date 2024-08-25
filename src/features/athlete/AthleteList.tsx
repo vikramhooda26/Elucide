@@ -29,6 +29,7 @@ import MetadataService from "../../services/features/MetadataService";
 import { useUser } from "../../hooks/useUser";
 import { listLoadingAtom } from "../../store/atoms/global";
 import { getColumns } from "../../components/core/view/common-columns";
+import { ConditionalButton } from "../../components/button/ConditionalButton";
 
 function AthleteList() {
     const navigator = useNavigator();
@@ -191,13 +192,14 @@ function AthleteList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.CREATE_ATHLETE)
                         }
+                        accessLevel="all_staff"
                     >
                         Create Athlete
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable

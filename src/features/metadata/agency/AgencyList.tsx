@@ -28,6 +28,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
 import { getColumns } from "../../../components/core/view/common-columns";
+import { ConditionalButton } from "../../../components/button/ConditionalButton";
 
 function AgencyList() {
     const navigator = useNavigator();
@@ -190,13 +191,14 @@ function AgencyList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.AGENCY_CREATE)
                         }
+                        accessLevel="all_staff"
                     >
                         Create Agency
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable

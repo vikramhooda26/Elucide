@@ -29,6 +29,7 @@ import { league } from "../../types/league/LeagueListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { getColumns } from "../../components/core/view/common-columns";
+import { ConditionalButton } from "../../components/button/ConditionalButton";
 
 function LeagueList() {
     const navigator = useNavigator();
@@ -189,13 +190,14 @@ function LeagueList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.CREATE_LEAGUE)
                         }
+                        accessLevel="all_staff"
                     >
                         Create League
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable

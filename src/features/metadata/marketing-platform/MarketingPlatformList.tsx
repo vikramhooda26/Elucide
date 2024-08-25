@@ -28,6 +28,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
 import { getColumns } from "../../../components/core/view/common-columns";
+import { ConditionalButton } from "../../../components/button/ConditionalButton";
 
 function MarketingPlatformList() {
     const navigator = useNavigator();
@@ -193,15 +194,16 @@ function MarketingPlatformList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(
                                 NAVIGATION_ROUTES.MARKETING_PLATFORM_CREATE
                             )
                         }
+                        accessLevel="super_admin"
                     >
                         Create Platform
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable

@@ -28,6 +28,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
 import { getColumns } from "../../../components/core/view/common-columns";
+import { ConditionalButton } from "../../../components/button/ConditionalButton";
 
 function ParentOrgList() {
     const navigator = useNavigator();
@@ -191,13 +192,14 @@ function ParentOrgList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.PARENT_ORG_CREATE)
                         }
+                        accessLevel="all_staff"
                     >
                         Create Organization
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable

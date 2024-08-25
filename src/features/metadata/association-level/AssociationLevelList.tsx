@@ -28,6 +28,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
 import { getColumns } from "../../../components/core/view/common-columns";
+import { ConditionalButton } from "../../../components/button/ConditionalButton";
 
 function AssociationLevelList() {
     const navigator = useNavigator();
@@ -115,7 +116,7 @@ function AssociationLevelList() {
         navigate(`${NAVIGATION_ROUTES.ASSOCIATION_LEVEL_EDIT}/${id}`);
     }, []);
 
-    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+    const canEdit = userRole === "SUPER_ADMIN";
 
     const columns = useMemo(
         () =>
@@ -191,15 +192,16 @@ function AssociationLevelList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button
+                    <ConditionalButton
                         onClick={() =>
                             navigator(
                                 NAVIGATION_ROUTES.ASSOCIATION_LEVEL_CREATE
                             )
                         }
+                        accessLevel="all_staff"
                     >
                         Create Level
-                    </Button>
+                    </ConditionalButton>
                 </div>
             </div>
             <DataTable
