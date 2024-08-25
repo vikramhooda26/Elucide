@@ -28,7 +28,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
     return (
         <div
             data-collapsed={isCollapsed}
-            className="scrollbar group !sticky !top-0 flex max-h-dvh flex-col overflow-auto py-8"
+            className="scrollbar group !sticky !top-0 flex max-h-[calc(100dvh-80px)] flex-col overflow-auto py-8"
         >
             <nav className="grid gap-3 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
                 {links.map((link, index) =>

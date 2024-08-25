@@ -1,6 +1,5 @@
 export const API_URL =
-    import.meta.env.VITE_BACKEND_URL ||
-    "https://api.sponsorsync.in";
+    import.meta.env.VITE_BACKEND_URL || "https://api.sponsorsync.in";
 
 export const Local_URL = "http://localhost:3000";
 
@@ -17,7 +16,7 @@ export const roles = ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"] as const;
 export type TRoles = (typeof roles)[number];
 
 export const LOCAL_STORAGE_KEYS = {
-    USER: "@user",
+    USER: "@user"
 } as const;
 
 const dataEntryRoute = "/data-entry";
@@ -27,6 +26,7 @@ export const NAVIGATION_ROUTES = {
     CREATE_USER: "/create-user",
     HOME: "/elucide/home",
     DASHBOARD: "/dashboard",
+    USERS_LIST: "/users-list",
 
     BRAND_DASHBOARD: "/brand/dashboard",
     League_DASHBOARD: "/league/dashboard",
@@ -200,7 +200,7 @@ export const NAVIGATION_ROUTES = {
     ASSOCIATION_LEVEL_CREATE: dataEntryRoute + "/association-level/create",
     ASSOCIATION_LEVEL_EDIT: dataEntryRoute + "/association-level/edit",
 
-    TEMP_MAIL: "/mail/list",
+    TEMP_MAIL: "/mail/list"
 } as const;
 
 export const HTTP_STATUS_CODES = {
@@ -227,5 +227,5 @@ export const HTTP_STATUS_CODES = {
     NOT_IMPLEMENTED: 501,
     BAD_GATEWAY: 502,
     SERVICE_UNAVAILABLE: 503,
-    GATEWAY_TIMEOUT: 504,
+    GATEWAY_TIMEOUT: 504
 } as const;

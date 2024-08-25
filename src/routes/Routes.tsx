@@ -116,6 +116,7 @@ import BrandDashboardLayout from "../features/dashboard/brand/BrandDashboardLayo
 import LeagueDashboardLayout from "../features/dashboard/league/LeagueDashboardLayout";
 import TeamDashboardLayout from "../features/dashboard/team/TeamDashboardLayout";
 import AthleteDashboardLayout from "../features/dashboard/athlete/AthleteDashboardLayout";
+import { NotFoundPage } from "../components/not-found";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -980,7 +981,7 @@ function Routes() {
         },
         {
             path: "*",
-            element: <Navigate to={NAVIGATION_ROUTES.HOME} />
+            element: <NotFoundPage />
         }
     ];
 

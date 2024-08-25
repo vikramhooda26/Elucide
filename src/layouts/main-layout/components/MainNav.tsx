@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { cn } from "../../../lib/utils";
 import { useUser } from "../../../hooks/useUser.tsx";
+import { NAVIGATION_ROUTES } from "../../../lib/constants.ts";
 
 export function MainNav({
     className,
@@ -17,30 +18,18 @@ export function MainNav({
         >
             {user?.role === "SUPER_ADMIN" && (
                 <Link
-                    to="/create-user"
+                    to={NAVIGATION_ROUTES.CREATE_USER}
                     className="text-sm font-medium transition-colors hover:text-primary"
                 >
                     Create user
                 </Link>
             )}
-            {/* <Link
-                to="#"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-            >
-                Staff
-            </Link> */}
-            {/* <Link
-                to="#"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-            >
-                Actions
-            </Link>
             <Link
-                to="#"
+                to={NAVIGATION_ROUTES.USERS_LIST}
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
-                Settings
-            </Link> */}
+                Manage users
+            </Link>
         </nav>
     );
 }
