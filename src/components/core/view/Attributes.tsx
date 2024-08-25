@@ -236,13 +236,19 @@ function Attributes({ data, title = "" }: Props) {
             <Card className="my-4 overflow-hidden">
                 <CardContent className="p-6 text-sm">
                     <div className="grid gap-3">
-                        <div className="font-semibold">Created On</div>
-                        <ul className="grid gap-3">
-                            {data?.createdDate ? data?.createdDate : '-'}
+                        <div className="font-semibold">Created</div>
+                        <ul className="grid gap-1 text-muted-foreground">
+                            <span className="">
+                                {data?.createdDate ? format(data?.createdDate, 'MMMM dd yyyy, hh:mm aaa') : '-'}
+                            </span>
+                            <span>{data?.createdBy?.name}</span>
                         </ul>
-                        <div className="font-semibold">Updated On</div>
-                        <ul className="grid gap-3">
-                            {data?.modifiedDate ? data?.modifiedDate : '-'}
+                        <div className="font-semibold">Updated</div>
+                        <ul className="grid gap-1 text-muted-foreground">
+                            <span className="">
+                                {data?.modifiedDate ? format(data?.modifiedDate, 'MMMM dd yyyy, hh:mm aaa') : '-'}
+                            </span>
+                            <span>{data?.modifiedBy?.name}</span>
                         </ul>
                     </div>
                 </CardContent>
