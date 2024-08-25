@@ -148,7 +148,7 @@ export const getColumns = ({
         }
     ];
 
-    if (userRole === "SUPER_ADMIN" || userRole === "ADMIN") {
+    if (userRole === "SUPER_ADMIN" || canEdit) {
         column.push({
             id: "actions",
             header: ({ column }) => (
