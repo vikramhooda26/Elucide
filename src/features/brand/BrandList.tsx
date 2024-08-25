@@ -28,7 +28,7 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import MetadataService from "../../services/features/MetadataService";
 import { useUser } from "../../hooks/useUser";
-import { getColumns } from "../../components/core/common/common-columns";
+import { getColumns } from "../../components/core/view/common-columns";
 
 function BrandList() {
     const navigator = useNavigator();

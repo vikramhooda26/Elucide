@@ -14,11 +14,11 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import Attributes from "../../components/core/common/Attributes";
-import ContactPerson from "../../components/core/common/ContactPerson";
-import Marketing from "../../components/core/common/Marketing";
-import Socials from "../../components/core/common/Socials";
-import SportsDealSummary from "../../components/core/common/SportsDealSummary";
+import Attributes from "../../components/core/view/Attributes";
+import ContactPerson from "../../components/core/view/ContactPerson";
+import Marketing from "../../components/core/view/Marketing";
+import Socials from "../../components/core/view/Socials";
+import SportsDealSummary from "../../components/core/view/SportsDealSummary";
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import AthleteService from "../../services/features/AthleteService";
@@ -28,8 +28,8 @@ import { nameAndId } from "../../types/metadata/Metadata";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { useUser } from "../../hooks/useUser";
 import { NAVIGATION_ROUTES } from "../../lib/constants";
-import Association from "../../components/core/common/Association";
-import Activation from "../../components/core/common/Activation";
+import Association from "../../components/core/view/Association";
+import Activation from "../../components/core/view/Activation";
 
 function AthleteView() {
     const { id } = useParams<string>();
@@ -132,6 +132,36 @@ function AthleteView() {
                                                 {athlete?.name || "-"}
                                             </span>
                                         </li>
+                                        <li className="flex ">
+                                            <span className="w-1/2">Sports</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.sport?.name || "-"}
+                                            </span>
+                                        </li>
+                                        <li className="flex items-center ">
+                                            <span className="w-1/2">Nationality</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.nationality?.name || "-"}
+                                            </span>
+                                        </li>
+                                        <li className="flex ">
+                                            <span className="w-1/2">State</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.state?.name || "-"}
+                                            </span>
+                                        </li>
+                                        <li className="flex items-center ">
+                                            <span className="w-1/2">Agency</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.agency?.name || "-"}
+                                            </span>
+                                        </li>
+                                        <li className="flex items-center ">
+                                            <span className="w-1/2">Status</span>
+                                            <span className="text-muted-foreground">
+                                                {athlete?.status?.name || "-"}
+                                            </span>
+                                        </li>
                                         <li className="flex items-center ">
                                             <span className="w-1/2">DOB</span>
                                             <span className="text-muted-foreground">
@@ -154,35 +184,13 @@ function AthleteView() {
                                                 )
                                             )}
                                         </li>
-                                        <li className="flex items-center ">
-                                            <span className="w-1/2">Nationality</span>
-                                            <span className="text-muted-foreground">
-                                                {athlete?.nationality?.name || "-"}
-                                            </span>
-                                        </li>
-                                        <li className="flex items-center ">
-                                            <span className="w-1/2">Agency</span>
-                                            <span className="text-muted-foreground">
-                                                {athlete?.agency?.name || "-"}
-                                            </span>
-                                        </li>
-                                        <li className="flex items-center ">
-                                            <span className="w-1/2">Status</span>
-                                            <span className="text-muted-foreground">
-                                                {athlete?.status?.name || "-"}
-                                            </span>
-                                        </li>
                                     </ul>
                                 </div>
                             </Card>
 
-                            <Marketing data={athlete} />
-
-                            <Activation data={athlete} />
-
                             <Socials data={athlete} />
 
-                            <ContactPerson data={athlete} />
+                            <Marketing data={athlete} />
 
                             <Association data={athlete} />
                         </div>
@@ -193,6 +201,13 @@ function AthleteView() {
                     </div>
                     <div>
                         <SportsDealSummary data={athlete} />
+                    </div>
+                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                            <Activation data={athlete} />
+
+                            <ContactPerson data={athlete} />
+                        </div>
                     </div>
                 </>)}
             </div>

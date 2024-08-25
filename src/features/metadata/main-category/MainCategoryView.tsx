@@ -2,7 +2,7 @@ import { Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import BackButton from '../../../components/button/BackButton';
-import NameIdList from '../../../components/core/common/NameIdList';
+import NameIdList from '../../../components/core/view/NameIdList';
 import { TableHeaderWrapper } from '../../../components/table/table-header-wrapper';
 import { Button } from '../../../components/ui/button';
 import { Card } from '../../../components/ui/card';

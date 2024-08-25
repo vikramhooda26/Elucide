@@ -5,16 +5,16 @@ import {
 
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ActiveCampaing from "../../components/core/common/ActiveCampaing";
-import Association from "../../components/core/common/Association";
-import Attributes from "../../components/core/common/Attributes";
-import ContactPerson from "../../components/core/common/ContactPerson";
-import Endorsements from "../../components/core/common/Endorsements";
-import Marketing from "../../components/core/common/Marketing";
-import Socials from "../../components/core/common/Socials";
-import SportsDealSummary from "../../components/core/common/SportsDealSummary";
-import StrategyOverview from "../../components/core/common/StrategyOverview";
-import TagLines from "../../components/core/common/TagLines";
+import ActiveCampaing from "../../components/core/view/ActiveCampaing";
+import Association from "../../components/core/view/Association";
+import Attributes from "../../components/core/view/Attributes";
+import ContactPerson from "../../components/core/view/ContactPerson";
+import Endorsements from "../../components/core/view/Endorsements";
+import Marketing from "../../components/core/view/Marketing";
+import Socials from "../../components/core/view/Socials";
+import SportsDealSummary from "../../components/core/view/SportsDealSummary";
+import StrategyOverview from "../../components/core/view/StrategyOverview";
+import TagLines from "../../components/core/view/TagLines";
 import { Button } from "../../components/ui/button";
 import {
   Card
@@ -24,7 +24,7 @@ import BackButton from "../../components/button/BackButton";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { useUser } from "../../hooks/useUser";
 import { NAVIGATION_ROUTES } from "../../lib/constants";
-import CategoriesCard from "../../components/core/common/CategoriesCard";
+import CategoriesCard from "../../components/core/view/CategoriesCard";
 
 function BrandView() {
   const { id } = useParams<string>();
@@ -109,46 +109,51 @@ function BrandView() {
                         {brand?.agency?.name || '-'}
                       </span>
                     </li>
-                    {/* <li className="flex items-center ">
-                    <span className="w-1/2">
-                      Year Of Inception
-                    </span>
-                    <span className="text-muted-foreground">
-                      {brand?.yearOfInception || '-'}
-                    </span>
-                  </li>
-                  <li className="flex items-center ">
-                    <span className="w-1/2">
-                      Franchise Fee
-                    </span>
-                    <span className="text-muted-foreground">
-                      {brand?.franchiseFee || '-'}
-                    </span>
-                  </li> */}
+                    <li className="flex ">
+                      <span className="w-1/2">
+                        City
+                      </span>
+                      <span className="text-muted-foreground">
+                        {brand?.city?.name || "-"}
+                      </span>
+                    </li>
+
+                    <li className="flex ">
+                      <span className="w-1/2">
+                        State
+                      </span>
+                      <span className="text-muted-foreground">
+                        {brand?.state?.name || "-"}
+                      </span>
+                    </li>
                   </ul>
                 </div>
               </Card>
 
-              <StrategyOverview strategy={brand?.strategyOverview} />
-
               <CategoriesCard data={brand} />
 
-              <TagLines data={brand} />
-
-              <Marketing data={brand} />
+              <StrategyOverview strategy={brand?.strategyOverview} />
 
               <Socials data={brand} />
 
-              <ActiveCampaing data={brand} />
+              <Marketing data={brand} />
+
+              <TagLines data={brand} />
 
               <Endorsements data={brand} />
 
-              <ContactPerson data={brand} />
+              <ActiveCampaing data={brand} />
+
             </div>
             <Attributes data={brand} title={'Brand'} />
           </div>
           <div className="my-8">
             <SportsDealSummary data={brand} />
+          </div>
+          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+              <ContactPerson data={brand} />
+            </div>
           </div>
         </>)}
       </div>

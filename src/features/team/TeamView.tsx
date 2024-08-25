@@ -1,16 +1,16 @@
 import { ChevronLeft, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ActiveCampaing from "../../components/core/common/ActiveCampaing";
-import Association from "../../components/core/common/Association";
-import Attributes from "../../components/core/common/Attributes";
-import ContactPerson from "../../components/core/common/ContactPerson";
-import Endorsements from "../../components/core/common/Endorsements";
-import Marketing from "../../components/core/common/Marketing";
-import Socials from "../../components/core/common/Socials";
-import SportsDealSummary from "../../components/core/common/SportsDealSummary";
-import StrategyOverview from "../../components/core/common/StrategyOverview";
-import TagLines from "../../components/core/common/TagLines";
+import ActiveCampaing from "../../components/core/view/ActiveCampaing";
+import Association from "../../components/core/view/Association";
+import Attributes from "../../components/core/view/Attributes";
+import ContactPerson from "../../components/core/view/ContactPerson";
+import Endorsements from "../../components/core/view/Endorsements";
+import Marketing from "../../components/core/view/Marketing";
+import Socials from "../../components/core/view/Socials";
+import SportsDealSummary from "../../components/core/view/SportsDealSummary";
+import StrategyOverview from "../../components/core/view/StrategyOverview";
+import TagLines from "../../components/core/view/TagLines";
 import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
@@ -21,7 +21,10 @@ import BackButton from "../../components/button/BackButton";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { NAVIGATION_ROUTES } from "../../lib/constants";
 import { useUser } from "../../hooks/useUser";
-import Activation from "../../components/core/common/Activation";
+import Activation from "../../components/core/view/Activation";
+import Owners from "../../components/core/view/Owners";
+import { Separator } from "../../components/ui/separator";
+import ViewershipReach from "../../components/core/view/ViewershipReach";
 
 function TeamView() {
     const { id } = useParams<string>();
@@ -105,23 +108,68 @@ function TeamView() {
                                 </TableHeaderWrapper>
                             </Card>
 
+                            <Card x-chunk="dashboard-07-chunk-0">
+                                <div className="m-3">
+                                    <ul className="grid gap-3">
+                                        <li >
+                                            <div className="flex ">
+                                                <span className="w-1/2">
+                                                    Team Owners
+                                                </span>
+                                                <span className="text-muted-foreground">
+                                                    <Owners data={team} title={"Team"} />
+                                                </span>
+                                            </div>
+                                            <Separator className="my-2" />
+                                        </li>
+
+                                        <li className="flex ">
+                                            <span className="w-1/2">
+                                                Sports
+                                            </span>
+                                            <span className="text-muted-foreground">
+                                                {team?.sport?.name || "-"}
+                                            </span>
+                                        </li>
+
+                                        <li className="flex ">
+                                            <span className="w-1/2">
+                                                City
+                                            </span>
+                                            <span className="text-muted-foreground">
+                                                {team?.city?.name || "-"}
+                                            </span>
+                                        </li>
+
+                                        <li className="flex ">
+                                            <span className="w-1/2">
+                                                State
+                                            </span>
+                                            <span className="text-muted-foreground">
+                                                {team?.state?.name || "-"}
+                                            </span>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </Card>
+
+                            <ViewershipReach data={team} />
+
                             <StrategyOverview strategy={team?.strategyOverview} />
-
-                            <TagLines data={team} />
-
-                            <Marketing data={team} />
-
-                            <Activation data={team} />
 
                             <Socials data={team} />
 
-                            <ActiveCampaing data={team} />
+                            <Marketing data={team} />
+
+                            <TagLines data={team} />
 
                             <Endorsements data={team} />
 
+                            <ActiveCampaing data={team} />
+
                             <Association data={team} />
 
-                            <ContactPerson data={team} />
                         </div>
                         <Attributes
                             data={team}
@@ -130,6 +178,12 @@ function TeamView() {
                     </div>
                     <div className="my-8">
                         <SportsDealSummary data={team} />
+                    </div>
+                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                            <Activation data={team} />
+                            <ContactPerson data={team} />
+                        </div>
                     </div>
                 </>)}
             </div>

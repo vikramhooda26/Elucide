@@ -28,7 +28,7 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../hooks/useUser";
 import MetadataService from "../../services/features/MetadataService";
-import { getColumns } from "../../components/core/common/common-columns";
+import { getColumns } from "../../components/core/view/common-columns";
 
 function TeamList() {
     const navigator = useNavigator();

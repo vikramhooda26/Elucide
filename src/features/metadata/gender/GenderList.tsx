@@ -27,7 +27,7 @@ import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
-import { getColumns } from "../../../components/core/common/common-columns";
+import { getColumns } from "../../../components/core/view/common-columns";
 
 function GenderList() {
     const navigator = useNavigator();
