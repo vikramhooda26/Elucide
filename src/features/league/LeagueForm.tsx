@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft, PlusCircle, Trash2 } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import { CardWrapper } from "../../components/card/card-wrapper";
 import AssociationCard from "../../components/core/form/association-card";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import { MetricsCard } from "../../components/core/form/metrics.card";
 import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { getPhoneData } from "../../components/phone-input";
@@ -149,19 +150,22 @@ function LeagueForm() {
                             leagueData.tertiary?.map(
                                 (tertiaries) => tertiaries.id
                             ) || undefined,
-                        viewershipMetrics:
-                            leagueData.viewershipMetrics?.map((metric) => ({
-                                id: metric.id || undefined,
-                                viewership: metric.viewership || undefined,
-                                viewershipType:
-                                    metric.viewershipType || undefined,
-                                year: metric.year || undefined
-                            })) || undefined,
-                        reachMetrics:
-                            leagueData.reachMetrics?.map((metric) => ({
-                                id: metric.id || undefined,
+                        broadcastPartnerMetrics:
+                            leagueData.broadcastPartnerMetrics?.map(
+                                (metric) => ({
+                                    reach: metric.reach || undefined,
+                                    viewership: metric.viewership || undefined,
+                                    year: metric.year || undefined,
+                                    broadcastPartnerId:
+                                        metric.broadcastPartner.id || undefined
+                                })
+                            ) || undefined,
+                        ottPartnerMetrics:
+                            leagueData.ottPartnerMetrics?.map((metric) => ({
                                 reach: metric.reach || undefined,
-                                year: metric.year || undefined
+                                viewership: metric.viewership || undefined,
+                                year: metric.year || undefined,
+                                ottPartnerId: metric.ottPartner.id || undefined
                             })) || undefined,
                         instagram: leagueData?.instagram || undefined,
                         facebook: leagueData?.facebook || undefined,
@@ -190,7 +194,7 @@ function LeagueForm() {
                             leagueData.nccs?.map((nccs) => nccs.id) ||
                             undefined,
                         subPersonalityTraitIds:
-                            leagueData.subPersonalityTriats?.map(
+                            leagueData.subPersonalityTraits?.map(
                                 (traits) => traits.id
                             ) || undefined,
                         tierIds: leagueData.tiers
@@ -242,25 +246,28 @@ function LeagueForm() {
         return <div>loading...</div>;
     }
 
-    const viewershipMetricFieldArray = useFieldArray({
-        name: "viewershipMetrics",
+    const ottPartnerMetricFieldArray = useFieldArray({
+        name: "ottPartnerMetrics",
         control: form.control
     });
 
-    const reachMetricFieldArray = useFieldArray({
-        name: "reachMetrics",
+    const broadcastPartnerMetricFieldArray = useFieldArray({
+        name: "broadcastPartnerMetrics",
         control: form.control
     });
 
-    const defaultViewershipMetric = {
-        viewership: "",
+    const defaultOttPartnerMetric = {
+        ottPartnerId: "",
         year: "",
-        viewershipType: ""
+        viewership: "",
+        reach: ""
     };
 
-    const defaultReachMetric = {
-        reach: "",
-        year: ""
+    const defaultBroadcastPartnerMetric = {
+        broadcastPartnerId: "",
+        year: "",
+        viewership: "",
+        reach: ""
     };
 
     const leagueAttributes: {
@@ -402,11 +409,6 @@ function LeagueForm() {
         }
     ];
 
-    const viewershipType = [
-        { label: "OTT", value: "OTT" },
-        { label: "BROADCAST", value: "BROADCAST" }
-    ];
-
     const onSubmit = async (leagueFormValues: TLeagueFormSchema) => {
         let hasErrors = false;
         const convertedCostOfAssociations: number[] = [];
@@ -487,29 +489,29 @@ function LeagueForm() {
             }
         }
 
-        const validatedViewershipMetrics = validateMetrics(
-            "viewershipMetrics",
-            leagueFormValues?.viewershipMetrics,
+        const validatedOttPartnerMetrics = validateMetrics(
+            "ottPartnerMetrics",
+            leagueFormValues?.ottPartnerMetrics,
             form.setError
         );
 
-        const validatedReachMetrics = validateMetrics(
-            "reachMetrics",
-            leagueFormValues?.reachMetrics,
+        const validatedBroadcastMetrics = validateMetrics(
+            "broadcastPartnerMetrics",
+            leagueFormValues?.broadcastPartnerMetrics,
             form.setError
         );
 
         if (
-            validatedViewershipMetrics === undefined ||
-            validatedReachMetrics === undefined
+            validatedOttPartnerMetrics === undefined ||
+            validatedBroadcastMetrics === undefined
         ) {
             return;
         }
 
         const requestBody = {
             ...leagueFormValues,
-            viewershipMetrics: validatedViewershipMetrics,
-            reachMetrics: validatedReachMetrics,
+            ottPartnerMetrics: validatedOttPartnerMetrics,
+            broadcastPartnerMetrics: validatedBroadcastMetrics,
             association: leagueFormValues.association?.map((asso, index) => ({
                 ...asso,
                 costOfAssociation: convertedCostOfAssociations[index]
@@ -855,246 +857,32 @@ function LeagueForm() {
                                     </div>
                                 </CardWrapper>
 
-                                {/* Viewership */}
+                                {/* OTT Partner Metrics */}
 
-                                <CardWrapper title="Viewership">
-                                    <TableHeaderWrapper
-                                        headersArray={[
-                                            { header: "Year" },
-                                            { header: "Viewership" },
-                                            { header: "Viewership type" }
-                                        ]}
-                                    >
-                                        {viewershipMetricFieldArray.fields.map(
-                                            (field, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>
-                                                        <FormField
-                                                            control={
-                                                                form.control
-                                                            }
-                                                            key={field.id}
-                                                            name={`viewershipMetrics.${index}.year`}
-                                                            render={({
-                                                                field
-                                                            }) => (
-                                                                <FormItemWrapper>
-                                                                    <SelectBox
-                                                                        options={getListOfYears()}
-                                                                        value={
-                                                                            field.value
-                                                                        }
-                                                                        onChange={
-                                                                            field.onChange
-                                                                        }
-                                                                        placeholder="Select a year"
-                                                                        inputPlaceholder="Search for a year..."
-                                                                        emptyPlaceholder="No year found"
-                                                                    />
-                                                                </FormItemWrapper>
-                                                            )}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <FormField
-                                                            control={
-                                                                form.control
-                                                            }
-                                                            key={field.id}
-                                                            name={`viewershipMetrics.${index}.viewership`}
-                                                            render={({
-                                                                field
-                                                            }) => (
-                                                                <FormItemWrapper>
-                                                                    <Input
-                                                                        value={
-                                                                            field.value
-                                                                        }
-                                                                        onChange={
-                                                                            field.onChange
-                                                                        }
-                                                                    />
-                                                                </FormItemWrapper>
-                                                            )}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <div className="grid gap-3">
-                                                            <FormField
-                                                                control={
-                                                                    form.control
-                                                                }
-                                                                key={field.id}
-                                                                name={`viewershipMetrics.${index}.viewershipType`}
-                                                                render={({
-                                                                    field
-                                                                }) => (
-                                                                    <FormItemWrapper>
-                                                                        <SelectBox
-                                                                            options={
-                                                                                viewershipType
-                                                                            }
-                                                                            value={
-                                                                                field.value
-                                                                            }
-                                                                            onChange={
-                                                                                field.onChange
-                                                                            }
-                                                                            placeholder="Select a type"
-                                                                            inputPlaceholder="Search for a type..."
-                                                                            emptyPlaceholder="No type found"
-                                                                        />
-                                                                    </FormItemWrapper>
-                                                                )}
-                                                            />
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell className="font-semibold">
-                                                        {viewershipMetricFieldArray
-                                                            .fields.length >
-                                                            0 && (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    viewershipMetricFieldArray.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                                size="sm"
-                                                                className="h-7 gap-1 text-white"
-                                                                variant="destructive"
-                                                                type="button"
-                                                            >
-                                                                <Trash2 className="h-3.5 w-3.5" />
-                                                            </Button>
-                                                        )}
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        )}
-                                    </TableHeaderWrapper>
-
-                                    <div className="mt-4 flex justify-end">
-                                        <Button
-                                            onClick={() =>
-                                                viewershipMetricFieldArray.append(
-                                                    defaultViewershipMetric
-                                                )
-                                            }
-                                            size="sm"
-                                            className="h-7 gap-1"
-                                            type="button"
-                                        >
-                                            <PlusCircle className="h-3.5 w-3.5" />
-                                            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                                Add
-                                            </span>
-                                        </Button>
-                                    </div>
+                                <CardWrapper title="OTT Partner Metrics">
+                                    <MetricsCard
+                                        fieldArray={ottPartnerMetricFieldArray}
+                                        form={form}
+                                        options={metadataStore.ottPartner}
+                                        defaultValue={defaultOttPartnerMetric}
+                                        register="ottPartnerMetrics"
+                                    />
                                 </CardWrapper>
 
-                                {/* Reach */}
+                                {/* Broadcast Partner Metrics */}
 
-                                <CardWrapper title="Reach">
-                                    <TableHeaderWrapper
-                                        headersArray={[
-                                            { header: "Year" },
-                                            { header: "Reach" }
-                                        ]}
-                                    >
-                                        {reachMetricFieldArray.fields.map(
-                                            (field, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>
-                                                        <FormField
-                                                            control={
-                                                                form.control
-                                                            }
-                                                            key={field.id}
-                                                            name={`reachMetrics.${index}.year`}
-                                                            render={({
-                                                                field
-                                                            }) => (
-                                                                <FormItemWrapper>
-                                                                    <SelectBox
-                                                                        options={getListOfYears()}
-                                                                        value={
-                                                                            field.value
-                                                                        }
-                                                                        onChange={
-                                                                            field.onChange
-                                                                        }
-                                                                        placeholder="Select a year"
-                                                                        inputPlaceholder="Search for a year..."
-                                                                        emptyPlaceholder="No year found"
-                                                                    />
-                                                                </FormItemWrapper>
-                                                            )}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <FormField
-                                                            control={
-                                                                form.control
-                                                            }
-                                                            key={field.id}
-                                                            name={`reachMetrics.${index}.reach`}
-                                                            render={({
-                                                                field
-                                                            }) => (
-                                                                <FormItemWrapper>
-                                                                    <Input
-                                                                        value={
-                                                                            field.value
-                                                                        }
-                                                                        onChange={
-                                                                            field.onChange
-                                                                        }
-                                                                    />
-                                                                </FormItemWrapper>
-                                                            )}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell className="font-semibold">
-                                                        {reachMetricFieldArray
-                                                            .fields.length >
-                                                            0 && (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    reachMetricFieldArray.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                                size="sm"
-                                                                className="h-7 gap-1 text-white"
-                                                                variant="destructive"
-                                                                type="button"
-                                                            >
-                                                                <Trash2 className="h-3.5 w-3.5" />
-                                                            </Button>
-                                                        )}
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        )}
-                                    </TableHeaderWrapper>
-
-                                    <div className="mt-4 flex justify-end">
-                                        <Button
-                                            onClick={() =>
-                                                reachMetricFieldArray.append(
-                                                    defaultReachMetric
-                                                )
-                                            }
-                                            size="sm"
-                                            className="h-7 gap-1"
-                                            type="button"
-                                        >
-                                            <PlusCircle className="h-3.5 w-3.5" />
-                                            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                                Add
-                                            </span>
-                                        </Button>
-                                    </div>
+                                <CardWrapper title="Broadcast Partner Metrics">
+                                    <MetricsCard
+                                        fieldArray={
+                                            broadcastPartnerMetricFieldArray
+                                        }
+                                        form={form}
+                                        options={metadataStore.broadcastPartner}
+                                        defaultValue={
+                                            defaultBroadcastPartnerMetric
+                                        }
+                                        register="broadcastPartnerMetrics"
+                                    />
                                 </CardWrapper>
 
                                 <CardWrapper title="Socials">

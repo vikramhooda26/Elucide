@@ -46,20 +46,23 @@ export const leagueFormSchema = z.object({
     youtube: z.string().optional(),
     website: z.string().optional(),
     strategyOverview: z.string().optional(),
-    viewershipMetrics: z
+    ottPartnerMetrics: z
         .object({
             id: z.string().optional(),
-            viewership: z.string(),
+            reach: z.string().optional(),
+            viewership: z.string().optional(),
             year: z.string(),
-            viewershipType: z.enum(["OTT", "BROADCAST"]).or(z.string())
+            ottPartnerId: z.string()
         })
         .array()
         .optional(),
-    reachMetrics: z
+    broadcastPartnerMetrics: z
         .object({
             id: z.string().optional(),
-            reach: z.string(),
-            year: z.string()
+            reach: z.string().optional(),
+            viewership: z.string().optional(),
+            year: z.string(),
+            broadcastPartnerId: z.string()
         })
         .array()
         .optional(),
@@ -88,8 +91,6 @@ export const leagueFormSchema = z.object({
 
 export type TLeagueFormSchema = z.infer<typeof leagueFormSchema>;
 
-type viewship_type = "OTT" | "BROADCAST";
-
 export type TEditLeagueFormSchema = {
     id?: string;
     name?: string;
@@ -97,10 +98,6 @@ export type TEditLeagueFormSchema = {
         id?: string;
         name?: string;
     };
-    owners?: {
-        id?: string;
-        name?: string;
-    }[];
     createdBy?: {
         id?: string;
         name?: string;
@@ -109,9 +106,13 @@ export type TEditLeagueFormSchema = {
         id?: string;
         name?: string;
     };
-    createdDate?: string;
-    modifiedDate?: string;
-    yearOfInception?: string;
+    createdDate?: Date;
+    modifiedDate?: Date;
+    owners?: {
+        id?: string;
+        name?: string;
+    }[];
+    yearOfInception: string;
     broadcastPartner?: {
         id?: string;
         name?: string;
@@ -120,13 +121,13 @@ export type TEditLeagueFormSchema = {
         id?: string;
         name?: string;
     };
-    instagram?: string;
-    facebook?: string;
-    linkedin?: string;
-    youtube?: string;
-    website?: string;
-    twitter?: string;
-    strategyOverview?: string;
+    instagram: string;
+    facebook: string;
+    linkedin: string;
+    youtube: string;
+    website: string;
+    twitter: string;
+    strategyOverview: string;
     taglines?: {
         id?: string;
         name?: string;
@@ -167,7 +168,7 @@ export type TEditLeagueFormSchema = {
         id?: string;
         name?: string;
     }[];
-    subPersonalityTriats?: {
+    subPersonalityTraits?: {
         id?: string;
         name?: string;
     }[];
@@ -279,15 +280,18 @@ export type TEditLeagueFormSchema = {
         contactNumber?: string;
         contactDesignation?: string;
     }[];
-    viewershipMetrics?: {
-        id?: string;
+    ottPartnerMetrics?: {
+        id: string;
         viewership: string;
-        viewershipType: viewship_type;
-        year: string;
-    }[];
-    reachMetrics?: {
-        id?: string;
         reach: string;
         year: string;
+        ottPartner: { id: string; name: string };
+    }[];
+    broadcastPartnerMetrics?: {
+        id: string;
+        reach: string;
+        viewership: string;
+        year: string;
+        broadcastPartner: { id: string; name: string };
     }[];
 };

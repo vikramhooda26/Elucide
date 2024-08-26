@@ -4,7 +4,7 @@ import {
     Control,
     FieldValues,
     Path,
-    useFieldArray,
+    useFieldArray
 } from "react-hook-form";
 import { cn } from "../../../lib/utils";
 import { CardWrapper } from "../../card/card-wrapper";
@@ -21,7 +21,7 @@ const initialValue = {
     contactDesignation: "",
     contactEmail: "",
     contactNumber: "",
-    contactLinkedin: "",
+    contactLinkedin: ""
 };
 
 type TDisplayFields<T> = {
@@ -41,11 +41,11 @@ type TVerticalFieldsCardProps<T extends FieldValues> = {
 };
 
 const ContactPersonCard = <T extends FieldValues>({
-    control,
+    control
 }: TVerticalFieldsCardProps<T>): JSX.Element => {
     const fieldArray = useFieldArray<T>({
         control,
-        name: "contactPerson" as ArrayPath<T>,
+        name: "contactPerson" as ArrayPath<T>
     });
 
     const contactDetails = (index: number): Array<TDisplayFields<T>> => [
@@ -54,46 +54,46 @@ const ContactPersonCard = <T extends FieldValues>({
             register: `contactPerson.${index}.contactName` as Path<T>,
             type: "INPUT",
             input: { type: "text" },
-            placeholder: "Contact name",
+            placeholder: "Contact name"
         },
         {
             title: "Contact Designation",
             register: `contactPerson.${index}.contactDesignation` as Path<T>,
             type: "INPUT",
             input: { type: "text" },
-            placeholder: "Contact designation",
+            placeholder: "Contact designation"
         },
         {
             title: "Contact Number",
             register: `contactPerson.${index}.contactNumber` as Path<T>,
             type: "PHONE",
             input: { type: "number" },
-            placeholder: "Contact number",
+            placeholder: "Contact number"
         },
         {
             title: "Contact Linkedin",
             register: `contactPerson.${index}.contactLinkedin` as Path<T>,
             type: "INPUT",
             input: { type: "text" },
-            placeholder: "Contact linkedin",
+            placeholder: "Contact linkedin"
         },
         {
             title: "Contact Email",
             register: `contactPerson.${index}.contactEmail` as Path<T>,
             type: "INPUT",
             input: { type: "email" },
-            placeholder: "Contact email",
-        },
+            placeholder: "Contact email"
+        }
     ];
 
     return (
         <CardWrapper title="Contact Person Details">
             <div className="grid gap-6">
                 {fieldArray.fields.map((field, index) => (
-                    <CardWrapper title={`Person ${index + 1}`}>
+                    <CardWrapper title={`Contact Person - ${index + 1}`}>
                         <div
                             className={cn(
-                                "grid gap-3 auto-rows-max items-start lg:grid-cols-2"
+                                "grid auto-rows-max items-start gap-3 lg:grid-cols-2"
                             )}
                             key={field.id}
                         >
@@ -152,7 +152,7 @@ const ContactPersonCard = <T extends FieldValues>({
                                 />
                             ))}
                             {fieldArray.fields.length > 0 && (
-                                <div className="flex items-end justify-end mt-4">
+                                <div className="mt-4 flex items-end justify-end">
                                     <Button
                                         onClick={() => fieldArray.remove(index)}
                                         size="sm"
@@ -173,7 +173,7 @@ const ContactPersonCard = <T extends FieldValues>({
             </div>
 
             <CardFooter>
-                <div className="flex items-end w-full justify-end mt-4">
+                <div className="mt-4 flex w-full items-end justify-end">
                     <Button
                         onClick={() =>
                             fieldArray.append(

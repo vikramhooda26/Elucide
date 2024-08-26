@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { UseFormReturn, UseFormSetError } from "react-hook-form";
+import { FieldValues, UseFormReturn, UseFormSetError } from "react-hook-form";
 import { toast } from "sonner";
 
 export const getListOfYears = (aheadInTime?: boolean) => {
@@ -9,7 +9,7 @@ export const getListOfYears = (aheadInTime?: boolean) => {
     return [...new Array(endYear - 1900 + 1)]
         .map((_, index) => ({
             label: (index + 1900).toString(),
-            value: (index + 1900).toString(),
+            value: (index + 1900).toString()
         }))
         .reverse();
 };
@@ -27,52 +27,60 @@ export const convertStringToFloat = (feeString: string): number | null => {
 };
 
 export const validateMetrics = (
-    metricType: "viewershipMetrics" | "reachMetrics",
+    metricType: "ottPartnerMetrics" | "broadcastPartnerMetrics",
     metrics: any[] | undefined,
-    setError: any
+    setError: UseFormSetError<any>
 ) => {
     if (metrics && metrics.length > 0) {
-        const result = metrics
-            .map((metric, index) => {
-                const metricFields =
-                    metricType === "viewershipMetrics"
-                        ? {
-                              field1: "viewership",
-                              field2: "viewershipType",
-                              field3: "year",
-                          }
-                        : { field1: "reach", field2: "year", field3: "year" };
+        const result = metrics.map((metric, index) => {
+            const metricFields =
+                metricType === "ottPartnerMetrics"
+                    ? {
+                          field1: "ottPartnerId",
+                          field2: "year",
+                          field3: "viewership",
+                          field4: "reach"
+                      }
+                    : {
+                          field1: "broadcastPartnerId",
+                          field2: "year",
+                          field3: "viewership",
+                          field4: "reach"
+                      };
 
-                const isAnyProvided =
-                    metric[metricFields.field1] ||
-                    metric[metricFields.field2] ||
-                    metric[metricFields.field3];
-                const isAllProvided =
-                    metric[metricFields.field1] &&
-                    metric[metricFields.field2] &&
-                    metric[metricFields.field3];
+            const isAnyProvided =
+                metric[metricFields.field1] ||
+                metric[metricFields.field2] ||
+                metric[metricFields.field3] ||
+                metric[metricFields.field4];
 
-                if (isAnyProvided && !isAllProvided) {
-                    Object.values(metricFields).forEach((field) => {
-                        if (!metric[field]) {
-                            setError(`${metricType}.${index}.${field}`, {
-                                message: "You must fill all the fields",
-                            });
-                        }
-                    });
-                    toast.error(
-                        `Please fill all the fields in ${
-                            metricType.split("M")[0]
-                        } card`
-                    );
-                    return undefined;
-                }
+            const isRequiredProvided =
+                metric[metricFields.field1] && metric[metricFields.field2];
 
-                return isAnyProvided ? metric : null;
-            })
-            .filter((metric) => metric !== null);
+            if (isAnyProvided && !isRequiredProvided) {
+                Object.values(metricFields).forEach((field) => {
+                    if (!metric[field]) {
+                        setError(
+                            `${metricType}.${index}.${field}`,
+                            {
+                                message: "You must fill these fields"
+                            },
+                            { shouldFocus: true }
+                        );
+                    }
+                });
+                toast.error(
+                    `Please fill all the required fields in ${metricType === "ottPartnerMetrics" ? "OTT Partner Metrics" : "Broadcast Partner Metrics"} card`
+                );
+                return undefined;
+            }
 
-        return result;
+            return isAnyProvided ? metric : null;
+        });
+
+        return result.some((metric) => metric === undefined)
+            ? undefined
+            : result.filter((metric) => metric !== null);
     }
     return [];
 };
@@ -125,12 +133,12 @@ export const validateAssociation = (
                         ? {
                               field1: "associationLevelId",
                               field2: "costOfAssociation",
-                              field3: "brandIds",
+                              field3: "brandIds"
                           }
                         : {
                               field1: "associationLevelId",
                               field2: "costOfAssociation",
-                              field3: "costOfAssociation",
+                              field3: "costOfAssociation"
                           };
 
                 const isAnyProvided =
@@ -149,7 +157,7 @@ export const validateAssociation = (
                         setError(
                             `${"association"}.${index}.${"associationLevelId"}`,
                             {
-                                message: "Association level is required",
+                                message: "Association level is required"
                             },
                             { shouldFocus: true }
                         );

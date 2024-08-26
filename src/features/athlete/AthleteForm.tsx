@@ -33,9 +33,10 @@ import {
     ATHLETE_METADATA,
     athleteFormSchema,
     TAthleteFormSchema,
-    TEditAthleteFormSchema,
+    TEditAthleteFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import { Textarea } from "../../components/ui/textarea";
 
 function AthleteForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -54,8 +55,8 @@ function AthleteForm() {
     const form = useForm<TAthleteFormSchema>({
         resolver: zodResolver(athleteFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -112,47 +113,65 @@ function AthleteForm() {
                         linkedin: athleteData?.linkedin || undefined,
                         website: athleteData?.website || undefined,
                         youtube: athleteData?.youtube || undefined,
-                        primaryMarketIds: athleteData.primaryKeyMarket?.map(
-                            (keyMarket) => keyMarket.id
-                        ),
-                        secondaryMarketIds: athleteData.secondaryKeyMarket?.map(
-                            (keyMarket) => keyMarket.id
-                        ),
-                        tertiaryIds: athleteData.tertiary?.map(
-                            (tertiary) => tertiary.id
-                        ),
+                        strategyOverview:
+                            athleteData.strategyOverview || undefined,
+                        primaryMarketIds:
+                            athleteData.primaryKeyMarket?.map(
+                                (keyMarket) => keyMarket.id
+                            ) || undefined,
+                        secondaryMarketIds:
+                            athleteData.secondaryKeyMarket?.map(
+                                (keyMarket) => keyMarket.id
+                            ) || undefined,
+                        tertiaryIds:
+                            athleteData.tertiary?.map(
+                                (tertiary) => tertiary.id
+                            ) || undefined,
                         primarySocialMediaPlatformIds:
-                            athleteData.primarySocialMedia?.map(
-                                (socialMedia) => socialMedia.id
-                            ),
+                            athleteData.primaryMarketingPlatform?.map(
+                                (platform) => platform.id
+                            ) || undefined,
                         secondarySocialMediaPlatformIds:
-                            athleteData.secondarySocialMedia?.map(
-                                (socialMedia) => socialMedia.id
-                            ),
-                        tierIds: athleteData.tier?.map((tiers) => tiers.id),
+                            athleteData.secondaryMarketingPlatform?.map(
+                                (platform) => platform.id
+                            ) || undefined,
+                        tierIds:
+                            athleteData.tier?.map((tiers) => tiers.id) ||
+                            undefined,
                         subPersonalityTraitIds:
                             athleteData.subPersonalityTraits?.map(
                                 (trait) => trait.id
-                            ),
+                            ) || undefined,
                         athleteAge: athleteData?.athleteAge
                             ? parseISO(athleteData?.athleteAge)
                             : undefined,
-                        genderIds: athleteData.gender?.map(
-                            (gender) => gender.id
-                        ),
-                        nccsIds: athleteData.nccs?.map((nccs) => nccs.id),
-                        statusId: athleteData.status?.id,
-                        stateId: athleteData.state?.id,
-                        association: athleteData.association?.map((asso) => ({
-                            associationId: asso.associationId,
-                            associationLevelId: asso.associationLevel?.id,
-                            costOfAssociation:
-                                convertRupeesToCrore(asso?.costOfAssociation) ||
-                                undefined,
-                        })),
-                        userId: user?.id,
-                        contactPerson: athleteData.contactPersons?.map(
-                            (details) => ({
+                        genderIds:
+                            athleteData.targetGender?.map(
+                                (gender) => gender.id
+                            ) || undefined,
+                        athleteGenderId:
+                            athleteData.athleteGender?.id || undefined,
+                        ageIds:
+                            athleteData.targetAge?.map((age) => age.id) ||
+                            undefined,
+                        nccsIds:
+                            athleteData.nccs?.map((nccs) => nccs.id) ||
+                            undefined,
+                        statusId: athleteData.status?.id || undefined,
+                        stateId: athleteData.state?.id || undefined,
+                        association:
+                            athleteData.association?.map((asso) => ({
+                                associationId: asso.associationId || undefined,
+                                associationLevelId:
+                                    asso.associationLevel?.id || undefined,
+                                costOfAssociation:
+                                    convertRupeesToCrore(
+                                        asso?.costOfAssociation
+                                    ) || undefined
+                            })) || undefined,
+                        userId: user?.id || undefined,
+                        contactPerson:
+                            athleteData.contactPersons?.map((details) => ({
                                 contactId: details.contactId || undefined,
                                 contactName: details.contactName || undefined,
                                 contactDesignation:
@@ -161,9 +180,8 @@ function AthleteForm() {
                                 contactLinkedin:
                                     details.contactLinkedin || undefined,
                                 contactNumber:
-                                    details.contactNumber || undefined,
-                            })
-                        ),
+                                    details.contactNumber || undefined
+                            })) || undefined
                     });
                 }
             } catch (error) {
@@ -216,56 +234,79 @@ function AthleteForm() {
         multiple: boolean;
         type: "DROPDOWN";
     }[] = [
-            {
-                title: "Sports",
-                register: "sportId",
-                options: metadataStore.sport,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Nationality",
-                register: "nationalityId",
-                options: metadataStore.nationality,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "State",
-                register: "stateId",
-                options: metadataStore.state,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "NCCS class",
-                register: "nccsIds",
-                options: metadataStore.nccs,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Personality Traits",
-                register: "subPersonalityTraitIds",
-                options: metadataStore.personalityTrait,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Status",
-                register: "statusId",
-                options: metadataStore.athleteStatus,
-                multiple: false,
-                type: "DROPDOWN",
-            },
-            {
-                title: "Tier",
-                register: "tierIds",
-                options: metadataStore.tier,
-                multiple: true,
-                type: "DROPDOWN",
-            },
-        ];
+        {
+            title: "Sport",
+            register: "sportId",
+            options: metadataStore.sport,
+            multiple: false,
+            type: "DROPDOWN"
+        },
+        {
+            title: "Nationality",
+            register: "nationalityId",
+            options: metadataStore.nationality,
+            multiple: false,
+            type: "DROPDOWN"
+        },
+        {
+            title: "State",
+            register: "stateId",
+            options: metadataStore.state,
+            multiple: false,
+            type: "DROPDOWN"
+        },
+        {
+            title: "NCCS class",
+            register: "nccsIds",
+            options: metadataStore.nccs,
+            multiple: true,
+            type: "DROPDOWN"
+        },
+        {
+            title: "Personality Traits",
+            register: "subPersonalityTraitIds",
+            options: metadataStore.personalityTrait,
+            multiple: true,
+            type: "DROPDOWN"
+        },
+        {
+            title: "Status",
+            register: "statusId",
+            options: metadataStore.athleteStatus,
+            multiple: false,
+            type: "DROPDOWN"
+        },
+        {
+            title: "Tier",
+            register: "tierIds",
+            options: metadataStore.tier,
+            multiple: true,
+            type: "DROPDOWN"
+        }
+    ];
+
+    const targetAudience: {
+        title: string;
+        register: Extract<keyof TAthleteFormSchema, "ageIds" | "genderIds">;
+        options: any;
+        multiple: boolean;
+        type: "DROPDOWN";
+    }[] = [
+        {
+            title: "Target age",
+            register: "ageIds",
+            options: metadataStore.age,
+            multiple: true,
+            type: "DROPDOWN"
+        },
+        {
+            title: "Target gender",
+            register: "genderIds",
+            options: metadataStore.gender,
+            multiple: true,
+            type: "DROPDOWN"
+        }
+    ];
 
     const socials: {
         name: Extract<
@@ -278,25 +319,25 @@ function AthleteForm() {
             | "twitter"
         >;
     }[] = [
-            {
-                name: "instagram",
-            },
-            {
-                name: "facebook",
-            },
-            {
-                name: "twitter",
-            },
-            {
-                name: "linkedin",
-            },
-            {
-                name: "youtube",
-            },
-            {
-                name: "website",
-            },
-        ];
+        {
+            name: "instagram"
+        },
+        {
+            name: "facebook"
+        },
+        {
+            name: "twitter"
+        },
+        {
+            name: "linkedin"
+        },
+        {
+            name: "youtube"
+        },
+        {
+            name: "website"
+        }
+    ];
 
     const onSubmit = async (athleteFormValues: TAthleteFormSchema) => {
         let hasErrors = false;
@@ -312,7 +353,7 @@ function AthleteForm() {
                 form.setError(
                     `association.${i}.costOfAssociation`,
                     {
-                        message: "Cost of association must be a number",
+                        message: "Cost of association must be a number"
                     },
                     { shouldFocus: true }
                 );
@@ -339,7 +380,7 @@ function AthleteForm() {
                             form.setError(
                                 `contactPerson.${i}.contactNumber`,
                                 {
-                                    message: "Invalid phone number",
+                                    message: "Invalid phone number"
                                 },
                                 { shouldFocus: true }
                             );
@@ -397,9 +438,9 @@ function AthleteForm() {
                         (asso, index) => ({
                             ...asso,
                             costOfAssociation:
-                                convertedCostOfAssociations[index],
+                                convertedCostOfAssociations[index]
                         })
-                    ),
+                    )
                 });
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
@@ -413,9 +454,9 @@ function AthleteForm() {
                 association: athleteFormValues.association?.map(
                     (asso, index) => ({
                         ...asso,
-                        costOfAssociation: convertedCostOfAssociations[index],
+                        costOfAssociation: convertedCostOfAssociations[index]
                     })
-                ),
+                )
             });
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Athlete created successfully");
@@ -447,11 +488,8 @@ function AthleteForm() {
                             variant="outline"
                             size="icon"
                             className="h-7 w-7"
-                            onClick={() =>
-                                navigate(NAVIGATION_ROUTES.ATHLETE_LIST, {
-                                    replace: true,
-                                })
-                            }
+                            onClick={() => navigate(-1)}
+                            type="button"
                         >
                             <ChevronLeft className="h-4 w-4" />
                             <span className="sr-only">Back</span>
@@ -469,11 +507,7 @@ function AthleteForm() {
                                     isFetchingMetadata ||
                                     isFetchingDetails
                                 }
-                                onClick={() =>
-                                    navigate(NAVIGATION_ROUTES.ATHLETE_LIST, {
-                                        replace: true,
-                                    })
-                                }
+                                onClick={() => navigate(-1)}
                                 type="button"
                             >
                                 Discard
@@ -490,10 +524,7 @@ function AthleteForm() {
                             >
                                 <span>Save Athlete</span>
                                 {isSubmitting && (
-                                    <ClipLoader
-                                        size={15}
-                                        color="#020817"
-                                    />
+                                    <ClipLoader size={15} color="#020817" />
                                 )}
                             </Button>
                         </div>
@@ -502,7 +533,7 @@ function AthleteForm() {
                         <FormSkeleton />
                     ) : (
                         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
                                 <CardWrapper title="Athlete Details">
                                     <div className="grid gap-6">
                                         <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
@@ -537,7 +568,22 @@ function AthleteForm() {
                                                 />
                                             </div>
                                         </div>
-
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="strategyOverview"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Strategy Overview">
+                                                        <Textarea
+                                                            id="strategyOverview"
+                                                            className="scrollbar"
+                                                            {...field}
+                                                            rows={5}
+                                                        />
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
+                                        </div>
                                         <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
                                             <div className="grid gap-3">
                                                 <FormField
@@ -566,9 +612,9 @@ function AthleteForm() {
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
-                                                    name="genderIds"
+                                                    name="athleteGenderId"
                                                     render={({ field }) => (
-                                                        <FormItemWrapper label="Gender">
+                                                        <FormItemWrapper label="Athlete Gender">
                                                             <SelectBox
                                                                 options={
                                                                     metadataStore?.gender
@@ -582,7 +628,6 @@ function AthleteForm() {
                                                                 placeholder="Select a gender"
                                                                 inputPlaceholder="Search for a gender..."
                                                                 emptyPlaceholder="No gender found"
-                                                                multiple
                                                             />
                                                         </FormItemWrapper>
                                                     )}
@@ -593,8 +638,8 @@ function AthleteForm() {
                                 </CardWrapper>
 
                                 <CardWrapper title="Marketing">
-                                    <div className="grid gap-6  ">
-                                        <div className="grid gap-3 grid-cols-3">
+                                    <div className="grid gap-6">
+                                        <div className="grid grid-cols-3 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -731,9 +776,9 @@ function AthleteForm() {
                                         headersArray={[
                                             {
                                                 header: "Platforms",
-                                                className: "w-[120px]",
+                                                className: "w-[120px]"
                                             },
-                                            { header: "Link" },
+                                            { header: "Link" }
                                         ]}
                                     >
                                         {socials.map((social, index) => (
@@ -760,11 +805,16 @@ function AthleteForm() {
                                 </CardWrapper>
                             </div>
 
-                            <div className="grid auto-rows-max items-start gap-4 ">
+                            <div className="grid auto-rows-max items-start gap-4">
                                 <VerticalFieldsCard
                                     control={form.control}
                                     title="Athlete Attributes"
                                     displayFields={athleteAttributes}
+                                />
+                                <VerticalFieldsCard
+                                    control={form.control}
+                                    title="Target Audience"
+                                    displayFields={targetAudience}
                                 />
                             </div>
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-3">
@@ -777,11 +827,11 @@ function AthleteForm() {
                         </div>
                     )}
 
-                    <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
+                    <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
                         <Button
                             type="submit"
                             size="sm"
-                            className="w-full py-5 gap-1"
+                            className="w-full gap-1 py-5"
                             disabled={
                                 isSubmitting ||
                                 isFetchingMetadata ||
@@ -790,10 +840,7 @@ function AthleteForm() {
                         >
                             <span>Save Athlete</span>
                             {isSubmitting && (
-                                <ClipLoader
-                                    size={15}
-                                    color="#020817"
-                                />
+                                <ClipLoader size={15} color="#020817" />
                             )}
                         </Button>
                         <Button
@@ -805,11 +852,7 @@ function AthleteForm() {
                                 isFetchingMetadata ||
                                 isFetchingDetails
                             }
-                            onClick={() =>
-                                navigate(NAVIGATION_ROUTES.ATHLETE_LIST, {
-                                    replace: true,
-                                })
-                            }
+                            onClick={() => navigate(-1)}
                             type="button"
                         >
                             Discard

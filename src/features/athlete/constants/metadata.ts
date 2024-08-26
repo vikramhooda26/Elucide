@@ -13,7 +13,7 @@ export const ATHLETE_METADATA = {
     NATIONALITY: "nationality",
     SOCIAL_MEDIA: "socialMedia",
     ATHLETE_STATUS: "athleteStatus",
-    TIER: "tier",
+    TIER: "tier"
 } as const;
 
 export const athleteFormSchema = z.object({
@@ -21,6 +21,10 @@ export const athleteFormSchema = z.object({
     userId: z.string().min(1, "Required"),
     sportId: z.string().optional(),
     agencyId: z.string().optional(),
+    strategyOverview: z.string().optional(),
+    ageIds: z.string().array().optional(),
+    genderIds: z.string().array().optional(),
+    athleteGenderId: z.string().optional(),
     athleteAge: z.date().optional(),
     facebook: z.string().optional(),
     instagram: z.string().optional(),
@@ -30,7 +34,6 @@ export const athleteFormSchema = z.object({
     website: z.string().optional(),
     subPersonalityTraitIds: z.string().array().optional(),
     tierIds: z.string().array().optional(),
-    genderIds: z.string().array().optional(),
     nccsIds: z.string().array().optional(),
     primaryMarketIds: z.string().array().optional(),
     secondaryMarketIds: z.string().array().optional(),
@@ -44,7 +47,7 @@ export const athleteFormSchema = z.object({
         .object({
             associationId: z.string().optional(),
             associationLevelId: z.string().optional(),
-            costOfAssociation: z.string().optional(),
+            costOfAssociation: z.string().optional()
         })
         .array()
         .optional(),
@@ -56,10 +59,10 @@ export const athleteFormSchema = z.object({
                 contactDesignation: z.string().optional(),
                 contactEmail: z.string().optional(),
                 contactNumber: z.string().optional(),
-                contactLinkedin: z.string().optional(),
+                contactLinkedin: z.string().optional()
             })
         )
-        .optional(),
+        .optional()
 });
 
 export type TAthleteFormSchema = z.infer<typeof athleteFormSchema>;
@@ -85,6 +88,7 @@ export type TEditAthleteFormSchema = {
     website?: string;
     twitter?: string;
     facebook?: string;
+    strategyOverview?: string;
     primaryKeyMarket?: {
         id?: string;
         name?: string;
@@ -97,11 +101,11 @@ export type TEditAthleteFormSchema = {
         id?: string;
         name?: string;
     }[];
-    primarySocialMedia?: {
+    primaryMarketingPlatform?: {
         id?: string;
         name?: string;
     }[];
-    secondarySocialMedia?: {
+    secondaryMarketingPlatform?: {
         id?: string;
         name?: string;
     }[];
@@ -109,6 +113,11 @@ export type TEditAthleteFormSchema = {
         id?: string;
         name?: string;
     }[];
+    targetAge?: {
+        id?: string;
+        name?: string;
+    }[];
+    athleteAge?: string;
     subPersonalityTraits?: {
         id?: string;
         name?: string;
@@ -117,7 +126,6 @@ export type TEditAthleteFormSchema = {
         id?: string;
         name?: string;
     }[];
-    athleteAge?: string;
     association?: {
         associationId?: string;
         associationLevel?: {
@@ -206,22 +214,18 @@ export type TEditAthleteFormSchema = {
         contactNumber?: string;
         contactDesignation?: string;
     }[];
-    gender?: {
+    targetGender?: {
         id?: string;
         name?: string;
     }[];
+    athleteGender?: {
+        id?: string;
+        name?: string;
+    };
     nccs?: {
         id?: string;
         name?: string;
     }[];
-    primaryMarketingPlatform?: {
-        id?: string;
-        name?: string;
-    };
-    secondaryMarketingPlatform?: {
-        id?: string;
-        name?: string;
-    };
     status?: {
         id?: string;
         name?: string;

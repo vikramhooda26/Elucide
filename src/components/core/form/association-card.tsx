@@ -6,7 +6,7 @@ import {
     Path,
     useFieldArray,
     UseFormReturn,
-    useWatch,
+    useWatch
 } from "react-hook-form";
 import { onNumInputChange } from "../../../features/utils/helpers";
 import { cn } from "../../../lib/utils";
@@ -22,7 +22,7 @@ import SelectBox, { Option } from "../../ui/multi-select";
 const initialValue = {
     associationLevelId: "",
     costOfAssociation: "",
-    brands: [],
+    brands: []
 };
 
 type TDisplayFields<T> = {
@@ -46,11 +46,11 @@ type TVerticalFieldsCardProps<T extends FieldValues> = {
 const AssociationCard = <T extends FieldValues>({
     metadataStore,
     form,
-    showBrand = false,
+    showBrand = false
 }: TVerticalFieldsCardProps<T>): JSX.Element => {
     const fieldArray = useFieldArray<T>({
         control: form.control,
-        name: "association" as ArrayPath<T>,
+        name: "association" as ArrayPath<T>
     });
 
     const [filteredOptions, setFilteredOptions] = useState<Array<Option[]>>([]);
@@ -59,7 +59,7 @@ const AssociationCard = <T extends FieldValues>({
         control: form.control,
         name: fieldArray.fields.map(
             (_, index) => `association.${index}.associationLevelId` as Path<T>
-        ) as Path<T>[],
+        ) as Path<T>[]
     });
 
     useEffect(() => {
@@ -82,7 +82,7 @@ const AssociationCard = <T extends FieldValues>({
     }, [
         selectedAssociationLevels,
         metadataStore?.associationLevel,
-        fieldArray.fields,
+        fieldArray.fields
     ]);
 
     const associationDetails = (index: number): Array<TDisplayFields<T>> => {
@@ -93,15 +93,15 @@ const AssociationCard = <T extends FieldValues>({
                 type: "SELECT",
                 placeholder: "Select an association level",
                 data: filteredOptions[index] || [],
-                isMultiple: false,
+                isMultiple: false
             },
             {
                 title: "Cost of Association",
                 register: `association.${index}.costOfAssociation` as Path<T>,
                 type: "INPUT",
                 input: { type: "text" },
-                placeholder: "Cost of association",
-            },
+                placeholder: "Cost of association"
+            }
         ];
 
         if (showBrand) {
@@ -111,7 +111,7 @@ const AssociationCard = <T extends FieldValues>({
                 type: "SELECT",
                 placeholder: "Select a brand",
                 data: metadataStore?.brand,
-                isMultiple: true,
+                isMultiple: true
             });
         }
 
@@ -127,12 +127,12 @@ const AssociationCard = <T extends FieldValues>({
             <div className="grid gap-6">
                 {fieldArray.fields.map((field, index) => (
                     <CardWrapper
-                        title={`Association ${index + 1}`}
+                        title={`Association - ${index + 1}`}
                         key={field.id}
                     >
                         <div
                             className={cn(
-                                "grid gap-3 auto-rows-max items-start lg:grid-cols-2"
+                                "grid auto-rows-max items-start gap-3 lg:grid-cols-2"
                             )}
                         >
                             {associationDetails(index).map((fieldDetails) => (
@@ -185,7 +185,7 @@ const AssociationCard = <T extends FieldValues>({
                             {fieldArray.fields.length > 0 && (
                                 <>
                                     {!showBrand ? <div></div> : null}
-                                    <div className="flex items-end justify-end mt-4">
+                                    <div className="mt-4 flex items-end justify-end">
                                         <Button
                                             onClick={() =>
                                                 fieldArray.remove(index)
@@ -209,7 +209,7 @@ const AssociationCard = <T extends FieldValues>({
             </div>
 
             <CardFooter>
-                <div className="flex items-end w-full justify-end mt-4">
+                <div className="mt-4 flex w-full items-end justify-end">
                     <Button
                         onClick={() =>
                             fieldArray.append(
