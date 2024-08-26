@@ -7,7 +7,9 @@ import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import AssociationCard from "../../components/core/form/association-card";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { getPhoneData } from "../../components/phone-input";
@@ -31,17 +33,16 @@ import {
     getListOfYears,
     onNumInputChange,
     validateAssociation,
-    validateMetrics,
+    validateMetrics
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import {
     TEAM_METADATA,
     teamFormSchema,
     TEditTeamFormSchema,
-    TTeamFormSchema,
+    TTeamFormSchema
 } from "./constants/metadata";
-import AssociationCard from "../../components/core/form/association-card";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import { MetricsCard } from "../../components/core/form/metrics.card";
 
 export function TeamForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -58,8 +59,8 @@ export function TeamForm() {
     const form = useForm<TTeamFormSchema>({
         resolver: zodResolver(teamFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -121,7 +122,7 @@ export function TeamForm() {
                             costOfAssociation:
                                 convertRupeesToCrore(asso?.costOfAssociation) ||
                                 undefined,
-                            brandIds: asso.brand?.map((brand) => brand.id),
+                            brandIds: asso.brand?.map((brand) => brand.id)
                         })),
                         activeCampaignIds:
                             teamData.activeCampaigns?.map(
@@ -148,19 +149,20 @@ export function TeamForm() {
                         tertiaryIds:
                             teamData.tertiary?.map((tertiary) => tertiary.id) ||
                             undefined,
-                        viewershipMetrics:
-                            teamData.viewershipMetrics?.map((metric) => ({
-                                id: metric.id || undefined,
-                                viewership: metric.viewership || undefined,
-                                viewershipType:
-                                    metric.viewershipType || undefined,
-                                year: metric.year || undefined,
-                            })) || undefined,
-                        reachMetrics:
-                            teamData.reachMetrics?.map((metric) => ({
-                                id: metric.id || undefined,
+                        broadcastPartnerMetrics:
+                            teamData.broadcastPartnerMetrics?.map((metric) => ({
                                 reach: metric.reach || undefined,
+                                viewership: metric.viewership || undefined,
                                 year: metric.year || undefined,
+                                broadcastPartnerId:
+                                    metric.broadcastPartner.id || undefined
+                            })) || undefined,
+                        ottPartnerMetrics:
+                            teamData.ottPartnerMetrics?.map((metric) => ({
+                                reach: metric.reach || undefined,
+                                viewership: metric.viewership || undefined,
+                                year: metric.year || undefined,
+                                ottPartnerId: metric.ottPartner.id || undefined
                             })) || undefined,
                         instagram: teamData?.instagram || undefined,
                         facebook: teamData?.facebook || undefined,
@@ -178,7 +180,7 @@ export function TeamForm() {
                                 contactDesignation:
                                     details.contactDesignation || undefined,
                                 contactNumber:
-                                    details.contactNumber || undefined,
+                                    details.contactNumber || undefined
                             })) || undefined,
                         sportId: teamData.sport?.id || undefined,
                         leagueId: teamData.league?.id || undefined,
@@ -198,7 +200,7 @@ export function TeamForm() {
                         ageIds: teamData.age?.map((age) => age.id) || undefined,
                         genderIds:
                             teamData.gender?.map((gender) => gender.id) ||
-                            undefined,
+                            undefined
                     });
                 }
             } catch (error) {
@@ -235,25 +237,28 @@ export function TeamForm() {
         return <div>Loading...</div>;
     }
 
-    const viewershipMetricFieldArray = useFieldArray({
-        name: "viewershipMetrics",
-        control: form.control,
+    const ottPartnerMetricFieldArray = useFieldArray({
+        name: "ottPartnerMetrics",
+        control: form.control
     });
 
-    const reachMetricFieldArray = useFieldArray({
-        name: "reachMetrics",
-        control: form.control,
+    const broadcastPartnerMetricFieldArray = useFieldArray({
+        name: "broadcastPartnerMetrics",
+        control: form.control
     });
 
-    const defaultViewershipMetric = {
-        viewership: "",
+    const defaultOttPartnerMetric = {
+        ottPartnerId: "",
         year: "",
-        viewershipType: "",
+        viewership: "",
+        reach: ""
     };
 
-    const defaultReachMetric = {
-        reach: "",
+    const defaultBroadcastPartnerMetric = {
+        broadcastPartnerId: "",
         year: "",
+        viewership: "",
+        reach: ""
     };
 
     const teamAttributes: {
@@ -277,50 +282,50 @@ export function TeamForm() {
             register: "sportId",
             options: metadataStore.sport,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "League",
             register: "leagueId",
             options: metadataStore.league,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Owners",
             register: "ownerIds",
             options: metadataStore.teamOwner,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "City",
             register: "cityId",
             options: metadataStore.city,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "State",
             register: "stateId",
             options: metadataStore.state,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Personality Traits",
             register: "subPersonalityTraitIds",
             options: metadataStore.personalityTrait,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Tiers",
             register: "tierIds",
             options: metadataStore.tier,
             multiple: true,
-            type: "DROPDOWN",
-        },
+            type: "DROPDOWN"
+        }
     ];
 
     const targetAudience: {
@@ -335,15 +340,15 @@ export function TeamForm() {
             register: "ageIds",
             options: metadataStore.age,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Gender",
             register: "genderIds",
             options: metadataStore.gender,
             multiple: true,
-            type: "DROPDOWN",
-        },
+            type: "DROPDOWN"
+        }
     ];
 
     const socials: {
@@ -358,28 +363,23 @@ export function TeamForm() {
         >;
     }[] = [
         {
-            name: "instagram",
+            name: "instagram"
         },
         {
-            name: "facebook",
+            name: "facebook"
         },
         {
-            name: "twitter",
+            name: "twitter"
         },
         {
-            name: "linkedin",
+            name: "linkedin"
         },
         {
-            name: "youtube",
+            name: "youtube"
         },
         {
-            name: "website",
-        },
-    ];
-
-    const viewershipType = [
-        { label: "OTT", value: "OTT" },
-        { label: "BROADCAST", value: "BROADCAST" },
+            name: "website"
+        }
     ];
 
     const onSubmit = async (teamFormValues: TTeamFormSchema) => {
@@ -391,7 +391,7 @@ export function TeamForm() {
             form.setError(
                 "franchiseFee",
                 {
-                    message: "Franchise fee must be a number",
+                    message: "Franchise fee must be a number"
                 },
                 { shouldFocus: true }
             );
@@ -411,7 +411,7 @@ export function TeamForm() {
                 form.setError(
                     `association.${i}.costOfAssociation`,
                     {
-                        message: "Cost of association must be a number",
+                        message: "Cost of association must be a number"
                     },
                     { shouldFocus: true }
                 );
@@ -437,7 +437,7 @@ export function TeamForm() {
                         form.setError(
                             `contactPerson.${i}.contactNumber`,
                             {
-                                message: "Invalid phone number",
+                                message: "Invalid phone number"
                             },
                             { shouldFocus: true }
                         );
@@ -476,15 +476,15 @@ export function TeamForm() {
             }
         }
 
-        const validatedViewershipMetrics = validateMetrics(
-            "viewershipMetrics",
-            teamFormValues?.viewershipMetrics,
+        const validatedOttPartnerMetrics = validateMetrics(
+            "ottPartnerMetrics",
+            teamFormValues?.ottPartnerMetrics,
             form.setError
         );
 
-        const validatedReachMetrics = validateMetrics(
-            "reachMetrics",
-            teamFormValues?.reachMetrics,
+        const validatedBroadcastMetrics = validateMetrics(
+            "broadcastPartnerMetrics",
+            teamFormValues?.broadcastPartnerMetrics,
             form.setError
         );
 
@@ -495,8 +495,8 @@ export function TeamForm() {
         );
 
         if (
-            validatedViewershipMetrics === undefined ||
-            validatedReachMetrics === undefined ||
+            validatedOttPartnerMetrics === undefined ||
+            validatedBroadcastMetrics === undefined ||
             validatedAssociation === undefined
         ) {
             return;
@@ -504,13 +504,13 @@ export function TeamForm() {
 
         const requestBody = {
             ...teamFormValues,
-            viewershipMetrics: validatedViewershipMetrics,
-            reachMetrics: validatedReachMetrics,
+            ottPartnerMetrics: validatedOttPartnerMetrics,
+            broadcastPartnerMetrics: validatedBroadcastMetrics,
             franchiseFee: convertedFranciseFee,
             association: teamFormValues.association?.map((asso, index) => ({
                 ...asso,
-                costOfAssociation: convertedCostOfAssociations[index],
-            })),
+                costOfAssociation: convertedCostOfAssociations[index]
+            }))
         };
 
         console.log("\n\n\n\nRequest Body:", requestBody);
@@ -559,9 +559,10 @@ export function TeamForm() {
                             className="h-7 w-7"
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.TEAM_LIST, {
-                                    replace: true,
+                                    replace: true
                                 })
                             }
+                            type="button"
                         >
                             <ChevronLeft className="h-4 w-4" />
                             <span className="sr-only">Back</span>
@@ -581,7 +582,7 @@ export function TeamForm() {
                                 }
                                 onClick={() =>
                                     navigate(NAVIGATION_ROUTES.TEAM_LIST, {
-                                        replace: true,
+                                        replace: true
                                     })
                                 }
                                 type="button"
@@ -600,10 +601,7 @@ export function TeamForm() {
                             >
                                 <span>Save Team</span>
                                 {isSubmitting && (
-                                    <ClipLoader
-                                        size={15}
-                                        color="#020817"
-                                    />
+                                    <ClipLoader size={15} color="#020817" />
                                 )}
                             </Button>
                         </div>
@@ -612,7 +610,7 @@ export function TeamForm() {
                         <FormSkeleton />
                     ) : (
                         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
                                 <CardWrapper title="Team Details">
                                     <div className="grid gap-6">
                                         <div className="grid gap-3">
@@ -763,8 +761,8 @@ export function TeamForm() {
                                 </CardWrapper>
 
                                 <CardWrapper title="Marketing">
-                                    <div className="grid gap-6  ">
-                                        <div className="grid gap-3 grid-cols-2">
+                                    <div className="grid gap-6">
+                                        <div className="grid grid-cols-2 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -817,7 +815,7 @@ export function TeamForm() {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="grid gap-3 grid-cols-3">
+                                        <div className="grid grid-cols-3 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -897,246 +895,32 @@ export function TeamForm() {
                                     </div>
                                 </CardWrapper>
 
-                                {/* Viewership */}
+                                {/* OTT Partner Metrics */}
 
-                                <CardWrapper title="Viewership">
-                                    <TableHeaderWrapper
-                                        headersArray={[
-                                            { header: "Year" },
-                                            { header: "Viewership" },
-                                            { header: "Viewership type" },
-                                        ]}
-                                    >
-                                        {viewershipMetricFieldArray.fields.map(
-                                            (field, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>
-                                                        <FormField
-                                                            control={
-                                                                form.control
-                                                            }
-                                                            key={field.id}
-                                                            name={`viewershipMetrics.${index}.year`}
-                                                            render={({
-                                                                field,
-                                                            }) => (
-                                                                <FormItemWrapper>
-                                                                    <SelectBox
-                                                                        options={getListOfYears()}
-                                                                        value={
-                                                                            field.value
-                                                                        }
-                                                                        onChange={
-                                                                            field.onChange
-                                                                        }
-                                                                        placeholder="Select a year"
-                                                                        inputPlaceholder="Search for a year..."
-                                                                        emptyPlaceholder="No year found"
-                                                                    />
-                                                                </FormItemWrapper>
-                                                            )}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <FormField
-                                                            control={
-                                                                form.control
-                                                            }
-                                                            key={field.id}
-                                                            name={`viewershipMetrics.${index}.viewership`}
-                                                            render={({
-                                                                field,
-                                                            }) => (
-                                                                <FormItemWrapper>
-                                                                    <Input
-                                                                        value={
-                                                                            field.value
-                                                                        }
-                                                                        onChange={
-                                                                            field.onChange
-                                                                        }
-                                                                    />
-                                                                </FormItemWrapper>
-                                                            )}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <div className="grid gap-3">
-                                                            <FormField
-                                                                control={
-                                                                    form.control
-                                                                }
-                                                                key={field.id}
-                                                                name={`viewershipMetrics.${index}.viewershipType`}
-                                                                render={({
-                                                                    field,
-                                                                }) => (
-                                                                    <FormItemWrapper>
-                                                                        <SelectBox
-                                                                            options={
-                                                                                viewershipType
-                                                                            }
-                                                                            value={
-                                                                                field.value
-                                                                            }
-                                                                            onChange={
-                                                                                field.onChange
-                                                                            }
-                                                                            placeholder="Select a type"
-                                                                            inputPlaceholder="Search for a type..."
-                                                                            emptyPlaceholder="No type found"
-                                                                        />
-                                                                    </FormItemWrapper>
-                                                                )}
-                                                            />
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell className="font-semibold">
-                                                        {viewershipMetricFieldArray
-                                                            .fields.length >
-                                                            0 && (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    viewershipMetricFieldArray.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                                size="sm"
-                                                                className="h-7 gap-1 text-white"
-                                                                variant="destructive"
-                                                                type="button"
-                                                            >
-                                                                <Trash2 className="h-3.5 w-3.5" />
-                                                            </Button>
-                                                        )}
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        )}
-                                    </TableHeaderWrapper>
-
-                                    <div className="flex justify-end mt-4">
-                                        <Button
-                                            onClick={() =>
-                                                viewershipMetricFieldArray.append(
-                                                    defaultViewershipMetric
-                                                )
-                                            }
-                                            size="sm"
-                                            className="h-7 gap-1"
-                                            type="button"
-                                        >
-                                            <PlusCircle className="h-3.5 w-3.5" />
-                                            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                                Add
-                                            </span>
-                                        </Button>
-                                    </div>
+                                <CardWrapper title="OTT Partner Metrics">
+                                    <MetricsCard
+                                        fieldArray={ottPartnerMetricFieldArray}
+                                        form={form}
+                                        options={metadataStore.ottPartner}
+                                        defaultValue={defaultOttPartnerMetric}
+                                        register="ottPartnerMetrics"
+                                    />
                                 </CardWrapper>
 
-                                {/* Reach */}
+                                {/* Broadcast Partner Metrics */}
 
-                                <CardWrapper title="Reach">
-                                    <TableHeaderWrapper
-                                        headersArray={[
-                                            { header: "Year" },
-                                            { header: "Reach" },
-                                        ]}
-                                    >
-                                        {reachMetricFieldArray.fields.map(
-                                            (field, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>
-                                                        <FormField
-                                                            control={
-                                                                form.control
-                                                            }
-                                                            key={field.id}
-                                                            name={`reachMetrics.${index}.year`}
-                                                            render={({
-                                                                field,
-                                                            }) => (
-                                                                <FormItemWrapper>
-                                                                    <SelectBox
-                                                                        options={getListOfYears()}
-                                                                        value={
-                                                                            field.value
-                                                                        }
-                                                                        onChange={
-                                                                            field.onChange
-                                                                        }
-                                                                        placeholder="Select a year"
-                                                                        inputPlaceholder="Search for a year..."
-                                                                        emptyPlaceholder="No year found"
-                                                                    />
-                                                                </FormItemWrapper>
-                                                            )}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <FormField
-                                                            control={
-                                                                form.control
-                                                            }
-                                                            key={field.id}
-                                                            name={`reachMetrics.${index}.reach`}
-                                                            render={({
-                                                                field,
-                                                            }) => (
-                                                                <FormItemWrapper>
-                                                                    <Input
-                                                                        value={
-                                                                            field.value
-                                                                        }
-                                                                        onChange={
-                                                                            field.onChange
-                                                                        }
-                                                                    />
-                                                                </FormItemWrapper>
-                                                            )}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell className="font-semibold">
-                                                        {reachMetricFieldArray
-                                                            .fields.length >
-                                                            0 && (
-                                                            <Button
-                                                                onClick={() =>
-                                                                    reachMetricFieldArray.remove(
-                                                                        index
-                                                                    )
-                                                                }
-                                                                size="sm"
-                                                                className="h-7 gap-1 text-white"
-                                                                variant="destructive"
-                                                                type="button"
-                                                            >
-                                                                <Trash2 className="h-3.5 w-3.5" />
-                                                            </Button>
-                                                        )}
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        )}
-                                    </TableHeaderWrapper>
-
-                                    <div className="flex justify-end mt-4">
-                                        <Button
-                                            onClick={() =>
-                                                reachMetricFieldArray.append(
-                                                    defaultReachMetric
-                                                )
-                                            }
-                                            size="sm"
-                                            className="h-7 gap-1"
-                                            type="button"
-                                        >
-                                            <PlusCircle className="h-3.5 w-3.5" />
-                                            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                                Add
-                                            </span>
-                                        </Button>
-                                    </div>
+                                <CardWrapper title="Broadcast Partner Metrics">
+                                    <MetricsCard
+                                        fieldArray={
+                                            broadcastPartnerMetricFieldArray
+                                        }
+                                        form={form}
+                                        options={metadataStore.broadcastPartner}
+                                        defaultValue={
+                                            defaultBroadcastPartnerMetric
+                                        }
+                                        register="broadcastPartnerMetrics"
+                                    />
                                 </CardWrapper>
 
                                 <CardWrapper title="Socials">
@@ -1144,9 +928,9 @@ export function TeamForm() {
                                         headersArray={[
                                             {
                                                 header: "Platforms",
-                                                className: "w-[120px]",
+                                                className: "w-[120px]"
                                             },
-                                            { header: "Link" },
+                                            { header: "Link" }
                                         ]}
                                     >
                                         {socials.map((social, index) => (
@@ -1174,7 +958,7 @@ export function TeamForm() {
                                 </CardWrapper>
                             </div>
 
-                            <div className="grid auto-rows-max items-start gap-4 ">
+                            <div className="grid auto-rows-max items-start gap-4">
                                 <VerticalFieldsCard
                                     control={form.control}
                                     title="Team Attributes"
@@ -1198,11 +982,11 @@ export function TeamForm() {
                         </div>
                     )}
 
-                    <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
+                    <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
                         <Button
                             type="submit"
                             size="sm"
-                            className="w-full py-5 gap-1"
+                            className="w-full gap-1 py-5"
                             disabled={
                                 isSubmitting ||
                                 isFetchingDetails ||
@@ -1211,10 +995,7 @@ export function TeamForm() {
                         >
                             <span>Save Team</span>
                             {isSubmitting && (
-                                <ClipLoader
-                                    size={15}
-                                    color="#020817"
-                                />
+                                <ClipLoader size={15} color="#020817" />
                             )}
                         </Button>
                         <Button
@@ -1228,7 +1009,7 @@ export function TeamForm() {
                             }
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.TEAM_LIST, {
-                                    replace: true,
+                                    replace: true
                                 })
                             }
                             type="button"

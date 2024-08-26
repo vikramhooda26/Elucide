@@ -16,8 +16,10 @@ export const TEAM_METADATA = {
     NCCS: "nccs",
     KEY_MARKETS: "keyMarket",
     TERTIARY: "tertiary",
+    BROADCAST_PARTNER: "broadcastPartner",
+    OTT_PARTNER: "ottPartner",
     ASSET: "asset",
-    ASSOCIATION_LEVEL: "associationLevel",
+    ASSOCIATION_LEVEL: "associationLevel"
 } as const;
 
 export const teamFormSchema = z.object({
@@ -58,25 +60,28 @@ export const teamFormSchema = z.object({
             associationId: z.string().optional(),
             associationLevelId: z.string().optional(),
             costOfAssociation: z.string().optional(),
-            brandIds: z.string().array().optional(),
+            brandIds: z.string().array().optional()
         })
         .array()
         .optional(),
 
-    viewershipMetrics: z
+    ottPartnerMetrics: z
         .object({
             id: z.string().optional(),
-            viewership: z.string(),
+            reach: z.string().optional(),
+            viewership: z.string().optional(),
             year: z.string(),
-            viewershipType: z.enum(["OTT", "BROADCAST"]).or(z.string()),
+            ottPartnerId: z.string()
         })
         .array()
         .optional(),
-    reachMetrics: z
+    broadcastPartnerMetrics: z
         .object({
             id: z.string().optional(),
-            reach: z.string(),
+            reach: z.string().optional(),
+            viewership: z.string().optional(),
             year: z.string(),
+            broadcastPartnerId: z.string()
         })
         .array()
         .optional(),
@@ -88,16 +93,14 @@ export const teamFormSchema = z.object({
                 contactDesignation: z.string().optional(),
                 contactEmail: z.string().optional(),
                 contactNumber: z.string().optional(),
-                contactLinkedin: z.string().optional(),
+                contactLinkedin: z.string().optional()
             })
         )
         .optional(),
-    userId: z.string(),
+    userId: z.string()
 });
 
 export type TTeamFormSchema = z.infer<typeof teamFormSchema>;
-
-type viewship_type = "OTT" | "BROADCAST";
 
 export type TEditTeamFormSchema = {
     id?: string;
@@ -175,7 +178,6 @@ export type TEditTeamFormSchema = {
         id?: string;
         name?: string;
     }[];
-
     association?: {
         associationId?: string;
         associationLevel?: {
@@ -278,15 +280,18 @@ export type TEditTeamFormSchema = {
         contactNumber: string;
         contactLinkedin: string;
     }[];
-    viewershipMetrics?: {
-        id?: string;
+    ottPartnerMetrics?: {
+        id: string;
         viewership: string;
-        viewershipType: viewship_type;
-        year: string;
-    }[];
-    reachMetrics?: {
-        id?: string;
         reach: string;
         year: string;
+        ottPartner: { id: string; name: string };
+    }[];
+    broadcastPartnerMetrics?: {
+        id: string;
+        reach: string;
+        viewership: string;
+        year: string;
+        broadcastPartner: { id: string; name: string };
     }[];
 };
