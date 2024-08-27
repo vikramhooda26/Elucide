@@ -1,9 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
-type Resp = {
+export type Resp = {
     status: number;
     data: any;
 };
+
 class AjaxService {
     static prepareParams(params: any) {
         const keys = Object.keys(params || {});
@@ -31,8 +32,8 @@ class AjaxService {
                     "Content-Type":
                         dataConfig?.contentType?.length > 0
                             ? dataConfig?.contentType
-                            : "application/json",
-                },
+                            : "application/json"
+                }
             };
 
             if (dataConfig?.responseType?.length > 0) {
@@ -52,7 +53,7 @@ class AjaxService {
                         : {},
                 ...defaultConfig,
                 ...config,
-                withCredentials: true,
+                withCredentials: true
             });
 
             return { status: r.status, data: r.data };

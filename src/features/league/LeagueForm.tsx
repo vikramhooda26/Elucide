@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,9 +9,14 @@ import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
 import AssociationCard from "../../components/core/form/association-card";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
+import { EndorsementCard } from "../../components/core/form/endorsement-card";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { MetricsCard } from "../../components/core/form/metrics.card";
-import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
+import {
+    TDisplayFields,
+    VerticalFieldsCard
+} from "../../components/core/form/vertical-fields-card";
+import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { getPhoneData } from "../../components/phone-input";
 import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
@@ -25,9 +30,16 @@ import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import { printLogs } from "../../lib/logs";
 import ErrorService from "../../services/error/ErrorService";
 import LeagueService from "../../services/features/LeagueService";
+import MetadataService from "../../services/features/MetadataService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { activeCampaignFormSchema } from "../metadata/ActiveCampaign/constants/metadata";
+import { broadcastPartnerFormSchema } from "../metadata/broadcast-partner/constants/metadata";
+import { leagueOwnerFormSchema } from "../metadata/league-owner/constants/metadata";
+import { ottPartnerFormSchema } from "../metadata/ott-partner/constants/metadata";
+import { sportFormSchema } from "../metadata/sport/constants/metadata";
+import { taglineFormSchema } from "../metadata/tagline/constants/metadata";
 import {
     convertCroreToRupees,
     convertRupeesToCrore,
@@ -42,7 +54,6 @@ import {
     TEditLeagueFormSchema,
     TLeagueFormSchema
 } from "./constants.ts/metadata";
-import { EndorsementCard } from "../../components/core/form/endorsement-card";
 
 function LeagueForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -63,31 +74,27 @@ function LeagueForm() {
     const { logout } = useAuth();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchMetadata = async () => {
-            try {
-                setIsFetchingMetadata(true);
-                await getMetadata(
-                    metadataStore,
-                    setMetadataStore,
-                    LEAGUE_METADATA
-                );
-            } catch (error) {
-                console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (unknownError) {
-                    toast.error("An unknown error occurred");
-                    navigate(NAVIGATION_ROUTES.DASHBOARD);
-                }
-            } finally {
-                setIsFetchingMetadata(false);
+    const fetchMetadata = async () => {
+        try {
+            setIsFetchingMetadata(true);
+            await getMetadata(metadataStore, setMetadataStore, LEAGUE_METADATA);
+        } catch (error) {
+            console.error(error);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError) {
+                toast.error("An unknown error occurred");
+                navigate(NAVIGATION_ROUTES.DASHBOARD);
             }
-        };
+        } finally {
+            setIsFetchingMetadata(false);
+        }
+    };
 
+    useEffect(() => {
         fetchMetadata();
     }, []);
 
@@ -278,26 +285,17 @@ function LeagueForm() {
         reach: ""
     };
 
-    const leagueAttributes: {
-        title: string;
-        register: Extract<
-            keyof TLeagueFormSchema,
-            | "sportId"
-            | "ownerIds"
-            | "subPersonalityTraitIds"
-            | "tierIds"
-            | "formatId"
-            | "nccsIds"
-        >;
-        options: any;
-        multiple: boolean;
-        type: "DROPDOWN";
-    }[] = [
+    const leagueAttributes: TDisplayFields<TLeagueFormSchema>[] = [
         {
             title: "Sport",
             register: "sportId",
             options: metadataStore.sport,
             multiple: false,
+            showAddButton: true,
+            createFn: MetadataService.createSport,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "sportName",
+            schema: sportFormSchema,
             type: "DROPDOWN"
         },
         {
@@ -305,6 +303,7 @@ function LeagueForm() {
             register: "formatId",
             options: metadataStore.format,
             multiple: false,
+            showAddButton: false,
             type: "DROPDOWN"
         },
         {
@@ -312,6 +311,11 @@ function LeagueForm() {
             register: "ownerIds",
             options: metadataStore.leagueOwner,
             multiple: true,
+            showAddButton: true,
+            createFn: MetadataService.createLeagueOwner,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "leagueOwnerName",
+            schema: leagueOwnerFormSchema,
             type: "DROPDOWN"
         },
         {
@@ -319,6 +323,7 @@ function LeagueForm() {
             register: "nccsIds",
             options: metadataStore.nccs,
             multiple: true,
+            showAddButton: false,
             type: "DROPDOWN"
         },
         {
@@ -326,6 +331,7 @@ function LeagueForm() {
             register: "subPersonalityTraitIds",
             options: metadataStore.personalityTrait,
             multiple: true,
+            showAddButton: false,
             type: "DROPDOWN"
         },
         {
@@ -333,33 +339,35 @@ function LeagueForm() {
             register: "tierIds",
             options: metadataStore.tier,
             multiple: true,
+            showAddButton: false,
             type: "DROPDOWN"
         }
     ];
 
-    const partnerships: {
-        title: string;
-        register: Extract<
-            keyof TLeagueFormSchema,
-            "broadCastPartnerId" | "ottPartnerId"
-        >;
-        options: any;
-        multiple: boolean;
-        type: "DROPDOWN";
-    }[] = [
+    const partnerships: TDisplayFields<TLeagueFormSchema>[] = [
         {
             title: "Broadcast Partner",
             register: "broadCastPartnerId",
             options: metadataStore.broadcastPartner,
             multiple: false,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            showAddButton: true,
+            createFn: MetadataService.createBroadcastPartner,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "broadcastPartnerName",
+            schema: broadcastPartnerFormSchema
         },
         {
             title: "OTT Partner",
             register: "ottPartnerId",
             options: metadataStore.ottPartner,
             multiple: false,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            showAddButton: true,
+            createFn: MetadataService.createOttPartner,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "ottPartnerName",
+            schema: ottPartnerFormSchema
         }
     ];
 
@@ -655,19 +663,40 @@ function LeagueForm() {
                                                 name="taglineIds"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Taglines">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.tagline
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a tagline"
-                                                            inputPlaceholder="Search for a tagline..."
-                                                            emptyPlaceholder="No tagline found"
-                                                            multiple
-                                                        />
+                                                        <div className="flex w-full items-center gap-3">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.tagline
+                                                                }
+                                                                className="w-full"
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                placeholder="Select a tagline"
+                                                                inputPlaceholder="Search for a tagline..."
+                                                                emptyPlaceholder="No tagline found"
+                                                                multiple
+                                                            />
+                                                            <InputDrawer
+                                                                title="Tagline"
+                                                                description="Create a new tagline to add to the dropdown"
+                                                                register="taglineName"
+                                                                schema={
+                                                                    taglineFormSchema
+                                                                }
+                                                                createFn={
+                                                                    MetadataService.createTagline
+                                                                }
+                                                                fetchMetadataFn={
+                                                                    fetchMetadata
+                                                                }
+                                                            >
+                                                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                                                            </InputDrawer>
+                                                        </div>
                                                     </FormItemWrapper>
                                                 )}
                                             />
@@ -714,7 +743,7 @@ function LeagueForm() {
                                                 name="activeCampaignIds"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Active Campaigns">
-                                                        <div className="flex items-center gap-3">
+                                                        <div className="flex w-full items-center gap-3">
                                                             <SelectBox
                                                                 options={
                                                                     metadataStore?.activeCampaign
@@ -731,6 +760,22 @@ function LeagueForm() {
                                                                 emptyPlaceholder="No campaign found"
                                                                 multiple
                                                             />
+                                                            <InputDrawer
+                                                                title="Active Campaign"
+                                                                description="Create a new active campaign to add to the dropdown"
+                                                                register="activeCampaignName"
+                                                                schema={
+                                                                    activeCampaignFormSchema
+                                                                }
+                                                                createFn={
+                                                                    MetadataService.createActiveCampaign
+                                                                }
+                                                                fetchMetadataFn={
+                                                                    fetchMetadata
+                                                                }
+                                                            >
+                                                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                                                            </InputDrawer>
                                                         </div>
                                                     </FormItemWrapper>
                                                 )}
