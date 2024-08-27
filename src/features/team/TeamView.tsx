@@ -176,12 +176,15 @@ function TeamView() {
                             title={"Team"}
                         />
                     </div>
-                    <div className="my-8">
-                        <SportsDealSummary data={team} />
+                    <div className="my-8 ">
+                        <div className="space-y-4 ">
+                            <Activation data={team} />
+                            <SportsDealSummary data={team} />
+                        </div>
                     </div>
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                         <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                            <Activation data={team} />
+
                             <ContactPerson data={team} />
                         </div>
                     </div>

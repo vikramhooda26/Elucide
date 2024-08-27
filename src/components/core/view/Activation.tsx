@@ -1,133 +1,103 @@
-import { Dot } from "lucide-react";
-import NoDataText from "../../no-data/NoDataText";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { Label } from "../../ui/label";
-import { nameAndId } from "../../../types/metadata/Metadata";
-import { printLogs } from "../../../lib/logs";
+import { NoActionTable } from "../../table/NoActionTable";
+import NoDataText from "../../no-data/NoDataText";
+import SelectBox from "../../ui/multi-select";
+import { NAVIGATION_ROUTES } from "../../../lib/constants";
 
 type Props = {
     data: any;
 };
-
 function Activation({ data }: Props) {
-    printLogs("Marketing data:", data?.activations);
+    const [filterField, setFilterField] = useState<string>("name");
+
+    const activationColumn = [
+        {
+            key: "name",
+            name: "Name",
+        },
+        {
+            key: "year",
+            name: "Year",
+        },
+        {
+            key: "brandName",
+            name: "Brand",
+        },
+        {
+            key: "teamName",
+            name: "Team",
+        },
+        {
+            key: "leagueName",
+            name: "League",
+        },
+        {
+            key: "athleteName",
+            name: "Athlete",
+        },
+    ];
+
+    const activationSummary: Array<any> = [];
+
+    if (data?.activationSummary?.length > 0) {
+        data?.activationSummary?.forEach((d: any, i: number) => {
+            const activation: any = Object.assign({}, d);
+
+            activation.brandName = d?.brandName?.name;
+            activation.athleteName = d?.athleteName?.name;
+            activation.leagueName = d?.leagueName?.name;
+            activation.teamName = d?.teamName?.name;
+            activation.territory = d?.territory?.name;
+            activation.partner = d?.partner?.name;
+
+            activationSummary?.push(activation);
+        })
+    }
+
+    const filterColumnOptions = [
+        { label: "Name", value: "name" },
+        { label: "Year", value: "year" },
+        { label: "Brand", value: "brandName" },
+        { label: "Team", value: "teamName" },
+        { label: "League", value: "leagueName" },
+        { label: "Athlete", value: "athleteName" },
+    ];
+
+    const toolbarAttributes = [
+        <SelectBox
+            options={filterColumnOptions}
+            onChange={(value) => setFilterField(value as string)}
+            value={filterField}
+            placeholder="Select filter key"
+            inputPlaceholder="Search for a key..."
+            emptyPlaceholder="Not found"
+            className="w-fit"
+        />
+    ];
+
     return (
-        <Card x-chunk="dashboard-07-chunk-0 w-full">
-            {data?.activations?.length > 0 ? data?.activations?.map((activationData: any, i: number) => (
-                <>
-                    <CardHeader>
-                        <CardTitle>{i + 1} .Activation Summary </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className=" m-3">
-                            <ul className="grid gap-3">
-                                <li className="flex items-center ">
-                                    <span className="w-1/2">Name</span>
-                                    <span className="text-muted-foreground">
-                                        {activationData?.name || '-'}
-                                    </span>
-                                </li>
-                                <li className="flex items-center ">
-                                    <span className="w-1/2">Brand Name</span>
-                                    <span className="text-muted-foreground">
-                                        {activationData?.brandName?.name || '-'}
-                                    </span>
-                                </li>
-                                {activationData?.athleteName?.name ?
-                                    <li className="flex items-center ">
-                                        <span className="w-1/2">Athlete Name</span>
-                                        <span className="text-muted-foreground">
-                                            {activationData?.athleteName?.name || '-'}
-                                        </span>
-                                    </li>
-                                    : null}
-                                {activationData?.leagueName?.name ?
-                                    <li className="flex items-center ">
-                                        <span className="w-1/2">League Name</span>
-                                        <span className="text-muted-foreground">
-                                            {activationData?.leagueName?.name || '-'}
-                                        </span>
-                                    </li>
-                                    : null}
-                                {activationData?.teamName?.name ?
-                                    <li className="flex items-center ">
-                                        <span className="w-1/2">Team Name</span>
-                                        <span className="text-muted-foreground">
-                                            {activationData?.teamName?.name || '-'}
-                                        </span>
-                                    </li>
-                                    : null}
-
-                                <li className="flex items-center ">
-                                    <span className="w-1/2"> Activation Year</span>
-                                    <span className="text-muted-foreground">
-                                        {activationData?.year || '-'}
-                                    </span>
-                                </li>
-
-                            </ul>
-                        </div>
-
-                        <div className="grid gap-6">
-
-                            <div className="grid grid-cols-3 gap-3">
-                                <div className="grid gap-3 rounded-md border p-4">
-                                    <Label>Assets</Label>
-                                    <ul className="grid gap-3">
-                                        {activationData?.asset?.map(
-                                            (asset: nameAndId, i: number) => (
-                                                <li className="flex items-center text-sm text-muted-foreground">
-                                                    <Dot />
-                                                    <span>{asset?.name || "-"}</span>
-                                                </li>
-                                            )
-                                        )}
-                                    </ul>
-                                </div>
-
-                                <div className="grid gap-3 rounded-md border p-4">
-                                    <Label>Market</Label>
-                                    <ul className="grid gap-3">
-                                        {activationData?.market?.map(
-                                            (market: nameAndId, i: number) => (
-                                                <li className="flex items-center text-sm text-muted-foreground">
-                                                    <Dot />
-                                                    <span>{market?.name || "-"}</span>
-                                                </li>
-                                            )
-                                        )}
-                                    </ul>
-                                </div>
-
-                                <div className="grid gap-3 rounded-md border p-4">
-                                    <Label>Type</Label>
-                                    <ul className="grid gap-3">
-                                        {activationData?.type?.map(
-                                            (type: nameAndId, i: number) => (
-                                                <li className="flex items-center text-sm text-muted-foreground">
-                                                    <Dot />
-                                                    <span>{type?.name || "-"}</span>
-                                                </li>
-                                            )
-                                        )}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </CardContent>
-                </>
-            )) :
-                <>
-                    <CardHeader>
-                        <CardTitle>Activation Summary </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <NoDataText />
-                    </CardContent>
-                </>
-            }
-        </Card >
+        <Card className="grid grid-cols-1">
+            <CardHeader>
+                <CardTitle>Activation Summary</CardTitle>
+            </CardHeader>
+            <CardContent>
+                {activationSummary?.length > 0 ? (
+                    <NoActionTable
+                        data={activationSummary}
+                        columns={activationColumn}
+                        searchableKey={filterField}
+                        toolbarAttributes={toolbarAttributes}
+                        viewRoute={NAVIGATION_ROUTES?.ACTIVATION_LIST}
+                    />
+                ) : (
+                    <NoDataText />
+                )}
+            </CardContent>
+        </Card>
     );
 }
 
 export default Activation;
+
+
