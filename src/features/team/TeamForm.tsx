@@ -33,6 +33,7 @@ import {
     getListOfYears,
     onNumInputChange,
     validateAssociation,
+    validateEndorsements,
     validateMetrics
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
@@ -43,6 +44,7 @@ import {
     TTeamFormSchema
 } from "./constants/metadata";
 import { MetricsCard } from "../../components/core/form/metrics.card";
+import { EndorsementCard } from "../../components/core/form/endorsement-card";
 
 export function TeamForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -123,6 +125,10 @@ export function TeamForm() {
                                 convertRupeesToCrore(asso?.costOfAssociation) ||
                                 undefined,
                             brandIds: asso.brand?.map((brand) => brand.id)
+                        })),
+                        endorsements: teamData.endorsements?.map((endorse) => ({
+                            name: endorse.name,
+                            active: endorse.active
                         })),
                         activeCampaignIds:
                             teamData.activeCampaigns?.map(
@@ -499,6 +505,15 @@ export function TeamForm() {
             validatedBroadcastMetrics === undefined ||
             validatedAssociation === undefined
         ) {
+            return;
+        }
+
+        const isEndorsementsValid = validateEndorsements(
+            teamFormValues.endorsements,
+            form.setError
+        );
+
+        if (isEndorsementsValid === null) {
             return;
         }
 
@@ -978,6 +993,7 @@ export function TeamForm() {
                                     showBrand={true}
                                 />
                                 <ContactPersonCard control={form.control} />
+                                <EndorsementCard control={form.control} />
                             </div>
                         </div>
                     )}

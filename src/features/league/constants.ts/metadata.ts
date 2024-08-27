@@ -86,6 +86,13 @@ export const leagueFormSchema = z.object({
             })
         )
         .optional(),
+    endorsements: z
+        .object({
+            name: z.string(),
+            active: z.boolean()
+        })
+        .array()
+        .optional(),
     userId: z.string()
 });
 
@@ -187,6 +194,7 @@ export type TEditLeagueFormSchema = {
     endorsements?: {
         id?: string;
         name?: string;
+        active?: boolean;
     }[];
     format?: {
         id?: string;

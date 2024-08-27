@@ -15,7 +15,7 @@ export const BRAND_METADATA = {
     GENDER: "gender",
     TERTIARY: "tertiary",
     ACTIVE_CAMPAIGN: "activeCampaign",
-    KEY_MARKETS: "keyMarket",
+    KEY_MARKETS: "keyMarket"
 } as const;
 
 export const brandFormSchema = z.object({
@@ -52,10 +52,17 @@ export const brandFormSchema = z.object({
                 contactDesignation: z.string().optional(),
                 contactEmail: z.string().optional(),
                 contactNumber: z.string().optional(),
-                contactLinkedin: z.string().optional(),
+                contactLinkedin: z.string().optional()
             })
         )
         .optional(),
+    endorsements: z
+        .object({
+            name: z.string(),
+            active: z.boolean()
+        })
+        .array()
+        .optional()
 });
 
 export type TBrandFormSchema = z.infer<typeof brandFormSchema>;
@@ -105,6 +112,7 @@ export type TEditBrandformSchema = {
     endorsements?: {
         id?: string;
         name?: string;
+        active?: boolean;
     }[];
     activeCampaigns?: {
         id?: string;

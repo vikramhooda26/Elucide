@@ -32,6 +32,7 @@ import {
     convertCroreToRupees,
     convertRupeesToCrore,
     getListOfYears,
+    validateEndorsements,
     validateMetrics
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
@@ -41,6 +42,7 @@ import {
     TEditLeagueFormSchema,
     TLeagueFormSchema
 } from "./constants.ts/metadata";
+import { EndorsementCard } from "../../components/core/form/endorsement-card";
 
 function LeagueForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -193,6 +195,12 @@ function LeagueForm() {
                         nccsIds:
                             leagueData.nccs?.map((nccs) => nccs.id) ||
                             undefined,
+                        endorsements: leagueData.endorsements?.map(
+                            (endorse) => ({
+                                name: endorse.name,
+                                active: endorse.active
+                            })
+                        ),
                         subPersonalityTraitIds:
                             leagueData.subPersonalityTraits?.map(
                                 (traits) => traits.id
@@ -505,6 +513,15 @@ function LeagueForm() {
             validatedOttPartnerMetrics === undefined ||
             validatedBroadcastMetrics === undefined
         ) {
+            return;
+        }
+
+        const isEndorsementsValid = validateEndorsements(
+            leagueFormValues.endorsements,
+            form.setError
+        );
+
+        if (isEndorsementsValid === null) {
             return;
         }
 
@@ -945,6 +962,7 @@ function LeagueForm() {
                                     metadataStore={metadataStore}
                                 />
                                 <ContactPersonCard control={form.control} />
+                                <EndorsementCard control={form.control} />
                             </div>
                         </div>
                     )}

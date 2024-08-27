@@ -30,9 +30,11 @@ import {
     BRAND_METADATA,
     brandFormSchema,
     TBrandFormSchema,
-    TEditBrandformSchema,
+    TEditBrandformSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import { EndorsementCard } from "../../components/core/form/endorsement-card";
+import { validateEndorsements } from "../utils/helpers";
 
 function BrandForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -46,8 +48,8 @@ function BrandForm() {
     const form = useForm<TBrandFormSchema>({
         resolver: zodResolver(brandFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     const { logout } = useAuth();
@@ -138,6 +140,12 @@ function BrandForm() {
                         linkedin: brandData?.linkedin || undefined,
                         website: brandData?.website || undefined,
                         youtube: brandData?.youtube || undefined,
+                        endorsements: brandData.endorsements?.map(
+                            (endorse) => ({
+                                name: endorse.name,
+                                active: endorse.active
+                            })
+                        ),
                         contactPerson:
                             brandData.contactPersons?.map((details) => ({
                                 contactId: details.contactId || undefined,
@@ -148,7 +156,7 @@ function BrandForm() {
                                 contactDesignation:
                                     details.contactDesignation || undefined,
                                 contactNumber:
-                                    details.contactNumber || undefined,
+                                    details.contactNumber || undefined
                             })) || undefined,
                         subCategoryIds:
                             brandData.subcategory?.map(
@@ -170,7 +178,7 @@ function BrandForm() {
                             brandData.age?.map((age) => age.id) || undefined,
                         genderIds:
                             brandData.gender?.map((gender) => gender.id) ||
-                            undefined,
+                            undefined
                     });
                 }
             } catch (error) {
@@ -222,43 +230,43 @@ function BrandForm() {
             register: "subCategoryIds",
             options: metadataStore.category,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "City",
             register: "cityId",
             options: metadataStore.city,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "State",
             register: "stateId",
             options: metadataStore.state,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Personality Traits",
             register: "subPersonalityTraitIds",
             options: metadataStore.personalityTrait,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Tiers",
             register: "tierIds",
             options: metadataStore.tier,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "NCCS class",
             register: "nccsIds",
             options: metadataStore.tier,
             multiple: true,
-            type: "DROPDOWN",
-        },
+            type: "DROPDOWN"
+        }
     ];
 
     const targetAudience: {
@@ -273,15 +281,15 @@ function BrandForm() {
             register: "ageIds",
             options: metadataStore.age,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Gender",
             register: "genderIds",
             options: metadataStore.gender,
             multiple: true,
-            type: "DROPDOWN",
-        },
+            type: "DROPDOWN"
+        }
     ];
 
     const socials: {
@@ -296,23 +304,23 @@ function BrandForm() {
         >;
     }[] = [
         {
-            name: "instagram",
+            name: "instagram"
         },
         {
-            name: "facebook",
+            name: "facebook"
         },
         {
-            name: "twitter",
+            name: "twitter"
         },
         {
-            name: "linkedin",
+            name: "linkedin"
         },
         {
-            name: "youtube",
+            name: "youtube"
         },
         {
-            name: "website",
-        },
+            name: "website"
+        }
     ];
 
     const onSubmit = async (brandFormValues: TBrandFormSchema) => {
@@ -324,7 +332,7 @@ function BrandForm() {
                         form.setError(
                             `contactPerson.${i}.contactNumber`,
                             {
-                                message: "Invalid phone number",
+                                message: "Invalid phone number"
                             },
                             { shouldFocus: true }
                         );
@@ -339,6 +347,15 @@ function BrandForm() {
             if (isNotValid) {
                 return;
             }
+        }
+
+        const isEndorsementsValid = validateEndorsements(
+            brandFormValues.endorsements,
+            form.setError
+        );
+
+        if (isEndorsementsValid === null) {
+            return;
         }
 
         console.log("\n\n\n\nRequest Body:", brandFormValues);
@@ -387,7 +404,7 @@ function BrandForm() {
                             className="h-7 w-7"
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.BRAND_LIST, {
-                                    replace: true,
+                                    replace: true
                                 })
                             }
                         >
@@ -409,7 +426,7 @@ function BrandForm() {
                                 }
                                 onClick={() =>
                                     navigate(NAVIGATION_ROUTES.BRAND_LIST, {
-                                        replace: true,
+                                        replace: true
                                     })
                                 }
                                 type="button"
@@ -428,10 +445,7 @@ function BrandForm() {
                             >
                                 <span>Save Brand</span>
                                 {isSubmitting && (
-                                    <ClipLoader
-                                        size={15}
-                                        color="#020817"
-                                    />
+                                    <ClipLoader size={15} color="#020817" />
                                 )}
                             </Button>
                         </div>
@@ -440,7 +454,7 @@ function BrandForm() {
                         <FormSkeleton />
                     ) : (
                         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
                                 <CardWrapper title="Brand Details">
                                     <div className="grid gap-6">
                                         <div className="grid gap-3">
@@ -572,8 +586,8 @@ function BrandForm() {
                                 </CardWrapper>
 
                                 <CardWrapper title="Marketing">
-                                    <div className="grid gap-6  ">
-                                        <div className="grid gap-3 grid-cols-2">
+                                    <div className="grid gap-6">
+                                        <div className="grid grid-cols-2 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -626,7 +640,7 @@ function BrandForm() {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="grid gap-3 grid-cols-3">
+                                        <div className="grid grid-cols-3 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -711,9 +725,9 @@ function BrandForm() {
                                         headersArray={[
                                             {
                                                 header: "Platforms",
-                                                className: "w-[120px]",
+                                                className: "w-[120px]"
                                             },
-                                            { header: "Link" },
+                                            { header: "Link" }
                                         ]}
                                     >
                                         {socials.map((social, index) => (
@@ -741,7 +755,7 @@ function BrandForm() {
                                 </CardWrapper>
                             </div>
 
-                            <div className="grid auto-rows-max items-start gap-4 ">
+                            <div className="grid auto-rows-max items-start gap-4">
                                 <VerticalFieldsCard
                                     control={form.control}
                                     title="Brand Attributes"
@@ -756,15 +770,16 @@ function BrandForm() {
                             </div>
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-3">
                                 <ContactPersonCard control={form.control} />
+                                <EndorsementCard control={form.control} />
                             </div>
                         </div>
                     )}
 
-                    <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
+                    <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
                         <Button
                             type="submit"
                             size="sm"
-                            className="w-full py-5 gap-1"
+                            className="w-full gap-1 py-5"
                             disabled={
                                 isSubmitting ||
                                 isFetchingDetails ||
@@ -773,10 +788,7 @@ function BrandForm() {
                         >
                             <span>Save Brand</span>
                             {isSubmitting && (
-                                <ClipLoader
-                                    size={15}
-                                    color="#020817"
-                                />
+                                <ClipLoader size={15} color="#020817" />
                             )}
                         </Button>
                         <Button
@@ -790,7 +802,7 @@ function BrandForm() {
                             }
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.BRAND_LIST, {
-                                    replace: true,
+                                    replace: true
                                 })
                             }
                             type="button"

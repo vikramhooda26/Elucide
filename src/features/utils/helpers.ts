@@ -198,3 +198,33 @@ export const convertRupeesToCrore = (num: string | undefined) => {
 
     return (Number(num) / 10000000).toString();
 };
+
+export const validateEndorsements = (
+    endorsements: { name: string; active: boolean }[] | undefined,
+    setError: UseFormSetError<any>
+) => {
+    if (!endorsements || !endorsements.length) {
+        return endorsements;
+    }
+
+    let hasErrors = false;
+
+    endorsements.map((value, index) => {
+        if (!value.name) {
+            hasErrors = true;
+            setError(
+                `endorsements.${index}.name`,
+                {
+                    message: "This field is required"
+                },
+                { shouldFocus: true }
+            );
+        }
+    });
+    if (hasErrors) {
+        toast.error("Please give an endorsement name");
+        return null;
+    }
+
+    return endorsements;
+};

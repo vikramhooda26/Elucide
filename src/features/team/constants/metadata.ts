@@ -97,6 +97,13 @@ export const teamFormSchema = z.object({
             })
         )
         .optional(),
+    endorsements: z
+        .object({
+            name: z.string(),
+            active: z.boolean()
+        })
+        .array()
+        .optional(),
     userId: z.string()
 });
 
@@ -141,6 +148,7 @@ export type TEditTeamFormSchema = {
     endorsements?: {
         id?: string;
         name?: string;
+        active?: boolean;
     }[];
     activeCampaigns?: {
         id?: string;
