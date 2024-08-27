@@ -30,11 +30,12 @@ import ViewershipReach from "../../components/core/view/ViewershipReach";
 
 function LeagueView() {
     const { id } = useParams();
-    const [league, setLeague] = useState<TEditLeagueFormSchema>({});
+    const [league, setLeague] = useState<TEditLeagueFormSchema>();
     const [isLoading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const { logout } = useAuth();
     const userRole = useUser()?.role;
+
     if (!userRole) {
         return;
     }
@@ -85,13 +86,18 @@ function LeagueView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        {userRole === "SUPER_ADMIN" ?
-                            <Button size="sm"
-                                onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`)}
+                        {userRole === "SUPER_ADMIN" ? (
+                            <Button
+                                size="sm"
+                                onClick={() =>
+                                    navigate(
+                                        `${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`
+                                    )
+                                }
                             >
-                                <Pencil className="w-4 h-4" />{" "}
+                                <Pencil className="h-4 w-4" />{" "}
                             </Button>
-                            : null}
+                        ) : null}
                     </div>
                 </div>
                 {isLoading ? (
@@ -111,19 +117,22 @@ function LeagueView() {
                                                     {league?.name || "-"}
                                                 </span>
                                             </li>
-                                            <li >
+                                            <li>
                                                 <Separator className="my-2" />
-                                                <div className="flex ">
+                                                <div className="flex">
                                                     <span className="w-1/2">
                                                         League Owners
                                                     </span>
                                                     <span className="text-muted-foreground">
-                                                        <Owners data={league} title={"League"} />
+                                                        <Owners
+                                                            data={league}
+                                                            title={"League"}
+                                                        />
                                                     </span>
                                                 </div>
                                                 <Separator className="my-2" />
                                             </li>
-                                            <li className="flex ">
+                                            <li className="flex">
                                                 <span className="w-1/2">
                                                     Sports
                                                 </span>
@@ -131,7 +140,6 @@ function LeagueView() {
                                                     {league?.sport?.name || "-"}
                                                 </span>
                                             </li>
-
 
                                             <li className="flex items-center">
                                                 <span className="w-1/2">
@@ -190,7 +198,6 @@ function LeagueView() {
                                 <ActiveCampaing data={league} />
 
                                 <Association data={league} />
-
                             </div>
                             <Attributes data={league} title={"League"} />
                         </div>
