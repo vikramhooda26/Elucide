@@ -1,6 +1,6 @@
 "use client";
 
-import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
+import { CaretSortIcon, ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -32,14 +32,18 @@ import {
     TableHeader,
     TableRow,
 } from "../ui/table";
+import { DataTableToolbar } from "../data-table/data-table-toolbar";
+import { Link } from "react-router-dom";
 
 type Props = {
     data: Array<any>;
     columns: Array<{ name: string; key: string }>;
     searchableKey: string;
+    toolbarAttributes?: JSX.Element[];
+    viewRoute?:string;
 };
 
-export function NoActionTable({ data, columns, searchableKey }: Props) {
+export function NoActionTable({ data, columns, searchableKey, toolbarAttributes, viewRoute }: Props) {
     const [tableColumns, setTableColumns] = React.useState<ColumnDef<any>[]>(
         []
     );
@@ -65,14 +69,26 @@ export function NoActionTable({ data, columns, searchableKey }: Props) {
                                 )
                             }
                         >
-                            {header?.name}
+                            {header?.name || '-'}
                             <CaretSortIcon className="ml-2 h-4 w-4" />
                         </Button>
                     );
                 },
-                cell: ({ row }) => (
-                    <div className="lowercase">{row.getValue(header?.key)}</div>
-                ),
+                cell: ({ row }) => {
+                    const id = (row.original as { id: string }).id;
+                    if (id && viewRoute && viewRoute?.length > 0) {
+                        return (
+                            <Link
+                                to={`${viewRoute}/${id}`}
+                                className="cursor-pointer hover:text-blue-800 "
+                            >
+                                <div className="w-[80px]">{row.getValue(header?.key) || '-'}</div>
+                            </Link>
+                        )
+                    } else {
+                        return (<div className="lowercase">{row.getValue(header?.key) || '-'}</div>)
+                    }
+                },
             });
         });
         setTableColumns(headers);
@@ -101,6 +117,8 @@ export function NoActionTable({ data, columns, searchableKey }: Props) {
         },
     });
 
+    const isFiltered = table.getState().columnFilters.length > 0;
+
     return (
         <div className="">
             <div className="flex items-center py-4 ">
@@ -118,6 +136,25 @@ export function NoActionTable({ data, columns, searchableKey }: Props) {
                     }
                     className="max-w-sm"
                 />
+                <div className="flex flex-1 items-center space-x-2 mx-2">
+                    {toolbarAttributes && toolbarAttributes?.length > 0 &&
+                        toolbarAttributes?.map((jsxAttributes, index) => (
+                            <React.Fragment key={index}>
+                                {jsxAttributes}
+                            </React.Fragment>
+                        ))}
+                    {isFiltered && (
+                        <Button
+                            variant="ghost"
+                            onClick={() => table.resetColumnFilters()}
+                            className="h-8 px-2 lg:px-3"
+                        >
+                            Reset
+                            <Cross2Icon className="ml-2 h-4 w-4" />
+                        </Button>
+                    )}
+                </div>
+
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
@@ -162,10 +199,10 @@ export function NoActionTable({ data, columns, searchableKey }: Props) {
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
-                                                      header.column.columnDef
-                                                          .header,
-                                                      header.getContext()
-                                                  )}
+                                                    header.column.columnDef
+                                                        .header,
+                                                    header.getContext()
+                                                )}
                                         </TableHead>
                                     );
                                 })}
@@ -174,7 +211,7 @@ export function NoActionTable({ data, columns, searchableKey }: Props) {
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows &&
-                        table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows?.length ? (
                             table.getRowModel()?.rows?.map((row) => (
                                 <TableRow
                                     key={row?.id}
@@ -190,7 +227,7 @@ export function NoActionTable({ data, columns, searchableKey }: Props) {
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
-                                            )}
+                                            ) || '-'}
                                         </TableCell>
                                     ))}
                                 </TableRow>
