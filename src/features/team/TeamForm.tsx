@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft, PlusCircle, Trash2 } from "lucide-react";
+import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,8 +9,14 @@ import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
 import AssociationCard from "../../components/core/form/association-card";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
+import { EndorsementCard } from "../../components/core/form/endorsement-card";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
+import { MetricsCard } from "../../components/core/form/metrics.card";
+import {
+    TDisplayFields,
+    VerticalFieldsCard
+} from "../../components/core/form/vertical-fields-card";
+import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { getPhoneData } from "../../components/phone-input";
 import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
@@ -23,10 +29,17 @@ import { Textarea } from "../../components/ui/textarea";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import { printLogs } from "../../lib/logs";
 import ErrorService from "../../services/error/ErrorService";
+import MetadataService from "../../services/features/MetadataService";
 import TeamService from "../../services/features/TeamService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { activeCampaignFormSchema } from "../metadata/ActiveCampaign/constants/metadata";
+import { cityFormSchema } from "../metadata/city/constants/metadata";
+import { sportFormSchema } from "../metadata/sport/constants/metadata";
+import { stateFormSchema } from "../metadata/state/constants/metadata";
+import { taglineFormSchema } from "../metadata/tagline/constants/metadata";
+import { teamOwnerFormSchema } from "../metadata/team-owner/constants/metadata";
 import {
     convertCroreToRupees,
     convertRupeesToCrore,
@@ -43,8 +56,6 @@ import {
     TEditTeamFormSchema,
     TTeamFormSchema
 } from "./constants/metadata";
-import { MetricsCard } from "../../components/core/form/metrics.card";
-import { EndorsementCard } from "../../components/core/form/endorsement-card";
 
 export function TeamForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -65,31 +76,27 @@ export function TeamForm() {
         }
     });
 
-    useEffect(() => {
-        const fetchMetadata = async () => {
-            try {
-                setIsFetchingMetadata(true);
-                await getMetadata(
-                    metadataStore,
-                    setMetadataStore,
-                    TEAM_METADATA
-                );
-            } catch (error) {
-                console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (unknownError) {
-                    toast.error("An unknown error occurred");
-                    navigate(NAVIGATION_ROUTES.DASHBOARD);
-                }
-            } finally {
-                setIsFetchingMetadata(false);
+    const fetchMetadata = async () => {
+        try {
+            setIsFetchingMetadata(true);
+            await getMetadata(metadataStore, setMetadataStore, TEAM_METADATA);
+        } catch (error) {
+            console.error(error);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError) {
+                toast.error("An unknown error occurred");
+                navigate(NAVIGATION_ROUTES.DASHBOARD);
             }
-        };
+        } finally {
+            setIsFetchingMetadata(false);
+        }
+    };
 
+    useEffect(() => {
         fetchMetadata();
     }, []);
 
@@ -267,28 +274,18 @@ export function TeamForm() {
         reach: ""
     };
 
-    const teamAttributes: {
-        title: string;
-        register: Extract<
-            keyof TTeamFormSchema,
-            | "sportId"
-            | "leagueId"
-            | "ownerIds"
-            | "cityId"
-            | "stateId"
-            | "subPersonalityTraitIds"
-            | "tierIds"
-        >;
-        options: any;
-        multiple: boolean;
-        type: "DROPDOWN";
-    }[] = [
+    const teamAttributes: TDisplayFields<TTeamFormSchema>[] = [
         {
-            title: "Sports",
+            title: "Sport",
             register: "sportId",
             options: metadataStore.sport,
             multiple: false,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            showAddButton: true,
+            createFn: MetadataService.createSport,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "sportName",
+            schema: sportFormSchema
         },
         {
             title: "League",
@@ -302,21 +299,36 @@ export function TeamForm() {
             register: "ownerIds",
             options: metadataStore.teamOwner,
             multiple: true,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            showAddButton: true,
+            createFn: MetadataService.createTeamOwner,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "teamOwnerName",
+            schema: teamOwnerFormSchema
         },
         {
             title: "City",
             register: "cityId",
             options: metadataStore.city,
             multiple: false,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            showAddButton: true,
+            createFn: MetadataService.createCity,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "cityName",
+            schema: cityFormSchema
         },
         {
             title: "State",
             register: "stateId",
             options: metadataStore.state,
             multiple: false,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            showAddButton: true,
+            createFn: MetadataService.createState,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "stateName",
+            schema: stateFormSchema
         },
         {
             title: "Personality Traits",
@@ -648,19 +660,40 @@ export function TeamForm() {
                                                 name="taglineIds"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Taglines">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.tagline
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a tagline"
-                                                            inputPlaceholder="Search for a tagline..."
-                                                            emptyPlaceholder="No tagline found"
-                                                            multiple
-                                                        />
+                                                        <div className="flex w-full items-center gap-3">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.tagline
+                                                                }
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                className="w-full"
+                                                                placeholder="Select a tagline"
+                                                                inputPlaceholder="Search for a tagline..."
+                                                                emptyPlaceholder="No tagline found"
+                                                                multiple
+                                                            />
+                                                            <InputDrawer
+                                                                title="Tagline"
+                                                                description="Create a new tagline to add to the dropdown"
+                                                                register="taglineName"
+                                                                schema={
+                                                                    taglineFormSchema
+                                                                }
+                                                                createFn={
+                                                                    MetadataService.createTagline
+                                                                }
+                                                                fetchMetadataFn={
+                                                                    fetchMetadata
+                                                                }
+                                                            >
+                                                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                                                            </InputDrawer>
+                                                        </div>
                                                     </FormItemWrapper>
                                                 )}
                                             />
@@ -732,19 +765,40 @@ export function TeamForm() {
                                                 name="activeCampaignIds"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Active Campaigns">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.activeCampaign
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a campaign"
-                                                            inputPlaceholder="Search for campaigns..."
-                                                            emptyPlaceholder="No campaign found"
-                                                            multiple
-                                                        />
+                                                        <div className="flex w-full items-center gap-3">
+                                                            <SelectBox
+                                                                options={
+                                                                    metadataStore?.activeCampaign
+                                                                }
+                                                                value={
+                                                                    field.value
+                                                                }
+                                                                onChange={
+                                                                    field.onChange
+                                                                }
+                                                                className="w-full"
+                                                                placeholder="Select a campaign"
+                                                                inputPlaceholder="Search for campaigns..."
+                                                                emptyPlaceholder="No campaign found"
+                                                                multiple
+                                                            />
+                                                            <InputDrawer
+                                                                title="Active Campaign"
+                                                                description="Create a new active campaign to add to the dropdown"
+                                                                register="activeCampaignName"
+                                                                schema={
+                                                                    activeCampaignFormSchema
+                                                                }
+                                                                createFn={
+                                                                    MetadataService.createActiveCampaign
+                                                                }
+                                                                fetchMetadataFn={
+                                                                    fetchMetadata
+                                                                }
+                                                            >
+                                                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                                                            </InputDrawer>
+                                                        </div>
                                                     </FormItemWrapper>
                                                 )}
                                             />

@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format, parseISO } from "date-fns";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,7 +10,10 @@ import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
 import AssociationCard from "../../components/core/form/association-card";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
-import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
+import {
+    TDisplayFields,
+    VerticalFieldsCard
+} from "../../components/core/form/vertical-fields-card";
 import { DatePicker } from "../../components/date/DatePicker";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import { getPhoneData } from "../../components/phone-input";
@@ -37,6 +40,12 @@ import {
 } from "./constants/metadata";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { Textarea } from "../../components/ui/textarea";
+import { InputDrawer } from "../../components/form/input-drawer";
+import { agencyFormSchema } from "../metadata/agency/constants/metadata";
+import MetadataService from "../../services/features/MetadataService";
+import { sportFormSchema } from "../metadata/sport/constants/metadata";
+import { countryFormSchema } from "../metadata/country/constants/metadata";
+import { stateFormSchema } from "../metadata/state/constants/metadata";
 
 function AthleteForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -59,33 +68,31 @@ function AthleteForm() {
         }
     });
 
-    useEffect(() => {
-        const fetchMetadata = async () => {
-            try {
-                setIsFetchingMetadata(true);
-                await getMetadata(
-                    metadataStore,
-                    setMetadataStore,
-                    ATHLETE_METADATA
-                );
-            } catch (error) {
-                console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
-                ) {
-                    toast.error("An unknown error occurred");
-                    navigate(NAVIGATION_ROUTES.DASHBOARD);
-                }
-            } finally {
-                setIsFetchingMetadata(false);
+    const fetchMetadata = async () => {
+        try {
+            setIsFetchingMetadata(true);
+            await getMetadata(
+                metadataStore,
+                setMetadataStore,
+                ATHLETE_METADATA
+            );
+        } catch (error) {
+            console.error(error);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
+                toast.error("An unknown error occurred");
+                navigate(NAVIGATION_ROUTES.DASHBOARD);
             }
-        };
+        } finally {
+            setIsFetchingMetadata(false);
+        }
+    };
 
+    useEffect(() => {
         fetchMetadata();
     }, []);
 
@@ -218,42 +225,42 @@ function AthleteForm() {
         return <div>Loading...</div>;
     }
 
-    const athleteAttributes: {
-        title: string;
-        register: Extract<
-            keyof TAthleteFormSchema,
-            | "sportId"
-            | "stateId"
-            | "subPersonalityTraitIds"
-            | "nccsIds"
-            | "nationalityId"
-            | "statusId"
-            | "tierIds"
-        >;
-        options: any;
-        multiple: boolean;
-        type: "DROPDOWN";
-    }[] = [
+    const athleteAttributes: TDisplayFields<TAthleteFormSchema>[] = [
         {
             title: "Sport",
             register: "sportId",
             options: metadataStore.sport,
             multiple: false,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            showAddButton: true,
+            createFn: MetadataService.createSport,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "sportName",
+            schema: sportFormSchema
         },
         {
             title: "Nationality",
             register: "nationalityId",
             options: metadataStore.nationality,
             multiple: false,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            showAddButton: true,
+            createFn: MetadataService.createNationality,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "nationality",
+            schema: countryFormSchema
         },
         {
             title: "State",
             register: "stateId",
             options: metadataStore.state,
             multiple: false,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            showAddButton: true,
+            createFn: MetadataService.createState,
+            fetchMetadataFn: fetchMetadata,
+            drawerRegister: "stateName",
+            schema: stateFormSchema
         },
         {
             title: "NCCS class",
@@ -584,13 +591,14 @@ function AthleteForm() {
                                                 )}
                                             />
                                         </div>
-                                        <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
-                                            <div className="grid gap-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="agencyId"
-                                                    render={({ field }) => (
-                                                        <FormItemWrapper label="Agency">
+
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="agencyId"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Agency">
+                                                        <div className="flex w-full items-center gap-3">
                                                             <SelectBox
                                                                 options={
                                                                     metadataStore?.agency
@@ -601,38 +609,53 @@ function AthleteForm() {
                                                                 onChange={
                                                                     field.onChange
                                                                 }
+                                                                className="w-full"
                                                                 placeholder="Select a agency"
                                                                 inputPlaceholder="Search for a agency..."
                                                                 emptyPlaceholder="No agency found"
                                                             />
-                                                        </FormItemWrapper>
-                                                    )}
-                                                />
-                                            </div>
-                                            <div className="grid gap-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="athleteGenderId"
-                                                    render={({ field }) => (
-                                                        <FormItemWrapper label="Athlete Gender">
-                                                            <SelectBox
-                                                                options={
-                                                                    metadataStore?.gender
+                                                            <InputDrawer
+                                                                title="Agency"
+                                                                description="Create a new agency to add to the dropdown"
+                                                                register="agencyName"
+                                                                schema={
+                                                                    agencyFormSchema
                                                                 }
-                                                                value={
-                                                                    field.value
+                                                                createFn={
+                                                                    MetadataService.createAgency
                                                                 }
-                                                                onChange={
-                                                                    field.onChange
+                                                                fetchMetadataFn={
+                                                                    fetchMetadata
                                                                 }
-                                                                placeholder="Select a gender"
-                                                                inputPlaceholder="Search for a gender..."
-                                                                emptyPlaceholder="No gender found"
-                                                            />
-                                                        </FormItemWrapper>
-                                                    )}
-                                                />
-                                            </div>
+                                                            >
+                                                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                                                            </InputDrawer>
+                                                        </div>
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <FormField
+                                                control={form.control}
+                                                name="athleteGenderId"
+                                                render={({ field }) => (
+                                                    <FormItemWrapper label="Athlete Gender">
+                                                        <SelectBox
+                                                            options={
+                                                                metadataStore?.gender
+                                                            }
+                                                            value={field.value}
+                                                            onChange={
+                                                                field.onChange
+                                                            }
+                                                            placeholder="Select a gender"
+                                                            inputPlaceholder="Search for a gender..."
+                                                            emptyPlaceholder="No gender found"
+                                                        />
+                                                    </FormItemWrapper>
+                                                )}
+                                            />
                                         </div>
                                     </div>
                                 </CardWrapper>
