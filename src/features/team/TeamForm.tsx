@@ -285,7 +285,8 @@ export function TeamForm() {
             createFn: MetadataService.createSport,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "sportName",
-            schema: sportFormSchema
+            schema: sportFormSchema,
+            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
         },
         {
             title: "League",
@@ -304,7 +305,8 @@ export function TeamForm() {
             createFn: MetadataService.createTeamOwner,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "teamOwnerName",
-            schema: teamOwnerFormSchema
+            schema: teamOwnerFormSchema,
+            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
         },
         {
             title: "City",
@@ -316,7 +318,8 @@ export function TeamForm() {
             createFn: MetadataService.createCity,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "cityName",
-            schema: cityFormSchema
+            schema: cityFormSchema,
+            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
         },
         {
             title: "State",
@@ -328,7 +331,8 @@ export function TeamForm() {
             createFn: MetadataService.createState,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "stateName",
-            schema: stateFormSchema
+            schema: stateFormSchema,
+            accessLevel: ["SUPER_ADMIN"]
         },
         {
             title: "Personality Traits",

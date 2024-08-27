@@ -9,6 +9,8 @@ import { Resp } from "../../../services/AjaxService";
 import { ZodObject } from "zod";
 import { InputDrawer } from "../../form/input-drawer";
 import { PlusCircle } from "lucide-react";
+import { TRoles } from "../../../lib/constants";
+import { useUser } from "../../../hooks/useUser";
 
 export type TDisplayFields<T> =
     | {
@@ -26,6 +28,7 @@ export type TDisplayFields<T> =
           fetchMetadataFn: () => Promise<void>;
           drawerRegister: string;
           schema: ZodObject<any>;
+          accessLevel: TRoles[];
       }
     | {
           showAddButton?: false;
@@ -55,6 +58,7 @@ export const VerticalFieldsCard = <T extends FieldValues>({
     displayFields,
     control
 }: TVerticalFieldsCardProps<T>): JSX.Element => {
+    const userRole = useUser()?.role;
     return (
         <CardWrapper title={title}>
             <div className="grid gap-6">
@@ -83,30 +87,33 @@ export const VerticalFieldsCard = <T extends FieldValues>({
                                                         fieldDetails.multiple
                                                     }
                                                 />
-                                                {fieldDetails.showAddButton && (
-                                                    <InputDrawer
-                                                        title={
-                                                            fieldDetails.title ||
-                                                            ""
-                                                        }
-                                                        description={`Create a new ${fieldDetails.title} to add to the dropdown`}
-                                                        register={
-                                                            fieldDetails.drawerRegister ||
-                                                            ""
-                                                        }
-                                                        schema={
-                                                            fieldDetails.schema
-                                                        }
-                                                        createFn={
-                                                            fieldDetails.createFn
-                                                        }
-                                                        fetchMetadataFn={
-                                                            fieldDetails.fetchMetadataFn
-                                                        }
-                                                    >
-                                                        <PlusCircle className="size-5 cursor-pointer text-green-500" />
-                                                    </InputDrawer>
-                                                )}
+                                                {fieldDetails.showAddButton &&
+                                                    fieldDetails.accessLevel.some(
+                                                        (role) =>
+                                                            role === userRole
+                                                    ) && (
+                                                        <InputDrawer
+                                                            title={
+                                                                fieldDetails.title ||
+                                                                ""
+                                                            }
+                                                            description={`Create a new ${fieldDetails.title} to add to the dropdown`}
+                                                            register={
+                                                                fieldDetails.drawerRegister
+                                                            }
+                                                            schema={
+                                                                fieldDetails.schema
+                                                            }
+                                                            createFn={
+                                                                fieldDetails.createFn
+                                                            }
+                                                            fetchMetadataFn={
+                                                                fieldDetails.fetchMetadataFn
+                                                            }
+                                                        >
+                                                            <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                                                        </InputDrawer>
+                                                    )}
                                             </div>
                                         )}
                                         {fieldDetails.type === "INPUT" && (

@@ -296,7 +296,8 @@ function LeagueForm() {
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "sportName",
             schema: sportFormSchema,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
         },
         {
             title: "Format",
@@ -316,7 +317,8 @@ function LeagueForm() {
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "leagueOwnerName",
             schema: leagueOwnerFormSchema,
-            type: "DROPDOWN"
+            type: "DROPDOWN",
+            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
         },
         {
             title: "NCCS Class",
@@ -355,7 +357,8 @@ function LeagueForm() {
             createFn: MetadataService.createBroadcastPartner,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "broadcastPartnerName",
-            schema: broadcastPartnerFormSchema
+            schema: broadcastPartnerFormSchema,
+            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
         },
         {
             title: "OTT Partner",
@@ -367,7 +370,8 @@ function LeagueForm() {
             createFn: MetadataService.createOttPartner,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "ottPartnerName",
-            schema: ottPartnerFormSchema
+            schema: ottPartnerFormSchema,
+            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
         }
     ];
 

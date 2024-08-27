@@ -236,7 +236,8 @@ function AthleteForm() {
             createFn: MetadataService.createSport,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "sportName",
-            schema: sportFormSchema
+            schema: sportFormSchema,
+            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
         },
         {
             title: "Nationality",
@@ -248,7 +249,8 @@ function AthleteForm() {
             createFn: MetadataService.createNationality,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "nationality",
-            schema: countryFormSchema
+            schema: countryFormSchema,
+            accessLevel: ["SUPER_ADMIN"]
         },
         {
             title: "State",
@@ -260,7 +262,8 @@ function AthleteForm() {
             createFn: MetadataService.createState,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "stateName",
-            schema: stateFormSchema
+            schema: stateFormSchema,
+            accessLevel: ["SUPER_ADMIN"]
         },
         {
             title: "NCCS class",

@@ -235,7 +235,8 @@ function BrandForm() {
             createFn: MetadataService.createCity,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "cityName",
-            schema: cityFormSchema
+            schema: cityFormSchema,
+            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
         },
         {
             title: "State",
@@ -247,7 +248,8 @@ function BrandForm() {
             createFn: MetadataService.createState,
             fetchMetadataFn: fetchMetadata,
             drawerRegister: "stateName",
-            schema: stateFormSchema
+            schema: stateFormSchema,
+            accessLevel: ["SUPER_ADMIN"]
         },
         {
             title: "Personality Traits",
