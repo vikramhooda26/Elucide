@@ -1,36 +1,29 @@
-import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { NoActionTable } from "../../table/NoActionTable";
-import NoDataText from "../../no-data/NoDataText";
-import SelectBox from "../../ui/multi-select";
+import { useState } from "react";
+import useNavigator from "../../../hooks/useNavigator";
+import { useUser } from "../../../hooks/useUser";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
+import { ConditionalButton } from "../../button/ConditionalButton";
+import NoDataText from "../../no-data/NoDataText";
+import { NoActionTable } from "../../table/NoActionTable";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import SelectBox from "../../ui/multi-select";
 
 type Props = {
     data: any;
+    partnerKey?: string;
 };
-function SportsDealSummary({ data }: Props) {
+function SportsDealSummary({ data, partnerKey }: Props) {
     const [filterField, setFilterField] = useState<string>("brandName");
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
+    const navigator = useNavigator();
 
     const sportsDealColumn = [
         {
             key: "brandName",
             name: "Brand",
-        },
-        {
-            key: "teamName",
-            name: "Team",
-        },
-        {
-            key: "leagueName",
-            name: "League",
-        },
-        {
-            key: "athleteName",
-            name: "Athlete",
-        },
-        {
-            key: "partner",
-            name: "Partner",
         },
         {
             key: "level",
@@ -67,6 +60,13 @@ function SportsDealSummary({ data }: Props) {
 
     ];
 
+    if (partnerKey && partnerKey?.length > 0) {
+        sportsDealColumn?.splice(1, 0, {
+            key: partnerKey,
+            name: "Partner Name",
+        });
+    }
+
     const sportsDealSummary: Array<any> = [];
 
     if (data?.sportsDealSummary?.length > 0) {
@@ -86,10 +86,7 @@ function SportsDealSummary({ data }: Props) {
 
     const filterColumnOptions = [
         { label: "Brand", value: "brandName" },
-        { label: "Team", value: "teamName" },
-        { label: "League", value: "leagueName" },
-        { label: "Athlete", value: "athleteName" },
-        { label: "Partner", value: "partnerName" },
+        { label: "Partner", value: partnerKey || '' },
         { label: "Level", value: "level" },
         { label: "Status", value: "status" }
     ];
@@ -106,6 +103,20 @@ function SportsDealSummary({ data }: Props) {
         />
     ];
 
+    const createButton = userRole !== "USER" ? (
+        <div className="flex items-center space-x-2 mx-2">
+            <ConditionalButton
+                onClick={() =>
+                    navigator(
+                        NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY
+                    )
+                }
+                accessLevel="all_staff"
+            >
+                Create
+            </ConditionalButton>
+        </div>
+    ) : null;
 
     return (
         <Card className="grid grid-cols-1">
@@ -120,6 +131,7 @@ function SportsDealSummary({ data }: Props) {
                         searchableKey={filterField}
                         toolbarAttributes={toolbarAttributes}
                         viewRoute={NAVIGATION_ROUTES?.SPORTS_DEAL_SUMMARY_LIST}
+                        action={{ create: createButton }}
                     />
                 ) : (
                     <NoDataText />

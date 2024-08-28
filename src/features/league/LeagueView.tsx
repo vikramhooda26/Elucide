@@ -209,7 +209,7 @@ function LeagueView() {
                         <div className="my-8">
                             <div className="space-y-4">
                                 <Activation data={league} />
-                                <SportsDealSummary data={league} />
+                                <SportsDealSummary data={league} partnerKey={'leagueName'}  />
                             </div>
                         </div>
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">

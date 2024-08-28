@@ -28,10 +28,18 @@ type Props = {
     title: string;
 };
 
+interface Personality extends nameAndId {
+    subPersonalityTraits: Array<nameAndId>
+}
+
 function Attributes({ data, title = "" }: Props) {
+    let totalSubpersonality = 0;
+    data?.mainPersonalityTraits?.sort((a: Personality, b: Personality) => b?.subPersonalityTraits?.length - a?.subPersonalityTraits?.length);
+
+    data?.mainPersonalityTraits?.forEach((p: Personality) => { totalSubpersonality += p?.subPersonalityTraits?.length });
+
     return (
         <div>
-
             {targetAudience?.some((formName) => formName === title) ? (
                 <Card className=" overflow-hidden">
                     <CardHeader className="flex flex-row items-start bg-muted/50">
@@ -189,7 +197,7 @@ function Attributes({ data, title = "" }: Props) {
                             <Separator className="my-4" />
                         </div>
                     ) : null}
-
+                    {/* //= ==================================== Personality Traits starts================================= = */}
                     <div className="font-semibold">Personality Traits</div>
                     <div className="my-4 grid grid-cols-2 gap-2">
                         <div className="grid gap-3">
@@ -198,37 +206,43 @@ function Attributes({ data, title = "" }: Props) {
                         <div className="grid auto-rows-max gap-3">
                             <div className="font-semibold text-xs">Sub Traits</div>
                         </div>
-                        <div className="grid gap-1">
-                            {data?.mainPersonalityTraits?.length ? (
-                                data?.mainPersonalityTraits?.map(
-                                    (trait: any, i: number) => (
-                                        <div key={i} className="grid gap-3">
-                                            <div className="text-muted-foreground">
-                                                {trait?.name}
+
+                        {data?.mainPersonalityTraits?.length > 0 ? (
+                            data?.mainPersonalityTraits?.map(
+                                (trait: any, i: number) => (
+                                    <>
+                                        <div className="grid gap-1">
+                                            <div key={i} className="grid gap-3">
+                                                <div className="text-muted-foreground flex flex-col ">
+                                                    <span> {trait?.name}</span>
+                                                    <span>({(trait?.subPersonalityTraits?.length / totalSubpersonality) * 100 || '0'} %) </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    )
-                                )
-                            ) : (
-                                <NoDataText />
-                            )}
-                        </div>
-                        <div className="grid gap-1">
-                            {data?.subPersonalityTraits?.length ? (
-                                data?.subPersonalityTraits?.map(
-                                    (trait: any, i: number) => (
-                                        <div key={i} className="grid gap-3">
-                                            <div className="text-muted-foreground">
-                                                {trait?.name}
-                                            </div>
+                                        <div className="grid gap-1">
+                                            {trait?.subPersonalityTraits?.length ? (
+                                                trait?.subPersonalityTraits?.map(
+                                                    (trait: any, i: number) => (
+                                                        <div key={i} className="grid gap-3">
+                                                            <div className="text-muted-foreground">
+                                                                {trait?.name}
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                )
+                                            ) : (
+                                                <NoDataText />
+                                            )}
                                         </div>
-                                    )
+                                    </>
                                 )
-                            ) : (
-                                <NoDataText />
-                            )}
-                        </div>
+                            )
+                        ) : (
+                            <NoDataText />
+                        )}
+
                     </div>
+                    {/* //= =========================================Personality Traits ends============================ = */}
 
                 </CardContent>
             </Card>

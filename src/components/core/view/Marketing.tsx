@@ -20,87 +20,97 @@ function Marketing({ data }: Props) {
                 <div className="grid gap-6">
                     <div className="grid grid-cols-2 gap-3">
                         <div className="grid gap-3 rounded-md border p-4">
-                            <Label>Primary Marketing Platform</Label>
-                            <ul className="grid gap-3">
-                                {data?.primaryMarketingPlatform?.length > 0 ? (
-                                    data?.primaryMarketingPlatform?.map(
-                                        (market: any, i: number) => (
-                                            <li className="flex items-center text-sm text-muted-foreground">
-                                                <Dot />
-                                                <span>
-                                                    {market?.name || "-"}
-                                                </span>
-                                            </li>
+                            <div>
+                                <Label>Primary Marketing Platform</Label>
+                                <ul className="grid gap-3 mt-2">
+                                    {data?.primaryMarketingPlatform?.length > 0 ? (
+                                        data?.primaryMarketingPlatform?.map(
+                                            (market: any, i: number) => (
+                                                <li className="flex items-center text-sm text-muted-foreground">
+                                                    <Dot />
+                                                    <span>
+                                                        {market?.name || "-"}
+                                                    </span>
+                                                </li>
+                                            )
                                         )
-                                    )
-                                ) : (
-                                    <NoDataText />
-                                )}
-                            </ul>
+                                    ) : (
+                                        <NoDataText />
+                                    )}
+                                </ul>
+                            </div>
                         </div>
 
                         <div className="grid gap-3 rounded-md border p-4">
-                            <Label>Secondary Marketing Platform</Label>
-                            <ul className="grid gap-3">
-                                {data?.secondaryMarketingPlatform?.length >
-                                0 ? (
-                                    data?.secondaryMarketingPlatform?.map(
-                                        (market: nameAndId, i: number) => (
-                                            <li className="flex items-center text-sm text-muted-foreground">
-                                                <Dot />
-                                                <span>
-                                                    {market?.name || "-"}
-                                                </span>
-                                            </li>
+                            <div>
+                                <Label>Secondary Marketing Platform</Label>
+                                <ul className="grid gap-3 mt-2">
+                                    {data?.secondaryMarketingPlatform?.length >
+                                        0 ? (
+                                        data?.secondaryMarketingPlatform?.map(
+                                            (market: nameAndId, i: number) => (
+                                                <li className="flex items-center text-sm text-muted-foreground">
+                                                    <Dot />
+                                                    <span>
+                                                        {market?.name || "-"}
+                                                    </span>
+                                                </li>
+                                            )
                                         )
-                                    )
-                                ) : (
-                                    <NoDataText />
-                                )}
-                            </ul>
+                                    ) : (
+                                        <NoDataText />
+                                    )}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div className="grid grid-cols-3 gap-3">
                         <div className="grid gap-3 rounded-md border p-4">
-                            <Label>Primary key Market</Label>
-                            <ul className="grid gap-3">
-                                {data?.primaryKeyMarket?.map(
-                                    (market: nameAndId, i: number) => (
-                                        <li className="flex items-center text-sm text-muted-foreground">
-                                            <Dot />
-                                            <span>{market?.name || "-"}</span>
-                                        </li>
-                                    )
-                                )}
-                            </ul>
+                            <div>
+                                <Label>Primary key Market</Label>
+                                <ul className="grid gap-3 mt-2">
+                                    {data?.primaryKeyMarket?.map(
+                                        (market: nameAndId, i: number) => (
+                                            <li className="flex items-center text-sm text-muted-foreground">
+                                                <Dot />
+                                                <span>{market?.name || "-"}</span>
+                                            </li>
+                                        )
+                                    )}
+                                </ul>
+                            </div>
                         </div>
 
                         <div className="grid gap-3 rounded-md border p-4">
-                            <Label>Secondary key Market</Label>
-                            <ul className="grid gap-3">
-                                {data?.secondaryKeyMarket?.map(
-                                    (market: nameAndId, i: number) => (
-                                        <li className="flex items-center text-sm text-muted-foreground">
-                                            <Dot />
-                                            <span>{market?.name || "-"}</span>
-                                        </li>
-                                    )
-                                )}
-                            </ul>
+                            <div>
+                                <Label>Secondary key Market</Label>
+                                <ul className="grid gap-3 mt-2">
+                                    {data?.secondaryKeyMarket?.map(
+                                        (market: nameAndId, i: number) => (
+                                            <li className="flex items-center text-sm text-muted-foreground">
+                                                <Dot />
+                                                <span>{market?.name || "-"}</span>
+                                            </li>
+                                        )
+                                    )}
+                                </ul>
+                            </div>
                         </div>
 
                         <div className="grid gap-3 rounded-md border p-4">
-                            <Label>Tertiary Market</Label>
-                            <ul className="grid gap-3">
-                                {data?.tertiary?.map(
-                                    (market: nameAndId, i: number) => (
-                                        <li className="flex items-center text-sm text-muted-foreground">
-                                            <Dot />
-                                            <span>{market?.name || "-"}</span>
-                                        </li>
-                                    )
-                                )}
-                            </ul>
+                            <div>
+                                <Label>Tertiary Market</Label>
+                                <ul className="grid gap-3 mt-2">
+                                    {data?.tertiary?.map(
+                                        (market: nameAndId, i: number) => (
+                                            <li className="flex items-center text-sm text-muted-foreground">
+                                                <Dot />
+                                                <span>{market?.name || "-"}</span>
+                                            </li>
+                                        )
+                                    )}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -40,10 +40,11 @@ type Props = {
     columns: Array<{ name: string; key: string }>;
     searchableKey: string;
     toolbarAttributes?: JSX.Element[];
-    viewRoute?:string;
+    viewRoute?: string;
+    action?: { create: JSX.Element | null }
 };
 
-export function NoActionTable({ data, columns, searchableKey, toolbarAttributes, viewRoute }: Props) {
+export function NoActionTable({ data, columns, searchableKey, toolbarAttributes, viewRoute, action }: Props) {
     const [tableColumns, setTableColumns] = React.useState<ColumnDef<any>[]>(
         []
     );
@@ -86,7 +87,7 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
                             </Link>
                         )
                     } else {
-                        return (<div className="lowercase">{row.getValue(header?.key) || '-'}</div>)
+                        return (<div className="">{row.getValue(header?.key) || '-'}</div>)
                     }
                 },
             });
@@ -184,6 +185,9 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
                             })}
                     </DropdownMenuContent>
                 </DropdownMenu>
+
+                {action?.create ? action?.create : null}
+
             </div>
             <div className="rounded-md border">
                 <Table>

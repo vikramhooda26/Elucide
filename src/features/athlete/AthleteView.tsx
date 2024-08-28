@@ -224,7 +224,7 @@ function AthleteView() {
                         <div>
                             <div className="space-y-4">
                                 <Activation data={athlete} />
-                                <SportsDealSummary data={athlete} />
+                                <SportsDealSummary data={athlete} partnerKey={'athleteName'} />
                             </div>
                         </div>
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">

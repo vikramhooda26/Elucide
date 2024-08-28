@@ -44,7 +44,7 @@ function TeamView() {
     const teamInfoHeaders: { header: string; className?: string }[] = [
         { header: "Name" },
         { header: "Year of Inception" },
-        { header: "Franchise Fee (in cr)" }
+        { header: "Franchise Fee" }
     ];
 
     const fetchTeam = async () => {
@@ -117,9 +117,7 @@ function TeamView() {
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                                 <Card x-chunk="dashboard-07-chunk-0">
-                                    <TableHeaderWrapper
-                                        headersArray={teamInfoHeaders}
-                                    >
+                                    <TableHeaderWrapper headersArray={teamInfoHeaders}>
                                         <TableRow>
                                             <TableCell>
                                                 {team?.name || "-"}
@@ -129,9 +127,7 @@ function TeamView() {
                                             </TableCell>
                                             <TableCell>
                                                 {team?.franchiseFee > 0
-                                                    ? formatNumberWithCommas(
-                                                        team?.franchiseFee
-                                                    )
+                                                    ? formatNumberWithCommas(team?.franchiseFee)
                                                     : "-"}
                                             </TableCell>
                                         </TableRow>
@@ -213,7 +209,7 @@ function TeamView() {
                         <div className="my-8">
                             <div className="space-y-4">
                                 <Activation data={team} />
-                                <SportsDealSummary data={team} />
+                                <SportsDealSummary data={team} partnerKey={'teamName'} />
                             </div>
                         </div>
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
