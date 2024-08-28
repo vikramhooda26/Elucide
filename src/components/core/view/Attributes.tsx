@@ -17,9 +17,10 @@ import NoDataText from "../../no-data/NoDataText";
 import { nameAndId } from "../../../types/metadata/Metadata";
 import { TEditLeagueFormSchema } from "../../../features/league/constants.ts/metadata";
 import { format } from "date-fns";
+import { customRound } from "../../../features/utils/helpers";
 
 const targetAudience = ["Team", "League", "Brand", "Athlete"];
-const league = ["Team",];
+const league = ["Team"];
 const city = ["Team", "Brand", "Athlete"];
 const sports = ["Team", "League", "Athlete"];
 
@@ -29,19 +30,33 @@ type Props = {
 };
 
 interface Personality extends nameAndId {
-    subPersonalityTraits: Array<nameAndId>
+    subPersonalityTraits: nameAndId[];
 }
 
 function Attributes({ data, title = "" }: Props) {
-    let totalSubpersonality = 0;
-    data?.mainPersonalityTraits?.sort((a: Personality, b: Personality) => b?.subPersonalityTraits?.length - a?.subPersonalityTraits?.length);
+    const totalSubpersonalityTraits = data?.mainPersonalityTraits?.reduce(
+        (total: any, personality: any) => {
+            return total + (personality.subPersonalityTraits?.length ?? 0);
+        },
+        0
+    );
 
-    data?.mainPersonalityTraits?.forEach((p: Personality) => { totalSubpersonality += p?.subPersonalityTraits?.length });
+    const calculatePersonalityTraitPercentage = (
+        subPersonalityTraitCount: number
+    ) => {
+        if (totalSubpersonalityTraits) {
+            return customRound(
+                (subPersonalityTraitCount / totalSubpersonalityTraits) * 100
+            );
+        }
+
+        return 0;
+    };
 
     return (
         <div>
             {targetAudience?.some((formName) => formName === title) ? (
-                <Card className=" overflow-hidden">
+                <Card className="overflow-hidden">
                     <CardHeader className="flex flex-row items-start bg-muted/50">
                         <div className="grid gap-0.5">
                             <CardTitle className="group flex items-center gap-2 text-lg">
@@ -146,7 +161,10 @@ function Attributes({ data, title = "" }: Props) {
                                     <dl className="grid gap-3">
                                         {data?.tiers?.length > 0 ? (
                                             data?.tiers?.map(
-                                                (tier: nameAndId, i: number) => (
+                                                (
+                                                    tier: nameAndId,
+                                                    i: number
+                                                ) => (
                                                     <>
                                                         {tier ? (
                                                             <div
@@ -156,7 +174,10 @@ function Attributes({ data, title = "" }: Props) {
                                                                 <dt className="">
                                                                     <SquareStack className="h-4 w-4" />
                                                                 </dt>
-                                                                <dd>{tier?.name || "-"}</dd>
+                                                                <dd>
+                                                                    {tier?.name ||
+                                                                        "-"}
+                                                                </dd>
                                                             </div>
                                                         ) : null}
                                                     </>
@@ -167,7 +188,6 @@ function Attributes({ data, title = "" }: Props) {
                                         )}
                                     </dl>
                                 </div>
-
                             </div>
                         </div>
                     </CardContent>
@@ -183,7 +203,6 @@ function Attributes({ data, title = "" }: Props) {
                     </div>
                 </CardHeader>
                 <CardContent className="p-6 text-sm">
-
                     {league?.some((l) => l === title) ? (
                         <div className="grid gap-3">
                             <ul className="grid gap-3">
@@ -201,29 +220,45 @@ function Attributes({ data, title = "" }: Props) {
                     <div className="font-semibold">Personality Traits</div>
                     <div className="my-4 grid grid-cols-2 gap-2">
                         <div className="grid gap-3">
-                            <div className="font-semibold text-xs">Main Traits</div>
+                            <div className="text-xs font-semibold">
+                                Main Traits
+                            </div>
                         </div>
                         <div className="grid auto-rows-max gap-3">
-                            <div className="font-semibold text-xs">Sub Traits</div>
+                            <div className="text-xs font-semibold">
+                                Sub Traits
+                            </div>
                         </div>
 
-                        {data?.mainPersonalityTraits?.length > 0 ? (
+                        {data?.mainPersonalityTraits &&
+                        data?.mainPersonalityTraits?.length > 0 ? (
                             data?.mainPersonalityTraits?.map(
                                 (trait: any, i: number) => (
                                     <>
                                         <div className="grid gap-1">
                                             <div key={i} className="grid gap-3">
-                                                <div className="text-muted-foreground flex flex-col ">
+                                                <div className="flex flex-col text-muted-foreground">
                                                     <span> {trait?.name}</span>
-                                                    <span>({(trait?.subPersonalityTraits?.length / totalSubpersonality) * 100 || '0'} %) </span>
+                                                    <span>
+                                                        {calculatePersonalityTraitPercentage(
+                                                            trait
+                                                                .subPersonalityTraits
+                                                                ?.length || 0
+                                                        )}
+                                                        %{" "}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="grid gap-1">
-                                            {trait?.subPersonalityTraits?.length ? (
+                                            {trait?.subPersonalityTraits
+                                                ?.length ? (
                                                 trait?.subPersonalityTraits?.map(
                                                     (trait: any, i: number) => (
-                                                        <div key={i} className="grid gap-3">
+                                                        <div
+                                                            key={i}
+                                                            className="grid gap-3"
+                                                        >
                                                             <div className="text-muted-foreground">
                                                                 {trait?.name}
                                                             </div>
@@ -240,10 +275,8 @@ function Attributes({ data, title = "" }: Props) {
                         ) : (
                             <NoDataText />
                         )}
-
                     </div>
                     {/* //= =========================================Personality Traits ends============================ = */}
-
                 </CardContent>
             </Card>
 
@@ -253,14 +286,24 @@ function Attributes({ data, title = "" }: Props) {
                         <div className="font-semibold">Created</div>
                         <ul className="grid gap-1 text-muted-foreground">
                             <span className="">
-                                {data?.createdDate ? format(data?.createdDate, 'MMMM dd yyyy, hh:mm aaa') : '-'}
+                                {data?.createdDate
+                                    ? format(
+                                          data?.createdDate,
+                                          "MMMM dd yyyy, hh:mm aaa"
+                                      )
+                                    : "-"}
                             </span>
                             <span>{data?.createdBy?.name}</span>
                         </ul>
                         <div className="font-semibold">Updated</div>
                         <ul className="grid gap-1 text-muted-foreground">
                             <span className="">
-                                {data?.modifiedDate ? format(data?.modifiedDate, 'MMMM dd yyyy, hh:mm aaa') : '-'}
+                                {data?.modifiedDate
+                                    ? format(
+                                          data?.modifiedDate,
+                                          "MMMM dd yyyy, hh:mm aaa"
+                                      )
+                                    : "-"}
                             </span>
                             <span>{data?.modifiedBy?.name}</span>
                         </ul>

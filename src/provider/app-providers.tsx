@@ -7,12 +7,9 @@ import { ThemeProvider } from "./theme/theme-provider";
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     return (
         <RecoilRoot>
-            <ThemeProvider
-                defaultTheme="dark"
-                storageKey="vite-ui-theme"
-            >
+            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                 <AuthProvider>
-                    <Toaster richColors />
+                    <Toaster richColors duration={3000} />
                     <LoadingBarWrapper />
                     {children}
                 </AuthProvider>

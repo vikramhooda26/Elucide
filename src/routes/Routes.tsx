@@ -117,6 +117,7 @@ import LeagueDashboardLayout from "../features/dashboard/league/LeagueDashboardL
 import TeamDashboardLayout from "../features/dashboard/team/TeamDashboardLayout";
 import AthleteDashboardLayout from "../features/dashboard/athlete/AthleteDashboardLayout";
 import { NotFoundPage } from "../components/not-found";
+import GlobalErrorHandler from "../components/error/ErrorPage";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -972,7 +973,8 @@ function Routes() {
                 ) : (
                     <Navigate to={NAVIGATION_ROUTES.HOME} />
                 ),
-            children: protectedRoutes.length > 0 ? protectedRoutes : []
+            children: protectedRoutes.length > 0 ? protectedRoutes : [],
+            errorElement: <GlobalErrorHandler />
         },
         {
             path: "/elucide",

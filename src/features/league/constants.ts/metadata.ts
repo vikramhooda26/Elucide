@@ -175,13 +175,13 @@ export type TEditLeagueFormSchema = {
         id?: string;
         name?: string;
     }[];
-    subPersonalityTraits?: {
-        id?: string;
-        name?: string;
-    }[];
     mainPersonalityTraits?: {
         id?: string;
         name?: string;
+        subPersonalityTraits?: {
+            id?: string;
+            name?: string;
+        }[];
     }[];
     team?: {
         id?: string;

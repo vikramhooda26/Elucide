@@ -6,6 +6,7 @@ export type routeObjType = {
     path: string;
     element: ReactNode;
     children?: routeObjType[] | [] | undefined;
+    errorElement?: ReactNode;
 };
 
 export type routeChildrenType = {

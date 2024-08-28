@@ -228,3 +228,13 @@ export const validateEndorsements = (
 
     return endorsements;
 };
+
+export const customRound = (num: number) => {
+    const decimalPart = num - Math.floor(num);
+
+    if (decimalPart < 0.5) {
+        return Math.floor(num);
+    } else {
+        return Math.ceil(num);
+    }
+};
