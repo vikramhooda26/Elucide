@@ -25,6 +25,7 @@ import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { useUser } from "../../hooks/useUser";
 import { NAVIGATION_ROUTES } from "../../lib/constants";
 import CategoriesCard from "../../components/core/view/CategoriesCard";
+import Activation from "../../components/core/view/Activation";
 
 function BrandView() {
   const { id } = useParams<string>();
@@ -148,7 +149,10 @@ function BrandView() {
             <Attributes data={brand} title={'Brand'} />
           </div>
           <div className="my-8">
-            <SportsDealSummary data={brand} />
+            <div className="space-y-4 ">
+              <Activation data={brand} />
+              <SportsDealSummary data={brand} />
+            </div>
           </div>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">

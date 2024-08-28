@@ -200,11 +200,13 @@ function AthleteView() {
                         />
                     </div>
                     <div>
-                        <SportsDealSummary data={athlete} />
+                        <div className="space-y-4 ">
+                            <Activation data={athlete} />
+                            <SportsDealSummary data={athlete} />
+                        </div>
                     </div>
                     <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                         <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                            <Activation data={athlete} />
 
                             <ContactPerson data={athlete} />
                         </div>

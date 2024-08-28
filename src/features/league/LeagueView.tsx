@@ -202,11 +202,14 @@ function LeagueView() {
                             <Attributes data={league} title={"League"} />
                         </div>
                         <div className="my-8">
-                            <SportsDealSummary data={league} />
+                            <div className="space-y-4 ">
+                                <Activation data={league} />
+                                <SportsDealSummary data={league} />
+                            </div>
                         </div>
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                                <Activation data={league} />
+
                                 <ContactPerson data={league} />
                             </div>
                         </div>

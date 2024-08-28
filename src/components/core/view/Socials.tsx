@@ -41,10 +41,10 @@ function Socials({ data }: Props) {
     const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
     const socialsUi = socials
-        ?.filter((social) => data[social?.key]?.length > 0)
+        ?.filter((social) => data?.[social?.key]?.length > 0)
         .map((social, i) => (
             <div className="flex items-center gap-4">
-                <Link to={data[social?.key]} target="_blank" key={i}>
+                <Link to={data?.[social?.key]} target="_blank" key={i}>
                     <div>
                         <Avatar className="hidden h-9 w-9 sm:flex">
                             <AvatarImage src="/avatars/01.png" alt="Avatar" />
@@ -75,9 +75,9 @@ function Socials({ data }: Props) {
         ));
 
     const handleCopy = (key: string) => {
-        if (data[key]) {
+        if (data?.[key]) {
             setCopiedKey(key);
-            navigator.clipboard
+            navigator?.clipboard
                 .writeText(data[key])
                 .then(() => {
                     toast.success("Copied!", { duration: 2000 });
