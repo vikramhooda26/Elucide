@@ -19,19 +19,23 @@ import TeamService from "../../services/features/TeamService";
 import { formatNumberWithCommas } from "../utils/helpers";
 import BackButton from "../../components/button/BackButton";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import { NAVIGATION_ROUTES } from "../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import { useUser } from "../../hooks/useUser";
 import Activation from "../../components/core/view/Activation";
 import Owners from "../../components/core/view/Owners";
 import { Separator } from "../../components/ui/separator";
 import ViewershipReach from "../../components/core/view/ViewershipReach";
 import { socials } from "../../components/core/data/socials";
+import { toast } from "sonner";
+import ErrorService from "../../services/error/ErrorService";
+import { useAuth } from "../auth/auth-provider/AuthProvider";
 
 function TeamView() {
     const { id } = useParams<string>();
     const [team, setTeam] = useState<any>({});
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const navigate = useNavigate();
+    const { logout } = useAuth();
     const userRole = useUser()?.role;
     if (!userRole) {
         return;
@@ -61,7 +65,18 @@ function TeamView() {
 
             setTeam(teamObj);
         } catch (error) {
-            setIsLoading(false);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                toast.error("This team does not exists");
+                navigate(-1);
+            } else {
+                toast.error("An unknown error occurred");
+                navigate(-1);
+            }
         } finally {
             setIsLoading(false);
         }
@@ -115,8 +130,8 @@ function TeamView() {
                                             <TableCell>
                                                 {team?.franchiseFee > 0
                                                     ? formatNumberWithCommas(
-                                                          team?.franchiseFee
-                                                      )
+                                                        team?.franchiseFee
+                                                    )
                                                     : "-"}
                                             </TableCell>
                                         </TableRow>

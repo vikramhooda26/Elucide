@@ -1,21 +1,27 @@
 import { Pencil, SquareArrowOutUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../../components/button/BackButton';
 import NoDataText from '../../../components/no-data/NoDataText';
 import { TableHeaderWrapper } from '../../../components/table/table-header-wrapper';
 import { Button } from '../../../components/ui/button';
 import { Card } from '../../../components/ui/card';
 import { TableCell, TableRow } from '../../../components/ui/table';
-import { NAVIGATION_ROUTES } from '../../../lib/constants';
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from '../../../lib/constants';
 import MetadataService from '../../../services/features/MetadataService';
 import { nameAndId, personality } from '../../../types/metadata/Metadata';
 import { FormSkeleton } from '../../../components/core/form/form-skeleton';
+import ErrorService from '../../../services/error/ErrorService';
+import { toast } from 'sonner';
+import { useAuth } from '../../auth/auth-provider/AuthProvider';
 
 function PersonalityView() {
   const { id } = useParams<string>();
   const [viewData, setViewData] = useState<personality>();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
 
   const fetchTeam = async () => {
     try {
@@ -34,7 +40,18 @@ function PersonalityView() {
       setViewData(viewObj);
 
     } catch (error) {
-      setLoading(false);
+      const unknownError = ErrorService.handleCommonErrors(
+        error,
+        logout,
+        navigate
+      );
+      if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+        toast.error("This personality does not exists");
+        navigate(-1);
+      } else {
+        toast.error("An unknown error occurred");
+        navigate(-1);
+      }
     } finally {
       setLoading(false);
     }

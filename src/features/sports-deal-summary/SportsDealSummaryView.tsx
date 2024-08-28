@@ -45,9 +45,7 @@ function SportsDealSummaryView() {
             );
             if (unknownError === HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("This sports deal summary does not exists");
-                navigate(NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST, {
-                    replace: true
-                });
+                navigate(NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST, { replace: true });
             } else {
                 toast.error("An unknown error occurred");
             }
@@ -160,10 +158,10 @@ function SportsDealSummaryView() {
                                                     <span>
                                                         {viewData?.annualValue
                                                             ? `₹ ${formatNumberWithCommas(
-                                                                  Number(
-                                                                      viewData.annualValue
-                                                                  )
-                                                              )}`
+                                                                Number(
+                                                                    viewData.annualValue
+                                                                )
+                                                            )}`
                                                             : "N/A"}
                                                     </span>
                                                 </li>
@@ -177,10 +175,10 @@ function SportsDealSummaryView() {
                                                     <span>
                                                         {viewData?.totalValue
                                                             ? `₹ ${formatNumberWithCommas(
-                                                                  Number(
-                                                                      viewData.totalValue
-                                                                  )
-                                                              )}`
+                                                                Number(
+                                                                    viewData.totalValue
+                                                                )
+                                                            )}`
                                                             : "N/A"}
                                                     </span>
                                                 </li>
@@ -207,7 +205,7 @@ function SportsDealSummaryView() {
                                             <div>Assets</div>
                                             <ul className="grid gap-3">
                                                 {viewData?.assets &&
-                                                viewData?.assets?.length > 0 ? (
+                                                    viewData?.assets?.length > 0 ? (
                                                     viewData?.assets?.map(
                                                         (asset, i) => (
                                                             <li
