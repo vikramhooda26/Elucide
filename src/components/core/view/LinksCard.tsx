@@ -1,60 +1,37 @@
-import {
-    InstagramLogoIcon,
-    LinkedInLogoIcon,
-    TwitterLogoIcon
-} from "@radix-ui/react-icons";
-import {
-    CheckIcon,
-    CopyIcon,
-    FacebookIcon,
-    Globe,
-    YoutubeIcon
-} from "lucide-react";
+import { CheckIcon, CopyIcon } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import NoDataText from "../../no-data/NoDataText";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Button } from "../../ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from "../../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { TSocials } from "../data/socials";
 
 type Props = {
     data: any;
+    metadatas: TSocials[];
+    title: string;
 };
 
-function Socials({ data }: Props) {
-    const socials = [
-        { key: "instagram", name: "Instagram", icon: <InstagramLogoIcon /> },
-        { key: "facebook", name: "Facebook", icon: <FacebookIcon /> },
-        { key: "twitter", name: "Twitter", icon: <TwitterLogoIcon /> },
-        { key: "linkedin", name: "Linkedin", icon: <LinkedInLogoIcon /> },
-        { key: "youtube", name: "You Tube", icon: <YoutubeIcon /> },
-        { key: "website", name: "Website", icon: <Globe /> }
-    ];
-
+function LinksCard({ data, metadatas, title }: Props) {
     const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-    const socialsUi = socials
-        ?.filter((social) => data?.[social?.key]?.length > 0)
-        .map((social, i) => (
+    const metadataUi = metadatas
+        ?.filter((metadata) => data?.[metadata?.key]?.length > 0)
+        .map((metadata, i) => (
             <div className="flex items-center gap-4">
-                <Link to={data?.[social?.key]} target="_blank" key={i}>
+                <Link to={data?.[metadata?.key]} target="_blank" key={i}>
                     <div>
                         <Avatar className="hidden h-9 w-9 sm:flex">
                             <AvatarImage src="/avatars/01.png" alt="Avatar" />
-                            <AvatarFallback>{social?.icon}</AvatarFallback>
+                            <AvatarFallback>{metadata?.icon}</AvatarFallback>
                         </Avatar>
                     </div>
                 </Link>
                 <div className="grid gap-1">
                     <p className="text-sm font-medium leading-none">
-                        {data[social?.key]}
+                        {data[metadata?.key]}
                     </p>
                 </div>
                 <div className="ml-auto font-medium">
@@ -62,9 +39,9 @@ function Socials({ data }: Props) {
                         size="icon"
                         variant="outline"
                         className="h-6 w-6 opacity-100"
-                        onClick={() => handleCopy(social?.key)}
+                        onClick={() => handleCopy(metadata?.key)}
                     >
-                        {copiedKey === social.key ? (
+                        {copiedKey === metadata.key ? (
                             <CheckIcon className="h-3 w-3" />
                         ) : (
                             <CopyIcon className="h-3 w-3" />
@@ -98,15 +75,12 @@ function Socials({ data }: Props) {
     return (
         <Card x-chunk="dashboard-01-chunk-5">
             <CardHeader>
-                <CardTitle>Socials</CardTitle>
-                <CardDescription>
-                    {/* Lipsum dolor sit amet, consectetur adipiscing elit */}
-                </CardDescription>
+                <CardTitle>{title}</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-8">
                 <div className="flex flex-col gap-4">
-                    {socialsUi?.length > 0 ? (
-                        <>{...socialsUi}</>
+                    {metadataUi?.length > 0 ? (
+                        <>{...metadataUi}</>
                     ) : (
                         <NoDataText />
                     )}
@@ -116,4 +90,4 @@ function Socials({ data }: Props) {
     );
 }
 
-export default Socials;
+export default LinksCard;

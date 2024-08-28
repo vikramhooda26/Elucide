@@ -1,11 +1,5 @@
-import React from 'react'
-
 function NoDataText() {
-    return (
-        <span className="text-muted-foreground">
-            No Data
-        </span>
-    )
+    return <span className="text-muted-foreground">N/A</span>;
 }
 
 export default NoDataText;

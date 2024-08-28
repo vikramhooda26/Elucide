@@ -15,7 +15,7 @@ export type nameAndId = { id: string; name: string };
 export type personality = {
     personalityId: string;
     personalityName: string;
-    subpersonalities: [nameAndId]
+    subpersonalities: [nameAndId];
 };
 
 export type subPersonality = {
@@ -27,35 +27,42 @@ export type subPersonality = {
 export type sportsDealSummary = {
     id?: string;
     brand?: {
-        id: string; 
-        name: string;
-    };
-    partner?: {
-        id: string; 
-        name: string;
-    };
-    type?: string;
-    status?: string | null;
-    level?: {
-        id: string; 
-        name: string;
+        id?: string;
+        name?: string;
     };
     athlete?: {
-        id: string; 
-        name: string;
+        id?: string;
+        name?: string;
     };
-    commencementDate?: string | null;
-    expirationDate?: string | null;
-    duration?: string | null;
+    league?: {
+        id?: string;
+        name?: string;
+    };
+    team?: {
+        id?: string;
+        name?: string;
+    };
+    type?: string;
+    status?: string;
+    level?: {
+        id?: string;
+        name?: string;
+    };
+    commencementDate?: string;
+    expirationDate?: string;
+    duration?: string;
     annualValue?: string;
     totalValue?: string;
     territory?: {
-        id: string; 
-        name: string;
+        id?: string;
+        name?: string;
     };
-    mediaLink?: string | null;
-    assets?: string[];
-}
+    mediaLink?: string;
+    assets?: {
+        id?: string;
+        name?: string;
+    }[];
+};
 
 export type ageRange = {
     ageRangeId: string;
@@ -75,10 +82,10 @@ export type subCategory = {
 };
 
 export type contactPersons = {
-    "contactId": string;
-    "contactName": string;
-    "contactDesignation": string;
-    "contactEmail": string;
-    "contactLinkedin": string;
-    "contactNumber": number;
-}
+    contactId: string;
+    contactName: string;
+    contactDesignation: string;
+    contactEmail: string;
+    contactLinkedin: string;
+    contactNumber: number;
+};

@@ -8,7 +8,7 @@ import Attributes from "../../components/core/view/Attributes";
 import ContactPerson from "../../components/core/view/ContactPerson";
 import Endorsements from "../../components/core/view/Endorsements";
 import Marketing from "../../components/core/view/Marketing";
-import Socials from "../../components/core/view/Socials";
+import LinksCard from "../../components/core/view/LinksCard";
 import SportsDealSummary from "../../components/core/view/SportsDealSummary";
 import StrategyOverview from "../../components/core/view/StrategyOverview";
 import TagLines from "../../components/core/view/TagLines";
@@ -27,6 +27,7 @@ import Activation from "../../components/core/view/Activation";
 import Owners from "../../components/core/view/Owners";
 import { Separator } from "../../components/ui/separator";
 import ViewershipReach from "../../components/core/view/ViewershipReach";
+import { socials } from "../../components/core/data/socials";
 
 function LeagueView() {
     const { id } = useParams();
@@ -187,7 +188,11 @@ function LeagueView() {
                                     strategy={league?.strategyOverview}
                                 />
 
-                                <Socials data={league} />
+                                <LinksCard
+                                    data={league}
+                                    metadatas={socials}
+                                    title="Socials"
+                                />
 
                                 <Marketing data={league} />
 
@@ -202,14 +207,13 @@ function LeagueView() {
                             <Attributes data={league} title={"League"} />
                         </div>
                         <div className="my-8">
-                            <div className="space-y-4 ">
+                            <div className="space-y-4">
                                 <Activation data={league} />
                                 <SportsDealSummary data={league} />
                             </div>
                         </div>
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-
                                 <ContactPerson data={league} />
                             </div>
                         </div>

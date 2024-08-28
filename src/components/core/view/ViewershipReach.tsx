@@ -1,67 +1,81 @@
-import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
-import { Label } from '../../ui/label';
-import { Dot } from 'lucide-react';
-import { TableHeaderWrapper } from '../../table/table-header-wrapper';
-import { TableCell, TableRow } from '../../ui/table';
-import { formatNumberWithCommas } from '../../../features/utils/helpers';
+import { formatNumberWithCommas } from "../../../features/utils/helpers";
+import { TableHeaderWrapper } from "../../table/table-header-wrapper";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { TableCell, TableRow } from "../../ui/table";
 
 type Props = {
     data: any;
-}
+};
 
 function ViewershipReach({ data }: Props) {
     const viewershipReachHeaders: { header: string; className?: string }[] = [
+        { header: "name" },
         { header: "Year" },
         { header: "Viewership" },
-        // { header: "Reach" },
+        { header: "Reach" }
     ];
 
-    const broadcast = data?.viewershipMetrics?.filter((d: any) => d?.viewershipType === "BROADCAST");
-    const ott = data?.viewershipMetrics?.filter((d: any) => d?.viewershipType === "OTT");
+    const broadcastPartners = data?.broadcastPartnerMetrics;
+    const ottPartners = data?.ottPartnerMetrics;
 
     return (
         <Card x-chunk="dashboard-07-chunk-0 w-full">
-            <CardHeader className='pb-1'>
+            <CardHeader className="pb-1">
                 <CardTitle>Broadcast Partner</CardTitle>
             </CardHeader>
             <CardContent>
                 <TableHeaderWrapper headersArray={viewershipReachHeaders}>
-                    {broadcast?.map((d: any, i: number) => (
-                        <TableRow key={i}>
-                            <TableCell>{d?.year || "-"}</TableCell>
-                            <TableCell>
-                                {d?.viewership || "-"}
-                            </TableCell>
-                            {/* <TableCell>
-                            {d?.reach || "-"}
-                        </TableCell> */}
-                        </TableRow>
-                    ))}
-
+                    {broadcastPartners?.map(
+                        (broadcastPartner: any, index: number) => (
+                            <TableRow key={index}>
+                                <TableCell>
+                                    {broadcastPartner?.broadcastPartner?.name ||
+                                        "N/A"}
+                                </TableCell>
+                                <TableCell>
+                                    {broadcastPartner?.year || "N/A"}
+                                </TableCell>
+                                <TableCell>
+                                    {formatNumberWithCommas(
+                                        broadcastPartner?.viewership
+                                    ) || "N/A"}
+                                </TableCell>
+                                <TableCell>
+                                    {formatNumberWithCommas(
+                                        broadcastPartner?.reach
+                                    ) || "N/A"}
+                                </TableCell>
+                            </TableRow>
+                        )
+                    )}
                 </TableHeaderWrapper>
             </CardContent>
-            <CardHeader className='py-1'>
+            <CardHeader className="py-1">
                 <CardTitle>OTT Partner</CardTitle>
             </CardHeader>
             <CardContent>
                 <TableHeaderWrapper headersArray={viewershipReachHeaders}>
-                    {ott?.map((d: any, i: number) => (
-                        <TableRow key={i}>
-                            <TableCell>{d?.year || "-"}</TableCell>
+                    {ottPartners?.map((ottPartner: any, index: number) => (
+                        <TableRow key={index}>
                             <TableCell>
-                                {d?.viewership || "-"}
+                                {ottPartner?.ottPartner.name || "N/A"}
                             </TableCell>
-                            {/* <TableCell>
-                                {d?.reach || "-"}
-                            </TableCell> */}
+                            <TableCell>{ottPartner?.year || "N/A"}</TableCell>
+                            <TableCell>
+                                {formatNumberWithCommas(
+                                    ottPartner?.viewership
+                                ) || "N/A"}
+                            </TableCell>
+                            <TableCell>
+                                {formatNumberWithCommas(ottPartner?.reach) ||
+                                    "N/A"}
+                            </TableCell>
                         </TableRow>
                     ))}
-
                 </TableHeaderWrapper>
             </CardContent>
         </Card>
-    )
+    );
 }
 
 export default ViewershipReach;
