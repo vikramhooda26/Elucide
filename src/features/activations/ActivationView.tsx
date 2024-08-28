@@ -1,6 +1,6 @@
 import { Diamond, Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../components/button/BackButton';
 import { TableHeaderWrapper } from '../../components/table/table-header-wrapper';
 import { Button } from '../../components/ui/button';
@@ -9,11 +9,17 @@ import { TableCell, TableRow } from '../../components/ui/table';
 import MetadataService from '../../services/features/MetadataService';
 import { activation } from '../../types/metadata/Metadata';
 import NoDataText from '../../components/no-data/NoDataText';
+import ErrorService from '../../services/error/ErrorService';
+import { useAuth } from '../auth/auth-provider/AuthProvider';
+import { HTTP_STATUS_CODES } from '../../lib/constants';
+import { toast } from 'sonner';
 
 function ActivationView() {
   const { id } = useParams<string>();
   const [viewData, setViewData] = useState<activation>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const fetchTeam = async () => {
     try {
@@ -32,7 +38,18 @@ function ActivationView() {
       setViewData(viewObj);
 
     } catch (error) {
-      setLoading(false);
+      const unknownError = ErrorService.handleCommonErrors(
+        error,
+        logout,
+        navigate
+      );
+      if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+        toast.error("This activation does not exists");
+        navigate(-1);
+      } else {
+        toast.error("An unknown error occurred");
+        navigate(-1);
+      }
     } finally {
       setLoading(false);
     }

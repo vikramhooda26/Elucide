@@ -17,15 +17,19 @@ import TagLines from "../../components/core/view/TagLines";
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import { useUser } from "../../hooks/useUser";
-import { NAVIGATION_ROUTES } from "../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import BrandService from "../../services/features/BrandService";
 import { socials } from "../../components/core/data/socials";
+import ErrorService from "../../services/error/ErrorService";
+import { toast } from "sonner";
+import { useAuth } from "../auth/auth-provider/AuthProvider";
 
 function BrandView() {
     const { id } = useParams<string>();
     const [brand, setBrand] = useState<any>({});
     const [isLoading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
+    const { logout } = useAuth();
     const userRole = useUser()?.role;
     if (!userRole) {
         return;
@@ -49,7 +53,18 @@ function BrandView() {
 
             setBrand(teamObj);
         } catch (error) {
-            setLoading(false);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                toast.error("This brand does not exists");
+                navigate(-1);
+            } else {
+                toast.error("An unknown error occurred");
+                navigate(-1);
+            }
         } finally {
             setLoading(false);
         }

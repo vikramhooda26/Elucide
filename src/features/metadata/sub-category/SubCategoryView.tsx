@@ -1,20 +1,25 @@
 import { Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../../components/button/BackButton';
 import NameIdList from '../../../components/core/view/NameIdList';
 import { TableHeaderWrapper } from '../../../components/table/table-header-wrapper';
 import { Button } from '../../../components/ui/button';
 import { Card } from '../../../components/ui/card';
 import { TableCell, TableRow } from '../../../components/ui/table';
-import { NAVIGATION_ROUTES } from '../../../lib/constants';
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from '../../../lib/constants';
 import MetadataService from '../../../services/features/MetadataService';
 import { subCategory } from '../../../types/metadata/Metadata';
+import { useAuth } from '../../auth/auth-provider/AuthProvider';
+import ErrorService from '../../../services/error/ErrorService';
+import { toast } from 'sonner';
 
 function SubCategoryView() {
     const { id } = useParams<string>();
     const [viewData, setViewData] = useState<subCategory>();
     const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
+    const { logout } = useAuth();
 
     const fetchTeam = async () => {
         try {
@@ -33,7 +38,18 @@ function SubCategoryView() {
             setViewData(viewObj);
 
         } catch (error) {
-            setLoading(false);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+                toast.error("This sub category does not exists");
+                navigate(-1);
+            } else {
+                toast.error("An unknown error occurred");
+                navigate(-1);
+            }
         } finally {
             setLoading(false);
         }
