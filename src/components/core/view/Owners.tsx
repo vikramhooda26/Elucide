@@ -22,7 +22,7 @@ function Owners({ data, title = "" }: Props) {
                             <span className="text-muted-foreground">
                                 <Diamond className="size-4" />
                             </span>
-                            <span>{owner?.name}</span>
+                            <span>{owner?.name || "N/A"}</span>
                         </li>
                     ))}
                 </ul>

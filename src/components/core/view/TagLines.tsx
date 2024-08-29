@@ -1,21 +1,20 @@
 import { Activity } from "lucide-react";
 import { nameAndId } from "../../../types/metadata/Metadata";
-import NoDataText from "../../no-data/NoDataText";
 
 type TTagLinesProps = {
     data: any;
 };
 
 function TagLines({ data }: TTagLinesProps) {
-    return (
-        <div className="p-6 text-sm">
-            <ul className="flex flex-col gap-3">
-                <li className="text-lg">
-                    <span>Taglines</span>
-                </li>
-                <ul className="grid gap-3">
-                    {data?.taglines?.length > 0 ? (
-                        data?.taglines?.map((tag: nameAndId, i: number) => (
+    if (data?.taglines)
+        return (
+            <div className="p-6 text-sm">
+                <ul className="flex flex-col gap-3">
+                    <li className="text-lg">
+                        <span>Taglines</span>
+                    </li>
+                    <ul className="grid gap-3">
+                        {data?.taglines?.map((tag: nameAndId, i: number) => (
                             <li
                                 key={i}
                                 className="flex items-center gap-2 text-muted-foreground"
@@ -25,14 +24,11 @@ function TagLines({ data }: TTagLinesProps) {
                                 </span>
                                 <span>{tag?.name || "N/A"}</span>
                             </li>
-                        ))
-                    ) : (
-                        <NoDataText />
-                    )}
+                        ))}
+                    </ul>
                 </ul>
-            </ul>
-        </div>
-    );
+            </div>
+        );
 }
 
 export default TagLines;

@@ -18,56 +18,59 @@ const MarketingPlatformCard = ({ data }: TMarketingPlatformCardProps) => {
             </CardHeader>
             <CardContent>
                 <div className="grid gap-6">
-                    <div className="grid gap-3 rounded-md border p-4">
-                        <div>
-                            <Label>Primary Marketing Platform</Label>
-                            <ul className="mt-2 grid gap-1">
-                                {data?.primaryMarketingPlatform?.length > 0 ? (
-                                    data?.primaryMarketingPlatform?.map(
-                                        (market: any, i: number) => (
-                                            <li
-                                                className="flex items-center text-sm text-muted-foreground"
-                                                key={i}
-                                            >
-                                                <Dot />
-                                                <span>
-                                                    {market?.name || "N/A"}
-                                                </span>
-                                            </li>
+                    {data?.primaryMarketingPlatform && (
+                        <div className="grid gap-3 rounded-md border p-4">
+                            <div>
+                                <Label>Primary Marketing Platform</Label>
+                                <ul className="mt-2 grid gap-1">
+                                    {data?.primaryMarketingPlatform?.length ? (
+                                        data?.primaryMarketingPlatform?.map(
+                                            (market: any, i: number) => (
+                                                <li
+                                                    className="flex items-center text-sm text-muted-foreground"
+                                                    key={i}
+                                                >
+                                                    <Dot />
+                                                    <span>
+                                                        {market?.name || "N/A"}
+                                                    </span>
+                                                </li>
+                                            )
                                         )
-                                    )
-                                ) : (
-                                    <NoDataText />
-                                )}
-                            </ul>
+                                    ) : (
+                                        <NoDataText />
+                                    )}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-
-                    <div className="grid gap-3 rounded-md border p-4">
-                        <div>
-                            <Label>Secondary Marketing Platform</Label>
-                            <ul className="mt-2 grid gap-1">
-                                {data?.secondaryMarketingPlatform?.length >
-                                0 ? (
-                                    data?.secondaryMarketingPlatform?.map(
-                                        (market: nameAndId, i: number) => (
-                                            <li
-                                                className="flex items-center text-sm text-muted-foreground"
-                                                key={i}
-                                            >
-                                                <Dot />
-                                                <span>
-                                                    {market?.name || "N/A"}
-                                                </span>
-                                            </li>
+                    )}
+                    {data?.secondaryMarketingPlatform && (
+                        <div className="grid gap-3 rounded-md border p-4">
+                            <div>
+                                <Label>Secondary Marketing Platform</Label>
+                                <ul className="mt-2 grid gap-1">
+                                    {data?.secondaryMarketingPlatform?.length >
+                                    0 ? (
+                                        data?.secondaryMarketingPlatform?.map(
+                                            (market: nameAndId, i: number) => (
+                                                <li
+                                                    className="flex items-center text-sm text-muted-foreground"
+                                                    key={i}
+                                                >
+                                                    <Dot />
+                                                    <span>
+                                                        {market?.name || "N/A"}
+                                                    </span>
+                                                </li>
+                                            )
                                         )
-                                    )
-                                ) : (
-                                    <NoDataText />
-                                )}
-                            </ul>
+                                    ) : (
+                                        <NoDataText />
+                                    )}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </CardContent>
         </Card>

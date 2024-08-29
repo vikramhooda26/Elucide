@@ -7,34 +7,35 @@ type Props = {
 };
 
 function ActiveCampaign({ data }: Props) {
-    return (
-        <div className="p-6 text-sm">
-            <ul className="flex flex-col gap-3">
-                <li className="text-lg">
-                    <span>Active Campaigns</span>
-                </li>
-                <ul className="grid gap-3">
-                    {data?.activeCampaigns?.length > 0 ? (
-                        data?.activeCampaigns?.map(
-                            (campaign: nameAndId, i: number) => (
-                                <li
-                                    key={i}
-                                    className="flex items-center gap-2 text-muted-foreground"
-                                >
-                                    <span>
-                                        <Activity className="h-4 w-4" />
-                                    </span>
-                                    <span>{campaign?.name || "N/A"}</span>
-                                </li>
+    if (data?.activeCampaigns)
+        return (
+            <div className="p-6 text-sm">
+                <ul className="flex flex-col gap-3">
+                    <li className="text-lg">
+                        <span>Active Campaigns</span>
+                    </li>
+                    <ul className="grid gap-3">
+                        {data?.activeCampaigns?.length > 0 ? (
+                            data?.activeCampaigns?.map(
+                                (campaign: nameAndId, i: number) => (
+                                    <li
+                                        key={i}
+                                        className="flex items-center gap-2 text-muted-foreground"
+                                    >
+                                        <span>
+                                            <Activity className="h-4 w-4" />
+                                        </span>
+                                        <span>{campaign?.name || "N/A"}</span>
+                                    </li>
+                                )
                             )
-                        )
-                    ) : (
-                        <NoDataText />
-                    )}
+                        ) : (
+                            <NoDataText />
+                        )}
+                    </ul>
                 </ul>
-            </ul>
-        </div>
-    );
+            </div>
+        );
 }
 
 export default ActiveCampaign;

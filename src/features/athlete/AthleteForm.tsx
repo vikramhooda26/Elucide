@@ -157,14 +157,12 @@ function AthleteForm() {
                             ? parseISO(athleteData?.athleteAge)
                             : undefined,
                         genderIds:
-                            athleteData.targetGender?.map(
-                                (gender) => gender.id
-                            ) || undefined,
+                            athleteData.gender?.map((gender) => gender.id) ||
+                            undefined,
                         athleteGenderId:
                             athleteData.athleteGender?.id || undefined,
                         ageIds:
-                            athleteData.targetAge?.map((age) => age.id) ||
-                            undefined,
+                            athleteData.age?.map((age) => age.id) || undefined,
                         nccsIds:
                             athleteData.nccs?.map((nccs) => nccs.id) ||
                             undefined,

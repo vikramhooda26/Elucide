@@ -17,7 +17,7 @@ function ContactPerson({ data }: Props) {
                     </CardTitle>
                 </div>
             </CardHeader>
-            <CardContent className="p-6">
+            <CardContent className="grid gap-6 p-6">
                 {data?.contactPersons?.length > 0 ? (
                     data?.contactPersons?.map(
                         (person: contactPersons, i: number) => (

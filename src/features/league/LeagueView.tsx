@@ -11,7 +11,7 @@ import AudienceProfile from "../../components/core/view/AudienceProfile";
 import ContactPerson from "../../components/core/view/ContactPerson";
 import LinksCard from "../../components/core/view/LinksCard";
 import MarketingOverviewCard from "../../components/core/view/MarketingOverviewCard";
-import OverviewCard from "../../components/core/view/OverviewCard";
+import LeagueOverviewCard from "../../components/core/view/LeagueOverviewCard";
 import SportsDealSummary from "../../components/core/view/SportsDealSummary";
 import ViewershipReach from "../../components/core/view/ViewershipReach";
 import { Button } from "../../components/ui/button";
@@ -77,7 +77,7 @@ function LeagueView() {
                 <div className="mb-4 flex items-center gap-4">
                     <BackButton />
                     <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                        League View
+                        League Profile
                     </h1>
                     <div className="hidden items-center gap-2 sm:ml-auto sm:flex">
                         {userRole === "SUPER_ADMIN" || userRole === "ADMIN" ? (
@@ -100,7 +100,7 @@ function LeagueView() {
                     <>
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                                <OverviewCard data={league} />
+                                <LeagueOverviewCard data={league} />
                                 <MarketingOverviewCard data={league} />
                                 <LinksCard
                                     data={league}

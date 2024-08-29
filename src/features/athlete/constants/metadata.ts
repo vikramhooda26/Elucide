@@ -113,7 +113,7 @@ export type TEditAthleteFormSchema = {
         id?: string;
         name?: string;
     }[];
-    targetAge?: {
+    age?: {
         id?: string;
         name?: string;
     }[];
@@ -214,7 +214,7 @@ export type TEditAthleteFormSchema = {
         contactNumber?: string;
         contactDesignation?: string;
     }[];
-    targetGender?: {
+    gender?: {
         id?: string;
         name?: string;
     }[];

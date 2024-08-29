@@ -6,7 +6,7 @@ type TOverviewCardProps = {
     data: any;
 };
 
-const OverviewCard = ({ data }: TOverviewCardProps) => {
+const BrandOverviewCard = ({ data }: TOverviewCardProps) => {
     return (
         <Card x-chunk="dashboard-07-chunk-" className="overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
@@ -25,47 +25,35 @@ const OverviewCard = ({ data }: TOverviewCardProps) => {
                         </span>
                     </li>
                     <li className="flex">
-                        <span className="w-1/2">Sports</span>
+                        <span className="w-1/2">Parent Organization</span>
                         <span className="text-muted-foreground">
-                            {data?.sport?.name || "N/A"}
+                            {data?.parentOrg?.name || "N/A"}
                         </span>
                     </li>
 
                     <li className="flex items-center">
-                        <span className="w-1/2">Year Of Inception</span>
+                        <span className="w-1/2">Agency</span>
                         <span className="text-muted-foreground">
-                            {data?.yearOfInception || "N/A"}
+                            {data?.agency?.name || "N/A"}
                         </span>
                     </li>
                     <li className="flex items-center">
-                        <span className="w-1/2">Format</span>
+                        <span className="w-1/2">City</span>
                         <span className="text-muted-foreground">
-                            {data?.format?.name || "N/A"}
+                            {data?.city?.name || "N/A"}
                         </span>
                     </li>
                     <li className="flex items-center">
-                        <span className="w-1/2">Broadcast Partner</span>
+                        <span className="w-1/2">State</span>
                         <span className="text-muted-foreground">
-                            {data?.broadcastPartner?.name || "N/A"}
-                        </span>
-                    </li>
-                    <li className="flex items-center">
-                        <span className="w-1/2">OTT Partner</span>
-                        <span className="text-muted-foreground">
-                            {data?.ottPartner?.name || "N/A"}
+                            {data?.state?.name || "N/A"}
                         </span>
                     </li>
                 </ul>
                 <Separator />
-                <div className="grid gap-3 p-6">
-                    <span className="w-1/2 text-lg">League Owners</span>
-                    <span className="text-muted-foreground">
-                        <Owners data={data} title={"League"} />
-                    </span>
-                </div>
             </div>
         </Card>
     );
 };
 
-export default OverviewCard;
+export default BrandOverviewCard;

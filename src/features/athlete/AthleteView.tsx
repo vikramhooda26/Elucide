@@ -1,31 +1,25 @@
-import { FacebookIcon, Globe, Pencil, YoutubeIcon } from "lucide-react";
-
-import {
-    InstagramLogoIcon,
-    LinkedInLogoIcon,
-    TwitterLogoIcon
-} from "@radix-ui/react-icons";
 import { differenceInYears, format } from "date-fns";
+import { Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import BackButton from "../../components/button/BackButton";
+import { socials } from "../../components/core/data/socials";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import Activation from "../../components/core/view/Activation";
 import Association from "../../components/core/view/Association";
-import Attributes from "../../components/core/view/AudienceProfile";
+import AthleteOverviewCard from "../../components/core/view/AthleteOverviewCard";
+import AudienceProfile from "../../components/core/view/AudienceProfile";
 import ContactPerson from "../../components/core/view/ContactPerson";
 import LinksCard from "../../components/core/view/LinksCard";
 import Marketing from "../../components/core/view/Marketing";
+import MarketingOverviewCard from "../../components/core/view/MarketingOverviewCard";
 import SportsDealSummary from "../../components/core/view/SportsDealSummary";
 import { Button } from "../../components/ui/button";
-import { Card } from "../../components/ui/card";
 import { useUser } from "../../hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import AthleteService from "../../services/features/AthleteService";
-import { nameAndId } from "../../types/metadata/Metadata";
-import { socials } from "../../components/core/data/socials";
 import ErrorService from "../../services/error/ErrorService";
+import AthleteService from "../../services/features/AthleteService";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 
 function AthleteView() {
@@ -39,32 +33,31 @@ function AthleteView() {
         return;
     }
 
-    const fetchTeam = async () => {
+    const fetchTeam = async (id: string) => {
         try {
             setLoading(true);
-            if (!id) {
-                setLoading(false);
-                return;
+            const response = await AthleteService.getOne(id);
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                const athleteObj = response?.data;
+
+                athleteObj.createdBy = athleteObj?.createdBy?.firstName || "";
+                athleteObj.modifiedBy = athleteObj?.modifiedBy?.firstName || "";
+
+                if (athleteObj?.athleteAge) {
+                    athleteObj.dob = format(
+                        athleteObj?.athleteAge,
+                        "dd-MM-yyyy"
+                    );
+                    athleteObj.athleteAge = differenceInYears(
+                        new Date(),
+                        athleteObj?.athleteAge
+                    );
+                }
+                setAthlete(athleteObj);
+            } else {
+                toast.error("An unknown error occurred");
+                navigate(-1);
             }
-            const resp = await AthleteService.getOne(id ? id : "");
-            if (resp?.status !== 200 || Object.keys(resp?.data)?.length <= 0) {
-                throw new Error("");
-            }
-
-            const athleteObj = resp?.data;
-
-            athleteObj.createdBy = athleteObj?.createdBy?.firstName || "";
-            athleteObj.modifiedBy = athleteObj?.modifiedBy?.firstName || "";
-
-            if (athleteObj?.athleteAge) {
-                athleteObj.dob = format(athleteObj?.athleteAge, "dd-MM-yyyy");
-                athleteObj.athleteAge = differenceInYears(
-                    new Date(),
-                    athleteObj?.athleteAge
-                );
-            }
-
-            setAthlete(athleteObj);
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(
                 error,
@@ -84,31 +77,36 @@ function AthleteView() {
     };
 
     useEffect(() => {
-        fetchTeam();
-    }, []);
+        if (id) {
+            fetchTeam(id);
+        } else {
+            navigate(-1);
+        }
+    }, [id]);
 
     return (
         <div className="my-8 flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
-            <div className="mx-auto grid flex-1 auto-rows-max gap-4">
+            <div className="mx-auto auto-rows-max gap-4">
                 <div className="mb-4 flex items-center gap-4">
                     <BackButton />
                     <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                        Athlete
+                        Athlete Profile
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        {userRole === "SUPER_ADMIN" ? (
-                            <Button
-                                size="sm"
-                                onClick={() =>
-                                    navigate(
-                                        `${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`
-                                    )
-                                }
-                            >
-                                <Pencil className="h-4 w-4" />{" "}
-                            </Button>
-                        ) : null}
+                        {userRole === "SUPER_ADMIN" ||
+                            (userRole === "ADMIN" && (
+                                <Button
+                                    size="sm"
+                                    onClick={() =>
+                                        navigate(
+                                            `${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`
+                                        )
+                                    }
+                                >
+                                    <Pencil className="h-4 w-4" />{" "}
+                                </Button>
+                            ))}
                     </div>
                 </div>
                 {isLoading ? (
@@ -117,123 +115,29 @@ function AthleteView() {
                     <>
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                                <Card x-chunk="dashboard-07-chunk-0">
-                                    <div className="m-3">
-                                        <ul className="grid gap-3">
-                                            <li className="flex items-center">
-                                                <span className="w-1/2">
-                                                    Name
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {athlete?.name || "-"}
-                                                </span>
-                                            </li>
-                                            <li className="flex">
-                                                <span className="w-1/2">
-                                                    Sports
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {athlete?.sport?.name ||
-                                                        "-"}
-                                                </span>
-                                            </li>
-                                            <li className="flex items-center">
-                                                <span className="w-1/2">
-                                                    Nationality
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {athlete?.nationality
-                                                        ?.name || "-"}
-                                                </span>
-                                            </li>
-                                            <li className="flex">
-                                                <span className="w-1/2">
-                                                    State
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {athlete?.state?.name ||
-                                                        "-"}
-                                                </span>
-                                            </li>
-                                            <li className="flex items-center">
-                                                <span className="w-1/2">
-                                                    Agency
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {athlete?.agency?.name ||
-                                                        "-"}
-                                                </span>
-                                            </li>
-                                            <li className="flex items-center">
-                                                <span className="w-1/2">
-                                                    Status
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {athlete?.status?.name ||
-                                                        "-"}
-                                                </span>
-                                            </li>
-                                            <li className="flex items-center">
-                                                <span className="w-1/2">
-                                                    DOB
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {athlete?.dob || "-"}
-                                                </span>
-                                            </li>
-                                            <li className="flex items-center">
-                                                <span className="w-1/2">
-                                                    Age
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {athlete?.athleteAge || "-"}
-                                                </span>
-                                            </li>
-                                            <li className="flex items-center">
-                                                <span className="w-1/2">
-                                                    Gender
-                                                </span>
-                                                {athlete?.gender?.map(
-                                                    (
-                                                        gender: nameAndId,
-                                                        i: number
-                                                    ) => (
-                                                        <span className="text-muted-foreground">
-                                                            {gender?.name ||
-                                                                "-"}
-                                                        </span>
-                                                    )
-                                                )}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </Card>
-
+                                <AthleteOverviewCard athlete={athlete} />
+                                <MarketingOverviewCard data={athlete} />
                                 <LinksCard
                                     data={athlete}
                                     metadatas={socials}
-                                    title="Socials"
+                                    title="Digital Presence"
                                 />
-
-                                <Marketing data={athlete} />
-
                                 <Association data={athlete} />
                             </div>
-                            <Attributes data={athlete} title={"Athlete"} />
+                            <AudienceProfile data={athlete} title={"Athlete"} />
                         </div>
-                        <div>
-                            <div className="space-y-4">
-                                <Activation data={athlete} />
+                        <div className="my-4 lg:my-8">
+                            <div className="space-y-4 lg:space-y-8">
                                 <SportsDealSummary
                                     data={athlete}
                                     partnerKey={"athleteName"}
                                 />
+                                <Activation data={athlete} />
                             </div>
                         </div>
-                        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                                <ContactPerson data={athlete} />
-                            </div>
+
+                        <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
+                            <ContactPerson data={athlete} />
                         </div>
                     </>
                 )}

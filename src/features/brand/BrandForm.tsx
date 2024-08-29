@@ -272,7 +272,7 @@ function BrandForm() {
         {
             title: "NCCS class",
             register: "nccsIds",
-            options: metadataStore.tier,
+            options: metadataStore.nccs,
             multiple: true,
             type: "DROPDOWN"
         }
@@ -379,6 +379,7 @@ function BrandForm() {
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Brand updated successfully");
                 }
+                return;
             }
             const response = await BrandService.createBrand(brandFormValues);
             if (response.status === HTTP_STATUS_CODES.OK) {
@@ -391,7 +392,19 @@ function BrandForm() {
                 logout,
                 navigate
             );
-            if (unknownError) {
+            if (unknownError.response.status === HTTP_STATUS_CODES.CONFLICT) {
+                const endorsements = form.getValues("endorsements");
+                endorsements?.map((endorse, index) => {
+                    if (endorse.name === unknownError.response.data.key) {
+                        form.setError(
+                            `endorsements.${index}.name`,
+                            { message: "This endorsement already exists" },
+                            { shouldFocus: true }
+                        );
+                    }
+                });
+                toast.error("An endorsement already exists");
+            } else {
                 toast.error("An unknown error occurred");
             }
         } finally {

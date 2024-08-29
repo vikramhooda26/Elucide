@@ -1,63 +1,115 @@
-import { Dot } from "lucide-react";
+import { customRound } from "../../../features/utils/helpers";
 import NoDataText from "../../no-data/NoDataText";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { Label } from "../../ui/label";
-import { nameAndId } from "../../../types/metadata/Metadata";
-import { printLogs } from "../../../lib/logs";
 
 type Props = {
     data: any;
 };
 
 function CategoriesCard({ data }: Props) {
-    printLogs("Marketing data:", data);
+    const totalSubCategories = data?.mainCategories?.reduce(
+        (total: any, category: any) => {
+            return total + (category.subCategories?.length ?? 0);
+        },
+        0
+    );
+
+    const calculateCategoryPercentage = (subCategoryCount: number) => {
+        if (totalSubCategories) {
+            return customRound((subCategoryCount / totalSubCategories) * 100);
+        }
+
+        return 0;
+    };
+
+    let totalPercentage = 0;
+
+    const calculatePercentages = (category: any, isLastIndex: boolean) => {
+        const count = category.subCategories?.length ?? 0;
+        const percentage = calculateCategoryPercentage(count);
+
+        if (isLastIndex) {
+            return 100 - totalPercentage;
+        }
+
+        totalPercentage += percentage;
+        return percentage;
+    };
+
     return (
-        <Card x-chunk="dashboard-07-chunk-0 w-full">
-            <CardHeader>
-                <CardTitle>Categories</CardTitle>
+        <Card className="overflow-hidden">
+            <CardHeader className="flex flex-row items-start bg-muted/50">
+                <div className="grid gap-0.5">
+                    <CardTitle className="group flex items-center gap-2 text-lg">
+                        Categories
+                    </CardTitle>
+                </div>
             </CardHeader>
-            <CardContent>
-                <div className="grid gap-6">
-                    <div className="grid grid-cols-2 gap-3">
-                        <div className="grid gap-3 rounded-md border p-4">
-                            <Label>Main Category</Label>
-                            <ul className="grid gap-3">
-                                {data?.maincategory?.length > 0 ? (
-                                    data?.maincategory?.map(
-                                        (category: any, i: number) => (
-                                            <li className="flex items-center text-sm text-muted-foreground">
-                                                <Dot />
-                                                <span>
-                                                    {category?.name || "-"}
-                                                </span>
-                                            </li>
-                                        )
-                                    )
-                                ) : (
-                                    <NoDataText />
-                                )}
-                            </ul>
+            <CardContent className="text-sm">
+                <div className="grid gap-6 p-6">
+                    <div className="my-4 grid grid-cols-2 gap-6">
+                        <div className="grid gap-3">
+                            <div className="font-semibold">Main Categories</div>
+                        </div>
+                        <div className="grid auto-rows-max gap-3">
+                            <div className="font-semibold">Sub Categories</div>
                         </div>
 
-                        <div className="grid gap-3 rounded-md border p-4">
-                            <Label>Sub Category</Label>
-                            <ul className="grid gap-3">
-                                {data?.subcategory?.length > 0 ? (
-                                    data?.subcategory?.map(
-                                        (category: nameAndId, i: number) => (
-                                            <li className="flex items-center text-sm text-muted-foreground">
-                                                <Dot />
-                                                <span>
-                                                    {category?.name || "-"}
-                                                </span>
-                                            </li>
-                                        )
-                                    )
-                                ) : (
-                                    <NoDataText />
-                                )}
-                            </ul>
-                        </div>
+                        {data?.mainCategories &&
+                        data?.mainCategories?.length > 0 ? (
+                            data?.mainCategories?.map(
+                                (category: any, i: number) => (
+                                    <>
+                                        <div className="grid">
+                                            <div key={i} className="grid">
+                                                <div className="flex flex-col text-muted-foreground">
+                                                    <span>
+                                                        {" "}
+                                                        {category?.name ||
+                                                            "N/A"}
+                                                    </span>
+                                                    <span>
+                                                        {calculatePercentages(
+                                                            category,
+                                                            i ===
+                                                                data
+                                                                    ?.mainCategories
+                                                                    ?.length -
+                                                                    1
+                                                        )}
+                                                        %
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="grid gap-1">
+                                            {category?.subCategories?.length ? (
+                                                category?.subCategories?.map(
+                                                    (
+                                                        category: any,
+                                                        i: number
+                                                    ) => (
+                                                        <div
+                                                            key={i}
+                                                            className="grid gap-3"
+                                                        >
+                                                            <div className="text-muted-foreground">
+                                                                {category?.name ||
+                                                                    "N/A"}
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                )
+                                            ) : (
+                                                <NoDataText />
+                                            )}
+                                        </div>
+                                    </>
+                                )
+                            )
+                        ) : (
+                            <NoDataText />
+                        )}
                     </div>
                 </div>
             </CardContent>

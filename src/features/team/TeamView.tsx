@@ -1,33 +1,24 @@
-import { ChevronLeft, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ActiveCampaing from "../../components/core/view/ActiveCampaign";
-import Association from "../../components/core/view/Association";
-import Attributes from "../../components/core/view/AudienceProfile";
-import ContactPerson from "../../components/core/view/ContactPerson";
-import Endorsements from "../../components/core/view/Endorsements";
-import Marketing from "../../components/core/view/Marketing";
-import LinksCard from "../../components/core/view/LinksCard";
-import SportsDealSummary from "../../components/core/view/SportsDealSummary";
-import StrategyOverview from "../../components/core/view/StrategyOverview";
-import TagLines from "../../components/core/view/TagLines";
-import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
-import { Button } from "../../components/ui/button";
-import { Card } from "../../components/ui/card";
-import { TableCell, TableRow } from "../../components/ui/table";
-import TeamService from "../../services/features/TeamService";
-import { formatNumberWithCommas } from "../utils/helpers";
-import BackButton from "../../components/button/BackButton";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import { useUser } from "../../hooks/useUser";
-import Activation from "../../components/core/view/Activation";
-import Owners from "../../components/core/view/Owners";
-import { Separator } from "../../components/ui/separator";
-import ViewershipReach from "../../components/core/view/ViewershipReach";
-import { socials } from "../../components/core/data/socials";
 import { toast } from "sonner";
+import BackButton from "../../components/button/BackButton";
+import { socials } from "../../components/core/data/socials";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import Activation from "../../components/core/view/Activation";
+import Association from "../../components/core/view/Association";
+import AudienceProfile from "../../components/core/view/AudienceProfile";
+import ContactPerson from "../../components/core/view/ContactPerson";
+import LinksCard from "../../components/core/view/LinksCard";
+import MarketingOverviewCard from "../../components/core/view/MarketingOverviewCard";
+import SportsDealSummary from "../../components/core/view/SportsDealSummary";
+import TeamOverviewCard from "../../components/core/view/TeamOverviewCard";
+import ViewershipReach from "../../components/core/view/ViewershipReach";
+import { Button } from "../../components/ui/button";
+import { useUser } from "../../hooks/useUser";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
+import TeamService from "../../services/features/TeamService";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 
 function TeamView() {
@@ -116,113 +107,29 @@ function TeamView() {
                     <>
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                                <Card x-chunk="dashboard-07-chunk-0">
-                                    <TableHeaderWrapper
-                                        headersArray={teamInfoHeaders}
-                                    >
-                                        <TableRow>
-                                            <TableCell>
-                                                {team?.name || "-"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {team?.yearOfInception || "-"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {team?.franchiseFee > 0
-                                                    ? formatNumberWithCommas(
-                                                          team?.franchiseFee
-                                                      )
-                                                    : "-"}
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableHeaderWrapper>
-                                </Card>
-
-                                <Card x-chunk="dashboard-07-chunk-0">
-                                    <div className="m-3">
-                                        <ul className="grid gap-3">
-                                            <li>
-                                                <div className="flex">
-                                                    <span className="w-1/2">
-                                                        Team Owners
-                                                    </span>
-                                                    <span className="text-muted-foreground">
-                                                        <Owners
-                                                            data={team}
-                                                            title={"Team"}
-                                                        />
-                                                    </span>
-                                                </div>
-                                                <Separator className="my-2" />
-                                            </li>
-
-                                            <li className="flex">
-                                                <span className="w-1/2">
-                                                    Sports
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {team?.sport?.name || "-"}
-                                                </span>
-                                            </li>
-
-                                            <li className="flex">
-                                                <span className="w-1/2">
-                                                    City
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {team?.city?.name || "-"}
-                                                </span>
-                                            </li>
-
-                                            <li className="flex">
-                                                <span className="w-1/2">
-                                                    State
-                                                </span>
-                                                <span className="text-muted-foreground">
-                                                    {team?.state?.name || "-"}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </Card>
-
-                                <ViewershipReach data={team} />
-
-                                <StrategyOverview
-                                    strategy={team?.strategyOverview}
-                                />
-
+                                <TeamOverviewCard data={team} />
+                                <MarketingOverviewCard data={team} />
                                 <LinksCard
                                     data={team}
                                     metadatas={socials}
-                                    title="Socials"
+                                    title="Digital Presence"
                                 />
-
-                                <Marketing data={team} />
-
-                                <TagLines data={team} />
-
-                                <Endorsements data={team} />
-
-                                <ActiveCampaing data={team} />
-
+                                <ViewershipReach data={team} />
                                 <Association data={team} />
                             </div>
-                            <Attributes data={team} title={"Team"} />
+                            <AudienceProfile data={team} title={"Team"} />
                         </div>
-                        <div className="my-8">
-                            <div className="space-y-4">
-                                <Activation data={team} />
+                        <div className="my-4 lg:my-8">
+                            <div className="space-y-4 lg:space-y-8">
                                 <SportsDealSummary
                                     data={team}
                                     partnerKey={"teamName"}
                                 />
+                                <Activation data={team} />
                             </div>
                         </div>
-                        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                                <ContactPerson data={team} />
-                            </div>
+                        <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
+                            <ContactPerson data={team} />
                         </div>
                     </>
                 )}
