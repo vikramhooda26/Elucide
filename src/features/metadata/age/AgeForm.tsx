@@ -35,13 +35,13 @@ function AgeForm() {
         resolver: zodResolver(ageRangeFormSchema),
         defaultValues: {
             userId: user?.id,
-            ageType: id ? undefined : "Range",
-        },
+            ageType: id ? undefined : "Range"
+        }
     });
 
     const ageType = [
         { value: "Range", label: "Range" },
-        { value: "Max", label: "Max" },
+        { value: "Max", label: "Max" }
     ];
 
     const convertRangeToArray = (ageRange: string) => {
@@ -71,7 +71,7 @@ function AgeForm() {
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
                         ageRange: convertRangeToArray(response.data.ageRange),
-                        ageType: getAgeRangeType(response.data.ageRange),
+                        ageType: getAgeRangeType(response.data.ageRange)
                     });
                 }
             } catch (error) {
@@ -111,8 +111,8 @@ function AgeForm() {
                 ageTypeValue === "Range"
                     ? getConvertedAgeRange(ageRangeFormValues.ageRange)
                     : ageRangeFormValues.ageRange.length === 1
-                    ? `${ageRangeFormValues.ageRange}+`
-                    : null;
+                      ? `${ageRangeFormValues.ageRange}+`
+                      : null;
 
             if (convertedAgeRange === null) {
                 toast.error("Invalid range. Contact developer");
@@ -127,7 +127,7 @@ function AgeForm() {
             const requestBody = {
                 ...ageRangeFormValues,
                 ageRange: convertedAgeRange,
-                userId: user?.id,
+                userId: user?.id
             };
 
             if (id) {
@@ -147,7 +147,7 @@ function AgeForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Age range created successfully");
                 form.reset({
-                    ageRange: [0, 100],
+                    ageRange: [0, 100]
                 });
             }
         } catch (error) {

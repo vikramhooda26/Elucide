@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     subCategoryFormSchema,
-    TSubCategoryFormSchema,
+    TSubCategoryFormSchema
 } from "./constants/metadata";
 import { getMetadata } from "../../utils/metadataUtils";
 import { metadataStoreAtom } from "../../../store/atoms/metadata";
@@ -39,8 +39,8 @@ function SubCategoryForm() {
     const form = useForm<TSubCategoryFormSchema>({
         resolver: zodResolver(subCategoryFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -48,7 +48,7 @@ function SubCategoryForm() {
             try {
                 setIsFetchingMetadata(true);
                 await getMetadata(metadataStore, setMetadataStore, {
-                    MAIN_CATEGORY: "maincategory",
+                    MAIN_CATEGORY: "maincategory"
                 });
             } catch (error) {
                 console.error(error);
@@ -77,7 +77,7 @@ function SubCategoryForm() {
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
                         subcategoryName: response.data.subcategoryName,
-                        categoryId: response.data.category.id,
+                        categoryId: response.data.category.id
                     });
                 }
             } catch (error) {
@@ -109,7 +109,7 @@ function SubCategoryForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...subcategoryFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editSubcategory(
@@ -121,13 +121,12 @@ function SubCategoryForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createSubcategory(
-                requestBody
-            );
+            const response =
+                await MetadataService.createSubcategory(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sub Category created successfully");
                 form.reset({
-                    subcategoryName: "",
+                    subcategoryName: ""
                 });
             }
         } catch (error) {

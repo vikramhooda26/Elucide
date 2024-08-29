@@ -4,7 +4,7 @@ import {
     CardContent,
     CardDescription,
     CardHeader,
-    CardTitle,
+    CardTitle
 } from "../ui/card";
 
 interface CardWrapperProps {
@@ -16,7 +16,7 @@ interface CardWrapperProps {
 export const CardWrapper: React.FC<CardWrapperProps> = ({
     title,
     description,
-    children,
+    children
 }) => {
     return (
         <Card x-chunk="dashboard-07-chunk-3">

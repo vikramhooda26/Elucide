@@ -14,7 +14,7 @@ import { SingleInputForm } from "../SingleInputForm";
 import { useEffect, useState } from "react";
 import {
     teamOwnerFormSchema,
-    TTeamOwnerFormSchema,
+    TTeamOwnerFormSchema
 } from "./constants/metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
@@ -33,8 +33,8 @@ function TeamOwnerForm() {
     const form = useForm<TTeamOwnerFormSchema>({
         resolver: zodResolver(teamOwnerFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -44,7 +44,7 @@ function TeamOwnerForm() {
                 const response = await MetadataService.getOneTeamOwner(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        teamOwnerName: response.data.teamOwnerName,
+                        teamOwnerName: response.data.teamOwnerName
                     });
                 }
             } catch (error) {
@@ -76,7 +76,7 @@ function TeamOwnerForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...teamOwnerFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editTeamOwner(
@@ -92,7 +92,7 @@ function TeamOwnerForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Team owner created successfully");
                 form.reset({
-                    teamOwnerName: "",
+                    teamOwnerName: ""
                 });
             }
         } catch (error) {
@@ -134,10 +134,7 @@ function TeamOwnerForm() {
                     name="teamOwnerName"
                     render={({ field }) => (
                         <FormItemWrapper label="Team owner name">
-                            <Input
-                                {...field}
-                                placeholder="Team owner name"
-                            />
+                            <Input {...field} placeholder="Team owner name" />
                         </FormItemWrapper>
                     )}
                 />

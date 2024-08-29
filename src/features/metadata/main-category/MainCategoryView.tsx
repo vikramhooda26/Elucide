@@ -1,19 +1,19 @@
-import { Pencil } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import BackButton from '../../../components/button/BackButton';
-import NameIdList from '../../../components/core/view/NameIdList';
-import { TableHeaderWrapper } from '../../../components/table/table-header-wrapper';
-import { Button } from '../../../components/ui/button';
-import { Card } from '../../../components/ui/card';
-import { TableCell, TableRow } from '../../../components/ui/table';
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from '../../../lib/constants';
-import MetadataService from '../../../services/features/MetadataService';
-import { mainCategory } from '../../../types/metadata/Metadata';
-import { FormSkeleton } from '../../../components/core/form/form-skeleton';
-import { useAuth } from '../../auth/auth-provider/AuthProvider';
-import ErrorService from '../../../services/error/ErrorService';
-import { toast } from 'sonner';
+import { Pencil } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import BackButton from "../../../components/button/BackButton";
+import NameIdList from "../../../components/core/view/NameIdList";
+import { TableHeaderWrapper } from "../../../components/table/table-header-wrapper";
+import { Button } from "../../../components/ui/button";
+import { Card } from "../../../components/ui/card";
+import { TableCell, TableRow } from "../../../components/ui/table";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
+import MetadataService from "../../../services/features/MetadataService";
+import { mainCategory } from "../../../types/metadata/Metadata";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
+import { useAuth } from "../../auth/auth-provider/AuthProvider";
+import ErrorService from "../../../services/error/ErrorService";
+import { toast } from "sonner";
 
 function MainCategoryView() {
     const { id } = useParams<string>();
@@ -37,7 +37,6 @@ function MainCategoryView() {
             const viewObj = resp?.data;
 
             setViewData(viewObj);
-
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(
                 error,
@@ -61,13 +60,13 @@ function MainCategoryView() {
     }, []);
 
     const infoHeaders: { header: string; className?: string }[] = [
-        { header: "Name" },
+        { header: "Name" }
     ];
 
     return (
-        <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 ">
+        <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <div className="mx-auto auto-rows-max gap-4">
-                <div className="flex items-center gap-4 mb-4">
+                <div className="mb-4 flex items-center gap-4">
                     <BackButton />
                     <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                         Category View
@@ -75,29 +74,39 @@ function MainCategoryView() {
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
                         <Button size="sm">
-                            <Pencil className="w-4 h-4" />{" "}
+                            <Pencil className="h-4 w-4" />{" "}
                         </Button>
                     </div>
                 </div>
                 {isLoading ? (
                     <FormSkeleton />
-                ) : (<>
-                    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                            <Card x-chunk="dashboard-07-chunk-0">
-                                <TableHeaderWrapper headersArray={infoHeaders}>
-                                    <TableRow>
-                                        <TableCell>{viewData?.categoryName || "-"}</TableCell>
-                                    </TableRow>
-                                </TableHeaderWrapper>
-                            </Card>
-                            <NameIdList data={viewData?.subcategories} navLink={NAVIGATION_ROUTES.SUB_CATEGORY} title={'Category'} />
+                ) : (
+                    <>
+                        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                                <Card x-chunk="dashboard-07-chunk-0">
+                                    <TableHeaderWrapper
+                                        headersArray={infoHeaders}
+                                    >
+                                        <TableRow>
+                                            <TableCell>
+                                                {viewData?.categoryName || "-"}
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHeaderWrapper>
+                                </Card>
+                                <NameIdList
+                                    data={viewData?.subcategories}
+                                    navLink={NAVIGATION_ROUTES.SUB_CATEGORY}
+                                    title={"Category"}
+                                />
+                            </div>
                         </div>
-                    </div>
-                </>)}
+                    </>
+                )}
             </div>
         </main>
-    )
+    );
 }
 
 export default MainCategoryView;

@@ -2,26 +2,26 @@ import "./style/Footer.css";
 
 function Footer() {
     return (
-        <footer className="bg-gray-900 text-white py-28 relative overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                    <div className="flex flex-col items-center animate-fadeIn">
-                        <h6 className="font-bold mb-4 text-2xl">Discover</h6>
+        <footer className="relative overflow-hidden bg-gray-900 py-28 text-white">
+            <div className="relative z-10 mx-auto max-w-7xl px-6">
+                <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+                    <div className="animate-fadeIn flex flex-col items-center">
+                        <h6 className="mb-4 text-2xl font-bold">Discover</h6>
                         <p className="text-center">
                             Understand brand objectives & leverage our advanced
                             search filters find the best match for your brand.
                         </p>
                     </div>
-                    <div className="flex flex-col items-center animate-fadeIn delay-1s">
-                        <h6 className="font-bold mb-4 text-2xl">Analyze</h6>
+                    <div className="animate-fadeIn delay-1s flex flex-col items-center">
+                        <h6 className="mb-4 text-2xl font-bold">Analyze</h6>
                         <p className="text-center">
                             Use industry insights & AI-enhanced match-making
                             capability to analyze the ideal fit based on brand
                             objectives.
                         </p>
                     </div>
-                    <div className="flex flex-col items-center animate-fadeIn delay-2s">
-                        <h6 className="font-bold mb-4 text-2xl">Engage</h6>
+                    <div className="animate-fadeIn delay-2s flex flex-col items-center">
+                        <h6 className="mb-4 text-2xl font-bold">Engage</h6>
                         <p className="text-center">
                             Facilitate & execute partnerships with the
                             identified stakeholders to create mutually
@@ -29,10 +29,10 @@ function Footer() {
                         </p>
                     </div>
                 </div>
-                <div className="text-center relative z-10 flex flex-col items-center justify-center">
-                    <div className="w-full md:w-1/3 text-center my-5">
-                        <h6 className="font-bold mb-2">Follow Us</h6>
-                        <div className="flex space-x-4 items-center justify-center">
+                <div className="relative z-10 flex flex-col items-center justify-center text-center">
+                    <div className="my-5 w-full text-center md:w-1/3">
+                        <h6 className="mb-2 font-bold">Follow Us</h6>
+                        <div className="flex items-center justify-center space-x-4">
                             {/* <a href="https://sponsor-sync.com/" className="text-blue-500 animate-pulse">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.325v21.351C0 23.4.6 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.41c0-3.1 1.893-4.788 4.658-4.788 1.325 0 2.464.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.714-1.795 1.763v2.309h3.588l-.468 3.622h-3.12V24h6.116c.725 0 1.325-.6 1.325-1.324V1.325C24 .6 23.4 0 22.675 0z" />
@@ -41,10 +41,10 @@ function Footer() {
                             <a
                                 href="https://twitter.com"
                                 target="_blank"
-                                className="text-blue-500 animate-pulse"
+                                className="animate-pulse text-blue-500"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="h-6 w-6"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -55,10 +55,10 @@ function Footer() {
                             <a
                                 href="https://instagram.com/@elucidesports"
                                 target="_blank"
-                                className="text-blue-500 animate-pulse"
+                                className="animate-pulse text-blue-500"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="h-6 w-6"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -69,10 +69,10 @@ function Footer() {
                             <a
                                 href="https://linkedin.com/elucide_sports"
                                 target="_blank"
-                                className="text-blue-500 animate-wiggle"
+                                className="animate-wiggle text-blue-500"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="h-6 w-6"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -83,15 +83,15 @@ function Footer() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-start gap-2 mb-5">
+                    <div className="mb-5 flex flex-col items-start gap-2">
                         <div className="flex items-center gap-2">
                             <a
                                 href="tel:+1234567890"
-                                className="text-blue-500 animate-pulse"
+                                className="animate-pulse text-blue-500"
                                 target="_blank"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="h-6 w-6"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -104,10 +104,10 @@ function Footer() {
                         <div className="flex items-center gap-2">
                             <a
                                 href="mailto:info@sponsor-sync.com"
-                                className="text-blue-500 animate-pulse"
+                                className="animate-pulse text-blue-500"
                             >
                                 <svg
-                                    className="w-6 h-6"
+                                    className="h-6 w-6"
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -119,16 +119,16 @@ function Footer() {
                         </div>
                     </div>
 
-                    <p className="text-sm animate-pulse">
+                    <p className="animate-pulse text-sm">
                         © {new Date().getFullYear()} Evolvus Technologies. All
                         rights reserved.
                     </p>
                 </div>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#030712] via-[#3d6af780] to-[#030712] opacity-30 animate-gradient"></div>
-            <div className="absolute top-10 left-5 w-24 h-24 bg-blue-500 rounded-full animate-bounce"></div>
-            <div className="absolute top-1/2 right-2 w-16 h-16 bg-purple-500 rounded-full animate-spin-slow"></div>
-            <div className="absolute bottom-2 left-1/4 w-20 h-20 bg-pink-500 rounded-full animate-wiggle"></div>
+            <div className="animate-gradient absolute inset-0 bg-gradient-to-r from-[#030712] via-[#3d6af780] to-[#030712] opacity-30"></div>
+            <div className="absolute left-5 top-10 h-24 w-24 animate-bounce rounded-full bg-blue-500"></div>
+            <div className="animate-spin-slow absolute right-2 top-1/2 h-16 w-16 rounded-full bg-purple-500"></div>
+            <div className="animate-wiggle absolute bottom-2 left-1/4 h-20 w-20 rounded-full bg-pink-500"></div>
         </footer>
     );
 }

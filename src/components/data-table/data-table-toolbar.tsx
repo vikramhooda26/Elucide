@@ -8,7 +8,7 @@ import React from "react";
 
 export function DataTableToolbar<TData>({
     table,
-    toolbarAttributes,
+    toolbarAttributes
 }: DataTableToolbarProps<TData>) {
     const isFiltered = table.getState().columnFilters.length > 0;
 

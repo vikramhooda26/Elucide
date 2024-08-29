@@ -6,14 +6,14 @@ import { TooltipProvider } from "../../../components/ui/tooltip";
 import {
     ResizableHandle,
     ResizablePanel,
-    ResizablePanelGroup,
+    ResizablePanelGroup
 } from "../../../components/ui/resizable";
 import { Separator } from "../../../components/ui/separator";
 import {
     Tabs,
     TabsContent,
     TabsList,
-    TabsTrigger,
+    TabsTrigger
 } from "../../../components/ui/tabs";
 import { Input } from "../../../components/ui/input";
 import { AccountSwitcher } from "./account-switcher";
@@ -42,7 +42,7 @@ export function Mail({
     mails,
     defaultLayout = [20, 32, 48],
     defaultCollapsed = false,
-    navCollapsedSize,
+    navCollapsedSize
 }: MailProps) {
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
     const mail = useRecoilValue(configAtom);
@@ -88,10 +88,7 @@ export function Mail({
                     <Separator />
                 </ResizablePanel>
                 <ResizableHandle withHandle />
-                <ResizablePanel
-                    defaultSize={defaultLayout[1]}
-                    minSize={30}
-                >
+                <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
                     <Tabs defaultValue="all">
                         <div className="flex items-center px-4 py-2">
                             <h1 className="text-xl font-bold">Inbox</h1>
@@ -122,16 +119,10 @@ export function Mail({
                                 </div>
                             </form>
                         </div>
-                        <TabsContent
-                            value="all"
-                            className="m-0"
-                        >
+                        <TabsContent value="all" className="m-0">
                             <MailList items={mails} />
                         </TabsContent>
-                        <TabsContent
-                            value="unread"
-                            className="m-0"
-                        >
+                        <TabsContent value="unread" className="m-0">
                             <MailList
                                 items={mails.filter((item) => !item.read)}
                             />

@@ -42,8 +42,7 @@ function CategoriesCard({ data }: Props) {
                         <div className="grid gap-3 rounded-md border p-4">
                             <Label>Sub Category</Label>
                             <ul className="grid gap-3">
-                                {data?.subcategory?.length >
-                                    0 ? (
+                                {data?.subcategory?.length > 0 ? (
                                     data?.subcategory?.map(
                                         (category: nameAndId, i: number) => (
                                             <li className="flex items-center text-sm text-muted-foreground">

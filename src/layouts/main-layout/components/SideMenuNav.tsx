@@ -26,7 +26,7 @@ export function SideMenuNav({ links, isCollapsed = false }: NavProps) {
         <div
             data-collapsed={isCollapsed}
             className={cn(
-                "group flex flex-col gap-4 py-2 h-screen transition-all duration-300 ease-in-out",
+                "group flex h-screen flex-col gap-4 py-2 transition-all duration-300 ease-in-out",
                 menuOpen ? "w-44" : "w-14"
             )}
             onMouseEnter={() => setOpenMenu(true)}
@@ -43,18 +43,18 @@ export function SideMenuNav({ links, isCollapsed = false }: NavProps) {
                                     pathname === link?.route
                                         ? "secondary"
                                         : "ghost",
-                                size: "sm",
+                                size: "sm"
                             }),
                             pathname === link?.route &&
-                                "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white text-blue-500 ",
-                            "flex items-center px-1 ps-2 transition-all duration-300 ease-in-out my-1"
+                                "text-blue-500 dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                            "my-1 flex items-center px-1 ps-2 transition-all duration-300 ease-in-out"
                         )}
                     >
                         <link.icon className="h-5 w-5" />
                         <span
                             className={cn(
                                 "ml-4 overflow-hidden transition-all duration-300 ease-in-out",
-                                menuOpen ? "opacity-100 w-20" : "opacity-0 w-0"
+                                menuOpen ? "w-20 opacity-100" : "w-0 opacity-0"
                             )}
                         >
                             {link.title}

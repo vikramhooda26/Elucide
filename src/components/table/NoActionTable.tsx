@@ -1,6 +1,10 @@
 "use client";
 
-import { CaretSortIcon, ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
+import {
+    CaretSortIcon,
+    ChevronDownIcon,
+    Cross2Icon
+} from "@radix-ui/react-icons";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -11,7 +15,7 @@ import {
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
-    useReactTable,
+    useReactTable
 } from "@tanstack/react-table";
 import * as React from "react";
 
@@ -21,7 +25,7 @@ import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuTrigger,
+    DropdownMenuTrigger
 } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
 import {
@@ -30,7 +34,7 @@ import {
     TableCell,
     TableHead,
     TableHeader,
-    TableRow,
+    TableRow
 } from "../ui/table";
 import { DataTableToolbar } from "../data-table/data-table-toolbar";
 import { Link } from "react-router-dom";
@@ -41,10 +45,17 @@ type Props = {
     searchableKey: string;
     toolbarAttributes?: JSX.Element[];
     viewRoute?: string;
-    action?: { create: JSX.Element | null }
+    action?: { create: JSX.Element | null };
 };
 
-export function NoActionTable({ data, columns, searchableKey, toolbarAttributes, viewRoute, action }: Props) {
+export function NoActionTable({
+    data,
+    columns,
+    searchableKey,
+    toolbarAttributes,
+    viewRoute,
+    action
+}: Props) {
     const [tableColumns, setTableColumns] = React.useState<ColumnDef<any>[]>(
         []
     );
@@ -70,7 +81,7 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
                                 )
                             }
                         >
-                            {header?.name || '-'}
+                            {header?.name || "-"}
                             <CaretSortIcon className="ml-2 h-4 w-4" />
                         </Button>
                     );
@@ -81,15 +92,21 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
                         return (
                             <Link
                                 to={`${viewRoute}/${id}`}
-                                className="cursor-pointer hover:text-blue-800 "
+                                className="cursor-pointer hover:text-blue-800"
                             >
-                                <div className="w-[80px]">{row.getValue(header?.key) || '-'}</div>
+                                <div className="w-[80px]">
+                                    {row.getValue(header?.key) || "-"}
+                                </div>
                             </Link>
-                        )
+                        );
                     } else {
-                        return (<div className="">{row.getValue(header?.key) || '-'}</div>)
+                        return (
+                            <div className="">
+                                {row.getValue(header?.key) || "-"}
+                            </div>
+                        );
                     }
-                },
+                }
             });
         });
         setTableColumns(headers);
@@ -114,15 +131,15 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
             sorting,
             columnFilters,
             columnVisibility,
-            rowSelection,
-        },
+            rowSelection
+        }
     });
 
     const isFiltered = table.getState().columnFilters.length > 0;
 
     return (
         <div className="">
-            <div className="flex items-center py-4 ">
+            <div className="flex items-center py-4">
                 <Input
                     placeholder="Search..."
                     value={
@@ -137,8 +154,9 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
                     }
                     className="max-w-sm"
                 />
-                <div className="flex flex-1 items-center space-x-2 mx-2">
-                    {toolbarAttributes && toolbarAttributes?.length > 0 &&
+                <div className="mx-2 flex flex-1 items-center space-x-2">
+                    {toolbarAttributes &&
+                        toolbarAttributes?.length > 0 &&
                         toolbarAttributes?.map((jsxAttributes, index) => (
                             <React.Fragment key={index}>
                                 {jsxAttributes}
@@ -158,10 +176,7 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="outline"
-                            className="ml-auto"
-                        >
+                        <Button variant="outline" className="ml-auto">
                             Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -187,7 +202,6 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
                 </DropdownMenu>
 
                 {action?.create ? action?.create : null}
-
             </div>
             <div className="rounded-md border">
                 <Table>
@@ -203,10 +217,10 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
-                                                    header.column.columnDef
-                                                        .header,
-                                                    header.getContext()
-                                                )}
+                                                      header.column.columnDef
+                                                          .header,
+                                                      header.getContext()
+                                                  )}
                                         </TableHead>
                                     );
                                 })}
@@ -215,7 +229,7 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows &&
-                            table.getRowModel().rows?.length ? (
+                        table.getRowModel().rows?.length ? (
                             table.getRowModel()?.rows?.map((row) => (
                                 <TableRow
                                     key={row?.id}
@@ -231,7 +245,7 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
-                                            ) || '-'}
+                                            ) || "-"}
                                         </TableCell>
                                     ))}
                                 </TableRow>
@@ -250,10 +264,7 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
-                <DataTablePagination
-                    table={table}
-                    showSelectedCount={false}
-                />
+                <DataTablePagination table={table} showSelectedCount={false} />
             </div>
         </div>
     );

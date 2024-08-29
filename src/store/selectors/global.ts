@@ -10,5 +10,5 @@ export const loadingBarSelector = selector({
     },
     set: ({ set }, newValue) => {
         set(loadingAtom, newValue);
-    },
+    }
 });

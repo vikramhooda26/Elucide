@@ -14,7 +14,7 @@ export const activationFormSchema = z.object({
     marketIds: z.string().array().optional(),
     assetIds: z.string().array().optional(),
     year: z.string().optional(),
-    partnerType: z.enum(partnerType),
+    partnerType: z.enum(partnerType)
 });
 
 export type TActivationFormSchema = z.infer<typeof activationFormSchema>;
@@ -26,7 +26,7 @@ export const ACTIVATION_KEYS = {
     BRAND: "brand",
     MARKETING_PLATFORM: "marketingPlatform", // this is the activation type
     STATE: "state", // this is the activation market
-    ASSET: "asset",
+    ASSET: "asset"
 } as const;
 
 export type TEditActivationFormSchema = {

@@ -25,7 +25,7 @@ const montsLib: Record<"es" | "en", Record<number, string>> = {
         9: "Septiembre",
         10: "Octubre",
         11: "Noviembre",
-        12: "Diciembre",
+        12: "Diciembre"
     },
     en: {
         1: "January",
@@ -39,8 +39,8 @@ const montsLib: Record<"es" | "en", Record<number, string>> = {
         9: "September",
         10: "October",
         11: "November",
-        12: "December",
-    },
+        12: "December"
+    }
 };
 
 function Calendar({
@@ -86,7 +86,7 @@ function Calendar({
                 day_range_middle:
                     "aria-selected:bg-accent aria-selected:text-accent-foreground",
                 day_hidden: "invisible",
-                ...classNames,
+                ...classNames
             }}
             components={{
                 // eslint-disable-next-line
@@ -94,7 +94,7 @@ function Calendar({
                 // eslint-disable-next-line
                 IconRight: ({ ...props }) => (
                     <ChevronRight className="h-4 w-4" />
-                ),
+                )
             }}
             showOutsideDays={showOutsideDays}
             {...props}
@@ -113,7 +113,7 @@ function CalendarComponent({ translate, ...props }: CalendarProps) {
                 <SelectComponent
                     items={[...(new Array(12) as number[])].map((_, index) => ({
                         label: montsLib[translate ?? "en"][index + 1],
-                        value: (index + 1).toString(),
+                        value: (index + 1).toString()
                     }))}
                     value={(new Date(date).getMonth() + 1).toString()}
                     onValueChange={(value) => {
@@ -122,11 +122,11 @@ function CalendarComponent({ translate, ...props }: CalendarProps) {
                 />
                 <SelectComponent
                     items={[
-                        ...(new Array(new Date().getFullYear()) as number[]),
+                        ...(new Array(new Date().getFullYear()) as number[])
                     ]
                         .map((_, index) => ({
                             label: (index + 1).toString(),
-                            value: (index + 1).toString(),
+                            value: (index + 1).toString()
                         }))
                         .slice(1900, new Date().getFullYear() + 1)
                         .reverse()}
@@ -136,10 +136,7 @@ function CalendarComponent({ translate, ...props }: CalendarProps) {
                     }}
                 />
             </div>
-            <Calendar
-                {...props}
-                month={date}
-            />
+            <Calendar {...props} month={date} />
         </>
     );
 }

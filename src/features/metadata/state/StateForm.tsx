@@ -30,8 +30,8 @@ function StateForm() {
     const form = useForm<TStateFormSchema>({
         resolver: zodResolver(stateFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ function StateForm() {
                 const response = await MetadataService.getOneState(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        stateName: response.data.stateName,
+                        stateName: response.data.stateName
                     });
                 }
             } catch (error) {
@@ -73,7 +73,7 @@ function StateForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...stateFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editState(
@@ -89,7 +89,7 @@ function StateForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("State created successfully");
                 form.reset({
-                    stateName: "",
+                    stateName: ""
                 });
             }
         } catch (error) {
@@ -131,10 +131,7 @@ function StateForm() {
                     name="stateName"
                     render={({ field }) => (
                         <FormItemWrapper label="State name">
-                            <Input
-                                {...field}
-                                placeholder="State name"
-                            />
+                            <Input {...field} placeholder="State name" />
                         </FormItemWrapper>
                     )}
                 />

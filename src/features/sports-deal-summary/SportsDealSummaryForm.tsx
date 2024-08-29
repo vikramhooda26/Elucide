@@ -23,14 +23,14 @@ import {
     convertCroreToRupees,
     convertRupeesToCrore,
     getListOfYears,
-    onNumInputChange,
+    onNumInputChange
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import {
     SPORTS_DEAL_SUMMARY_KEYS,
     sportsDealSummaryFormSchema,
     TEditSportsDealSummaryFormSchema,
-    TSportsDealSummaryFormSchema,
+    TSportsDealSummaryFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { TPartnerType } from "../activations/constants/metadata";
@@ -51,25 +51,25 @@ function SportsDealSummaryForm() {
     const form = useForm<TSportsDealSummaryFormSchema>({
         resolver: zodResolver(sportsDealSummaryFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     const status = [
         { value: "active", label: "Active" },
-        { value: "expired", label: "Expired" },
+        { value: "expired", label: "Expired" }
     ];
 
     const type = [
         { value: "sponsorship", label: "Sponsorship" },
         { value: "endorsement", label: "Endorsement" },
         { value: "media buy", label: "Media Buy" },
-        { value: "other", label: "Other" },
+        { value: "other", label: "Other" }
     ];
 
     const partnerTypeValue = useWatch({
         control: form.control,
-        name: "partnerType",
+        name: "partnerType"
     });
 
     useEffect(() => {
@@ -106,15 +106,15 @@ function SportsDealSummaryForm() {
         const partner: { type: TPartnerType; data: any } | undefined =
             (activationData.athlete?.id && {
                 type: "Athlete",
-                data: activationData.athlete.id,
+                data: activationData.athlete.id
             }) ||
             (activationData.team?.id && {
                 type: "Team",
-                data: activationData.team.id,
+                data: activationData.team.id
             }) ||
             (activationData.league?.id && {
                 type: "League",
-                data: activationData.league.id,
+                data: activationData.league.id
             }) ||
             undefined;
 
@@ -125,9 +125,8 @@ function SportsDealSummaryForm() {
         const fetchSportsDealSummaryDetails = async (id: string) => {
             try {
                 setIsFetchingDetails(true);
-                const response = await MetadataService.getOneSportsDealSummary(
-                    id
-                );
+                const response =
+                    await MetadataService.getOneSportsDealSummary(id);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     const sportsDealSummaryDetails: TEditSportsDealSummaryFormSchema =
@@ -149,8 +148,8 @@ function SportsDealSummaryForm() {
                         ...(partner?.type === "Athlete"
                             ? { athleteId: partner.data }
                             : partner?.type === "Team"
-                            ? { teamId: partner.data }
-                            : { leagueId: partner?.data }),
+                              ? { teamId: partner.data }
+                              : { leagueId: partner?.data }),
                         userId: user?.id || undefined,
                         assetIds:
                             sportsDealSummaryDetails.assets?.map(
@@ -172,7 +171,7 @@ function SportsDealSummaryForm() {
                         type: sportsDealSummaryDetails?.type,
                         levelId: sportsDealSummaryDetails.level?.id,
                         status: sportsDealSummaryDetails.status,
-                        territoryId: sportsDealSummaryDetails.territory?.id,
+                        territoryId: sportsDealSummaryDetails.territory?.id
                     });
                 }
             } catch (error) {
@@ -224,50 +223,50 @@ function SportsDealSummaryForm() {
             register: "type",
             options: type,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Level",
             register: "levelId",
             options: metadataStore.sportsDealSummaryLevel,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Status",
             register: "status",
             options: status,
             multiple: false,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Asset",
             register: "assetIds",
             options: metadataStore.asset,
             multiple: true,
-            type: "DROPDOWN",
+            type: "DROPDOWN"
         },
         {
             title: "Territory",
             register: "territoryId",
             options: metadataStore.sportsDealSummaryTerritory,
             multiple: false,
-            type: "DROPDOWN",
-        },
+            type: "DROPDOWN"
+        }
     ];
 
     const partnerType = [
         { value: "Team", label: "Team" },
         { value: "Athlete", label: "Athlete" },
-        { value: "League", label: "League" },
+        { value: "League", label: "League" }
     ];
 
     const getStakeholderTitle = () => {
         return partnerTypeValue === "Team"
             ? "Team"
             : partnerTypeValue === "League"
-            ? "League"
-            : "Athlete";
+              ? "League"
+              : "Athlete";
     };
 
     const getStakeholderName = () => {
@@ -324,7 +323,7 @@ function SportsDealSummaryForm() {
             const requestBody = {
                 ...sportsDealSummaryFormValues,
                 totalValue: convertedTotalValue,
-                annualValue: convertedAnnualValue,
+                annualValue: convertedAnnualValue
             };
 
             if (id) {
@@ -339,9 +338,8 @@ function SportsDealSummaryForm() {
                 return;
             }
 
-            const response = await MetadataService.createSportsDealSummary(
-                requestBody
-            );
+            const response =
+                await MetadataService.createSportsDealSummary(requestBody);
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sports deal summary created successfully");
@@ -377,7 +375,7 @@ function SportsDealSummaryForm() {
                                 navigate(
                                     NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
                                     {
-                                        replace: true,
+                                        replace: true
                                     }
                                 )
                             }
@@ -402,7 +400,7 @@ function SportsDealSummaryForm() {
                                     navigate(
                                         NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
                                         {
-                                            replace: true,
+                                            replace: true
                                         }
                                     )
                                 }
@@ -422,10 +420,7 @@ function SportsDealSummaryForm() {
                             >
                                 <span>Save Deal</span>
                                 {isSubmitting && (
-                                    <ClipLoader
-                                        size={15}
-                                        color="#020817"
-                                    />
+                                    <ClipLoader size={15} color="#020817" />
                                 )}
                             </Button>
                         </div>
@@ -460,7 +455,7 @@ function SportsDealSummaryForm() {
                                             />
                                         </div>
                                         <div className="grid gap-3">
-                                            <div className="grid gap-3 grid-cols-2">
+                                            <div className="grid grid-cols-2 gap-3">
                                                 <div className="grid gap-3">
                                                     <FormField
                                                         control={form.control}
@@ -537,8 +532,8 @@ function SportsDealSummaryForm() {
                                 </CardWrapper>
 
                                 <CardWrapper title="Other details">
-                                    <div className="grid gap-6  ">
-                                        <div className="grid gap-3 grid-cols-2">
+                                    <div className="grid gap-6">
+                                        <div className="grid grid-cols-2 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -588,7 +583,7 @@ function SportsDealSummaryForm() {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="grid gap-3 grid-cols-2">
+                                        <div className="grid grid-cols-2 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -632,7 +627,7 @@ function SportsDealSummaryForm() {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="grid gap-3 grid-cols-2">
+                                        <div className="grid grid-cols-2 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -669,7 +664,7 @@ function SportsDealSummaryForm() {
                                     </div>
                                 </CardWrapper>
                             </div>
-                            <div className="grid auto-rows-max items-start gap-4 ">
+                            <div className="grid auto-rows-max items-start gap-4">
                                 <VerticalFieldsCard
                                     control={form.control}
                                     title="Deal attributes"
@@ -679,11 +674,11 @@ function SportsDealSummaryForm() {
                         </div>
                     )}
 
-                    <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
+                    <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
                         <Button
                             type="submit"
                             size="sm"
-                            className="w-full py-5 gap-1"
+                            className="w-full gap-1 py-5"
                             disabled={
                                 isSubmitting ||
                                 isFetchingDetails ||
@@ -692,10 +687,7 @@ function SportsDealSummaryForm() {
                         >
                             <span>Save Deal</span>
                             {isSubmitting && (
-                                <ClipLoader
-                                    size={15}
-                                    color="#020817"
-                                />
+                                <ClipLoader size={15} color="#020817" />
                             )}
                         </Button>
                         <Button
@@ -711,7 +703,7 @@ function SportsDealSummaryForm() {
                                 navigate(
                                     NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST,
                                     {
-                                        replace: true,
+                                        replace: true
                                     }
                                 )
                             }

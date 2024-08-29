@@ -9,7 +9,7 @@ import {
     FieldPath,
     FieldValues,
     FormProvider,
-    useFormContext,
+    useFormContext
 } from "react-hook-form";
 import { Label } from "./label";
 import { cn } from "../../lib/utils";
@@ -59,7 +59,7 @@ const useFormField = () => {
         formItemId: `${id}-form-item`,
         formDescriptionId: `${id}-form-item-description`,
         formMessageId: `${id}-form-item-message`,
-        ...fieldState,
+        ...fieldState
     };
 };
 
@@ -79,11 +79,7 @@ const FormItem = React.forwardRef<
 
     return (
         <FormItemContext.Provider value={{ id }}>
-            <div
-                ref={ref}
-                className={cn("space-y-2", className)}
-                {...props}
-            />
+            <div ref={ref} className={cn("space-y-2", className)} {...props} />
         </FormItemContext.Provider>
     );
 });
@@ -181,5 +177,5 @@ export {
     FormControl,
     FormDescription,
     FormMessage,
-    FormField,
+    FormField
 };

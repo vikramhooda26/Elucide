@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     ottPartnerFormSchema,
-    TOttPartnerFormSchema,
+    TOttPartnerFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
@@ -33,8 +33,8 @@ function OttPartnerForm() {
     const form = useForm<TOttPartnerFormSchema>({
         resolver: zodResolver(ottPartnerFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -44,7 +44,7 @@ function OttPartnerForm() {
                 const response = await MetadataService.getOneOttPartner(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        ottPartnerName: response.data.ottPartnerName,
+                        ottPartnerName: response.data.ottPartnerName
                     });
                 }
             } catch (error) {
@@ -76,7 +76,7 @@ function OttPartnerForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...ottPartnerFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editOttPartner(
@@ -88,13 +88,12 @@ function OttPartnerForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createOttPartner(
-                requestBody
-            );
+            const response =
+                await MetadataService.createOttPartner(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("OTT Partner created successfully");
                 form.reset({
-                    ottPartnerName: "",
+                    ottPartnerName: ""
                 });
             }
         } catch (error) {
@@ -136,10 +135,7 @@ function OttPartnerForm() {
                     name="ottPartnerName"
                     render={({ field }) => (
                         <FormItemWrapper label="OTT partner name">
-                            <Input
-                                {...field}
-                                placeholder="OTT partner name"
-                            />
+                            <Input {...field} placeholder="OTT partner name" />
                         </FormItemWrapper>
                     )}
                 />

@@ -16,12 +16,9 @@ function TagLines({ data }: Props) {
                 <ul className="grid gap-3">
                     {data?.taglines?.length > 0 ? (
                         data?.taglines?.map((tag: nameAndId, i: number) => (
-                            <li
-                                key={i}
-                                className="flex items-center gap-2"
-                            >
+                            <li key={i} className="flex items-center gap-2">
                                 <span className="text-muted-foreground">
-                                    <Activity className="w-4 h-4" />
+                                    <Activity className="h-4 w-4" />
                                 </span>
                                 <span>{tag?.name}</span>
                             </li>

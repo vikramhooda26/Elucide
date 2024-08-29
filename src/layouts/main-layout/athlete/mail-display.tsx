@@ -7,12 +7,12 @@ import {
     MoreVertical,
     Reply,
     ReplyAll,
-    Trash2,
+    Trash2
 } from "lucide-react";
 import {
     Tooltip,
     TooltipContent,
-    TooltipTrigger,
+    TooltipTrigger
 } from "../../../components/ui/tooltip";
 import { Button } from "../../../components/ui/button";
 import { Separator } from "../../../components/ui/separator";
@@ -24,13 +24,13 @@ import { PopoverContent } from "@radix-ui/react-popover";
 import {
     Avatar,
     AvatarFallback,
-    AvatarImage,
+    AvatarImage
 } from "../../../components/ui/avatar";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuTrigger,
+    DropdownMenuTrigger
 } from "../../../components/ui/dropdown-menu";
 import { Calendar } from "../../../components/ui/calendar";
 import { TMail } from "./data";
@@ -85,10 +85,7 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                         </TooltipTrigger>
                         <TooltipContent>Move to trash</TooltipContent>
                     </Tooltip>
-                    <Separator
-                        orientation="vertical"
-                        className="mx-1 h-6"
-                    />
+                    <Separator orientation="vertical" className="mx-1 h-6" />
                     <Tooltip>
                         <Popover>
                             <PopoverTrigger asChild>
@@ -208,17 +205,10 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                         <TooltipContent>Forward</TooltipContent>
                     </Tooltip>
                 </div>
-                <Separator
-                    orientation="vertical"
-                    className="mx-2 h-6"
-                />
+                <Separator orientation="vertical" className="mx-2 h-6" />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            disabled={!mail}
-                        >
+                        <Button variant="ghost" size="icon" disabled={!mail}>
                             <MoreVertical className="h-4 w-4" />
                             <span className="sr-only">More</span>
                         </Button>

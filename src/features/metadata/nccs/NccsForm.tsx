@@ -30,8 +30,8 @@ function NccsForm() {
     const form = useForm<TNccsFormSchema>({
         resolver: zodResolver(nccsFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -49,7 +49,7 @@ function NccsForm() {
                 const response = await MetadataService.getOneNccsClass(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        nccsClass: response.data.nccsName,
+                        nccsClass: response.data.nccsName
                     });
                 }
             } catch (error) {
@@ -81,7 +81,7 @@ function NccsForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...nccsFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editNccs(
@@ -97,7 +97,7 @@ function NccsForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Nccs class created successfully");
                 form.reset({
-                    nccsClass: "",
+                    nccsClass: ""
                 });
             }
         } catch (error) {
@@ -131,10 +131,7 @@ function NccsForm() {
                     name="nccsClass"
                     render={({ field }) => (
                         <FormItemWrapper label="Nccs class">
-                            <Input
-                                {...field}
-                                placeholder="Nccs class"
-                            />
+                            <Input {...field} placeholder="Nccs class" />
                         </FormItemWrapper>
                     )}
                 />

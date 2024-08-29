@@ -9,7 +9,7 @@ export const schema = z.object({
     createdDate: z.string(),
     modifiedDate: z.string(),
     createdBy: z.string(),
-    modifiedBy: z.string(),
+    modifiedBy: z.string()
 });
 
 export type schemaType = z.infer<typeof schema>;

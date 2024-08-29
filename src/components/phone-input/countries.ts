@@ -23,8 +23,8 @@ export const countries = [
                 gmtOffset: 16200,
                 gmtOffsetName: "UTC+04:30",
                 abbreviation: "AFT",
-                tzName: "Afghanistan Time",
-            },
+                tzName: "Afghanistan Time"
+            }
         ],
         translations: {
             kr: "아프가니스탄",
@@ -39,12 +39,12 @@ export const countries = [
             ja: "アフガニスタン",
             it: "Afghanistan",
             cn: "阿富汗",
-            tr: "Afganistan",
+            tr: "Afganistan"
         },
         latitude: "33.00000000",
         longitude: "65.00000000",
         emoji: "🇦🇫",
-        emojiU: "U+1F1E6 U+1F1EB",
+        emojiU: "U+1F1E6 U+1F1EB"
     },
     {
         id: 2,
@@ -70,8 +70,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "올란드 제도",
@@ -86,12 +86,12 @@ export const countries = [
             ja: "オーランド諸島",
             it: "Isole Aland",
             cn: "奥兰群岛",
-            tr: "Åland Adalari",
+            tr: "Åland Adalari"
         },
         latitude: "60.11666700",
         longitude: "19.90000000",
         emoji: "🇦🇽",
-        emojiU: "U+1F1E6 U+1F1FD",
+        emojiU: "U+1F1E6 U+1F1FD"
     },
     {
         id: 3,
@@ -117,8 +117,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "알바니아",
@@ -133,12 +133,12 @@ export const countries = [
             ja: "アルバニア",
             it: "Albania",
             cn: "阿尔巴尼亚",
-            tr: "Arnavutluk",
+            tr: "Arnavutluk"
         },
         latitude: "41.00000000",
         longitude: "20.00000000",
         emoji: "🇦🇱",
-        emojiU: "U+1F1E6 U+1F1F1",
+        emojiU: "U+1F1E6 U+1F1F1"
     },
     {
         id: 4,
@@ -164,8 +164,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "알제리",
@@ -180,12 +180,12 @@ export const countries = [
             ja: "アルジェリア",
             it: "Algeria",
             cn: "阿尔及利亚",
-            tr: "Cezayir",
+            tr: "Cezayir"
         },
         latitude: "28.00000000",
         longitude: "3.00000000",
         emoji: "🇩🇿",
-        emojiU: "U+1F1E9 U+1F1FF",
+        emojiU: "U+1F1E9 U+1F1FF"
     },
     {
         id: 5,
@@ -211,8 +211,8 @@ export const countries = [
                 gmtOffset: -39600,
                 gmtOffsetName: "UTC-11:00",
                 abbreviation: "SST",
-                tzName: "Samoa Standard Time",
-            },
+                tzName: "Samoa Standard Time"
+            }
         ],
         translations: {
             kr: "아메리칸사모아",
@@ -227,12 +227,12 @@ export const countries = [
             ja: "アメリカ領サモア",
             it: "Samoa Americane",
             cn: "美属萨摩亚",
-            tr: "Amerikan Samoasi",
+            tr: "Amerikan Samoasi"
         },
         latitude: "-14.33333333",
         longitude: "-170.00000000",
         emoji: "🇦🇸",
-        emojiU: "U+1F1E6 U+1F1F8",
+        emojiU: "U+1F1E6 U+1F1F8"
     },
     {
         id: 6,
@@ -258,8 +258,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "안도라",
@@ -274,12 +274,12 @@ export const countries = [
             ja: "アンドラ",
             it: "Andorra",
             cn: "安道尔",
-            tr: "Andorra",
+            tr: "Andorra"
         },
         latitude: "42.50000000",
         longitude: "1.50000000",
         emoji: "🇦🇩",
-        emojiU: "U+1F1E6 U+1F1E9",
+        emojiU: "U+1F1E6 U+1F1E9"
     },
     {
         id: 7,
@@ -305,8 +305,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
-            },
+                tzName: "West Africa Time"
+            }
         ],
         translations: {
             kr: "앙골라",
@@ -321,12 +321,12 @@ export const countries = [
             ja: "アンゴラ",
             it: "Angola",
             cn: "安哥拉",
-            tr: "Angola",
+            tr: "Angola"
         },
         latitude: "-12.50000000",
         longitude: "18.50000000",
         emoji: "🇦🇴",
-        emojiU: "U+1F1E6 U+1F1F4",
+        emojiU: "U+1F1E6 U+1F1F4"
     },
     {
         id: 8,
@@ -352,8 +352,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "앵귈라",
@@ -368,12 +368,12 @@ export const countries = [
             ja: "アンギラ",
             it: "Anguilla",
             cn: "安圭拉",
-            tr: "Anguilla",
+            tr: "Anguilla"
         },
         latitude: "18.25000000",
         longitude: "-63.16666666",
         emoji: "🇦🇮",
-        emojiU: "U+1F1E6 U+1F1EE",
+        emojiU: "U+1F1E6 U+1F1EE"
     },
     {
         id: 9,
@@ -399,71 +399,71 @@ export const countries = [
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "AWST",
-                tzName: "Australian Western Standard Time",
+                tzName: "Australian Western Standard Time"
             },
             {
                 zoneName: "Antarctica/Davis",
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "DAVT",
-                tzName: "Davis Time",
+                tzName: "Davis Time"
             },
             {
                 zoneName: "Antarctica/DumontDUrville",
                 gmtOffset: 36000,
                 gmtOffsetName: "UTC+10:00",
                 abbreviation: "DDUT",
-                tzName: "Dumont d'Urville Time",
+                tzName: "Dumont d'Urville Time"
             },
             {
                 zoneName: "Antarctica/Mawson",
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "MAWT",
-                tzName: "Mawson Station Time",
+                tzName: "Mawson Station Time"
             },
             {
                 zoneName: "Antarctica/McMurdo",
                 gmtOffset: 46800,
                 gmtOffsetName: "UTC+13:00",
                 abbreviation: "NZDT",
-                tzName: "New Zealand Daylight Time",
+                tzName: "New Zealand Daylight Time"
             },
             {
                 zoneName: "Antarctica/Palmer",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "CLST",
-                tzName: "Chile Summer Time",
+                tzName: "Chile Summer Time"
             },
             {
                 zoneName: "Antarctica/Rothera",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ROTT",
-                tzName: "Rothera Research Station Time",
+                tzName: "Rothera Research Station Time"
             },
             {
                 zoneName: "Antarctica/Syowa",
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "SYOT",
-                tzName: "Showa Station Time",
+                tzName: "Showa Station Time"
             },
             {
                 zoneName: "Antarctica/Troll",
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
+                tzName: "Greenwich Mean Time"
             },
             {
                 zoneName: "Antarctica/Vostok",
                 gmtOffset: 21600,
                 gmtOffsetName: "UTC+06:00",
                 abbreviation: "VOST",
-                tzName: "Vostok Station Time",
-            },
+                tzName: "Vostok Station Time"
+            }
         ],
         translations: {
             kr: "남극",
@@ -478,12 +478,12 @@ export const countries = [
             ja: "南極大陸",
             it: "Antartide",
             cn: "南极洲",
-            tr: "Antartika",
+            tr: "Antartika"
         },
         latitude: "-74.65000000",
         longitude: "4.48000000",
         emoji: "🇦🇶",
-        emojiU: "U+1F1E6 U+1F1F6",
+        emojiU: "U+1F1E6 U+1F1F6"
     },
     {
         id: 10,
@@ -509,8 +509,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "앤티가 바부다",
@@ -525,12 +525,12 @@ export const countries = [
             ja: "アンティグア・バーブーダ",
             it: "Antigua e Barbuda",
             cn: "安提瓜和巴布达",
-            tr: "Antigua Ve Barbuda",
+            tr: "Antigua Ve Barbuda"
         },
         latitude: "17.05000000",
         longitude: "-61.80000000",
         emoji: "🇦🇬",
-        emojiU: "U+1F1E6 U+1F1EC",
+        emojiU: "U+1F1E6 U+1F1EC"
     },
     {
         id: 11,
@@ -556,85 +556,85 @@ export const countries = [
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/Catamarca",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/Cordoba",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/Jujuy",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/La_Rioja",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/Mendoza",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/Rio_Gallegos",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/Salta",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/San_Juan",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/San_Luis",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/Tucuman",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
+                tzName: "Argentina Time"
             },
             {
                 zoneName: "America/Argentina/Ushuaia",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "ART",
-                tzName: "Argentina Time",
-            },
+                tzName: "Argentina Time"
+            }
         ],
         translations: {
             kr: "아르헨티나",
@@ -649,12 +649,12 @@ export const countries = [
             ja: "アルゼンチン",
             it: "Argentina",
             cn: "阿根廷",
-            tr: "Arjantin",
+            tr: "Arjantin"
         },
         latitude: "-34.00000000",
         longitude: "-64.00000000",
         emoji: "🇦🇷",
-        emojiU: "U+1F1E6 U+1F1F7",
+        emojiU: "U+1F1E6 U+1F1F7"
     },
     {
         id: 12,
@@ -680,8 +680,8 @@ export const countries = [
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "AMT",
-                tzName: "Armenia Time",
-            },
+                tzName: "Armenia Time"
+            }
         ],
         translations: {
             kr: "아르메니아",
@@ -696,12 +696,12 @@ export const countries = [
             ja: "アルメニア",
             it: "Armenia",
             cn: "亚美尼亚",
-            tr: "Ermenistan",
+            tr: "Ermenistan"
         },
         latitude: "40.00000000",
         longitude: "45.00000000",
         emoji: "🇦🇲",
-        emojiU: "U+1F1E6 U+1F1F2",
+        emojiU: "U+1F1E6 U+1F1F2"
     },
     {
         id: 13,
@@ -727,8 +727,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "아루바",
@@ -743,12 +743,12 @@ export const countries = [
             ja: "アルバ",
             it: "Aruba",
             cn: "阿鲁巴",
-            tr: "Aruba",
+            tr: "Aruba"
         },
         latitude: "12.50000000",
         longitude: "-69.96666666",
         emoji: "🇦🇼",
-        emojiU: "U+1F1E6 U+1F1FC",
+        emojiU: "U+1F1E6 U+1F1FC"
     },
     {
         id: 14,
@@ -774,92 +774,92 @@ export const countries = [
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "MIST",
-                tzName: "Macquarie Island Station Time",
+                tzName: "Macquarie Island Station Time"
             },
             {
                 zoneName: "Australia/Adelaide",
                 gmtOffset: 37800,
                 gmtOffsetName: "UTC+10:30",
                 abbreviation: "ACDT",
-                tzName: "Australian Central Daylight Saving Time",
+                tzName: "Australian Central Daylight Saving Time"
             },
             {
                 zoneName: "Australia/Brisbane",
                 gmtOffset: 36000,
                 gmtOffsetName: "UTC+10:00",
                 abbreviation: "AEST",
-                tzName: "Australian Eastern Standard Time",
+                tzName: "Australian Eastern Standard Time"
             },
             {
                 zoneName: "Australia/Broken_Hill",
                 gmtOffset: 37800,
                 gmtOffsetName: "UTC+10:30",
                 abbreviation: "ACDT",
-                tzName: "Australian Central Daylight Saving Time",
+                tzName: "Australian Central Daylight Saving Time"
             },
             {
                 zoneName: "Australia/Currie",
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "AEDT",
-                tzName: "Australian Eastern Daylight Saving Time",
+                tzName: "Australian Eastern Daylight Saving Time"
             },
             {
                 zoneName: "Australia/Darwin",
                 gmtOffset: 34200,
                 gmtOffsetName: "UTC+09:30",
                 abbreviation: "ACST",
-                tzName: "Australian Central Standard Time",
+                tzName: "Australian Central Standard Time"
             },
             {
                 zoneName: "Australia/Eucla",
                 gmtOffset: 31500,
                 gmtOffsetName: "UTC+08:45",
                 abbreviation: "ACWST",
-                tzName: "Australian Central Western Standard Time (Unofficial)",
+                tzName: "Australian Central Western Standard Time (Unofficial)"
             },
             {
                 zoneName: "Australia/Hobart",
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "AEDT",
-                tzName: "Australian Eastern Daylight Saving Time",
+                tzName: "Australian Eastern Daylight Saving Time"
             },
             {
                 zoneName: "Australia/Lindeman",
                 gmtOffset: 36000,
                 gmtOffsetName: "UTC+10:00",
                 abbreviation: "AEST",
-                tzName: "Australian Eastern Standard Time",
+                tzName: "Australian Eastern Standard Time"
             },
             {
                 zoneName: "Australia/Lord_Howe",
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "LHST",
-                tzName: "Lord Howe Summer Time",
+                tzName: "Lord Howe Summer Time"
             },
             {
                 zoneName: "Australia/Melbourne",
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "AEDT",
-                tzName: "Australian Eastern Daylight Saving Time",
+                tzName: "Australian Eastern Daylight Saving Time"
             },
             {
                 zoneName: "Australia/Perth",
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "AWST",
-                tzName: "Australian Western Standard Time",
+                tzName: "Australian Western Standard Time"
             },
             {
                 zoneName: "Australia/Sydney",
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "AEDT",
-                tzName: "Australian Eastern Daylight Saving Time",
-            },
+                tzName: "Australian Eastern Daylight Saving Time"
+            }
         ],
         translations: {
             kr: "호주",
@@ -874,12 +874,12 @@ export const countries = [
             ja: "オーストラリア",
             it: "Australia",
             cn: "澳大利亚",
-            tr: "Avustralya",
+            tr: "Avustralya"
         },
         latitude: "-27.00000000",
         longitude: "133.00000000",
         emoji: "🇦🇺",
-        emojiU: "U+1F1E6 U+1F1FA",
+        emojiU: "U+1F1E6 U+1F1FA"
     },
     {
         id: 15,
@@ -905,8 +905,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "오스트리아",
@@ -921,12 +921,12 @@ export const countries = [
             ja: "オーストリア",
             it: "Austria",
             cn: "奥地利",
-            tr: "Avusturya",
+            tr: "Avusturya"
         },
         latitude: "47.33333333",
         longitude: "13.33333333",
         emoji: "🇦🇹",
-        emojiU: "U+1F1E6 U+1F1F9",
+        emojiU: "U+1F1E6 U+1F1F9"
     },
     {
         id: 16,
@@ -952,8 +952,8 @@ export const countries = [
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "AZT",
-                tzName: "Azerbaijan Time",
-            },
+                tzName: "Azerbaijan Time"
+            }
         ],
         translations: {
             kr: "아제르바이잔",
@@ -968,12 +968,12 @@ export const countries = [
             ja: "アゼルバイジャン",
             it: "Azerbaijan",
             cn: "阿塞拜疆",
-            tr: "Azerbaycan",
+            tr: "Azerbaycan"
         },
         latitude: "40.50000000",
         longitude: "47.50000000",
         emoji: "🇦🇿",
-        emojiU: "U+1F1E6 U+1F1FF",
+        emojiU: "U+1F1E6 U+1F1FF"
     },
     {
         id: 18,
@@ -999,8 +999,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "AST",
-                tzName: "Arabia Standard Time",
-            },
+                tzName: "Arabia Standard Time"
+            }
         ],
         translations: {
             kr: "바레인",
@@ -1015,12 +1015,12 @@ export const countries = [
             ja: "バーレーン",
             it: "Bahrein",
             cn: "巴林",
-            tr: "Bahreyn",
+            tr: "Bahreyn"
         },
         latitude: "26.00000000",
         longitude: "50.55000000",
         emoji: "🇧🇭",
-        emojiU: "U+1F1E7 U+1F1ED",
+        emojiU: "U+1F1E7 U+1F1ED"
     },
     {
         id: 19,
@@ -1046,8 +1046,8 @@ export const countries = [
                 gmtOffset: 21600,
                 gmtOffsetName: "UTC+06:00",
                 abbreviation: "BDT",
-                tzName: "Bangladesh Standard Time",
-            },
+                tzName: "Bangladesh Standard Time"
+            }
         ],
         translations: {
             kr: "방글라데시",
@@ -1062,12 +1062,12 @@ export const countries = [
             ja: "バングラデシュ",
             it: "Bangladesh",
             cn: "孟加拉",
-            tr: "Bangladeş",
+            tr: "Bangladeş"
         },
         latitude: "24.00000000",
         longitude: "90.00000000",
         emoji: "🇧🇩",
-        emojiU: "U+1F1E7 U+1F1E9",
+        emojiU: "U+1F1E7 U+1F1E9"
     },
     {
         id: 20,
@@ -1093,8 +1093,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "바베이도스",
@@ -1109,12 +1109,12 @@ export const countries = [
             ja: "バルバドス",
             it: "Barbados",
             cn: "巴巴多斯",
-            tr: "Barbados",
+            tr: "Barbados"
         },
         latitude: "13.16666666",
         longitude: "-59.53333333",
         emoji: "🇧🇧",
-        emojiU: "U+1F1E7 U+1F1E7",
+        emojiU: "U+1F1E7 U+1F1E7"
     },
     {
         id: 21,
@@ -1140,8 +1140,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "MSK",
-                tzName: "Moscow Time",
-            },
+                tzName: "Moscow Time"
+            }
         ],
         translations: {
             kr: "벨라루스",
@@ -1156,12 +1156,12 @@ export const countries = [
             ja: "ベラルーシ",
             it: "Bielorussia",
             cn: "白俄罗斯",
-            tr: "Belarus",
+            tr: "Belarus"
         },
         latitude: "53.00000000",
         longitude: "28.00000000",
         emoji: "🇧🇾",
-        emojiU: "U+1F1E7 U+1F1FE",
+        emojiU: "U+1F1E7 U+1F1FE"
     },
     {
         id: 22,
@@ -1187,8 +1187,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "벨기에",
@@ -1203,12 +1203,12 @@ export const countries = [
             ja: "ベルギー",
             it: "Belgio",
             cn: "比利时",
-            tr: "Belçika",
+            tr: "Belçika"
         },
         latitude: "50.83333333",
         longitude: "4.00000000",
         emoji: "🇧🇪",
-        emojiU: "U+1F1E7 U+1F1EA",
+        emojiU: "U+1F1E7 U+1F1EA"
     },
     {
         id: 23,
@@ -1234,8 +1234,8 @@ export const countries = [
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America)",
-            },
+                tzName: "Central Standard Time (North America)"
+            }
         ],
         translations: {
             kr: "벨리즈",
@@ -1250,12 +1250,12 @@ export const countries = [
             ja: "ベリーズ",
             it: "Belize",
             cn: "伯利兹",
-            tr: "Belize",
+            tr: "Belize"
         },
         latitude: "17.25000000",
         longitude: "-88.75000000",
         emoji: "🇧🇿",
-        emojiU: "U+1F1E7 U+1F1FF",
+        emojiU: "U+1F1E7 U+1F1FF"
     },
     {
         id: 24,
@@ -1281,8 +1281,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
-            },
+                tzName: "West Africa Time"
+            }
         ],
         translations: {
             kr: "베냉",
@@ -1297,12 +1297,12 @@ export const countries = [
             ja: "ベナン",
             it: "Benin",
             cn: "贝宁",
-            tr: "Benin",
+            tr: "Benin"
         },
         latitude: "9.50000000",
         longitude: "2.25000000",
         emoji: "🇧🇯",
-        emojiU: "U+1F1E7 U+1F1EF",
+        emojiU: "U+1F1E7 U+1F1EF"
     },
     {
         id: 25,
@@ -1328,8 +1328,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "버뮤다",
@@ -1344,12 +1344,12 @@ export const countries = [
             ja: "バミューダ",
             it: "Bermuda",
             cn: "百慕大",
-            tr: "Bermuda",
+            tr: "Bermuda"
         },
         latitude: "32.33333333",
         longitude: "-64.75000000",
         emoji: "🇧🇲",
-        emojiU: "U+1F1E7 U+1F1F2",
+        emojiU: "U+1F1E7 U+1F1F2"
     },
     {
         id: 26,
@@ -1375,8 +1375,8 @@ export const countries = [
                 gmtOffset: 21600,
                 gmtOffsetName: "UTC+06:00",
                 abbreviation: "BTT",
-                tzName: "Bhutan Time",
-            },
+                tzName: "Bhutan Time"
+            }
         ],
         translations: {
             kr: "부탄",
@@ -1391,12 +1391,12 @@ export const countries = [
             ja: "ブータン",
             it: "Bhutan",
             cn: "不丹",
-            tr: "Butan",
+            tr: "Butan"
         },
         latitude: "27.50000000",
         longitude: "90.50000000",
         emoji: "🇧🇹",
-        emojiU: "U+1F1E7 U+1F1F9",
+        emojiU: "U+1F1E7 U+1F1F9"
     },
     {
         id: 27,
@@ -1422,8 +1422,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "BOT",
-                tzName: "Bolivia Time",
-            },
+                tzName: "Bolivia Time"
+            }
         ],
         translations: {
             kr: "볼리비아",
@@ -1438,12 +1438,12 @@ export const countries = [
             ja: "ボリビア多民族国",
             it: "Bolivia",
             cn: "玻利维亚",
-            tr: "Bolivya",
+            tr: "Bolivya"
         },
         latitude: "-17.00000000",
         longitude: "-65.00000000",
         emoji: "🇧🇴",
-        emojiU: "U+1F1E7 U+1F1F4",
+        emojiU: "U+1F1E7 U+1F1F4"
     },
     {
         id: 155,
@@ -1469,8 +1469,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "보네르 섬",
@@ -1481,12 +1481,12 @@ export const countries = [
             fr: "Bonaire, Saint-Eustache et Saba",
             it: "Bonaire, Saint-Eustache e Saba",
             cn: "博内尔岛、圣尤斯特歇斯和萨巴岛",
-            tr: "Karayip Hollandasi",
+            tr: "Karayip Hollandasi"
         },
         latitude: "12.15000000",
         longitude: "-68.26666700",
         emoji: "🇧🇶",
-        emojiU: "U+1F1E7 U+1F1F6",
+        emojiU: "U+1F1E7 U+1F1F6"
     },
     {
         id: 28,
@@ -1512,8 +1512,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "보스니아 헤르체고비나",
@@ -1528,12 +1528,12 @@ export const countries = [
             ja: "ボスニア・ヘルツェゴビナ",
             it: "Bosnia ed Erzegovina",
             cn: "波斯尼亚和黑塞哥维那",
-            tr: "Bosna Hersek",
+            tr: "Bosna Hersek"
         },
         latitude: "44.00000000",
         longitude: "18.00000000",
         emoji: "🇧🇦",
-        emojiU: "U+1F1E7 U+1F1E6",
+        emojiU: "U+1F1E7 U+1F1E6"
     },
     {
         id: 29,
@@ -1559,8 +1559,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "CAT",
-                tzName: "Central Africa Time",
-            },
+                tzName: "Central Africa Time"
+            }
         ],
         translations: {
             kr: "보츠와나",
@@ -1575,12 +1575,12 @@ export const countries = [
             ja: "ボツワナ",
             it: "Botswana",
             cn: "博茨瓦纳",
-            tr: "Botsvana",
+            tr: "Botsvana"
         },
         latitude: "-22.00000000",
         longitude: "24.00000000",
         emoji: "🇧🇼",
-        emojiU: "U+1F1E7 U+1F1FC",
+        emojiU: "U+1F1E7 U+1F1FC"
     },
     {
         id: 30,
@@ -1606,8 +1606,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "부벳 섬",
@@ -1622,12 +1622,12 @@ export const countries = [
             ja: "ブーベ島",
             it: "Isola Bouvet",
             cn: "布维岛",
-            tr: "Bouvet Adasi",
+            tr: "Bouvet Adasi"
         },
         latitude: "-54.43333333",
         longitude: "3.40000000",
         emoji: "🇧🇻",
-        emojiU: "U+1F1E7 U+1F1FB",
+        emojiU: "U+1F1E7 U+1F1FB"
     },
     {
         id: 31,
@@ -1653,113 +1653,113 @@ export const countries = [
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "BRT",
-                tzName: "Brasília Time",
+                tzName: "Brasília Time"
             },
             {
                 zoneName: "America/Bahia",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "BRT",
-                tzName: "Brasília Time",
+                tzName: "Brasília Time"
             },
             {
                 zoneName: "America/Belem",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "BRT",
-                tzName: "Brasília Time",
+                tzName: "Brasília Time"
             },
             {
                 zoneName: "America/Boa_Vista",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AMT",
-                tzName: "Amazon Time (Brazil)[3",
+                tzName: "Amazon Time (Brazil)[3"
             },
             {
                 zoneName: "America/Campo_Grande",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AMT",
-                tzName: "Amazon Time (Brazil)[3",
+                tzName: "Amazon Time (Brazil)[3"
             },
             {
                 zoneName: "America/Cuiaba",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "BRT",
-                tzName: "Brasilia Time",
+                tzName: "Brasilia Time"
             },
             {
                 zoneName: "America/Eirunepe",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "ACT",
-                tzName: "Acre Time",
+                tzName: "Acre Time"
             },
             {
                 zoneName: "America/Fortaleza",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "BRT",
-                tzName: "Brasília Time",
+                tzName: "Brasília Time"
             },
             {
                 zoneName: "America/Maceio",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "BRT",
-                tzName: "Brasília Time",
+                tzName: "Brasília Time"
             },
             {
                 zoneName: "America/Manaus",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AMT",
-                tzName: "Amazon Time (Brazil)",
+                tzName: "Amazon Time (Brazil)"
             },
             {
                 zoneName: "America/Noronha",
                 gmtOffset: -7200,
                 gmtOffsetName: "UTC-02:00",
                 abbreviation: "FNT",
-                tzName: "Fernando de Noronha Time",
+                tzName: "Fernando de Noronha Time"
             },
             {
                 zoneName: "America/Porto_Velho",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AMT",
-                tzName: "Amazon Time (Brazil)[3",
+                tzName: "Amazon Time (Brazil)[3"
             },
             {
                 zoneName: "America/Recife",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "BRT",
-                tzName: "Brasília Time",
+                tzName: "Brasília Time"
             },
             {
                 zoneName: "America/Rio_Branco",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "ACT",
-                tzName: "Acre Time",
+                tzName: "Acre Time"
             },
             {
                 zoneName: "America/Santarem",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "BRT",
-                tzName: "Brasília Time",
+                tzName: "Brasília Time"
             },
             {
                 zoneName: "America/Sao_Paulo",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "BRT",
-                tzName: "Brasília Time",
-            },
+                tzName: "Brasília Time"
+            }
         ],
         translations: {
             kr: "브라질",
@@ -1774,12 +1774,12 @@ export const countries = [
             ja: "ブラジル",
             it: "Brasile",
             cn: "巴西",
-            tr: "Brezilya",
+            tr: "Brezilya"
         },
         latitude: "-10.00000000",
         longitude: "-55.00000000",
         emoji: "🇧🇷",
-        emojiU: "U+1F1E7 U+1F1F7",
+        emojiU: "U+1F1E7 U+1F1F7"
     },
     {
         id: 32,
@@ -1805,8 +1805,8 @@ export const countries = [
                 gmtOffset: 21600,
                 gmtOffsetName: "UTC+06:00",
                 abbreviation: "IOT",
-                tzName: "Indian Ocean Time",
-            },
+                tzName: "Indian Ocean Time"
+            }
         ],
         translations: {
             kr: "영국령 인도양 지역",
@@ -1821,12 +1821,12 @@ export const countries = [
             ja: "イギリス領インド洋地域",
             it: "Territorio britannico dell'oceano indiano",
             cn: "英属印度洋领地",
-            tr: "Britanya Hint Okyanusu Topraklari",
+            tr: "Britanya Hint Okyanusu Topraklari"
         },
         latitude: "-6.00000000",
         longitude: "71.50000000",
         emoji: "🇮🇴",
-        emojiU: "U+1F1EE U+1F1F4",
+        emojiU: "U+1F1EE U+1F1F4"
     },
     {
         id: 33,
@@ -1852,8 +1852,8 @@ export const countries = [
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "BNT",
-                tzName: "Brunei Darussalam Time",
-            },
+                tzName: "Brunei Darussalam Time"
+            }
         ],
         translations: {
             kr: "브루나이",
@@ -1868,12 +1868,12 @@ export const countries = [
             ja: "ブルネイ・ダルサラーム",
             it: "Brunei",
             cn: "文莱",
-            tr: "Brunei",
+            tr: "Brunei"
         },
         latitude: "4.50000000",
         longitude: "114.66666666",
         emoji: "🇧🇳",
-        emojiU: "U+1F1E7 U+1F1F3",
+        emojiU: "U+1F1E7 U+1F1F3"
     },
     {
         id: 34,
@@ -1899,8 +1899,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "불가리아",
@@ -1915,12 +1915,12 @@ export const countries = [
             ja: "ブルガリア",
             it: "Bulgaria",
             cn: "保加利亚",
-            tr: "Bulgaristan",
+            tr: "Bulgaristan"
         },
         latitude: "43.00000000",
         longitude: "25.00000000",
         emoji: "🇧🇬",
-        emojiU: "U+1F1E7 U+1F1EC",
+        emojiU: "U+1F1E7 U+1F1EC"
     },
     {
         id: 35,
@@ -1946,8 +1946,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "부르키나 파소",
@@ -1962,12 +1962,12 @@ export const countries = [
             ja: "ブルキナファソ",
             it: "Burkina Faso",
             cn: "布基纳法索",
-            tr: "Burkina Faso",
+            tr: "Burkina Faso"
         },
         latitude: "13.00000000",
         longitude: "-2.00000000",
         emoji: "🇧🇫",
-        emojiU: "U+1F1E7 U+1F1EB",
+        emojiU: "U+1F1E7 U+1F1EB"
     },
     {
         id: 36,
@@ -1993,8 +1993,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "CAT",
-                tzName: "Central Africa Time",
-            },
+                tzName: "Central Africa Time"
+            }
         ],
         translations: {
             kr: "부룬디",
@@ -2009,12 +2009,12 @@ export const countries = [
             ja: "ブルンジ",
             it: "Burundi",
             cn: "布隆迪",
-            tr: "Burundi",
+            tr: "Burundi"
         },
         latitude: "-3.50000000",
         longitude: "30.00000000",
         emoji: "🇧🇮",
-        emojiU: "U+1F1E7 U+1F1EE",
+        emojiU: "U+1F1E7 U+1F1EE"
     },
     {
         id: 37,
@@ -2040,8 +2040,8 @@ export const countries = [
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "ICT",
-                tzName: "Indochina Time",
-            },
+                tzName: "Indochina Time"
+            }
         ],
         translations: {
             kr: "캄보디아",
@@ -2056,12 +2056,12 @@ export const countries = [
             ja: "カンボジア",
             it: "Cambogia",
             cn: "柬埔寨",
-            tr: "Kamboçya",
+            tr: "Kamboçya"
         },
         latitude: "13.00000000",
         longitude: "105.00000000",
         emoji: "🇰🇭",
-        emojiU: "U+1F1F0 U+1F1ED",
+        emojiU: "U+1F1F0 U+1F1ED"
     },
     {
         id: 38,
@@ -2087,8 +2087,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
-            },
+                tzName: "West Africa Time"
+            }
         ],
         translations: {
             kr: "카메룬",
@@ -2103,12 +2103,12 @@ export const countries = [
             ja: "カメルーン",
             it: "Camerun",
             cn: "喀麦隆",
-            tr: "Kamerun",
+            tr: "Kamerun"
         },
         latitude: "6.00000000",
         longitude: "12.00000000",
         emoji: "🇨🇲",
-        emojiU: "U+1F1E8 U+1F1F2",
+        emojiU: "U+1F1E8 U+1F1F2"
     },
     {
         id: 39,
@@ -2134,197 +2134,197 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America)",
+                tzName: "Eastern Standard Time (North America)"
             },
             {
                 zoneName: "America/Blanc-Sablon",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
+                tzName: "Atlantic Standard Time"
             },
             {
                 zoneName: "America/Cambridge_Bay",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America)",
+                tzName: "Mountain Standard Time (North America)"
             },
             {
                 zoneName: "America/Creston",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America)",
+                tzName: "Mountain Standard Time (North America)"
             },
             {
                 zoneName: "America/Dawson",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America)",
+                tzName: "Mountain Standard Time (North America)"
             },
             {
                 zoneName: "America/Dawson_Creek",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America)",
+                tzName: "Mountain Standard Time (North America)"
             },
             {
                 zoneName: "America/Edmonton",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America)",
+                tzName: "Mountain Standard Time (North America)"
             },
             {
                 zoneName: "America/Fort_Nelson",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America)",
+                tzName: "Mountain Standard Time (North America)"
             },
             {
                 zoneName: "America/Glace_Bay",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
+                tzName: "Atlantic Standard Time"
             },
             {
                 zoneName: "America/Goose_Bay",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
+                tzName: "Atlantic Standard Time"
             },
             {
                 zoneName: "America/Halifax",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
+                tzName: "Atlantic Standard Time"
             },
             {
                 zoneName: "America/Inuvik",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America",
+                tzName: "Mountain Standard Time (North America"
             },
             {
                 zoneName: "America/Iqaluit",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Moncton",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
+                tzName: "Atlantic Standard Time"
             },
             {
                 zoneName: "America/Nipigon",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Pangnirtung",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Rainy_River",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Rankin_Inlet",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Regina",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Resolute",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/St_Johns",
                 gmtOffset: -12600,
                 gmtOffsetName: "UTC-03:30",
                 abbreviation: "NST",
-                tzName: "Newfoundland Standard Time",
+                tzName: "Newfoundland Standard Time"
             },
             {
                 zoneName: "America/Swift_Current",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Thunder_Bay",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Toronto",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Vancouver",
                 gmtOffset: -28800,
                 gmtOffsetName: "UTC-08:00",
                 abbreviation: "PST",
-                tzName: "Pacific Standard Time (North America",
+                tzName: "Pacific Standard Time (North America"
             },
             {
                 zoneName: "America/Whitehorse",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America",
+                tzName: "Mountain Standard Time (North America"
             },
             {
                 zoneName: "America/Winnipeg",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Yellowknife",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America",
-            },
+                tzName: "Mountain Standard Time (North America"
+            }
         ],
         translations: {
             kr: "캐나다",
@@ -2339,12 +2339,12 @@ export const countries = [
             ja: "カナダ",
             it: "Canada",
             cn: "加拿大",
-            tr: "Kanada",
+            tr: "Kanada"
         },
         latitude: "60.00000000",
         longitude: "-95.00000000",
         emoji: "🇨🇦",
-        emojiU: "U+1F1E8 U+1F1E6",
+        emojiU: "U+1F1E8 U+1F1E6"
     },
     {
         id: 40,
@@ -2370,8 +2370,8 @@ export const countries = [
                 gmtOffset: -3600,
                 gmtOffsetName: "UTC-01:00",
                 abbreviation: "CVT",
-                tzName: "Cape Verde Time",
-            },
+                tzName: "Cape Verde Time"
+            }
         ],
         translations: {
             kr: "카보베르데",
@@ -2386,12 +2386,12 @@ export const countries = [
             ja: "カーボベルデ",
             it: "Capo Verde",
             cn: "佛得角",
-            tr: "Cabo Verde",
+            tr: "Cabo Verde"
         },
         latitude: "16.00000000",
         longitude: "-24.00000000",
         emoji: "🇨🇻",
-        emojiU: "U+1F1E8 U+1F1FB",
+        emojiU: "U+1F1E8 U+1F1FB"
     },
     {
         id: 41,
@@ -2417,8 +2417,8 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
-            },
+                tzName: "Eastern Standard Time (North America"
+            }
         ],
         translations: {
             kr: "케이먼 제도",
@@ -2433,12 +2433,12 @@ export const countries = [
             ja: "ケイマン諸島",
             it: "Isole Cayman",
             cn: "开曼群岛",
-            tr: "Cayman Adalari",
+            tr: "Cayman Adalari"
         },
         latitude: "19.50000000",
         longitude: "-80.50000000",
         emoji: "🇰🇾",
-        emojiU: "U+1F1F0 U+1F1FE",
+        emojiU: "U+1F1F0 U+1F1FE"
     },
     {
         id: 42,
@@ -2464,8 +2464,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
-            },
+                tzName: "West Africa Time"
+            }
         ],
         translations: {
             kr: "중앙아프리카 공화국",
@@ -2480,12 +2480,12 @@ export const countries = [
             ja: "中央アフリカ共和国",
             it: "Repubblica Centrafricana",
             cn: "中非",
-            tr: "Orta Afrika Cumhuriyeti",
+            tr: "Orta Afrika Cumhuriyeti"
         },
         latitude: "7.00000000",
         longitude: "21.00000000",
         emoji: "🇨🇫",
-        emojiU: "U+1F1E8 U+1F1EB",
+        emojiU: "U+1F1E8 U+1F1EB"
     },
     {
         id: 43,
@@ -2511,8 +2511,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
-            },
+                tzName: "West Africa Time"
+            }
         ],
         translations: {
             kr: "차드",
@@ -2527,12 +2527,12 @@ export const countries = [
             ja: "チャド",
             it: "Ciad",
             cn: "乍得",
-            tr: "Çad",
+            tr: "Çad"
         },
         latitude: "15.00000000",
         longitude: "19.00000000",
         emoji: "🇹🇩",
-        emojiU: "U+1F1F9 U+1F1E9",
+        emojiU: "U+1F1F9 U+1F1E9"
     },
     {
         id: 44,
@@ -2558,22 +2558,22 @@ export const countries = [
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "CLST",
-                tzName: "Chile Summer Time",
+                tzName: "Chile Summer Time"
             },
             {
                 zoneName: "America/Santiago",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "CLST",
-                tzName: "Chile Summer Time",
+                tzName: "Chile Summer Time"
             },
             {
                 zoneName: "Pacific/Easter",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EASST",
-                tzName: "Easter Island Summer Time",
-            },
+                tzName: "Easter Island Summer Time"
+            }
         ],
         translations: {
             kr: "칠리",
@@ -2588,12 +2588,12 @@ export const countries = [
             ja: "チリ",
             it: "Cile",
             cn: "智利",
-            tr: "Şili",
+            tr: "Şili"
         },
         latitude: "-30.00000000",
         longitude: "-71.00000000",
         emoji: "🇨🇱",
-        emojiU: "U+1F1E8 U+1F1F1",
+        emojiU: "U+1F1E8 U+1F1F1"
     },
     {
         id: 45,
@@ -2619,15 +2619,15 @@ export const countries = [
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "CST",
-                tzName: "China Standard Time",
+                tzName: "China Standard Time"
             },
             {
                 zoneName: "Asia/Urumqi",
                 gmtOffset: 21600,
                 gmtOffsetName: "UTC+06:00",
                 abbreviation: "XJT",
-                tzName: "China Standard Time",
-            },
+                tzName: "China Standard Time"
+            }
         ],
         translations: {
             kr: "중국",
@@ -2642,12 +2642,12 @@ export const countries = [
             ja: "中国",
             it: "Cina",
             cn: "中国",
-            tr: "Çin",
+            tr: "Çin"
         },
         latitude: "35.00000000",
         longitude: "105.00000000",
         emoji: "🇨🇳",
-        emojiU: "U+1F1E8 U+1F1F3",
+        emojiU: "U+1F1E8 U+1F1F3"
     },
     {
         id: 46,
@@ -2673,8 +2673,8 @@ export const countries = [
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "CXT",
-                tzName: "Christmas Island Time",
-            },
+                tzName: "Christmas Island Time"
+            }
         ],
         translations: {
             kr: "크리스마스 섬",
@@ -2689,12 +2689,12 @@ export const countries = [
             ja: "クリスマス島",
             it: "Isola di Natale",
             cn: "圣诞岛",
-            tr: "Christmas Adasi",
+            tr: "Christmas Adasi"
         },
         latitude: "-10.50000000",
         longitude: "105.66666666",
         emoji: "🇨🇽",
-        emojiU: "U+1F1E8 U+1F1FD",
+        emojiU: "U+1F1E8 U+1F1FD"
     },
     {
         id: 47,
@@ -2720,8 +2720,8 @@ export const countries = [
                 gmtOffset: 23400,
                 gmtOffsetName: "UTC+06:30",
                 abbreviation: "CCT",
-                tzName: "Cocos Islands Time",
-            },
+                tzName: "Cocos Islands Time"
+            }
         ],
         translations: {
             kr: "코코스 제도",
@@ -2736,12 +2736,12 @@ export const countries = [
             ja: "ココス（キーリング）諸島",
             it: "Isole Cocos e Keeling",
             cn: "科科斯（基林）群岛",
-            tr: "Cocos Adalari",
+            tr: "Cocos Adalari"
         },
         latitude: "-12.50000000",
         longitude: "96.83333333",
         emoji: "🇨🇨",
-        emojiU: "U+1F1E8 U+1F1E8",
+        emojiU: "U+1F1E8 U+1F1E8"
     },
     {
         id: 48,
@@ -2767,8 +2767,8 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "COT",
-                tzName: "Colombia Time",
-            },
+                tzName: "Colombia Time"
+            }
         ],
         translations: {
             kr: "콜롬비아",
@@ -2783,12 +2783,12 @@ export const countries = [
             ja: "コロンビア",
             it: "Colombia",
             cn: "哥伦比亚",
-            tr: "Kolombiya",
+            tr: "Kolombiya"
         },
         latitude: "4.00000000",
         longitude: "-72.00000000",
         emoji: "🇨🇴",
-        emojiU: "U+1F1E8 U+1F1F4",
+        emojiU: "U+1F1E8 U+1F1F4"
     },
     {
         id: 49,
@@ -2814,8 +2814,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "코모로",
@@ -2830,12 +2830,12 @@ export const countries = [
             ja: "コモロ",
             it: "Comore",
             cn: "科摩罗",
-            tr: "Komorlar",
+            tr: "Komorlar"
         },
         latitude: "-12.16666666",
         longitude: "44.25000000",
         emoji: "🇰🇲",
-        emojiU: "U+1F1F0 U+1F1F2",
+        emojiU: "U+1F1F0 U+1F1F2"
     },
     {
         id: 50,
@@ -2861,8 +2861,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
-            },
+                tzName: "West Africa Time"
+            }
         ],
         translations: {
             kr: "콩고",
@@ -2877,12 +2877,12 @@ export const countries = [
             ja: "コンゴ共和国",
             it: "Congo",
             cn: "刚果",
-            tr: "Kongo",
+            tr: "Kongo"
         },
         latitude: "-1.00000000",
         longitude: "15.00000000",
         emoji: "🇨🇬",
-        emojiU: "U+1F1E8 U+1F1EC",
+        emojiU: "U+1F1E8 U+1F1EC"
     },
     {
         id: 52,
@@ -2908,8 +2908,8 @@ export const countries = [
                 gmtOffset: -36000,
                 gmtOffsetName: "UTC-10:00",
                 abbreviation: "CKT",
-                tzName: "Cook Island Time",
-            },
+                tzName: "Cook Island Time"
+            }
         ],
         translations: {
             kr: "쿡 제도",
@@ -2924,12 +2924,12 @@ export const countries = [
             ja: "クック諸島",
             it: "Isole Cook",
             cn: "库克群岛",
-            tr: "Cook Adalari",
+            tr: "Cook Adalari"
         },
         latitude: "-21.23333333",
         longitude: "-159.76666666",
         emoji: "🇨🇰",
-        emojiU: "U+1F1E8 U+1F1F0",
+        emojiU: "U+1F1E8 U+1F1F0"
     },
     {
         id: 53,
@@ -2955,8 +2955,8 @@ export const countries = [
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
-            },
+                tzName: "Central Standard Time (North America"
+            }
         ],
         translations: {
             kr: "코스타리카",
@@ -2971,12 +2971,12 @@ export const countries = [
             ja: "コスタリカ",
             it: "Costa Rica",
             cn: "哥斯达黎加",
-            tr: "Kosta Rika",
+            tr: "Kosta Rika"
         },
         latitude: "10.00000000",
         longitude: "-84.00000000",
         emoji: "🇨🇷",
-        emojiU: "U+1F1E8 U+1F1F7",
+        emojiU: "U+1F1E8 U+1F1F7"
     },
     {
         id: 54,
@@ -3002,8 +3002,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "코트디부아르",
@@ -3018,12 +3018,12 @@ export const countries = [
             ja: "コートジボワール",
             it: "Costa D'Avorio",
             cn: "科特迪瓦",
-            tr: "Kotdivuar",
+            tr: "Kotdivuar"
         },
         latitude: "8.00000000",
         longitude: "-5.00000000",
         emoji: "🇨🇮",
-        emojiU: "U+1F1E8 U+1F1EE",
+        emojiU: "U+1F1E8 U+1F1EE"
     },
     {
         id: 55,
@@ -3049,8 +3049,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "크로아티아",
@@ -3065,12 +3065,12 @@ export const countries = [
             ja: "クロアチア",
             it: "Croazia",
             cn: "克罗地亚",
-            tr: "Hirvatistan",
+            tr: "Hirvatistan"
         },
         latitude: "45.16666666",
         longitude: "15.50000000",
         emoji: "🇭🇷",
-        emojiU: "U+1F1ED U+1F1F7",
+        emojiU: "U+1F1ED U+1F1F7"
     },
     {
         id: 56,
@@ -3096,8 +3096,8 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "CST",
-                tzName: "Cuba Standard Time",
-            },
+                tzName: "Cuba Standard Time"
+            }
         ],
         translations: {
             kr: "쿠바",
@@ -3112,12 +3112,12 @@ export const countries = [
             ja: "キューバ",
             it: "Cuba",
             cn: "古巴",
-            tr: "Küba",
+            tr: "Küba"
         },
         latitude: "21.50000000",
         longitude: "-80.00000000",
         emoji: "🇨🇺",
-        emojiU: "U+1F1E8 U+1F1FA",
+        emojiU: "U+1F1E8 U+1F1FA"
     },
     {
         id: 249,
@@ -3143,8 +3143,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "퀴라소",
@@ -3156,12 +3156,12 @@ export const countries = [
             fr: "Curaçao",
             it: "Curaçao",
             cn: "库拉索",
-            tr: "Curaçao",
+            tr: "Curaçao"
         },
         latitude: "12.11666700",
         longitude: "-68.93333300",
         emoji: "🇨🇼",
-        emojiU: "U+1F1E8 U+1F1FC",
+        emojiU: "U+1F1E8 U+1F1FC"
     },
     {
         id: 57,
@@ -3187,15 +3187,15 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
+                tzName: "Eastern European Time"
             },
             {
                 zoneName: "Asia/Nicosia",
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "키프로스",
@@ -3210,12 +3210,12 @@ export const countries = [
             ja: "キプロス",
             it: "Cipro",
             cn: "塞浦路斯",
-            tr: "Kuzey Kıbrıs Türk Cumhuriyeti",
+            tr: "Kuzey Kıbrıs Türk Cumhuriyeti"
         },
         latitude: "35.00000000",
         longitude: "33.00000000",
         emoji: "🇨🇾",
-        emojiU: "U+1F1E8 U+1F1FE",
+        emojiU: "U+1F1E8 U+1F1FE"
     },
     {
         id: 58,
@@ -3249,12 +3249,12 @@ export const countries = [
             ja: "チェコ",
             it: "Repubblica Ceca",
             cn: "捷克",
-            tr: "Çekya",
+            tr: "Çekya"
         },
         latitude: "49.75000000",
         longitude: "15.50000000",
         emoji: "🇨🇿",
-        emojiU: "U+1F1E8 U+1F1FF",
+        emojiU: "U+1F1E8 U+1F1FF"
     },
     {
         id: 51,
@@ -3280,15 +3280,15 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
+                tzName: "West Africa Time"
             },
             {
                 zoneName: "Africa/Lubumbashi",
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "CAT",
-                tzName: "Central Africa Time",
-            },
+                tzName: "Central Africa Time"
+            }
         ],
         translations: {
             kr: "콩고 민주 공화국",
@@ -3303,12 +3303,12 @@ export const countries = [
             ja: "コンゴ民主共和国",
             it: "Congo (Rep. Dem.)",
             cn: "刚果（金）",
-            tr: "Kongo Demokratik Cumhuriyeti",
+            tr: "Kongo Demokratik Cumhuriyeti"
         },
         latitude: "0.00000000",
         longitude: "25.00000000",
         emoji: "🇨🇩",
-        emojiU: "U+1F1E8 U+1F1E9",
+        emojiU: "U+1F1E8 U+1F1E9"
     },
     {
         id: 59,
@@ -3334,8 +3334,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "덴마크",
@@ -3350,12 +3350,12 @@ export const countries = [
             ja: "デンマーク",
             it: "Danimarca",
             cn: "丹麦",
-            tr: "Danimarka",
+            tr: "Danimarka"
         },
         latitude: "56.00000000",
         longitude: "10.00000000",
         emoji: "🇩🇰",
-        emojiU: "U+1F1E9 U+1F1F0",
+        emojiU: "U+1F1E9 U+1F1F0"
     },
     {
         id: 60,
@@ -3381,8 +3381,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "지부티",
@@ -3397,12 +3397,12 @@ export const countries = [
             ja: "ジブチ",
             it: "Gibuti",
             cn: "吉布提",
-            tr: "Cibuti",
+            tr: "Cibuti"
         },
         latitude: "11.50000000",
         longitude: "43.00000000",
         emoji: "🇩🇯",
-        emojiU: "U+1F1E9 U+1F1EF",
+        emojiU: "U+1F1E9 U+1F1EF"
     },
     {
         id: 61,
@@ -3428,8 +3428,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "도미니카 연방",
@@ -3444,12 +3444,12 @@ export const countries = [
             ja: "ドミニカ国",
             it: "Dominica",
             cn: "多米尼加",
-            tr: "Dominika",
+            tr: "Dominika"
         },
         latitude: "15.41666666",
         longitude: "-61.33333333",
         emoji: "🇩🇲",
-        emojiU: "U+1F1E9 U+1F1F2",
+        emojiU: "U+1F1E9 U+1F1F2"
     },
     {
         id: 62,
@@ -3475,8 +3475,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "도미니카 공화국",
@@ -3491,12 +3491,12 @@ export const countries = [
             ja: "ドミニカ共和国",
             it: "Repubblica Dominicana",
             cn: "多明尼加共和国",
-            tr: "Dominik Cumhuriyeti",
+            tr: "Dominik Cumhuriyeti"
         },
         latitude: "19.00000000",
         longitude: "-70.66666666",
         emoji: "🇩🇴",
-        emojiU: "U+1F1E9 U+1F1F4",
+        emojiU: "U+1F1E9 U+1F1F4"
     },
     {
         id: 63,
@@ -3522,8 +3522,8 @@ export const countries = [
                 gmtOffset: 32400,
                 gmtOffsetName: "UTC+09:00",
                 abbreviation: "TLT",
-                tzName: "Timor Leste Time",
-            },
+                tzName: "Timor Leste Time"
+            }
         ],
         translations: {
             kr: "동티모르",
@@ -3538,12 +3538,12 @@ export const countries = [
             ja: "東ティモール",
             it: "Timor Est",
             cn: "东帝汶",
-            tr: "Doğu Timor",
+            tr: "Doğu Timor"
         },
         latitude: "-8.83333333",
         longitude: "125.91666666",
         emoji: "🇹🇱",
-        emojiU: "U+1F1F9 U+1F1F1",
+        emojiU: "U+1F1F9 U+1F1F1"
     },
     {
         id: 64,
@@ -3569,15 +3569,15 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "ECT",
-                tzName: "Ecuador Time",
+                tzName: "Ecuador Time"
             },
             {
                 zoneName: "Pacific/Galapagos",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "GALT",
-                tzName: "Galápagos Time",
-            },
+                tzName: "Galápagos Time"
+            }
         ],
         translations: {
             kr: "에콰도르",
@@ -3592,12 +3592,12 @@ export const countries = [
             ja: "エクアドル",
             it: "Ecuador",
             cn: "厄瓜多尔",
-            tr: "Ekvator",
+            tr: "Ekvator"
         },
         latitude: "-2.00000000",
         longitude: "-77.50000000",
         emoji: "🇪🇨",
-        emojiU: "U+1F1EA U+1F1E8",
+        emojiU: "U+1F1EA U+1F1E8"
     },
     {
         id: 65,
@@ -3623,8 +3623,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "이집트",
@@ -3639,12 +3639,12 @@ export const countries = [
             ja: "エジプト",
             it: "Egitto",
             cn: "埃及",
-            tr: "Mısır",
+            tr: "Mısır"
         },
         latitude: "27.00000000",
         longitude: "30.00000000",
         emoji: "🇪🇬",
-        emojiU: "U+1F1EA U+1F1EC",
+        emojiU: "U+1F1EA U+1F1EC"
     },
     {
         id: 66,
@@ -3670,8 +3670,8 @@ export const countries = [
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
-            },
+                tzName: "Central Standard Time (North America"
+            }
         ],
         translations: {
             kr: "엘살바도르",
@@ -3686,12 +3686,12 @@ export const countries = [
             ja: "エルサルバドル",
             it: "El Salvador",
             cn: "萨尔瓦多",
-            tr: "El Salvador",
+            tr: "El Salvador"
         },
         latitude: "13.83333333",
         longitude: "-88.91666666",
         emoji: "🇸🇻",
-        emojiU: "U+1F1F8 U+1F1FB",
+        emojiU: "U+1F1F8 U+1F1FB"
     },
     {
         id: 67,
@@ -3717,8 +3717,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
-            },
+                tzName: "West Africa Time"
+            }
         ],
         translations: {
             kr: "적도 기니",
@@ -3733,12 +3733,12 @@ export const countries = [
             ja: "赤道ギニア",
             it: "Guinea Equatoriale",
             cn: "赤道几内亚",
-            tr: "Ekvator Ginesi",
+            tr: "Ekvator Ginesi"
         },
         latitude: "2.00000000",
         longitude: "10.00000000",
         emoji: "🇬🇶",
-        emojiU: "U+1F1EC U+1F1F6",
+        emojiU: "U+1F1EC U+1F1F6"
     },
     {
         id: 68,
@@ -3764,8 +3764,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "에리트레아",
@@ -3780,12 +3780,12 @@ export const countries = [
             ja: "エリトリア",
             it: "Eritrea",
             cn: "厄立特里亚",
-            tr: "Eritre",
+            tr: "Eritre"
         },
         latitude: "15.00000000",
         longitude: "39.00000000",
         emoji: "🇪🇷",
-        emojiU: "U+1F1EA U+1F1F7",
+        emojiU: "U+1F1EA U+1F1F7"
     },
     {
         id: 69,
@@ -3811,8 +3811,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "에스토니아",
@@ -3827,12 +3827,12 @@ export const countries = [
             ja: "エストニア",
             it: "Estonia",
             cn: "爱沙尼亚",
-            tr: "Estonya",
+            tr: "Estonya"
         },
         latitude: "59.00000000",
         longitude: "26.00000000",
         emoji: "🇪🇪",
-        emojiU: "U+1F1EA U+1F1EA",
+        emojiU: "U+1F1EA U+1F1EA"
     },
     {
         id: 70,
@@ -3858,8 +3858,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "에티오피아",
@@ -3874,12 +3874,12 @@ export const countries = [
             ja: "エチオピア",
             it: "Etiopia",
             cn: "埃塞俄比亚",
-            tr: "Etiyopya",
+            tr: "Etiyopya"
         },
         latitude: "8.00000000",
         longitude: "38.00000000",
         emoji: "🇪🇹",
-        emojiU: "U+1F1EA U+1F1F9",
+        emojiU: "U+1F1EA U+1F1F9"
     },
     {
         id: 71,
@@ -3905,8 +3905,8 @@ export const countries = [
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "FKST",
-                tzName: "Falkland Islands Summer Time",
-            },
+                tzName: "Falkland Islands Summer Time"
+            }
         ],
         translations: {
             kr: "포클랜드 제도",
@@ -3921,12 +3921,12 @@ export const countries = [
             ja: "フォークランド（マルビナス）諸島",
             it: "Isole Falkland o Isole Malvine",
             cn: "福克兰群岛",
-            tr: "Falkland Adalari",
+            tr: "Falkland Adalari"
         },
         latitude: "-51.75000000",
         longitude: "-59.00000000",
         emoji: "🇫🇰",
-        emojiU: "U+1F1EB U+1F1F0",
+        emojiU: "U+1F1EB U+1F1F0"
     },
     {
         id: 72,
@@ -3952,8 +3952,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "WET",
-                tzName: "Western European Time",
-            },
+                tzName: "Western European Time"
+            }
         ],
         translations: {
             kr: "페로 제도",
@@ -3968,12 +3968,12 @@ export const countries = [
             ja: "フェロー諸島",
             it: "Isole Far Oer",
             cn: "法罗群岛",
-            tr: "Faroe Adalari",
+            tr: "Faroe Adalari"
         },
         latitude: "62.00000000",
         longitude: "-7.00000000",
         emoji: "🇫🇴",
-        emojiU: "U+1F1EB U+1F1F4",
+        emojiU: "U+1F1EB U+1F1F4"
     },
     {
         id: 73,
@@ -3999,8 +3999,8 @@ export const countries = [
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "FJT",
-                tzName: "Fiji Time",
-            },
+                tzName: "Fiji Time"
+            }
         ],
         translations: {
             kr: "피지",
@@ -4015,12 +4015,12 @@ export const countries = [
             ja: "フィジー",
             it: "Figi",
             cn: "斐济",
-            tr: "Fiji",
+            tr: "Fiji"
         },
         latitude: "-18.00000000",
         longitude: "175.00000000",
         emoji: "🇫🇯",
-        emojiU: "U+1F1EB U+1F1EF",
+        emojiU: "U+1F1EB U+1F1EF"
     },
     {
         id: 74,
@@ -4046,8 +4046,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "핀란드",
@@ -4062,12 +4062,12 @@ export const countries = [
             ja: "フィンランド",
             it: "Finlandia",
             cn: "芬兰",
-            tr: "Finlandiya",
+            tr: "Finlandiya"
         },
         latitude: "64.00000000",
         longitude: "26.00000000",
         emoji: "🇫🇮",
-        emojiU: "U+1F1EB U+1F1EE",
+        emojiU: "U+1F1EB U+1F1EE"
     },
     {
         id: 75,
@@ -4093,8 +4093,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "프랑스",
@@ -4109,12 +4109,12 @@ export const countries = [
             ja: "フランス",
             it: "Francia",
             cn: "法国",
-            tr: "Fransa",
+            tr: "Fransa"
         },
         latitude: "46.00000000",
         longitude: "2.00000000",
         emoji: "🇫🇷",
-        emojiU: "U+1F1EB U+1F1F7",
+        emojiU: "U+1F1EB U+1F1F7"
     },
     {
         id: 76,
@@ -4140,8 +4140,8 @@ export const countries = [
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "GFT",
-                tzName: "French Guiana Time",
-            },
+                tzName: "French Guiana Time"
+            }
         ],
         translations: {
             kr: "프랑스령 기아나",
@@ -4156,12 +4156,12 @@ export const countries = [
             ja: "フランス領ギアナ",
             it: "Guyana francese",
             cn: "法属圭亚那",
-            tr: "Fransiz Guyanasi",
+            tr: "Fransiz Guyanasi"
         },
         latitude: "4.00000000",
         longitude: "-53.00000000",
         emoji: "🇬🇫",
-        emojiU: "U+1F1EC U+1F1EB",
+        emojiU: "U+1F1EC U+1F1EB"
     },
     {
         id: 77,
@@ -4187,22 +4187,22 @@ export const countries = [
                 gmtOffset: -32400,
                 gmtOffsetName: "UTC-09:00",
                 abbreviation: "GAMT",
-                tzName: "Gambier Islands Time",
+                tzName: "Gambier Islands Time"
             },
             {
                 zoneName: "Pacific/Marquesas",
                 gmtOffset: -34200,
                 gmtOffsetName: "UTC-09:30",
                 abbreviation: "MART",
-                tzName: "Marquesas Islands Time",
+                tzName: "Marquesas Islands Time"
             },
             {
                 zoneName: "Pacific/Tahiti",
                 gmtOffset: -36000,
                 gmtOffsetName: "UTC-10:00",
                 abbreviation: "TAHT",
-                tzName: "Tahiti Time",
-            },
+                tzName: "Tahiti Time"
+            }
         ],
         translations: {
             kr: "프랑스령 폴리네시아",
@@ -4217,12 +4217,12 @@ export const countries = [
             ja: "フランス領ポリネシア",
             it: "Polinesia Francese",
             cn: "法属波利尼西亚",
-            tr: "Fransiz Polinezyasi",
+            tr: "Fransiz Polinezyasi"
         },
         latitude: "-15.00000000",
         longitude: "-140.00000000",
         emoji: "🇵🇫",
-        emojiU: "U+1F1F5 U+1F1EB",
+        emojiU: "U+1F1F5 U+1F1EB"
     },
     {
         id: 78,
@@ -4248,8 +4248,8 @@ export const countries = [
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "TFT",
-                tzName: "French Southern and Antarctic Time",
-            },
+                tzName: "French Southern and Antarctic Time"
+            }
         ],
         translations: {
             kr: "프랑스령 남방 및 남극",
@@ -4264,12 +4264,12 @@ export const countries = [
             ja: "フランス領南方・南極地域",
             it: "Territori Francesi del Sud",
             cn: "法属南部领地",
-            tr: "Fransiz Güney Topraklari",
+            tr: "Fransiz Güney Topraklari"
         },
         latitude: "-49.25000000",
         longitude: "69.16700000",
         emoji: "🇹🇫",
-        emojiU: "U+1F1F9 U+1F1EB",
+        emojiU: "U+1F1F9 U+1F1EB"
     },
     {
         id: 79,
@@ -4295,8 +4295,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
-            },
+                tzName: "West Africa Time"
+            }
         ],
         translations: {
             kr: "가봉",
@@ -4311,12 +4311,12 @@ export const countries = [
             ja: "ガボン",
             it: "Gabon",
             cn: "加蓬",
-            tr: "Gabon",
+            tr: "Gabon"
         },
         latitude: "-1.00000000",
         longitude: "11.75000000",
         emoji: "🇬🇦",
-        emojiU: "U+1F1EC U+1F1E6",
+        emojiU: "U+1F1EC U+1F1E6"
     },
     {
         id: 80,
@@ -4342,8 +4342,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "감비아",
@@ -4358,12 +4358,12 @@ export const countries = [
             ja: "ガンビア",
             it: "Gambia",
             cn: "冈比亚",
-            tr: "Gambiya",
+            tr: "Gambiya"
         },
         latitude: "13.46666666",
         longitude: "-16.56666666",
         emoji: "🇬🇲",
-        emojiU: "U+1F1EC U+1F1F2",
+        emojiU: "U+1F1EC U+1F1F2"
     },
     {
         id: 81,
@@ -4389,8 +4389,8 @@ export const countries = [
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "GET",
-                tzName: "Georgia Standard Time",
-            },
+                tzName: "Georgia Standard Time"
+            }
         ],
         translations: {
             kr: "조지아",
@@ -4405,12 +4405,12 @@ export const countries = [
             ja: "グルジア",
             it: "Georgia",
             cn: "格鲁吉亚",
-            tr: "Gürcistan",
+            tr: "Gürcistan"
         },
         latitude: "42.00000000",
         longitude: "43.50000000",
         emoji: "🇬🇪",
-        emojiU: "U+1F1EC U+1F1EA",
+        emojiU: "U+1F1EC U+1F1EA"
     },
     {
         id: 82,
@@ -4436,15 +4436,15 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
+                tzName: "Central European Time"
             },
             {
                 zoneName: "Europe/Busingen",
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "독일",
@@ -4459,12 +4459,12 @@ export const countries = [
             ja: "ドイツ",
             it: "Germania",
             cn: "德国",
-            tr: "Almanya",
+            tr: "Almanya"
         },
         latitude: "51.00000000",
         longitude: "9.00000000",
         emoji: "🇩🇪",
-        emojiU: "U+1F1E9 U+1F1EA",
+        emojiU: "U+1F1E9 U+1F1EA"
     },
     {
         id: 83,
@@ -4490,8 +4490,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "가나",
@@ -4506,12 +4506,12 @@ export const countries = [
             ja: "ガーナ",
             it: "Ghana",
             cn: "加纳",
-            tr: "Gana",
+            tr: "Gana"
         },
         latitude: "8.00000000",
         longitude: "-2.00000000",
         emoji: "🇬🇭",
-        emojiU: "U+1F1EC U+1F1ED",
+        emojiU: "U+1F1EC U+1F1ED"
     },
     {
         id: 84,
@@ -4537,8 +4537,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "지브롤터",
@@ -4553,12 +4553,12 @@ export const countries = [
             ja: "ジブラルタル",
             it: "Gibilterra",
             cn: "直布罗陀",
-            tr: "Cebelitarik",
+            tr: "Cebelitarik"
         },
         latitude: "36.13333333",
         longitude: "-5.35000000",
         emoji: "🇬🇮",
-        emojiU: "U+1F1EC U+1F1EE",
+        emojiU: "U+1F1EC U+1F1EE"
     },
     {
         id: 85,
@@ -4584,8 +4584,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "그리스",
@@ -4600,12 +4600,12 @@ export const countries = [
             ja: "ギリシャ",
             it: "Grecia",
             cn: "希腊",
-            tr: "Yunanistan",
+            tr: "Yunanistan"
         },
         latitude: "39.00000000",
         longitude: "22.00000000",
         emoji: "🇬🇷",
-        emojiU: "U+1F1EC U+1F1F7",
+        emojiU: "U+1F1EC U+1F1F7"
     },
     {
         id: 86,
@@ -4631,29 +4631,29 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
+                tzName: "Greenwich Mean Time"
             },
             {
                 zoneName: "America/Nuuk",
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "WGT",
-                tzName: "West Greenland Time",
+                tzName: "West Greenland Time"
             },
             {
                 zoneName: "America/Scoresbysund",
                 gmtOffset: -3600,
                 gmtOffsetName: "UTC-01:00",
                 abbreviation: "EGT",
-                tzName: "Eastern Greenland Time",
+                tzName: "Eastern Greenland Time"
             },
             {
                 zoneName: "America/Thule",
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "그린란드",
@@ -4668,12 +4668,12 @@ export const countries = [
             ja: "グリーンランド",
             it: "Groenlandia",
             cn: "格陵兰岛",
-            tr: "Grönland",
+            tr: "Grönland"
         },
         latitude: "72.00000000",
         longitude: "-40.00000000",
         emoji: "🇬🇱",
-        emojiU: "U+1F1EC U+1F1F1",
+        emojiU: "U+1F1EC U+1F1F1"
     },
     {
         id: 87,
@@ -4699,8 +4699,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "그레나다",
@@ -4715,12 +4715,12 @@ export const countries = [
             ja: "グレナダ",
             it: "Grenada",
             cn: "格林纳达",
-            tr: "Grenada",
+            tr: "Grenada"
         },
         latitude: "12.11666666",
         longitude: "-61.66666666",
         emoji: "🇬🇩",
-        emojiU: "U+1F1EC U+1F1E9",
+        emojiU: "U+1F1EC U+1F1E9"
     },
     {
         id: 88,
@@ -4746,8 +4746,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "과들루프",
@@ -4762,12 +4762,12 @@ export const countries = [
             ja: "グアドループ",
             it: "Guadeloupa",
             cn: "瓜德罗普岛",
-            tr: "Guadeloupe",
+            tr: "Guadeloupe"
         },
         latitude: "16.25000000",
         longitude: "-61.58333300",
         emoji: "🇬🇵",
-        emojiU: "U+1F1EC U+1F1F5",
+        emojiU: "U+1F1EC U+1F1F5"
     },
     {
         id: 89,
@@ -4793,8 +4793,8 @@ export const countries = [
                 gmtOffset: 36000,
                 gmtOffsetName: "UTC+10:00",
                 abbreviation: "CHST",
-                tzName: "Chamorro Standard Time",
-            },
+                tzName: "Chamorro Standard Time"
+            }
         ],
         translations: {
             kr: "괌",
@@ -4809,12 +4809,12 @@ export const countries = [
             ja: "グアム",
             it: "Guam",
             cn: "关岛",
-            tr: "Guam",
+            tr: "Guam"
         },
         latitude: "13.46666666",
         longitude: "144.78333333",
         emoji: "🇬🇺",
-        emojiU: "U+1F1EC U+1F1FA",
+        emojiU: "U+1F1EC U+1F1FA"
     },
     {
         id: 90,
@@ -4840,8 +4840,8 @@ export const countries = [
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
-            },
+                tzName: "Central Standard Time (North America"
+            }
         ],
         translations: {
             kr: "과테말라",
@@ -4856,12 +4856,12 @@ export const countries = [
             ja: "グアテマラ",
             it: "Guatemala",
             cn: "危地马拉",
-            tr: "Guatemala",
+            tr: "Guatemala"
         },
         latitude: "15.50000000",
         longitude: "-90.25000000",
         emoji: "🇬🇹",
-        emojiU: "U+1F1EC U+1F1F9",
+        emojiU: "U+1F1EC U+1F1F9"
     },
     {
         id: 91,
@@ -4887,8 +4887,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "건지, 올더니",
@@ -4903,12 +4903,12 @@ export const countries = [
             ja: "ガーンジー",
             it: "Guernsey",
             cn: "根西岛",
-            tr: "Alderney",
+            tr: "Alderney"
         },
         latitude: "49.46666666",
         longitude: "-2.58333333",
         emoji: "🇬🇬",
-        emojiU: "U+1F1EC U+1F1EC",
+        emojiU: "U+1F1EC U+1F1EC"
     },
     {
         id: 92,
@@ -4934,8 +4934,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "기니",
@@ -4950,12 +4950,12 @@ export const countries = [
             ja: "ギニア",
             it: "Guinea",
             cn: "几内亚",
-            tr: "Gine",
+            tr: "Gine"
         },
         latitude: "11.00000000",
         longitude: "-10.00000000",
         emoji: "🇬🇳",
-        emojiU: "U+1F1EC U+1F1F3",
+        emojiU: "U+1F1EC U+1F1F3"
     },
     {
         id: 93,
@@ -4981,8 +4981,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "기니비사우",
@@ -4997,12 +4997,12 @@ export const countries = [
             ja: "ギニアビサウ",
             it: "Guinea-Bissau",
             cn: "几内亚比绍",
-            tr: "Gine-bissau",
+            tr: "Gine-bissau"
         },
         latitude: "12.00000000",
         longitude: "-15.00000000",
         emoji: "🇬🇼",
-        emojiU: "U+1F1EC U+1F1FC",
+        emojiU: "U+1F1EC U+1F1FC"
     },
     {
         id: 94,
@@ -5028,8 +5028,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "GYT",
-                tzName: "Guyana Time",
-            },
+                tzName: "Guyana Time"
+            }
         ],
         translations: {
             kr: "가이아나",
@@ -5044,12 +5044,12 @@ export const countries = [
             ja: "ガイアナ",
             it: "Guyana",
             cn: "圭亚那",
-            tr: "Guyana",
+            tr: "Guyana"
         },
         latitude: "5.00000000",
         longitude: "-59.00000000",
         emoji: "🇬🇾",
-        emojiU: "U+1F1EC U+1F1FE",
+        emojiU: "U+1F1EC U+1F1FE"
     },
     {
         id: 95,
@@ -5075,8 +5075,8 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
-            },
+                tzName: "Eastern Standard Time (North America"
+            }
         ],
         translations: {
             kr: "아이티",
@@ -5091,12 +5091,12 @@ export const countries = [
             ja: "ハイチ",
             it: "Haiti",
             cn: "海地",
-            tr: "Haiti",
+            tr: "Haiti"
         },
         latitude: "19.00000000",
         longitude: "-72.41666666",
         emoji: "🇭🇹",
-        emojiU: "U+1F1ED U+1F1F9",
+        emojiU: "U+1F1ED U+1F1F9"
     },
     {
         id: 96,
@@ -5122,8 +5122,8 @@ export const countries = [
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "TFT",
-                tzName: "French Southern and Antarctic Time",
-            },
+                tzName: "French Southern and Antarctic Time"
+            }
         ],
         translations: {
             kr: "허드 맥도날드 제도",
@@ -5138,12 +5138,12 @@ export const countries = [
             ja: "ハード島とマクドナルド諸島",
             it: "Isole Heard e McDonald",
             cn: "赫德·唐纳岛及麦唐纳岛",
-            tr: "Heard Adasi Ve Mcdonald Adalari",
+            tr: "Heard Adasi Ve Mcdonald Adalari"
         },
         latitude: "-53.10000000",
         longitude: "72.51666666",
         emoji: "🇭🇲",
-        emojiU: "U+1F1ED U+1F1F2",
+        emojiU: "U+1F1ED U+1F1F2"
     },
     {
         id: 97,
@@ -5169,8 +5169,8 @@ export const countries = [
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
-            },
+                tzName: "Central Standard Time (North America"
+            }
         ],
         translations: {
             kr: "온두라스",
@@ -5185,12 +5185,12 @@ export const countries = [
             ja: "ホンジュラス",
             it: "Honduras",
             cn: "洪都拉斯",
-            tr: "Honduras",
+            tr: "Honduras"
         },
         latitude: "15.00000000",
         longitude: "-86.50000000",
         emoji: "🇭🇳",
-        emojiU: "U+1F1ED U+1F1F3",
+        emojiU: "U+1F1ED U+1F1F3"
     },
     {
         id: 98,
@@ -5216,8 +5216,8 @@ export const countries = [
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "HKT",
-                tzName: "Hong Kong Time",
-            },
+                tzName: "Hong Kong Time"
+            }
         ],
         translations: {
             kr: "홍콩",
@@ -5232,12 +5232,12 @@ export const countries = [
             ja: "香港",
             it: "Hong Kong",
             cn: "中国香港",
-            tr: "Hong Kong",
+            tr: "Hong Kong"
         },
         latitude: "22.25000000",
         longitude: "114.16666666",
         emoji: "🇭🇰",
-        emojiU: "U+1F1ED U+1F1F0",
+        emojiU: "U+1F1ED U+1F1F0"
     },
     {
         id: 99,
@@ -5263,8 +5263,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "헝가리",
@@ -5279,12 +5279,12 @@ export const countries = [
             ja: "ハンガリー",
             it: "Ungheria",
             cn: "匈牙利",
-            tr: "Macaristan",
+            tr: "Macaristan"
         },
         latitude: "47.00000000",
         longitude: "20.00000000",
         emoji: "🇭🇺",
-        emojiU: "U+1F1ED U+1F1FA",
+        emojiU: "U+1F1ED U+1F1FA"
     },
     {
         id: 100,
@@ -5310,8 +5310,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "아이슬란드",
@@ -5326,12 +5326,12 @@ export const countries = [
             ja: "アイスランド",
             it: "Islanda",
             cn: "冰岛",
-            tr: "İzlanda",
+            tr: "İzlanda"
         },
         latitude: "65.00000000",
         longitude: "-18.00000000",
         emoji: "🇮🇸",
-        emojiU: "U+1F1EE U+1F1F8",
+        emojiU: "U+1F1EE U+1F1F8"
     },
     {
         id: 101,
@@ -5357,8 +5357,8 @@ export const countries = [
                 gmtOffset: 19800,
                 gmtOffsetName: "UTC+05:30",
                 abbreviation: "IST",
-                tzName: "Indian Standard Time",
-            },
+                tzName: "Indian Standard Time"
+            }
         ],
         translations: {
             kr: "인도",
@@ -5373,12 +5373,12 @@ export const countries = [
             ja: "インド",
             it: "India",
             cn: "印度",
-            tr: "Hindistan",
+            tr: "Hindistan"
         },
         latitude: "20.00000000",
         longitude: "77.00000000",
         emoji: "🇮🇳",
-        emojiU: "U+1F1EE U+1F1F3",
+        emojiU: "U+1F1EE U+1F1F3"
     },
     {
         id: 102,
@@ -5404,29 +5404,29 @@ export const countries = [
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "WIB",
-                tzName: "Western Indonesian Time",
+                tzName: "Western Indonesian Time"
             },
             {
                 zoneName: "Asia/Jayapura",
                 gmtOffset: 32400,
                 gmtOffsetName: "UTC+09:00",
                 abbreviation: "WIT",
-                tzName: "Eastern Indonesian Time",
+                tzName: "Eastern Indonesian Time"
             },
             {
                 zoneName: "Asia/Makassar",
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "WITA",
-                tzName: "Central Indonesia Time",
+                tzName: "Central Indonesia Time"
             },
             {
                 zoneName: "Asia/Pontianak",
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "WIB",
-                tzName: "Western Indonesian Time",
-            },
+                tzName: "Western Indonesian Time"
+            }
         ],
         translations: {
             kr: "인도네시아",
@@ -5441,12 +5441,12 @@ export const countries = [
             ja: "インドネシア",
             it: "Indonesia",
             cn: "印度尼西亚",
-            tr: "Endonezya",
+            tr: "Endonezya"
         },
         latitude: "-5.00000000",
         longitude: "120.00000000",
         emoji: "🇮🇩",
-        emojiU: "U+1F1EE U+1F1E9",
+        emojiU: "U+1F1EE U+1F1E9"
     },
     {
         id: 103,
@@ -5472,8 +5472,8 @@ export const countries = [
                 gmtOffset: 12600,
                 gmtOffsetName: "UTC+03:30",
                 abbreviation: "IRDT",
-                tzName: "Iran Daylight Time",
-            },
+                tzName: "Iran Daylight Time"
+            }
         ],
         translations: {
             kr: "이란",
@@ -5487,12 +5487,12 @@ export const countries = [
             fr: "Iran",
             ja: "イラン・イスラム共和国",
             cn: "伊朗",
-            tr: "İran",
+            tr: "İran"
         },
         latitude: "32.00000000",
         longitude: "53.00000000",
         emoji: "🇮🇷",
-        emojiU: "U+1F1EE U+1F1F7",
+        emojiU: "U+1F1EE U+1F1F7"
     },
     {
         id: 104,
@@ -5518,8 +5518,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "AST",
-                tzName: "Arabia Standard Time",
-            },
+                tzName: "Arabia Standard Time"
+            }
         ],
         translations: {
             kr: "이라크",
@@ -5534,12 +5534,12 @@ export const countries = [
             ja: "イラク",
             it: "Iraq",
             cn: "伊拉克",
-            tr: "Irak",
+            tr: "Irak"
         },
         latitude: "33.00000000",
         longitude: "44.00000000",
         emoji: "🇮🇶",
-        emojiU: "U+1F1EE U+1F1F6",
+        emojiU: "U+1F1EE U+1F1F6"
     },
     {
         id: 105,
@@ -5565,8 +5565,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "아일랜드",
@@ -5581,12 +5581,12 @@ export const countries = [
             ja: "アイルランド",
             it: "Irlanda",
             cn: "爱尔兰",
-            tr: "İrlanda",
+            tr: "İrlanda"
         },
         latitude: "53.00000000",
         longitude: "-8.00000000",
         emoji: "🇮🇪",
-        emojiU: "U+1F1EE U+1F1EA",
+        emojiU: "U+1F1EE U+1F1EA"
     },
     {
         id: 106,
@@ -5612,8 +5612,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "IST",
-                tzName: "Israel Standard Time",
-            },
+                tzName: "Israel Standard Time"
+            }
         ],
         translations: {
             kr: "이스라엘",
@@ -5628,12 +5628,12 @@ export const countries = [
             ja: "イスラエル",
             it: "Israele",
             cn: "以色列",
-            tr: "İsrail",
+            tr: "İsrail"
         },
         latitude: "31.50000000",
         longitude: "34.75000000",
         emoji: "🇮🇱",
-        emojiU: "U+1F1EE U+1F1F1",
+        emojiU: "U+1F1EE U+1F1F1"
     },
     {
         id: 107,
@@ -5659,8 +5659,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "이탈리아",
@@ -5675,12 +5675,12 @@ export const countries = [
             ja: "イタリア",
             it: "Italia",
             cn: "意大利",
-            tr: "İtalya",
+            tr: "İtalya"
         },
         latitude: "42.83333333",
         longitude: "12.83333333",
         emoji: "🇮🇹",
-        emojiU: "U+1F1EE U+1F1F9",
+        emojiU: "U+1F1EE U+1F1F9"
     },
     {
         id: 108,
@@ -5706,8 +5706,8 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
-            },
+                tzName: "Eastern Standard Time (North America"
+            }
         ],
         translations: {
             kr: "자메이카",
@@ -5722,12 +5722,12 @@ export const countries = [
             ja: "ジャマイカ",
             it: "Giamaica",
             cn: "牙买加",
-            tr: "Jamaika",
+            tr: "Jamaika"
         },
         latitude: "18.25000000",
         longitude: "-77.50000000",
         emoji: "🇯🇲",
-        emojiU: "U+1F1EF U+1F1F2",
+        emojiU: "U+1F1EF U+1F1F2"
     },
     {
         id: 109,
@@ -5753,8 +5753,8 @@ export const countries = [
                 gmtOffset: 32400,
                 gmtOffsetName: "UTC+09:00",
                 abbreviation: "JST",
-                tzName: "Japan Standard Time",
-            },
+                tzName: "Japan Standard Time"
+            }
         ],
         translations: {
             kr: "일본",
@@ -5769,12 +5769,12 @@ export const countries = [
             ja: "日本",
             it: "Giappone",
             cn: "日本",
-            tr: "Japonya",
+            tr: "Japonya"
         },
         latitude: "36.00000000",
         longitude: "138.00000000",
         emoji: "🇯🇵",
-        emojiU: "U+1F1EF U+1F1F5",
+        emojiU: "U+1F1EF U+1F1F5"
     },
     {
         id: 110,
@@ -5800,8 +5800,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "저지 섬",
@@ -5816,12 +5816,12 @@ export const countries = [
             ja: "ジャージー",
             it: "Isola di Jersey",
             cn: "泽西岛",
-            tr: "Jersey",
+            tr: "Jersey"
         },
         latitude: "49.25000000",
         longitude: "-2.16666666",
         emoji: "🇯🇪",
-        emojiU: "U+1F1EF U+1F1EA",
+        emojiU: "U+1F1EF U+1F1EA"
     },
     {
         id: 111,
@@ -5847,8 +5847,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "요르단",
@@ -5863,12 +5863,12 @@ export const countries = [
             ja: "ヨルダン",
             it: "Giordania",
             cn: "约旦",
-            tr: "Ürdün",
+            tr: "Ürdün"
         },
         latitude: "31.00000000",
         longitude: "36.00000000",
         emoji: "🇯🇴",
-        emojiU: "U+1F1EF U+1F1F4",
+        emojiU: "U+1F1EF U+1F1F4"
     },
     {
         id: 112,
@@ -5894,50 +5894,50 @@ export const countries = [
                 gmtOffset: 21600,
                 gmtOffsetName: "UTC+06:00",
                 abbreviation: "ALMT",
-                tzName: "Alma-Ata Time[1",
+                tzName: "Alma-Ata Time[1"
             },
             {
                 zoneName: "Asia/Aqtau",
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "AQTT",
-                tzName: "Aqtobe Time",
+                tzName: "Aqtobe Time"
             },
             {
                 zoneName: "Asia/Aqtobe",
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "AQTT",
-                tzName: "Aqtobe Time",
+                tzName: "Aqtobe Time"
             },
             {
                 zoneName: "Asia/Atyrau",
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "MSD+1",
-                tzName: "Moscow Daylight Time+1",
+                tzName: "Moscow Daylight Time+1"
             },
             {
                 zoneName: "Asia/Oral",
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "ORAT",
-                tzName: "Oral Time",
+                tzName: "Oral Time"
             },
             {
                 zoneName: "Asia/Qostanay",
                 gmtOffset: 21600,
                 gmtOffsetName: "UTC+06:00",
                 abbreviation: "QYZST",
-                tzName: "Qyzylorda Summer Time",
+                tzName: "Qyzylorda Summer Time"
             },
             {
                 zoneName: "Asia/Qyzylorda",
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "QYZT",
-                tzName: "Qyzylorda Summer Time",
-            },
+                tzName: "Qyzylorda Summer Time"
+            }
         ],
         translations: {
             kr: "카자흐스탄",
@@ -5952,12 +5952,12 @@ export const countries = [
             ja: "カザフスタン",
             it: "Kazakistan",
             cn: "哈萨克斯坦",
-            tr: "Kazakistan",
+            tr: "Kazakistan"
         },
         latitude: "48.00000000",
         longitude: "68.00000000",
         emoji: "🇰🇿",
-        emojiU: "U+1F1F0 U+1F1FF",
+        emojiU: "U+1F1F0 U+1F1FF"
     },
     {
         id: 113,
@@ -5983,8 +5983,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "케냐",
@@ -5999,12 +5999,12 @@ export const countries = [
             ja: "ケニア",
             it: "Kenya",
             cn: "肯尼亚",
-            tr: "Kenya",
+            tr: "Kenya"
         },
         latitude: "1.00000000",
         longitude: "38.00000000",
         emoji: "🇰🇪",
-        emojiU: "U+1F1F0 U+1F1EA",
+        emojiU: "U+1F1F0 U+1F1EA"
     },
     {
         id: 114,
@@ -6030,22 +6030,22 @@ export const countries = [
                 gmtOffset: 46800,
                 gmtOffsetName: "UTC+13:00",
                 abbreviation: "PHOT",
-                tzName: "Phoenix Island Time",
+                tzName: "Phoenix Island Time"
             },
             {
                 zoneName: "Pacific/Kiritimati",
                 gmtOffset: 50400,
                 gmtOffsetName: "UTC+14:00",
                 abbreviation: "LINT",
-                tzName: "Line Islands Time",
+                tzName: "Line Islands Time"
             },
             {
                 zoneName: "Pacific/Tarawa",
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "GILT",
-                tzName: "Gilbert Island Time",
-            },
+                tzName: "Gilbert Island Time"
+            }
         ],
         translations: {
             kr: "키리바시",
@@ -6060,12 +6060,12 @@ export const countries = [
             ja: "キリバス",
             it: "Kiribati",
             cn: "基里巴斯",
-            tr: "Kiribati",
+            tr: "Kiribati"
         },
         latitude: "1.41666666",
         longitude: "173.00000000",
         emoji: "🇰🇮",
-        emojiU: "U+1F1F0 U+1F1EE",
+        emojiU: "U+1F1F0 U+1F1EE"
     },
     {
         id: 248,
@@ -6091,18 +6091,18 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "코소보",
             cn: "科索沃",
-            tr: "Kosova",
+            tr: "Kosova"
         },
         latitude: "42.56129090",
         longitude: "20.34030350",
         emoji: "🇽🇰",
-        emojiU: "U+1F1FD U+1F1F0",
+        emojiU: "U+1F1FD U+1F1F0"
     },
     {
         id: 117,
@@ -6128,8 +6128,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "AST",
-                tzName: "Arabia Standard Time",
-            },
+                tzName: "Arabia Standard Time"
+            }
         ],
         translations: {
             kr: "쿠웨이트",
@@ -6144,12 +6144,12 @@ export const countries = [
             ja: "クウェート",
             it: "Kuwait",
             cn: "科威特",
-            tr: "Kuveyt",
+            tr: "Kuveyt"
         },
         latitude: "29.50000000",
         longitude: "45.75000000",
         emoji: "🇰🇼",
-        emojiU: "U+1F1F0 U+1F1FC",
+        emojiU: "U+1F1F0 U+1F1FC"
     },
     {
         id: 118,
@@ -6175,8 +6175,8 @@ export const countries = [
                 gmtOffset: 21600,
                 gmtOffsetName: "UTC+06:00",
                 abbreviation: "KGT",
-                tzName: "Kyrgyzstan Time",
-            },
+                tzName: "Kyrgyzstan Time"
+            }
         ],
         translations: {
             kr: "키르기스스탄",
@@ -6191,12 +6191,12 @@ export const countries = [
             ja: "キルギス",
             it: "Kirghizistan",
             cn: "吉尔吉斯斯坦",
-            tr: "Kirgizistan",
+            tr: "Kirgizistan"
         },
         latitude: "41.00000000",
         longitude: "75.00000000",
         emoji: "🇰🇬",
-        emojiU: "U+1F1F0 U+1F1EC",
+        emojiU: "U+1F1F0 U+1F1EC"
     },
     {
         id: 119,
@@ -6222,8 +6222,8 @@ export const countries = [
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "ICT",
-                tzName: "Indochina Time",
-            },
+                tzName: "Indochina Time"
+            }
         ],
         translations: {
             kr: "라오스",
@@ -6238,12 +6238,12 @@ export const countries = [
             ja: "ラオス人民民主共和国",
             it: "Laos",
             cn: "寮人民民主共和国",
-            tr: "Laos",
+            tr: "Laos"
         },
         latitude: "18.00000000",
         longitude: "105.00000000",
         emoji: "🇱🇦",
-        emojiU: "U+1F1F1 U+1F1E6",
+        emojiU: "U+1F1F1 U+1F1E6"
     },
     {
         id: 120,
@@ -6269,8 +6269,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "라트비아",
@@ -6285,12 +6285,12 @@ export const countries = [
             ja: "ラトビア",
             it: "Lettonia",
             cn: "拉脱维亚",
-            tr: "Letonya",
+            tr: "Letonya"
         },
         latitude: "57.00000000",
         longitude: "25.00000000",
         emoji: "🇱🇻",
-        emojiU: "U+1F1F1 U+1F1FB",
+        emojiU: "U+1F1F1 U+1F1FB"
     },
     {
         id: 121,
@@ -6316,8 +6316,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "레바논",
@@ -6332,12 +6332,12 @@ export const countries = [
             ja: "レバノン",
             it: "Libano",
             cn: "黎巴嫩",
-            tr: "Lübnan",
+            tr: "Lübnan"
         },
         latitude: "33.83333333",
         longitude: "35.83333333",
         emoji: "🇱🇧",
-        emojiU: "U+1F1F1 U+1F1E7",
+        emojiU: "U+1F1F1 U+1F1E7"
     },
     {
         id: 122,
@@ -6363,8 +6363,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "SAST",
-                tzName: "South African Standard Time",
-            },
+                tzName: "South African Standard Time"
+            }
         ],
         translations: {
             kr: "레소토",
@@ -6379,12 +6379,12 @@ export const countries = [
             ja: "レソト",
             it: "Lesotho",
             cn: "莱索托",
-            tr: "Lesotho",
+            tr: "Lesotho"
         },
         latitude: "-29.50000000",
         longitude: "28.50000000",
         emoji: "🇱🇸",
-        emojiU: "U+1F1F1 U+1F1F8",
+        emojiU: "U+1F1F1 U+1F1F8"
     },
     {
         id: 123,
@@ -6410,8 +6410,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "라이베리아",
@@ -6426,12 +6426,12 @@ export const countries = [
             ja: "リベリア",
             it: "Liberia",
             cn: "利比里亚",
-            tr: "Liberya",
+            tr: "Liberya"
         },
         latitude: "6.50000000",
         longitude: "-9.50000000",
         emoji: "🇱🇷",
-        emojiU: "U+1F1F1 U+1F1F7",
+        emojiU: "U+1F1F1 U+1F1F7"
     },
     {
         id: 124,
@@ -6457,8 +6457,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "리비아",
@@ -6473,12 +6473,12 @@ export const countries = [
             ja: "リビア",
             it: "Libia",
             cn: "利比亚",
-            tr: "Libya",
+            tr: "Libya"
         },
         latitude: "25.00000000",
         longitude: "17.00000000",
         emoji: "🇱🇾",
-        emojiU: "U+1F1F1 U+1F1FE",
+        emojiU: "U+1F1F1 U+1F1FE"
     },
     {
         id: 125,
@@ -6504,8 +6504,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "리히텐슈타인",
@@ -6520,12 +6520,12 @@ export const countries = [
             ja: "リヒテンシュタイン",
             it: "Liechtenstein",
             cn: "列支敦士登",
-            tr: "Lihtenştayn",
+            tr: "Lihtenştayn"
         },
         latitude: "47.26666666",
         longitude: "9.53333333",
         emoji: "🇱🇮",
-        emojiU: "U+1F1F1 U+1F1EE",
+        emojiU: "U+1F1F1 U+1F1EE"
     },
     {
         id: 126,
@@ -6551,8 +6551,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "리투아니아",
@@ -6567,12 +6567,12 @@ export const countries = [
             ja: "リトアニア",
             it: "Lituania",
             cn: "立陶宛",
-            tr: "Litvanya",
+            tr: "Litvanya"
         },
         latitude: "56.00000000",
         longitude: "24.00000000",
         emoji: "🇱🇹",
-        emojiU: "U+1F1F1 U+1F1F9",
+        emojiU: "U+1F1F1 U+1F1F9"
     },
     {
         id: 127,
@@ -6598,8 +6598,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "룩셈부르크",
@@ -6614,12 +6614,12 @@ export const countries = [
             ja: "ルクセンブルク",
             it: "Lussemburgo",
             cn: "卢森堡",
-            tr: "Lüksemburg",
+            tr: "Lüksemburg"
         },
         latitude: "49.75000000",
         longitude: "6.16666666",
         emoji: "🇱🇺",
-        emojiU: "U+1F1F1 U+1F1FA",
+        emojiU: "U+1F1F1 U+1F1FA"
     },
     {
         id: 128,
@@ -6645,8 +6645,8 @@ export const countries = [
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "CST",
-                tzName: "China Standard Time",
-            },
+                tzName: "China Standard Time"
+            }
         ],
         translations: {
             kr: "마카오",
@@ -6661,12 +6661,12 @@ export const countries = [
             ja: "マカオ",
             it: "Macao",
             cn: "中国澳门",
-            tr: "Makao",
+            tr: "Makao"
         },
         latitude: "22.16666666",
         longitude: "113.55000000",
         emoji: "🇲🇴",
-        emojiU: "U+1F1F2 U+1F1F4",
+        emojiU: "U+1F1F2 U+1F1F4"
     },
     {
         id: 130,
@@ -6692,8 +6692,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "마다가스카르",
@@ -6708,12 +6708,12 @@ export const countries = [
             ja: "マダガスカル",
             it: "Madagascar",
             cn: "马达加斯加",
-            tr: "Madagaskar",
+            tr: "Madagaskar"
         },
         latitude: "-20.00000000",
         longitude: "47.00000000",
         emoji: "🇲🇬",
-        emojiU: "U+1F1F2 U+1F1EC",
+        emojiU: "U+1F1F2 U+1F1EC"
     },
     {
         id: 131,
@@ -6739,8 +6739,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "CAT",
-                tzName: "Central Africa Time",
-            },
+                tzName: "Central Africa Time"
+            }
         ],
         translations: {
             kr: "말라위",
@@ -6755,12 +6755,12 @@ export const countries = [
             ja: "マラウイ",
             it: "Malawi",
             cn: "马拉维",
-            tr: "Malavi",
+            tr: "Malavi"
         },
         latitude: "-13.50000000",
         longitude: "34.00000000",
         emoji: "🇲🇼",
-        emojiU: "U+1F1F2 U+1F1FC",
+        emojiU: "U+1F1F2 U+1F1FC"
     },
     {
         id: 132,
@@ -6786,15 +6786,15 @@ export const countries = [
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "MYT",
-                tzName: "Malaysia Time",
+                tzName: "Malaysia Time"
             },
             {
                 zoneName: "Asia/Kuching",
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "MYT",
-                tzName: "Malaysia Time",
-            },
+                tzName: "Malaysia Time"
+            }
         ],
         translations: {
             kr: "말레이시아",
@@ -6809,12 +6809,12 @@ export const countries = [
             ja: "マレーシア",
             it: "Malesia",
             cn: "马来西亚",
-            tr: "Malezya",
+            tr: "Malezya"
         },
         latitude: "2.50000000",
         longitude: "112.50000000",
         emoji: "🇲🇾",
-        emojiU: "U+1F1F2 U+1F1FE",
+        emojiU: "U+1F1F2 U+1F1FE"
     },
     {
         id: 133,
@@ -6840,8 +6840,8 @@ export const countries = [
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "MVT",
-                tzName: "Maldives Time",
-            },
+                tzName: "Maldives Time"
+            }
         ],
         translations: {
             kr: "몰디브",
@@ -6856,12 +6856,12 @@ export const countries = [
             ja: "モルディブ",
             it: "Maldive",
             cn: "马尔代夫",
-            tr: "Maldivler",
+            tr: "Maldivler"
         },
         latitude: "3.25000000",
         longitude: "73.00000000",
         emoji: "🇲🇻",
-        emojiU: "U+1F1F2 U+1F1FB",
+        emojiU: "U+1F1F2 U+1F1FB"
     },
     {
         id: 134,
@@ -6887,8 +6887,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "말리",
@@ -6903,12 +6903,12 @@ export const countries = [
             ja: "マリ",
             it: "Mali",
             cn: "马里",
-            tr: "Mali",
+            tr: "Mali"
         },
         latitude: "17.00000000",
         longitude: "-4.00000000",
         emoji: "🇲🇱",
-        emojiU: "U+1F1F2 U+1F1F1",
+        emojiU: "U+1F1F2 U+1F1F1"
     },
     {
         id: 135,
@@ -6934,8 +6934,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "몰타",
@@ -6950,12 +6950,12 @@ export const countries = [
             ja: "マルタ",
             it: "Malta",
             cn: "马耳他",
-            tr: "Malta",
+            tr: "Malta"
         },
         latitude: "35.83333333",
         longitude: "14.58333333",
         emoji: "🇲🇹",
-        emojiU: "U+1F1F2 U+1F1F9",
+        emojiU: "U+1F1F2 U+1F1F9"
     },
     {
         id: 136,
@@ -6981,8 +6981,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "맨 섬",
@@ -6997,12 +6997,12 @@ export const countries = [
             ja: "マン島",
             it: "Isola di Man",
             cn: "马恩岛",
-            tr: "Man Adasi",
+            tr: "Man Adasi"
         },
         latitude: "54.25000000",
         longitude: "-4.50000000",
         emoji: "🇮🇲",
-        emojiU: "U+1F1EE U+1F1F2",
+        emojiU: "U+1F1EE U+1F1F2"
     },
     {
         id: 137,
@@ -7028,15 +7028,15 @@ export const countries = [
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "MHT",
-                tzName: "Marshall Islands Time",
+                tzName: "Marshall Islands Time"
             },
             {
                 zoneName: "Pacific/Majuro",
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "MHT",
-                tzName: "Marshall Islands Time",
-            },
+                tzName: "Marshall Islands Time"
+            }
         ],
         translations: {
             kr: "마셜 제도",
@@ -7051,12 +7051,12 @@ export const countries = [
             ja: "マーシャル諸島",
             it: "Isole Marshall",
             cn: "马绍尔群岛",
-            tr: "Marşal Adalari",
+            tr: "Marşal Adalari"
         },
         latitude: "9.00000000",
         longitude: "168.00000000",
         emoji: "🇲🇭",
-        emojiU: "U+1F1F2 U+1F1ED",
+        emojiU: "U+1F1F2 U+1F1ED"
     },
     {
         id: 138,
@@ -7082,8 +7082,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "마르티니크",
@@ -7098,12 +7098,12 @@ export const countries = [
             ja: "マルティニーク",
             it: "Martinica",
             cn: "马提尼克岛",
-            tr: "Martinik",
+            tr: "Martinik"
         },
         latitude: "14.66666700",
         longitude: "-61.00000000",
         emoji: "🇲🇶",
-        emojiU: "U+1F1F2 U+1F1F6",
+        emojiU: "U+1F1F2 U+1F1F6"
     },
     {
         id: 139,
@@ -7129,8 +7129,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "모리타니",
@@ -7145,12 +7145,12 @@ export const countries = [
             ja: "モーリタニア",
             it: "Mauritania",
             cn: "毛里塔尼亚",
-            tr: "Moritanya",
+            tr: "Moritanya"
         },
         latitude: "20.00000000",
         longitude: "-12.00000000",
         emoji: "🇲🇷",
-        emojiU: "U+1F1F2 U+1F1F7",
+        emojiU: "U+1F1F2 U+1F1F7"
     },
     {
         id: 140,
@@ -7176,8 +7176,8 @@ export const countries = [
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "MUT",
-                tzName: "Mauritius Time",
-            },
+                tzName: "Mauritius Time"
+            }
         ],
         translations: {
             kr: "모리셔스",
@@ -7192,12 +7192,12 @@ export const countries = [
             ja: "モーリシャス",
             it: "Mauritius",
             cn: "毛里求斯",
-            tr: "Morityus",
+            tr: "Morityus"
         },
         latitude: "-20.28333333",
         longitude: "57.55000000",
         emoji: "🇲🇺",
-        emojiU: "U+1F1F2 U+1F1FA",
+        emojiU: "U+1F1F2 U+1F1FA"
     },
     {
         id: 141,
@@ -7223,8 +7223,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "마요트",
@@ -7239,12 +7239,12 @@ export const countries = [
             ja: "マヨット",
             it: "Mayotte",
             cn: "马约特",
-            tr: "Mayotte",
+            tr: "Mayotte"
         },
         latitude: "-12.83333333",
         longitude: "45.16666666",
         emoji: "🇾🇹",
-        emojiU: "U+1F1FE U+1F1F9",
+        emojiU: "U+1F1FE U+1F1F9"
     },
     {
         id: 142,
@@ -7270,78 +7270,78 @@ export const countries = [
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Cancun",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Chihuahua",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America",
+                tzName: "Mountain Standard Time (North America"
             },
             {
                 zoneName: "America/Hermosillo",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America",
+                tzName: "Mountain Standard Time (North America"
             },
             {
                 zoneName: "America/Matamoros",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Mazatlan",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America",
+                tzName: "Mountain Standard Time (North America"
             },
             {
                 zoneName: "America/Merida",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Mexico_City",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Monterrey",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Ojinaga",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America",
+                tzName: "Mountain Standard Time (North America"
             },
             {
                 zoneName: "America/Tijuana",
                 gmtOffset: -28800,
                 gmtOffsetName: "UTC-08:00",
                 abbreviation: "PST",
-                tzName: "Pacific Standard Time (North America",
-            },
+                tzName: "Pacific Standard Time (North America"
+            }
         ],
         translations: {
             kr: "멕시코",
@@ -7356,12 +7356,12 @@ export const countries = [
             ja: "メキシコ",
             it: "Messico",
             cn: "墨西哥",
-            tr: "Meksika",
+            tr: "Meksika"
         },
         latitude: "23.00000000",
         longitude: "-102.00000000",
         emoji: "🇲🇽",
-        emojiU: "U+1F1F2 U+1F1FD",
+        emojiU: "U+1F1F2 U+1F1FD"
     },
     {
         id: 143,
@@ -7387,22 +7387,22 @@ export const countries = [
                 gmtOffset: 36000,
                 gmtOffsetName: "UTC+10:00",
                 abbreviation: "CHUT",
-                tzName: "Chuuk Time",
+                tzName: "Chuuk Time"
             },
             {
                 zoneName: "Pacific/Kosrae",
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "KOST",
-                tzName: "Kosrae Time",
+                tzName: "Kosrae Time"
             },
             {
                 zoneName: "Pacific/Pohnpei",
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "PONT",
-                tzName: "Pohnpei Standard Time",
-            },
+                tzName: "Pohnpei Standard Time"
+            }
         ],
         translations: {
             kr: "미크로네시아 연방",
@@ -7417,12 +7417,12 @@ export const countries = [
             ja: "ミクロネシア連邦",
             it: "Micronesia",
             cn: "密克罗尼西亚",
-            tr: "Mikronezya",
+            tr: "Mikronezya"
         },
         latitude: "6.91666666",
         longitude: "158.25000000",
         emoji: "🇫🇲",
-        emojiU: "U+1F1EB U+1F1F2",
+        emojiU: "U+1F1EB U+1F1F2"
     },
     {
         id: 144,
@@ -7448,8 +7448,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "몰도바",
@@ -7464,12 +7464,12 @@ export const countries = [
             ja: "モルドバ共和国",
             it: "Moldavia",
             cn: "摩尔多瓦",
-            tr: "Moldova",
+            tr: "Moldova"
         },
         latitude: "47.00000000",
         longitude: "29.00000000",
         emoji: "🇲🇩",
-        emojiU: "U+1F1F2 U+1F1E9",
+        emojiU: "U+1F1F2 U+1F1E9"
     },
     {
         id: 145,
@@ -7495,8 +7495,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "모나코",
@@ -7511,12 +7511,12 @@ export const countries = [
             ja: "モナコ",
             it: "Principato di Monaco",
             cn: "摩纳哥",
-            tr: "Monako",
+            tr: "Monako"
         },
         latitude: "43.73333333",
         longitude: "7.40000000",
         emoji: "🇲🇨",
-        emojiU: "U+1F1F2 U+1F1E8",
+        emojiU: "U+1F1F2 U+1F1E8"
     },
     {
         id: 146,
@@ -7542,22 +7542,22 @@ export const countries = [
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "CHOT",
-                tzName: "Choibalsan Standard Time",
+                tzName: "Choibalsan Standard Time"
             },
             {
                 zoneName: "Asia/Hovd",
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "HOVT",
-                tzName: "Hovd Time",
+                tzName: "Hovd Time"
             },
             {
                 zoneName: "Asia/Ulaanbaatar",
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "ULAT",
-                tzName: "Ulaanbaatar Standard Time",
-            },
+                tzName: "Ulaanbaatar Standard Time"
+            }
         ],
         translations: {
             kr: "몽골",
@@ -7572,12 +7572,12 @@ export const countries = [
             ja: "モンゴル",
             it: "Mongolia",
             cn: "蒙古",
-            tr: "Moğolistan",
+            tr: "Moğolistan"
         },
         latitude: "46.00000000",
         longitude: "105.00000000",
         emoji: "🇲🇳",
-        emojiU: "U+1F1F2 U+1F1F3",
+        emojiU: "U+1F1F2 U+1F1F3"
     },
     {
         id: 147,
@@ -7603,8 +7603,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "몬테네그로",
@@ -7619,12 +7619,12 @@ export const countries = [
             ja: "モンテネグロ",
             it: "Montenegro",
             cn: "黑山",
-            tr: "Karadağ",
+            tr: "Karadağ"
         },
         latitude: "42.50000000",
         longitude: "19.30000000",
         emoji: "🇲🇪",
-        emojiU: "U+1F1F2 U+1F1EA",
+        emojiU: "U+1F1F2 U+1F1EA"
     },
     {
         id: 148,
@@ -7650,8 +7650,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "몬트세랫",
@@ -7666,12 +7666,12 @@ export const countries = [
             ja: "モントセラト",
             it: "Montserrat",
             cn: "蒙特塞拉特",
-            tr: "Montserrat",
+            tr: "Montserrat"
         },
         latitude: "16.75000000",
         longitude: "-62.20000000",
         emoji: "🇲🇸",
-        emojiU: "U+1F1F2 U+1F1F8",
+        emojiU: "U+1F1F2 U+1F1F8"
     },
     {
         id: 149,
@@ -7697,8 +7697,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WEST",
-                tzName: "Western European Summer Time",
-            },
+                tzName: "Western European Summer Time"
+            }
         ],
         translations: {
             kr: "모로코",
@@ -7713,12 +7713,12 @@ export const countries = [
             ja: "モロッコ",
             it: "Marocco",
             cn: "摩洛哥",
-            tr: "Fas",
+            tr: "Fas"
         },
         latitude: "32.00000000",
         longitude: "-5.00000000",
         emoji: "🇲🇦",
-        emojiU: "U+1F1F2 U+1F1E6",
+        emojiU: "U+1F1F2 U+1F1E6"
     },
     {
         id: 150,
@@ -7744,8 +7744,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "CAT",
-                tzName: "Central Africa Time",
-            },
+                tzName: "Central Africa Time"
+            }
         ],
         translations: {
             kr: "모잠비크",
@@ -7760,12 +7760,12 @@ export const countries = [
             ja: "モザンビーク",
             it: "Mozambico",
             cn: "莫桑比克",
-            tr: "Mozambik",
+            tr: "Mozambik"
         },
         latitude: "-18.25000000",
         longitude: "35.00000000",
         emoji: "🇲🇿",
-        emojiU: "U+1F1F2 U+1F1FF",
+        emojiU: "U+1F1F2 U+1F1FF"
     },
     {
         id: 151,
@@ -7791,8 +7791,8 @@ export const countries = [
                 gmtOffset: 23400,
                 gmtOffsetName: "UTC+06:30",
                 abbreviation: "MMT",
-                tzName: "Myanmar Standard Time",
-            },
+                tzName: "Myanmar Standard Time"
+            }
         ],
         translations: {
             kr: "미얀마",
@@ -7807,12 +7807,12 @@ export const countries = [
             ja: "ミャンマー",
             it: "Birmania",
             cn: "缅甸",
-            tr: "Myanmar",
+            tr: "Myanmar"
         },
         latitude: "22.00000000",
         longitude: "98.00000000",
         emoji: "🇲🇲",
-        emojiU: "U+1F1F2 U+1F1F2",
+        emojiU: "U+1F1F2 U+1F1F2"
     },
     {
         id: 152,
@@ -7838,8 +7838,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "WAST",
-                tzName: "West Africa Summer Time",
-            },
+                tzName: "West Africa Summer Time"
+            }
         ],
         translations: {
             kr: "나미비아",
@@ -7854,12 +7854,12 @@ export const countries = [
             ja: "ナミビア",
             it: "Namibia",
             cn: "纳米比亚",
-            tr: "Namibya",
+            tr: "Namibya"
         },
         latitude: "-22.00000000",
         longitude: "17.00000000",
         emoji: "🇳🇦",
-        emojiU: "U+1F1F3 U+1F1E6",
+        emojiU: "U+1F1F3 U+1F1E6"
     },
     {
         id: 153,
@@ -7885,8 +7885,8 @@ export const countries = [
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "NRT",
-                tzName: "Nauru Time",
-            },
+                tzName: "Nauru Time"
+            }
         ],
         translations: {
             kr: "나우루",
@@ -7901,12 +7901,12 @@ export const countries = [
             ja: "ナウル",
             it: "Nauru",
             cn: "瑙鲁",
-            tr: "Nauru",
+            tr: "Nauru"
         },
         latitude: "-0.53333333",
         longitude: "166.91666666",
         emoji: "🇳🇷",
-        emojiU: "U+1F1F3 U+1F1F7",
+        emojiU: "U+1F1F3 U+1F1F7"
     },
     {
         id: 154,
@@ -7932,8 +7932,8 @@ export const countries = [
                 gmtOffset: 20700,
                 gmtOffsetName: "UTC+05:45",
                 abbreviation: "NPT",
-                tzName: "Nepal Time",
-            },
+                tzName: "Nepal Time"
+            }
         ],
         translations: {
             kr: "네팔",
@@ -7948,12 +7948,12 @@ export const countries = [
             ja: "ネパール",
             it: "Nepal",
             cn: "尼泊尔",
-            tr: "Nepal",
+            tr: "Nepal"
         },
         latitude: "28.00000000",
         longitude: "84.00000000",
         emoji: "🇳🇵",
-        emojiU: "U+1F1F3 U+1F1F5",
+        emojiU: "U+1F1F3 U+1F1F5"
     },
     {
         id: 156,
@@ -7979,8 +7979,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "네덜란드",
@@ -7995,12 +7995,12 @@ export const countries = [
             ja: "オランダ",
             it: "Paesi Bassi",
             cn: "荷兰",
-            tr: "Hollanda",
+            tr: "Hollanda"
         },
         latitude: "52.50000000",
         longitude: "5.75000000",
         emoji: "🇳🇱",
-        emojiU: "U+1F1F3 U+1F1F1",
+        emojiU: "U+1F1F3 U+1F1F1"
     },
     {
         id: 157,
@@ -8026,8 +8026,8 @@ export const countries = [
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "NCT",
-                tzName: "New Caledonia Time",
-            },
+                tzName: "New Caledonia Time"
+            }
         ],
         translations: {
             kr: "누벨칼레도니",
@@ -8042,12 +8042,12 @@ export const countries = [
             ja: "ニューカレドニア",
             it: "Nuova Caledonia",
             cn: "新喀里多尼亚",
-            tr: "Yeni Kaledonya",
+            tr: "Yeni Kaledonya"
         },
         latitude: "-21.50000000",
         longitude: "165.50000000",
         emoji: "🇳🇨",
-        emojiU: "U+1F1F3 U+1F1E8",
+        emojiU: "U+1F1F3 U+1F1E8"
     },
     {
         id: 158,
@@ -8073,15 +8073,15 @@ export const countries = [
                 gmtOffset: 46800,
                 gmtOffsetName: "UTC+13:00",
                 abbreviation: "NZDT",
-                tzName: "New Zealand Daylight Time",
+                tzName: "New Zealand Daylight Time"
             },
             {
                 zoneName: "Pacific/Chatham",
                 gmtOffset: 49500,
                 gmtOffsetName: "UTC+13:45",
                 abbreviation: "CHAST",
-                tzName: "Chatham Standard Time",
-            },
+                tzName: "Chatham Standard Time"
+            }
         ],
         translations: {
             kr: "뉴질랜드",
@@ -8096,12 +8096,12 @@ export const countries = [
             ja: "ニュージーランド",
             it: "Nuova Zelanda",
             cn: "新西兰",
-            tr: "Yeni Zelanda",
+            tr: "Yeni Zelanda"
         },
         latitude: "-41.00000000",
         longitude: "174.00000000",
         emoji: "🇳🇿",
-        emojiU: "U+1F1F3 U+1F1FF",
+        emojiU: "U+1F1F3 U+1F1FF"
     },
     {
         id: 159,
@@ -8127,8 +8127,8 @@ export const countries = [
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
-            },
+                tzName: "Central Standard Time (North America"
+            }
         ],
         translations: {
             kr: "니카라과",
@@ -8143,12 +8143,12 @@ export const countries = [
             ja: "ニカラグア",
             it: "Nicaragua",
             cn: "尼加拉瓜",
-            tr: "Nikaragua",
+            tr: "Nikaragua"
         },
         latitude: "13.00000000",
         longitude: "-85.00000000",
         emoji: "🇳🇮",
-        emojiU: "U+1F1F3 U+1F1EE",
+        emojiU: "U+1F1F3 U+1F1EE"
     },
     {
         id: 160,
@@ -8174,8 +8174,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
-            },
+                tzName: "West Africa Time"
+            }
         ],
         translations: {
             kr: "니제르",
@@ -8190,12 +8190,12 @@ export const countries = [
             ja: "ニジェール",
             it: "Niger",
             cn: "尼日尔",
-            tr: "Nijer",
+            tr: "Nijer"
         },
         latitude: "16.00000000",
         longitude: "8.00000000",
         emoji: "🇳🇪",
-        emojiU: "U+1F1F3 U+1F1EA",
+        emojiU: "U+1F1F3 U+1F1EA"
     },
     {
         id: 161,
@@ -8221,8 +8221,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WAT",
-                tzName: "West Africa Time",
-            },
+                tzName: "West Africa Time"
+            }
         ],
         translations: {
             kr: "나이지리아",
@@ -8237,12 +8237,12 @@ export const countries = [
             ja: "ナイジェリア",
             it: "Nigeria",
             cn: "尼日利亚",
-            tr: "Nijerya",
+            tr: "Nijerya"
         },
         latitude: "10.00000000",
         longitude: "8.00000000",
         emoji: "🇳🇬",
-        emojiU: "U+1F1F3 U+1F1EC",
+        emojiU: "U+1F1F3 U+1F1EC"
     },
     {
         id: 162,
@@ -8268,8 +8268,8 @@ export const countries = [
                 gmtOffset: -39600,
                 gmtOffsetName: "UTC-11:00",
                 abbreviation: "NUT",
-                tzName: "Niue Time",
-            },
+                tzName: "Niue Time"
+            }
         ],
         translations: {
             kr: "니우에",
@@ -8284,12 +8284,12 @@ export const countries = [
             ja: "ニウエ",
             it: "Niue",
             cn: "纽埃",
-            tr: "Niue",
+            tr: "Niue"
         },
         latitude: "-19.03333333",
         longitude: "-169.86666666",
         emoji: "🇳🇺",
-        emojiU: "U+1F1F3 U+1F1FA",
+        emojiU: "U+1F1F3 U+1F1FA"
     },
     {
         id: 163,
@@ -8315,8 +8315,8 @@ export const countries = [
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "NFT",
-                tzName: "Norfolk Time",
-            },
+                tzName: "Norfolk Time"
+            }
         ],
         translations: {
             kr: "노퍽 섬",
@@ -8331,12 +8331,12 @@ export const countries = [
             ja: "ノーフォーク島",
             it: "Isola Norfolk",
             cn: "诺福克岛",
-            tr: "Norfolk Adasi",
+            tr: "Norfolk Adasi"
         },
         latitude: "-29.03333333",
         longitude: "167.95000000",
         emoji: "🇳🇫",
-        emojiU: "U+1F1F3 U+1F1EB",
+        emojiU: "U+1F1F3 U+1F1EB"
     },
     {
         id: 115,
@@ -8362,8 +8362,8 @@ export const countries = [
                 gmtOffset: 32400,
                 gmtOffsetName: "UTC+09:00",
                 abbreviation: "KST",
-                tzName: "Korea Standard Time",
-            },
+                tzName: "Korea Standard Time"
+            }
         ],
         translations: {
             kr: "조선민주주의인민공화국",
@@ -8378,12 +8378,12 @@ export const countries = [
             ja: "朝鮮民主主義人民共和国",
             it: "Corea del Nord",
             cn: "朝鲜",
-            tr: "Kuzey Kore",
+            tr: "Kuzey Kore"
         },
         latitude: "40.00000000",
         longitude: "127.00000000",
         emoji: "🇰🇵",
-        emojiU: "U+1F1F0 U+1F1F5",
+        emojiU: "U+1F1F0 U+1F1F5"
     },
     {
         id: 129,
@@ -8409,8 +8409,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "북마케도니아",
@@ -8425,12 +8425,12 @@ export const countries = [
             ja: "北マケドニア",
             it: "Macedonia del Nord",
             cn: "北馬其頓",
-            tr: "Kuzey Makedonya",
+            tr: "Kuzey Makedonya"
         },
         latitude: "41.83333333",
         longitude: "22.00000000",
         emoji: "🇲🇰",
-        emojiU: "U+1F1F2 U+1F1F0",
+        emojiU: "U+1F1F2 U+1F1F0"
     },
     {
         id: 164,
@@ -8456,8 +8456,8 @@ export const countries = [
                 gmtOffset: 36000,
                 gmtOffsetName: "UTC+10:00",
                 abbreviation: "ChST",
-                tzName: "Chamorro Standard Time",
-            },
+                tzName: "Chamorro Standard Time"
+            }
         ],
         translations: {
             kr: "북마리아나 제도",
@@ -8472,12 +8472,12 @@ export const countries = [
             ja: "北マリアナ諸島",
             it: "Isole Marianne Settentrionali",
             cn: "北马里亚纳群岛",
-            tr: "Kuzey Mariana Adalari",
+            tr: "Kuzey Mariana Adalari"
         },
         latitude: "15.20000000",
         longitude: "145.75000000",
         emoji: "🇲🇵",
-        emojiU: "U+1F1F2 U+1F1F5",
+        emojiU: "U+1F1F2 U+1F1F5"
     },
     {
         id: 165,
@@ -8503,8 +8503,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "노르웨이",
@@ -8519,12 +8519,12 @@ export const countries = [
             ja: "ノルウェー",
             it: "Norvegia",
             cn: "挪威",
-            tr: "Norveç",
+            tr: "Norveç"
         },
         latitude: "62.00000000",
         longitude: "10.00000000",
         emoji: "🇳🇴",
-        emojiU: "U+1F1F3 U+1F1F4",
+        emojiU: "U+1F1F3 U+1F1F4"
     },
     {
         id: 166,
@@ -8550,8 +8550,8 @@ export const countries = [
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "GST",
-                tzName: "Gulf Standard Time",
-            },
+                tzName: "Gulf Standard Time"
+            }
         ],
         translations: {
             kr: "오만",
@@ -8566,12 +8566,12 @@ export const countries = [
             ja: "オマーン",
             it: "oman",
             cn: "阿曼",
-            tr: "Umman",
+            tr: "Umman"
         },
         latitude: "21.00000000",
         longitude: "57.00000000",
         emoji: "🇴🇲",
-        emojiU: "U+1F1F4 U+1F1F2",
+        emojiU: "U+1F1F4 U+1F1F2"
     },
     {
         id: 167,
@@ -8597,8 +8597,8 @@ export const countries = [
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "PKT",
-                tzName: "Pakistan Standard Time",
-            },
+                tzName: "Pakistan Standard Time"
+            }
         ],
         translations: {
             kr: "파키스탄",
@@ -8613,12 +8613,12 @@ export const countries = [
             ja: "パキスタン",
             it: "Pakistan",
             cn: "巴基斯坦",
-            tr: "Pakistan",
+            tr: "Pakistan"
         },
         latitude: "30.00000000",
         longitude: "70.00000000",
         emoji: "🇵🇰",
-        emojiU: "U+1F1F5 U+1F1F0",
+        emojiU: "U+1F1F5 U+1F1F0"
     },
     {
         id: 168,
@@ -8644,8 +8644,8 @@ export const countries = [
                 gmtOffset: 32400,
                 gmtOffsetName: "UTC+09:00",
                 abbreviation: "PWT",
-                tzName: "Palau Time",
-            },
+                tzName: "Palau Time"
+            }
         ],
         translations: {
             kr: "팔라우",
@@ -8660,12 +8660,12 @@ export const countries = [
             ja: "パラオ",
             it: "Palau",
             cn: "帕劳",
-            tr: "Palau",
+            tr: "Palau"
         },
         latitude: "7.50000000",
         longitude: "134.50000000",
         emoji: "🇵🇼",
-        emojiU: "U+1F1F5 U+1F1FC",
+        emojiU: "U+1F1F5 U+1F1FC"
     },
     {
         id: 169,
@@ -8691,15 +8691,15 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
+                tzName: "Eastern European Time"
             },
             {
                 zoneName: "Asia/Hebron",
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "팔레스타인 영토",
@@ -8714,12 +8714,12 @@ export const countries = [
             ja: "パレスチナ",
             it: "Palestina",
             cn: "巴勒斯坦",
-            tr: "Filistin",
+            tr: "Filistin"
         },
         latitude: "31.90000000",
         longitude: "35.20000000",
         emoji: "🇵🇸",
-        emojiU: "U+1F1F5 U+1F1F8",
+        emojiU: "U+1F1F5 U+1F1F8"
     },
     {
         id: 170,
@@ -8745,8 +8745,8 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
-            },
+                tzName: "Eastern Standard Time (North America"
+            }
         ],
         translations: {
             kr: "파나마",
@@ -8761,12 +8761,12 @@ export const countries = [
             ja: "パナマ",
             it: "Panama",
             cn: "巴拿马",
-            tr: "Panama",
+            tr: "Panama"
         },
         latitude: "9.00000000",
         longitude: "-80.00000000",
         emoji: "🇵🇦",
-        emojiU: "U+1F1F5 U+1F1E6",
+        emojiU: "U+1F1F5 U+1F1E6"
     },
     {
         id: 171,
@@ -8792,15 +8792,15 @@ export const countries = [
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "BST",
-                tzName: "Bougainville Standard Time[6",
+                tzName: "Bougainville Standard Time[6"
             },
             {
                 zoneName: "Pacific/Port_Moresby",
                 gmtOffset: 36000,
                 gmtOffsetName: "UTC+10:00",
                 abbreviation: "PGT",
-                tzName: "Papua New Guinea Time",
-            },
+                tzName: "Papua New Guinea Time"
+            }
         ],
         translations: {
             kr: "파푸아뉴기니",
@@ -8815,12 +8815,12 @@ export const countries = [
             ja: "パプアニューギニア",
             it: "Papua Nuova Guinea",
             cn: "巴布亚新几内亚",
-            tr: "Papua Yeni Gine",
+            tr: "Papua Yeni Gine"
         },
         latitude: "-6.00000000",
         longitude: "147.00000000",
         emoji: "🇵🇬",
-        emojiU: "U+1F1F5 U+1F1EC",
+        emojiU: "U+1F1F5 U+1F1EC"
     },
     {
         id: 172,
@@ -8846,8 +8846,8 @@ export const countries = [
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "PYST",
-                tzName: "Paraguay Summer Time",
-            },
+                tzName: "Paraguay Summer Time"
+            }
         ],
         translations: {
             kr: "파라과이",
@@ -8862,12 +8862,12 @@ export const countries = [
             ja: "パラグアイ",
             it: "Paraguay",
             cn: "巴拉圭",
-            tr: "Paraguay",
+            tr: "Paraguay"
         },
         latitude: "-23.00000000",
         longitude: "-58.00000000",
         emoji: "🇵🇾",
-        emojiU: "U+1F1F5 U+1F1FE",
+        emojiU: "U+1F1F5 U+1F1FE"
     },
     {
         id: 173,
@@ -8893,8 +8893,8 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "PET",
-                tzName: "Peru Time",
-            },
+                tzName: "Peru Time"
+            }
         ],
         translations: {
             kr: "페루",
@@ -8909,12 +8909,12 @@ export const countries = [
             ja: "ペルー",
             it: "Perù",
             cn: "秘鲁",
-            tr: "Peru",
+            tr: "Peru"
         },
         latitude: "-10.00000000",
         longitude: "-76.00000000",
         emoji: "🇵🇪",
-        emojiU: "U+1F1F5 U+1F1EA",
+        emojiU: "U+1F1F5 U+1F1EA"
     },
     {
         id: 174,
@@ -8940,8 +8940,8 @@ export const countries = [
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "PHT",
-                tzName: "Philippine Time",
-            },
+                tzName: "Philippine Time"
+            }
         ],
         translations: {
             kr: "필리핀",
@@ -8956,12 +8956,12 @@ export const countries = [
             ja: "フィリピン",
             it: "Filippine",
             cn: "菲律宾",
-            tr: "Filipinler",
+            tr: "Filipinler"
         },
         latitude: "13.00000000",
         longitude: "122.00000000",
         emoji: "🇵🇭",
-        emojiU: "U+1F1F5 U+1F1ED",
+        emojiU: "U+1F1F5 U+1F1ED"
     },
     {
         id: 175,
@@ -8987,8 +8987,8 @@ export const countries = [
                 gmtOffset: -28800,
                 gmtOffsetName: "UTC-08:00",
                 abbreviation: "PST",
-                tzName: "Pacific Standard Time (North America",
-            },
+                tzName: "Pacific Standard Time (North America"
+            }
         ],
         translations: {
             kr: "핏케언 제도",
@@ -9003,12 +9003,12 @@ export const countries = [
             ja: "ピトケアン",
             it: "Isole Pitcairn",
             cn: "皮特凯恩群岛",
-            tr: "Pitcairn Adalari",
+            tr: "Pitcairn Adalari"
         },
         latitude: "-25.06666666",
         longitude: "-130.10000000",
         emoji: "🇵🇳",
-        emojiU: "U+1F1F5 U+1F1F3",
+        emojiU: "U+1F1F5 U+1F1F3"
     },
     {
         id: 176,
@@ -9034,8 +9034,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "폴란드",
@@ -9050,12 +9050,12 @@ export const countries = [
             ja: "ポーランド",
             it: "Polonia",
             cn: "波兰",
-            tr: "Polonya",
+            tr: "Polonya"
         },
         latitude: "52.00000000",
         longitude: "20.00000000",
         emoji: "🇵🇱",
-        emojiU: "U+1F1F5 U+1F1F1",
+        emojiU: "U+1F1F5 U+1F1F1"
     },
     {
         id: 177,
@@ -9081,22 +9081,22 @@ export const countries = [
                 gmtOffset: -3600,
                 gmtOffsetName: "UTC-01:00",
                 abbreviation: "AZOT",
-                tzName: "Azores Standard Time",
+                tzName: "Azores Standard Time"
             },
             {
                 zoneName: "Atlantic/Madeira",
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "WET",
-                tzName: "Western European Time",
+                tzName: "Western European Time"
             },
             {
                 zoneName: "Europe/Lisbon",
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "WET",
-                tzName: "Western European Time",
-            },
+                tzName: "Western European Time"
+            }
         ],
         translations: {
             kr: "포르투갈",
@@ -9111,12 +9111,12 @@ export const countries = [
             ja: "ポルトガル",
             it: "Portogallo",
             cn: "葡萄牙",
-            tr: "Portekiz",
+            tr: "Portekiz"
         },
         latitude: "39.50000000",
         longitude: "-8.00000000",
         emoji: "🇵🇹",
-        emojiU: "U+1F1F5 U+1F1F9",
+        emojiU: "U+1F1F5 U+1F1F9"
     },
     {
         id: 178,
@@ -9142,8 +9142,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "푸에르토리코",
@@ -9158,12 +9158,12 @@ export const countries = [
             ja: "プエルトリコ",
             it: "Porto Rico",
             cn: "波多黎各",
-            tr: "Porto Riko",
+            tr: "Porto Riko"
         },
         latitude: "18.25000000",
         longitude: "-66.50000000",
         emoji: "🇵🇷",
-        emojiU: "U+1F1F5 U+1F1F7",
+        emojiU: "U+1F1F5 U+1F1F7"
     },
     {
         id: 179,
@@ -9189,8 +9189,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "AST",
-                tzName: "Arabia Standard Time",
-            },
+                tzName: "Arabia Standard Time"
+            }
         ],
         translations: {
             kr: "카타르",
@@ -9205,12 +9205,12 @@ export const countries = [
             ja: "カタール",
             it: "Qatar",
             cn: "卡塔尔",
-            tr: "Katar",
+            tr: "Katar"
         },
         latitude: "25.50000000",
         longitude: "51.25000000",
         emoji: "🇶🇦",
-        emojiU: "U+1F1F6 U+1F1E6",
+        emojiU: "U+1F1F6 U+1F1E6"
     },
     {
         id: 180,
@@ -9236,8 +9236,8 @@ export const countries = [
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "RET",
-                tzName: "Réunion Time",
-            },
+                tzName: "Réunion Time"
+            }
         ],
         translations: {
             kr: "레위니옹",
@@ -9252,12 +9252,12 @@ export const countries = [
             ja: "レユニオン",
             it: "Riunione",
             cn: "留尼汪岛",
-            tr: "Réunion",
+            tr: "Réunion"
         },
         latitude: "-21.15000000",
         longitude: "55.50000000",
         emoji: "🇷🇪",
-        emojiU: "U+1F1F7 U+1F1EA",
+        emojiU: "U+1F1F7 U+1F1EA"
     },
     {
         id: 181,
@@ -9283,8 +9283,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "루마니아",
@@ -9299,12 +9299,12 @@ export const countries = [
             ja: "ルーマニア",
             it: "Romania",
             cn: "罗马尼亚",
-            tr: "Romanya",
+            tr: "Romanya"
         },
         latitude: "46.00000000",
         longitude: "25.00000000",
         emoji: "🇷🇴",
-        emojiU: "U+1F1F7 U+1F1F4",
+        emojiU: "U+1F1F7 U+1F1F4"
     },
     {
         id: 182,
@@ -9330,183 +9330,183 @@ export const countries = [
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "ANAT",
-                tzName: "Anadyr Time[4",
+                tzName: "Anadyr Time[4"
             },
             {
                 zoneName: "Asia/Barnaul",
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "KRAT",
-                tzName: "Krasnoyarsk Time",
+                tzName: "Krasnoyarsk Time"
             },
             {
                 zoneName: "Asia/Chita",
                 gmtOffset: 32400,
                 gmtOffsetName: "UTC+09:00",
                 abbreviation: "YAKT",
-                tzName: "Yakutsk Time",
+                tzName: "Yakutsk Time"
             },
             {
                 zoneName: "Asia/Irkutsk",
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "IRKT",
-                tzName: "Irkutsk Time",
+                tzName: "Irkutsk Time"
             },
             {
                 zoneName: "Asia/Kamchatka",
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "PETT",
-                tzName: "Kamchatka Time",
+                tzName: "Kamchatka Time"
             },
             {
                 zoneName: "Asia/Khandyga",
                 gmtOffset: 32400,
                 gmtOffsetName: "UTC+09:00",
                 abbreviation: "YAKT",
-                tzName: "Yakutsk Time",
+                tzName: "Yakutsk Time"
             },
             {
                 zoneName: "Asia/Krasnoyarsk",
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "KRAT",
-                tzName: "Krasnoyarsk Time",
+                tzName: "Krasnoyarsk Time"
             },
             {
                 zoneName: "Asia/Magadan",
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "MAGT",
-                tzName: "Magadan Time",
+                tzName: "Magadan Time"
             },
             {
                 zoneName: "Asia/Novokuznetsk",
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "KRAT",
-                tzName: "Krasnoyarsk Time",
+                tzName: "Krasnoyarsk Time"
             },
             {
                 zoneName: "Asia/Novosibirsk",
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "NOVT",
-                tzName: "Novosibirsk Time",
+                tzName: "Novosibirsk Time"
             },
             {
                 zoneName: "Asia/Omsk",
                 gmtOffset: 21600,
                 gmtOffsetName: "UTC+06:00",
                 abbreviation: "OMST",
-                tzName: "Omsk Time",
+                tzName: "Omsk Time"
             },
             {
                 zoneName: "Asia/Sakhalin",
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "SAKT",
-                tzName: "Sakhalin Island Time",
+                tzName: "Sakhalin Island Time"
             },
             {
                 zoneName: "Asia/Srednekolymsk",
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "SRET",
-                tzName: "Srednekolymsk Time",
+                tzName: "Srednekolymsk Time"
             },
             {
                 zoneName: "Asia/Tomsk",
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "MSD+3",
-                tzName: "Moscow Daylight Time+3",
+                tzName: "Moscow Daylight Time+3"
             },
             {
                 zoneName: "Asia/Ust-Nera",
                 gmtOffset: 36000,
                 gmtOffsetName: "UTC+10:00",
                 abbreviation: "VLAT",
-                tzName: "Vladivostok Time",
+                tzName: "Vladivostok Time"
             },
             {
                 zoneName: "Asia/Vladivostok",
                 gmtOffset: 36000,
                 gmtOffsetName: "UTC+10:00",
                 abbreviation: "VLAT",
-                tzName: "Vladivostok Time",
+                tzName: "Vladivostok Time"
             },
             {
                 zoneName: "Asia/Yakutsk",
                 gmtOffset: 32400,
                 gmtOffsetName: "UTC+09:00",
                 abbreviation: "YAKT",
-                tzName: "Yakutsk Time",
+                tzName: "Yakutsk Time"
             },
             {
                 zoneName: "Asia/Yekaterinburg",
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "YEKT",
-                tzName: "Yekaterinburg Time",
+                tzName: "Yekaterinburg Time"
             },
             {
                 zoneName: "Europe/Astrakhan",
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "SAMT",
-                tzName: "Samara Time",
+                tzName: "Samara Time"
             },
             {
                 zoneName: "Europe/Kaliningrad",
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
+                tzName: "Eastern European Time"
             },
             {
                 zoneName: "Europe/Kirov",
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "MSK",
-                tzName: "Moscow Time",
+                tzName: "Moscow Time"
             },
             {
                 zoneName: "Europe/Moscow",
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "MSK",
-                tzName: "Moscow Time",
+                tzName: "Moscow Time"
             },
             {
                 zoneName: "Europe/Samara",
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "SAMT",
-                tzName: "Samara Time",
+                tzName: "Samara Time"
             },
             {
                 zoneName: "Europe/Saratov",
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "MSD",
-                tzName: "Moscow Daylight Time+4",
+                tzName: "Moscow Daylight Time+4"
             },
             {
                 zoneName: "Europe/Ulyanovsk",
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "SAMT",
-                tzName: "Samara Time",
+                tzName: "Samara Time"
             },
             {
                 zoneName: "Europe/Volgograd",
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "MSK",
-                tzName: "Moscow Standard Time",
-            },
+                tzName: "Moscow Standard Time"
+            }
         ],
         translations: {
             kr: "러시아",
@@ -9521,12 +9521,12 @@ export const countries = [
             ja: "ロシア連邦",
             it: "Russia",
             cn: "俄罗斯联邦",
-            tr: "Rusya",
+            tr: "Rusya"
         },
         latitude: "60.00000000",
         longitude: "100.00000000",
         emoji: "🇷🇺",
-        emojiU: "U+1F1F7 U+1F1FA",
+        emojiU: "U+1F1F7 U+1F1FA"
     },
     {
         id: 183,
@@ -9552,8 +9552,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "CAT",
-                tzName: "Central Africa Time",
-            },
+                tzName: "Central Africa Time"
+            }
         ],
         translations: {
             kr: "르완다",
@@ -9568,12 +9568,12 @@ export const countries = [
             ja: "ルワンダ",
             it: "Ruanda",
             cn: "卢旺达",
-            tr: "Ruanda",
+            tr: "Ruanda"
         },
         latitude: "-2.00000000",
         longitude: "30.00000000",
         emoji: "🇷🇼",
-        emojiU: "U+1F1F7 U+1F1FC",
+        emojiU: "U+1F1F7 U+1F1FC"
     },
     {
         id: 184,
@@ -9599,8 +9599,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "세인트헬레나",
@@ -9615,12 +9615,12 @@ export const countries = [
             ja: "セントヘレナ・アセンションおよびトリスタンダクーニャ",
             it: "Sant'Elena",
             cn: "圣赫勒拿",
-            tr: "Saint Helena",
+            tr: "Saint Helena"
         },
         latitude: "-15.95000000",
         longitude: "-5.70000000",
         emoji: "🇸🇭",
-        emojiU: "U+1F1F8 U+1F1ED",
+        emojiU: "U+1F1F8 U+1F1ED"
     },
     {
         id: 185,
@@ -9646,8 +9646,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "세인트키츠 네비스",
@@ -9662,12 +9662,12 @@ export const countries = [
             ja: "セントクリストファー・ネイビス",
             it: "Saint Kitts e Nevis",
             cn: "圣基茨和尼维斯",
-            tr: "Saint Kitts Ve Nevis",
+            tr: "Saint Kitts Ve Nevis"
         },
         latitude: "17.33333333",
         longitude: "-62.75000000",
         emoji: "🇰🇳",
-        emojiU: "U+1F1F0 U+1F1F3",
+        emojiU: "U+1F1F0 U+1F1F3"
     },
     {
         id: 186,
@@ -9693,8 +9693,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "세인트루시아",
@@ -9709,12 +9709,12 @@ export const countries = [
             ja: "セントルシア",
             it: "Santa Lucia",
             cn: "圣卢西亚",
-            tr: "Saint Lucia",
+            tr: "Saint Lucia"
         },
         latitude: "13.88333333",
         longitude: "-60.96666666",
         emoji: "🇱🇨",
-        emojiU: "U+1F1F1 U+1F1E8",
+        emojiU: "U+1F1F1 U+1F1E8"
     },
     {
         id: 187,
@@ -9740,8 +9740,8 @@ export const countries = [
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "PMDT",
-                tzName: "Pierre & Miquelon Daylight Time",
-            },
+                tzName: "Pierre & Miquelon Daylight Time"
+            }
         ],
         translations: {
             kr: "생피에르 미클롱",
@@ -9756,12 +9756,12 @@ export const countries = [
             ja: "サンピエール島・ミクロン島",
             it: "Saint-Pierre e Miquelon",
             cn: "圣皮埃尔和密克隆",
-            tr: "Saint Pierre Ve Miquelon",
+            tr: "Saint Pierre Ve Miquelon"
         },
         latitude: "46.83333333",
         longitude: "-56.33333333",
         emoji: "🇵🇲",
-        emojiU: "U+1F1F5 U+1F1F2",
+        emojiU: "U+1F1F5 U+1F1F2"
     },
     {
         id: 188,
@@ -9787,8 +9787,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "세인트빈센트 그레나딘",
@@ -9803,12 +9803,12 @@ export const countries = [
             ja: "セントビンセントおよびグレナディーン諸島",
             it: "Saint Vincent e Grenadine",
             cn: "圣文森特和格林纳丁斯",
-            tr: "Saint Vincent Ve Grenadinler",
+            tr: "Saint Vincent Ve Grenadinler"
         },
         latitude: "13.25000000",
         longitude: "-61.20000000",
         emoji: "🇻🇨",
-        emojiU: "U+1F1FB U+1F1E8",
+        emojiU: "U+1F1FB U+1F1E8"
     },
     {
         id: 189,
@@ -9834,8 +9834,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "생바르텔레미",
@@ -9850,12 +9850,12 @@ export const countries = [
             ja: "サン・バルテルミー",
             it: "Antille Francesi",
             cn: "圣巴泰勒米",
-            tr: "Saint Barthélemy",
+            tr: "Saint Barthélemy"
         },
         latitude: "18.50000000",
         longitude: "-63.41666666",
         emoji: "🇧🇱",
-        emojiU: "U+1F1E7 U+1F1F1",
+        emojiU: "U+1F1E7 U+1F1F1"
     },
     {
         id: 190,
@@ -9881,8 +9881,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "세인트마틴 섬",
@@ -9897,12 +9897,12 @@ export const countries = [
             ja: "サン・マルタン（フランス領）",
             it: "Saint Martin",
             cn: "密克罗尼西亚",
-            tr: "Saint Martin",
+            tr: "Saint Martin"
         },
         latitude: "18.08333333",
         longitude: "-63.95000000",
         emoji: "🇲🇫",
-        emojiU: "U+1F1F2 U+1F1EB",
+        emojiU: "U+1F1F2 U+1F1EB"
     },
     {
         id: 191,
@@ -9928,8 +9928,8 @@ export const countries = [
                 gmtOffset: 50400,
                 gmtOffsetName: "UTC+14:00",
                 abbreviation: "WST",
-                tzName: "West Samoa Time",
-            },
+                tzName: "West Samoa Time"
+            }
         ],
         translations: {
             kr: "사모아",
@@ -9944,12 +9944,12 @@ export const countries = [
             ja: "サモア",
             it: "Samoa",
             cn: "萨摩亚",
-            tr: "Samoa",
+            tr: "Samoa"
         },
         latitude: "-13.58333333",
         longitude: "-172.33333333",
         emoji: "🇼🇸",
-        emojiU: "U+1F1FC U+1F1F8",
+        emojiU: "U+1F1FC U+1F1F8"
     },
     {
         id: 192,
@@ -9975,8 +9975,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "산마리노",
@@ -9991,12 +9991,12 @@ export const countries = [
             ja: "サンマリノ",
             it: "San Marino",
             cn: "圣马力诺",
-            tr: "San Marino",
+            tr: "San Marino"
         },
         latitude: "43.76666666",
         longitude: "12.41666666",
         emoji: "🇸🇲",
-        emojiU: "U+1F1F8 U+1F1F2",
+        emojiU: "U+1F1F8 U+1F1F2"
     },
     {
         id: 193,
@@ -10022,8 +10022,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "상투메 프린시페",
@@ -10038,12 +10038,12 @@ export const countries = [
             ja: "サントメ・プリンシペ",
             it: "São Tomé e Príncipe",
             cn: "圣多美和普林西比",
-            tr: "Sao Tome Ve Prinsipe",
+            tr: "Sao Tome Ve Prinsipe"
         },
         latitude: "1.00000000",
         longitude: "7.00000000",
         emoji: "🇸🇹",
-        emojiU: "U+1F1F8 U+1F1F9",
+        emojiU: "U+1F1F8 U+1F1F9"
     },
     {
         id: 194,
@@ -10069,8 +10069,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "AST",
-                tzName: "Arabia Standard Time",
-            },
+                tzName: "Arabia Standard Time"
+            }
         ],
         translations: {
             kr: "사우디아라비아",
@@ -10085,12 +10085,12 @@ export const countries = [
             ja: "サウジアラビア",
             it: "Arabia Saudita",
             cn: "沙特阿拉伯",
-            tr: "Suudi Arabistan",
+            tr: "Suudi Arabistan"
         },
         latitude: "25.00000000",
         longitude: "45.00000000",
         emoji: "🇸🇦",
-        emojiU: "U+1F1F8 U+1F1E6",
+        emojiU: "U+1F1F8 U+1F1E6"
     },
     {
         id: 195,
@@ -10116,8 +10116,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "세네갈",
@@ -10132,12 +10132,12 @@ export const countries = [
             ja: "セネガル",
             it: "Senegal",
             cn: "塞内加尔",
-            tr: "Senegal",
+            tr: "Senegal"
         },
         latitude: "14.00000000",
         longitude: "-14.00000000",
         emoji: "🇸🇳",
-        emojiU: "U+1F1F8 U+1F1F3",
+        emojiU: "U+1F1F8 U+1F1F3"
     },
     {
         id: 196,
@@ -10163,8 +10163,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "세르비아",
@@ -10179,12 +10179,12 @@ export const countries = [
             ja: "セルビア",
             it: "Serbia",
             cn: "塞尔维亚",
-            tr: "Sirbistan",
+            tr: "Sirbistan"
         },
         latitude: "44.00000000",
         longitude: "21.00000000",
         emoji: "🇷🇸",
-        emojiU: "U+1F1F7 U+1F1F8",
+        emojiU: "U+1F1F7 U+1F1F8"
     },
     {
         id: 197,
@@ -10210,8 +10210,8 @@ export const countries = [
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "SCT",
-                tzName: "Seychelles Time",
-            },
+                tzName: "Seychelles Time"
+            }
         ],
         translations: {
             kr: "세이셸",
@@ -10226,12 +10226,12 @@ export const countries = [
             ja: "セーシェル",
             it: "Seychelles",
             cn: "塞舌尔",
-            tr: "Seyşeller",
+            tr: "Seyşeller"
         },
         latitude: "-4.58333333",
         longitude: "55.66666666",
         emoji: "🇸🇨",
-        emojiU: "U+1F1F8 U+1F1E8",
+        emojiU: "U+1F1F8 U+1F1E8"
     },
     {
         id: 198,
@@ -10257,8 +10257,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "시에라리온",
@@ -10273,12 +10273,12 @@ export const countries = [
             ja: "シエラレオネ",
             it: "Sierra Leone",
             cn: "塞拉利昂",
-            tr: "Sierra Leone",
+            tr: "Sierra Leone"
         },
         latitude: "8.50000000",
         longitude: "-11.50000000",
         emoji: "🇸🇱",
-        emojiU: "U+1F1F8 U+1F1F1",
+        emojiU: "U+1F1F8 U+1F1F1"
     },
     {
         id: 199,
@@ -10304,8 +10304,8 @@ export const countries = [
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "SGT",
-                tzName: "Singapore Time",
-            },
+                tzName: "Singapore Time"
+            }
         ],
         translations: {
             kr: "싱가포르",
@@ -10320,12 +10320,12 @@ export const countries = [
             ja: "シンガポール",
             it: "Singapore",
             cn: "新加坡",
-            tr: "Singapur",
+            tr: "Singapur"
         },
         latitude: "1.36666666",
         longitude: "103.80000000",
         emoji: "🇸🇬",
-        emojiU: "U+1F1F8 U+1F1EC",
+        emojiU: "U+1F1F8 U+1F1EC"
     },
     {
         id: 250,
@@ -10351,8 +10351,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "신트마르턴",
@@ -10364,12 +10364,12 @@ export const countries = [
             fr: "Saint Martin (partie néerlandaise)",
             it: "Saint Martin (parte olandese)",
             cn: "圣马丁岛（荷兰部分）",
-            tr: "Sint Maarten",
+            tr: "Sint Maarten"
         },
         latitude: "18.03333300",
         longitude: "-63.05000000",
         emoji: "🇸🇽",
-        emojiU: "U+1F1F8 U+1F1FD",
+        emojiU: "U+1F1F8 U+1F1FD"
     },
     {
         id: 200,
@@ -10395,8 +10395,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "슬로바키아",
@@ -10411,12 +10411,12 @@ export const countries = [
             ja: "スロバキア",
             it: "Slovacchia",
             cn: "斯洛伐克",
-            tr: "Slovakya",
+            tr: "Slovakya"
         },
         latitude: "48.66666666",
         longitude: "19.50000000",
         emoji: "🇸🇰",
-        emojiU: "U+1F1F8 U+1F1F0",
+        emojiU: "U+1F1F8 U+1F1F0"
     },
     {
         id: 201,
@@ -10442,8 +10442,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "슬로베니아",
@@ -10458,12 +10458,12 @@ export const countries = [
             ja: "スロベニア",
             it: "Slovenia",
             cn: "斯洛文尼亚",
-            tr: "Slovenya",
+            tr: "Slovenya"
         },
         latitude: "46.11666666",
         longitude: "14.81666666",
         emoji: "🇸🇮",
-        emojiU: "U+1F1F8 U+1F1EE",
+        emojiU: "U+1F1F8 U+1F1EE"
     },
     {
         id: 202,
@@ -10489,8 +10489,8 @@ export const countries = [
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "SBT",
-                tzName: "Solomon Islands Time",
-            },
+                tzName: "Solomon Islands Time"
+            }
         ],
         translations: {
             kr: "솔로몬 제도",
@@ -10505,12 +10505,12 @@ export const countries = [
             ja: "ソロモン諸島",
             it: "Isole Salomone",
             cn: "所罗门群岛",
-            tr: "Solomon Adalari",
+            tr: "Solomon Adalari"
         },
         latitude: "-8.00000000",
         longitude: "159.00000000",
         emoji: "🇸🇧",
-        emojiU: "U+1F1F8 U+1F1E7",
+        emojiU: "U+1F1F8 U+1F1E7"
     },
     {
         id: 203,
@@ -10536,8 +10536,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "소말리아",
@@ -10552,12 +10552,12 @@ export const countries = [
             ja: "ソマリア",
             it: "Somalia",
             cn: "索马里",
-            tr: "Somali",
+            tr: "Somali"
         },
         latitude: "10.00000000",
         longitude: "49.00000000",
         emoji: "🇸🇴",
-        emojiU: "U+1F1F8 U+1F1F4",
+        emojiU: "U+1F1F8 U+1F1F4"
     },
     {
         id: 204,
@@ -10583,8 +10583,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "SAST",
-                tzName: "South African Standard Time",
-            },
+                tzName: "South African Standard Time"
+            }
         ],
         translations: {
             kr: "남아프리카 공화국",
@@ -10599,12 +10599,12 @@ export const countries = [
             ja: "南アフリカ",
             it: "Sud Africa",
             cn: "南非",
-            tr: "Güney Afrika Cumhuriyeti",
+            tr: "Güney Afrika Cumhuriyeti"
         },
         latitude: "-29.00000000",
         longitude: "24.00000000",
         emoji: "🇿🇦",
-        emojiU: "U+1F1FF U+1F1E6",
+        emojiU: "U+1F1FF U+1F1E6"
     },
     {
         id: 205,
@@ -10630,8 +10630,8 @@ export const countries = [
                 gmtOffset: -7200,
                 gmtOffsetName: "UTC-02:00",
                 abbreviation: "GST",
-                tzName: "South Georgia and the South Sandwich Islands Time",
-            },
+                tzName: "South Georgia and the South Sandwich Islands Time"
+            }
         ],
         translations: {
             kr: "사우스조지아",
@@ -10646,12 +10646,12 @@ export const countries = [
             ja: "サウスジョージア・サウスサンドウィッチ諸島",
             it: "Georgia del Sud e Isole Sandwich Meridionali",
             cn: "南乔治亚",
-            tr: "Güney Georgia",
+            tr: "Güney Georgia"
         },
         latitude: "-54.50000000",
         longitude: "-37.00000000",
         emoji: "🇬🇸",
-        emojiU: "U+1F1EC U+1F1F8",
+        emojiU: "U+1F1EC U+1F1F8"
     },
     {
         id: 116,
@@ -10677,8 +10677,8 @@ export const countries = [
                 gmtOffset: 32400,
                 gmtOffsetName: "UTC+09:00",
                 abbreviation: "KST",
-                tzName: "Korea Standard Time",
-            },
+                tzName: "Korea Standard Time"
+            }
         ],
         translations: {
             kr: "대한민국",
@@ -10693,12 +10693,12 @@ export const countries = [
             ja: "大韓民国",
             it: "Corea del Sud",
             cn: "韩国",
-            tr: "Güney Kore",
+            tr: "Güney Kore"
         },
         latitude: "37.00000000",
         longitude: "127.50000000",
         emoji: "🇰🇷",
-        emojiU: "U+1F1F0 U+1F1F7",
+        emojiU: "U+1F1F0 U+1F1F7"
     },
     {
         id: 206,
@@ -10724,8 +10724,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "남수단",
@@ -10740,12 +10740,12 @@ export const countries = [
             ja: "南スーダン",
             it: "Sudan del sud",
             cn: "南苏丹",
-            tr: "Güney Sudan",
+            tr: "Güney Sudan"
         },
         latitude: "7.00000000",
         longitude: "30.00000000",
         emoji: "🇸🇸",
-        emojiU: "U+1F1F8 U+1F1F8",
+        emojiU: "U+1F1F8 U+1F1F8"
     },
     {
         id: 207,
@@ -10771,22 +10771,22 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
+                tzName: "Central European Time"
             },
             {
                 zoneName: "Atlantic/Canary",
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "WET",
-                tzName: "Western European Time",
+                tzName: "Western European Time"
             },
             {
                 zoneName: "Europe/Madrid",
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "스페인",
@@ -10801,12 +10801,12 @@ export const countries = [
             ja: "スペイン",
             it: "Spagna",
             cn: "西班牙",
-            tr: "İspanya",
+            tr: "İspanya"
         },
         latitude: "40.00000000",
         longitude: "-4.00000000",
         emoji: "🇪🇸",
-        emojiU: "U+1F1EA U+1F1F8",
+        emojiU: "U+1F1EA U+1F1F8"
     },
     {
         id: 208,
@@ -10832,8 +10832,8 @@ export const countries = [
                 gmtOffset: 19800,
                 gmtOffsetName: "UTC+05:30",
                 abbreviation: "IST",
-                tzName: "Indian Standard Time",
-            },
+                tzName: "Indian Standard Time"
+            }
         ],
         translations: {
             kr: "스리랑카",
@@ -10848,12 +10848,12 @@ export const countries = [
             ja: "スリランカ",
             it: "Sri Lanka",
             cn: "斯里兰卡",
-            tr: "Sri Lanka",
+            tr: "Sri Lanka"
         },
         latitude: "7.00000000",
         longitude: "81.00000000",
         emoji: "🇱🇰",
-        emojiU: "U+1F1F1 U+1F1F0",
+        emojiU: "U+1F1F1 U+1F1F0"
     },
     {
         id: 209,
@@ -10879,8 +10879,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EAT",
-                tzName: "Eastern African Time",
-            },
+                tzName: "Eastern African Time"
+            }
         ],
         translations: {
             kr: "수단",
@@ -10895,12 +10895,12 @@ export const countries = [
             ja: "スーダン",
             it: "Sudan",
             cn: "苏丹",
-            tr: "Sudan",
+            tr: "Sudan"
         },
         latitude: "15.00000000",
         longitude: "30.00000000",
         emoji: "🇸🇩",
-        emojiU: "U+1F1F8 U+1F1E9",
+        emojiU: "U+1F1F8 U+1F1E9"
     },
     {
         id: 210,
@@ -10926,8 +10926,8 @@ export const countries = [
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "SRT",
-                tzName: "Suriname Time",
-            },
+                tzName: "Suriname Time"
+            }
         ],
         translations: {
             kr: "수리남",
@@ -10942,12 +10942,12 @@ export const countries = [
             ja: "スリナム",
             it: "Suriname",
             cn: "苏里南",
-            tr: "Surinam",
+            tr: "Surinam"
         },
         latitude: "4.00000000",
         longitude: "-56.00000000",
         emoji: "🇸🇷",
-        emojiU: "U+1F1F8 U+1F1F7",
+        emojiU: "U+1F1F8 U+1F1F7"
     },
     {
         id: 211,
@@ -10973,8 +10973,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "스발바르 얀마옌 제도",
@@ -10989,12 +10989,12 @@ export const countries = [
             ja: "スヴァールバル諸島およびヤンマイエン島",
             it: "Svalbard e Jan Mayen",
             cn: "斯瓦尔巴和扬马延群岛",
-            tr: "Svalbard Ve Jan Mayen",
+            tr: "Svalbard Ve Jan Mayen"
         },
         latitude: "78.00000000",
         longitude: "20.00000000",
         emoji: "🇸🇯",
-        emojiU: "U+1F1F8 U+1F1EF",
+        emojiU: "U+1F1F8 U+1F1EF"
     },
     {
         id: 212,
@@ -11020,8 +11020,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "SAST",
-                tzName: "South African Standard Time",
-            },
+                tzName: "South African Standard Time"
+            }
         ],
         translations: {
             kr: "에스와티니",
@@ -11036,12 +11036,12 @@ export const countries = [
             ja: "スワジランド",
             it: "Swaziland",
             cn: "斯威士兰",
-            tr: "Esvatini",
+            tr: "Esvatini"
         },
         latitude: "-26.50000000",
         longitude: "31.50000000",
         emoji: "🇸🇿",
-        emojiU: "U+1F1F8 U+1F1FF",
+        emojiU: "U+1F1F8 U+1F1FF"
     },
     {
         id: 213,
@@ -11067,8 +11067,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "스웨덴",
@@ -11083,12 +11083,12 @@ export const countries = [
             ja: "スウェーデン",
             it: "Svezia",
             cn: "瑞典",
-            tr: "İsveç",
+            tr: "İsveç"
         },
         latitude: "62.00000000",
         longitude: "15.00000000",
         emoji: "🇸🇪",
-        emojiU: "U+1F1F8 U+1F1EA",
+        emojiU: "U+1F1F8 U+1F1EA"
     },
     {
         id: 214,
@@ -11114,8 +11114,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "스위스",
@@ -11130,12 +11130,12 @@ export const countries = [
             ja: "スイス",
             it: "Svizzera",
             cn: "瑞士",
-            tr: "İsviçre",
+            tr: "İsviçre"
         },
         latitude: "47.00000000",
         longitude: "8.00000000",
         emoji: "🇨🇭",
-        emojiU: "U+1F1E8 U+1F1ED",
+        emojiU: "U+1F1E8 U+1F1ED"
     },
     {
         id: 215,
@@ -11161,8 +11161,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "시리아",
@@ -11177,12 +11177,12 @@ export const countries = [
             ja: "シリア・アラブ共和国",
             it: "Siria",
             cn: "叙利亚",
-            tr: "Suriye",
+            tr: "Suriye"
         },
         latitude: "35.00000000",
         longitude: "38.00000000",
         emoji: "🇸🇾",
-        emojiU: "U+1F1F8 U+1F1FE",
+        emojiU: "U+1F1F8 U+1F1FE"
     },
     {
         id: 216,
@@ -11208,8 +11208,8 @@ export const countries = [
                 gmtOffset: 28800,
                 gmtOffsetName: "UTC+08:00",
                 abbreviation: "CST",
-                tzName: "China Standard Time",
-            },
+                tzName: "China Standard Time"
+            }
         ],
         translations: {
             kr: "대만",
@@ -11224,12 +11224,12 @@ export const countries = [
             ja: "台湾（中華民国）",
             it: "Taiwan",
             cn: "中国台湾",
-            tr: "Tayvan",
+            tr: "Tayvan"
         },
         latitude: "23.50000000",
         longitude: "121.00000000",
         emoji: "🇹🇼",
-        emojiU: "U+1F1F9 U+1F1FC",
+        emojiU: "U+1F1F9 U+1F1FC"
     },
     {
         id: 217,
@@ -11255,8 +11255,8 @@ export const countries = [
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "TJT",
-                tzName: "Tajikistan Time",
-            },
+                tzName: "Tajikistan Time"
+            }
         ],
         translations: {
             kr: "타지키스탄",
@@ -11271,12 +11271,12 @@ export const countries = [
             ja: "タジキスタン",
             it: "Tagikistan",
             cn: "塔吉克斯坦",
-            tr: "Tacikistan",
+            tr: "Tacikistan"
         },
         latitude: "39.00000000",
         longitude: "71.00000000",
         emoji: "🇹🇯",
-        emojiU: "U+1F1F9 U+1F1EF",
+        emojiU: "U+1F1F9 U+1F1EF"
     },
     {
         id: 218,
@@ -11302,8 +11302,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "탄자니아",
@@ -11318,12 +11318,12 @@ export const countries = [
             ja: "タンザニア",
             it: "Tanzania",
             cn: "坦桑尼亚",
-            tr: "Tanzanya",
+            tr: "Tanzanya"
         },
         latitude: "-6.00000000",
         longitude: "35.00000000",
         emoji: "🇹🇿",
-        emojiU: "U+1F1F9 U+1F1FF",
+        emojiU: "U+1F1F9 U+1F1FF"
     },
     {
         id: 219,
@@ -11349,8 +11349,8 @@ export const countries = [
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "ICT",
-                tzName: "Indochina Time",
-            },
+                tzName: "Indochina Time"
+            }
         ],
         translations: {
             kr: "태국",
@@ -11365,12 +11365,12 @@ export const countries = [
             ja: "タイ",
             it: "Tailandia",
             cn: "泰国",
-            tr: "Tayland",
+            tr: "Tayland"
         },
         latitude: "15.00000000",
         longitude: "100.00000000",
         emoji: "🇹🇭",
-        emojiU: "U+1F1F9 U+1F1ED",
+        emojiU: "U+1F1F9 U+1F1ED"
     },
     {
         id: 17,
@@ -11396,8 +11396,8 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America)",
-            },
+                tzName: "Eastern Standard Time (North America)"
+            }
         ],
         translations: {
             kr: "바하마",
@@ -11412,12 +11412,12 @@ export const countries = [
             ja: "バハマ",
             it: "Bahamas",
             cn: "巴哈马",
-            tr: "Bahamalar",
+            tr: "Bahamalar"
         },
         latitude: "24.25000000",
         longitude: "-76.00000000",
         emoji: "🇧🇸",
-        emojiU: "U+1F1E7 U+1F1F8",
+        emojiU: "U+1F1E7 U+1F1F8"
     },
     {
         id: 220,
@@ -11443,8 +11443,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "토고",
@@ -11459,12 +11459,12 @@ export const countries = [
             ja: "トーゴ",
             it: "Togo",
             cn: "多哥",
-            tr: "Togo",
+            tr: "Togo"
         },
         latitude: "8.00000000",
         longitude: "1.16666666",
         emoji: "🇹🇬",
-        emojiU: "U+1F1F9 U+1F1EC",
+        emojiU: "U+1F1F9 U+1F1EC"
     },
     {
         id: 221,
@@ -11490,8 +11490,8 @@ export const countries = [
                 gmtOffset: 46800,
                 gmtOffsetName: "UTC+13:00",
                 abbreviation: "TKT",
-                tzName: "Tokelau Time",
-            },
+                tzName: "Tokelau Time"
+            }
         ],
         translations: {
             kr: "토켈라우",
@@ -11506,12 +11506,12 @@ export const countries = [
             ja: "トケラウ",
             it: "Isole Tokelau",
             cn: "托克劳",
-            tr: "Tokelau",
+            tr: "Tokelau"
         },
         latitude: "-9.00000000",
         longitude: "-172.00000000",
         emoji: "🇹🇰",
-        emojiU: "U+1F1F9 U+1F1F0",
+        emojiU: "U+1F1F9 U+1F1F0"
     },
     {
         id: 222,
@@ -11537,8 +11537,8 @@ export const countries = [
                 gmtOffset: 46800,
                 gmtOffsetName: "UTC+13:00",
                 abbreviation: "TOT",
-                tzName: "Tonga Time",
-            },
+                tzName: "Tonga Time"
+            }
         ],
         translations: {
             kr: "통가",
@@ -11553,12 +11553,12 @@ export const countries = [
             ja: "トンガ",
             it: "Tonga",
             cn: "汤加",
-            tr: "Tonga",
+            tr: "Tonga"
         },
         latitude: "-20.00000000",
         longitude: "-175.00000000",
         emoji: "🇹🇴",
-        emojiU: "U+1F1F9 U+1F1F4",
+        emojiU: "U+1F1F9 U+1F1F4"
     },
     {
         id: 223,
@@ -11584,8 +11584,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "트리니다드 토바고",
@@ -11600,12 +11600,12 @@ export const countries = [
             ja: "トリニダード・トバゴ",
             it: "Trinidad e Tobago",
             cn: "特立尼达和多巴哥",
-            tr: "Trinidad Ve Tobago",
+            tr: "Trinidad Ve Tobago"
         },
         latitude: "11.00000000",
         longitude: "-61.00000000",
         emoji: "🇹🇹",
-        emojiU: "U+1F1F9 U+1F1F9",
+        emojiU: "U+1F1F9 U+1F1F9"
     },
     {
         id: 224,
@@ -11631,8 +11631,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "튀니지",
@@ -11647,12 +11647,12 @@ export const countries = [
             ja: "チュニジア",
             it: "Tunisia",
             cn: "突尼斯",
-            tr: "Tunus",
+            tr: "Tunus"
         },
         latitude: "34.00000000",
         longitude: "9.00000000",
         emoji: "🇹🇳",
-        emojiU: "U+1F1F9 U+1F1F3",
+        emojiU: "U+1F1F9 U+1F1F3"
     },
     {
         id: 225,
@@ -11678,8 +11678,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "터키",
@@ -11694,12 +11694,12 @@ export const countries = [
             ja: "トルコ",
             it: "Turchia",
             cn: "土耳其",
-            tr: "Türkiye",
+            tr: "Türkiye"
         },
         latitude: "39.00000000",
         longitude: "35.00000000",
         emoji: "🇹🇷",
-        emojiU: "U+1F1F9 U+1F1F7",
+        emojiU: "U+1F1F9 U+1F1F7"
     },
     {
         id: 226,
@@ -11725,8 +11725,8 @@ export const countries = [
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "TMT",
-                tzName: "Turkmenistan Time",
-            },
+                tzName: "Turkmenistan Time"
+            }
         ],
         translations: {
             kr: "투르크메니스탄",
@@ -11741,12 +11741,12 @@ export const countries = [
             ja: "トルクメニスタン",
             it: "Turkmenistan",
             cn: "土库曼斯坦",
-            tr: "Türkmenistan",
+            tr: "Türkmenistan"
         },
         latitude: "40.00000000",
         longitude: "60.00000000",
         emoji: "🇹🇲",
-        emojiU: "U+1F1F9 U+1F1F2",
+        emojiU: "U+1F1F9 U+1F1F2"
     },
     {
         id: 227,
@@ -11772,8 +11772,8 @@ export const countries = [
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
-            },
+                tzName: "Eastern Standard Time (North America"
+            }
         ],
         translations: {
             kr: "터크스 케이커스 제도",
@@ -11788,12 +11788,12 @@ export const countries = [
             ja: "タークス・カイコス諸島",
             it: "Isole Turks e Caicos",
             cn: "特克斯和凯科斯群岛",
-            tr: "Turks Ve Caicos Adalari",
+            tr: "Turks Ve Caicos Adalari"
         },
         latitude: "21.75000000",
         longitude: "-71.58333333",
         emoji: "🇹🇨",
-        emojiU: "U+1F1F9 U+1F1E8",
+        emojiU: "U+1F1F9 U+1F1E8"
     },
     {
         id: 228,
@@ -11819,8 +11819,8 @@ export const countries = [
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "TVT",
-                tzName: "Tuvalu Time",
-            },
+                tzName: "Tuvalu Time"
+            }
         ],
         translations: {
             kr: "투발루",
@@ -11835,12 +11835,12 @@ export const countries = [
             ja: "ツバル",
             it: "Tuvalu",
             cn: "图瓦卢",
-            tr: "Tuvalu",
+            tr: "Tuvalu"
         },
         latitude: "-8.00000000",
         longitude: "178.00000000",
         emoji: "🇹🇻",
-        emojiU: "U+1F1F9 U+1F1FB",
+        emojiU: "U+1F1F9 U+1F1FB"
     },
     {
         id: 229,
@@ -11866,8 +11866,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "EAT",
-                tzName: "East Africa Time",
-            },
+                tzName: "East Africa Time"
+            }
         ],
         translations: {
             kr: "우간다",
@@ -11882,12 +11882,12 @@ export const countries = [
             ja: "ウガンダ",
             it: "Uganda",
             cn: "乌干达",
-            tr: "Uganda",
+            tr: "Uganda"
         },
         latitude: "1.00000000",
         longitude: "32.00000000",
         emoji: "🇺🇬",
-        emojiU: "U+1F1FA U+1F1EC",
+        emojiU: "U+1F1FA U+1F1EC"
     },
     {
         id: 230,
@@ -11913,29 +11913,29 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
+                tzName: "Eastern European Time"
             },
             {
                 zoneName: "Europe/Simferopol",
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "MSK",
-                tzName: "Moscow Time",
+                tzName: "Moscow Time"
             },
             {
                 zoneName: "Europe/Uzhgorod",
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
+                tzName: "Eastern European Time"
             },
             {
                 zoneName: "Europe/Zaporozhye",
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "EET",
-                tzName: "Eastern European Time",
-            },
+                tzName: "Eastern European Time"
+            }
         ],
         translations: {
             kr: "우크라이나",
@@ -11950,12 +11950,12 @@ export const countries = [
             ja: "ウクライナ",
             it: "Ucraina",
             cn: "乌克兰",
-            tr: "Ukrayna",
+            tr: "Ukrayna"
         },
         latitude: "49.00000000",
         longitude: "32.00000000",
         emoji: "🇺🇦",
-        emojiU: "U+1F1FA U+1F1E6",
+        emojiU: "U+1F1FA U+1F1E6"
     },
     {
         id: 231,
@@ -11981,8 +11981,8 @@ export const countries = [
                 gmtOffset: 14400,
                 gmtOffsetName: "UTC+04:00",
                 abbreviation: "GST",
-                tzName: "Gulf Standard Time",
-            },
+                tzName: "Gulf Standard Time"
+            }
         ],
         translations: {
             kr: "아랍에미리트",
@@ -11997,12 +11997,12 @@ export const countries = [
             ja: "アラブ首長国連邦",
             it: "Emirati Arabi Uniti",
             cn: "阿拉伯联合酋长国",
-            tr: "Birleşik Arap Emirlikleri",
+            tr: "Birleşik Arap Emirlikleri"
         },
         latitude: "24.00000000",
         longitude: "54.00000000",
         emoji: "🇦🇪",
-        emojiU: "U+1F1E6 U+1F1EA",
+        emojiU: "U+1F1E6 U+1F1EA"
     },
     {
         id: 232,
@@ -12028,8 +12028,8 @@ export const countries = [
                 gmtOffset: 0,
                 gmtOffsetName: "UTC±00",
                 abbreviation: "GMT",
-                tzName: "Greenwich Mean Time",
-            },
+                tzName: "Greenwich Mean Time"
+            }
         ],
         translations: {
             kr: "영국",
@@ -12044,12 +12044,12 @@ export const countries = [
             ja: "イギリス",
             it: "Regno Unito",
             cn: "英国",
-            tr: "Birleşik Krallik",
+            tr: "Birleşik Krallik"
         },
         latitude: "54.00000000",
         longitude: "-2.00000000",
         emoji: "🇬🇧",
-        emojiU: "U+1F1EC U+1F1E7",
+        emojiU: "U+1F1EC U+1F1E7"
     },
     {
         id: 233,
@@ -12075,204 +12075,204 @@ export const countries = [
                 gmtOffset: -36000,
                 gmtOffsetName: "UTC-10:00",
                 abbreviation: "HST",
-                tzName: "Hawaii–Aleutian Standard Time",
+                tzName: "Hawaii–Aleutian Standard Time"
             },
             {
                 zoneName: "America/Anchorage",
                 gmtOffset: -32400,
                 gmtOffsetName: "UTC-09:00",
                 abbreviation: "AKST",
-                tzName: "Alaska Standard Time",
+                tzName: "Alaska Standard Time"
             },
             {
                 zoneName: "America/Boise",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America",
+                tzName: "Mountain Standard Time (North America"
             },
             {
                 zoneName: "America/Chicago",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Denver",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America",
+                tzName: "Mountain Standard Time (North America"
             },
             {
                 zoneName: "America/Detroit",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Indiana/Indianapolis",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Indiana/Knox",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Indiana/Marengo",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Indiana/Petersburg",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Indiana/Tell_City",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Indiana/Vevay",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Indiana/Vincennes",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Indiana/Winamac",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Juneau",
                 gmtOffset: -32400,
                 gmtOffsetName: "UTC-09:00",
                 abbreviation: "AKST",
-                tzName: "Alaska Standard Time",
+                tzName: "Alaska Standard Time"
             },
             {
                 zoneName: "America/Kentucky/Louisville",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Kentucky/Monticello",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Los_Angeles",
                 gmtOffset: -28800,
                 gmtOffsetName: "UTC-08:00",
                 abbreviation: "PST",
-                tzName: "Pacific Standard Time (North America",
+                tzName: "Pacific Standard Time (North America"
             },
             {
                 zoneName: "America/Menominee",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Metlakatla",
                 gmtOffset: -32400,
                 gmtOffsetName: "UTC-09:00",
                 abbreviation: "AKST",
-                tzName: "Alaska Standard Time",
+                tzName: "Alaska Standard Time"
             },
             {
                 zoneName: "America/New_York",
                 gmtOffset: -18000,
                 gmtOffsetName: "UTC-05:00",
                 abbreviation: "EST",
-                tzName: "Eastern Standard Time (North America",
+                tzName: "Eastern Standard Time (North America"
             },
             {
                 zoneName: "America/Nome",
                 gmtOffset: -32400,
                 gmtOffsetName: "UTC-09:00",
                 abbreviation: "AKST",
-                tzName: "Alaska Standard Time",
+                tzName: "Alaska Standard Time"
             },
             {
                 zoneName: "America/North_Dakota/Beulah",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/North_Dakota/Center",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/North_Dakota/New_Salem",
                 gmtOffset: -21600,
                 gmtOffsetName: "UTC-06:00",
                 abbreviation: "CST",
-                tzName: "Central Standard Time (North America",
+                tzName: "Central Standard Time (North America"
             },
             {
                 zoneName: "America/Phoenix",
                 gmtOffset: -25200,
                 gmtOffsetName: "UTC-07:00",
                 abbreviation: "MST",
-                tzName: "Mountain Standard Time (North America",
+                tzName: "Mountain Standard Time (North America"
             },
             {
                 zoneName: "America/Sitka",
                 gmtOffset: -32400,
                 gmtOffsetName: "UTC-09:00",
                 abbreviation: "AKST",
-                tzName: "Alaska Standard Time",
+                tzName: "Alaska Standard Time"
             },
             {
                 zoneName: "America/Yakutat",
                 gmtOffset: -32400,
                 gmtOffsetName: "UTC-09:00",
                 abbreviation: "AKST",
-                tzName: "Alaska Standard Time",
+                tzName: "Alaska Standard Time"
             },
             {
                 zoneName: "Pacific/Honolulu",
                 gmtOffset: -36000,
                 gmtOffsetName: "UTC-10:00",
                 abbreviation: "HST",
-                tzName: "Hawaii–Aleutian Standard Time",
-            },
+                tzName: "Hawaii–Aleutian Standard Time"
+            }
         ],
         translations: {
             kr: "미국",
@@ -12287,12 +12287,12 @@ export const countries = [
             ja: "アメリカ合衆国",
             it: "Stati Uniti D'America",
             cn: "美国",
-            tr: "Amerika",
+            tr: "Amerika"
         },
         latitude: "38.00000000",
         longitude: "-97.00000000",
         emoji: "🇺🇸",
-        emojiU: "U+1F1FA U+1F1F8",
+        emojiU: "U+1F1FA U+1F1F8"
     },
     {
         id: 234,
@@ -12318,15 +12318,15 @@ export const countries = [
                 gmtOffset: -39600,
                 gmtOffsetName: "UTC-11:00",
                 abbreviation: "SST",
-                tzName: "Samoa Standard Time",
+                tzName: "Samoa Standard Time"
             },
             {
                 zoneName: "Pacific/Wake",
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "WAKT",
-                tzName: "Wake Island Time",
-            },
+                tzName: "Wake Island Time"
+            }
         ],
         translations: {
             kr: "미국령 군소 제도",
@@ -12341,12 +12341,12 @@ export const countries = [
             ja: "合衆国領有小離島",
             it: "Isole minori esterne degli Stati Uniti d'America",
             cn: "美国本土外小岛屿",
-            tr: "Abd Küçük Harici Adalari",
+            tr: "Abd Küçük Harici Adalari"
         },
         latitude: "0.00000000",
         longitude: "0.00000000",
         emoji: "🇺🇲",
-        emojiU: "U+1F1FA U+1F1F2",
+        emojiU: "U+1F1FA U+1F1F2"
     },
     {
         id: 235,
@@ -12372,8 +12372,8 @@ export const countries = [
                 gmtOffset: -10800,
                 gmtOffsetName: "UTC-03:00",
                 abbreviation: "UYT",
-                tzName: "Uruguay Standard Time",
-            },
+                tzName: "Uruguay Standard Time"
+            }
         ],
         translations: {
             kr: "우루과이",
@@ -12388,12 +12388,12 @@ export const countries = [
             ja: "ウルグアイ",
             it: "Uruguay",
             cn: "乌拉圭",
-            tr: "Uruguay",
+            tr: "Uruguay"
         },
         latitude: "-33.00000000",
         longitude: "-56.00000000",
         emoji: "🇺🇾",
-        emojiU: "U+1F1FA U+1F1FE",
+        emojiU: "U+1F1FA U+1F1FE"
     },
     {
         id: 236,
@@ -12419,15 +12419,15 @@ export const countries = [
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "UZT",
-                tzName: "Uzbekistan Time",
+                tzName: "Uzbekistan Time"
             },
             {
                 zoneName: "Asia/Tashkent",
                 gmtOffset: 18000,
                 gmtOffsetName: "UTC+05:00",
                 abbreviation: "UZT",
-                tzName: "Uzbekistan Time",
-            },
+                tzName: "Uzbekistan Time"
+            }
         ],
         translations: {
             kr: "우즈베키스탄",
@@ -12442,12 +12442,12 @@ export const countries = [
             ja: "ウズベキスタン",
             it: "Uzbekistan",
             cn: "乌兹别克斯坦",
-            tr: "Özbekistan",
+            tr: "Özbekistan"
         },
         latitude: "41.00000000",
         longitude: "64.00000000",
         emoji: "🇺🇿",
-        emojiU: "U+1F1FA U+1F1FF",
+        emojiU: "U+1F1FA U+1F1FF"
     },
     {
         id: 237,
@@ -12473,8 +12473,8 @@ export const countries = [
                 gmtOffset: 39600,
                 gmtOffsetName: "UTC+11:00",
                 abbreviation: "VUT",
-                tzName: "Vanuatu Time",
-            },
+                tzName: "Vanuatu Time"
+            }
         ],
         translations: {
             kr: "바누아투",
@@ -12489,12 +12489,12 @@ export const countries = [
             ja: "バヌアツ",
             it: "Vanuatu",
             cn: "瓦努阿图",
-            tr: "Vanuatu",
+            tr: "Vanuatu"
         },
         latitude: "-16.00000000",
         longitude: "167.00000000",
         emoji: "🇻🇺",
-        emojiU: "U+1F1FB U+1F1FA",
+        emojiU: "U+1F1FB U+1F1FA"
     },
     {
         id: 238,
@@ -12520,8 +12520,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "CET",
-                tzName: "Central European Time",
-            },
+                tzName: "Central European Time"
+            }
         ],
         translations: {
             kr: "바티칸 시국",
@@ -12536,12 +12536,12 @@ export const countries = [
             ja: "聖座",
             it: "Santa Sede",
             cn: "梵蒂冈",
-            tr: "Vatikan",
+            tr: "Vatikan"
         },
         latitude: "41.90000000",
         longitude: "12.45000000",
         emoji: "🇻🇦",
-        emojiU: "U+1F1FB U+1F1E6",
+        emojiU: "U+1F1FB U+1F1E6"
     },
     {
         id: 239,
@@ -12567,8 +12567,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "VET",
-                tzName: "Venezuelan Standard Time",
-            },
+                tzName: "Venezuelan Standard Time"
+            }
         ],
         translations: {
             kr: "베네수엘라",
@@ -12583,12 +12583,12 @@ export const countries = [
             ja: "ベネズエラ・ボリバル共和国",
             it: "Venezuela",
             cn: "委内瑞拉",
-            tr: "Venezuela",
+            tr: "Venezuela"
         },
         latitude: "8.00000000",
         longitude: "-66.00000000",
         emoji: "🇻🇪",
-        emojiU: "U+1F1FB U+1F1EA",
+        emojiU: "U+1F1FB U+1F1EA"
     },
     {
         id: 240,
@@ -12614,8 +12614,8 @@ export const countries = [
                 gmtOffset: 25200,
                 gmtOffsetName: "UTC+07:00",
                 abbreviation: "ICT",
-                tzName: "Indochina Time",
-            },
+                tzName: "Indochina Time"
+            }
         ],
         translations: {
             kr: "베트남",
@@ -12630,12 +12630,12 @@ export const countries = [
             ja: "ベトナム",
             it: "Vietnam",
             cn: "越南",
-            tr: "Vietnam",
+            tr: "Vietnam"
         },
         latitude: "16.16666666",
         longitude: "107.83333333",
         emoji: "🇻🇳",
-        emojiU: "U+1F1FB U+1F1F3",
+        emojiU: "U+1F1FB U+1F1F3"
     },
     {
         id: 241,
@@ -12661,8 +12661,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "영국령 버진아일랜드",
@@ -12677,12 +12677,12 @@ export const countries = [
             ja: "イギリス領ヴァージン諸島",
             it: "Isole Vergini Britanniche",
             cn: "圣文森特和格林纳丁斯",
-            tr: "Britanya Virjin Adalari",
+            tr: "Britanya Virjin Adalari"
         },
         latitude: "18.43138300",
         longitude: "-64.62305000",
         emoji: "🇻🇬",
-        emojiU: "U+1F1FB U+1F1EC",
+        emojiU: "U+1F1FB U+1F1EC"
     },
     {
         id: 242,
@@ -12708,8 +12708,8 @@ export const countries = [
                 gmtOffset: -14400,
                 gmtOffsetName: "UTC-04:00",
                 abbreviation: "AST",
-                tzName: "Atlantic Standard Time",
-            },
+                tzName: "Atlantic Standard Time"
+            }
         ],
         translations: {
             kr: "미국령 버진아일랜드",
@@ -12723,12 +12723,12 @@ export const countries = [
             ja: "アメリカ領ヴァージン諸島",
             it: "Isole Vergini americane",
             cn: "维尔京群岛（美国）",
-            tr: "Abd Virjin Adalari",
+            tr: "Abd Virjin Adalari"
         },
         latitude: "18.34000000",
         longitude: "-64.93000000",
         emoji: "🇻🇮",
-        emojiU: "U+1F1FB U+1F1EE",
+        emojiU: "U+1F1FB U+1F1EE"
     },
     {
         id: 243,
@@ -12754,8 +12754,8 @@ export const countries = [
                 gmtOffset: 43200,
                 gmtOffsetName: "UTC+12:00",
                 abbreviation: "WFT",
-                tzName: "Wallis & Futuna Time",
-            },
+                tzName: "Wallis & Futuna Time"
+            }
         ],
         translations: {
             kr: "왈리스 푸투나",
@@ -12770,12 +12770,12 @@ export const countries = [
             ja: "ウォリス・フツナ",
             it: "Wallis e Futuna",
             cn: "瓦利斯群岛和富图纳群岛",
-            tr: "Wallis Ve Futuna",
+            tr: "Wallis Ve Futuna"
         },
         latitude: "-13.30000000",
         longitude: "-176.20000000",
         emoji: "🇼🇫",
-        emojiU: "U+1F1FC U+1F1EB",
+        emojiU: "U+1F1FC U+1F1EB"
     },
     {
         id: 244,
@@ -12801,8 +12801,8 @@ export const countries = [
                 gmtOffset: 3600,
                 gmtOffsetName: "UTC+01:00",
                 abbreviation: "WEST",
-                tzName: "Western European Summer Time",
-            },
+                tzName: "Western European Summer Time"
+            }
         ],
         translations: {
             kr: "서사하라",
@@ -12817,12 +12817,12 @@ export const countries = [
             ja: "西サハラ",
             it: "Sahara Occidentale",
             cn: "西撒哈拉",
-            tr: "Bati Sahra",
+            tr: "Bati Sahra"
         },
         latitude: "24.50000000",
         longitude: "-13.00000000",
         emoji: "🇪🇭",
-        emojiU: "U+1F1EA U+1F1ED",
+        emojiU: "U+1F1EA U+1F1ED"
     },
     {
         id: 245,
@@ -12848,8 +12848,8 @@ export const countries = [
                 gmtOffset: 10800,
                 gmtOffsetName: "UTC+03:00",
                 abbreviation: "AST",
-                tzName: "Arabia Standard Time",
-            },
+                tzName: "Arabia Standard Time"
+            }
         ],
         translations: {
             kr: "예멘",
@@ -12864,12 +12864,12 @@ export const countries = [
             ja: "イエメン",
             it: "Yemen",
             cn: "也门",
-            tr: "Yemen",
+            tr: "Yemen"
         },
         latitude: "15.00000000",
         longitude: "48.00000000",
         emoji: "🇾🇪",
-        emojiU: "U+1F1FE U+1F1EA",
+        emojiU: "U+1F1FE U+1F1EA"
     },
     {
         id: 246,
@@ -12895,8 +12895,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "CAT",
-                tzName: "Central Africa Time",
-            },
+                tzName: "Central Africa Time"
+            }
         ],
         translations: {
             kr: "잠비아",
@@ -12911,12 +12911,12 @@ export const countries = [
             ja: "ザンビア",
             it: "Zambia",
             cn: "赞比亚",
-            tr: "Zambiya",
+            tr: "Zambiya"
         },
         latitude: "-15.00000000",
         longitude: "30.00000000",
         emoji: "🇿🇲",
-        emojiU: "U+1F1FF U+1F1F2",
+        emojiU: "U+1F1FF U+1F1F2"
     },
     {
         id: 247,
@@ -12942,8 +12942,8 @@ export const countries = [
                 gmtOffset: 7200,
                 gmtOffsetName: "UTC+02:00",
                 abbreviation: "CAT",
-                tzName: "Central Africa Time",
-            },
+                tzName: "Central Africa Time"
+            }
         ],
         translations: {
             kr: "짐바브웨",
@@ -12958,11 +12958,11 @@ export const countries = [
             ja: "ジンバブエ",
             it: "Zimbabwe",
             cn: "津巴布韦",
-            tr: "Zimbabve",
+            tr: "Zimbabve"
         },
         latitude: "-20.00000000",
         longitude: "30.00000000",
         emoji: "🇿🇼",
-        emojiU: "U+1F1FF U+1F1FC",
-    },
+        emojiU: "U+1F1FF U+1F1FC"
+    }
 ];

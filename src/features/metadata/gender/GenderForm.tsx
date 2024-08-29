@@ -30,8 +30,8 @@ function GenderForm() {
     const form = useForm<TGenderFormSchema>({
         resolver: zodResolver(genderFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ function GenderForm() {
                 const response = await MetadataService.getOneGender(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        gender: response.data.genderName,
+                        gender: response.data.genderName
                     });
                 }
             } catch (error) {
@@ -73,7 +73,7 @@ function GenderForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...genderFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editGender(
@@ -90,7 +90,7 @@ function GenderForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Gender created successfully");
                 form.reset({
-                    gender: "",
+                    gender: ""
                 });
             }
         } catch (error) {
@@ -132,10 +132,7 @@ function GenderForm() {
                     name="gender"
                     render={({ field }) => (
                         <FormItemWrapper label="Gender">
-                            <Input
-                                {...field}
-                                placeholder="Gender"
-                            />
+                            <Input {...field} placeholder="Gender" />
                         </FormItemWrapper>
                     )}
                 />

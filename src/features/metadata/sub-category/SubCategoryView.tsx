@@ -1,18 +1,18 @@
-import { Pencil } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import BackButton from '../../../components/button/BackButton';
-import NameIdList from '../../../components/core/view/NameIdList';
-import { TableHeaderWrapper } from '../../../components/table/table-header-wrapper';
-import { Button } from '../../../components/ui/button';
-import { Card } from '../../../components/ui/card';
-import { TableCell, TableRow } from '../../../components/ui/table';
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from '../../../lib/constants';
-import MetadataService from '../../../services/features/MetadataService';
-import { subCategory } from '../../../types/metadata/Metadata';
-import { useAuth } from '../../auth/auth-provider/AuthProvider';
-import ErrorService from '../../../services/error/ErrorService';
-import { toast } from 'sonner';
+import { Pencil } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import BackButton from "../../../components/button/BackButton";
+import NameIdList from "../../../components/core/view/NameIdList";
+import { TableHeaderWrapper } from "../../../components/table/table-header-wrapper";
+import { Button } from "../../../components/ui/button";
+import { Card } from "../../../components/ui/card";
+import { TableCell, TableRow } from "../../../components/ui/table";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
+import MetadataService from "../../../services/features/MetadataService";
+import { subCategory } from "../../../types/metadata/Metadata";
+import { useAuth } from "../../auth/auth-provider/AuthProvider";
+import ErrorService from "../../../services/error/ErrorService";
+import { toast } from "sonner";
 
 function SubCategoryView() {
     const { id } = useParams<string>();
@@ -36,7 +36,6 @@ function SubCategoryView() {
             const viewObj = resp?.data;
 
             setViewData(viewObj);
-
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(
                 error,
@@ -60,13 +59,13 @@ function SubCategoryView() {
     }, []);
 
     const infoHeaders: { header: string; className?: string }[] = [
-        { header: "Name" },
+        { header: "Name" }
     ];
 
     return (
-        <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8 ">
+        <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <div className="mx-auto auto-rows-max gap-4">
-                <div className="flex items-center gap-4 mb-4">
+                <div className="mb-4 flex items-center gap-4">
                     <BackButton />
                     <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                         Sub Category View
@@ -74,7 +73,7 @@ function SubCategoryView() {
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
                         <Button size="sm">
-                            <Pencil className="w-4 h-4" />{" "}
+                            <Pencil className="h-4 w-4" />{" "}
                         </Button>
                     </div>
                 </div>
@@ -83,16 +82,22 @@ function SubCategoryView() {
                         <Card x-chunk="dashboard-07-chunk-0">
                             <TableHeaderWrapper headersArray={infoHeaders}>
                                 <TableRow>
-                                    <TableCell>{viewData?.subcategoryName || "-"}</TableCell>
+                                    <TableCell>
+                                        {viewData?.subcategoryName || "-"}
+                                    </TableCell>
                                 </TableRow>
                             </TableHeaderWrapper>
                         </Card>
-                        <NameIdList data={[viewData?.category]} navLink={NAVIGATION_ROUTES.MAIN_CATEGORY} title={'Main Category'} />
+                        <NameIdList
+                            data={[viewData?.category]}
+                            navLink={NAVIGATION_ROUTES.MAIN_CATEGORY}
+                            title={"Main Category"}
+                        />
                     </div>
                 </div>
             </div>
         </main>
-    )
+    );
 }
 
 export default SubCategoryView;

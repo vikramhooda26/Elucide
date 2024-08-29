@@ -6,15 +6,21 @@ import {
     CircleIcon,
     CrossCircledIcon,
     QuestionMarkCircledIcon,
-    StopwatchIcon,
+    StopwatchIcon
 } from "@radix-ui/react-icons";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../../lib/constants";
+import {
+    HTTP_STATUS_CODES,
+    NAVIGATION_ROUTES
+} from "../../../../lib/constants";
 import { toast } from "sonner";
 import MetadataService from "../../../../services/features/MetadataService";
 
 const deleteCall = async (id: string) => {
     try {
-        const response = await MetadataService.deleteData(id, "/api/admin/association-level/delete/");
+        const response = await MetadataService.deleteData(
+            id,
+            "/api/admin/association-level/delete/"
+        );
 
         if (response.status === HTTP_STATUS_CODES.OK) {
             toast.success("Deleted successfully");
@@ -34,32 +40,31 @@ export const routes = {
     deleteCall: async (id: string) => {
         const isDeleted = await deleteCall(id);
         return isDeleted;
-    },
+    }
 };
 
 export const statuses = [
     {
         value: "recent",
         label: "Recent",
-        icon: ArrowDownIcon,
+        icon: ArrowDownIcon
     },
     {
         value: "earlier",
         label: "Earlier",
-        icon: ArrowUpIcon,
-    },
-  ];
-  
-  export const priorities = [
+        icon: ArrowUpIcon
+    }
+];
+
+export const priorities = [
     {
         value: "recent",
         label: "Recent",
-        icon: ArrowDownIcon,
+        icon: ArrowDownIcon
     },
     {
         value: "earlier",
         label: "Earlier",
-        icon: ArrowUpIcon,
-    },
-  ];
-  
+        icon: ArrowUpIcon
+    }
+];

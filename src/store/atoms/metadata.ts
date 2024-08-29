@@ -118,5 +118,5 @@ export type TMetadataStore = {
 export const metadataStoreAtom = atom<TMetadataStore>({
     key: "metadataStoreAtom",
     default: null,
-    effects_UNSTABLE: [persistAtom],
+    effects_UNSTABLE: [persistAtom]
 });

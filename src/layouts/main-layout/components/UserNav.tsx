@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import {
     Avatar,
     AvatarFallback,
-    AvatarImage,
+    AvatarImage
 } from "../../../components/ui/avatar";
 import { Button } from "../../../components/ui/button";
 import {
@@ -15,7 +15,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuShortcut,
-    DropdownMenuTrigger,
+    DropdownMenuTrigger
 } from "../../../components/ui/dropdown-menu";
 import { useAuth } from "../../../features/auth/auth-provider/AuthProvider";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
@@ -64,10 +64,7 @@ export function UserNav() {
                     className="relative h-8 w-8 rounded-full"
                 >
                     <Avatar className="h-8 w-8">
-                        <AvatarImage
-                            src="/avatars/01.png"
-                            alt="@shadcn"
-                        />
+                        <AvatarImage src="/avatars/01.png" alt="@shadcn" />
                         <AvatarFallback>
                             {user
                                 ? user.firstName?.[0] + user.lastName?.[0]
@@ -76,11 +73,7 @@ export function UserNav() {
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-                className="w-56"
-                align="end"
-                forceMount
-            >
+            <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                         <p className="text-sm font-medium leading-none">
@@ -112,10 +105,7 @@ export function UserNav() {
                         positiveOnClick={handleLogOut}
                         positiveTitle="Logout"
                     >
-                        <Button
-                            variant="ghost"
-                            className="px-2 w-full !py-1"
-                        >
+                        <Button variant="ghost" className="w-full !py-1 px-2">
                             Log out
                             <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                         </Button>

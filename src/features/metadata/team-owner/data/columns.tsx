@@ -18,7 +18,7 @@ export const getColumns = ({
     onEdit,
     onDelete,
     userRole,
-    viewRoute,
+    viewRoute
 }: TColumnProps): ColumnDef<schemaType>[] => {
     const column: ColumnDef<schemaType>[] = [
         {
@@ -45,7 +45,7 @@ export const getColumns = ({
                 />
             ),
             enableSorting: false,
-            enableHiding: false,
+            enableHiding: false
         },
         {
             accessorKey: "teamOwnerName",
@@ -61,7 +61,7 @@ export const getColumns = ({
                     return (
                         <Link
                             to={`${viewRoute}/${id}`}
-                            className="cursor-pointer hover:text-blue-800 "
+                            className="cursor-pointer hover:text-blue-800"
                         >
                             <div className="w-[80px]">
                                 {row.getValue("teamOwnerName")}
@@ -77,15 +77,12 @@ export const getColumns = ({
                 }
             },
             enableSorting: false,
-            enableHiding: false,
+            enableHiding: false
         },
         {
             accessorKey: "createdDate",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title="Created At"
-                />
+                <DataTableColumnHeader column={column} title="Created At" />
             ),
             cell: ({ row }) => {
                 return (
@@ -100,29 +97,23 @@ export const getColumns = ({
                         </span>
                     </div>
                 );
-            },
+            }
         },
         {
             accessorKey: "createdBy",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title="Created By"
-                />
+                <DataTableColumnHeader column={column} title="Created By" />
             ),
             cell: ({ row }) => (
                 <div className="w-[80px]">{row.getValue("createdBy")}</div>
             ),
             enableSorting: true,
-            enableHiding: false,
+            enableHiding: false
         },
         {
             accessorKey: "modifiedDate",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title="Modified At"
-                />
+                <DataTableColumnHeader column={column} title="Modified At" />
             ),
             cell: ({ row }) => {
                 return (
@@ -137,32 +128,26 @@ export const getColumns = ({
                         </span>
                     </div>
                 );
-            },
+            }
         },
         {
             accessorKey: "modifiedBy",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title="Modified By"
-                />
+                <DataTableColumnHeader column={column} title="Modified By" />
             ),
             cell: ({ row }) => (
                 <div className="w-[80px]">{row.getValue("modifiedBy")}</div>
             ),
             enableSorting: false,
-            enableHiding: false,
-        },
+            enableHiding: false
+        }
     ];
 
     if (userRole === "SUPER_ADMIN") {
         column.push({
             id: "actions",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    title="Actions"
-                    column={column}
-                />
+                <DataTableColumnHeader title="Actions" column={column} />
             ),
             cell: ({ row }) => (
                 <DataTableRowActions
@@ -171,7 +156,7 @@ export const getColumns = ({
                     onEdit={onEdit}
                     schema={schema}
                 />
-            ),
+            )
         });
     }
 

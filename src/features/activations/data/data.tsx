@@ -5,31 +5,31 @@ export const routes = {
     editRoute: NAVIGATION_ROUTES.ACTIVATION_EDIT,
     copyRoute: NAVIGATION_ROUTES.ACTIVATION_EDIT,
     deleteRoute: () => {},
-    deleteCall: async () => false,
+    deleteCall: async () => false
 };
 
 export const statuses = [
     {
         value: "recent",
         label: "Recent",
-        icon: ArrowDownIcon,
+        icon: ArrowDownIcon
     },
     {
         value: "earlier",
         label: "Earlier",
-        icon: ArrowUpIcon,
-    },
+        icon: ArrowUpIcon
+    }
 ];
 
 export const priorities = [
     {
         value: "recent",
         label: "Recent",
-        icon: ArrowDownIcon,
+        icon: ArrowDownIcon
     },
     {
         value: "earlier",
         label: "Earlier",
-        icon: ArrowUpIcon,
-    },
+        icon: ArrowUpIcon
+    }
 ];

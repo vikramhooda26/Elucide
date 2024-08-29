@@ -20,7 +20,7 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
     onSubmit,
     children,
     isSubmitting,
-    isEdit,
+    isEdit
 }): JSX.Element => {
     const navigate = useNavigate();
 
@@ -64,10 +64,7 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
                             >
                                 <span>{`Save ${title}`}</span>
                                 {isSubmitting && (
-                                    <ClipLoader
-                                        size={15}
-                                        color="#020817"
-                                    />
+                                    <ClipLoader size={15} color="#020817" />
                                 )}
                             </Button>
                         </div>
@@ -82,19 +79,16 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
+                    <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
                         <Button
                             type="submit"
                             size="sm"
-                            className="w-full py-5 gap-1"
+                            className="w-full gap-1 py-5"
                             disabled={isSubmitting}
                         >
                             <span>{`Save ${title}`}</span>
                             {isSubmitting && (
-                                <ClipLoader
-                                    size={15}
-                                    color="#020817"
-                                />
+                                <ClipLoader size={15} color="#020817" />
                             )}
                         </Button>
                         <Button

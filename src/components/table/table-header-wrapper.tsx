@@ -3,7 +3,7 @@ import {
     TableBody,
     TableHead,
     TableHeader,
-    TableRow,
+    TableRow
 } from "../ui/table";
 
 type TTableHeaderWrapperProps = {
@@ -13,7 +13,7 @@ type TTableHeaderWrapperProps = {
 
 export const TableHeaderWrapper: React.FC<TTableHeaderWrapperProps> = ({
     headersArray,
-    children,
+    children
 }): JSX.Element => {
     return (
         <Table>

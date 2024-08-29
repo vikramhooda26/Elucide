@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     leagueOwnerFormSchema,
-    TLeagueOwnerFormSchema,
+    TLeagueOwnerFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
@@ -33,8 +33,8 @@ function LeagueOwnerForm() {
     const form = useForm<TLeagueOwnerFormSchema>({
         resolver: zodResolver(leagueOwnerFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -44,7 +44,7 @@ function LeagueOwnerForm() {
                 const response = await MetadataService.getOneLeagueOwner(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        leagueOwnerName: response.data.leagueOwnerName,
+                        leagueOwnerName: response.data.leagueOwnerName
                     });
                 }
             } catch (error) {
@@ -76,7 +76,7 @@ function LeagueOwnerForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...leagueOwnerFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editLeagueOwner(
@@ -88,13 +88,12 @@ function LeagueOwnerForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createLeagueOwner(
-                requestBody
-            );
+            const response =
+                await MetadataService.createLeagueOwner(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("League owner created successfully");
                 form.reset({
-                    leagueOwnerName: "",
+                    leagueOwnerName: ""
                 });
             }
         } catch (error) {
@@ -136,10 +135,7 @@ function LeagueOwnerForm() {
                     name="leagueOwnerName"
                     render={({ field }) => (
                         <FormItemWrapper label="League owner name">
-                            <Input
-                                {...field}
-                                placeholder="League owner name"
-                            />
+                            <Input {...field} placeholder="League owner name" />
                         </FormItemWrapper>
                     )}
                 />

@@ -30,8 +30,8 @@ function AssetForm() {
     const form = useForm<TAssetFormSchema>({
         resolver: zodResolver(assetFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ function AssetForm() {
                 const response = await MetadataService.getOneAsset(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        assetName: response.data.assetName,
+                        assetName: response.data.assetName
                     });
                 }
             } catch (error) {
@@ -73,7 +73,7 @@ function AssetForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...assetFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editAsset(
@@ -89,7 +89,7 @@ function AssetForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Asset created successfully");
                 form.reset({
-                    assetName: "",
+                    assetName: ""
                 });
             }
         } catch (error) {
@@ -131,10 +131,7 @@ function AssetForm() {
                     name="assetName"
                     render={({ field }) => (
                         <FormItemWrapper label="Asset name">
-                            <Input
-                                {...field}
-                                placeholder="Asset name"
-                            />
+                            <Input {...field} placeholder="Asset name" />
                         </FormItemWrapper>
                     )}
                 />

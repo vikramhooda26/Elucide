@@ -30,8 +30,8 @@ function TierForm() {
     const form = useForm<TTierFormSchema>({
         resolver: zodResolver(tierFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ function TierForm() {
                 const response = await MetadataService.getOneTier(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        tierName: response.data.tierName,
+                        tierName: response.data.tierName
                     });
                 }
             } catch (error) {
@@ -73,7 +73,7 @@ function TierForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...tierFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.updateTier(
@@ -89,7 +89,7 @@ function TierForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Tier created successfully");
                 form.reset({
-                    tierName: "",
+                    tierName: ""
                 });
             }
         } catch (error) {
@@ -131,10 +131,7 @@ function TierForm() {
                     name="tierName"
                     render={({ field }) => (
                         <FormItemWrapper label="Tier name">
-                            <Input
-                                {...field}
-                                placeholder="Tier name"
-                            />
+                            <Input {...field} placeholder="Tier name" />
                         </FormItemWrapper>
                     )}
                 />

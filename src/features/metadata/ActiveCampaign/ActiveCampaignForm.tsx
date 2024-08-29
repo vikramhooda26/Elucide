@@ -11,7 +11,7 @@ import { TActivationFormSchema } from "../../activations/constants/metadata";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     activeCampaignFormSchema,
-    TActiveCampaignFormSchema,
+    TActiveCampaignFormSchema
 } from "./constants/metadata";
 import MetadataService from "../../../services/features/MetadataService";
 import { HTTP_STATUS_CODES } from "../../../lib/constants";
@@ -34,8 +34,8 @@ function ActiveCampaignForm() {
     const form = useForm<TActiveCampaignFormSchema>({
         resolver: zodResolver(activeCampaignFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -45,7 +45,7 @@ function ActiveCampaignForm() {
                 const response = await MetadataService.getOneActiveCampaign(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        activeCampaignName: response.data.activeCampaignName,
+                        activeCampaignName: response.data.activeCampaignName
                     });
                 }
             } catch (error) {
@@ -79,7 +79,7 @@ function ActiveCampaignForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...activeCampaignFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editActiveCampign(
@@ -91,13 +91,12 @@ function ActiveCampaignForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createActiveCampaign(
-                requestBody
-            );
+            const response =
+                await MetadataService.createActiveCampaign(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Active campaign created successfully");
                 form.reset({
-                    activeCampaignName: "",
+                    activeCampaignName: ""
                 });
             }
         } catch (error) {
@@ -139,10 +138,7 @@ function ActiveCampaignForm() {
                     name="activeCampaignName"
                     render={({ field }) => (
                         <FormItemWrapper label="Campaign Name">
-                            <Input
-                                {...field}
-                                placeholder="Campaign name"
-                            />
+                            <Input {...field} placeholder="Campaign name" />
                         </FormItemWrapper>
                     )}
                 />

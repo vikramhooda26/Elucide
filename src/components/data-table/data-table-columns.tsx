@@ -35,7 +35,7 @@ export function generateColumns<T extends object>(
                 />
             ),
             enableSorting: false,
-            enableHiding: false,
+            enableHiding: false
         });
     }
 
@@ -69,7 +69,7 @@ export function generateColumns<T extends object>(
                           return <div>{String(value)}</div>;
                       },
                 enableSorting: columnConfig.sortable ?? true,
-                enableHiding: columnConfig.hideable ?? true,
+                enableHiding: columnConfig.hideable ?? true
             };
 
             return column;
@@ -79,10 +79,7 @@ export function generateColumns<T extends object>(
     columns.push({
         id: "actions",
         header: ({ column }) => (
-            <DataTableColumnHeader
-                column={column}
-                title={"Actions"}
-            />
+            <DataTableColumnHeader column={column} title={"Actions"} />
         ),
         cell: ({ row }: CellContext<T, unknown>) => (
             <DataTableRowActions
@@ -91,7 +88,7 @@ export function generateColumns<T extends object>(
                 routes={config.routes}
                 schema={config.schema}
             />
-        ),
+        )
     });
 
     return columns;

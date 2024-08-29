@@ -30,8 +30,8 @@ function TaglineForm() {
     const form = useForm<TTaglineFormSchema>({
         resolver: zodResolver(taglineFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ function TaglineForm() {
                 const response = await MetadataService.getOneTagline(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        taglineName: response.data.taglineName,
+                        taglineName: response.data.taglineName
                     });
                 }
             } catch (error) {
@@ -73,7 +73,7 @@ function TaglineForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...taglineFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editTagline(
@@ -89,7 +89,7 @@ function TaglineForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Tagline created successfully");
                 form.reset({
-                    taglineName: "",
+                    taglineName: ""
                 });
             }
         } catch (error) {
@@ -130,10 +130,7 @@ function TaglineForm() {
                     name="taglineName"
                     render={({ field }) => (
                         <FormItemWrapper label="Tagline name">
-                            <Input
-                                {...field}
-                                placeholder="Tagline name"
-                            />
+                            <Input {...field} placeholder="Tagline name" />
                         </FormItemWrapper>
                     )}
                 />

@@ -5,7 +5,7 @@ import parsePhoneNumberFromString, {
     type E164Number,
     type NationalNumber,
     type CountryCode,
-    type NumberType,
+    type NumberType
 } from "libphonenumber-js";
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
@@ -20,7 +20,7 @@ import {
     CommandGroup,
     CommandInput,
     CommandItem,
-    CommandList,
+    CommandList
 } from "../ui/command";
 import { ScrollArea } from "../ui/scroll-area";
 import { Input } from "../ui/input";
@@ -61,7 +61,7 @@ export function getPhoneData(phone: string): PhoneData {
         isValid: number?.isValid(),
         isPossible: number?.isPossible(),
         uri: number?.getURI(),
-        type: number?.getType(),
+        type: number?.getType()
     };
 }
 
@@ -171,10 +171,7 @@ export function PhoneInput({
                         <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent
-                    className="p-0 w-max"
-                    align="start"
-                >
+                <PopoverContent className="w-max p-0" align="start">
                     <Command>
                         <CommandInput placeholder="Search country..." />
                         <CommandList>
@@ -215,7 +212,7 @@ export function PhoneInput({
                                                 />
                                                 <img
                                                     src={`/flags/${country.iso2.toLowerCase()}.svg`}
-                                                    className="relative top-0.5 mr-2 w-4 h-3 object-cover"
+                                                    className="relative top-0.5 mr-2 h-3 w-4 object-cover"
                                                     aria-labelledby={
                                                         country.name
                                                     }

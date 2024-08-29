@@ -7,6 +7,5 @@ type Config = {
 
 export const configAtom = atom<Config>({
     key: "configAtom",
-    default: { selected: mails[0].id },
+    default: { selected: mails[0].id }
 });
-

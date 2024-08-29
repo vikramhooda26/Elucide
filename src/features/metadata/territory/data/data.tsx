@@ -6,38 +6,37 @@ import {
     CircleIcon,
     CrossCircledIcon,
     QuestionMarkCircledIcon,
-    StopwatchIcon,
+    StopwatchIcon
 } from "@radix-ui/react-icons";
 import { NAVIGATION_ROUTES } from "../../../../lib/constants";
 
 export const routes = {
     editRoute: NAVIGATION_ROUTES.TERRITORY_EDIT,
-    deleteRoute: () => {},
+    deleteRoute: () => {}
 };
 
 export const statuses = [
     {
         value: "recent",
         label: "Recent",
-        icon: ArrowDownIcon,
+        icon: ArrowDownIcon
     },
     {
         value: "earlier",
         label: "Earlier",
-        icon: ArrowUpIcon,
-    },
-  ];
-  
-  export const priorities = [
+        icon: ArrowUpIcon
+    }
+];
+
+export const priorities = [
     {
         value: "recent",
         label: "Recent",
-        icon: ArrowDownIcon,
+        icon: ArrowDownIcon
     },
     {
         value: "earlier",
         label: "Earlier",
-        icon: ArrowUpIcon,
-    },
-  ];
-  
+        icon: ArrowUpIcon
+    }
+];

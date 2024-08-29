@@ -1,14 +1,20 @@
-import { SelectViewport } from '@radix-ui/react-select';
-import React, { useEffect, useState } from 'react';
-import { selectorContentType } from '../../types/components/SelectorTypes';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { SelectViewport } from "@radix-ui/react-select";
+import React, { useEffect, useState } from "react";
+import { selectorContentType } from "../../types/components/SelectorTypes";
+import { Label } from "../ui/label";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "../ui/select";
 
-
-
-const CustomSelectWithSearch: React.FC<{ selectorContent: selectorContentType }> = ({ selectorContent }) => {
+const CustomSelectWithSearch: React.FC<{
+    selectorContent: selectorContentType;
+}> = ({ selectorContent }) => {
     const {
-        title = '',
+        title = "",
         items = [],
         isMultiple = false,
         isSearchable = false,
@@ -16,11 +22,11 @@ const CustomSelectWithSearch: React.FC<{ selectorContent: selectorContentType }>
         searchCallback,
         selectState = [],
         onChange,
-        searchFrom,
+        searchFrom
     } = selectorContent?.selectorContent;
 
     const [selectedValues, setSelectedValues] = useState<string[]>(selectState);
-    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [searchTerm, setSearchTerm] = useState<string>("");
 
     useEffect(() => {
         if (searchCallback && searchFrom) {
@@ -58,8 +64,13 @@ const CustomSelectWithSearch: React.FC<{ selectorContent: selectorContentType }>
         <div className="grid gap-3">
             <Label htmlFor={title.toLowerCase()}>{title}</Label>
             <Select>
-                <SelectTrigger id={title.toLowerCase()} aria-label="Select status">
-                    <SelectValue placeholder={`Select ${title.toLowerCase()}`} />
+                <SelectTrigger
+                    id={title.toLowerCase()}
+                    aria-label="Select status"
+                >
+                    <SelectValue
+                        placeholder={`Select ${title.toLowerCase()}`}
+                    />
                     {isClearable && selectedValues.length > 0 && (
                         <button onClick={clearSelection} className="ml-2">
                             Clear
@@ -71,7 +82,7 @@ const CustomSelectWithSearch: React.FC<{ selectorContent: selectorContentType }>
                         <div className="p-2">
                             <input
                                 type="text"
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full rounded border border-gray-300 p-2"
                                 placeholder="Search..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -86,7 +97,6 @@ const CustomSelectWithSearch: React.FC<{ selectorContent: selectorContentType }>
                                 onClick={() => handleChange(item.value)}
                             >
                                 {item.label}
-
                             </SelectItem>
                         ))}
                     </SelectViewport>

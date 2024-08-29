@@ -17,7 +17,7 @@ export const sportsDealSummaryFormSchema = z.object({
     teamId: z.string().optional(),
     athleteId: z.string().optional(),
     userId: z.string(),
-    partnerType: z.enum(["Athlete", "Team", "League"]),
+    partnerType: z.enum(["Athlete", "Team", "League"])
 });
 
 export type TSportsDealSummaryFormSchema = z.infer<
@@ -33,7 +33,7 @@ export const SPORTS_DEAL_SUMMARY_KEYS = {
     BRAND: "brand",
     TEAM: "team",
     ATHLETE: "athlete",
-    LEAGUE: "league",
+    LEAGUE: "league"
 } as const;
 
 export type TEditSportsDealSummaryFormSchema = {

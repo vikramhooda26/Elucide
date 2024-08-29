@@ -164,10 +164,7 @@ function SelectComponent({ label, items, ...rest }: SelectExtended) {
             <SelectContent>
                 <SelectGroup>
                     {items.map((item) => (
-                        <SelectItem
-                            key={item.value}
-                            value={item.value}
-                        >
+                        <SelectItem key={item.value} value={item.value}>
                             {item.label}
                         </SelectItem>
                     ))}
@@ -188,5 +185,5 @@ export {
     SelectItem,
     SelectSeparator,
     SelectScrollUpButton,
-    SelectScrollDownButton,
+    SelectScrollDownButton
 };

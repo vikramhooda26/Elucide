@@ -23,47 +23,46 @@ function SportsDealSummary({ data, partnerKey }: Props) {
     const sportsDealColumn = [
         {
             key: "brandName",
-            name: "Brand",
+            name: "Brand"
         },
         {
             key: "level",
-            name: "Level",
+            name: "Level"
         },
         {
             key: "type",
-            name: "Type",
+            name: "Type"
         },
         {
             key: "territory",
-            name: "Territory",
+            name: "Territory"
         },
         {
             key: "annualValue",
-            name: "Annual Value",
+            name: "Annual Value"
         },
         {
             key: "totalValue",
-            name: "Total Value",
+            name: "Total Value"
         },
         {
             key: "commencementDate",
-            name: "Commencement",
+            name: "Commencement"
         },
         {
             key: "expirationDate",
-            name: "Expiration",
+            name: "Expiration"
         },
         {
             key: "status",
-            name: "Status",
-        },
-
+            name: "Status"
+        }
     ];
 
     if (partnerKey && partnerKey?.length > 0) {
         sportsDealColumn?.splice(1, 0, {
             key: partnerKey,
-            name: "Partner Name",
+            name: "Partner Name"
         });
     }
 
@@ -81,12 +80,12 @@ function SportsDealSummary({ data, partnerKey }: Props) {
             sportsDeal.partner = d?.partner?.name;
 
             sportsDealSummary?.push(sportsDeal);
-        })
+        });
     }
 
     const filterColumnOptions = [
         { label: "Brand", value: "brandName" },
-        { label: "Partner", value: partnerKey || '' },
+        { label: "Partner", value: partnerKey || "" },
         { label: "Level", value: "level" },
         { label: "Status", value: "status" }
     ];
@@ -103,20 +102,19 @@ function SportsDealSummary({ data, partnerKey }: Props) {
         />
     ];
 
-    const createButton = userRole !== "USER" ? (
-        <div className="flex items-center space-x-2 mx-2">
-            <ConditionalButton
-                onClick={() =>
-                    navigator(
-                        NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY
-                    )
-                }
-                accessLevel="all_staff"
-            >
-                Create
-            </ConditionalButton>
-        </div>
-    ) : null;
+    const createButton =
+        userRole !== "USER" ? (
+            <div className="mx-2 flex items-center space-x-2">
+                <ConditionalButton
+                    onClick={() =>
+                        navigator(NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY)
+                    }
+                    accessLevel="all_staff"
+                >
+                    Create
+                </ConditionalButton>
+            </div>
+        ) : null;
 
     return (
         <Card className="grid grid-cols-1">

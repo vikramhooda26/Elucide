@@ -5,7 +5,7 @@ import { cn } from "../../lib/utils";
 export const HeroHighlight = ({
     children,
     className,
-    containerClassName,
+    containerClassName
 }: {
     children: React.ReactNode;
     className?: string;
@@ -17,7 +17,7 @@ export const HeroHighlight = ({
     function handleMouseMove({
         currentTarget,
         clientX,
-        clientY,
+        clientY
     }: React.MouseEvent<HTMLDivElement>) {
         if (!currentTarget) return;
         let { left, top } = currentTarget.getBoundingClientRect();
@@ -28,14 +28,14 @@ export const HeroHighlight = ({
     return (
         <div
             className={cn(
-                "relative md:h-dvh max-sm:py-16 min-h-[80vh] flex items-center bg-black justify-center w-full group",
+                "group relative flex min-h-[80vh] w-full items-center justify-center bg-black max-sm:py-16 md:h-dvh",
                 containerClassName
             )}
             onMouseMove={handleMouseMove}
         >
-            <div className="absolute inset-0 bg-dot-thick-neutral-800 pointer-events-none" />
+            <div className="pointer-events-none absolute inset-0 bg-dot-thick-neutral-800" />
             <motion.div
-                className="pointer-events-none bg-dot-thick-indigo-500 absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
+                className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 bg-dot-thick-indigo-500 group-hover:opacity-100"
                 style={{
                     WebkitMaskImage: useMotionTemplate`
             radial-gradient(
@@ -50,7 +50,7 @@ export const HeroHighlight = ({
               black 0%,
               transparent 100%
             )
-          `,
+          `
                 }}
             />
 
@@ -61,7 +61,7 @@ export const HeroHighlight = ({
 
 export const Highlight = ({
     children,
-    className,
+    className
 }: {
     children: React.ReactNode;
     className?: string;
@@ -69,23 +69,23 @@ export const Highlight = ({
     return (
         <motion.span
             initial={{
-                backgroundSize: "0% 100%",
+                backgroundSize: "0% 100%"
             }}
             animate={{
-                backgroundSize: "100% 100%",
+                backgroundSize: "100% 100%"
             }}
             transition={{
                 duration: 2,
                 ease: "linear",
-                delay: 0.5,
+                delay: 0.5
             }}
             style={{
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "left center",
-                display: "inline",
+                display: "inline"
             }}
             className={cn(
-                `relative inline-block pb-1 px-1 !rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500`,
+                `relative inline-block !rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 px-1 pb-1`,
                 className
             )}
         >

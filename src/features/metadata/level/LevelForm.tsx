@@ -30,8 +30,8 @@ function LevelForm() {
     const form = useForm<TLevelFormSchema>({
         resolver: zodResolver(levelFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ function LevelForm() {
                 const response = await MetadataService.getOneLevel(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        levelName: response.data.levelName,
+                        levelName: response.data.levelName
                     });
                 }
             } catch (error) {
@@ -73,7 +73,7 @@ function LevelForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...levelFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editLevel(
@@ -89,7 +89,7 @@ function LevelForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Level created successfully");
                 form.reset({
-                    levelName: "",
+                    levelName: ""
                 });
             }
         } catch (error) {
@@ -131,10 +131,7 @@ function LevelForm() {
                     name="levelName"
                     render={({ field }) => (
                         <FormItemWrapper label="Level name">
-                            <Input
-                                {...field}
-                                placeholder="Level name"
-                            />
+                            <Input {...field} placeholder="Level name" />
                         </FormItemWrapper>
                     )}
                 />

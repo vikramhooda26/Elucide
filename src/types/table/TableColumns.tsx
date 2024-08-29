@@ -1,5 +1,5 @@
-import { CellContext } from "@tanstack/react-table"
-import { z } from "zod"
+import { CellContext } from "@tanstack/react-table";
+import { z } from "zod";
 
 export interface ColumnConfig<T> {
     key: keyof T & string;

@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     broadcastPartnerFormSchema,
-    TBroadcastPartnerFormSchema,
+    TBroadcastPartnerFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
@@ -33,21 +33,19 @@ function BroadcastPartnerForm() {
     const form = useForm<TBroadcastPartnerFormSchema>({
         resolver: zodResolver(broadcastPartnerFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
         const fetchBroadcastPartnerDetails = async (id: string) => {
             try {
                 setIsLoading(true);
-                const response = await MetadataService.getOneBroadcastPartner(
-                    id
-                );
+                const response =
+                    await MetadataService.getOneBroadcastPartner(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        broadcastPartnerName:
-                            response.data.broadcastPartnerName,
+                        broadcastPartnerName: response.data.broadcastPartnerName
                     });
                 }
             } catch (error) {
@@ -81,7 +79,7 @@ function BroadcastPartnerForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...broadcastPartnerFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editBroadcastPartner(
@@ -93,13 +91,12 @@ function BroadcastPartnerForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createBroadcastPartner(
-                requestBody
-            );
+            const response =
+                await MetadataService.createBroadcastPartner(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Broadcast Partner created successfully");
                 form.reset({
-                    broadcastPartnerName: "",
+                    broadcastPartnerName: ""
                 });
             }
         } catch (error) {

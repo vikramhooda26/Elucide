@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     marketingPlatformFormSchema,
-    TMarketingPlatformFormSchema,
+    TMarketingPlatformFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
@@ -33,21 +33,20 @@ function MarketingPlatformForm() {
     const form = useForm<TMarketingPlatformFormSchema>({
         resolver: zodResolver(marketingPlatformFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
         const fetchGenderDetails = async (id: string) => {
             try {
                 setIsLoading(true);
-                const response = await MetadataService.getOneMarketingPlatform(
-                    id
-                );
+                const response =
+                    await MetadataService.getOneMarketingPlatform(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
                         marketingPlatformName:
-                            response.data.marketingPlatformName,
+                            response.data.marketingPlatformName
                     });
                 }
             } catch (error) {
@@ -81,7 +80,7 @@ function MarketingPlatformForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...marketingPlatformFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editMarketingPlatform(
@@ -93,13 +92,12 @@ function MarketingPlatformForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createMarketingPlatform(
-                requestBody
-            );
+            const response =
+                await MetadataService.createMarketingPlatform(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Marketing platform created successfully");
                 form.reset({
-                    marketingPlatformName: "",
+                    marketingPlatformName: ""
                 });
             }
         } catch (error) {

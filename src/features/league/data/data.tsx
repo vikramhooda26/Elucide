@@ -5,7 +5,10 @@ import MetadataService from "../../../services/features/MetadataService";
 
 const deleteCall = async (id: string) => {
     try {
-        const response = await MetadataService.deleteData(id, "/api/admin/league/delete/");
+        const response = await MetadataService.deleteData(
+            id,
+            "/api/admin/league/delete/"
+        );
 
         if (response.status === HTTP_STATUS_CODES.OK) {
             toast.success("Deleted successfully");
@@ -26,31 +29,31 @@ export const routes = {
     deleteCall: async (id: string) => {
         const isDeleted = await deleteCall(id);
         return isDeleted;
-    },
+    }
 };
 
 export const statuses = [
     {
         value: "recent",
         label: "Recent",
-        icon: ArrowDownIcon,
+        icon: ArrowDownIcon
     },
     {
         value: "earlier",
         label: "Earlier",
-        icon: ArrowUpIcon,
-    },
+        icon: ArrowUpIcon
+    }
 ];
 
 export const priorities = [
     {
         value: "recent",
         label: "Recent",
-        icon: ArrowDownIcon,
+        icon: ArrowDownIcon
     },
     {
         value: "earlier",
         label: "Earlier",
-        icon: ArrowUpIcon,
-    },
+        icon: ArrowUpIcon
+    }
 ];

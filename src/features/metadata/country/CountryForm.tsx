@@ -30,8 +30,8 @@ function CountryForm() {
     const form = useForm<TCountryFormSchema>({
         resolver: zodResolver(countryFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ function CountryForm() {
                 const response = await MetadataService.getOneNationality(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        nationality: response.data.nationalityName,
+                        nationality: response.data.nationalityName
                     });
                 }
             } catch (error) {
@@ -73,7 +73,7 @@ function CountryForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...countryFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editNationality(
@@ -85,13 +85,12 @@ function CountryForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createNationality(
-                requestBody
-            );
+            const response =
+                await MetadataService.createNationality(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Country created successfully");
                 form.reset({
-                    nationality: "",
+                    nationality: ""
                 });
             }
         } catch (error) {
@@ -133,10 +132,7 @@ function CountryForm() {
                     name="nationality"
                     render={({ field }) => (
                         <FormItemWrapper label="Country name">
-                            <Input
-                                {...field}
-                                placeholder="Country name"
-                            />
+                            <Input {...field} placeholder="Country name" />
                         </FormItemWrapper>
                     )}
                 />

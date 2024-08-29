@@ -1,24 +1,24 @@
 import { AnimatedGradientText } from "../../components/ui/animated-gradient-text";
 import {
     CanvasRevealEffect,
-    Card,
+    Card
 } from "../../components/ui/card-reveal-effect";
 import { GradientButton } from "../../components/ui/gradient-button";
 
 export const Approach = ({
-    approachRef,
+    approachRef
 }: {
     approachRef: React.RefObject<HTMLDivElement>;
 }) => {
     return (
         <div
-            className="flex flex-col justify-center text-white gap-16 items-center md:min-h-dvh bg-[#000319] w-full md:py-40 py-24 px-8"
+            className="flex w-full flex-col items-center justify-center gap-16 bg-[#000319] px-8 py-24 text-white md:min-h-dvh md:py-40"
             ref={approachRef}
         >
             <h1 className="text-4xl font-bold">
                 Our <AnimatedGradientText>Advantage</AnimatedGradientText>
             </h1>
-            <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-16">
+            <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                 <Card
                     title="Objective-Focused Approach"
                     description="By prioritizing and understanding the specific objectives of each brand, we ensure that every partnership is goal-oriented and results-driven"
@@ -39,7 +39,7 @@ export const Approach = ({
                         containerClassName="bg-black"
                         colors={[
                             [236, 72, 153],
-                            [232, 121, 249],
+                            [232, 121, 249]
                         ]}
                         dotSize={2}
                     />
@@ -65,7 +65,7 @@ export const Approach = ({
                         containerClassName="bg-transparent"
                         colors={[
                             [59, 130, 246],
-                            [139, 92, 246],
+                            [139, 92, 246]
                         ]}
                         dotSize={2}
                     />

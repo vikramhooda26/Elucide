@@ -16,11 +16,11 @@ type TUser = {
 export const userAtom = atom<TUser>({
     key: "userAtom",
     default: null,
-    effects_UNSTABLE: [persistAtom],
+    effects_UNSTABLE: [persistAtom]
 });
 
 export const isAuthenticatedAtom = atom<boolean>({
     key: "isAuthenticatedAtom",
     default: false,
-    effects_UNSTABLE: [persistAtom],
+    effects_UNSTABLE: [persistAtom]
 });

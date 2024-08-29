@@ -1,7 +1,7 @@
 import { ReactElement, createContext, useContext, useMemo } from "react";
 import {
     AuthContextType,
-    AuthProviderProps,
+    AuthProviderProps
 } from "../../../types/auth/AuthProviderTypes";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { isAuthenticatedAtom, userAtom } from "../../../store/atoms/user";

@@ -14,28 +14,28 @@ function Activation({ data }: Props) {
     const activationColumn = [
         {
             key: "name",
-            name: "Name",
+            name: "Name"
         },
         {
             key: "year",
-            name: "Year",
+            name: "Year"
         },
         {
             key: "brandName",
-            name: "Brand",
+            name: "Brand"
         },
         {
             key: "teamName",
-            name: "Team",
+            name: "Team"
         },
         {
             key: "leagueName",
-            name: "League",
+            name: "League"
         },
         {
             key: "athleteName",
-            name: "Athlete",
-        },
+            name: "Athlete"
+        }
     ];
 
     const activationSummary: Array<any> = [];
@@ -52,7 +52,7 @@ function Activation({ data }: Props) {
             activation.partner = d?.partner?.name;
 
             activationSummary?.push(activation);
-        })
+        });
     }
 
     const filterColumnOptions = [
@@ -61,7 +61,7 @@ function Activation({ data }: Props) {
         { label: "Brand", value: "brandName" },
         { label: "Team", value: "teamName" },
         { label: "League", value: "leagueName" },
-        { label: "Athlete", value: "athleteName" },
+        { label: "Athlete", value: "athleteName" }
     ];
 
     const toolbarAttributes = [
@@ -99,5 +99,3 @@ function Activation({ data }: Props) {
 }
 
 export default Activation;
-
-

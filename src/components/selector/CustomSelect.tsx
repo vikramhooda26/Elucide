@@ -6,11 +6,11 @@ import {
     SelectContent,
     SelectItem,
     SelectTrigger,
-    SelectValue,
+    SelectValue
 } from "../ui/select";
 
 const CutomSelect: React.FC<{ selectorContent: selectorContentType }> = ({
-    selectorContent,
+    selectorContent
 }) => {
     const { title = "", items = [] } = selectorContent?.selectorContent;
 
@@ -28,10 +28,7 @@ const CutomSelect: React.FC<{ selectorContent: selectorContentType }> = ({
                 </SelectTrigger>
                 <SelectContent>
                     {items?.map((item, i) => (
-                        <SelectItem
-                            value={item.value}
-                            key={i}
-                        >
+                        <SelectItem value={item.value} key={i}>
                             {item?.label}
                         </SelectItem>
                     ))}

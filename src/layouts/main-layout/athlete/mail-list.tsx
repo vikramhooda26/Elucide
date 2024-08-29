@@ -27,7 +27,7 @@ export function MailList({ items }: MailListProps) {
                         onClick={() =>
                             setMail({
                                 ...mail,
-                                selected: item.id,
+                                selected: item.id
                             })
                         }
                     >
@@ -50,7 +50,7 @@ export function MailList({ items }: MailListProps) {
                                     )}
                                 >
                                     {formatDistanceToNow(new Date(item.date), {
-                                        addSuffix: true,
+                                        addSuffix: true
                                     })}
                                 </div>
                             </div>

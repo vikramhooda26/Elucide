@@ -30,8 +30,8 @@ function AgencyForm() {
     const form = useForm<TAgencyFormSchema>({
         resolver: zodResolver(agencyFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ function AgencyForm() {
                 const response = await MetadataService.getOneAgency(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        agencyName: response.data.agencyName,
+                        agencyName: response.data.agencyName
                     });
                 }
             } catch (error) {
@@ -73,7 +73,7 @@ function AgencyForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...agencyFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editAgency(
@@ -89,7 +89,7 @@ function AgencyForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Agency created successfully");
                 form.reset({
-                    agencyName: "",
+                    agencyName: ""
                 });
             }
         } catch (error) {
@@ -131,10 +131,7 @@ function AgencyForm() {
                     name="agencyName"
                     render={({ field }) => (
                         <FormItemWrapper label="Agency name">
-                            <Input
-                                {...field}
-                                placeholder="Agency name"
-                            />
+                            <Input {...field} placeholder="Agency name" />
                         </FormItemWrapper>
                     )}
                 />

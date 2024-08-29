@@ -14,7 +14,7 @@ import {
     Rectangle,
     ReferenceLine,
     XAxis,
-    YAxis,
+    YAxis
 } from "recharts";
 
 import {
@@ -23,7 +23,7 @@ import {
     CardDescription,
     CardFooter,
     CardHeader,
-    CardTitle,
+    CardTitle
 } from "./ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "./ui/chart";
 import { Separator } from "./ui/separator";
@@ -32,10 +32,7 @@ export function Home() {
     return (
         <div className="chart-wrapper mx-auto flex max-w-6xl flex-col flex-wrap items-start justify-center gap-6 p-6 sm:flex-row sm:p-8">
             <div className="grid w-full gap-6 sm:grid-cols-2 lg:max-w-[22rem] lg:grid-cols-1 xl:max-w-[25rem]">
-                <Card
-                    className="lg:max-w-md"
-                    x-chunk="charts-01-chunk-0"
-                >
+                <Card className="lg:max-w-md" x-chunk="charts-01-chunk-0">
                     <CardHeader className="space-y-0 pb-2">
                         <CardDescription>Today</CardDescription>
                         <CardTitle className="text-4xl tabular-nums">
@@ -50,45 +47,45 @@ export function Home() {
                             config={{
                                 steps: {
                                     label: "Steps",
-                                    color: "hsl(var(--chart-1))",
-                                },
+                                    color: "hsl(var(--chart-1))"
+                                }
                             }}
                         >
                             <BarChart
                                 accessibilityLayer
                                 margin={{
                                     left: -4,
-                                    right: -4,
+                                    right: -4
                                 }}
                                 data={[
                                     {
                                         date: "2024-01-01",
-                                        steps: 2000,
+                                        steps: 2000
                                     },
                                     {
                                         date: "2024-01-02",
-                                        steps: 2100,
+                                        steps: 2100
                                     },
                                     {
                                         date: "2024-01-03",
-                                        steps: 2200,
+                                        steps: 2200
                                     },
                                     {
                                         date: "2024-01-04",
-                                        steps: 1300,
+                                        steps: 1300
                                     },
                                     {
                                         date: "2024-01-05",
-                                        steps: 1400,
+                                        steps: 1400
                                     },
                                     {
                                         date: "2024-01-06",
-                                        steps: 2500,
+                                        steps: 2500
                                     },
                                     {
                                         date: "2024-01-07",
-                                        steps: 1600,
-                                    },
+                                        steps: 1600
+                                    }
                                 ]}
                             >
                                 <Bar
@@ -107,7 +104,7 @@ export function Home() {
                                         return new Date(
                                             value
                                         ).toLocaleDateString("en-US", {
-                                            weekday: "short",
+                                            weekday: "short"
                                         });
                                     }}
                                 />
@@ -122,7 +119,7 @@ export function Home() {
                                                 ).toLocaleDateString("en-US", {
                                                     day: "numeric",
                                                     month: "long",
-                                                    year: "numeric",
+                                                    year: "numeric"
                                                 });
                                             }}
                                         />
@@ -199,8 +196,8 @@ export function Home() {
                             config={{
                                 resting: {
                                     label: "Resting",
-                                    color: "hsl(var(--chart-1))",
-                                },
+                                    color: "hsl(var(--chart-1))"
+                                }
                             }}
                             className="w-full"
                         >
@@ -209,37 +206,37 @@ export function Home() {
                                 margin={{
                                     left: 14,
                                     right: 14,
-                                    top: 10,
+                                    top: 10
                                 }}
                                 data={[
                                     {
                                         date: "2024-01-01",
-                                        resting: 62,
+                                        resting: 62
                                     },
                                     {
                                         date: "2024-01-02",
-                                        resting: 72,
+                                        resting: 72
                                     },
                                     {
                                         date: "2024-01-03",
-                                        resting: 35,
+                                        resting: 35
                                     },
                                     {
                                         date: "2024-01-04",
-                                        resting: 62,
+                                        resting: 62
                                     },
                                     {
                                         date: "2024-01-05",
-                                        resting: 52,
+                                        resting: 52
                                     },
                                     {
                                         date: "2024-01-06",
-                                        resting: 62,
+                                        resting: 62
                                     },
                                     {
                                         date: "2024-01-07",
-                                        resting: 70,
-                                    },
+                                        resting: 70
+                                    }
                                 ]}
                             >
                                 <CartesianGrid
@@ -261,7 +258,7 @@ export function Home() {
                                         return new Date(
                                             value
                                         ).toLocaleDateString("en-US", {
-                                            weekday: "short",
+                                            weekday: "short"
                                         });
                                     }}
                                 />
@@ -275,7 +272,7 @@ export function Home() {
                                     activeDot={{
                                         fill: "var(--color-resting)",
                                         stroke: "var(--color-resting)",
-                                        r: 4,
+                                        r: 4
                                     }}
                                 />
                                 <ChartTooltip
@@ -288,7 +285,7 @@ export function Home() {
                                                 ).toLocaleDateString("en-US", {
                                                     day: "numeric",
                                                     month: "long",
-                                                    year: "numeric",
+                                                    year: "numeric"
                                                 });
                                             }}
                                         />
@@ -301,10 +298,7 @@ export function Home() {
                 </Card>
             </div>
             <div className="grid w-full flex-1 gap-6 lg:max-w-[20rem]">
-                <Card
-                    className="max-w-xs"
-                    x-chunk="charts-01-chunk-2"
-                >
+                <Card className="max-w-xs" x-chunk="charts-01-chunk-2">
                     <CardHeader>
                         <CardTitle>Progress</CardTitle>
                         <CardDescription>
@@ -324,8 +318,8 @@ export function Home() {
                                 config={{
                                     steps: {
                                         label: "Steps",
-                                        color: "hsl(var(--chart-1))",
-                                    },
+                                        color: "hsl(var(--chart-1))"
+                                    }
                                 }}
                                 className="aspect-auto h-[32px] w-full"
                             >
@@ -336,13 +330,13 @@ export function Home() {
                                         left: 0,
                                         top: 0,
                                         right: 0,
-                                        bottom: 0,
+                                        bottom: 0
                                     }}
                                     data={[
                                         {
                                             date: "2024",
-                                            steps: 12435,
-                                        },
+                                            steps: 12435
+                                        }
                                     ]}
                                 >
                                     <Bar
@@ -365,11 +359,7 @@ export function Home() {
                                         tickCount={1}
                                         hide
                                     />
-                                    <XAxis
-                                        dataKey="steps"
-                                        type="number"
-                                        hide
-                                    />
+                                    <XAxis dataKey="steps" type="number" hide />
                                 </BarChart>
                             </ChartContainer>
                         </div>
@@ -384,8 +374,8 @@ export function Home() {
                                 config={{
                                     steps: {
                                         label: "Steps",
-                                        color: "hsl(var(--muted))",
-                                    },
+                                        color: "hsl(var(--muted))"
+                                    }
                                 }}
                                 className="aspect-auto h-[32px] w-full"
                             >
@@ -396,13 +386,13 @@ export function Home() {
                                         left: 0,
                                         top: 0,
                                         right: 0,
-                                        bottom: 0,
+                                        bottom: 0
                                     }}
                                     data={[
                                         {
                                             date: "2023",
-                                            steps: 10103,
-                                        },
+                                            steps: 10103
+                                        }
                                     ]}
                                 >
                                     <Bar
@@ -425,20 +415,13 @@ export function Home() {
                                         tickCount={1}
                                         hide
                                     />
-                                    <XAxis
-                                        dataKey="steps"
-                                        type="number"
-                                        hide
-                                    />
+                                    <XAxis dataKey="steps" type="number" hide />
                                 </BarChart>
                             </ChartContainer>
                         </div>
                     </CardContent>
                 </Card>
-                <Card
-                    className="max-w-xs"
-                    x-chunk="charts-01-chunk-3"
-                >
+                <Card className="max-w-xs" x-chunk="charts-01-chunk-3">
                     <CardHeader className="p-4 pb-0">
                         <CardTitle>Walking Distance</CardTitle>
                         <CardDescription>
@@ -457,8 +440,8 @@ export function Home() {
                             config={{
                                 steps: {
                                     label: "Steps",
-                                    color: "hsl(var(--chart-1))",
-                                },
+                                    color: "hsl(var(--chart-1))"
+                                }
                             }}
                             className="ml-auto w-[72px]"
                         >
@@ -468,37 +451,37 @@ export function Home() {
                                     left: 0,
                                     right: 0,
                                     top: 0,
-                                    bottom: 0,
+                                    bottom: 0
                                 }}
                                 data={[
                                     {
                                         date: "2024-01-01",
-                                        steps: 2000,
+                                        steps: 2000
                                     },
                                     {
                                         date: "2024-01-02",
-                                        steps: 2100,
+                                        steps: 2100
                                     },
                                     {
                                         date: "2024-01-03",
-                                        steps: 2200,
+                                        steps: 2200
                                     },
                                     {
                                         date: "2024-01-04",
-                                        steps: 1300,
+                                        steps: 1300
                                     },
                                     {
                                         date: "2024-01-05",
-                                        steps: 1400,
+                                        steps: 1400
                                     },
                                     {
                                         date: "2024-01-06",
-                                        steps: 2500,
+                                        steps: 2500
                                     },
                                     {
                                         date: "2024-01-07",
-                                        steps: 1600,
-                                    },
+                                        steps: 1600
+                                    }
                                 ]}
                             >
                                 <Bar
@@ -520,25 +503,22 @@ export function Home() {
                         </ChartContainer>
                     </CardContent>
                 </Card>
-                <Card
-                    className="max-w-xs"
-                    x-chunk="charts-01-chunk-4"
-                >
+                <Card className="max-w-xs" x-chunk="charts-01-chunk-4">
                     <CardContent className="flex gap-4 p-4 pb-2">
                         <ChartContainer
                             config={{
                                 move: {
                                     label: "Move",
-                                    color: "hsl(var(--chart-1))",
+                                    color: "hsl(var(--chart-1))"
                                 },
                                 stand: {
                                     label: "Stand",
-                                    color: "hsl(var(--chart-2))",
+                                    color: "hsl(var(--chart-2))"
                                 },
                                 exercise: {
                                     label: "Exercise",
-                                    color: "hsl(var(--chart-3))",
-                                },
+                                    color: "hsl(var(--chart-3))"
+                                }
                             }}
                             className="h-[140px] w-full"
                         >
@@ -547,37 +527,33 @@ export function Home() {
                                     left: 0,
                                     right: 0,
                                     top: 0,
-                                    bottom: 10,
+                                    bottom: 10
                                 }}
                                 data={[
                                     {
                                         activity: "stand",
                                         value: (8 / 12) * 100,
                                         label: "8/12 hr",
-                                        fill: "var(--color-stand)",
+                                        fill: "var(--color-stand)"
                                     },
                                     {
                                         activity: "exercise",
                                         value: (46 / 60) * 100,
                                         label: "46/60 min",
-                                        fill: "var(--color-exercise)",
+                                        fill: "var(--color-exercise)"
                                     },
                                     {
                                         activity: "move",
                                         value: (245 / 360) * 100,
                                         label: "245/360 kcal",
-                                        fill: "var(--color-move)",
-                                    },
+                                        fill: "var(--color-move)"
+                                    }
                                 ]}
                                 layout="vertical"
                                 barSize={32}
                                 barGap={2}
                             >
-                                <XAxis
-                                    type="number"
-                                    dataKey="value"
-                                    hide
-                                />
+                                <XAxis type="number" dataKey="value" hide />
                                 <YAxis
                                     dataKey="activity"
                                     type="category"
@@ -586,10 +562,7 @@ export function Home() {
                                     axisLine={false}
                                     className="capitalize"
                                 />
-                                <Bar
-                                    dataKey="value"
-                                    radius={5}
-                                >
+                                <Bar dataKey="value" radius={5}>
                                     <LabelList
                                         position="insideLeft"
                                         dataKey="label"
@@ -649,10 +622,7 @@ export function Home() {
                 </Card>
             </div>
             <div className="grid w-full flex-1 gap-6">
-                <Card
-                    className="max-w-xs"
-                    x-chunk="charts-01-chunk-5"
-                >
+                <Card className="max-w-xs" x-chunk="charts-01-chunk-5">
                     <CardContent className="flex gap-4 p-4">
                         <div className="grid items-center gap-2">
                             <div className="grid flex-1 auto-rows-min gap-0.5">
@@ -693,16 +663,16 @@ export function Home() {
                             config={{
                                 move: {
                                     label: "Move",
-                                    color: "hsl(var(--chart-1))",
+                                    color: "hsl(var(--chart-1))"
                                 },
                                 exercise: {
                                     label: "Exercise",
-                                    color: "hsl(var(--chart-2))",
+                                    color: "hsl(var(--chart-2))"
                                 },
                                 stand: {
                                     label: "Stand",
-                                    color: "hsl(var(--chart-3))",
-                                },
+                                    color: "hsl(var(--chart-3))"
+                                }
                             }}
                             className="mx-auto aspect-square w-full max-w-[80%]"
                         >
@@ -711,24 +681,24 @@ export function Home() {
                                     left: -10,
                                     right: -10,
                                     top: -10,
-                                    bottom: -10,
+                                    bottom: -10
                                 }}
                                 data={[
                                     {
                                         activity: "stand",
                                         value: (8 / 12) * 100,
-                                        fill: "var(--color-stand)",
+                                        fill: "var(--color-stand)"
                                     },
                                     {
                                         activity: "exercise",
                                         value: (46 / 60) * 100,
-                                        fill: "var(--color-exercise)",
+                                        fill: "var(--color-exercise)"
                                     },
                                     {
                                         activity: "move",
                                         value: (245 / 360) * 100,
-                                        fill: "var(--color-move)",
-                                    },
+                                        fill: "var(--color-move)"
+                                    }
                                 ]}
                                 innerRadius="20%"
                                 barSize={24}
@@ -750,10 +720,7 @@ export function Home() {
                         </ChartContainer>
                     </CardContent>
                 </Card>
-                <Card
-                    className="max-w-xs"
-                    x-chunk="charts-01-chunk-6"
-                >
+                <Card className="max-w-xs" x-chunk="charts-01-chunk-6">
                     <CardHeader className="p-4 pb-0">
                         <CardTitle>Active Energy</CardTitle>
                         <CardDescription>
@@ -772,8 +739,8 @@ export function Home() {
                             config={{
                                 calories: {
                                     label: "Calories",
-                                    color: "hsl(var(--chart-1))",
-                                },
+                                    color: "hsl(var(--chart-1))"
+                                }
                             }}
                             className="ml-auto w-[64px]"
                         >
@@ -783,37 +750,37 @@ export function Home() {
                                     left: 0,
                                     right: 0,
                                     top: 0,
-                                    bottom: 0,
+                                    bottom: 0
                                 }}
                                 data={[
                                     {
                                         date: "2024-01-01",
-                                        calories: 354,
+                                        calories: 354
                                     },
                                     {
                                         date: "2024-01-02",
-                                        calories: 514,
+                                        calories: 514
                                     },
                                     {
                                         date: "2024-01-03",
-                                        calories: 345,
+                                        calories: 345
                                     },
                                     {
                                         date: "2024-01-04",
-                                        calories: 734,
+                                        calories: 734
                                     },
                                     {
                                         date: "2024-01-05",
-                                        calories: 645,
+                                        calories: 645
                                     },
                                     {
                                         date: "2024-01-06",
-                                        calories: 456,
+                                        calories: 456
                                     },
                                     {
                                         date: "2024-01-07",
-                                        calories: 345,
-                                    },
+                                        calories: 345
+                                    }
                                 ]}
                             >
                                 <Bar
@@ -835,10 +802,7 @@ export function Home() {
                         </ChartContainer>
                     </CardContent>
                 </Card>
-                <Card
-                    className="max-w-xs"
-                    x-chunk="charts-01-chunk-7"
-                >
+                <Card className="max-w-xs" x-chunk="charts-01-chunk-7">
                     <CardHeader className="space-y-0 pb-0">
                         <CardDescription>Time in Bed</CardDescription>
                         <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
@@ -857,8 +821,8 @@ export function Home() {
                             config={{
                                 time: {
                                     label: "Time",
-                                    color: "hsl(var(--chart-2))",
-                                },
+                                    color: "hsl(var(--chart-2))"
+                                }
                             }}
                         >
                             <AreaChart
@@ -866,44 +830,41 @@ export function Home() {
                                 data={[
                                     {
                                         date: "2024-01-01",
-                                        time: 8.5,
+                                        time: 8.5
                                     },
                                     {
                                         date: "2024-01-02",
-                                        time: 7.2,
+                                        time: 7.2
                                     },
                                     {
                                         date: "2024-01-03",
-                                        time: 8.1,
+                                        time: 8.1
                                     },
                                     {
                                         date: "2024-01-04",
-                                        time: 6.2,
+                                        time: 6.2
                                     },
                                     {
                                         date: "2024-01-05",
-                                        time: 5.2,
+                                        time: 5.2
                                     },
                                     {
                                         date: "2024-01-06",
-                                        time: 8.1,
+                                        time: 8.1
                                     },
                                     {
                                         date: "2024-01-07",
-                                        time: 7.0,
-                                    },
+                                        time: 7.0
+                                    }
                                 ]}
                                 margin={{
                                     left: 0,
                                     right: 0,
                                     top: 0,
-                                    bottom: 0,
+                                    bottom: 0
                                 }}
                             >
-                                <XAxis
-                                    dataKey="date"
-                                    hide
-                                />
+                                <XAxis dataKey="date" hide />
                                 <YAxis
                                     domain={["dataMin - 5", "dataMax + 2"]}
                                     hide

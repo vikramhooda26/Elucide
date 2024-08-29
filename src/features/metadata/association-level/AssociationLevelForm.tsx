@@ -30,21 +30,19 @@ function AssociationLevelForm() {
     const form = useForm<TAssociationSchema>({
         resolver: zodResolver(associationSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
         const fetchAssociationLevelDetails = async (id: string) => {
             try {
                 setIsLoading(true);
-                const response = await MetadataService.getOneAssociationLevel(
-                    id
-                );
+                const response =
+                    await MetadataService.getOneAssociationLevel(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        associationLevelName:
-                            response.data.associationLevelName,
+                        associationLevelName: response.data.associationLevelName
                     });
                 }
             } catch (error) {
@@ -77,7 +75,7 @@ function AssociationLevelForm() {
 
             const requestBody = {
                 ...associationLevelFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
 
             if (id) {
@@ -92,14 +90,13 @@ function AssociationLevelForm() {
                 return;
             }
 
-            const response = await MetadataService.createAssociationLevel(
-                requestBody
-            );
+            const response =
+                await MetadataService.createAssociationLevel(requestBody);
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Association level created successfully");
                 form.reset({
-                    associationLevelName: "",
+                    associationLevelName: ""
                 });
             }
         } catch (error) {

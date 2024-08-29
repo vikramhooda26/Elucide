@@ -2,7 +2,7 @@ import {
     Card,
     CardContent,
     CardHeader,
-    CardTitle,
+    CardTitle
 } from "../../../components/ui/card";
 import { Overview } from "../components/overview";
 import BrandRecentList from "./component/BrandRecentList";

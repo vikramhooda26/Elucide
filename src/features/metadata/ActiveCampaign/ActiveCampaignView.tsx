@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function ActiveCampaignView() {
-  return (
-    <div>ActiveCampaignView</div>
-  )
+    return <div>ActiveCampaignView</div>;
 }
 
 export default ActiveCampaignView;

@@ -8,7 +8,7 @@ import {
     CommandGroup,
     CommandInput,
     CommandItem,
-    CommandList,
+    CommandList
 } from "./command";
 import { ScrollArea } from "./scroll-area";
 
@@ -38,7 +38,7 @@ const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
             options,
             value,
             onChange,
-            multiple,
+            multiple
         },
         ref
     ) => {
@@ -63,10 +63,7 @@ const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
         };
 
         return (
-            <Popover
-                open={isOpen}
-                onOpenChange={setIsOpen}
-            >
+            <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>
                     <div
                         className={cn(
@@ -78,7 +75,7 @@ const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
                             className={cn(
                                 "items-center gap-1 overflow-hidden text-sm",
                                 multiple
-                                    ? "flex flex-grow flex-wrap "
+                                    ? "flex flex-grow flex-wrap"
                                     : "inline-flex whitespace-nowrap"
                             )}
                         >

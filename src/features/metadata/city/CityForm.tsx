@@ -30,8 +30,8 @@ function CityForm() {
     const form = useForm<TCityFormSchema>({
         resolver: zodResolver(cityFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ function CityForm() {
                 const response = await MetadataService.getOneCity(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        cityName: response.data.cityName,
+                        cityName: response.data.cityName
                     });
                 }
             } catch (error) {
@@ -73,7 +73,7 @@ function CityForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...cityFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editCity(
@@ -89,7 +89,7 @@ function CityForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("City created successfully");
                 form.reset({
-                    cityName: "",
+                    cityName: ""
                 });
             }
         } catch (error) {
@@ -131,10 +131,7 @@ function CityForm() {
                     name="cityName"
                     render={({ field }) => (
                         <FormItemWrapper label="City name">
-                            <Input
-                                {...field}
-                                placeholder="City name"
-                            />
+                            <Input {...field} placeholder="City name" />
                         </FormItemWrapper>
                     )}
                 />

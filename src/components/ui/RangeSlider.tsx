@@ -35,8 +35,8 @@ const RangeSlider = React.forwardRef(
         const initialValue = Array.isArray(value)
             ? value
             : isSingle
-            ? [min]
-            : [min, max];
+              ? [min]
+              : [min, max];
 
         const [localValues, setLocalValues] = useState(initialValue);
 
@@ -64,7 +64,7 @@ const RangeSlider = React.forwardRef(
                 value={localValues}
                 onValueChange={handleValueChange}
                 className={cn(
-                    "relative flex w-full touch-none select-none mb-6 items-center",
+                    "relative mb-6 flex w-full touch-none select-none items-center",
                     className
                 )}
                 {...props}
@@ -80,7 +80,7 @@ const RangeSlider = React.forwardRef(
                                 left: `calc(${
                                     ((value - min) / (max - min)) * 100
                                 }% + 0px)`,
-                                top: `10px`,
+                                top: `10px`
                             }}
                         >
                             <span className="text-sm">

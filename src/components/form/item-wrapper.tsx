@@ -7,7 +7,7 @@ type TFormItemWrapperProps = {
 
 export const FormItemWrapper: React.FC<TFormItemWrapperProps> = ({
     label,
-    children,
+    children
 }): JSX.Element => {
     return (
         <FormItem>

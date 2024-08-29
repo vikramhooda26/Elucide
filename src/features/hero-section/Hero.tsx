@@ -8,7 +8,7 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 
 export const Hero = ({
     words,
-    approachRef,
+    approachRef
 }: {
     words: string[];
     approachRef: React.RefObject<HTMLDivElement>;
@@ -19,7 +19,7 @@ export const Hero = ({
     const handleScrollToApproach = () => {
         approachRef.current?.scrollIntoView({
             behavior: "smooth",
-            block: "start",
+            block: "start"
         });
     };
 
@@ -28,18 +28,18 @@ export const Hero = ({
             backgroundColor="black"
             rangeY={400}
             particleCount={150}
-            className="flex flex-col items-center justify-center px-4 md:px-10 py-4 w-full sm:min-h-dvh max-sm:py-40"
+            className="flex w-full flex-col items-center justify-center px-4 py-4 max-sm:py-40 sm:min-h-dvh md:px-10"
         >
-            <h2 className="text-white text-3xl sm:text-5xl font-bold sm:text-center text-start">
+            <h2 className="text-start text-3xl font-bold text-white sm:text-center sm:text-5xl">
                 Hub of Information on Hundreds of <FlipWords words={words} />
             </h2>
-            <p className="text-white sm:max-w-md md:text-2xl md:max-w-2xl my-6 sm:text-center text-start">
+            <p className="my-6 text-start text-white sm:max-w-md sm:text-center md:max-w-2xl md:text-2xl">
                 An end-to-end sports sponsorship service centered around an
                 AI-enhanced matchmaking platform, designed to discover and
                 engage with the ideal sports teams, leagues, athletes, and
                 events.
             </p>
-            <div className="gap-5 flex max-sm:flex-col sm:items-center items-start w-full justify-center">
+            <div className="flex w-full items-start justify-center gap-5 max-sm:flex-col sm:items-center">
                 <GradientButton
                     onClick={() =>
                         isAuthenticated
@@ -55,7 +55,7 @@ export const Hero = ({
                     onClick={handleScrollToApproach}
                 >
                     See more{" "}
-                    <ChevronRight className="ml-1 h-4 w-4 duration-200 ease-in-out group-hover:translate-x-1 text-white" />
+                    <ChevronRight className="ml-1 h-4 w-4 text-white duration-200 ease-in-out group-hover:translate-x-1" />
                 </GradientButton>
             </div>
         </Vortex>

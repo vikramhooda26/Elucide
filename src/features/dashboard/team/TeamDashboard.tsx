@@ -1,10 +1,14 @@
 import { Users } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle
+} from "../../../components/ui/card";
 import { Overview } from "../components/overview";
 import TeamRecentList from "./component/TeamRecentList";
 
 function TeamDashboard() {
-
     return (
         <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
@@ -20,7 +24,7 @@ function TeamDashboard() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8"> */}
                 <TeamRecentList />
             </div>
-        </ >
+        </>
     );
 }
 

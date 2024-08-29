@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     persoanlityFormSchema,
-    TPersonalityFormSchema,
+    TPersonalityFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
@@ -33,8 +33,8 @@ function PersonalityForm() {
     const form = useForm<TPersonalityFormSchema>({
         resolver: zodResolver(persoanlityFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -44,7 +44,7 @@ function PersonalityForm() {
                 const response = await MetadataService.getOnePersonality(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        personalityName: response.data.personalityName,
+                        personalityName: response.data.personalityName
                     });
                 }
             } catch (error) {
@@ -76,7 +76,7 @@ function PersonalityForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...personalityFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editMainPersonality(
@@ -88,13 +88,12 @@ function PersonalityForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createMainPersonality(
-                requestBody
-            );
+            const response =
+                await MetadataService.createMainPersonality(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Main Personality created successfully");
                 form.reset({
-                    personalityName: "",
+                    personalityName: ""
                 });
             }
         } catch (error) {
@@ -136,10 +135,7 @@ function PersonalityForm() {
                     name="personalityName"
                     render={({ field }) => (
                         <FormItemWrapper label="Main Personality">
-                            <Input
-                                {...field}
-                                placeholder="Main Personality"
-                            />
+                            <Input {...field} placeholder="Main Personality" />
                         </FormItemWrapper>
                     )}
                 />

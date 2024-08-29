@@ -8,7 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 export function DatePicker({
     placeholder = "date",
     value,
-    onChange,
+    onChange
 }: {
     placeholder: string;
     value: Date | undefined;
@@ -19,7 +19,7 @@ export function DatePicker({
             <PopoverTrigger asChild>
                 <Button
                     className={cn(
-                        " pl-3 text-left font-normal",
+                        "pl-3 text-left font-normal",
                         !value && "text-muted-foreground"
                     )}
                     variant="outline"
@@ -32,10 +32,7 @@ export function DatePicker({
                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent
-                align="start"
-                className="w-auto p-2"
-            >
+            <PopoverContent align="start" className="w-auto p-2">
                 <CalendarComponent
                     initialFocus
                     mode="single"

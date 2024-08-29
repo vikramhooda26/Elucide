@@ -2,7 +2,7 @@ import { cn } from "../../lib/utils";
 
 export const AnimatedGradientText = ({
     children,
-    className,
+    className
 }: {
     children: React.ReactNode;
     className?: string;

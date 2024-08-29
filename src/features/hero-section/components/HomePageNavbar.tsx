@@ -8,15 +8,15 @@ export const HomePageNavbar: React.FC = (): JSX.Element => {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
     return (
-        <div className="border-b px-10 bg-black">
+        <div className="border-b bg-black px-10">
             <div className="flex h-20 items-center px-4">
                 <div
-                    className="h-8 cursor-pointer w-full flex items-center max-sm:justify-center"
+                    className="flex h-8 w-full cursor-pointer items-center max-sm:justify-center"
                     onClick={() => navigate(NAVIGATION_ROUTES.HOME)}
                 >
                     <img
                         src={Logo}
-                        className="object-contain h-full object-center"
+                        className="h-full object-contain object-center"
                     />
                 </div>
 

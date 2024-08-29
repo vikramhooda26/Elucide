@@ -16,7 +16,7 @@ export function useStateHistory<T>(
 ): [T, UseStateHistoryHandlers<T>, StateHistory<T>] {
     const [state, setState] = useState<StateHistory<T>>({
         history: [initialValue],
-        current: 0,
+        current: 0
     });
 
     const set = useCallback(
@@ -24,11 +24,11 @@ export function useStateHistory<T>(
             setState((currentState) => {
                 const nextState = [
                     ...currentState.history.slice(0, currentState.current + 1),
-                    val,
+                    val
                 ];
                 return {
                     history: nextState,
-                    current: nextState.length - 1,
+                    current: nextState.length - 1
                 };
             }),
         []
@@ -38,7 +38,7 @@ export function useStateHistory<T>(
         (steps = 1) =>
             setState((currentState) => ({
                 history: currentState.history,
-                current: Math.max(0, currentState.current - steps),
+                current: Math.max(0, currentState.current - steps)
             })),
         []
     );
@@ -50,7 +50,7 @@ export function useStateHistory<T>(
                 current: Math.min(
                     currentState.history.length - 1,
                     currentState.current + steps
-                ),
+                )
             })),
         []
     );

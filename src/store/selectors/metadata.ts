@@ -9,5 +9,5 @@ export const metadataStoreSelector = selector({
     },
     set: ({ set }, newValue) => {
         set(metadataStoreAtom, newValue);
-    },
+    }
 });

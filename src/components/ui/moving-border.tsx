@@ -4,7 +4,7 @@ import {
     useAnimationFrame,
     useMotionTemplate,
     useMotionValue,
-    useTransform,
+    useTransform
 } from "framer-motion";
 import { useRef } from "react";
 import { cn } from "../../lib/utils";
@@ -31,11 +31,11 @@ export function MovingBorderCard({
     return (
         <Component
             className={cn(
-                "bg-transparent relative text-xl p-[1px] overflow-hidden h-full",
+                "relative h-full overflow-hidden bg-transparent p-[1px] text-xl",
                 containerClassName
             )}
             style={{
-                borderRadius: borderRadius,
+                borderRadius: borderRadius
             }}
             {...otherProps}
         >
@@ -43,14 +43,10 @@ export function MovingBorderCard({
                 className="absolute inset-0"
                 style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
             >
-                <MovingBorder
-                    duration={duration}
-                    rx="30%"
-                    ry="30%"
-                >
+                <MovingBorder duration={duration} rx="30%" ry="30%">
                     <div
                         className={cn(
-                            "h-20 w-20 opacity-[0.8] bg-[radial-gradient(var(--sky-500)_40%,transparent_60%)]",
+                            "h-20 w-20 bg-[radial-gradient(var(--sky-500)_40%,transparent_60%)] opacity-[0.8]",
                             borderClassName
                         )}
                     />
@@ -59,11 +55,11 @@ export function MovingBorderCard({
 
             <div
                 className={cn(
-                    "relative bg-slate-900/[0.8] border border-slate-800 backdrop-blur-xl text-white h-full max-w-2xl text-sm antialiased",
+                    "relative h-full max-w-2xl border border-slate-800 bg-slate-900/[0.8] text-sm text-white antialiased backdrop-blur-xl",
                     className
                 )}
                 style={{
-                    borderRadius: `calc(${borderRadius} * 0.96)`,
+                    borderRadius: `calc(${borderRadius} * 0.96)`
                 }}
             >
                 {children}
@@ -132,7 +128,7 @@ export const MovingBorder = ({
                     top: 0,
                     left: 0,
                     display: "inline-block",
-                    transform,
+                    transform
                 }}
             >
                 {children}

@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     parentOrgFormSchema,
-    TParentOrgFormSchema,
+    TParentOrgFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
@@ -33,8 +33,8 @@ function ParentOrgForm() {
     const form = useForm<TParentOrgFormSchema>({
         resolver: zodResolver(parentOrgFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -44,7 +44,7 @@ function ParentOrgForm() {
                 const response = await MetadataService.getOneParentOrg(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        parentOrgName: response.data.parentOrgName,
+                        parentOrgName: response.data.parentOrgName
                     });
                 }
             } catch (error) {
@@ -76,7 +76,7 @@ function ParentOrgForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...parentOrgFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editParentOrg(
@@ -92,7 +92,7 @@ function ParentOrgForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Parent Organization created successfully");
                 form.reset({
-                    parentOrgName: "",
+                    parentOrgName: ""
                 });
             }
         } catch (error) {
@@ -134,10 +134,7 @@ function ParentOrgForm() {
                     name="parentOrgName"
                     render={({ field }) => (
                         <FormItemWrapper label="Parent org name">
-                            <Input
-                                {...field}
-                                placeholder="Parent org name"
-                            />
+                            <Input {...field} placeholder="Parent org name" />
                         </FormItemWrapper>
                     )}
                 />

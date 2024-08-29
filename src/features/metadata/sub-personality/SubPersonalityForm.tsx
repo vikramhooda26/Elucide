@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     subpersonalityFormSchema,
-    TSubpersonalityFormSchema,
+    TSubpersonalityFormSchema
 } from "./constants/metadata";
 import { metadataStoreAtom } from "../../../store/atoms/metadata";
 import { getMetadata } from "../../utils/metadataUtils";
@@ -39,8 +39,8 @@ function SubPersonalityForm() {
     const form = useForm<TSubpersonalityFormSchema>({
         resolver: zodResolver(subpersonalityFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -48,7 +48,7 @@ function SubPersonalityForm() {
             try {
                 setIsFetchingMetadata(true);
                 await getMetadata(metadataStore, setMetadataStore, {
-                    MAIN_PERSONALITY: "mainpersonality",
+                    MAIN_PERSONALITY: "mainpersonality"
                 });
             } catch (error) {
                 console.error(error);
@@ -77,7 +77,7 @@ function SubPersonalityForm() {
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
                         subpersonalityName: response.data.subpersonalityName,
-                        mainPersonalityId: response.data.personality.id,
+                        mainPersonalityId: response.data.personality.id
                     });
                 }
             } catch (error) {
@@ -111,7 +111,7 @@ function SubPersonalityForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...subpersonalityFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editSubPersonality(
@@ -123,14 +123,13 @@ function SubPersonalityForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createSubpersonality(
-                requestBody
-            );
+            const response =
+                await MetadataService.createSubpersonality(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sub Personality created successfully");
                 form.reset({
                     subpersonalityName: "",
-                    mainPersonalityId: "",
+                    mainPersonalityId: ""
                 });
             }
         } catch (error) {

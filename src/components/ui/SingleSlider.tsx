@@ -21,8 +21,8 @@ const SingleSlider = React.forwardRef<
             {props.value?.map((value, index) => {
                 return (
                     <React.Fragment key={index}>
-                        <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 relative">
-                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 z-30 rounded-md border bg-popover text-popover-foreground shadow-sm px-2">
+                        <SliderPrimitive.Thumb className="relative block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                            <div className="absolute -top-8 left-1/2 z-30 -translate-x-1/2 transform rounded-md border bg-popover px-2 text-popover-foreground shadow-sm">
                                 {value}
                             </div>
                         </SliderPrimitive.Thumb>

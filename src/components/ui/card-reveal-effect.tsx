@@ -10,7 +10,7 @@ export const CanvasRevealEffect = ({
     colors = [[0, 255, 255]],
     containerClassName,
     dotSize,
-    showGradient = true,
+    showGradient = true
 }: {
     /**
      * 0.1 - slower
@@ -26,7 +26,7 @@ export const CanvasRevealEffect = ({
     return (
         <div
             className={cn(
-                "h-full relative bg-white w-full",
+                "relative h-full w-full bg-white",
                 containerClassName
             )}
         >
@@ -36,7 +36,7 @@ export const CanvasRevealEffect = ({
                     dotSize={dotSize ?? 3}
                     opacities={
                         opacities ?? [
-                            0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.8, 0.8, 0.8, 1,
+                            0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.8, 0.8, 0.8, 1
                         ]
                     }
                     shader={`
@@ -70,7 +70,7 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
     totalSize = 4,
     dotSize = 2,
     shader = "",
-    center = ["x", "y"],
+    center = ["x", "y"]
 }) => {
     const uniforms = React.useMemo(() => {
         let colorsArray = [
@@ -79,7 +79,7 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
             colors[0],
             colors[0],
             colors[0],
-            colors[0],
+            colors[0]
         ];
         if (colors.length === 2) {
             colorsArray = [
@@ -88,7 +88,7 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
                 colors[0],
                 colors[1],
                 colors[1],
-                colors[1],
+                colors[1]
             ];
         } else if (colors.length === 3) {
             colorsArray = [
@@ -97,7 +97,7 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
                 colors[1],
                 colors[1],
                 colors[2],
-                colors[2],
+                colors[2]
             ];
         }
 
@@ -106,22 +106,22 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
                 value: colorsArray.map((color) => [
                     color[0] / 255,
                     color[1] / 255,
-                    color[2] / 255,
+                    color[2] / 255
                 ]),
-                type: "uniform3fv",
+                type: "uniform3fv"
             },
             u_opacities: {
                 value: opacities,
-                type: "uniform1fv",
+                type: "uniform1fv"
             },
             u_total_size: {
                 value: totalSize,
-                type: "uniform1f",
+                type: "uniform1f"
             },
             u_dot_size: {
                 value: dotSize,
-                type: "uniform1f",
-            },
+                type: "uniform1f"
+            }
         };
     }, [colors, opacities, totalSize, dotSize]);
 
@@ -191,7 +191,7 @@ type Uniforms = {
 const ShaderMaterial = ({
     source,
     uniforms,
-    maxFps = 60,
+    maxFps = 60
 }: {
     source: string;
     hovered?: boolean;
@@ -225,19 +225,19 @@ const ShaderMaterial = ({
                 case "uniform1f":
                     preparedUniforms[uniformName] = {
                         value: uniform.value,
-                        type: "1f",
+                        type: "1f"
                     };
                     break;
                 case "uniform3f":
                     preparedUniforms[uniformName] = {
                         value: new THREE.Vector3().fromArray(uniform.value),
-                        type: "3f",
+                        type: "3f"
                     };
                     break;
                 case "uniform1fv":
                     preparedUniforms[uniformName] = {
                         value: uniform.value,
-                        type: "1fv",
+                        type: "1fv"
                     };
                     break;
                 case "uniform3fv":
@@ -245,13 +245,13 @@ const ShaderMaterial = ({
                         value: uniform.value.map((v: number[]) =>
                             new THREE.Vector3().fromArray(v)
                         ),
-                        type: "3fv",
+                        type: "3fv"
                     };
                     break;
                 case "uniform2f":
                     preparedUniforms[uniformName] = {
                         value: new THREE.Vector2().fromArray(uniform.value),
-                        type: "2f",
+                        type: "2f"
                     };
                     break;
                 default:
@@ -262,7 +262,7 @@ const ShaderMaterial = ({
 
         preparedUniforms["u_time"] = { value: 0, type: "1f" };
         preparedUniforms["u_resolution"] = {
-            value: new THREE.Vector2(size.width * 2, size.height * 2),
+            value: new THREE.Vector2(size.width * 2, size.height * 2)
         }; // Initialize u_resolution
         return preparedUniforms;
     };
@@ -288,7 +288,7 @@ const ShaderMaterial = ({
             glslVersion: THREE.GLSL3,
             blending: THREE.CustomBlending,
             blendSrc: THREE.SrcAlphaFactor,
-            blendDst: THREE.OneFactor,
+            blendDst: THREE.OneFactor
         });
 
         return materialObject;
@@ -297,17 +297,14 @@ const ShaderMaterial = ({
     return (
         <mesh ref={ref as any}>
             <planeGeometry args={[2, 2]} />
-            <primitive
-                object={material}
-                attach="material"
-            />
+            <primitive object={material} attach="material" />
         </mesh>
     );
 };
 
 const Shader: React.FC<ShaderProps> = ({ source, uniforms, maxFps = 60 }) => {
     return (
-        <Canvas className="absolute inset-0  h-full w-full">
+        <Canvas className="absolute inset-0 h-full w-full">
             <ShaderMaterial
                 source={source}
                 uniforms={uniforms}
@@ -331,7 +328,7 @@ export const Card = ({
     title,
     icon,
     children,
-    description,
+    description
 }: {
     title: string;
     icon: React.ReactNode;
@@ -343,19 +340,19 @@ export const Card = ({
         <div
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className="border group/canvas-card flex items-center justify-center border-white/[0.2] max-w-sm w-full p-4 relative h-[35rem] rounded-3xl hover:rounded-none"
+            className="group/canvas-card relative flex h-[35rem] w-full max-w-sm items-center justify-center rounded-3xl border border-white/[0.2] p-4 hover:rounded-none"
         >
-            <Icon className="absolute h-6 w-6 -top-3 -left-3 text-white" />
-            <Icon className="absolute h-6 w-6 -bottom-3 -left-3 text-white" />
-            <Icon className="absolute h-6 w-6 -top-3 -right-3 text-white" />
-            <Icon className="absolute h-6 w-6 -bottom-3 -right-3 text-white" />
+            <Icon className="absolute -left-3 -top-3 h-6 w-6 text-white" />
+            <Icon className="absolute -bottom-3 -left-3 h-6 w-6 text-white" />
+            <Icon className="absolute -right-3 -top-3 h-6 w-6 text-white" />
+            <Icon className="absolute -bottom-3 -right-3 h-6 w-6 text-white" />
 
             <AnimatePresence>
                 {hovered && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="h-full w-full absolute inset-0"
+                        className="absolute inset-0 h-full w-full"
                     >
                         {children}
                     </motion.div>
@@ -363,13 +360,13 @@ export const Card = ({
             </AnimatePresence>
 
             <div className="relative z-20">
-                <div className="absolute left-[50%] top-[50%] mx-auto flex w-full  -translate-x-[50%] -translate-y-[50%] items-center justify-center text-center transition duration-200 group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0 pointer-events-none">
+                <div className="pointer-events-none absolute left-[50%] top-[50%] mx-auto flex w-full -translate-x-[50%] -translate-y-[50%] items-center justify-center text-center transition duration-200 group-hover/canvas-card:-translate-y-4 group-hover/canvas-card:opacity-0">
                     {icon}
                 </div>
-                <h2 className="text-white text-3xl opacity-0 group-hover/canvas-card:opacity-100 relative z-10 mt-4 font-bold group-hover/canvas-card:text-white group-hover/canvas-card:-translate-y-2 transition duration-200 text-center">
+                <h2 className="relative z-10 mt-4 text-center text-3xl font-bold text-white opacity-0 transition duration-200 group-hover/canvas-card:-translate-y-2 group-hover/canvas-card:text-white group-hover/canvas-card:opacity-100">
                     {title}
                 </h2>
-                <h2 className="text-white text-sm opacity-0 group-hover/canvas-card:opacity-100 relative z-10 mt-4 font-bold group-hover/canvas-card:text-white group-hover/canvas-card:-translate-y-2 transition duration-200 text-center">
+                <h2 className="relative z-10 mt-4 text-center text-sm font-bold text-white opacity-0 transition duration-200 group-hover/canvas-card:-translate-y-2 group-hover/canvas-card:text-white group-hover/canvas-card:opacity-100">
                     {description}
                 </h2>
             </div>

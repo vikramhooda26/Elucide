@@ -7,7 +7,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-    AlertDialogAction,
+    AlertDialogAction
 } from "./ui/alert-dialog";
 
 type TDialogBoxProps = {
@@ -33,7 +33,7 @@ export const Alert: React.FC<TDialogBoxProps> = ({
     positiveTitle = "Done",
     title,
     negativeOnClick,
-    PositiveButtonStyles,
+    PositiveButtonStyles
 }) => {
     return (
         <AlertDialog>

@@ -10,17 +10,17 @@ export const AboutUs = () => {
             <motion.h1
                 initial={{
                     opacity: 0,
-                    y: 20,
+                    y: 20
                 }}
                 animate={{
                     opacity: 1,
-                    y: [20, -5, 0],
+                    y: [20, -5, 0]
                 }}
                 transition={{
                     duration: 0.5,
-                    ease: [0.4, 0.0, 0.2, 1],
+                    ease: [0.4, 0.0, 0.2, 1]
                 }}
-                className="text-lg sm:text-2xl px-4 w-[98%] lg:max-w-7xl lg:text-4xl font-bold text-white !leading-relaxed sm:text-center text-start"
+                className="w-[98%] px-4 text-start text-lg font-bold !leading-relaxed text-white sm:text-center sm:text-2xl lg:max-w-7xl lg:text-4xl"
             >
                 At <Highlight>Elucide Sports</Highlight>, we leverage data and
                 insights through our proprietary matchmaking platform. We

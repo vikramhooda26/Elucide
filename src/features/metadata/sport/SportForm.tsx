@@ -30,8 +30,8 @@ function SportForm() {
     const form = useForm<TSportFormSchema>({
         resolver: zodResolver(sportFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ function SportForm() {
                 const response = await MetadataService.getOneSport(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        sportName: response.data.sportName,
+                        sportName: response.data.sportName
                     });
                 }
             } catch (error) {
@@ -73,7 +73,7 @@ function SportForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...sportFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editSport(
@@ -89,7 +89,7 @@ function SportForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sport created successfully");
                 form.reset({
-                    sportName: "",
+                    sportName: ""
                 });
             }
         } catch (error) {
@@ -131,10 +131,7 @@ function SportForm() {
                     name="sportName"
                     render={({ field }) => (
                         <FormItemWrapper label="Sport name">
-                            <Input
-                                {...field}
-                                placeholder="Sport name"
-                            />
+                            <Input {...field} placeholder="Sport name" />
                         </FormItemWrapper>
                     )}
                 />

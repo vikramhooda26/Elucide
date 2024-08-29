@@ -18,10 +18,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module",
         "project": "./tsconfig.json",
-        "extraFileExtensions": [
-            ".md",
-            ".json"
-        ]
+        "extraFileExtensions": [".md", ".json"]
     },
     "plugins": [
         "react",
@@ -31,10 +28,7 @@
         "import"
     ],
     "rules": {
-        "semi": [
-            2,
-            "always"
-        ],
+        "semi": [2, "always"],
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "react/react-in-jsx-scope": "off",
@@ -53,8 +47,6 @@
             "version": "detect"
         }
     },
-    "ignorePatterns": [
-        "vite.config.ts"
-    ],
+    "ignorePatterns": ["vite.config.ts"],
     "root": true
 }

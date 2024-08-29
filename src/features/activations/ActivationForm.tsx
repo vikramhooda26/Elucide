@@ -25,7 +25,7 @@ import {
     activationFormSchema,
     TActivationFormSchema,
     TEditActivationFormSchema,
-    TPartnerType,
+    TPartnerType
 } from "./constants/metadata";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
@@ -44,23 +44,23 @@ function ActivationForm() {
     const form = useForm<TActivationFormSchema>({
         resolver: zodResolver(activationFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     const getStakeholderType = (activationData: TEditActivationFormSchema) => {
         const partner: { type: TPartnerType; data: any } | undefined =
             (activationData.athlete?.id && {
                 type: "Athlete",
-                data: activationData.athlete.id,
+                data: activationData.athlete.id
             }) ||
             (activationData.team?.id && {
                 type: "Team",
-                data: activationData.team.id,
+                data: activationData.team.id
             }) ||
             (activationData.league?.id && {
                 type: "League",
-                data: activationData.league.id,
+                data: activationData.league.id
             }) ||
             undefined;
 
@@ -126,9 +126,9 @@ function ActivationForm() {
                         ...(partner?.type === "Athlete"
                             ? { athleteId: partner.data }
                             : partner?.type === "Team"
-                            ? { teamId: partner.data }
-                            : { leagueId: partner?.data }),
-                        userId: user?.id,
+                              ? { teamId: partner.data }
+                              : { leagueId: partner?.data }),
+                        userId: user?.id
                     });
                 }
             } catch (error) {
@@ -166,21 +166,21 @@ function ActivationForm() {
 
     const partnerTypeValue = useWatch({
         control: form.control,
-        name: "partnerType",
+        name: "partnerType"
     });
 
     const partnerType = [
         { value: "Team", label: "Team" },
         { value: "Athlete", label: "Athlete" },
-        { value: "League", label: "League" },
+        { value: "League", label: "League" }
     ];
 
     const getStakeholderTitle = () => {
         return partnerTypeValue === "Team"
             ? "Team"
             : partnerTypeValue === "League"
-            ? "League"
-            : "Athlete";
+              ? "League"
+              : "Athlete";
     };
 
     const getStakeholderName = () => {
@@ -218,9 +218,8 @@ function ActivationForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createActivation(
-                activationFormValues
-            );
+            const response =
+                await MetadataService.createActivation(activationFormValues);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Activation summary created successfully");
                 form.reset({
@@ -234,7 +233,7 @@ function ActivationForm() {
                     teamId: undefined,
                     typeIds: undefined,
                     userId: undefined,
-                    year: undefined,
+                    year: undefined
                 });
             }
         } catch (error) {
@@ -265,7 +264,7 @@ function ActivationForm() {
                             className="h-7 w-7"
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.ACTIVATION_LIST, {
-                                    replace: true,
+                                    replace: true
                                 })
                             }
                         >
@@ -289,7 +288,7 @@ function ActivationForm() {
                                     navigate(
                                         NAVIGATION_ROUTES.ACTIVATION_LIST,
                                         {
-                                            replace: true,
+                                            replace: true
                                         }
                                     )
                                 }
@@ -309,10 +308,7 @@ function ActivationForm() {
                             >
                                 <span>Save Activation</span>
                                 {isSubmitting && (
-                                    <ClipLoader
-                                        size={15}
-                                        color="#020817"
-                                    />
+                                    <ClipLoader size={15} color="#020817" />
                                 )}
                             </Button>
                         </div>
@@ -361,7 +357,7 @@ function ActivationForm() {
                                             />
                                         </div>
                                         <div className="grid gap-3">
-                                            <div className="grid gap-3 grid-cols-2">
+                                            <div className="grid grid-cols-2 gap-3">
                                                 <div className="grid gap-3">
                                                     <FormField
                                                         control={form.control}
@@ -432,8 +428,8 @@ function ActivationForm() {
                                 </CardWrapper>
 
                                 <CardWrapper title="Other details">
-                                    <div className="grid gap-6  ">
-                                        <div className="grid gap-3 grid-cols-3">
+                                    <div className="grid gap-6">
+                                        <div className="grid grid-cols-3 gap-3">
                                             <div className="grid gap-3">
                                                 <FormField
                                                     control={form.control}
@@ -536,11 +532,11 @@ function ActivationForm() {
                         </div>
                     )}
 
-                    <div className="flex items-center justify-center flex-col gap-3 md:hidden mt-3">
+                    <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
                         <Button
                             type="submit"
                             size="sm"
-                            className="w-full py-5 gap-1"
+                            className="w-full gap-1 py-5"
                             disabled={
                                 isSubmitting ||
                                 isFetchingDetails ||
@@ -549,10 +545,7 @@ function ActivationForm() {
                         >
                             <span>Save Activation</span>
                             {isSubmitting && (
-                                <ClipLoader
-                                    size={15}
-                                    color="#020817"
-                                />
+                                <ClipLoader size={15} color="#020817" />
                             )}
                         </Button>
                         <Button
@@ -566,7 +559,7 @@ function ActivationForm() {
                             }
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.ACTIVATION_LIST, {
-                                    replace: true,
+                                    replace: true
                                 })
                             }
                             type="button"

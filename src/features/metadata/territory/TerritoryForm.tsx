@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     territoryFormSchema,
-    TTerritoryFormSchema,
+    TTerritoryFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
@@ -33,8 +33,8 @@ function TerritoryForm() {
     const form = useForm<TTerritoryFormSchema>({
         resolver: zodResolver(territoryFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -44,7 +44,7 @@ function TerritoryForm() {
                 const response = await MetadataService.getOneTerritory(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        territoryName: response.data.territoryName,
+                        territoryName: response.data.territoryName
                     });
                 }
             } catch (error) {
@@ -76,7 +76,7 @@ function TerritoryForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...territoryFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editTerritory(
@@ -92,7 +92,7 @@ function TerritoryForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Territory created successfully");
                 form.reset({
-                    territoryName: "",
+                    territoryName: ""
                 });
             }
         } catch (error) {
@@ -134,10 +134,7 @@ function TerritoryForm() {
                     name="territoryName"
                     render={({ field }) => (
                         <FormItemWrapper label="Territory name">
-                            <Input
-                                {...field}
-                                placeholder="Territory name"
-                            />
+                            <Input {...field} placeholder="Territory name" />
                         </FormItemWrapper>
                     )}
                 />

@@ -51,15 +51,15 @@ const DashboardNavbar = () => {
     return (
         <div
             className={cn(
-                "border-b py-2 max-lg:z-[999] transition-all duration-500 ease-in-out w-full max-lg:fixed max-lg:top-0 bg-background",
+                "w-full border-b bg-background py-2 transition-all duration-500 ease-in-out max-lg:fixed max-lg:top-0 max-lg:z-[999]",
                 !isVisible && "pointer-events-none !-top-20"
             )}
         >
             <div className="flex h-16 items-center px-4">
-                <div className="text-2xl h-8 overflow-hidden cursor-pointer z-[9999]">
+                <div className="z-[9999] h-8 cursor-pointer overflow-hidden text-2xl">
                     <img
                         src={theme === "light" ? LightModeLogo : DarkModeLogo}
-                        className="object-contain object-center h-full"
+                        className="h-full object-contain object-center"
                         onClick={() => navigate(NAVIGATION_ROUTES.DASHBOARD)}
                     />
                 </div>
@@ -73,7 +73,7 @@ const DashboardNavbar = () => {
                             isActive={showDataEntryMenu}
                             setIsActive={setShowDataEntryMenu}
                             className={cn(
-                                "dark:stroke-white stroke-[#020817]",
+                                "stroke-[#020817] dark:stroke-white",
                                 showDataEntryMenu &&
                                     "stroke-white dark:stroke-white"
                             )}
@@ -83,7 +83,7 @@ const DashboardNavbar = () => {
                             isActive={showMenu}
                             setIsActive={setShowMenu}
                             className={cn(
-                                "dark:stroke-white stroke-[#020817]",
+                                "stroke-[#020817] dark:stroke-white",
                                 showMenu && "stroke-white dark:stroke-white"
                             )}
                         />
@@ -92,7 +92,7 @@ const DashboardNavbar = () => {
             </div>
             <div
                 className={cn(
-                    "fixed h-screen gap-5 lg:hidden top-0 w-full transition-all duration-500 ease-in-out z-50 flex flex-col justify-start py-24 items-start bg-[#020817]",
+                    "fixed top-0 z-50 flex h-screen w-full flex-col items-start justify-start gap-5 bg-[#020817] py-24 transition-all duration-500 ease-in-out lg:hidden",
                     showMenu ? "left-0" : "-left-[200%]"
                 )}
             >
@@ -101,7 +101,7 @@ const DashboardNavbar = () => {
                         navLink.roles.some((role) => role === user?.role) && (
                             <div
                                 key={index}
-                                className="md:active:brightness-50 textshine text-4xl w-full border-b border-t"
+                                className="textshine w-full border-b border-t text-4xl md:active:brightness-50"
                                 onClick={() => {
                                     if (
                                         navLink.navigateTo ===
@@ -122,7 +122,7 @@ const DashboardNavbar = () => {
             </div>
             <div
                 className={cn(
-                    "fixed h-screen gap-5 lg:hidden top-0 w-full overflow-auto transition-all py-24 duration-500 ease-in-out z-50 flex flex-col justify-start items-start bg-[#020817]",
+                    "fixed top-0 z-50 flex h-screen w-full flex-col items-start justify-start gap-5 overflow-auto bg-[#020817] py-24 transition-all duration-500 ease-in-out lg:hidden",
                     showDataEntryMenu ? "left-0" : "-left-[200%]"
                 )}
             >
@@ -131,7 +131,7 @@ const DashboardNavbar = () => {
                         navLink.roles.some((role) => role === user?.role) && (
                             <div
                                 key={index}
-                                className="md:active:brightness-50 textshine text-4xl w-full border-b border-t"
+                                className="textshine w-full border-b border-t text-4xl md:active:brightness-50"
                                 onClick={() => {
                                     navigate(navLink.navigateTo);
                                     setShowDataEntryMenu(false);

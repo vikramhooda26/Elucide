@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     maincategoryFormSchema,
-    TMaincategoryFormSchema,
+    TMaincategoryFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
@@ -33,8 +33,8 @@ function MainCategoryForm() {
     const form = useForm<TMaincategoryFormSchema>({
         resolver: zodResolver(maincategoryFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -44,7 +44,7 @@ function MainCategoryForm() {
                 const response = await MetadataService.getOneCategory(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        categoryName: response.data.categoryName,
+                        categoryName: response.data.categoryName
                     });
                 }
             } catch (error) {
@@ -78,7 +78,7 @@ function MainCategoryForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...maincategoryFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editCategory(
@@ -90,13 +90,12 @@ function MainCategoryForm() {
                 }
                 return;
             }
-            const response = await MetadataService.createMaincategory(
-                requestBody
-            );
+            const response =
+                await MetadataService.createMaincategory(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Main Category created successfully");
                 form.reset({
-                    categoryName: "",
+                    categoryName: ""
                 });
             }
         } catch (error) {

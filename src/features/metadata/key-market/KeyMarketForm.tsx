@@ -15,7 +15,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import {
     keyMarketFormSchema,
-    TKeyMarketFormSchema,
+    TKeyMarketFormSchema
 } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
@@ -33,8 +33,8 @@ function KeyMarketForm() {
     const form = useForm<TKeyMarketFormSchema>({
         resolver: zodResolver(keyMarketFormSchema),
         defaultValues: {
-            userId: user?.id,
-        },
+            userId: user?.id
+        }
     });
 
     useEffect(() => {
@@ -44,7 +44,7 @@ function KeyMarketForm() {
                 const response = await MetadataService.getOneKeyMarket(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        keyMarketName: response.data.keyMarketName,
+                        keyMarketName: response.data.keyMarketName
                     });
                 }
             } catch (error) {
@@ -76,7 +76,7 @@ function KeyMarketForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...keyMarketFormValues,
-                userId: user?.id,
+                userId: user?.id
             };
             if (id) {
                 const response = await MetadataService.editKeyMarket(
@@ -92,7 +92,7 @@ function KeyMarketForm() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Key market created successfully");
                 form.reset({
-                    keyMarketName: "",
+                    keyMarketName: ""
                 });
             }
         } catch (error) {
@@ -134,10 +134,7 @@ function KeyMarketForm() {
                     name="keyMarketName"
                     render={({ field }) => (
                         <FormItemWrapper label="Key market zone">
-                            <Input
-                                {...field}
-                                placeholder="Key market zone"
-                            />
+                            <Input {...field} placeholder="Key market zone" />
                         </FormItemWrapper>
                     )}
                 />

@@ -15,7 +15,7 @@ export const getMetadata = async (
 
         setMetadataStore((prevStore) => ({
             ...prevStore,
-            ...metadata,
+            ...metadata
         }));
     }
 
@@ -32,16 +32,19 @@ export const getMetadata = async (
 
         setMetadataStore((prevStore) => ({
             ...prevStore,
-            ...metadata,
+            ...metadata
         }));
     }
 };
 
 const metadataKeysToRequestBody = (metadataType: Record<string, string>) => {
-    return Object.values(metadataType).reduce((acc, key) => {
-        acc[key] = true;
-        return acc;
-    }, {} as Record<string, boolean>);
+    return Object.values(metadataType).reduce(
+        (acc, key) => {
+            acc[key] = true;
+            return acc;
+        },
+        {} as Record<string, boolean>
+    );
 };
 
 const determineMetadataToGet = (

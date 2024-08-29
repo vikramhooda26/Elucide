@@ -21,31 +21,31 @@ const deleteCall = async (id: string): Promise<boolean> => {
 
 export const routes = {
     editRoute: NAVIGATION_ROUTES.EDIT_SPORTS_DEAL_SUMMARY,
-    deleteCall: async (id: string) => await deleteCall(id),
+    deleteCall: async (id: string) => await deleteCall(id)
 };
 
 export const statuses = [
     {
         value: "recent",
         label: "Recent",
-        icon: ArrowDownIcon,
+        icon: ArrowDownIcon
     },
     {
         value: "earlier",
         label: "Earlier",
-        icon: ArrowUpIcon,
-    },
+        icon: ArrowUpIcon
+    }
 ];
 
 export const priorities = [
     {
         value: "recent",
         label: "Recent",
-        icon: ArrowDownIcon,
+        icon: ArrowDownIcon
     },
     {
         value: "earlier",
         label: "Earlier",
-        icon: ArrowUpIcon,
-    },
+        icon: ArrowUpIcon
+    }
 ];
