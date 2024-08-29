@@ -22,11 +22,15 @@ function Marketing({ data }: Props) {
                         <div className="grid gap-3 rounded-md border p-4">
                             <div>
                                 <Label>Primary Marketing Platform</Label>
-                                <ul className="grid gap-3 mt-2">
-                                    {data?.primaryMarketingPlatform?.length > 0 ? (
+                                <ul className="mt-2 grid gap-3">
+                                    {data?.primaryMarketingPlatform?.length >
+                                    0 ? (
                                         data?.primaryMarketingPlatform?.map(
                                             (market: any, i: number) => (
-                                                <li className="flex items-center text-sm text-muted-foreground">
+                                                <li
+                                                    className="flex items-center text-sm text-muted-foreground"
+                                                    key={i}
+                                                >
                                                     <Dot />
                                                     <span>
                                                         {market?.name || "-"}
@@ -44,12 +48,15 @@ function Marketing({ data }: Props) {
                         <div className="grid gap-3 rounded-md border p-4">
                             <div>
                                 <Label>Secondary Marketing Platform</Label>
-                                <ul className="grid gap-3 mt-2">
+                                <ul className="mt-2 grid gap-3">
                                     {data?.secondaryMarketingPlatform?.length >
-                                        0 ? (
+                                    0 ? (
                                         data?.secondaryMarketingPlatform?.map(
                                             (market: nameAndId, i: number) => (
-                                                <li className="flex items-center text-sm text-muted-foreground">
+                                                <li
+                                                    className="flex items-center text-sm text-muted-foreground"
+                                                    key={i}
+                                                >
                                                     <Dot />
                                                     <span>
                                                         {market?.name || "-"}
@@ -68,12 +75,17 @@ function Marketing({ data }: Props) {
                         <div className="grid gap-3 rounded-md border p-4">
                             <div>
                                 <Label>Primary key Market</Label>
-                                <ul className="grid gap-3 mt-2">
+                                <ul className="mt-2 grid gap-3">
                                     {data?.primaryKeyMarket?.map(
                                         (market: nameAndId, i: number) => (
-                                            <li className="flex items-center text-sm text-muted-foreground">
+                                            <li
+                                                className="flex items-center text-sm text-muted-foreground"
+                                                key={i}
+                                            >
                                                 <Dot />
-                                                <span>{market?.name || "-"}</span>
+                                                <span>
+                                                    {market?.name || "-"}
+                                                </span>
                                             </li>
                                         )
                                     )}
@@ -84,12 +96,17 @@ function Marketing({ data }: Props) {
                         <div className="grid gap-3 rounded-md border p-4">
                             <div>
                                 <Label>Secondary key Market</Label>
-                                <ul className="grid gap-3 mt-2">
+                                <ul className="mt-2 grid gap-3">
                                     {data?.secondaryKeyMarket?.map(
                                         (market: nameAndId, i: number) => (
-                                            <li className="flex items-center text-sm text-muted-foreground">
+                                            <li
+                                                className="flex items-center text-sm text-muted-foreground"
+                                                key={i}
+                                            >
                                                 <Dot />
-                                                <span>{market?.name || "-"}</span>
+                                                <span>
+                                                    {market?.name || "-"}
+                                                </span>
                                             </li>
                                         )
                                     )}
@@ -100,12 +117,17 @@ function Marketing({ data }: Props) {
                         <div className="grid gap-3 rounded-md border p-4">
                             <div>
                                 <Label>Tertiary Market</Label>
-                                <ul className="grid gap-3 mt-2">
+                                <ul className="mt-2 grid gap-3">
                                     {data?.tertiary?.map(
                                         (market: nameAndId, i: number) => (
-                                            <li className="flex items-center text-sm text-muted-foreground">
+                                            <li
+                                                className="flex items-center text-sm text-muted-foreground"
+                                                key={i}
+                                            >
                                                 <Dot />
-                                                <span>{market?.name || "-"}</span>
+                                                <span>
+                                                    {market?.name || "-"}
+                                                </span>
                                             </li>
                                         )
                                     )}

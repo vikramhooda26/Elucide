@@ -2,9 +2,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 
 export const FormSkeleton: React.FC = (): JSX.Element => {
     return (
-        <div className="h-dvh w-full animate-pulse relative">
+        <div className="relative h-dvh w-full animate-pulse">
             <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
+                <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
                     <CardWrapper options={[{ rows: 4 }]} />
                     <CardWrapper options={[{ rows: 2, multiple: true }]} />
                     <CardWrapper
@@ -14,7 +14,7 @@ export const FormSkeleton: React.FC = (): JSX.Element => {
                         options={[{ rows: 1 }, { rows: 1, multiple: true }]}
                     />
                 </div>
-                <div className="grid auto-rows-max items-start gap-4 ">
+                <div className="grid auto-rows-max items-start gap-4">
                     <CardWrapper options={[{ rows: 4 }]} />
                     <CardWrapper options={[{ rows: 4 }]} />
                     <CardWrapper options={[{ rows: 3 }]} />
@@ -26,7 +26,7 @@ export const FormSkeleton: React.FC = (): JSX.Element => {
 
 function CardWrapper({
     multiple,
-    options,
+    options
 }: {
     multiple?: boolean;
     options?: { rows: number; multiple?: boolean }[];
@@ -37,11 +37,11 @@ function CardWrapper({
             <SkeletonBody>
                 {options?.length ? (
                     options.map((values) =>
-                        Array.from({ length: values.rows }).map((_) =>
+                        Array.from({ length: values.rows }).map((_, index) =>
                             values.multiple ? (
-                                <SkeletonMultipleContent />
+                                <SkeletonMultipleContent key={index} />
                             ) : (
-                                <SkeletonSingleContent />
+                                <SkeletonSingleContent key={index} />
                             )
                         )
                     )
@@ -59,7 +59,7 @@ function SkeletonHeader() {
     return (
         <CardHeader>
             <CardTitle>
-                <div className="h-4 rounded-full bg-gray-500 w-[30%]" />
+                <div className="h-4 w-[30%] rounded-full bg-gray-500" />
             </CardTitle>
         </CardHeader>
     );
@@ -68,14 +68,14 @@ function SkeletonHeader() {
 function SkeletonSingleContent() {
     return (
         <div className="grid gap-3">
-            <div className="h-6 rounded-xl bg-gray-500 w-[100%]" />
+            <div className="h-6 w-[100%] rounded-xl bg-gray-500" />
         </div>
     );
 }
 
 function SkeletonMultipleContent() {
     return (
-        <div className="grid gap-3 grid-cols-2">
+        <div className="grid grid-cols-2 gap-3">
             <div className="grid gap-3">
                 <div className="h-6 rounded-xl bg-gray-500" />
             </div>

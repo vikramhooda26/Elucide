@@ -1,23 +1,15 @@
+import { format } from "date-fns";
 import {
-    Diamond,
     MoveHorizontal,
     PersonStanding,
     SquareStack,
     Unlink2
 } from "lucide-react";
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-    CardTitle
-} from "../../ui/card";
-import { Separator } from "../../ui/separator";
-import NoDataText from "../../no-data/NoDataText";
-import { nameAndId } from "../../../types/metadata/Metadata";
-import { TEditLeagueFormSchema } from "../../../features/league/constants.ts/metadata";
-import { format } from "date-fns";
 import { customRound } from "../../../features/utils/helpers";
+import { nameAndId } from "../../../types/metadata/Metadata";
+import NoDataText from "../../no-data/NoDataText";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { Separator } from "../../ui/separator";
 
 const targetAudience = ["Team", "League", "Brand", "Athlete"];
 const league = ["Team"];
@@ -51,6 +43,20 @@ function Attributes({ data, title = "" }: Props) {
         }
 
         return 0;
+    };
+
+    let totalPercentage = 0;
+
+    const calculatePercentages = (traits: any, isLastIndex: boolean) => {
+        const count = traits.subPersonalityTraits?.length ?? 0;
+        const percentage = calculatePersonalityTraitPercentage(count);
+
+        if (isLastIndex) {
+            return 100 - totalPercentage;
+        }
+
+        totalPercentage += percentage;
+        return percentage;
     };
 
     return (
@@ -240,12 +246,15 @@ function Attributes({ data, title = "" }: Props) {
                                                 <div className="flex flex-col text-muted-foreground">
                                                     <span> {trait?.name}</span>
                                                     <span>
-                                                        {calculatePersonalityTraitPercentage(
-                                                            trait
-                                                                .subPersonalityTraits
-                                                                ?.length || 0
+                                                        {calculatePercentages(
+                                                            trait,
+                                                            i ===
+                                                                data
+                                                                    ?.mainPersonalityTraits
+                                                                    ?.length -
+                                                                    1
                                                         )}
-                                                        %{" "}
+                                                        %
                                                     </span>
                                                 </div>
                                             </div>
