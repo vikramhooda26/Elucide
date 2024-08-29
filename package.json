@@ -8,9 +8,14 @@
         "build": "tsc -b && vite build",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview",
-        "format:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
-        "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json}\"",
+        "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
+        "format-check": "prettier --check \"**/*.{js,jsx,ts,tsx,json}\"",
         "prepare": "husky && husky install"
+    },
+    "lint-staged": {
+        "*.{js,css,ts,tsx,jsx,json}": [
+            "prettier --write \"**/*.{js,jsx,ts,tsx,json}\""
+        ]
     },
     "dependencies": {
         "@hookform/resolvers": "^3.9.0",
