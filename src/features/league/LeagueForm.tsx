@@ -209,9 +209,13 @@ function LeagueForm() {
                             })
                         ),
                         subPersonalityTraitIds:
-                            leagueData.subPersonalityTraits?.map(
-                                (traits) => traits.id
-                            ) || undefined,
+                            leagueData.mainPersonalityTraits
+                                ?.map((traits) =>
+                                    traits.subPersonalityTraits?.map(
+                                        (sub) => sub.id || []
+                                    )
+                                )
+                                .flat(2) || undefined,
                         tierIds: leagueData.tiers
                             ?.filter((tier) => tier?.id !== undefined)
                             .map((tier) => tier.id),
@@ -247,7 +251,7 @@ function LeagueForm() {
         if (id) {
             fetchLeagueDetails(id);
         }
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         if (isSubmitting) {

@@ -172,9 +172,13 @@ function BrandForm() {
                         cityId: brandData.city?.id || undefined,
                         stateId: brandData.state?.id || undefined,
                         subPersonalityTraitIds:
-                            brandData.subPersonalityTraits?.map(
-                                (trait) => trait.id
-                            ) || undefined,
+                            brandData.mainPersonalityTraits
+                                ?.map((traits) =>
+                                    traits.subPersonalityTraits?.map(
+                                        (sub) => sub.id || []
+                                    )
+                                )
+                                .flat(2) || undefined,
                         tierIds:
                             brandData.tier
                                 ?.filter((tier) => tier.id !== undefined)

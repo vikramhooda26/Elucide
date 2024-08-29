@@ -146,9 +146,13 @@ function AthleteForm() {
                             athleteData.tier?.map((tiers) => tiers.id) ||
                             undefined,
                         subPersonalityTraitIds:
-                            athleteData.subPersonalityTraits?.map(
-                                (trait) => trait.id
-                            ) || undefined,
+                            athleteData.mainPersonalityTraits
+                                ?.map((traits) =>
+                                    traits.subPersonalityTraits?.map(
+                                        (sub) => sub.id || []
+                                    )
+                                )
+                                .flat(2) || undefined,
                         athleteAge: athleteData?.athleteAge
                             ? parseISO(athleteData?.athleteAge)
                             : undefined,

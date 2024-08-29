@@ -202,13 +202,13 @@ export type TEditTeamFormSchema = {
         id?: string;
         name?: string;
     }[];
-    subPersonalityTraits?: {
-        id?: string;
-        name?: string;
-    }[];
     mainPersonalityTraits?: {
         id?: string;
         name?: string;
+        subPersonalityTraits?: {
+            id?: string;
+            name?: string;
+        }[];
     }[];
     sportsDealSummary?: {
         annualValue: string;

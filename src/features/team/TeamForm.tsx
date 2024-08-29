@@ -203,9 +203,13 @@ export function TeamForm() {
                         cityId: teamData.city?.id || undefined,
                         stateId: teamData.state?.id || undefined,
                         subPersonalityTraitIds:
-                            teamData.subPersonalityTraits?.map(
-                                (trait) => trait.id
-                            ) || undefined,
+                            teamData.mainPersonalityTraits
+                                ?.map((traits) =>
+                                    traits.subPersonalityTraits?.map(
+                                        (sub) => sub.id || []
+                                    )
+                                )
+                                .flat(2) || undefined,
                         tierIds:
                             teamData.tiers
                                 ?.filter((tier) => tier.id !== undefined)

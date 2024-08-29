@@ -118,13 +118,13 @@ export type TEditAthleteFormSchema = {
         name?: string;
     }[];
     athleteAge?: string;
-    subPersonalityTraits?: {
-        id?: string;
-        name?: string;
-    }[];
     mainPersonalityTraits?: {
         id?: string;
         name?: string;
+        subPersonalityTraits?: {
+            id?: string;
+            name?: string;
+        }[];
     }[];
     association?: {
         associationId?: string;
