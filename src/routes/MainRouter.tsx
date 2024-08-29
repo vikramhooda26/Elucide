@@ -1,9 +1,14 @@
 import { RouterProvider } from "react-router-dom";
+import { ScrollToTopButton } from "../components/button/ScrollToTopButton";
 import routes from "./Routes";
-import { NotFoundPage } from "../components/not-found";
 
 function MainRouter() {
-    return <RouterProvider router={routes()} />;
+    return (
+        <>
+            <RouterProvider router={routes()} />
+            <ScrollToTopButton />
+        </>
+    );
 }
 
 export default MainRouter;
