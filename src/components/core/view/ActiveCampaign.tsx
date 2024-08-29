@@ -24,7 +24,7 @@ function ActiveCampaign({ data }: Props) {
                                     <span>
                                         <Activity className="h-4 w-4" />
                                     </span>
-                                    <span>{campaign?.name}</span>
+                                    <span>{campaign?.name || "N/A"}</span>
                                 </li>
                             )
                         )

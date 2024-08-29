@@ -1,5 +1,6 @@
 import { Diamond } from "lucide-react";
 import { nameAndId } from "../../../types/metadata/Metadata";
+import NoDataText from "../../no-data/NoDataText";
 
 const targetAudience = ["Team", "League", "Brand", "Athlete"];
 const league = ["Team"];
@@ -25,7 +26,9 @@ function Owners({ data, title = "" }: Props) {
                         </li>
                     ))}
                 </ul>
-            ) : null}
+            ) : (
+                <NoDataText />
+            )}
         </div>
     );
 }

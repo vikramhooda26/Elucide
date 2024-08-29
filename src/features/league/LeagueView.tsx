@@ -7,7 +7,7 @@ import { socials } from "../../components/core/data/socials";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import Activation from "../../components/core/view/Activation";
 import Association from "../../components/core/view/Association";
-import Attributes from "../../components/core/view/Attributes";
+import AudienceProfile from "../../components/core/view/AudienceProfile";
 import ContactPerson from "../../components/core/view/ContactPerson";
 import LinksCard from "../../components/core/view/LinksCard";
 import MarketingOverviewCard from "../../components/core/view/MarketingOverviewCard";
@@ -79,7 +79,6 @@ function LeagueView() {
                     <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
                         League View
                     </h1>
-
                     <div className="hidden items-center gap-2 sm:ml-auto sm:flex">
                         {userRole === "SUPER_ADMIN" || userRole === "ADMIN" ? (
                             <Button
@@ -102,21 +101,16 @@ function LeagueView() {
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                                 <OverviewCard data={league} />
-
                                 <MarketingOverviewCard data={league} />
-
                                 <LinksCard
                                     data={league}
                                     metadatas={socials}
                                     title="Digital Presence"
                                 />
-
                                 <ViewershipReach data={league} />
-
                                 <Association data={league} />
                             </div>
-
-                            <Attributes data={league} title={"League"} />
+                            <AudienceProfile data={league} title={"League"} />
                         </div>
                         <div className="my-4 lg:my-8">
                             <div className="space-y-4 lg:space-y-8">

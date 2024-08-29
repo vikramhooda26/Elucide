@@ -27,32 +27,32 @@ const OverviewCard = ({ data }: TOverviewCardProps) => {
                     <li className="flex">
                         <span className="w-1/2">Sports</span>
                         <span className="text-muted-foreground">
-                            {data?.sport?.name || "-"}
+                            {data?.sport?.name || "N/A"}
                         </span>
                     </li>
 
                     <li className="flex items-center">
                         <span className="w-1/2">Year Of Inception</span>
                         <span className="text-muted-foreground">
-                            {data?.yearOfInception || "-"}
+                            {data?.yearOfInception || "N/A"}
                         </span>
                     </li>
                     <li className="flex items-center">
                         <span className="w-1/2">Format</span>
                         <span className="text-muted-foreground">
-                            {data?.format?.name || "-"}
+                            {data?.format?.name || "N/A"}
                         </span>
                     </li>
                     <li className="flex items-center">
                         <span className="w-1/2">Broadcast Partner</span>
                         <span className="text-muted-foreground">
-                            {data?.broadcastPartner?.name || "-"}
+                            {data?.broadcastPartner?.name || "N/A"}
                         </span>
                     </li>
                     <li className="flex items-center">
                         <span className="w-1/2">OTT Partner</span>
                         <span className="text-muted-foreground">
-                            {data?.ottPartner?.name || "-"}
+                            {data?.ottPartner?.name || "N/A"}
                         </span>
                     </li>
                 </ul>

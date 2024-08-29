@@ -24,7 +24,7 @@ function Endorsements({ data }: Props) {
                                     <span>
                                         <Activity className="h-4 w-4" />
                                     </span>
-                                    <span>{endorsement?.name}</span>
+                                    <span>{endorsement?.name || "N/A"}</span>
                                 </li>
                             )
                         )

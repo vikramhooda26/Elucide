@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ActiveCampaing from "../../components/core/view/ActiveCampaign";
 import Association from "../../components/core/view/Association";
-import Attributes from "../../components/core/view/Attributes";
+import Attributes from "../../components/core/view/AudienceProfile";
 import ContactPerson from "../../components/core/view/ContactPerson";
 import Endorsements from "../../components/core/view/Endorsements";
 import Marketing from "../../components/core/view/Marketing";

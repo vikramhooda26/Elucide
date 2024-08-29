@@ -28,21 +28,34 @@ function Association({ data }: Props) {
                     className="overflow-hidden"
                 >
                     <TableHeaderWrapper headersArray={associationHeaders}>
-                        {data?.association?.map((d: any, i: number) => (
-                            <TableRow key={i} className="text-muted-foreground">
-                                <TableCell>
-                                    {d?.associationLevel?.name || "N/A"}
-                                </TableCell>
-                                <TableCell>
-                                    ₹{" "}
-                                    {d?.costOfAssociation > 0
-                                        ? formatNumberWithCommas(
-                                              d?.costOfAssociation
-                                          )
-                                        : "N/A"}
+                        {data?.association?.length ? (
+                            data?.association?.map((d: any, i: number) => (
+                                <TableRow
+                                    key={i}
+                                    className="text-muted-foreground"
+                                >
+                                    <TableCell>
+                                        {d?.associationLevel?.name || "N/A"}
+                                    </TableCell>
+                                    <TableCell>
+                                        ₹{" "}
+                                        {d?.costOfAssociation > 0
+                                            ? formatNumberWithCommas(
+                                                  d?.costOfAssociation
+                                              )
+                                            : "N/A"}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell className="text-center" colSpan={4}>
+                                    <span className="text-muted-foreground">
+                                        No cost of association data found
+                                    </span>
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        )}
                     </TableHeaderWrapper>
                 </Card>
             </CardContent>

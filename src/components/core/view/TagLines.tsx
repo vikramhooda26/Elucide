@@ -23,7 +23,7 @@ function TagLines({ data }: TTagLinesProps) {
                                 <span>
                                     <Activity className="h-4 w-4" />
                                 </span>
-                                <span>{tag?.name}</span>
+                                <span>{tag?.name || "N/A"}</span>
                             </li>
                         ))
                     ) : (

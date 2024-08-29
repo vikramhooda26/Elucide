@@ -27,7 +27,7 @@ interface Personality extends nameAndId {
     subPersonalityTraits: nameAndId[];
 }
 
-function Attributes({ data, title = "" }: Props) {
+function AudienceProfile({ data, title = "" }: Props) {
     const totalSubpersonalityTraits = data?.mainPersonalityTraits?.reduce(
         (total: any, personality: any) => {
             return total + (personality.subPersonalityTraits?.length ?? 0);
@@ -104,7 +104,9 @@ function Attributes({ data, title = "" }: Props) {
                                                                             "N/A"}
                                                                     </dd>
                                                                 </div>
-                                                            ) : null}
+                                                            ) : (
+                                                                <NoDataText />
+                                                            )}
                                                         </>
                                                     )
                                                 )
@@ -148,7 +150,9 @@ function Attributes({ data, title = "" }: Props) {
                                                                             "N/A"}
                                                                     </dd>
                                                                 </div>
-                                                            ) : null}
+                                                            ) : (
+                                                                <NoDataText />
+                                                            )}
                                                         </>
                                                     )
                                                 )
@@ -209,7 +213,9 @@ function Attributes({ data, title = "" }: Props) {
                                                                             "N/A"}
                                                                     </dd>
                                                                 </div>
-                                                            ) : null}
+                                                            ) : (
+                                                                <NoDataText />
+                                                            )}
                                                         </>
                                                     )
                                                 )
@@ -229,27 +235,31 @@ function Attributes({ data, title = "" }: Props) {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid grid-cols-1 gap-3">
+                            <div className="grid grid-cols-1 gap-6">
                                 <div className="grid gap-3 rounded-md border p-6">
                                     <div className="grid gap-4">
                                         <Label>Primary key Market</Label>
                                         <ul className="grid gap-2">
-                                            {data?.primaryKeyMarket?.map(
-                                                (
-                                                    market: nameAndId,
-                                                    i: number
-                                                ) => (
-                                                    <li
-                                                        className="flex items-center text-sm text-muted-foreground"
-                                                        key={i}
-                                                    >
-                                                        <Dot />
-                                                        <span>
-                                                            {market?.name ||
-                                                                "N/A"}
-                                                        </span>
-                                                    </li>
+                                            {data?.primaryKeyMarket?.length ? (
+                                                data?.primaryKeyMarket?.map(
+                                                    (
+                                                        market: nameAndId,
+                                                        i: number
+                                                    ) => (
+                                                        <li
+                                                            className="flex items-center text-sm text-muted-foreground"
+                                                            key={i}
+                                                        >
+                                                            <Dot />
+                                                            <span>
+                                                                {market?.name ||
+                                                                    "N/A"}
+                                                            </span>
+                                                        </li>
+                                                    )
                                                 )
+                                            ) : (
+                                                <NoDataText />
                                             )}
                                         </ul>
                                     </div>
@@ -259,22 +269,27 @@ function Attributes({ data, title = "" }: Props) {
                                     <div className="grid gap-4">
                                         <Label>Secondary key Market</Label>
                                         <ul className="grid gap-2">
-                                            {data?.secondaryKeyMarket?.map(
-                                                (
-                                                    market: nameAndId,
-                                                    i: number
-                                                ) => (
-                                                    <li
-                                                        className="flex items-center text-sm text-muted-foreground"
-                                                        key={i}
-                                                    >
-                                                        <Dot />
-                                                        <span>
-                                                            {market?.name ||
-                                                                "-"}
-                                                        </span>
-                                                    </li>
+                                            {data?.secondaryKeyMarket
+                                                ?.length ? (
+                                                data?.secondaryKeyMarket?.map(
+                                                    (
+                                                        market: nameAndId,
+                                                        i: number
+                                                    ) => (
+                                                        <li
+                                                            className="flex items-center text-sm text-muted-foreground"
+                                                            key={i}
+                                                        >
+                                                            <Dot />
+                                                            <span>
+                                                                {market?.name ||
+                                                                    "-"}
+                                                            </span>
+                                                        </li>
+                                                    )
                                                 )
+                                            ) : (
+                                                <NoDataText />
                                             )}
                                         </ul>
                                     </div>
@@ -284,22 +299,26 @@ function Attributes({ data, title = "" }: Props) {
                                     <div className="grid gap-4">
                                         <Label>Tertiary Market</Label>
                                         <ul className="grid gap-2">
-                                            {data?.tertiary?.map(
-                                                (
-                                                    market: nameAndId,
-                                                    i: number
-                                                ) => (
-                                                    <li
-                                                        className="flex items-center text-sm text-muted-foreground"
-                                                        key={i}
-                                                    >
-                                                        <Dot />
-                                                        <span>
-                                                            {market?.name ||
-                                                                "N/A"}
-                                                        </span>
-                                                    </li>
+                                            {data?.tertiary?.length ? (
+                                                data?.tertiary?.map(
+                                                    (
+                                                        market: nameAndId,
+                                                        i: number
+                                                    ) => (
+                                                        <li
+                                                            className="flex items-center text-sm text-muted-foreground"
+                                                            key={i}
+                                                        >
+                                                            <Dot />
+                                                            <span>
+                                                                {market?.name ||
+                                                                    "N/A"}
+                                                            </span>
+                                                        </li>
+                                                    )
                                                 )
+                                            ) : (
+                                                <NoDataText />
                                             )}
                                         </ul>
                                     </div>
@@ -318,20 +337,6 @@ function Attributes({ data, title = "" }: Props) {
                         </CardTitle>
                     </div>
                 </CardHeader>
-
-                {league?.some((l) => l === title) ? (
-                    <div className="grid gap-3">
-                        <ul className="grid gap-3">
-                            <li className="flex items-center justify-between">
-                                <span className="text-muted-foreground">
-                                    League
-                                </span>
-                                <span>{data?.league?.name || "-"}</span>
-                            </li>
-                        </ul>
-                        <Separator className="my-4" />
-                    </div>
-                ) : null}
                 {/* //= ==================================== Personality Traits starts================================= = */}
                 <Card
                     x-chunk="dashboard-07-chunk-0"
@@ -435,7 +440,7 @@ function Attributes({ data, title = "" }: Props) {
                         <div className="grid gap-3">
                             <div className="font-semibold">Created By</div>
                             <ul className="grid gap-1 text-muted-foreground">
-                                <span>{data?.createdBy?.name}</span>
+                                <span>{data?.createdBy?.name || "N/A"}</span>
                                 <span className="">
                                     {data?.createdDate
                                         ? format(
@@ -449,7 +454,7 @@ function Attributes({ data, title = "" }: Props) {
                         <div className="grid gap-3">
                             <div className="font-semibold">Updated By</div>
                             <ul className="grid gap-1 text-muted-foreground">
-                                <span>{data?.modifiedBy?.name}</span>
+                                <span>{data?.modifiedBy?.name || "N/A"}</span>
                                 <span className="">
                                     {data?.modifiedDate
                                         ? format(
@@ -467,4 +472,4 @@ function Attributes({ data, title = "" }: Props) {
     );
 }
 
-export default Attributes;
+export default AudienceProfile;

@@ -13,7 +13,7 @@ import BackButton from "../../components/button/BackButton";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import Activation from "../../components/core/view/Activation";
 import Association from "../../components/core/view/Association";
-import Attributes from "../../components/core/view/Attributes";
+import Attributes from "../../components/core/view/AudienceProfile";
 import ContactPerson from "../../components/core/view/ContactPerson";
 import LinksCard from "../../components/core/view/LinksCard";
 import Marketing from "../../components/core/view/Marketing";

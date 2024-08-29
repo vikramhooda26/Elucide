@@ -77,14 +77,14 @@ function LinksCard({ data, metadatas, title }: Props) {
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
                     <CardTitle className="group flex items-center gap-2 text-lg">
-                        {title}
+                        {title || "Links"}
                     </CardTitle>
                 </div>
             </CardHeader>
             <CardContent className="grid gap-8 p-6">
                 <div className="flex flex-col gap-4 text-muted-foreground">
                     {metadataUi?.length > 0 ? (
-                        <>{...metadataUi}</>
+                        <>{...metadataUi || "N/A"}</>
                     ) : (
                         <NoDataText />
                     )}

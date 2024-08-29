@@ -1,4 +1,5 @@
 import { formatNumberWithCommas } from "../../../features/utils/helpers";
+import NoDataText from "../../no-data/NoDataText";
 import { TableHeaderWrapper } from "../../table/table-header-wrapper";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { TableCell, TableRow } from "../../ui/table";
@@ -38,31 +39,46 @@ function ViewershipReach({ data }: Props) {
                         <TableHeaderWrapper
                             headersArray={viewershipReachHeaders}
                         >
-                            {broadcastPartners?.map(
-                                (broadcastPartner: any, index: number) => (
-                                    <TableRow
-                                        key={index}
-                                        className="text-muted-foreground"
-                                    >
-                                        <TableCell>
-                                            {broadcastPartner?.broadcastPartner
-                                                ?.name || "N/A"}
-                                        </TableCell>
-                                        <TableCell>
-                                            {broadcastPartner?.year || "N/A"}
-                                        </TableCell>
-                                        <TableCell>
-                                            {formatNumberWithCommas(
-                                                broadcastPartner?.viewership
-                                            ) || "N/A"}
-                                        </TableCell>
-                                        <TableCell>
-                                            {formatNumberWithCommas(
-                                                broadcastPartner?.reach
-                                            ) || "N/A"}
-                                        </TableCell>
-                                    </TableRow>
+                            {broadcastPartners?.length ? (
+                                broadcastPartners?.map(
+                                    (broadcastPartner: any, index: number) => (
+                                        <TableRow
+                                            key={index}
+                                            className="text-muted-foreground"
+                                        >
+                                            <TableCell>
+                                                {broadcastPartner
+                                                    ?.broadcastPartner?.name ||
+                                                    "N/A"}
+                                            </TableCell>
+                                            <TableCell>
+                                                {broadcastPartner?.year ||
+                                                    "N/A"}
+                                            </TableCell>
+                                            <TableCell>
+                                                {formatNumberWithCommas(
+                                                    broadcastPartner?.viewership
+                                                ) || "N/A"}
+                                            </TableCell>
+                                            <TableCell>
+                                                {formatNumberWithCommas(
+                                                    broadcastPartner?.reach
+                                                ) || "N/A"}
+                                            </TableCell>
+                                        </TableRow>
+                                    )
                                 )
+                            ) : (
+                                <TableRow>
+                                    <TableCell
+                                        className="text-center"
+                                        colSpan={4}
+                                    >
+                                        <span className="text-muted-foreground">
+                                            No broadcast partner data found
+                                        </span>
+                                    </TableCell>
+                                </TableRow>
                             )}
                         </TableHeaderWrapper>
                     </Card>
@@ -77,31 +93,44 @@ function ViewershipReach({ data }: Props) {
                         <TableHeaderWrapper
                             headersArray={viewershipReachHeaders}
                         >
-                            {ottPartners?.map(
-                                (ottPartner: any, index: number) => (
-                                    <TableRow
-                                        key={index}
-                                        className="text-muted-foreground"
-                                    >
-                                        <TableCell>
-                                            {ottPartner?.ottPartner.name ||
-                                                "N/A"}
-                                        </TableCell>
-                                        <TableCell>
-                                            {ottPartner?.year || "N/A"}
-                                        </TableCell>
-                                        <TableCell>
-                                            {formatNumberWithCommas(
-                                                ottPartner?.viewership
-                                            ) || "N/A"}
-                                        </TableCell>
-                                        <TableCell>
-                                            {formatNumberWithCommas(
-                                                ottPartner?.reach
-                                            ) || "N/A"}
-                                        </TableCell>
-                                    </TableRow>
+                            {ottPartners?.length ? (
+                                ottPartners?.map(
+                                    (ottPartner: any, index: number) => (
+                                        <TableRow
+                                            key={index}
+                                            className="text-muted-foreground"
+                                        >
+                                            <TableCell>
+                                                {ottPartner?.ottPartner.name ||
+                                                    "N/A"}
+                                            </TableCell>
+                                            <TableCell>
+                                                {ottPartner?.year || "N/A"}
+                                            </TableCell>
+                                            <TableCell>
+                                                {formatNumberWithCommas(
+                                                    ottPartner?.viewership
+                                                ) || "N/A"}
+                                            </TableCell>
+                                            <TableCell>
+                                                {formatNumberWithCommas(
+                                                    ottPartner?.reach
+                                                ) || "N/A"}
+                                            </TableCell>
+                                        </TableRow>
+                                    )
                                 )
+                            ) : (
+                                <TableRow>
+                                    <TableCell
+                                        className="text-center"
+                                        colSpan={4}
+                                    >
+                                        <span className="text-muted-foreground">
+                                            No ott partner data found
+                                        </span>
+                                    </TableCell>
+                                </TableRow>
                             )}
                         </TableHeaderWrapper>
                     </Card>
