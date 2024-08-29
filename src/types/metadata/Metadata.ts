@@ -1,13 +1,35 @@
 export type activation = {
     id?: string;
     name?: string | null;
-    type?: string[];
-    asset?: string[];
+    type?: {
+        id?: string;
+        name?: string;
+    }[];
+    asset?: {
+        id?: string;
+        name?: string;
+    }[];
+    marketIds?: {
+        id?: string;
+        name?: string;
+    }[];
     year?: string | null;
-    teamName?: string;
-    athleteName?: string;
-    leagueName?: string;
-    brandName?: string;
+    team?: {
+        id?: string;
+        name?: string;
+    };
+    athlete?: {
+        id?: string;
+        name?: string;
+    };
+    league?: {
+        id?: string;
+        name?: string;
+    };
+    brand?: {
+        id?: string;
+        name?: string;
+    };
 };
 
 export type nameAndId = { id: string; name: string };
