@@ -9,11 +9,15 @@ type Props = {
 };
 function ContactPerson({ data }: Props) {
     return (
-        <Card x-chunk="dashboard-01-chunk-5">
-            <CardHeader>
-                <CardTitle>Contact Persons</CardTitle>
+        <Card x-chunk="dashboard-07-chunk-0" className="overflow-hidden">
+            <CardHeader className="flex flex-row items-start bg-muted/50">
+                <div className="grid gap-0.5">
+                    <CardTitle className="group flex items-center gap-2 text-lg">
+                        Contact Details
+                    </CardTitle>
+                </div>
             </CardHeader>
-            <CardContent className="grid gap-8">
+            <CardContent className="p-6">
                 {data?.contactPersons?.length > 0 ? (
                     data?.contactPersons?.map(
                         (person: contactPersons, i: number) => (

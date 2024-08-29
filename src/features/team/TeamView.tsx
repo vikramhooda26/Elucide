@@ -1,7 +1,7 @@
 import { ChevronLeft, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ActiveCampaing from "../../components/core/view/ActiveCampaing";
+import ActiveCampaing from "../../components/core/view/ActiveCampaign";
 import Association from "../../components/core/view/Association";
 import Attributes from "../../components/core/view/Attributes";
 import ContactPerson from "../../components/core/view/ContactPerson";

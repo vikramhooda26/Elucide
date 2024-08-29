@@ -1,42 +1,50 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { Label } from "../../ui/label";
-import { Dot } from "lucide-react";
-import { TableHeaderWrapper } from "../../table/table-header-wrapper";
-import { TableCell, TableRow } from "../../ui/table";
 import { formatNumberWithCommas } from "../../../features/utils/helpers";
+import { TableHeaderWrapper } from "../../table/table-header-wrapper";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { TableCell, TableRow } from "../../ui/table";
 
 type Props = {
     data: any;
 };
+
 function Association({ data }: Props) {
     const associationHeaders: { header: string; className?: string }[] = [
         { header: "Association Level" },
-        { header: "Cost Of Association (in cr)" }
+        { header: "Cost Of Association" }
     ];
 
     return (
-        <Card x-chunk="dashboard-07-chunk-0 w-full">
-            <CardHeader>
-                <CardTitle>Association</CardTitle>
+        <Card x-chunk="dashboard-07-chunk-0" className="overflow-hidden">
+            <CardHeader className="flex flex-row items-start bg-muted/50">
+                <div className="grid gap-0.5">
+                    <CardTitle className="group flex items-center gap-2 text-lg">
+                        Cost Of Association
+                    </CardTitle>
+                </div>
             </CardHeader>
-            <CardContent>
-                <TableHeaderWrapper headersArray={associationHeaders}>
-                    {data?.association?.map((d: any, i: number) => (
-                        <TableRow key={i}>
-                            <TableCell>
-                                {d?.associationLevel?.name || "-"}
-                            </TableCell>
-                            <TableCell>
-                                {d?.costOfAssociation > 0
-                                    ? formatNumberWithCommas(
-                                          d?.costOfAssociation
-                                      )
-                                    : "-"}
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableHeaderWrapper>
+            <CardContent className="p-6">
+                <Card
+                    x-chunk="dashboard-07-chunk-0"
+                    className="overflow-hidden"
+                >
+                    <TableHeaderWrapper headersArray={associationHeaders}>
+                        {data?.association?.map((d: any, i: number) => (
+                            <TableRow key={i} className="text-muted-foreground">
+                                <TableCell>
+                                    {d?.associationLevel?.name || "N/A"}
+                                </TableCell>
+                                <TableCell>
+                                    ₹{" "}
+                                    {d?.costOfAssociation > 0
+                                        ? formatNumberWithCommas(
+                                              d?.costOfAssociation
+                                          )
+                                        : "N/A"}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableHeaderWrapper>
+                </Card>
             </CardContent>
         </Card>
     );

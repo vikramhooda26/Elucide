@@ -19,6 +19,7 @@ import {
 } from "@tanstack/react-table";
 import * as React from "react";
 
+import { Link } from "react-router-dom";
 import { DataTablePagination } from "../data-table/data-table-pagination";
 import { Button } from "../ui/button";
 import {
@@ -36,8 +37,6 @@ import {
     TableHeader,
     TableRow
 } from "../ui/table";
-import { DataTableToolbar } from "../data-table/data-table-toolbar";
-import { Link } from "react-router-dom";
 
 type Props = {
     data: Array<any>;

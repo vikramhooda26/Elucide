@@ -1,18 +1,18 @@
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-
 type Props = {
     strategy: string | undefined;
 };
 function StrategyOverview({ strategy }: Props) {
     return (
-        <Card x-chunk="dashboard-01-chunk-5">
-            <CardHeader>
-                <CardTitle>Strategy Overview</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-8">
-                <span className="text-muted-foreground">{strategy || "-"}</span>
-            </CardContent>
-        </Card>
+        <div className="p-6 text-sm">
+            <ul className="grid gap-3">
+                <li className="flex flex-col gap-3">
+                    <span className="text-lg">Strategy Overview</span>
+                    <span className="text-muted-foreground">
+                        {strategy || "N/A"}
+                    </span>
+                </li>
+            </ul>
+        </div>
     );
 }
 

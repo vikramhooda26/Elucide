@@ -1,3 +1,4 @@
+import { cn } from "../../lib/utils";
 import {
     Table,
     TableBody,
@@ -9,18 +10,22 @@ import {
 type TTableHeaderWrapperProps = {
     headersArray?: { header: string; className?: string }[];
     children?: React.ReactNode;
+    containerClassName?: string;
 };
 
 export const TableHeaderWrapper: React.FC<TTableHeaderWrapperProps> = ({
     headersArray,
-    children
+    children,
+    containerClassName
 }): JSX.Element => {
     return (
-        <Table>
+        <Table className={cn(containerClassName)}>
             <TableHeader>
                 <TableRow>
                     {headersArray?.map((tableHeader) => (
-                        <TableHead className={tableHeader.className}>
+                        <TableHead
+                            className={cn("text-white", tableHeader.className)}
+                        >
                             {tableHeader.header}
                         </TableHead>
                     ))}

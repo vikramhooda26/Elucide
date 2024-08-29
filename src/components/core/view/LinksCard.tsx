@@ -73,12 +73,16 @@ function LinksCard({ data, metadatas, title }: Props) {
     };
 
     return (
-        <Card x-chunk="dashboard-01-chunk-5">
-            <CardHeader>
-                <CardTitle>{title}</CardTitle>
+        <Card x-chunk="dashboard-07-chunk-0" className="overflow-hidden">
+            <CardHeader className="flex flex-row items-start bg-muted/50">
+                <div className="grid gap-0.5">
+                    <CardTitle className="group flex items-center gap-2 text-lg">
+                        {title}
+                    </CardTitle>
+                </div>
             </CardHeader>
-            <CardContent className="grid gap-8">
-                <div className="flex flex-col gap-4">
+            <CardContent className="grid gap-8 p-6">
+                <div className="flex flex-col gap-4 text-muted-foreground">
                     {metadataUi?.length > 0 ? (
                         <>{...metadataUi}</>
                     ) : (

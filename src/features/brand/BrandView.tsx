@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../../components/button/BackButton";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import Activation from "../../components/core/view/Activation";
-import ActiveCampaing from "../../components/core/view/ActiveCampaing";
+import ActiveCampaing from "../../components/core/view/ActiveCampaign";
 import Attributes from "../../components/core/view/Attributes";
 import CategoriesCard from "../../components/core/view/CategoriesCard";
 import ContactPerson from "../../components/core/view/ContactPerson";

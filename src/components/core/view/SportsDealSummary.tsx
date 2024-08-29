@@ -3,7 +3,6 @@ import useNavigator from "../../../hooks/useNavigator";
 import { useUser } from "../../../hooks/useUser";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { ConditionalButton } from "../../button/ConditionalButton";
-import NoDataText from "../../no-data/NoDataText";
 import { NoActionTable } from "../../table/NoActionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import SelectBox from "../../ui/multi-select";
@@ -117,11 +116,18 @@ function SportsDealSummary({ data, partnerKey }: Props) {
         ) : null;
 
     return (
-        <Card className="grid grid-cols-1">
-            <CardHeader>
-                <CardTitle>Sports Deal Summary</CardTitle>
+        <Card
+            x-chunk="dashboard-07-chunk-0"
+            className="grid grid-cols-1 overflow-hidden"
+        >
+            <CardHeader className="flex flex-row items-start bg-muted/50">
+                <div className="grid gap-0.5">
+                    <CardTitle className="group flex items-center gap-2 text-lg">
+                        Sports Deal Summary
+                    </CardTitle>
+                </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6">
                 {sportsDealSummary?.length > 0 ? (
                     <NoActionTable
                         data={sportsDealSummary}
@@ -132,7 +138,9 @@ function SportsDealSummary({ data, partnerKey }: Props) {
                         action={{ create: createButton }}
                     />
                 ) : (
-                    <NoDataText />
+                    <span className="text-muted-foreground">
+                        No Sports Deal Summaries
+                    </span>
                 )}
             </CardContent>
         </Card>

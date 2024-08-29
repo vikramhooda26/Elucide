@@ -1,24 +1,27 @@
 import { Activity } from "lucide-react";
-import NoDataText from "../../no-data/NoDataText";
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { nameAndId } from "../../../types/metadata/Metadata";
+import NoDataText from "../../no-data/NoDataText";
 
 type Props = {
     data: any;
 };
-function ActiveCampaing({ data }: Props) {
+
+function ActiveCampaign({ data }: Props) {
     return (
-        <Card x-chunk="dashboard-01-chunk-5">
-            <CardHeader>
-                <CardTitle>Active Campaigns</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-8">
+        <div className="p-6 text-sm">
+            <ul className="flex flex-col gap-3">
+                <li className="text-lg">
+                    <span>Active Campaigns</span>
+                </li>
                 <ul className="grid gap-3">
                     {data?.activeCampaigns?.length > 0 ? (
                         data?.activeCampaigns?.map(
                             (campaign: nameAndId, i: number) => (
-                                <li key={i} className="flex items-center gap-2">
-                                    <span className="text-muted-foreground">
+                                <li
+                                    key={i}
+                                    className="flex items-center gap-2 text-muted-foreground"
+                                >
+                                    <span>
                                         <Activity className="h-4 w-4" />
                                     </span>
                                     <span>{campaign?.name}</span>
@@ -29,9 +32,9 @@ function ActiveCampaing({ data }: Props) {
                         <NoDataText />
                     )}
                 </ul>
-            </CardContent>
-        </Card>
+            </ul>
+        </div>
     );
 }
 
-export default ActiveCampaing;
+export default ActiveCampaign;
