@@ -11,8 +11,10 @@ interface TColumnProps {
     onDelete: (id: string) => void;
     viewRoute?: string;
     brandTitle: string;
+    name: string;
+    nameSearchQueryKey: string;
     partnerTitle: string;
-    brandSearchQuerykey: string;
+    brandSearchQueryKey: string;
     partnerSearchQueryKey: string;
     canEdit?: boolean;
 }
@@ -21,14 +23,16 @@ export const getColumns = ({
     onEdit,
     onDelete,
     viewRoute,
-    brandSearchQuerykey,
+    brandSearchQueryKey,
     partnerSearchQueryKey,
     brandTitle,
     partnerTitle,
+    nameSearchQueryKey,
+    name,
     canEdit = false
 }: TColumnProps) => {
     const schema = createSummarySchema({
-        brandName: brandSearchQuerykey,
+        brandName: brandSearchQueryKey,
         partnerName: partnerSearchQueryKey
     });
     type TSchemaType = z.infer<typeof schema>;
@@ -60,7 +64,36 @@ export const getColumns = ({
         //     enableHiding: false
         // },
         {
-            accessorKey: brandSearchQuerykey,
+            accessorKey: nameSearchQueryKey,
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title={name} />
+            ),
+            cell: ({ row }) => {
+                const id = (row.original as { id: string }).id;
+                if (id && viewRoute && viewRoute?.length > 0) {
+                    return (
+                        <Link
+                            to={`${viewRoute}/${id}`}
+                            className="cursor-pointer hover:text-blue-600 hover:underline"
+                        >
+                            <div className="w-[120px]">
+                                {row.getValue(nameSearchQueryKey)}
+                            </div>
+                        </Link>
+                    );
+                } else {
+                    return (
+                        <div className="w-[120px]">
+                            {row.getValue(nameSearchQueryKey)}
+                        </div>
+                    );
+                }
+            },
+            enableSorting: false,
+            enableHiding: false
+        },
+        {
+            accessorKey: brandSearchQueryKey,
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title={brandTitle} />
             ),
@@ -73,14 +106,14 @@ export const getColumns = ({
                             className="cursor-pointer hover:text-blue-600 hover:underline"
                         >
                             <div className="w-[120px]">
-                                {row.getValue(brandSearchQuerykey)}
+                                {row.getValue(brandSearchQueryKey)}
                             </div>
                         </Link>
                     );
                 } else {
                     return (
                         <div className="w-[120px]">
-                            {row.getValue(brandSearchQuerykey)}
+                            {row.getValue(brandSearchQueryKey)}
                         </div>
                     );
                 }
@@ -116,17 +149,6 @@ export const getColumns = ({
             },
             enableSorting: false,
             enableHiding: false
-        },
-        {
-            accessorKey: "status",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={"Status"} />
-            ),
-            cell: ({ row }) => (
-                <div className="w-[80px]">{row.getValue("status")}</div>
-            ),
-            enableSorting: true,
-            enableHiding: true
         },
         {
             accessorKey: "createdDate",

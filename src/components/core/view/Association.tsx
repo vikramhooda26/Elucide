@@ -51,17 +51,17 @@ function Association({ data }: Props) {
                                               )
                                             : "N/A"}
                                     </TableCell>
-                                    <TableCell>
-                                        {asso?.brand?.length ? (
+                                    {asso?.brand?.length && (
+                                        <TableCell>
                                             <FloatingCard data={asso?.brand}>
                                                 <Button variant="link">
-                                                    {asso?.brand[0]?.name}...
+                                                    {asso?.brand[0]?.name ||
+                                                        "N/A"}
+                                                    ...
                                                 </Button>
                                             </FloatingCard>
-                                        ) : (
-                                            "N/A"
-                                        )}
-                                    </TableCell>
+                                        </TableCell>
+                                    )}
                                 </TableRow>
                             ))
                         ) : (

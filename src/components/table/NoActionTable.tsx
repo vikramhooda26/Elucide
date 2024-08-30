@@ -1,5 +1,3 @@
-"use client";
-
 import {
     CaretSortIcon,
     ChevronDownIcon,
@@ -18,7 +16,6 @@ import {
     useReactTable
 } from "@tanstack/react-table";
 import * as React from "react";
-
 import { Link } from "react-router-dom";
 import { DataTablePagination } from "../data-table/data-table-pagination";
 import { Button } from "../ui/button";
@@ -80,7 +77,7 @@ export function NoActionTable({
                                 )
                             }
                         >
-                            {header?.name || "-"}
+                            {header?.name || "N/A"}
                             <CaretSortIcon className="ml-2 h-4 w-4" />
                         </Button>
                     );
@@ -91,19 +88,15 @@ export function NoActionTable({
                         return (
                             <Link
                                 to={`${viewRoute}/${id}`}
-                                className="cursor-pointer hover:text-blue-800"
+                                className="cursor-pointer hover:text-blue-600 hover:underline"
                             >
                                 <div className="w-[80px]">
-                                    {row.getValue(header?.key) || "-"}
+                                    {row.getValue(header?.key) || "N/A"}
                                 </div>
                             </Link>
                         );
                     } else {
-                        return (
-                            <div className="">
-                                {row.getValue(header?.key) || "-"}
-                            </div>
-                        );
+                        return <div>{row.getValue(header?.key) || "N/A"}</div>;
                     }
                 }
             });
@@ -244,7 +237,7 @@ export function NoActionTable({
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
-                                            ) || "-"}
+                                            ) || "N/A"}
                                         </TableCell>
                                     ))}
                                 </TableRow>

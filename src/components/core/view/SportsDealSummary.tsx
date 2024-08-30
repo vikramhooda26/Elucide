@@ -9,19 +9,35 @@ import SelectBox from "../../ui/multi-select";
 
 type Props = {
     data: any;
-    partnerKey?: string;
+    partnerKey?: "brand" | "athlete" | "team" | "league";
 };
+
 function SportsDealSummary({ data, partnerKey }: Props) {
-    const [filterField, setFilterField] = useState<string>("brandName");
+    const [filterField, setFilterField] = useState<string>("brand");
     const userRole = useUser()?.role;
     if (!userRole) {
         return;
     }
+
     const navigator = useNavigator();
+
+    const getPartnerKey = (sportsDealSummary?: any) => {
+        if (partnerKey === "brand" && sportsDealSummary) {
+            return sportsDealSummary.athlete?.name
+                ? "athlete"
+                : sportsDealSummary.team?.name
+                  ? "team"
+                  : sportsDealSummary.league?.name
+                    ? "league"
+                    : "";
+        } else {
+            return partnerKey || "";
+        }
+    };
 
     const sportsDealColumn = [
         {
-            key: "brandName",
+            key: "brand",
             name: "Brand"
         },
         {
@@ -58,9 +74,13 @@ function SportsDealSummary({ data, partnerKey }: Props) {
         }
     ];
 
-    if (partnerKey && partnerKey?.length > 0) {
+    if (partnerKey) {
         sportsDealColumn?.splice(1, 0, {
-            key: partnerKey,
+            key: getPartnerKey(
+                data?.sportsDealSummary?.length
+                    ? data?.sportsDealSummary[0]
+                    : undefined
+            ),
             name: "Partner Name"
         });
     }
@@ -71,10 +91,10 @@ function SportsDealSummary({ data, partnerKey }: Props) {
         data?.sportsDealSummary?.forEach((d: any, i: number) => {
             const sportsDeal: any = Object.assign({}, d);
             sportsDeal.level = d?.level?.name;
-            sportsDeal.brandName = d?.brandName?.name;
-            sportsDeal.athleteName = d?.athleteName?.name;
-            sportsDeal.leagueName = d?.leagueName?.name;
-            sportsDeal.teamName = d?.teamName?.name;
+            sportsDeal.brand = d?.brand?.name;
+            sportsDeal.athlete = d?.athlete?.name;
+            sportsDeal.league = d?.league?.name;
+            sportsDeal.team = d?.team?.name;
             sportsDeal.territory = d?.territory?.name;
             sportsDeal.partner = d?.partner?.name;
 
@@ -83,8 +103,16 @@ function SportsDealSummary({ data, partnerKey }: Props) {
     }
 
     const filterColumnOptions = [
-        { label: "Brand", value: "brandName" },
-        { label: "Partner", value: partnerKey || "" },
+        { label: "Brand", value: "brand" },
+        {
+            label: "Partner",
+            value:
+                getPartnerKey(
+                    data?.sportsDealSummary?.length
+                        ? data?.sportsDealSummary[0]
+                        : undefined
+                ) || ""
+        },
         { label: "Level", value: "level" },
         { label: "Status", value: "status" }
     ];
@@ -134,7 +162,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
                         columns={sportsDealColumn}
                         searchableKey={filterField}
                         toolbarAttributes={toolbarAttributes}
-                        viewRoute={NAVIGATION_ROUTES?.SPORTS_DEAL_SUMMARY_LIST}
+                        viewRoute={NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY}
                         action={{ create: createButton }}
                     />
                 ) : (

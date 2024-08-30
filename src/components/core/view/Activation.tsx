@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { NoActionTable } from "../../table/NoActionTable";
-import NoDataText from "../../no-data/NoDataText";
-import SelectBox from "../../ui/multi-select";
+import { useState } from "react";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
+import { NoActionTable } from "../../table/NoActionTable";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import SelectBox from "../../ui/multi-select";
 
 type Props = {
     data: any;
+    partnerKey?: "brand" | "athlete" | "team" | "league";
 };
+
 function Activation({ data }: Props) {
     const [filterField, setFilterField] = useState<string>("name");
 
@@ -21,47 +22,47 @@ function Activation({ data }: Props) {
             name: "Year"
         },
         {
-            key: "brandName",
+            key: "brand",
             name: "Brand"
         },
         {
-            key: "teamName",
+            key: "team",
             name: "Team"
         },
         {
-            key: "leagueName",
+            key: "league",
             name: "League"
         },
         {
-            key: "athleteName",
+            key: "athlete",
             name: "Athlete"
         }
     ];
 
-    const activationSummary: Array<any> = [];
+    const activations: Array<any> = [];
 
-    if (data?.activationSummary?.length > 0) {
-        data?.activationSummary?.forEach((d: any, i: number) => {
+    if (data?.activations?.length > 0) {
+        data?.activations?.forEach((d: any, i: number) => {
             const activation: any = Object.assign({}, d);
 
-            activation.brandName = d?.brandName?.name;
-            activation.athleteName = d?.athleteName?.name;
-            activation.leagueName = d?.leagueName?.name;
-            activation.teamName = d?.teamName?.name;
+            activation.brand = d?.brand?.name;
+            activation.athlete = d?.athlete?.name;
+            activation.league = d?.league?.name;
+            activation.team = d?.team?.name;
             activation.territory = d?.territory?.name;
             activation.partner = d?.partner?.name;
 
-            activationSummary?.push(activation);
+            activations?.push(activation);
         });
     }
 
     const filterColumnOptions = [
         { label: "Name", value: "name" },
         { label: "Year", value: "year" },
-        { label: "Brand", value: "brandName" },
-        { label: "Team", value: "teamName" },
-        { label: "League", value: "leagueName" },
-        { label: "Athlete", value: "athleteName" }
+        { label: "Brand", value: "brand" },
+        { label: "Team", value: "team" },
+        { label: "League", value: "league" },
+        { label: "Athlete", value: "athlete" }
     ];
 
     const toolbarAttributes = [
@@ -89,13 +90,13 @@ function Activation({ data }: Props) {
                 </div>
             </CardHeader>
             <CardContent className="p-6">
-                {activationSummary?.length > 0 ? (
+                {activations?.length > 0 ? (
                     <NoActionTable
-                        data={activationSummary}
+                        data={activations}
                         columns={activationColumn}
                         searchableKey={filterField}
                         toolbarAttributes={toolbarAttributes}
-                        viewRoute={NAVIGATION_ROUTES?.ACTIVATION_LIST}
+                        viewRoute={NAVIGATION_ROUTES?.ACTIVATION}
                     />
                 ) : (
                     <span className="text-muted-foreground">

@@ -116,7 +116,7 @@ function LeagueView() {
                             <div className="space-y-4 lg:space-y-8">
                                 <SportsDealSummary
                                     data={league}
-                                    partnerKey={"leagueName"}
+                                    partnerKey={"league"}
                                 />
                                 <Activation data={league} />
                             </div>

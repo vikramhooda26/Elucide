@@ -55,8 +55,10 @@ function ActivationView() {
     useEffect(() => {
         if (id) {
             fetchTeam(id);
+        } else {
+            navigate(-1);
         }
-    }, []);
+    }, [id]);
 
     const infoHeaders: { header: string; className?: string }[] = [
         { header: "Name" },

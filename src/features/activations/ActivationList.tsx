@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { ConditionalButton } from "../../components/button/ConditionalButton";
-import { getColumns } from "../../components/core/view/common-columns";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
 import { Input } from "../../components/ui/input";
@@ -28,6 +27,8 @@ import { listLoadingAtom } from "../../store/atoms/global";
 import { team } from "../../types/team/TeamListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
+import { getColumns } from "../../components/core/view/activation-columns";
+import SelectBox from "../../components/ui/multi-select";
 
 function ActivationList() {
     const navigator = useNavigator();
@@ -39,6 +40,7 @@ function ActivationList() {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
+    const [filterField, setFilterField] = useState<string>("");
 
     const userRole = useUser()?.role;
     if (!userRole) {
@@ -53,12 +55,14 @@ function ActivationList() {
             setIsLoading(true);
             const response = await MetadataService.getAllActivation({});
             if (response.status === HTTP_STATUS_CODES.OK) {
-                const teams = response.data;
-                teams.forEach((team: team, i: number) => {
-                    teams[i].createdBy = team?.createdBy?.email || "N/A";
-                    teams[i].modifiedBy = team?.modifiedBy?.email || "N/A";
+                const activations = response.data;
+                activations.forEach((activation: team, i: number) => {
+                    activations[i].createdBy =
+                        activation?.createdBy?.email || "N/A";
+                    activations[i].modifiedBy =
+                        activation?.modifiedBy?.email || "N/A";
                 });
-                setDataList(teams);
+                setDataList(activations);
             }
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(
@@ -119,6 +123,12 @@ function ActivationList() {
 
     const viewRoute = NAVIGATION_ROUTES?.ACTIVATION;
 
+    const filterColumnOptions = [
+        { label: "Activation Name", value: "name" },
+        { label: "Brand", value: "brand" },
+        { label: "Partner", value: "partner" }
+    ];
+
     // Just pass onView to make the name clickable
     const columns = useMemo(
         () =>
@@ -126,9 +136,12 @@ function ActivationList() {
                 onDelete,
                 onEdit,
                 viewRoute,
-                userRole,
-                searchQuerykey: "name",
-                title: "Activation name",
+                nameSearchQueryKey: "name",
+                name: "Activation name",
+                brandSearchQueryKey: "brand",
+                brandTitle: "Brand name",
+                partnerSearchQueryKey: "partner",
+                partnerTitle: "Partner name",
                 canEdit
             }),
         []
@@ -159,9 +172,15 @@ function ActivationList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            value={
+                (table
+                    .getColumn(filterField || "name")
+                    ?.getFilterValue() as string) ?? ""
+            }
             onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
+                table
+                    .getColumn(filterField || "name")
+                    ?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
         />,
@@ -174,6 +193,15 @@ function ActivationList() {
             column={table.getColumn("modifiedDate")}
             title="Modiefied At"
             options={priorities}
+        />,
+        <SelectBox
+            options={filterColumnOptions}
+            onChange={(value) => setFilterField(value as string)}
+            value={filterField}
+            placeholder="Select filter key"
+            inputPlaceholder="Search for a key..."
+            emptyPlaceholder="Not found"
+            className="w-fit"
         />
     ];
 
