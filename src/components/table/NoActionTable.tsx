@@ -37,7 +37,7 @@ import {
 
 type Props = {
     data: Array<any>;
-    columns: Array<{ name: string; key: string }>;
+    columns: Array<{ name: string; key: string, navigate?: boolean }>;
     searchableKey: string;
     toolbarAttributes?: JSX.Element[];
     viewRoute?: string;
@@ -85,13 +85,13 @@ export function NoActionTable({
                 },
                 cell: ({ row }) => {
                     const id = (row.original as { id: string }).id;
-                    if (id && viewRoute && viewRoute?.length > 0) {
+                    if (id && viewRoute && viewRoute?.length > 0 && header?.navigate) {
                         return (
                             <Link
                                 to={`${viewRoute}/${id}`}
                                 className="cursor-pointer hover:text-blue-600 hover:underline"
                             >
-                                <div className="line-clamp-2 w-[80px] text-ellipsis">
+                                <div className="line-clamp-2 text-ellipsis">
                                     {row.getValue(header?.key) || "N/A"}
                                 </div>
                             </Link>
@@ -213,10 +213,10 @@ export function NoActionTable({
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
-                                                      header.column.columnDef
-                                                          .header,
-                                                      header.getContext()
-                                                  )}
+                                                    header.column.columnDef
+                                                        .header,
+                                                    header.getContext()
+                                                )}
                                         </TableHead>
                                     );
                                 })}
@@ -225,7 +225,7 @@ export function NoActionTable({
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows &&
-                        table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows?.length ? (
                             table.getRowModel()?.rows?.map((row) => (
                                 <TableRow
                                     key={row?.id}
