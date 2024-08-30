@@ -26,10 +26,10 @@ function SportsDealSummary({ data, partnerKey }: Props) {
             return sportsDealSummary.athlete?.name
                 ? "athlete"
                 : sportsDealSummary.team?.name
-                  ? "team"
-                  : sportsDealSummary.league?.name
-                    ? "league"
-                    : "";
+                    ? "team"
+                    : sportsDealSummary.league?.name
+                        ? "league"
+                        : "";
         } else {
             return partnerKey || "";
         }
@@ -74,13 +74,14 @@ function SportsDealSummary({ data, partnerKey }: Props) {
         }
     ];
 
-    if (partnerKey) {
+    if (partnerKey && partnerKey?.length > 0) {
         sportsDealColumn?.splice(1, 0, {
-            key: getPartnerKey(
-                data?.sportsDealSummary?.length
-                    ? data?.sportsDealSummary[0]
-                    : undefined
-            ),
+            key: partnerKey,
+            name: "Partner Name"
+        });
+    } else {
+        sportsDealColumn?.splice(1, 0, {
+            key: 'partner',
             name: "Partner Name"
         });
     }
@@ -96,7 +97,11 @@ function SportsDealSummary({ data, partnerKey }: Props) {
             sportsDeal.league = d?.league?.name;
             sportsDeal.team = d?.team?.name;
             sportsDeal.territory = d?.territory?.name;
-            sportsDeal.partner = d?.partner?.name;
+
+            if (!partnerKey || partnerKey?.length <= 0) {
+                sportsDeal.partner = d?.athlete?.name || d?.league?.name || d?.team?.name;
+            }
+            console.log('sportsDeal.partner -=- ', sportsDeal);
 
             sportsDealSummary?.push(sportsDeal);
         });
@@ -104,15 +109,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
 
     const filterColumnOptions = [
         { label: "Brand", value: "brand" },
-        {
-            label: "Partner",
-            value:
-                getPartnerKey(
-                    data?.sportsDealSummary?.length
-                        ? data?.sportsDealSummary[0]
-                        : undefined
-                ) || ""
-        },
+        { label: "Partner", value: partnerKey },
         { label: "Level", value: "level" },
         { label: "Status", value: "status" }
     ];

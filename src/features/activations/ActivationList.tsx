@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-key */
+/* eslint-disable react/react-in-jsx-scope */
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -35,8 +37,7 @@ function ActivationList() {
     const [dataList, setDataList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
+        {});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);

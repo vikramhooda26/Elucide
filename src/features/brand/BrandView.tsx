@@ -119,9 +119,9 @@ function BrandView() {
                             <div className="space-y-4 lg:space-y-8">
                                 <SportsDealSummary
                                     data={brand}
-                                    partnerKey="brand"
+
                                 />
-                                <Activation data={brand} partnerKey="brand" />
+                                <Activation data={brand} />
                             </div>
                         </div>
                         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
