@@ -60,7 +60,7 @@ function Activation({ data, partnerKey }: Props) {
     const filterColumnOptions = [
         { label: "Name", value: "name" },
         { label: "Brand", value: "brand" },
-        { label: "Partner", value: partnerKey }
+        { label: "Partner", value: partnerKey || 'partner' }
     ];
 
     const toolbarAttributes = [

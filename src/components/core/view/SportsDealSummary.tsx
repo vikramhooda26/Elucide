@@ -109,7 +109,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
 
     const filterColumnOptions = [
         { label: "Brand", value: "brand" },
-        { label: "Partner", value: partnerKey },
+        { label: "Partner", value: partnerKey || 'partner' },
         { label: "Level", value: "level" },
         { label: "Status", value: "status" }
     ];
