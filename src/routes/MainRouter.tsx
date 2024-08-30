@@ -3,10 +3,11 @@ import { ScrollToTopButton } from "../components/button/ScrollToTopButton";
 import routes from "./Routes";
 
 function MainRouter() {
+    const pathname = window.location.pathname;
     return (
         <>
             <RouterProvider router={routes()} />
-            <ScrollToTopButton />
+            {!pathname.startsWith("/elucide") && <ScrollToTopButton />}
         </>
     );
 }

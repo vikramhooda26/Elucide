@@ -1,8 +1,8 @@
 import { User } from "lucide-react";
+import { contactPersons } from "../../../types/metadata/Metadata";
+import NoDataText from "../../no-data/NoDataText";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import NoDataText from "../../no-data/NoDataText";
-import { contactPersons } from "../../../types/metadata/Metadata";
 
 type Props = {
     data: any;
@@ -52,7 +52,9 @@ function ContactPerson({ data }: Props) {
                         )
                     )
                 ) : (
-                    <NoDataText />
+                    <span className="text-muted-foreground">
+                        No Contact Details
+                    </span>
                 )}
             </CardContent>
         </Card>
