@@ -120,7 +120,7 @@ function LeagueView() {
                                 />
                                 <Activation
                                     data={league}
-                                    partnerKey={"leagueName"}
+                                    partnerKey={"league"}
                                 />
                             </div>
                         </div>

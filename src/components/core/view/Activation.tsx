@@ -6,11 +6,11 @@ import SelectBox from "../../ui/multi-select";
 
 type Props = {
     data: any;
-    partnerKey?: "brand" | "athlete" | "team" | "league";
+    partnerKey: "brand" | "athlete" | "team" | "league";
 };
 
-function Activation({ data }: Props) {
-    const [filterField, setFilterField] = useState<string>("name");
+function Activation({ data, partnerKey }: Props) {
+    const [filterField, setFilterField] = useState<string>("");
 
     const activationColumn = [
         {
@@ -18,24 +18,16 @@ function Activation({ data }: Props) {
             name: "Name"
         },
         {
+            key: "brand",
+            name: "Brand name"
+        },
+        {
+            key: partnerKey,
+            name: "Partner name"
+        },
+        {
             key: "year",
             name: "Year"
-        },
-        {
-            key: "brand",
-            name: "Brand"
-        },
-        {
-            key: "team",
-            name: "Team"
-        },
-        {
-            key: "league",
-            name: "League"
-        },
-        {
-            key: "athlete",
-            name: "Athlete"
         }
     ];
 
@@ -58,11 +50,8 @@ function Activation({ data }: Props) {
 
     const filterColumnOptions = [
         { label: "Name", value: "name" },
-        { label: "Year", value: "year" },
         { label: "Brand", value: "brand" },
-        { label: "Team", value: "team" },
-        { label: "League", value: "league" },
-        { label: "Athlete", value: "athlete" }
+        { label: "Partner", value: "partner" }
     ];
 
     const toolbarAttributes = [
@@ -94,7 +83,7 @@ function Activation({ data }: Props) {
                     <NoActionTable
                         data={activations}
                         columns={activationColumn}
-                        searchableKey={filterField}
+                        searchableKey={filterField || "name"}
                         toolbarAttributes={toolbarAttributes}
                         viewRoute={NAVIGATION_ROUTES?.ACTIVATION}
                     />

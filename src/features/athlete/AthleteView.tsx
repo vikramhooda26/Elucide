@@ -130,11 +130,11 @@ function AthleteView() {
                             <div className="space-y-4 lg:space-y-8">
                                 <SportsDealSummary
                                     data={athlete}
-                                    partnerKey={"athleteName"}
+                                    partnerKey={"athlete"}
                                 />
                                 <Activation
                                     data={athlete}
-                                    partnerKey={"athleteName"}
+                                    partnerKey={"athlete"}
                                 />
                             </div>
                         </div>

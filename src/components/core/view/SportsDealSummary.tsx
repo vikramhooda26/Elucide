@@ -13,7 +13,7 @@ type Props = {
 };
 
 function SportsDealSummary({ data, partnerKey }: Props) {
-    const [filterField, setFilterField] = useState<string>("brand");
+    const [filterField, setFilterField] = useState<string>("");
     const userRole = useUser()?.role;
     if (!userRole) {
         return;
@@ -160,7 +160,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
                     <NoActionTable
                         data={sportsDealSummary}
                         columns={sportsDealColumn}
-                        searchableKey={filterField}
+                        searchableKey={filterField || "brand"}
                         toolbarAttributes={toolbarAttributes}
                         viewRoute={NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY}
                         action={{ create: createButton }}
