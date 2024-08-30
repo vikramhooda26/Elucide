@@ -6,7 +6,7 @@ import SelectBox from "../../ui/multi-select";
 
 type Props = {
     data: any;
-    partnerKey: "brand" | "athlete" | "team" | "league";
+    partnerKey?: "brand" | "athlete" | "team" | "league";
 };
 
 function Activation({ data, partnerKey }: Props) {
@@ -30,13 +30,13 @@ function Activation({ data, partnerKey }: Props) {
     if (partnerKey && partnerKey?.length > 0) {
         activationColumn?.splice(2, 0, {
             key: partnerKey,
-            name: "Partner name",
-        },);
+            name: "Partner name"
+        });
     } else {
-        activationColumn?.splice(1, 0, {
-            key: 'partner',
-            name: "Partner name",
-        },);
+        activationColumn?.splice(2, 0, {
+            key: "partner",
+            name: "Partner name"
+        });
     }
 
     const activations: Array<any> = [];
@@ -51,7 +51,8 @@ function Activation({ data, partnerKey }: Props) {
             activation.team = d?.team?.name;
             activation.territory = d?.territory?.name;
             if (!partnerKey || partnerKey?.length <= 0) {
-                activation.partner = d?.athlete?.name || d?.league?.name || d?.team?.name;
+                activation.partner =
+                    d?.athlete?.name || d?.league?.name || d?.team?.name;
             }
             activations?.push(activation);
         });
@@ -60,7 +61,7 @@ function Activation({ data, partnerKey }: Props) {
     const filterColumnOptions = [
         { label: "Name", value: "name" },
         { label: "Brand", value: "brand" },
-        { label: "Partner", value: partnerKey || 'partner' }
+        { label: "Partner", value: partnerKey || "partner" }
     ];
 
     const toolbarAttributes = [

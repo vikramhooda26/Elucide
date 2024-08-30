@@ -76,6 +76,7 @@ export function NoActionTable({
                                     column.getIsSorted() === "asc"
                                 )
                             }
+                            className="flex items-center justify-center"
                         >
                             {header?.name || "N/A"}
                             <CaretSortIcon className="ml-2 h-4 w-4" />
@@ -90,7 +91,7 @@ export function NoActionTable({
                                 to={`${viewRoute}/${id}`}
                                 className="cursor-pointer hover:text-blue-600 hover:underline"
                             >
-                                <div className="w-[80px]">
+                                <div className="line-clamp-2 w-[80px] text-ellipsis">
                                     {row.getValue(header?.key) || "N/A"}
                                 </div>
                             </Link>

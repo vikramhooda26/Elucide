@@ -26,10 +26,10 @@ function SportsDealSummary({ data, partnerKey }: Props) {
             return sportsDealSummary.athlete?.name
                 ? "athlete"
                 : sportsDealSummary.team?.name
-                    ? "team"
-                    : sportsDealSummary.league?.name
-                        ? "league"
-                        : "";
+                  ? "team"
+                  : sportsDealSummary.league?.name
+                    ? "league"
+                    : "";
         } else {
             return partnerKey || "";
         }
@@ -81,7 +81,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
         });
     } else {
         sportsDealColumn?.splice(1, 0, {
-            key: 'partner',
+            key: "partner",
             name: "Partner Name"
         });
     }
@@ -99,9 +99,10 @@ function SportsDealSummary({ data, partnerKey }: Props) {
             sportsDeal.territory = d?.territory?.name;
 
             if (!partnerKey || partnerKey?.length <= 0) {
-                sportsDeal.partner = d?.athlete?.name || d?.league?.name || d?.team?.name;
+                sportsDeal.partner =
+                    d?.athlete?.name || d?.league?.name || d?.team?.name;
             }
-            console.log('sportsDeal.partner -=- ', sportsDeal);
+            console.log("sportsDeal.partner -=- ", sportsDeal);
 
             sportsDealSummary?.push(sportsDeal);
         });
@@ -109,7 +110,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
 
     const filterColumnOptions = [
         { label: "Brand", value: "brand" },
-        { label: "Partner", value: partnerKey || 'partner' },
+        { label: "Partner", value: partnerKey || "partner" },
         { label: "Level", value: "level" },
         { label: "Status", value: "status" }
     ];

@@ -117,10 +117,7 @@ function BrandView() {
                         </div>
                         <div className="my-4 lg:my-8">
                             <div className="space-y-4 lg:space-y-8">
-                                <SportsDealSummary
-                                    data={brand}
-
-                                />
+                                <SportsDealSummary data={brand} />
                                 <Activation data={brand} />
                             </div>
                         </div>
