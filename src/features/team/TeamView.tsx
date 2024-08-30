@@ -125,7 +125,7 @@ function TeamView() {
                                     data={team}
                                     partnerKey={"teamName"}
                                 />
-                                <Activation data={team} />
+                                <Activation data={team} partnerKey={"teamName"} />
                             </div>
                         </div>
                         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">

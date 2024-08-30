@@ -7,8 +7,9 @@ import { NAVIGATION_ROUTES } from "../../../lib/constants";
 
 type Props = {
     data: any;
+    partnerKey?: string;
 };
-function Activation({ data }: Props) {
+function Activation({ data, partnerKey }: Props) {
     const [filterField, setFilterField] = useState<string>("name");
 
     const activationColumn = [
@@ -24,19 +25,14 @@ function Activation({ data }: Props) {
             key: "brandName",
             name: "Brand"
         },
-        {
-            key: "teamName",
-            name: "Team"
-        },
-        {
-            key: "leagueName",
-            name: "League"
-        },
-        {
-            key: "athleteName",
-            name: "Athlete"
-        }
     ];
+
+    if (partnerKey && partnerKey?.length > 0) {
+        activationColumn?.push({
+            key: partnerKey,
+            name: "Partner Name"
+        });
+    }
 
     const activationSummary: Array<any> = [];
 
@@ -59,9 +55,7 @@ function Activation({ data }: Props) {
         { label: "Name", value: "name" },
         { label: "Year", value: "year" },
         { label: "Brand", value: "brandName" },
-        { label: "Team", value: "teamName" },
-        { label: "League", value: "leagueName" },
-        { label: "Athlete", value: "athleteName" }
+        { label: "Partner", value: partnerKey || "" },
     ];
 
     const toolbarAttributes = [

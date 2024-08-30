@@ -132,7 +132,7 @@ function AthleteView() {
                                     data={athlete}
                                     partnerKey={"athleteName"}
                                 />
-                                <Activation data={athlete} />
+                                <Activation data={athlete}  partnerKey={"athleteName"} />
                             </div>
                         </div>
 
