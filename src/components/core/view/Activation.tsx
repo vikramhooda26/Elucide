@@ -1,12 +1,11 @@
 import { useState } from "react";
+import useNavigator from "../../../hooks/useNavigator";
+import { useUser } from "../../../hooks/useUser";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
+import { ConditionalButton } from "../../button/ConditionalButton";
 import { NoActionTable } from "../../table/NoActionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import SelectBox from "../../ui/multi-select";
-import { useUser } from "../../../hooks/useUser";
-import { ConditionalButton } from "../../button/ConditionalButton";
-import { useNavigate } from "react-router-dom";
-import useNavigator from "../../../hooks/useNavigator";
 
 type Props = {
     data: any;
@@ -26,11 +25,12 @@ function Activation({ data, partnerKey }: Props) {
         {
             key: "name",
             name: "Name",
-            navigate: true,
+            navigate: true
         },
         {
             key: "brand",
-            name: "Brand name"
+            name: "Brand name",
+            navigate: true
         },
         {
             key: "year",
@@ -41,12 +41,14 @@ function Activation({ data, partnerKey }: Props) {
     if (partnerKey && partnerKey?.length > 0) {
         activationColumn?.splice(2, 0, {
             key: partnerKey,
-            name: "Partner name"
+            name: "Partner name",
+            navigate: true
         });
     } else {
         activationColumn?.splice(2, 0, {
             key: "partner",
-            name: "Partner name"
+            name: "Partner name",
+            navigate: true
         });
     }
 

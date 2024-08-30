@@ -14,32 +14,20 @@ type Props = {
 
 function SportsDealSummary({ data, partnerKey }: Props) {
     const [filterField, setFilterField] = useState<string>("");
+
     const userRole = useUser()?.role;
+
     if (!userRole) {
         return;
     }
 
     const navigator = useNavigator();
 
-    const getPartnerKey = (sportsDealSummary?: any) => {
-        if (partnerKey === "brand" && sportsDealSummary) {
-            return sportsDealSummary.athlete?.name
-                ? "athlete"
-                : sportsDealSummary.team?.name
-                    ? "team"
-                    : sportsDealSummary.league?.name
-                        ? "league"
-                        : "";
-        } else {
-            return partnerKey || "";
-        }
-    };
-
     const sportsDealColumn = [
         {
             key: "brand",
             name: "Brand",
-            navigate: true,
+            navigate: true
         },
         {
             key: "level",
@@ -78,12 +66,14 @@ function SportsDealSummary({ data, partnerKey }: Props) {
     if (partnerKey && partnerKey?.length > 0) {
         sportsDealColumn?.splice(1, 0, {
             key: partnerKey,
-            name: "Partner Name"
+            name: "Partner Name",
+            navigate: true
         });
     } else {
         sportsDealColumn?.splice(1, 0, {
             key: "partner",
-            name: "Partner Name"
+            name: "Partner Name",
+            navigate: true
         });
     }
 

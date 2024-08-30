@@ -37,7 +37,7 @@ import {
 
 type Props = {
     data: Array<any>;
-    columns: Array<{ name: string; key: string, navigate?: boolean }>;
+    columns: Array<{ name: string; key: string; navigate?: boolean }>;
     searchableKey: string;
     toolbarAttributes?: JSX.Element[];
     viewRoute?: string;
@@ -76,7 +76,7 @@ export function NoActionTable({
                                     column.getIsSorted() === "asc"
                                 )
                             }
-                            className="flex items-center justify-center"
+                            className="flex items-center justify-start p-0 hover:bg-transparent active:brightness-50"
                         >
                             {header?.name || "N/A"}
                             <CaretSortIcon className="ml-2 h-4 w-4" />
@@ -85,7 +85,12 @@ export function NoActionTable({
                 },
                 cell: ({ row }) => {
                     const id = (row.original as { id: string }).id;
-                    if (id && viewRoute && viewRoute?.length > 0 && header?.navigate) {
+                    if (
+                        id &&
+                        viewRoute &&
+                        viewRoute?.length > 0 &&
+                        header?.navigate
+                    ) {
                         return (
                             <Link
                                 to={`${viewRoute}/${id}`}
@@ -206,17 +211,14 @@ export function NoActionTable({
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead
-                                            key={header.id}
-                                            className="text-center"
-                                        >
+                                        <TableHead key={header.id}>
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
-                                                    header.column.columnDef
-                                                        .header,
-                                                    header.getContext()
-                                                )}
+                                                      header.column.columnDef
+                                                          .header,
+                                                      header.getContext()
+                                                  )}
                                         </TableHead>
                                     );
                                 })}
@@ -225,7 +227,7 @@ export function NoActionTable({
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows &&
-                            table.getRowModel().rows?.length ? (
+                        table.getRowModel().rows?.length ? (
                             table.getRowModel()?.rows?.map((row) => (
                                 <TableRow
                                     key={row?.id}
@@ -234,10 +236,7 @@ export function NoActionTable({
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell
-                                            key={cell.id}
-                                            className="text-center"
-                                        >
+                                        <TableCell key={cell.id}>
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
