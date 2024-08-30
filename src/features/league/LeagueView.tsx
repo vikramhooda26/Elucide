@@ -118,7 +118,10 @@ function LeagueView() {
                                     data={league}
                                     partnerKey={"league"}
                                 />
-                                <Activation data={league} />
+                                <Activation
+                                    data={league}
+                                    partnerKey={"leagueName"}
+                                />
                             </div>
                         </div>
                         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
