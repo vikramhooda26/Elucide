@@ -1,5 +1,7 @@
 import { formatNumberWithCommas } from "../../../features/utils/helpers";
+import { FloatingCard } from "../../card/floating-card";
 import { TableHeaderWrapper } from "../../table/table-header-wrapper";
+import { Button } from "../../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { TableCell, TableRow } from "../../ui/table";
 
@@ -12,6 +14,10 @@ function Association({ data }: Props) {
         { header: "Association Level" },
         { header: "Cost Of Association" }
     ];
+
+    if (data?.association?.length && data?.association[0]?.brand) {
+        associationHeaders.push({ header: "Brands" });
+    }
 
     return (
         <Card x-chunk="dashboard-07-chunk-0" className="overflow-hidden">
@@ -29,21 +35,32 @@ function Association({ data }: Props) {
                 >
                     <TableHeaderWrapper headersArray={associationHeaders}>
                         {data?.association?.length ? (
-                            data?.association?.map((d: any, i: number) => (
+                            data?.association?.map((asso: any, i: number) => (
                                 <TableRow
                                     key={i}
                                     className="text-muted-foreground"
                                 >
                                     <TableCell>
-                                        {d?.associationLevel?.name || "N/A"}
+                                        {asso?.associationLevel?.name || "N/A"}
                                     </TableCell>
                                     <TableCell>
                                         ₹{" "}
-                                        {d?.costOfAssociation > 0
+                                        {asso?.costOfAssociation > 0
                                             ? formatNumberWithCommas(
-                                                  d?.costOfAssociation
+                                                  asso?.costOfAssociation
                                               )
                                             : "N/A"}
+                                    </TableCell>
+                                    <TableCell>
+                                        {asso?.brand?.length ? (
+                                            <FloatingCard data={asso?.brand}>
+                                                <Button variant="link">
+                                                    {asso?.brand[0]?.name}...
+                                                </Button>
+                                            </FloatingCard>
+                                        ) : (
+                                            "N/A"
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))
