@@ -15,7 +15,8 @@ function Activation({ data, partnerKey }: Props) {
     const activationColumn = [
         {
             key: "name",
-            name: "Name"
+            name: "Name",
+            navigate: true,
         },
         {
             key: "brand",

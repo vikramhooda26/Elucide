@@ -26,10 +26,10 @@ function SportsDealSummary({ data, partnerKey }: Props) {
             return sportsDealSummary.athlete?.name
                 ? "athlete"
                 : sportsDealSummary.team?.name
-                  ? "team"
-                  : sportsDealSummary.league?.name
-                    ? "league"
-                    : "";
+                    ? "team"
+                    : sportsDealSummary.league?.name
+                        ? "league"
+                        : "";
         } else {
             return partnerKey || "";
         }
@@ -38,7 +38,8 @@ function SportsDealSummary({ data, partnerKey }: Props) {
     const sportsDealColumn = [
         {
             key: "brand",
-            name: "Brand"
+            name: "Brand",
+            navigate: true,
         },
         {
             key: "level",
