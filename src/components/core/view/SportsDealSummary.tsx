@@ -127,19 +127,16 @@ function SportsDealSummary({ data, partnerKey }: Props) {
         />
     ];
 
-    const createButton =
-        userRole !== "USER" ? (
-            <div className="mx-2 flex items-center space-x-2">
-                <ConditionalButton
-                    onClick={() =>
-                        navigator(NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY)
-                    }
-                    accessLevel="all_staff"
-                >
-                    Create
-                </ConditionalButton>
-            </div>
-        ) : null;
+    const createButton = (
+        <ConditionalButton
+            onClick={() =>
+                navigator(NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY)
+            }
+            accessLevel="all_staff"
+        >
+            Create Deal
+        </ConditionalButton>
+    );
 
     return (
         <Card

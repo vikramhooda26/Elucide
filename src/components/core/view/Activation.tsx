@@ -3,6 +3,10 @@ import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { NoActionTable } from "../../table/NoActionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import SelectBox from "../../ui/multi-select";
+import { useUser } from "../../../hooks/useUser";
+import { ConditionalButton } from "../../button/ConditionalButton";
+import { useNavigate } from "react-router-dom";
+import useNavigator from "../../../hooks/useNavigator";
 
 type Props = {
     data: any;
@@ -11,6 +15,12 @@ type Props = {
 
 function Activation({ data, partnerKey }: Props) {
     const [filterField, setFilterField] = useState<string>("");
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
+
+    const navigator = useNavigator();
 
     const activationColumn = [
         {
@@ -76,6 +86,15 @@ function Activation({ data, partnerKey }: Props) {
         />
     ];
 
+    const createButton = (
+        <ConditionalButton
+            onClick={() => navigator(NAVIGATION_ROUTES.ACTIVATION_CREATE)}
+            accessLevel="all_staff"
+        >
+            Create Activation
+        </ConditionalButton>
+    );
+
     return (
         <Card
             x-chunk="dashboard-07-chunk-0"
@@ -96,6 +115,7 @@ function Activation({ data, partnerKey }: Props) {
                         searchableKey={filterField || "name"}
                         toolbarAttributes={toolbarAttributes}
                         viewRoute={NAVIGATION_ROUTES?.ACTIVATION}
+                        action={{ create: createButton }}
                     />
                 ) : (
                     <span className="text-muted-foreground">
