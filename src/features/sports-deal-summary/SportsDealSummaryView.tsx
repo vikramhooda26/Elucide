@@ -66,7 +66,9 @@ function SportsDealSummaryView() {
         { header: "Brand Name" },
         { header: "Territory" },
         { header: "Partner Name" },
-        { header: "Status" }
+        { header: "Level" },
+        { header: "Type" },
+        { header: "Status" },
     ];
 
     return (
@@ -107,6 +109,12 @@ function SportsDealSummaryView() {
                                                     viewData.team?.name ||
                                                     viewData.league?.name ||
                                                     "-"}
+                                            </TableCell>
+                                            <TableCell>
+                                                {viewData?.level?.name || "-"}
+                                            </TableCell>
+                                            <TableCell>
+                                                {viewData?.type || "-"}
                                             </TableCell>
                                             <TableCell>
                                                 {viewData?.status || "-"}
@@ -160,10 +168,10 @@ function SportsDealSummaryView() {
                                                     <span>
                                                         {viewData?.annualValue
                                                             ? `₹ ${formatNumberWithCommas(
-                                                                  Number(
-                                                                      viewData.annualValue
-                                                                  )
-                                                              )}`
+                                                                Number(
+                                                                    viewData.annualValue
+                                                                )
+                                                            )}`
                                                             : "N/A"}
                                                     </span>
                                                 </li>
@@ -177,10 +185,10 @@ function SportsDealSummaryView() {
                                                     <span>
                                                         {viewData?.totalValue
                                                             ? `₹ ${formatNumberWithCommas(
-                                                                  Number(
-                                                                      viewData.totalValue
-                                                                  )
-                                                              )}`
+                                                                Number(
+                                                                    viewData.totalValue
+                                                                )
+                                                            )}`
                                                             : "N/A"}
                                                     </span>
                                                 </li>
@@ -207,7 +215,7 @@ function SportsDealSummaryView() {
                                             <div>Assets</div>
                                             <ul className="grid gap-3">
                                                 {viewData?.assets &&
-                                                viewData?.assets?.length > 0 ? (
+                                                    viewData?.assets?.length > 0 ? (
                                                     viewData?.assets?.map(
                                                         (asset, i) => (
                                                             <li
