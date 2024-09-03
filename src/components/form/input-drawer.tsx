@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
 import z, { ZodObject } from "zod";
 import { useAuth } from "../../features/auth/auth-provider/AuthProvider";
@@ -10,6 +9,7 @@ import { useUser } from "../../hooks/useUser";
 import { HTTP_STATUS_CODES } from "../../lib/constants";
 import { Resp } from "../../services/AjaxService";
 import ErrorService from "../../services/error/ErrorService";
+import Loader from "../Loader";
 import { Button } from "../ui/button";
 import {
     Drawer,
@@ -141,9 +141,7 @@ export const InputDrawer: React.FC<TInputDrawerProps> = ({
                                 type="submit"
                             >
                                 <span>Submit</span>
-                                {isLoading && (
-                                    <ClipLoader size={12} color="#020817" />
-                                )}
+                                <Loader visible={isLoading} />
                             </Button>
                             <DrawerClose asChild>
                                 <Button

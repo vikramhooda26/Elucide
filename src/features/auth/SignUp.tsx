@@ -3,11 +3,11 @@ import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
 import z from "zod";
 import { CardWrapper } from "../../components/card/card-wrapper";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
+import Loader from "../../components/Loader";
 import { Button } from "../../components/ui/button";
 import { Form, FormField } from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
@@ -142,9 +142,7 @@ function SignUpPage() {
                                 disabled={isSubmitting}
                             >
                                 <span>Create User</span>
-                                {isSubmitting && (
-                                    <ClipLoader size={15} color="#020817" />
-                                )}
+                                <Loader visible={isSubmitting} />
                             </Button>
                         </div>
                     </div>
@@ -342,9 +340,7 @@ function SignUpPage() {
                             disabled={isSubmitting}
                         >
                             <span>Save User</span>
-                            {isSubmitting && (
-                                <ClipLoader size={15} color="#020817" />
-                            )}
+                            <Loader visible={isSubmitting} />
                         </Button>
                         <Button
                             variant="outline"

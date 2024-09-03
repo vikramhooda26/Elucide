@@ -4,18 +4,20 @@ import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
 import AssociationCard from "../../components/core/form/association-card";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import {
     TDisplayFields,
     VerticalFieldsCard
 } from "../../components/core/form/vertical-fields-card";
 import { DatePicker } from "../../components/date/DatePicker";
+import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
+import Loader from "../../components/Loader";
 import { getPhoneData } from "../../components/phone-input";
 import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
 import { Button } from "../../components/ui/button";
@@ -23,13 +25,19 @@ import { Form, FormField } from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
 import SelectBox from "../../components/ui/multi-select";
 import { TableCell, TableRow } from "../../components/ui/table";
+import { Textarea } from "../../components/ui/textarea";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import { printLogs } from "../../lib/logs";
 import ErrorService from "../../services/error/ErrorService";
 import AthleteService from "../../services/features/AthleteService";
+import MetadataService from "../../services/features/MetadataService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { agencyFormSchema } from "../metadata/agency/constants/metadata";
+import { countryFormSchema } from "../metadata/country/constants/metadata";
+import { sportFormSchema } from "../metadata/sport/constants/metadata";
+import { stateFormSchema } from "../metadata/state/constants/metadata";
 import { convertCroreToRupees, convertRupeesToCrore } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import {
@@ -38,14 +46,6 @@ import {
     TAthleteFormSchema,
     TEditAthleteFormSchema
 } from "./constants/metadata";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import { Textarea } from "../../components/ui/textarea";
-import { InputDrawer } from "../../components/form/input-drawer";
-import { agencyFormSchema } from "../metadata/agency/constants/metadata";
-import MetadataService from "../../services/features/MetadataService";
-import { sportFormSchema } from "../metadata/sport/constants/metadata";
-import { countryFormSchema } from "../metadata/country/constants/metadata";
-import { stateFormSchema } from "../metadata/state/constants/metadata";
 
 function AthleteForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -535,9 +535,7 @@ function AthleteForm() {
                                 }
                             >
                                 <span>Save Athlete</span>
-                                {isSubmitting && (
-                                    <ClipLoader size={15} color="#020817" />
-                                )}
+                                <Loader visible={isSubmitting} />
                             </Button>
                         </div>
                     </div>
@@ -867,9 +865,7 @@ function AthleteForm() {
                             }
                         >
                             <span>Save Athlete</span>
-                            {isSubmitting && (
-                                <ClipLoader size={15} color="#020817" />
-                            )}
+                            <Loader visible={isSubmitting} />
                         </Button>
                         <Button
                             variant="outline"

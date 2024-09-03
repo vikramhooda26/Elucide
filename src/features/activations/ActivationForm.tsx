@@ -3,11 +3,12 @@ import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
+import Loader from "../../components/Loader";
 import { Button } from "../../components/ui/button";
 import { Form, FormField } from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
@@ -27,7 +28,6 @@ import {
     TEditActivationFormSchema,
     TPartnerType
 } from "./constants/metadata";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
 
 function ActivationForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -307,9 +307,7 @@ function ActivationForm() {
                                 }
                             >
                                 <span>Save Activation</span>
-                                {isSubmitting && (
-                                    <ClipLoader size={15} color="#020817" />
-                                )}
+                                <Loader visible={isSubmitting} />
                             </Button>
                         </div>
                     </div>
@@ -544,9 +542,7 @@ function ActivationForm() {
                             }
                         >
                             <span>Save Activation</span>
-                            {isSubmitting && (
-                                <ClipLoader size={15} color="#020817" />
-                            )}
+                            <Loader visible={isSubmitting} />
                         </Button>
                         <Button
                             variant="outline"

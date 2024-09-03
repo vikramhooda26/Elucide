@@ -1,9 +1,9 @@
 import { ChevronLeft } from "lucide-react";
-import { ClipLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import Loader from "../../components/Loader";
 import { Button } from "../../components/ui/button";
 import { Form } from "../../components/ui/form";
-import { useNavigate } from "react-router-dom";
 
 type TSingleInputFormProps = {
     form: any;
@@ -63,9 +63,7 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
                                 disabled={isSubmitting}
                             >
                                 <span>{`Save ${title}`}</span>
-                                {isSubmitting && (
-                                    <ClipLoader size={15} color="#020817" />
-                                )}
+                                <Loader visible={isSubmitting} />
                             </Button>
                         </div>
                     </div>
@@ -87,9 +85,7 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
                             disabled={isSubmitting}
                         >
                             <span>{`Save ${title}`}</span>
-                            {isSubmitting && (
-                                <ClipLoader size={15} color="#020817" />
-                            )}
+                            <Loader visible={isSubmitting} />
                         </Button>
                         <Button
                             variant="outline"

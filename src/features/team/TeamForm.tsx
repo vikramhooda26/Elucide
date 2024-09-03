@@ -3,7 +3,6 @@ import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
@@ -18,6 +17,7 @@ import {
 } from "../../components/core/form/vertical-fields-card";
 import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
+import Loader from "../../components/Loader";
 import { getPhoneData } from "../../components/phone-input";
 import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
 import { Button } from "../../components/ui/button";
@@ -635,9 +635,7 @@ export function TeamForm() {
                                 }
                             >
                                 <span>Save Team</span>
-                                {isSubmitting && (
-                                    <ClipLoader size={15} color="#020817" />
-                                )}
+                                <Loader visible={isSubmitting} />
                             </Button>
                         </div>
                     </div>
@@ -1072,9 +1070,7 @@ export function TeamForm() {
                             }
                         >
                             <span>Save Team</span>
-                            {isSubmitting && (
-                                <ClipLoader size={15} color="#020817" />
-                            )}
+                            <Loader visible={isSubmitting} />
                         </Button>
                         <Button
                             variant="outline"

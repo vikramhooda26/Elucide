@@ -3,11 +3,11 @@ import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { z } from "zod";
 import ErrorMsg from "../../components/error/ErrorMsg";
+import Loader from "../../components/Loader";
 import { AnimatedInput } from "../../components/ui/animated-input";
 import { CustomLabel } from "../../components/ui/custom-label";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
@@ -168,7 +168,7 @@ function LoginPage() {
                         >
                             <span>Login</span>
                             {isSubmitting ? (
-                                <ClipLoader size={15} color="#FFFF" />
+                                <Loader visible={isSubmitting} />
                             ) : (
                                 <ArrowRight className="size-4" />
                             )}

@@ -3,21 +3,24 @@ import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
+import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
+import Loader from "../../components/Loader";
 import { Button } from "../../components/ui/button";
 import { Form, FormField } from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
 import SelectBox from "../../components/ui/multi-select";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
+import { printLogs } from "../../lib/logs";
 import ErrorService from "../../services/error/ErrorService";
 import MetadataService from "../../services/features/MetadataService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { userAtom } from "../../store/atoms/user";
+import { TPartnerType } from "../activations/constants/metadata";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import {
     convertCroreToRupees,
@@ -32,9 +35,6 @@ import {
     TEditSportsDealSummaryFormSchema,
     TSportsDealSummaryFormSchema
 } from "./constants/metadata";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import { TPartnerType } from "../activations/constants/metadata";
-import { printLogs } from "../../lib/logs";
 
 function SportsDealSummaryForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -419,9 +419,7 @@ function SportsDealSummaryForm() {
                                 }
                             >
                                 <span>Save Deal</span>
-                                {isSubmitting && (
-                                    <ClipLoader size={15} color="#020817" />
-                                )}
+                                <Loader visible={isSubmitting} />
                             </Button>
                         </div>
                     </div>
@@ -686,9 +684,7 @@ function SportsDealSummaryForm() {
                             }
                         >
                             <span>Save Deal</span>
-                            {isSubmitting && (
-                                <ClipLoader size={15} color="#020817" />
-                            )}
+                            <Loader visible={isSubmitting} />
                         </Button>
                         <Button
                             variant="outline"
