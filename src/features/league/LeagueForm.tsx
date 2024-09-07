@@ -27,6 +27,7 @@ import SelectBox from "../../components/ui/multi-select";
 import { TableCell, TableRow } from "../../components/ui/table";
 import { Textarea } from "../../components/ui/textarea";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
+import { printLogs } from "../../lib/logs";
 import ErrorService from "../../services/error/ErrorService";
 import LeagueService from "../../services/features/LeagueService";
 import MetadataService from "../../services/features/MetadataService";
@@ -53,7 +54,6 @@ import {
     TEditLeagueFormSchema,
     TLeagueFormSchema
 } from "./constants.ts/metadata";
-import { printLogs } from "../../lib/logs";
 
 function LeagueForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);

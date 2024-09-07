@@ -165,41 +165,6 @@ function AudienceProfile({ data, title = "" }: Props) {
 
                                 <div className="grid gap-6">
                                     <div className="grid gap-4 rounded-md border p-6">
-                                        <Label>Gender</Label>
-                                        <dl className="grid gap-3">
-                                            {data?.gender?.length ? (
-                                                data?.gender?.map(
-                                                    (
-                                                        gender: nameAndId,
-                                                        i: number
-                                                    ) => (
-                                                        <>
-                                                            {gender ? (
-                                                                <div
-                                                                    key={i}
-                                                                    className="flex items-center gap-2 text-sm text-muted-foreground"
-                                                                >
-                                                                    <dt>
-                                                                        <PersonStanding className="h-4 w-4" />
-                                                                    </dt>
-                                                                    <dd>
-                                                                        {gender?.name ||
-                                                                            "N/A"}
-                                                                    </dd>
-                                                                </div>
-                                                            ) : (
-                                                                <NoDataText />
-                                                            )}
-                                                        </>
-                                                    )
-                                                )
-                                            ) : (
-                                                <NoDataText />
-                                            )}
-                                        </dl>
-                                    </div>
-
-                                    <div className="grid gap-4 rounded-md border p-6">
                                         <Label>NCCS</Label>
                                         <ul className="grid gap-3">
                                             {sortedNccsClass?.length ? (
@@ -247,6 +212,41 @@ function AudienceProfile({ data, title = "" }: Props) {
                                                                     </dt>
                                                                     <dd>
                                                                         {tier?.name ||
+                                                                            "N/A"}
+                                                                    </dd>
+                                                                </div>
+                                                            ) : (
+                                                                <NoDataText />
+                                                            )}
+                                                        </>
+                                                    )
+                                                )
+                                            ) : (
+                                                <NoDataText />
+                                            )}
+                                        </dl>
+                                    </div>
+
+                                    <div className="grid gap-4 rounded-md border p-6">
+                                        <Label>Gender</Label>
+                                        <dl className="grid gap-3">
+                                            {data?.gender?.length ? (
+                                                data?.gender?.map(
+                                                    (
+                                                        gender: nameAndId,
+                                                        i: number
+                                                    ) => (
+                                                        <>
+                                                            {gender ? (
+                                                                <div
+                                                                    key={i}
+                                                                    className="flex items-center gap-2 text-sm text-muted-foreground"
+                                                                >
+                                                                    <dt>
+                                                                        <PersonStanding className="h-4 w-4" />
+                                                                    </dt>
+                                                                    <dd>
+                                                                        {gender?.name ||
                                                                             "N/A"}
                                                                     </dd>
                                                                 </div>
