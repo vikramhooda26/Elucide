@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useNavigator from "../../../hooks/useNavigator";
 import { useUser } from "../../../hooks/useUser";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
@@ -6,6 +6,7 @@ import { ConditionalButton } from "../../button/ConditionalButton";
 import { NoActionTable } from "../../table/NoActionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import SelectBox from "../../ui/multi-select";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     data: any;
@@ -18,7 +19,7 @@ function Activation({ data, partnerKey }: Props) {
     if (!userRole) {
         return;
     }
-
+    const navigate = useNavigate();
     const navigator = useNavigator();
 
     const activationColumn = [
@@ -98,6 +99,10 @@ function Activation({ data, partnerKey }: Props) {
         </ConditionalButton>
     );
 
+    const onEdit = useCallback((id: string) => {
+        navigate(`${NAVIGATION_ROUTES.ACTIVATION_EDIT}/${id}`);
+    }, []);
+
     return (
         <Card
             x-chunk="dashboard-07-chunk-0"
@@ -119,6 +124,7 @@ function Activation({ data, partnerKey }: Props) {
                         toolbarAttributes={toolbarAttributes}
                         viewRoute={NAVIGATION_ROUTES?.ACTIVATION}
                         action={{ create: createButton }}
+                        onEdit={userRole === "SUPER_ADMIN" ? onEdit : () => { }}
                     />
                 ) : (
                     <span className="text-muted-foreground">

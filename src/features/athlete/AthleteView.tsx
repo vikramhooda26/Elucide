@@ -94,8 +94,8 @@ function AthleteView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        {userRole === "SUPER_ADMIN" ||
-                            (userRole === "ADMIN" && (
+                        {(userRole === "SUPER_ADMIN" ||
+                            userRole === "ADMIN") && (
                                 <Button
                                     size="sm"
                                     onClick={() =>
@@ -106,7 +106,7 @@ function AthleteView() {
                                 >
                                     <Pencil className="h-4 w-4" />{" "}
                                 </Button>
-                            ))}
+                            )}
                     </div>
                 </div>
                 {isLoading ? (

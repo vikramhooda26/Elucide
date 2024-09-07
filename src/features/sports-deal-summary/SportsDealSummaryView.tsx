@@ -17,6 +17,8 @@ import { toast } from "sonner";
 import { formatNumberWithCommas } from "../utils/helpers";
 import LinksCard from "../../components/core/view/LinksCard";
 import { socials } from "../../components/core/data/socials";
+import { useUser } from "../../hooks/useUser";
+import EditButton from "../../components/button/EditButton";
 
 function SportsDealSummaryView() {
     const { id } = useParams<string>();
@@ -24,6 +26,10 @@ function SportsDealSummaryView() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { logout } = useAuth();
     const navigate = useNavigate();
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchSportsDealSummary = async (id: string) => {
         try {
@@ -81,9 +87,7 @@ function SportsDealSummaryView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        <Button size="sm">
-                            <Pencil className="h-4 w-4" />{" "}
-                        </Button>
+                        <EditButton show={userRole === "SUPER_ADMIN"} route={`${NAVIGATION_ROUTES.EDIT_SPORTS_DEAL_SUMMARY}/${id}`} />
                     </div>
                 </div>
                 {isLoading ? (
@@ -168,10 +172,10 @@ function SportsDealSummaryView() {
                                                     <span>
                                                         {viewData?.annualValue
                                                             ? `₹ ${formatNumberWithCommas(
-                                                                  Number(
-                                                                      viewData.annualValue
-                                                                  )
-                                                              )}`
+                                                                Number(
+                                                                    viewData.annualValue
+                                                                )
+                                                            )}`
                                                             : "N/A"}
                                                     </span>
                                                 </li>
@@ -185,10 +189,10 @@ function SportsDealSummaryView() {
                                                     <span>
                                                         {viewData?.totalValue
                                                             ? `₹ ${formatNumberWithCommas(
-                                                                  Number(
-                                                                      viewData.totalValue
-                                                                  )
-                                                              )}`
+                                                                Number(
+                                                                    viewData.totalValue
+                                                                )
+                                                            )}`
                                                             : "N/A"}
                                                     </span>
                                                 </li>
@@ -215,7 +219,7 @@ function SportsDealSummaryView() {
                                             <div>Assets</div>
                                             <ul className="grid gap-3">
                                                 {viewData?.assets &&
-                                                viewData?.assets?.length > 0 ? (
+                                                    viewData?.assets?.length > 0 ? (
                                                     viewData?.assets?.map(
                                                         (asset, i) => (
                                                             <li
