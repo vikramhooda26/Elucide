@@ -3,7 +3,7 @@ import { format, parseISO } from "date-fns";
 import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
@@ -53,6 +53,10 @@ function AthleteForm() {
         useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
+    const location = useLocation();
+    const [athleteData, setAthleteData] = useState<TEditAthleteFormSchema>(
+        location.state || undefined
+    );
     let associationId: string | undefined;
     const user = useRecoilValue(userAtom);
 
@@ -92,6 +96,77 @@ function AthleteForm() {
         }
     };
 
+    const populateForm = (athleteData: TEditAthleteFormSchema) => {
+        printLogs("athleteData:", athleteData);
+        form.reset({
+            name: athleteData?.name || undefined,
+            nationalityId: athleteData.nationality?.id || undefined,
+            sportId: athleteData.sport?.id || undefined,
+            agencyId: athleteData.agency?.id || undefined,
+            instagram: athleteData?.instagram || undefined,
+            facebook: athleteData?.facebook || undefined,
+            twitter: athleteData?.twitter || undefined,
+            linkedin: athleteData?.linkedin || undefined,
+            website: athleteData?.website || undefined,
+            youtube: athleteData?.youtube || undefined,
+            strategyOverview: athleteData.strategyOverview || undefined,
+            primaryMarketIds:
+                athleteData.primaryKeyMarket?.map(
+                    (keyMarket) => keyMarket.id
+                ) || undefined,
+            secondaryMarketIds:
+                athleteData.secondaryKeyMarket?.map(
+                    (keyMarket) => keyMarket.id
+                ) || undefined,
+            tertiaryIds:
+                athleteData.tertiary?.map((tertiary) => tertiary.id) ||
+                undefined,
+            primarySocialMediaPlatformIds:
+                athleteData.primaryMarketingPlatform?.map(
+                    (platform) => platform.id
+                ) || undefined,
+            secondarySocialMediaPlatformIds:
+                athleteData.secondaryMarketingPlatform?.map(
+                    (platform) => platform.id
+                ) || undefined,
+            tierIds: athleteData.tier?.map((tiers) => tiers.id) || undefined,
+            subPersonalityTraitIds:
+                athleteData.mainPersonalityTraits
+                    ?.map((traits) =>
+                        traits.subPersonalityTraits?.map((sub) => sub.id || [])
+                    )
+                    .flat(2) || undefined,
+            athleteAge: athleteData?.athleteAge
+                ? parseISO(athleteData?.athleteAge)
+                : undefined,
+            genderIds:
+                athleteData.gender?.map((gender) => gender.id) || undefined,
+            athleteGenderId: athleteData.athleteGender?.id || undefined,
+            ageIds: athleteData.age?.map((age) => age.id) || undefined,
+            nccsIds: athleteData.nccs?.map((nccs) => nccs.id) || undefined,
+            statusId: athleteData.status?.id || undefined,
+            stateId: athleteData.state?.id || undefined,
+            association:
+                athleteData.association?.map((asso) => ({
+                    associationId: asso.associationId || undefined,
+                    associationLevelId: asso.associationLevel?.id || undefined,
+                    costOfAssociation:
+                        convertRupeesToCrore(asso?.costOfAssociation) ||
+                        undefined
+                })) || undefined,
+            userId: user?.id || undefined,
+            contactPerson:
+                athleteData.contactPersons?.map((details) => ({
+                    contactId: details.contactId || undefined,
+                    contactName: details.contactName || undefined,
+                    contactDesignation: details.contactDesignation || undefined,
+                    contactEmail: details.contactEmail || undefined,
+                    contactLinkedin: details.contactLinkedin || undefined,
+                    contactNumber: details.contactNumber || undefined
+                })) || undefined
+        });
+    };
+
     useEffect(() => {
         fetchMetadata();
     }, []);
@@ -107,91 +182,8 @@ function AthleteForm() {
                         "Get athletes by id response for edit page:",
                         response.data
                     );
-                    const athleteData: TEditAthleteFormSchema = response.data;
-
-                    form.reset({
-                        name: athleteData?.name || undefined,
-                        nationalityId: athleteData.nationality?.id || undefined,
-                        sportId: athleteData.sport?.id || undefined,
-                        agencyId: athleteData.agency?.id || undefined,
-                        instagram: athleteData?.instagram || undefined,
-                        facebook: athleteData?.facebook || undefined,
-                        twitter: athleteData?.twitter || undefined,
-                        linkedin: athleteData?.linkedin || undefined,
-                        website: athleteData?.website || undefined,
-                        youtube: athleteData?.youtube || undefined,
-                        strategyOverview:
-                            athleteData.strategyOverview || undefined,
-                        primaryMarketIds:
-                            athleteData.primaryKeyMarket?.map(
-                                (keyMarket) => keyMarket.id
-                            ) || undefined,
-                        secondaryMarketIds:
-                            athleteData.secondaryKeyMarket?.map(
-                                (keyMarket) => keyMarket.id
-                            ) || undefined,
-                        tertiaryIds:
-                            athleteData.tertiary?.map(
-                                (tertiary) => tertiary.id
-                            ) || undefined,
-                        primarySocialMediaPlatformIds:
-                            athleteData.primaryMarketingPlatform?.map(
-                                (platform) => platform.id
-                            ) || undefined,
-                        secondarySocialMediaPlatformIds:
-                            athleteData.secondaryMarketingPlatform?.map(
-                                (platform) => platform.id
-                            ) || undefined,
-                        tierIds:
-                            athleteData.tier?.map((tiers) => tiers.id) ||
-                            undefined,
-                        subPersonalityTraitIds:
-                            athleteData.mainPersonalityTraits
-                                ?.map((traits) =>
-                                    traits.subPersonalityTraits?.map(
-                                        (sub) => sub.id || []
-                                    )
-                                )
-                                .flat(2) || undefined,
-                        athleteAge: athleteData?.athleteAge
-                            ? parseISO(athleteData?.athleteAge)
-                            : undefined,
-                        genderIds:
-                            athleteData.gender?.map((gender) => gender.id) ||
-                            undefined,
-                        athleteGenderId:
-                            athleteData.athleteGender?.id || undefined,
-                        ageIds:
-                            athleteData.age?.map((age) => age.id) || undefined,
-                        nccsIds:
-                            athleteData.nccs?.map((nccs) => nccs.id) ||
-                            undefined,
-                        statusId: athleteData.status?.id || undefined,
-                        stateId: athleteData.state?.id || undefined,
-                        association:
-                            athleteData.association?.map((asso) => ({
-                                associationId: asso.associationId || undefined,
-                                associationLevelId:
-                                    asso.associationLevel?.id || undefined,
-                                costOfAssociation:
-                                    convertRupeesToCrore(
-                                        asso?.costOfAssociation
-                                    ) || undefined
-                            })) || undefined,
-                        userId: user?.id || undefined,
-                        contactPerson:
-                            athleteData.contactPersons?.map((details) => ({
-                                contactId: details.contactId || undefined,
-                                contactName: details.contactName || undefined,
-                                contactDesignation:
-                                    details.contactDesignation || undefined,
-                                contactEmail: details.contactEmail || undefined,
-                                contactLinkedin:
-                                    details.contactLinkedin || undefined,
-                                contactNumber:
-                                    details.contactNumber || undefined
-                            })) || undefined
-                    });
+                    populateForm(response.data);
+                    setAthleteData(response.data);
                 }
             } catch (error) {
                 console.error(error);
@@ -211,9 +203,13 @@ function AthleteForm() {
         };
 
         if (id) {
-            fetchAthleteDetails(id);
+            if (!athleteData?.name) {
+                fetchAthleteDetails(id);
+            } else {
+                populateForm(athleteData);
+            }
         }
-    }, [id]);
+    }, [id, athleteData]);
 
     useEffect(() => {
         if (isSubmitting) {

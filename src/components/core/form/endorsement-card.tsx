@@ -93,6 +93,7 @@ export const EndorsementCard = <T extends FieldValues>({
                                                                     onCheckedChange={
                                                                         field.onChange
                                                                     }
+                                                                    className="aria-checked:!border-green-600 aria-checked:!bg-green-600"
                                                                 />
                                                             )}
                                                             {fieldDetails.type ===

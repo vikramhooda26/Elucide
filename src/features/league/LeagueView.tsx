@@ -9,9 +9,9 @@ import Activation from "../../components/core/view/Activation";
 import Association from "../../components/core/view/Association";
 import AudienceProfile from "../../components/core/view/AudienceProfile";
 import ContactPerson from "../../components/core/view/ContactPerson";
+import LeagueOverviewCard from "../../components/core/view/LeagueOverviewCard";
 import LinksCard from "../../components/core/view/LinksCard";
 import MarketingOverviewCard from "../../components/core/view/MarketingOverviewCard";
-import LeagueOverviewCard from "../../components/core/view/LeagueOverviewCard";
 import SportsDealSummary from "../../components/core/view/SportsDealSummary";
 import ViewershipReach from "../../components/core/view/ViewershipReach";
 import { Button } from "../../components/ui/button";
@@ -85,7 +85,8 @@ function LeagueView() {
                                 size="sm"
                                 onClick={() =>
                                     navigate(
-                                        `${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`
+                                        `${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`,
+                                        { state: league }
                                     )
                                 }
                             >

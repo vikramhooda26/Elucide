@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
@@ -27,7 +27,6 @@ import SelectBox from "../../components/ui/multi-select";
 import { TableCell, TableRow } from "../../components/ui/table";
 import { Textarea } from "../../components/ui/textarea";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import { printLogs } from "../../lib/logs";
 import ErrorService from "../../services/error/ErrorService";
 import LeagueService from "../../services/features/LeagueService";
 import MetadataService from "../../services/features/MetadataService";
@@ -54,6 +53,7 @@ import {
     TEditLeagueFormSchema,
     TLeagueFormSchema
 } from "./constants.ts/metadata";
+import { printLogs } from "../../lib/logs";
 
 function LeagueForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
@@ -61,6 +61,10 @@ function LeagueForm() {
         useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
+    const location = useLocation();
+    const [leagueData, setLeaguesData] = useState<TEditLeagueFormSchema>(
+        location.state || undefined
+    );
     const user = useRecoilValue(userAtom);
     const { id } = useParams();
 
@@ -94,6 +98,105 @@ function LeagueForm() {
         }
     };
 
+    const ottPartnerMetricFieldArray = useFieldArray({
+        name: "ottPartnerMetrics",
+        control: form.control
+    });
+
+    const broadcastPartnerMetricFieldArray = useFieldArray({
+        name: "broadcastPartnerMetrics",
+        control: form.control
+    });
+
+    const populateForm = (leagueData: TEditLeagueFormSchema) => {
+        printLogs("leagueData:", leagueData);
+        form.reset({
+            name: leagueData.name || undefined,
+            taglineIds:
+                leagueData.taglines?.map((tagline) => tagline.id) || undefined,
+            strategyOverview: leagueData.strategyOverview || undefined,
+            association: leagueData.association?.map((asso) => ({
+                associationId: asso.associationId,
+                associationLevelId: asso.associationLevel?.id,
+                costOfAssociation:
+                    convertRupeesToCrore(asso?.costOfAssociation) || undefined
+            })),
+            yearOfInception: leagueData.yearOfInception || undefined,
+            activeCampaignIds:
+                leagueData.activeCampaigns?.map((campaign) => campaign.id) ||
+                undefined,
+            primaryMarketingPlatformIds:
+                leagueData.primaryMarketingPlatform?.map(
+                    (platform) => platform.id
+                ) || undefined,
+            secondaryMarketingPlatformIds:
+                leagueData.secondaryMarketingPlatform?.map(
+                    (platform) => platform.id
+                ) || undefined,
+            primaryMarketIds:
+                leagueData.primaryKeyMarket?.map((market) => market.id) ||
+                undefined,
+            secondaryMarketIds:
+                leagueData.secondaryKeyMarket?.map((market) => market.id) ||
+                undefined,
+            tertiaryIds:
+                leagueData.tertiary?.map((tertiaries) => tertiaries.id) ||
+                undefined,
+            broadcastPartnerMetrics:
+                leagueData.broadcastPartnerMetrics?.map((metric) => ({
+                    reach: metric.reach || undefined,
+                    viewership: metric.viewership || undefined,
+                    year: metric.year || undefined,
+                    broadcastPartnerId: metric.broadcastPartner.id || undefined
+                })) || undefined,
+            ottPartnerMetrics:
+                leagueData.ottPartnerMetrics?.map((metric) => ({
+                    reach: metric.reach || undefined,
+                    viewership: metric.viewership || undefined,
+                    year: metric.year || undefined,
+                    ottPartnerId: metric.ottPartner.id || undefined
+                })) || undefined,
+            instagram: leagueData?.instagram || undefined,
+            facebook: leagueData?.facebook || undefined,
+            twitter: leagueData?.twitter || undefined,
+            linkedin: leagueData?.linkedin || undefined,
+            website: leagueData?.website || undefined,
+            youtube: leagueData?.youtube || undefined,
+            contactPerson:
+                leagueData.contactPersons?.map((details) => ({
+                    contactId: details.contactId || undefined,
+                    contactName: details.contactName || undefined,
+                    contactEmail: details.contactEmail || undefined,
+                    contactLinkedin: details.contactLinkedin || undefined,
+                    contactDesignation: details.contactDesignation || undefined,
+                    contactNumber: details.contactNumber || undefined
+                })) || undefined,
+            sportId: leagueData.sport?.id || undefined,
+            formatId: leagueData.format?.id || undefined,
+            ownerIds: leagueData.owners?.map((owner) => owner.id) || undefined,
+            nccsIds: leagueData.nccs?.map((nccs) => nccs.id) || undefined,
+            endorsements: leagueData.endorsements?.map((endorse) => ({
+                name: endorse.name,
+                active: endorse.active
+            })),
+            subPersonalityTraitIds:
+                leagueData.mainPersonalityTraits
+                    ?.map((traits) =>
+                        traits.subPersonalityTraits?.map((sub) => sub.id || [])
+                    )
+                    .flat(2) || undefined,
+            tierIds: leagueData.tiers
+                ?.filter((tier) => tier?.id !== undefined)
+                .map((tier) => tier.id),
+            broadCastPartnerId: leagueData.broadcastPartner?.id || undefined,
+            ottPartnerId: leagueData.ottPartner?.id || undefined,
+            ageIds: leagueData.age?.map((ageRange) => ageRange.id) || undefined,
+            genderIds:
+                leagueData.gender?.map((gender) => gender.id) || undefined,
+            userId: user?.id
+        });
+    };
+
     useEffect(() => {
         fetchMetadata();
     }, []);
@@ -106,130 +209,8 @@ function LeagueForm() {
                 const response = await LeagueService.getOne(id);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
-                    printLogs(
-                        "Get leagues by id response for edit page:",
-                        response.data
-                    );
-                    const leagueData: TEditLeagueFormSchema = response.data;
-
-                    console.log(
-                        "owners",
-                        leagueData.owners?.map((owner) => owner.id)
-                    );
-
-                    printLogs("league owners", metadataStore?.leagueOwner);
-
-                    form.reset({
-                        name: leagueData.name || undefined,
-                        taglineIds:
-                            leagueData.taglines?.map((tagline) => tagline.id) ||
-                            undefined,
-                        strategyOverview:
-                            leagueData.strategyOverview || undefined,
-                        association: leagueData.association?.map((asso) => ({
-                            associationId: asso.associationId,
-                            associationLevelId: asso.associationLevel?.id,
-                            costOfAssociation:
-                                convertRupeesToCrore(asso?.costOfAssociation) ||
-                                undefined
-                        })),
-                        yearOfInception:
-                            leagueData.yearOfInception || undefined,
-                        activeCampaignIds:
-                            leagueData.activeCampaigns?.map(
-                                (campaign) => campaign.id
-                            ) || undefined,
-                        primaryMarketingPlatformIds:
-                            leagueData.primaryMarketingPlatform?.map(
-                                (platform) => platform.id
-                            ) || undefined,
-                        secondaryMarketingPlatformIds:
-                            leagueData.secondaryMarketingPlatform?.map(
-                                (platform) => platform.id
-                            ) || undefined,
-                        primaryMarketIds:
-                            leagueData.primaryKeyMarket?.map(
-                                (market) => market.id
-                            ) || undefined,
-                        secondaryMarketIds:
-                            leagueData.secondaryKeyMarket?.map(
-                                (market) => market.id
-                            ) || undefined,
-                        tertiaryIds:
-                            leagueData.tertiary?.map(
-                                (tertiaries) => tertiaries.id
-                            ) || undefined,
-                        broadcastPartnerMetrics:
-                            leagueData.broadcastPartnerMetrics?.map(
-                                (metric) => ({
-                                    reach: metric.reach || undefined,
-                                    viewership: metric.viewership || undefined,
-                                    year: metric.year || undefined,
-                                    broadcastPartnerId:
-                                        metric.broadcastPartner.id || undefined
-                                })
-                            ) || undefined,
-                        ottPartnerMetrics:
-                            leagueData.ottPartnerMetrics?.map((metric) => ({
-                                reach: metric.reach || undefined,
-                                viewership: metric.viewership || undefined,
-                                year: metric.year || undefined,
-                                ottPartnerId: metric.ottPartner.id || undefined
-                            })) || undefined,
-                        instagram: leagueData?.instagram || undefined,
-                        facebook: leagueData?.facebook || undefined,
-                        twitter: leagueData?.twitter || undefined,
-                        linkedin: leagueData?.linkedin || undefined,
-                        website: leagueData?.website || undefined,
-                        youtube: leagueData?.youtube || undefined,
-                        contactPerson:
-                            leagueData.contactPersons?.map((details) => ({
-                                contactId: details.contactId || undefined,
-                                contactName: details.contactName || undefined,
-                                contactEmail: details.contactEmail || undefined,
-                                contactLinkedin:
-                                    details.contactLinkedin || undefined,
-                                contactDesignation:
-                                    details.contactDesignation || undefined,
-                                contactNumber:
-                                    details.contactNumber || undefined
-                            })) || undefined,
-                        sportId: leagueData.sport?.id || undefined,
-                        formatId: leagueData.format?.id || undefined,
-                        ownerIds:
-                            leagueData.owners?.map((owner) => owner.id) ||
-                            undefined,
-                        nccsIds:
-                            leagueData.nccs?.map((nccs) => nccs.id) ||
-                            undefined,
-                        endorsements: leagueData.endorsements?.map(
-                            (endorse) => ({
-                                name: endorse.name,
-                                active: endorse.active
-                            })
-                        ),
-                        subPersonalityTraitIds:
-                            leagueData.mainPersonalityTraits
-                                ?.map((traits) =>
-                                    traits.subPersonalityTraits?.map(
-                                        (sub) => sub.id || []
-                                    )
-                                )
-                                .flat(2) || undefined,
-                        tierIds: leagueData.tiers
-                            ?.filter((tier) => tier?.id !== undefined)
-                            .map((tier) => tier.id),
-                        broadCastPartnerId:
-                            leagueData.broadcastPartner?.id || undefined,
-                        ottPartnerId: leagueData.ottPartner?.id || undefined,
-                        ageIds:
-                            leagueData.age?.map((ageRange) => ageRange.id) ||
-                            undefined,
-                        genderIds:
-                            leagueData.gender?.map((gender) => gender.id) ||
-                            undefined,
-                        userId: user?.id
-                    });
+                    populateForm(response.data);
+                    setLeaguesData(response.data);
                 }
             } catch (error) {
                 console.error(error);
@@ -249,9 +230,13 @@ function LeagueForm() {
         };
 
         if (id) {
-            fetchLeagueDetails(id);
+            if (!leagueData || !leagueData.name) {
+                fetchLeagueDetails(id);
+            } else {
+                populateForm(leagueData);
+            }
         }
-    }, [id]);
+    }, [id, leagueData]);
 
     useEffect(() => {
         if (isSubmitting) {
@@ -264,16 +249,6 @@ function LeagueForm() {
     if (!metadataStore) {
         return <div>loading...</div>;
     }
-
-    const ottPartnerMetricFieldArray = useFieldArray({
-        name: "ottPartnerMetrics",
-        control: form.control
-    });
-
-    const broadcastPartnerMetricFieldArray = useFieldArray({
-        name: "broadcastPartnerMetrics",
-        control: form.control
-    });
 
     const defaultOttPartnerMetric = {
         ottPartnerId: "",
@@ -596,11 +571,8 @@ function LeagueForm() {
                             variant="outline"
                             size="icon"
                             className="h-7 w-7"
-                            onClick={() =>
-                                navigate(NAVIGATION_ROUTES.LEAGUE_LIST, {
-                                    replace: true
-                                })
-                            }
+                            onClick={() => navigate(-1)}
+                            type="button"
                         >
                             <ChevronLeft className="h-4 w-4" />
                             <span className="sr-only">Back</span>

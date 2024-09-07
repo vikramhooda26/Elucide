@@ -297,14 +297,14 @@
         transform: rotate(330deg) translate(146%);
     }
 
-    @media (prefers-reduced-motion) {
+    /* @media (prefers-reduced-motion) {
         [data-sonner-toast],
         [data-sonner-toast] > *,
         .sonner-loading-bar {
             transition: none !important;
             animation: none !important;
         }
-    }
+    } */
 }
 
 /* #E9D2FD */

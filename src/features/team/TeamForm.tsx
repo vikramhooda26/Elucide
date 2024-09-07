@@ -592,11 +592,7 @@ export function TeamForm() {
                             variant="outline"
                             size="icon"
                             className="h-7 w-7"
-                            onClick={() =>
-                                navigate(NAVIGATION_ROUTES.TEAM_LIST, {
-                                    replace: true
-                                })
-                            }
+                            onClick={() => navigate(-1)}
                             type="button"
                         >
                             <ChevronLeft className="h-4 w-4" />

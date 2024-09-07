@@ -12,7 +12,6 @@ import AthleteOverviewCard from "../../components/core/view/AthleteOverviewCard"
 import AudienceProfile from "../../components/core/view/AudienceProfile";
 import ContactPerson from "../../components/core/view/ContactPerson";
 import LinksCard from "../../components/core/view/LinksCard";
-import Marketing from "../../components/core/view/Marketing";
 import MarketingOverviewCard from "../../components/core/view/MarketingOverviewCard";
 import SportsDealSummary from "../../components/core/view/SportsDealSummary";
 import { Button } from "../../components/ui/button";
@@ -21,10 +20,13 @@ import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import AthleteService from "../../services/features/AthleteService";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { TEditAthleteFormSchema } from "./constants/metadata";
 
 function AthleteView() {
     const { id } = useParams<string>();
     const [athlete, setAthlete] = useState<any>({});
+    const [athleteDetails, setAthleteDetails] =
+        useState<TEditAthleteFormSchema>();
     const [isLoading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const { logout } = useAuth();
@@ -33,7 +35,7 @@ function AthleteView() {
         return;
     }
 
-    const fetchTeam = async (id: string) => {
+    const fetchAthlete = async (id: string) => {
         try {
             setLoading(true);
             const response = await AthleteService.getOne(id);
@@ -54,6 +56,7 @@ function AthleteView() {
                     );
                 }
                 setAthlete(athleteObj);
+                setAthleteDetails(response?.data);
             } else {
                 toast.error("An unknown error occurred");
                 navigate(-1);
@@ -78,7 +81,7 @@ function AthleteView() {
 
     useEffect(() => {
         if (id) {
-            fetchTeam(id);
+            fetchAthlete(id);
         } else {
             navigate(-1);
         }
@@ -94,19 +97,22 @@ function AthleteView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        {userRole === "SUPER_ADMIN" ||
-                            (userRole === "ADMIN" && (
-                                <Button
-                                    size="sm"
-                                    onClick={() =>
-                                        navigate(
-                                            `${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`
-                                        )
-                                    }
-                                >
-                                    <Pencil className="h-4 w-4" />{" "}
-                                </Button>
-                            ))}
+                        {(userRole === "SUPER_ADMIN" ||
+                            userRole === "ADMIN") && (
+                            <Button
+                                size="sm"
+                                onClick={() =>
+                                    navigate(
+                                        `${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`,
+                                        {
+                                            state: athleteDetails
+                                        }
+                                    )
+                                }
+                            >
+                                <Pencil className="h-4 w-4" />{" "}
+                            </Button>
+                        )}
                     </div>
                 </div>
                 {isLoading ? (
