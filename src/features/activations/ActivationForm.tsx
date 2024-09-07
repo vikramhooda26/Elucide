@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,6 +7,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { CardWrapper } from "../../components/card/card-wrapper";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import Loader from "../../components/Loader";
 import { Button } from "../../components/ui/button";
@@ -19,6 +20,7 @@ import MetadataService from "../../services/features/MetadataService";
 import { metadataStoreAtom } from "../../store/atoms/metadata";
 import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { stateFormSchema } from "../metadata/state/constants/metadata";
 import { getListOfYears } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import {
@@ -67,31 +69,27 @@ function ActivationForm() {
         return partner;
     };
 
-    useEffect(() => {
-        const fetchMetadata = async () => {
-            try {
-                setIsFetchingMetadata(true);
-                await getMetadata(
-                    metadataStore,
-                    setMetadataStore,
-                    ACTIVATION_KEYS
-                );
-            } catch (error) {
-                console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (unknownError) {
-                    toast.error("An unknown error occurred");
-                    navigate(NAVIGATION_ROUTES.DASHBOARD);
-                }
-            } finally {
-                setIsFetchingMetadata(false);
+    const fetchMetadata = async () => {
+        try {
+            setIsFetchingMetadata(true);
+            await getMetadata(metadataStore, setMetadataStore, ACTIVATION_KEYS);
+        } catch (error) {
+            console.error(error);
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (unknownError) {
+                toast.error("An unknown error occurred");
+                navigate(NAVIGATION_ROUTES.DASHBOARD);
             }
-        };
+        } finally {
+            setIsFetchingMetadata(false);
+        }
+    };
 
+    useEffect(() => {
         fetchMetadata();
     }, []);
 
@@ -459,21 +457,40 @@ function ActivationForm() {
                                                     name="marketIds"
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Market">
-                                                            <SelectBox
-                                                                options={
-                                                                    metadataStore?.state
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
-                                                                placeholder="Select a market"
-                                                                inputPlaceholder="Search for a market..."
-                                                                emptyPlaceholder="No market found"
-                                                                multiple
-                                                            />
+                                                            <div className="flex w-full items-center gap-3">
+                                                                <SelectBox
+                                                                    options={
+                                                                        metadataStore?.state
+                                                                    }
+                                                                    value={
+                                                                        field.value
+                                                                    }
+                                                                    onChange={
+                                                                        field.onChange
+                                                                    }
+                                                                    className="w-full"
+                                                                    placeholder="Select a market"
+                                                                    inputPlaceholder="Search for a market..."
+                                                                    emptyPlaceholder="No market found"
+                                                                    multiple
+                                                                />
+                                                                <InputDrawer
+                                                                    title="Market"
+                                                                    description="Create a new market to add to the dropdown"
+                                                                    register="stateName"
+                                                                    schema={
+                                                                        stateFormSchema
+                                                                    }
+                                                                    createFn={
+                                                                        MetadataService.createState
+                                                                    }
+                                                                    fetchMetadataFn={
+                                                                        fetchMetadata
+                                                                    }
+                                                                >
+                                                                    <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                                                                </InputDrawer>
+                                                            </div>
                                                         </FormItemWrapper>
                                                     )}
                                                 />

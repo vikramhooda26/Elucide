@@ -22,9 +22,10 @@ export const TableHeaderWrapper: React.FC<TTableHeaderWrapperProps> = ({
         <Table className={cn(containerClassName)}>
             <TableHeader>
                 <TableRow>
-                    {headersArray?.map((tableHeader) => (
+                    {headersArray?.map((tableHeader, index) => (
                         <TableHead
                             className={cn("text-white", tableHeader.className)}
+                            key={index}
                         >
                             {tableHeader.header}
                         </TableHead>

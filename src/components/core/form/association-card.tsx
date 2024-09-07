@@ -8,10 +8,14 @@ import {
     UseFormReturn,
     useWatch
 } from "react-hook-form";
+import { associationSchema } from "../../../features/metadata/association-level/constants/metadata";
 import { onNumInputChange } from "../../../features/utils/helpers";
+import { useUser } from "../../../hooks/useUser";
 import { cn } from "../../../lib/utils";
+import MetadataService from "../../../services/features/MetadataService";
 import { TMetadataStore } from "../../../store/atoms/metadata";
 import { CardWrapper } from "../../card/card-wrapper";
+import { InputDrawer } from "../../form/input-drawer";
 import { FormItemWrapper } from "../../form/item-wrapper";
 import { Button } from "../../ui/button";
 import { CardFooter } from "../../ui/card";
@@ -35,18 +39,21 @@ type TDisplayFields<T> = {
     title?: string;
     data?: Option[];
     isMultiple?: boolean;
+    showAddButton?: boolean;
 };
 
 type TVerticalFieldsCardProps<T extends FieldValues> = {
     form: UseFormReturn<T>;
     metadataStore: TMetadataStore;
     showBrand?: boolean;
+    fetchMetadata: () => Promise<void>;
 };
 
 const AssociationCard = <T extends FieldValues>({
     metadataStore,
     form,
-    showBrand = false
+    showBrand = false,
+    fetchMetadata
 }: TVerticalFieldsCardProps<T>): JSX.Element => {
     const fieldArray = useFieldArray<T>({
         control: form.control,
@@ -54,6 +61,13 @@ const AssociationCard = <T extends FieldValues>({
     });
 
     const [filteredOptions, setFilteredOptions] = useState<Array<Option[]>>([]);
+
+    const userRole = useUser()?.role;
+
+    const canAccessAddButton =
+        userRole === "SUPER_ADMIN" ||
+        userRole === "ADMIN" ||
+        userRole === "STAFF";
 
     const selectedAssociationLevels = useWatch({
         control: form.control,
@@ -93,7 +107,8 @@ const AssociationCard = <T extends FieldValues>({
                 type: "SELECT",
                 placeholder: "Select an association level",
                 data: filteredOptions[index] || [],
-                isMultiple: false
+                isMultiple: false,
+                showAddButton: true
             },
             {
                 title: "Cost of Association",
@@ -163,19 +178,46 @@ const AssociationCard = <T extends FieldValues>({
                                                     }
                                                 />
                                             ) : (
-                                                <SelectBox
-                                                    options={fieldDetails.data!}
-                                                    value={field.value}
-                                                    onChange={field.onChange}
-                                                    placeholder={
-                                                        fieldDetails.placeholder
-                                                    }
-                                                    inputPlaceholder={`Search for a ${fieldDetails.title?.toLowerCase()}...`}
-                                                    emptyPlaceholder={`No ${fieldDetails.title?.toLowerCase()} found`}
-                                                    multiple={
-                                                        fieldDetails.isMultiple
-                                                    }
-                                                />
+                                                <div className="flex w-full items-center gap-3">
+                                                    <SelectBox
+                                                        options={
+                                                            fieldDetails.data!
+                                                        }
+                                                        value={field.value}
+                                                        onChange={
+                                                            field.onChange
+                                                        }
+                                                        placeholder={
+                                                            fieldDetails.placeholder
+                                                        }
+                                                        className="w-full"
+                                                        inputPlaceholder={`Search for a ${fieldDetails.title?.toLowerCase()}...`}
+                                                        emptyPlaceholder={`No ${fieldDetails.title?.toLowerCase()} found`}
+                                                        multiple={
+                                                            fieldDetails.isMultiple
+                                                        }
+                                                    />
+                                                    {/* Not working */}
+                                                    {canAccessAddButton &&
+                                                        fieldDetails.showAddButton && (
+                                                            <InputDrawer
+                                                                title="Association Level"
+                                                                description="Create a new association level to add to the dropdown"
+                                                                register="associationLevelName"
+                                                                schema={
+                                                                    associationSchema
+                                                                }
+                                                                createFn={
+                                                                    MetadataService.createAssociationLevel
+                                                                }
+                                                                fetchMetadataFn={
+                                                                    fetchMetadata
+                                                                }
+                                                            >
+                                                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                                                            </InputDrawer>
+                                                        )}
+                                                </div>
                                             )}
                                         </FormItemWrapper>
                                     )}

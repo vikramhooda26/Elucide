@@ -983,6 +983,7 @@ function LeagueForm() {
                                 <AssociationCard
                                     form={form}
                                     metadataStore={metadataStore}
+                                    fetchMetadata={fetchMetadata}
                                 />
                                 <ContactPersonCard control={form.control} />
                                 <EndorsementCard control={form.control} />

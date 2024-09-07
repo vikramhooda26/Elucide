@@ -339,6 +339,13 @@ export function TeamForm() {
             accessLevel: ["SUPER_ADMIN"]
         },
         {
+            title: "NCCS Class",
+            register: "nccsIds",
+            options: metadataStore.nccs,
+            multiple: true,
+            type: "DROPDOWN"
+        },
+        {
             title: "Personality Traits",
             register: "subPersonalityTraitIds",
             options: metadataStore.personalityTrait,
@@ -801,29 +808,6 @@ export function TeamForm() {
                                                                 <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                             </InputDrawer>
                                                         </div>
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="nccsIds"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="NCCS class">
-                                                        <SelectBox
-                                                            options={
-                                                                metadataStore?.nccs
-                                                            }
-                                                            value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
-                                                            placeholder="Select a nccs class"
-                                                            inputPlaceholder="Search for a nccs class..."
-                                                            emptyPlaceholder="No nccs class found"
-                                                            multiple
-                                                        />
                                                     </FormItemWrapper>
                                                 )}
                                             />
