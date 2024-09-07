@@ -14,6 +14,8 @@ import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 import ErrorService from "../../../services/error/ErrorService";
 import { toast } from "sonner";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
+import EditButton from "../../../components/button/EditButton";
+import { useUser } from "../../../hooks/useUser";
 
 function SubPersonalityView() {
     const { id } = useParams<string>();
@@ -21,6 +23,10 @@ function SubPersonalityView() {
     const [isLoading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const { logout } = useAuth();
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchTeam = async () => {
         try {
@@ -75,9 +81,10 @@ function SubPersonalityView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        <Button size="sm">
-                            <Pencil className="h-4 w-4" />{" "}
-                        </Button>
+                        <EditButton
+                            show={userRole === "SUPER_ADMIN"}
+                            route={`${NAVIGATION_ROUTES.SUB_PERSONALITY_EDIT}/${id}`}
+                        />
                     </div>
                 </div>
                 {isLoading ? (

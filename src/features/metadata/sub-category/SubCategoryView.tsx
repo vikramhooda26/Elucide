@@ -13,6 +13,8 @@ import { subCategory } from "../../../types/metadata/Metadata";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import ErrorService from "../../../services/error/ErrorService";
 import { toast } from "sonner";
+import EditButton from "../../../components/button/EditButton";
+import { useUser } from "../../../hooks/useUser";
 
 function SubCategoryView() {
     const { id } = useParams<string>();
@@ -20,6 +22,10 @@ function SubCategoryView() {
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const { logout } = useAuth();
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchTeam = async () => {
         try {
@@ -72,9 +78,10 @@ function SubCategoryView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        <Button size="sm">
-                            <Pencil className="h-4 w-4" />{" "}
-                        </Button>
+                        <EditButton
+                            show={userRole === "SUPER_ADMIN"}
+                            route={`${NAVIGATION_ROUTES.SUB_CATEGORY_EDIT}/${id}`}
+                        />
                     </div>
                 </div>
                 <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">

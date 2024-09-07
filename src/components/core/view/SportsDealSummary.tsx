@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useNavigator from "../../../hooks/useNavigator";
 import { useUser } from "../../../hooks/useUser";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
@@ -6,6 +6,7 @@ import { ConditionalButton } from "../../button/ConditionalButton";
 import { NoActionTable } from "../../table/NoActionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import SelectBox from "../../ui/multi-select";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     data: any;
@@ -14,7 +15,7 @@ type Props = {
 
 function SportsDealSummary({ data, partnerKey }: Props) {
     const [filterField, setFilterField] = useState<string>("");
-
+    const navigate = useNavigate();
     const userRole = useUser()?.role;
 
     if (!userRole) {
@@ -56,6 +57,10 @@ function SportsDealSummary({ data, partnerKey }: Props) {
         {
             key: "expirationDate",
             name: "Expiration"
+        },
+        {
+            key: "duration",
+            name: "Duration"
         },
         {
             key: "status",
@@ -129,6 +134,10 @@ function SportsDealSummary({ data, partnerKey }: Props) {
         </ConditionalButton>
     );
 
+    const onEdit = useCallback((id: string) => {
+        navigate(`${NAVIGATION_ROUTES.EDIT_SPORTS_DEAL_SUMMARY}/${id}`);
+    }, []);
+
     return (
         <Card
             x-chunk="dashboard-07-chunk-0"
@@ -150,6 +159,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
                         toolbarAttributes={toolbarAttributes}
                         viewRoute={NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY}
                         action={{ create: createButton }}
+                        onEdit={userRole === "SUPER_ADMIN" ? onEdit : () => {}}
                     />
                 ) : (
                     <span className="text-muted-foreground">

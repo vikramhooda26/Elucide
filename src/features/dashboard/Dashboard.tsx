@@ -11,6 +11,7 @@ import OverView from "./tabs/OverView";
 import { useEffect, useState } from "react";
 import DashboardService from "../../services/features/DashboardService";
 import { HTTP_STATUS_CODES } from "../../lib/constants";
+import FilterSheet from "../../components/core/filter/FilterSheet";
 
 const stakesCount = [
     {
@@ -60,6 +61,7 @@ export default function Dashboard() {
 
     return (
         <>
+            <FilterSheet />
             <div className="flex-col md:flex">
                 <div className="flex-1 space-y-4 p-8 pt-6">
                     <div className="flex items-center justify-between space-y-2">

@@ -9,11 +9,13 @@ import { TableHeaderWrapper } from "../../components/table/table-header-wrapper"
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import { TableCell, TableRow } from "../../components/ui/table";
-import { HTTP_STATUS_CODES } from "../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import MetadataService from "../../services/features/MetadataService";
 import { activation } from "../../types/metadata/Metadata";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { useUser } from "../../hooks/useUser";
+import EditButton from "../../components/button/EditButton";
 
 function ActivationView() {
     const { id } = useParams<string>();
@@ -21,6 +23,10 @@ function ActivationView() {
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const { logout } = useAuth();
+    const userRole = useUser()?.role;
+    if (!userRole) {
+        return;
+    }
 
     const fetchTeam = async (id: string) => {
         try {
@@ -75,9 +81,10 @@ function ActivationView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        <Button size="sm">
-                            <Pencil className="h-4 w-4" />{" "}
-                        </Button>
+                        <EditButton
+                            show={userRole === "SUPER_ADMIN"}
+                            route={`${NAVIGATION_ROUTES.ACTIVATION_EDIT}/${id}`}
+                        />
                     </div>
                 </div>
                 {loading ? (

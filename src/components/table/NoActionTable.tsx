@@ -34,6 +34,8 @@ import {
     TableHeader,
     TableRow
 } from "../ui/table";
+import { DataTableRowActions } from "../data-table/data-table-row-actions";
+import { ActionButtons } from "./ActionButtons";
 
 type Props = {
     data: Array<any>;
@@ -41,6 +43,7 @@ type Props = {
     searchableKey: string;
     toolbarAttributes?: JSX.Element[];
     viewRoute?: string;
+    onEdit?: (id: string) => void;
     action?: { create: JSX.Element | null };
 };
 
@@ -50,6 +53,7 @@ export function NoActionTable({
     searchableKey,
     toolbarAttributes,
     viewRoute,
+    onEdit,
     action
 }: Props) {
     const [tableColumns, setTableColumns] = React.useState<ColumnDef<any>[]>(
@@ -64,7 +68,7 @@ export function NoActionTable({
 
     const setHeader = () => {
         const headers: ColumnDef<any>[] = [];
-        columns?.forEach((header) => {
+        columns?.forEach((header, i) => {
             headers.push({
                 accessorKey: header?.key,
                 header: ({ column }) => {
@@ -106,7 +110,32 @@ export function NoActionTable({
                     }
                 }
             });
+            if (i + 1 == columns?.length && onEdit) {
+                headers.push({
+                    accessorKey: header?.key,
+                    header: () => {
+                        return (
+                            <Button
+                                variant="ghost"
+                                className="flex items-center justify-start p-0 hover:bg-transparent active:brightness-50"
+                            >
+                                Action
+                            </Button>
+                        );
+                    },
+                    cell: ({ row }) => {
+                        return (
+                            <ActionButtons
+                                row={row}
+                                onEdit={onEdit}
+                                canEdit={true}
+                            />
+                        );
+                    }
+                });
+            }
         });
+
         setTableColumns(headers);
     };
 

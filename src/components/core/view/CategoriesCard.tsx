@@ -68,17 +68,6 @@ function CategoriesCard({ data }: Props) {
                                                         {category?.name ||
                                                             "N/A"}
                                                     </span>
-                                                    <span>
-                                                        {calculatePercentages(
-                                                            category,
-                                                            i ===
-                                                                data
-                                                                    ?.mainCategories
-                                                                    ?.length -
-                                                                    1
-                                                        )}
-                                                        %
-                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
