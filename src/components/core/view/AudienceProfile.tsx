@@ -11,7 +11,6 @@ import { nameAndId } from "../../../types/metadata/Metadata";
 import NoDataText from "../../no-data/NoDataText";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Label } from "../../ui/label";
-import { Separator } from "../../ui/separator";
 
 const targetAudience = ["Team", "League", "Brand", "Athlete"];
 const league = ["Team"];
@@ -61,6 +60,44 @@ function AudienceProfile({ data, title = "" }: Props) {
         return percentage;
     };
 
+    const sortedAgeRange = data?.age
+        ? Array.from(data?.age as any[]).sort((a: any, b: any) =>
+              a.name.localeCompare(b.name)
+          )
+        : null;
+
+    const sortedNccsClass = data?.nccs
+        ? Array.from(data?.nccs as any[]).sort((a: any, b: any) =>
+              a.name.localeCompare(b.name)
+          )
+        : null;
+
+    const sortedTiers = data?.tiers
+        ? Array.from(data?.tiers as any[]).sort((a: any, b: any) =>
+              a.name.localeCompare(b.name)
+          )
+        : null;
+
+    const sortedPrimaryKeyMarket = data?.primaryKeyMarket
+        ? Array.from(data?.primaryKeyMarket as any[]).sort((a: any, b: any) =>
+              a.name.localeCompare(b.name)
+          )
+        : null;
+
+    const sortedSecondaryKeyMarket = data?.secondaryKeyMarket
+        ? Array.from(data?.secondaryKeyMarket as any[]).sort((a: any, b: any) =>
+              a.name.localeCompare(b.name)
+          )
+        : null;
+
+    const sortedTertiaryKeyMarket = data?.tertiary
+        ? Array.from(data?.tertiary as any[]).sort((a: any, b: any) =>
+              a.name.localeCompare(b.name)
+          )
+        : null;
+
+    console.log(sortedAgeRange);
+
     return (
         <div className="space-y-6">
             {targetAudience?.some((formName) => formName === title) ? (
@@ -83,9 +120,9 @@ function AudienceProfile({ data, title = "" }: Props) {
                                 <div className="grid gap-4 rounded-md border p-6">
                                     <Label>Age Range</Label>
                                     <dl className="grid gap-3">
-                                        {typeof data?.age === "object" ? (
-                                            data?.age?.length ? (
-                                                data?.age?.map(
+                                        {typeof sortedAgeRange === "object" ? (
+                                            sortedAgeRange?.length ? (
+                                                sortedAgeRange?.map(
                                                     (
                                                         age: nameAndId,
                                                         i: number
@@ -165,8 +202,8 @@ function AudienceProfile({ data, title = "" }: Props) {
                                     <div className="grid gap-4 rounded-md border p-6">
                                         <Label>NCCS</Label>
                                         <ul className="grid gap-3">
-                                            {data?.nccs?.length > 0 ? (
-                                                data?.nccs?.map(
+                                            {sortedNccsClass?.length ? (
+                                                sortedNccsClass?.map(
                                                     (
                                                         nccs: nameAndId,
                                                         i: number
@@ -193,8 +230,8 @@ function AudienceProfile({ data, title = "" }: Props) {
                                     <div className="grid gap-4 rounded-md border p-6">
                                         <Label>Tiers</Label>
                                         <dl className="grid gap-3">
-                                            {data?.tiers?.length > 0 ? (
-                                                data?.tiers?.map(
+                                            {sortedTiers?.length ? (
+                                                sortedTiers?.map(
                                                     (
                                                         tier: nameAndId,
                                                         i: number
@@ -240,8 +277,8 @@ function AudienceProfile({ data, title = "" }: Props) {
                                     <div className="grid gap-4">
                                         <Label>Primary key Market</Label>
                                         <ul className="grid gap-2">
-                                            {data?.primaryKeyMarket?.length ? (
-                                                data?.primaryKeyMarket?.map(
+                                            {sortedPrimaryKeyMarket?.length ? (
+                                                sortedPrimaryKeyMarket?.map(
                                                     (
                                                         market: nameAndId,
                                                         i: number
@@ -269,9 +306,8 @@ function AudienceProfile({ data, title = "" }: Props) {
                                     <div className="grid gap-4">
                                         <Label>Secondary key Market</Label>
                                         <ul className="grid gap-2">
-                                            {data?.secondaryKeyMarket
-                                                ?.length ? (
-                                                data?.secondaryKeyMarket?.map(
+                                            {sortedSecondaryKeyMarket?.length ? (
+                                                sortedSecondaryKeyMarket?.map(
                                                     (
                                                         market: nameAndId,
                                                         i: number
@@ -299,8 +335,8 @@ function AudienceProfile({ data, title = "" }: Props) {
                                     <div className="grid gap-4">
                                         <Label>Tertiary Market</Label>
                                         <ul className="grid gap-2">
-                                            {data?.tertiary?.length ? (
-                                                data?.tertiary?.map(
+                                            {sortedTertiaryKeyMarket?.length ? (
+                                                sortedTertiaryKeyMarket?.map(
                                                     (
                                                         market: nameAndId,
                                                         i: number

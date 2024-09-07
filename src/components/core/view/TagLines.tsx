@@ -6,7 +6,12 @@ type TTagLinesProps = {
 };
 
 function TagLines({ data }: TTagLinesProps) {
-    if (data?.taglines)
+    const sortedTaglines = data
+        ? Array.from(data?.taglines as any[]).sort((a: any, b: any) =>
+              a.name.localeCompare(b.name)
+          )
+        : null;
+    if (sortedTaglines?.length)
         return (
             <div className="p-6 text-sm">
                 <ul className="flex flex-col gap-3">
@@ -14,7 +19,7 @@ function TagLines({ data }: TTagLinesProps) {
                         <span>Taglines</span>
                     </li>
                     <ul className="grid gap-3">
-                        {data?.taglines?.map((tag: nameAndId, i: number) => (
+                        {sortedTaglines.map((tag: nameAndId, i: number) => (
                             <li
                                 key={i}
                                 className="flex items-center gap-2 text-muted-foreground"
