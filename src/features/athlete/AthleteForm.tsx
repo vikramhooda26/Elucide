@@ -843,6 +843,7 @@ function AthleteForm() {
                                 <AssociationCard
                                     form={form}
                                     metadataStore={metadataStore}
+                                    fetchMetadata={fetchMetadata}
                                 />
                                 <ContactPersonCard control={form.control} />
                             </div>

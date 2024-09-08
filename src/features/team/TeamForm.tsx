@@ -1031,6 +1031,7 @@ export function TeamForm() {
                                     form={form}
                                     metadataStore={metadataStore}
                                     showBrand={true}
+                                    fetchMetadata={fetchMetadata}
                                 />
                                 <ContactPersonCard control={form.control} />
                                 <EndorsementCard control={form.control} />
