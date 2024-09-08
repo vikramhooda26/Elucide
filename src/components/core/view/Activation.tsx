@@ -116,7 +116,7 @@ function Activation({ data, partnerKey }: Props) {
                 </div>
             </CardHeader>
             <CardContent className="p-6">
-                {activations?.length > 0 ? (
+                {/* {activations?.length > 0 ? ( */}
                     <NoActionTable
                         data={activations}
                         columns={activationColumn}
@@ -126,11 +126,11 @@ function Activation({ data, partnerKey }: Props) {
                         action={{ create: createButton }}
                         onEdit={userRole === "SUPER_ADMIN" ? onEdit : () => {}}
                     />
-                ) : (
+                {/* ) : (
                     <span className="text-muted-foreground">
                         No Activation Summaries
                     </span>
-                )}
+                )} */}
             </CardContent>
         </Card>
     );

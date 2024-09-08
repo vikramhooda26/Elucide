@@ -151,7 +151,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
                 </div>
             </CardHeader>
             <CardContent className="p-6">
-                {sportsDealSummary?.length > 0 ? (
+                {/* {sportsDealSummary?.length > 0 ? ( */}
                     <NoActionTable
                         data={sportsDealSummary}
                         columns={sportsDealColumn}
@@ -161,11 +161,11 @@ function SportsDealSummary({ data, partnerKey }: Props) {
                         action={{ create: createButton }}
                         onEdit={userRole === "SUPER_ADMIN" ? onEdit : () => {}}
                     />
-                ) : (
+                {/* ) : (
                     <span className="text-muted-foreground">
                         No Sports Deal Summaries
                     </span>
-                )}
+                )} */}
             </CardContent>
         </Card>
     );
