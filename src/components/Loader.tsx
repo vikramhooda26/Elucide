@@ -1,20 +1,15 @@
-import { cn } from "../lib/utils";
+import "../styles/loader.css";
 
-const Loader = ({
-    visible,
-    className
-}: {
-    visible: boolean;
-    className?: string;
-}) => {
-    const bars = Array(12).fill(0);
+const bars = Array(12).fill(0);
+
+const Loader = ({ visible }: { visible: boolean }) => {
     if (visible)
         return (
-            <div className="sonner-loading-wrapper">
+            <div className="sonner-loading-wrapper" data-visible={visible}>
                 <div className="sonner-spinner">
                     {bars.map((_, i) => (
                         <div
-                            className={cn("sonner-loading-bar", className)}
+                            className={"sonner-loading-bar"}
                             key={`spinner-bar-${i}`}
                         />
                     ))}
