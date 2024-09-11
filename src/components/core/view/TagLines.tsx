@@ -6,10 +6,10 @@ type TTagLinesProps = {
 };
 
 function TagLines({ data }: TTagLinesProps) {
-    const sortedTaglines = data
+    const sortedTaglines = data && Object.keys(data)?.length > 0 && data?.taglines?.length > 0
         ? Array.from(data?.taglines as any[]).sort((a: any, b: any) =>
-              a.name.localeCompare(b.name)
-          )
+            a.name.localeCompare(b.name)
+        )
         : null;
     if (sortedTaglines?.length)
         return (
