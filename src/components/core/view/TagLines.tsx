@@ -6,11 +6,12 @@ type TTagLinesProps = {
 };
 
 function TagLines({ data }: TTagLinesProps) {
-    const sortedTaglines = data && Object.keys(data)?.length > 0 && data?.taglines?.length > 0
-        ? Array.from(data?.taglines as any[]).sort((a: any, b: any) =>
-            a.name.localeCompare(b.name)
-        )
-        : null;
+    const sortedTaglines =
+        data && Object.keys(data)?.length > 0 && data?.taglines?.length > 0
+            ? Array.from(data?.taglines as any[]).sort((a: any, b: any) =>
+                  a.name.localeCompare(b.name)
+              )
+            : null;
     if (sortedTaglines?.length)
         return (
             <div className="p-6 text-sm">

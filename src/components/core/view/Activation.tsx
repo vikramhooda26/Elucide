@@ -117,15 +117,15 @@ function Activation({ data, partnerKey }: Props) {
             </CardHeader>
             <CardContent className="p-6">
                 {/* {activations?.length > 0 ? ( */}
-                    <NoActionTable
-                        data={activations}
-                        columns={activationColumn}
-                        searchableKey={filterField || "name"}
-                        toolbarAttributes={toolbarAttributes}
-                        viewRoute={NAVIGATION_ROUTES?.ACTIVATION}
-                        action={{ create: createButton }}
-                        onEdit={userRole === "SUPER_ADMIN" ? onEdit : () => {}}
-                    />
+                <NoActionTable
+                    data={activations}
+                    columns={activationColumn}
+                    searchableKey={filterField || "name"}
+                    toolbarAttributes={toolbarAttributes}
+                    viewRoute={NAVIGATION_ROUTES?.ACTIVATION}
+                    action={{ create: createButton }}
+                    onEdit={userRole === "SUPER_ADMIN" ? onEdit : () => {}}
+                />
                 {/* ) : (
                     <span className="text-muted-foreground">
                         No Activation Summaries

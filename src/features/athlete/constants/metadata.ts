@@ -109,7 +109,7 @@ export type TEditAthleteFormSchema = {
         id?: string;
         name?: string;
     }[];
-    tier?: {
+    tiers?: {
         id?: string;
         name?: string;
     }[];

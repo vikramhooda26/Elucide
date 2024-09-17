@@ -74,6 +74,16 @@ export type TEditBrandformSchema = {
         id?: string;
         name?: string;
     };
+    createdBy?: {
+        id?: string;
+        name?: string;
+    };
+    modifiedBy?: {
+        id?: string;
+        name?: string;
+    };
+    createdDate?: Date;
+    modifiedDate?: Date;
     subcategory?: {
         id?: string;
         name?: string;
@@ -94,9 +104,20 @@ export type TEditBrandformSchema = {
         id?: string;
         name?: string;
     };
-    tier?: {
+    tiers?: {
         id?: string;
         name?: string;
+    }[];
+    association?: {
+        associationLevelId?: {
+            id?: string;
+            name?: string;
+        };
+        costOfAssociation?: string;
+        team: {
+            id?: string;
+            name?: string;
+        };
     }[];
     instagram?: string;
     facebook?: string;
@@ -158,21 +179,30 @@ export type TEditBrandformSchema = {
             name?: string;
         }[];
     }[];
+    mainCategories?: {
+        id?: string;
+        name?: string;
+        subCategories?: {
+            id?: string;
+            name?: string;
+        }[];
+    }[];
     sportsDealSummary?: {
+        id?: string;
         annualValue?: string;
         assets: {
             id?: string;
             name?: string;
         }[];
-        athleteName?: {
+        athlete?: {
             id?: string;
             name?: string;
         };
-        leagueName?: {
+        league?: {
             id?: string;
             name?: string;
         };
-        teamName?: {
+        team?: {
             id?: string;
             name?: string;
         };
@@ -184,7 +214,7 @@ export type TEditBrandformSchema = {
             name?: string;
         };
         mediaLink: string;
-        brandName?: {
+        brand?: {
             id?: string;
             name?: string;
         };
@@ -196,20 +226,21 @@ export type TEditBrandformSchema = {
         totalValue?: string;
         type: string;
     }[];
-    activationSummary?: {
-        brandName?: {
+    activations?: {
+        id?: string;
+        brand?: {
             id?: string;
             name?: string;
         };
-        athleteName?: {
+        athlete?: {
             id?: string;
             name?: string;
         };
-        leagueName?: {
+        league?: {
             id?: string;
             name?: string;
         };
-        teamName?: {
+        team?: {
             id?: string;
             name?: string;
         };

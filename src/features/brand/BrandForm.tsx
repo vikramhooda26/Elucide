@@ -166,8 +166,10 @@ function BrandForm() {
                                     details.contactNumber || undefined
                             })) || undefined,
                         subCategoryIds:
-                            brandData.subcategory?.map(
-                                (category) => category.id
+                            brandData.mainCategories?.flatMap((category) =>
+                                category.subCategories?.map(
+                                    (subcategory) => subcategory.id
+                                )
                             ) || undefined,
                         cityId: brandData.city?.id || undefined,
                         stateId: brandData.state?.id || undefined,
@@ -180,7 +182,7 @@ function BrandForm() {
                                 )
                                 .flat(2) || undefined,
                         tierIds:
-                            brandData.tier
+                            brandData.tiers
                                 ?.filter((tier) => tier.id !== undefined)
                                 .map((tier) => tier.id) || undefined,
                         nccsIds:

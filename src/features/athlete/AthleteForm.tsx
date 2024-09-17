@@ -129,7 +129,7 @@ function AthleteForm() {
                 athleteData.secondaryMarketingPlatform?.map(
                     (platform) => platform.id
                 ) || undefined,
-            tierIds: athleteData.tier?.map((tiers) => tiers.id) || undefined,
+            tierIds: athleteData.tiers?.map((tier) => tier.id) || undefined,
             subPersonalityTraitIds:
                 athleteData.mainPersonalityTraits
                     ?.map((traits) =>
@@ -203,13 +203,9 @@ function AthleteForm() {
         };
 
         if (id) {
-            if (!athleteData?.name) {
-                fetchAthleteDetails(id);
-            } else {
-                populateForm(athleteData);
-            }
+            fetchAthleteDetails(id);
         }
-    }, [id, athleteData]);
+    }, [id]);
 
     useEffect(() => {
         if (isSubmitting) {

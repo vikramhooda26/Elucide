@@ -152,15 +152,15 @@ function SportsDealSummary({ data, partnerKey }: Props) {
             </CardHeader>
             <CardContent className="p-6">
                 {/* {sportsDealSummary?.length > 0 ? ( */}
-                    <NoActionTable
-                        data={sportsDealSummary}
-                        columns={sportsDealColumn}
-                        searchableKey={filterField || "brand"}
-                        toolbarAttributes={toolbarAttributes}
-                        viewRoute={NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY}
-                        action={{ create: createButton }}
-                        onEdit={userRole === "SUPER_ADMIN" ? onEdit : () => {}}
-                    />
+                <NoActionTable
+                    data={sportsDealSummary}
+                    columns={sportsDealColumn}
+                    searchableKey={filterField || "brand"}
+                    toolbarAttributes={toolbarAttributes}
+                    viewRoute={NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY}
+                    action={{ create: createButton }}
+                    onEdit={userRole === "SUPER_ADMIN" ? onEdit : () => {}}
+                />
                 {/* ) : (
                     <span className="text-muted-foreground">
                         No Sports Deal Summaries

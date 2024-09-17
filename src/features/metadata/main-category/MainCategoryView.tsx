@@ -1,19 +1,19 @@
 import { Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 import BackButton from "../../../components/button/BackButton";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 import NameIdList from "../../../components/core/view/NameIdList";
 import { TableHeaderWrapper } from "../../../components/table/table-header-wrapper";
 import { Button } from "../../../components/ui/button";
 import { Card } from "../../../components/ui/card";
 import { TableCell, TableRow } from "../../../components/ui/table";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
+import ErrorService from "../../../services/error/ErrorService";
 import MetadataService from "../../../services/features/MetadataService";
 import { mainCategory } from "../../../types/metadata/Metadata";
-import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
-import ErrorService from "../../../services/error/ErrorService";
-import { toast } from "sonner";
 
 function MainCategoryView() {
     const { id } = useParams<string>();
@@ -63,6 +63,10 @@ function MainCategoryView() {
         { header: "Name" }
     ];
 
+    const navigateToEditPage = () => {
+        navigate(`${NAVIGATION_ROUTES.MAIN_CATEGORY_EDIT}/${id}`);
+    };
+
     return (
         <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <div className="mx-auto auto-rows-max gap-4">
@@ -73,7 +77,7 @@ function MainCategoryView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        <Button size="sm">
+                        <Button size="sm" onClick={navigateToEditPage}>
                             <Pencil className="h-4 w-4" />{" "}
                         </Button>
                     </div>
