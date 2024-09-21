@@ -62,37 +62,38 @@ function AudienceProfile({ data, title = "" }: Props) {
 
     const sortedAgeRange = data?.age
         ? Array.from(data?.age as any[]).sort((a: any, b: any) =>
-              a.name.localeCompare(b.name)
+              a?.name && b?.name ? a.name.localeCompare(b.name) : 0
           )
         : null;
 
     const sortedNccsClass = data?.nccs
         ? Array.from(data?.nccs as any[]).sort((a: any, b: any) =>
-              a.name.localeCompare(b.name)
+              a?.name && b?.name ? a.name.localeCompare(b.name) : 0
           )
         : null;
 
     const sortedTiers = data?.tiers
         ? Array.from(data?.tiers as any[]).sort((a: any, b: any) =>
-              a.id.localeCompare(b.id)
+              a?.id && b?.id ? a.id.localeCompare(b.id) : 0
           )
         : null;
 
     const sortedPrimaryKeyMarket = data?.primaryKeyMarket
         ? Array.from(data?.primaryKeyMarket as any[]).sort((a: any, b: any) =>
-              a.name.localeCompare(b.name)
+              a?.name && b?.name ? a.name.localeCompare(b.name) : 0
           )
         : null;
 
     const sortedSecondaryKeyMarket = data?.secondaryKeyMarket
-        ? Array.from(data?.secondaryKeyMarket as any[]).sort((a: any, b: any) =>
-              a.name.localeCompare(b.name)
+        ? Array.from(data?.secondaryKeyMarket as any[]).sort(
+              (a: any, b: any) =>
+                  a?.name && b?.name ? a.name.localeCompare(b.name) : 0
           )
         : null;
 
     const sortedTertiaryKeyMarket = data?.tertiary
         ? Array.from(data?.tertiary as any[]).sort((a: any, b: any) =>
-              a.name.localeCompare(b.name)
+              a?.name && b?.name ? a.name.localeCompare(b.name) : 0
           )
         : null;
 
