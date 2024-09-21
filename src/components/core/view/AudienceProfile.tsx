@@ -74,7 +74,7 @@ function AudienceProfile({ data, title = "" }: Props) {
 
     const sortedTiers = data?.tiers
         ? Array.from(data?.tiers as any[]).sort((a: any, b: any) =>
-              b.id.localeCompare(a.name)
+              a.id.localeComparea(b.name)
           )
         : null;
 
