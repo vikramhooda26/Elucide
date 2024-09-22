@@ -11,7 +11,8 @@ import OverView from "./tabs/OverView";
 import { useEffect, useState } from "react";
 import DashboardService from "../../services/features/DashboardService";
 import { HTTP_STATUS_CODES } from "../../lib/constants";
-import FilterSheet from "../../components/core/filter/FilterSheet";
+import FilterSheet from "../../components/core/filter/FilterModal";
+import { addDays } from "date-fns";
 
 const stakesCount = [
     {
@@ -69,7 +70,10 @@ export default function Dashboard() {
                             Dashboard
                         </h2>
                         <div className="flex items-center space-x-2">
-                            <CalendarDateRangePicker />
+                            <CalendarDateRangePicker
+                                value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
+                                onChange={(range) => console.log(range)}
+                            />
                             <Button>Search</Button>
                         </div>
                     </div>

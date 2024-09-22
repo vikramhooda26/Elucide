@@ -10,6 +10,7 @@ import useNavigator from "../../../hooks/useNavigator";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { CalendarDateRangePicker } from "../components/date-range-picker";
 import TeamDashboard from "./TeamDashboard";
+import { addDays } from "date-fns";
 
 function TeamDashboardLayout() {
     const navigator = useNavigator();
@@ -26,7 +27,10 @@ function TeamDashboardLayout() {
                         Team Dashboard
                     </h2>
                     <div className="flex items-center space-x-2">
-                        <CalendarDateRangePicker />
+                        <CalendarDateRangePicker
+                            value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
+                            onChange={(range) => console.log(range)}
+                        />
                         <Button onClick={onViewList}>View List</Button>
                     </div>
                 </div>

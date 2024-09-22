@@ -1,10 +1,12 @@
 import { ChevronRight } from "lucide-react";
-import { FlipWords } from "../../components/ui/flip-words";
-import { Vortex } from "../../components/ui/vortex";
-import { GradientButton } from "../../components/ui/gradient-button";
-import { NAVIGATION_ROUTES } from "../../lib/constants";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FlipWords } from "../../components/ui/flip-words";
+import { GradientButton } from "../../components/ui/gradient-button";
+import { Vortex } from "../../components/ui/vortex";
+import { NAVIGATION_ROUTES } from "../../lib/constants";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import FilterPage from "./FilterPage";
 
 export const Hero = ({
     words,
@@ -15,6 +17,7 @@ export const Hero = ({
 }) => {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
     const handleScrollToApproach = () => {
         approachRef.current?.scrollIntoView({
@@ -57,6 +60,9 @@ export const Hero = ({
                     See more{" "}
                     <ChevronRight className="ml-1 h-4 w-4 text-white duration-200 ease-in-out group-hover:translate-x-1" />
                 </GradientButton>
+            </div>
+            <div className="w-full h-full">
+                <FilterPage />
             </div>
         </Vortex>
     );
