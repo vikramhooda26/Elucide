@@ -9,10 +9,10 @@ interface SearchFilterProps {
 
 const SearchFilter: React.FC<SearchFilterProps> = ({ value, onChange }) => {
     return (
-        <div className="space-y-1">
+        <div className="space-y-1 ms-1">
             <Input
                 id="search"
-                placeholder="Search products..."
+                placeholder="Search ..."
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
             />

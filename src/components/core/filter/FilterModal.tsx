@@ -56,7 +56,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
                 ...getCurrentFilters(),
                 [key]: { type: filters.find((f) => f.key === key)?.type, value },
             },
-        })); 
+        }));
     };
 
     const handleClearFilters = () => {
@@ -163,7 +163,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
                 </DialogHeader>
                 <div className="flex-grow overflow-y-auto py-4">
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {filters.map((filter) => renderFilter(filter))}
+                        {filters && filters?.length && filters?.map((filter) => renderFilter(filter))}
                     </div>
                 </div>
                 <DialogFooter className="mt-auto">
