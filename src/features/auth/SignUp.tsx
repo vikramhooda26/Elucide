@@ -25,9 +25,7 @@ const newUserSchema = z
         email: z.string().min(1, "email is required"),
         firstName: z.string().min(1, "First name is required"),
         lastName: z.string().optional(),
-        password: z
-            .string()
-            .min(8, "Password must be minimum 8 characters long"),
+        password: z.string().min(1, "Password is required"),
         confirmPassword: z.string(),
         role: z.enum(["SUPER_ADMIN", "ADMIN", "STAFF", "USER"])
     })
