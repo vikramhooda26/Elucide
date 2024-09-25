@@ -7,22 +7,6 @@ class AuthService {
         return AjaxService.request(`${API_URL}/api/auth/login`, params, "POST");
     }
 
-    static createUser(params: any) {
-        return AjaxService.request(
-            `${API_URL}/api/auth/register`,
-            params,
-            "POST"
-        );
-    }
-
-    static fetchUserDetails() {
-        return AjaxService.request(
-            `${API_URL}/api/auth/get-user-details`,
-            {},
-            "GET"
-        );
-    }
-
     static logout() {
         return AjaxService.request(`${API_URL}/api/auth/logout`, {}, "POST");
     }

@@ -23,10 +23,12 @@ const dataEntryRoute = "/data-entry";
 
 export const NAVIGATION_ROUTES = {
     LOGIN: "/elucide/login",
-    CREATE_USER: "/create-user",
     HOME: "/elucide/home",
     DASHBOARD: "/dashboard",
+
+    CREATE_USER: "/create-user",
     USERS_LIST: "/users-list",
+    EDIT_USER: "/edit-user",
 
     BRAND_DASHBOARD: "/brand/dashboard",
     League_DASHBOARD: "/league/dashboard",

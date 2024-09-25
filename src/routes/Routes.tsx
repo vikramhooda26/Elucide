@@ -1,74 +1,58 @@
 import { useEffect } from "react";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import GlobalErrorHandler from "../components/error/ErrorPage";
+import { NotFoundPage } from "../components/not-found";
 import ActivationForm from "../features/activations/ActivationForm";
+import ActivationList from "../features/activations/ActivationList";
+import ActivationView from "../features/activations/ActivationView";
 import AthleteForm from "../features/athlete/AthleteForm";
 import AthleteList from "../features/athlete/AthleteList";
 import AthleteView from "../features/athlete/AthleteView";
 import { useAuth } from "../features/auth/auth-provider/AuthProvider";
 import Login from "../features/auth/Login";
+import SignUpPage from "../features/auth/SignUp";
 import BrandForm from "../features/brand/BrandForm";
 import BrandList from "../features/brand/BrandList";
 import BrandView from "../features/brand/BrandView";
+import AthleteDashboardLayout from "../features/dashboard/athlete/AthleteDashboardLayout";
+import BrandDashboardLayout from "../features/dashboard/brand/BrandDashboardLayout";
 import Dashboard from "../features/dashboard/Dashboard";
+import LeagueDashboardLayout from "../features/dashboard/league/LeagueDashboardLayout";
+import TeamDashboardLayout from "../features/dashboard/team/TeamDashboardLayout";
 import DataEntryList from "../features/data-entry/DataEntryList";
 import { Home } from "../features/hero-section/Home";
 import { HomePageLayout } from "../features/hero-section/HomePageLayout";
 import LeagueForm from "../features/league/LeagueForm";
 import LeagueList from "../features/league/LeagueList";
 import LeagueView from "../features/league/LeagueView";
-import ActivationList from "../features/activations/ActivationList";
 import ActiveCampaignForm from "../features/metadata/ActiveCampaign/ActiveCampaignForm";
 import ActiveCampaignList from "../features/metadata/ActiveCampaign/ActiveCampaignList";
 import ActiveCampaignView from "../features/metadata/ActiveCampaign/ActiveCampaignView";
 import AgeForm from "../features/metadata/age/AgeForm";
 import AgeList from "../features/metadata/age/AgeList";
 import AgeView from "../features/metadata/age/AgeView";
-import GenderForm from "../features/metadata/gender/GenderForm";
-import GenderList from "../features/metadata/gender/GenderList";
-import GenderView from "../features/metadata/gender/GenderView";
-import PersonalityForm from "../features/metadata/personality/PersonalityForm";
-import PersonalityList from "../features/metadata/personality/PersonalityList";
-import PersonalityView from "../features/metadata/personality/PersonalityView";
-import TeamForm from "../features/team/TeamForm";
-import TeamList from "../features/team/TeamList";
-import TeamView from "../features/team/TeamView";
-import MailLayout from "../layouts/main-layout/athlete/MailLayout";
-import MainLayout from "../layouts/main-layout/MainLayout";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES, TRoles } from "../lib/constants";
-import AuthService from "../services/auth/AuthService";
-import ErrorService from "../services/error/ErrorService";
-import { userAtom } from "../store/atoms/user";
-import { loadingBarSelector } from "../store/selectors/global";
-import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
-import SportsDealSummaryForm from "../features/sports-deal-summary/SportsDealSummaryForm";
-import SportsDealSummaryList from "../features/sports-deal-summary/SportsDealSummaryList";
-import SignUpPage from "../features/auth/SignUp";
-import ActivationView from "../features/activations/ActivationView";
+import AgencyForm from "../features/metadata/agency/AgencyForm";
+import AgencyList from "../features/metadata/agency/AgencyList";
+import AgencyView from "../features/metadata/agency/AgencyView";
 import AssetForm from "../features/metadata/asset/AssetForm";
 import AssetList from "../features/metadata/asset/AssetList";
 import AssetView from "../features/metadata/asset/AssetView";
+import AssociationLevelForm from "../features/metadata/association-level/AssociationLevelForm";
+import AssociationLevelList from "../features/metadata/association-level/AssociationLevelList";
+import AssociationLevelView from "../features/metadata/association-level/AssociationLevelView";
 import BroadcastPartnerForm from "../features/metadata/broadcast-partner/BroadcastPartnerForm";
 import BroadcastPartnerList from "../features/metadata/broadcast-partner/BroadcastPartnerList";
 import BroadcastPartnerView from "../features/metadata/broadcast-partner/BroadcastPartnerView";
 import CityForm from "../features/metadata/city/CityForm";
 import CityList from "../features/metadata/city/CityList";
 import CityView from "../features/metadata/city/CityView";
-import StateForm from "../features/metadata/state/StateForm";
-import StateList from "../features/metadata/state/StateList";
-import StateView from "../features/metadata/state/StateView";
-import SubCategoryForm from "../features/metadata/sub-category/SubCategoryForm";
-import SubCategoryList from "../features/metadata/sub-category/SubCategoryList";
-import SubCategoryView from "../features/metadata/sub-category/SubCategoryView";
-import MainCategoryForm from "../features/metadata/main-category/MainCategoryForm";
-import MainCategoryList from "../features/metadata/main-category/MainCategoryList";
-import MainCategoryView from "../features/metadata/main-category/MainCategoryView";
-import AgencyForm from "../features/metadata/agency/AgencyForm";
-import AgencyList from "../features/metadata/agency/AgencyList";
-import AgencyView from "../features/metadata/agency/AgencyView";
-import NccsForm from "../features/metadata/nccs/NccsForm";
-import NccsList from "../features/metadata/nccs/NccsList";
-import NccsView from "../features/metadata/nccs/NccsView";
+import CountryForm from "../features/metadata/country/CountryForm";
+import CountryList from "../features/metadata/country/CountryList";
+import CountryView from "../features/metadata/country/CountryView";
+import GenderForm from "../features/metadata/gender/GenderForm";
+import GenderList from "../features/metadata/gender/GenderList";
+import GenderView from "../features/metadata/gender/GenderView";
 import KeyMarketForm from "../features/metadata/key-market/KeyMarketForm";
 import KeyMarketList from "../features/metadata/key-market/KeyMarketList";
 import KeyMarketView from "../features/metadata/key-market/KeyMarketView";
@@ -78,21 +62,36 @@ import LeagueOwnerView from "../features/metadata/league-owner/LeagueOwnerView";
 import LevelForm from "../features/metadata/level/LevelForm";
 import LevelList from "../features/metadata/level/LevelList";
 import LevelView from "../features/metadata/level/LevelView";
-import SubPersonalityForm from "../features/metadata/sub-personality/SubPersonalityForm";
-import SubPersonalityList from "../features/metadata/sub-personality/SubPersonalityList";
-import SubPersonalityView from "../features/metadata/sub-personality/SubPersonalityView";
+import MainCategoryForm from "../features/metadata/main-category/MainCategoryForm";
+import MainCategoryList from "../features/metadata/main-category/MainCategoryList";
+import MainCategoryView from "../features/metadata/main-category/MainCategoryView";
 import MarketingPlatformForm from "../features/metadata/marketing-platform/MarketingPlatformForm";
 import MarketingPlatformList from "../features/metadata/marketing-platform/MarketingPlatformList";
 import MarketingPlatformView from "../features/metadata/marketing-platform/MarketingPlatformView";
+import NccsForm from "../features/metadata/nccs/NccsForm";
+import NccsList from "../features/metadata/nccs/NccsList";
+import NccsView from "../features/metadata/nccs/NccsView";
 import OttPartnerForm from "../features/metadata/ott-partner/OttPartnerForm";
 import OttPartnerList from "../features/metadata/ott-partner/OttPartnerList";
 import OttPartnerView from "../features/metadata/ott-partner/OttPartnerView";
 import ParentOrgForm from "../features/metadata/parent-organization/ParentOrgForm";
 import ParentOrgList from "../features/metadata/parent-organization/ParentOrgList";
 import ParentOrgView from "../features/metadata/parent-organization/ParentOrgView";
+import PersonalityForm from "../features/metadata/personality/PersonalityForm";
+import PersonalityList from "../features/metadata/personality/PersonalityList";
+import PersonalityView from "../features/metadata/personality/PersonalityView";
 import SportForm from "../features/metadata/sport/SportForm";
 import SportList from "../features/metadata/sport/SportList";
 import SportView from "../features/metadata/sport/SportView";
+import StateForm from "../features/metadata/state/StateForm";
+import StateList from "../features/metadata/state/StateList";
+import StateView from "../features/metadata/state/StateView";
+import SubCategoryForm from "../features/metadata/sub-category/SubCategoryForm";
+import SubCategoryList from "../features/metadata/sub-category/SubCategoryList";
+import SubCategoryView from "../features/metadata/sub-category/SubCategoryView";
+import SubPersonalityForm from "../features/metadata/sub-personality/SubPersonalityForm";
+import SubPersonalityList from "../features/metadata/sub-personality/SubPersonalityList";
+import SubPersonalityView from "../features/metadata/sub-personality/SubPersonalityView";
 import TaglineForm from "../features/metadata/tagline/TaglineForm";
 import TaglineList from "../features/metadata/tagline/TaglineList";
 import TaglineView from "../features/metadata/tagline/TaglineView";
@@ -105,19 +104,21 @@ import TerritoryView from "../features/metadata/territory/TerritoryView";
 import TierForm from "../features/metadata/tier/TierForm";
 import TierList from "../features/metadata/tier/TierList";
 import TierView from "../features/metadata/tier/TierView";
-import CountryForm from "../features/metadata/country/CountryForm";
-import CountryList from "../features/metadata/country/CountryList";
-import CountryView from "../features/metadata/country/CountryView";
+import SportsDealSummaryForm from "../features/sports-deal-summary/SportsDealSummaryForm";
+import SportsDealSummaryList from "../features/sports-deal-summary/SportsDealSummaryList";
 import SportsDealSummaryView from "../features/sports-deal-summary/SportsDealSummaryView";
-import AssociationLevelForm from "../features/metadata/association-level/AssociationLevelForm";
-import AssociationLevelList from "../features/metadata/association-level/AssociationLevelList";
-import AssociationLevelView from "../features/metadata/association-level/AssociationLevelView";
-import BrandDashboardLayout from "../features/dashboard/brand/BrandDashboardLayout";
-import LeagueDashboardLayout from "../features/dashboard/league/LeagueDashboardLayout";
-import TeamDashboardLayout from "../features/dashboard/team/TeamDashboardLayout";
-import AthleteDashboardLayout from "../features/dashboard/athlete/AthleteDashboardLayout";
-import { NotFoundPage } from "../components/not-found";
-import GlobalErrorHandler from "../components/error/ErrorPage";
+import TeamForm from "../features/team/TeamForm";
+import TeamList from "../features/team/TeamList";
+import TeamView from "../features/team/TeamView";
+import MailLayout from "../layouts/main-layout/athlete/MailLayout";
+import MainLayout from "../layouts/main-layout/MainLayout";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES, TRoles } from "../lib/constants";
+import ErrorService from "../services/error/ErrorService";
+import UserService from "../services/features/UserService";
+import { userAtom } from "../store/atoms/user";
+import { loadingBarSelector } from "../store/selectors/global";
+import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
+import UserList from "../features/user/UserList";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -154,11 +155,24 @@ const routeChildren: routeChildrenType[] = [
     },
     //= ====================== dashboard routes ends here ========================= =//
 
+    //= ====================== User routes starts here ========================= =//
     {
         path: NAVIGATION_ROUTES.CREATE_USER,
         element: <SignUpPage />,
         access: ["SUPER_ADMIN"]
     },
+    {
+        path: NAVIGATION_ROUTES.EDIT_USER + "/:id",
+        element: <SignUpPage />,
+        access: ["SUPER_ADMIN"]
+    },
+    {
+        path: NAVIGATION_ROUTES.USERS_LIST,
+        element: <UserList />,
+        access: ["SUPER_ADMIN"]
+    },
+    //= ====================== dashboard routes ends here ========================= =//
+
     //= ============================= athlete related routes starts here ====================== =//
     {
         path: NAVIGATION_ROUTES.ATHLETE_LIST,
@@ -924,7 +938,7 @@ function Routes() {
     const getUserDetails = async () => {
         try {
             setIsLoading(true);
-            const response = await AuthService.fetchUserDetails();
+            const response = await UserService.fetchUserDetails();
             if (response.status === HTTP_STATUS_CODES.OK) {
                 setUser({
                     id: response.data.userId,

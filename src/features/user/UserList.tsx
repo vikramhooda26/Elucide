@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { ConditionalButton } from "../../components/button/ConditionalButton";
-import { getColumns } from "../../components/core/view/common-columns";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
 import { Input } from "../../components/ui/input";
@@ -29,10 +28,15 @@ import { listLoadingAtom } from "../../store/atoms/global";
 import { brand } from "../../types/brand/BrandListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
+import UserService from "../../services/features/UserService";
+import { printLogs } from "../../lib/logs";
+import { getColumns } from "./data/column";
 
-function BrandList() {
+type TUserList = {};
+
+const UserList: React.FC<TUserList> = () => {
     const navigator = useNavigator();
-    const [brandList, setBrandList] = useState<any[]>([]);
+    const [userList, setUserList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
         {}
@@ -44,21 +48,19 @@ function BrandList() {
     const navigate = useNavigate();
 
     const userRole = useUser()?.role;
+
     if (!userRole) {
         return;
     }
 
-    const fetchBrands = async () => {
+    const fetchUsers = async () => {
         try {
             setIsLoading(true);
-            const response = await BrandService.getAll({});
+            const response = await UserService.getAllUsers();
             if (response.status === HTTP_STATUS_CODES.OK) {
-                const brands = response.data;
-                brands.forEach((brand: brand, i: number) => {
-                    brands[i].createdBy = brand?.createdBy?.email || "N/A";
-                    brands[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
-                });
-                setBrandList(brands);
+                const users = response.data?.users;
+                printLogs("users list:", users);
+                setUserList(users);
             }
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(
@@ -75,20 +77,17 @@ function BrandList() {
     };
 
     useEffect(() => {
-        fetchBrands();
+        fetchUsers();
     }, []);
 
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(
-                id,
-                "/api/admin/brand/delete/"
-            );
+            const response = await UserService.deleteUser(id);
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
-                setBrandList((prevDataList) =>
+                setUserList((prevDataList) =>
                     prevDataList.filter((data) => data.id !== id)
                 );
             }
@@ -100,11 +99,11 @@ function BrandList() {
             );
 
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setBrandList((prevDataList) =>
+                setUserList((prevDataList) =>
                     prevDataList.filter((data) => data.id !== id)
                 );
             } else {
-                toast.error("Could not delete this data");
+                toast.error("Could not delete this user");
             }
         } finally {
             setIsLoading(false);
@@ -112,12 +111,10 @@ function BrandList() {
     }, []);
 
     const onEdit = useCallback((id: string) => {
-        navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`);
+        navigate(`${NAVIGATION_ROUTES.EDIT_USER}/${id}`);
     }, []);
 
-    const viewRoute = NAVIGATION_ROUTES.BRAND;
-
-    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+    const canEdit = userRole === "SUPER_ADMIN";
 
     const columns = useMemo(
         () =>
@@ -125,15 +122,14 @@ function BrandList() {
                 onDelete,
                 onEdit,
                 userRole,
-                viewRoute,
-                searchQuerykey: "name",
-                title: "Brand name",
+                searchQuerykey: "username",
+                title: "Username",
                 canEdit
             }),
         []
     );
     const table = useReactTable({
-        data: brandList,
+        data: userList,
         columns,
         state: {
             sorting,
@@ -157,21 +153,13 @@ function BrandList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            value={
+                (table.getColumn("username")?.getFilterValue() as string) ?? ""
+            }
             onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
+                table.getColumn("username")?.setFilterValue(event.target.value)
             }
             className="h-8 w-[150px] lg:w-[250px]"
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("createdDate")}
-            title="Created At"
-            options={statuses}
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("modifiedDate")}
-            title="Modiefied At"
-            options={priorities}
         />
     ];
 
@@ -180,20 +168,18 @@ function BrandList() {
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
-                        Brand List
+                        User List
                     </h2>
                     <p className="text-muted-foreground">
-                        Here&apos;s a list of brands.
+                        Here&apos;s a list of users.
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <ConditionalButton
-                        onClick={() =>
-                            navigator(NAVIGATION_ROUTES.CREATE_BRAND)
-                        }
-                        accessLevel="all_staff"
+                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_USER)}
+                        accessLevel="super_admin"
                     >
-                        Create Brand
+                        Create User
                     </ConditionalButton>
                 </div>
             </div>
@@ -204,6 +190,6 @@ function BrandList() {
             />
         </div>
     );
-}
+};
 
-export default BrandList;
+export default UserList;
