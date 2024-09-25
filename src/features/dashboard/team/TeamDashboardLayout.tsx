@@ -11,9 +11,11 @@ import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { CalendarDateRangePicker } from "../components/date-range-picker";
 import TeamDashboard from "./TeamDashboard";
 import { addDays } from "date-fns";
+import { useState } from "react";
 
 function TeamDashboardLayout() {
     const navigator = useNavigator();
+    const [count, setCount] = useState(0);
 
     const onViewList = () => {
         navigator(NAVIGATION_ROUTES.TEAM_LIST);
@@ -45,14 +47,14 @@ function TeamDashboardLayout() {
                                 <Users />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">122</div>
+                                <div className="text-2xl font-bold">{count}</div>
                                 {/* <p className="text-xs text-muted-foreground">
                             +20.1% from last month
                         </p> */}
                             </CardContent>
                         </Card>
                     </div>
-                    <TeamDashboard />
+                    <TeamDashboard setCount={setCount} />
                 </div>
             </div>
         </div>

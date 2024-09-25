@@ -11,9 +11,11 @@ import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { CalendarDateRangePicker } from "../components/date-range-picker";
 import BrandDashboard from "./BrandDashboard";
 import { addDays } from "date-fns";
+import { useState } from "react";
 
 function BrandDashboardLayout() {
     const navigator = useNavigator();
+    const [count, setCount] = useState(0);
 
     const onViewList = () => {
         navigator(NAVIGATION_ROUTES.BRAND_LIST);
@@ -45,14 +47,14 @@ function BrandDashboardLayout() {
                                 <Building />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">450</div>
+                                <div className="text-2xl font-bold">{count}</div>
                                 {/* <p className="text-xs text-muted-foreground">
                             +20.1% from last month
                         </p> */}
                             </CardContent>
                         </Card>
                     </div>
-                    <BrandDashboard />
+                    <BrandDashboard setCount={setCount} />
                 </div>
             </div>
         </div>

@@ -12,64 +12,29 @@ import RecentList from "../../components/RecentList";
 import BrandService from "../../../../services/features/BrandService";
 import { brand } from "../../../../types/brand/BrandListTypes";
 
-function BrandRecentList() {
-    const navigator = useNavigator();
-    const [brandList, setBrandList] = useState<any[]>([]);
-    const setIsLoading = useSetRecoilState(listLoadingAtom);
-    const { logout } = useAuth();
-    const navigate = useNavigate();
+type Props = {
+    recentlyCreated: Array<any>;
+    recentlyModified: Array<any>;
+}
 
-    const userRole = useUser()?.role;
-    if (!userRole) {
-        return;
-    }
-
-    const fetchBrands = async () => {
-        try {
-            setIsLoading(true);
-            const response = await BrandService.getAll({});
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                const brands = response.data?.slice(0, 6);
-                brands.forEach((brand: brand, i: number) => {
-                    brands[i].createdBy = brand?.createdBy?.email || "";
-                    brands[i].modifiedBy = brand?.modifiedBy?.email || "";
-                });
-                setBrandList(brands);
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-            if (unknownError) {
-                toast.error("An unknown error occurred");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchBrands();
-    }, []);
+function BrandRecentList({ recentlyCreated, recentlyModified }: Props) {
 
     return (
         <>
             <RecentList
                 title={"Added Brands"}
-                list={brandList}
+                list={recentlyCreated || []}
                 operation={"created by"}
                 nameKey={"name"}
-                dateKey={"createdDate"}
+                dateKey={"createdAt"}
                 operationKey={"createdBy"}
             />
             <RecentList
                 title={"Modified Brands"}
-                list={brandList}
+                list={recentlyModified || []}
                 operation={"modified by"}
                 nameKey={"name"}
-                dateKey={"modifiedDate"}
+                dateKey={"modifiedAt"}
                 operationKey={"modifiedBy"}
             />
         </>
