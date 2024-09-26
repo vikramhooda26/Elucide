@@ -10,9 +10,13 @@ import useNavigator from "../../../hooks/useNavigator";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { CalendarDateRangePicker } from "../components/date-range-picker";
 import BrandDashboard from "./BrandDashboard";
+import { addDays } from "date-fns";
+import { useState } from "react";
+import FilterPage from "../../hero-section/FilterPage";
 
 function BrandDashboardLayout() {
     const navigator = useNavigator();
+    const [count, setCount] = useState(0);
 
     const onViewList = () => {
         navigator(NAVIGATION_ROUTES.BRAND_LIST);
@@ -26,7 +30,13 @@ function BrandDashboardLayout() {
                         Brand Dashboard
                     </h2>
                     <div className="flex items-center space-x-2">
-                        <CalendarDateRangePicker />
+                        <CalendarDateRangePicker
+                            value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
+                            onChange={(range) => console.log(range)}
+                        />
+                        {/* <div className="w-full h-full">
+                            <FilterPage />
+                        </div> */}
                         <Button onClick={onViewList}>View List</Button>
                     </div>
                 </div>
@@ -41,14 +51,14 @@ function BrandDashboardLayout() {
                                 <Building />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">450</div>
+                                <div className="text-2xl font-bold">{count}</div>
                                 {/* <p className="text-xs text-muted-foreground">
                             +20.1% from last month
                         </p> */}
                             </CardContent>
                         </Card>
                     </div>
-                    <BrandDashboard />
+                    <BrandDashboard setCount={setCount} />
                 </div>
             </div>
         </div>

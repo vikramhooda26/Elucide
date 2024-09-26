@@ -10,9 +10,12 @@ import useNavigator from "../../../hooks/useNavigator";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { CalendarDateRangePicker } from "../components/date-range-picker";
 import TeamDashboard from "./TeamDashboard";
+import { addDays } from "date-fns";
+import { useState } from "react";
 
 function TeamDashboardLayout() {
     const navigator = useNavigator();
+    const [count, setCount] = useState(0);
 
     const onViewList = () => {
         navigator(NAVIGATION_ROUTES.TEAM_LIST);
@@ -26,7 +29,10 @@ function TeamDashboardLayout() {
                         Team Dashboard
                     </h2>
                     <div className="flex items-center space-x-2">
-                        <CalendarDateRangePicker />
+                        <CalendarDateRangePicker
+                            value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
+                            onChange={(range) => console.log(range)}
+                        />
                         <Button onClick={onViewList}>View List</Button>
                     </div>
                 </div>
@@ -41,14 +47,14 @@ function TeamDashboardLayout() {
                                 <Users />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">122</div>
+                                <div className="text-2xl font-bold">{count}</div>
                                 {/* <p className="text-xs text-muted-foreground">
                             +20.1% from last month
                         </p> */}
                             </CardContent>
                         </Card>
                     </div>
-                    <TeamDashboard />
+                    <TeamDashboard setCount={setCount} />
                 </div>
             </div>
         </div>

@@ -10,9 +10,12 @@ import useNavigator from "../../../hooks/useNavigator";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { CalendarDateRangePicker } from "../components/date-range-picker";
 import AthleteDashboard from "./AthleteDashboard";
+import { addDays } from "date-fns";
+import { useState } from "react";
 
 function AthleteDashboardLayout() {
     const navigator = useNavigator();
+    const [count, setCount] = useState(0);
 
     const onViewList = () => {
         navigator(NAVIGATION_ROUTES.ATHLETE_LIST);
@@ -26,7 +29,10 @@ function AthleteDashboardLayout() {
                         Athlete Dashboard
                     </h2>
                     <div className="flex items-center space-x-2">
-                        <CalendarDateRangePicker />
+                        <CalendarDateRangePicker
+                            value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
+                            onChange={(range) => console.log(range)}
+                        />
                         <Button onClick={onViewList}>View List</Button>
                     </div>
                 </div>
@@ -41,7 +47,7 @@ function AthleteDashboardLayout() {
                                 <Dumbbell />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">573</div>
+                                <div className="text-2xl font-bold">{count || 0}</div>
                                 {/* <p className="text-xs text-muted-foreground">
                             +20.1% from last month
                         </p> */}
@@ -49,7 +55,7 @@ function AthleteDashboardLayout() {
                         </Card>
                     </div>
 
-                    <AthleteDashboard />
+                    <AthleteDashboard setCount={setCount} />
                 </div>
             </div>
         </div>

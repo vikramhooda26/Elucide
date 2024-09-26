@@ -36,17 +36,17 @@ export const validateMetrics = (
             const metricFields =
                 metricType === "ottPartnerMetrics"
                     ? {
-                          field1: "ottPartnerId",
-                          field2: "year",
-                          field3: "viewership",
-                          field4: "reach"
-                      }
+                        field1: "ottPartnerId",
+                        field2: "year",
+                        field3: "viewership",
+                        field4: "reach"
+                    }
                     : {
-                          field1: "broadcastPartnerId",
-                          field2: "year",
-                          field3: "viewership",
-                          field4: "reach"
-                      };
+                        field1: "broadcastPartnerId",
+                        field2: "year",
+                        field3: "viewership",
+                        field4: "reach"
+                    };
 
             const isAnyProvided =
                 metric[metricFields.field1] ||
@@ -131,20 +131,20 @@ export const validateAssociation = (
                 const associationFields =
                     stakeholderType === "TEAM"
                         ? {
-                              field1: "associationLevelId",
-                              field2: "costOfAssociation",
-                              field3: "brandIds"
-                          }
+                            field1: "associationLevelId",
+                            field2: "costOfAssociation",
+                            field3: "brandIds"
+                        }
                         : {
-                              field1: "associationLevelId",
-                              field2: "costOfAssociation",
-                              field3: "costOfAssociation"
-                          };
+                            field1: "associationLevelId",
+                            field2: "costOfAssociation",
+                            field3: "costOfAssociation"
+                        };
 
                 const isAnyProvided =
                     association[associationFields.field1] ||
-                    association[associationFields.field2] ||
-                    association[associationFields.field3]
+                        association[associationFields.field2] ||
+                        association[associationFields.field3]
                         ? true
                         : false;
                 const isAssociationLevelProvided = association[
@@ -238,3 +238,16 @@ export const customRound = (num: number) => {
         return Math.ceil(num);
     }
 };
+
+export const getRandomColor = (index: number) => {
+    const colorArr = [
+        "#cd68e6", "#388d3d", "#f8e9b5", "#5e9643", "#cbc1c1",
+        "#826e51", "#e5bfdb", "#735d44", "#b4a99a", "#53766c",
+        "#bcdcf9", "#799256", "#c4aee2", "#4f5095", "#caa4a6",
+        "#588d58", "#c9b8f9", "#783d59", "#c8b1cb", "#795756"
+    ];
+    if (index < colorArr?.length) {
+        return colorArr[index];
+    }
+    return "#6d080c";
+}

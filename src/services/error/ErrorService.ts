@@ -8,7 +8,7 @@ class ErrorService {
         logout: () => void,
         navigate?: NavigateFunction
     ) {
-        switch (error.response.status) {
+        switch (error?.response?.status) {
             case HTTP_STATUS_CODES.FORBIDDEN:
                 logout();
                 if (
