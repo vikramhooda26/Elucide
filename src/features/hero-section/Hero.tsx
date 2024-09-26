@@ -61,9 +61,6 @@ export const Hero = ({
                     <ChevronRight className="ml-1 h-4 w-4 text-white duration-200 ease-in-out group-hover:translate-x-1" />
                 </GradientButton>
             </div>
-            <div className="w-full h-full">
-                <FilterPage />
-            </div>
         </Vortex>
     );
 };

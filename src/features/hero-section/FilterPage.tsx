@@ -16,6 +16,7 @@ const FilterPage = () => {
             key: 'search',
             type: 'text',
             value: filterValues[pageKey]?.search?.value || '',
+            isMandatory: true,
         },
         {
             displayName: 'Category',
@@ -27,6 +28,7 @@ const FilterPage = () => {
                 { label: 'Clothing', value: 'clothing' },
                 { label: 'Books', value: 'books' },
             ],
+            isMandatory: true,
         },
         {
             displayName: 'Category',
@@ -39,6 +41,7 @@ const FilterPage = () => {
                 { label: 'Books', value: 'books' },
             ],
             isMultiple: true,
+            isMandatory: true,
         },
         {
             displayName: 'Date Filter',
@@ -46,6 +49,7 @@ const FilterPage = () => {
             type: 'dateRange',
             value: filterValues[pageKey]?.dateAdded?.value || { start: '', end: '' },
             range: { start: '2024-01-01', end: '2024-12-31' },
+            isMandatory: true,
         },
         {
             displayName: 'Age Range',
@@ -53,6 +57,7 @@ const FilterPage = () => {
             type: 'range',
             value: filterValues[pageKey]?.price?.value || [0, 1000],
             range: { min: 0, max: 1000 },
+            isMandatory: true,
         },
         {
             displayName: 'Target Gender',
@@ -64,6 +69,7 @@ const FilterPage = () => {
                 { label: 'Female', value: 'Female' },
                 { label: 'Transgender', value: 'Transgender' },
             ],
+            isMandatory: true,
         },
         {
             displayName: 'NCCS',
@@ -75,12 +81,14 @@ const FilterPage = () => {
                 { label: 'NCCS B', value: 'nccs_b' },
                 { label: 'NCCS C', value: 'nccs_c' },
             ],
+            isMandatory: true,
         },
         {
             displayName: 'Enable Feature',
             key: 'featureToggle',
             type: 'toggle',
             value: filterValues[pageKey]?.featureToggle?.value || false,
+            isMandatory: true,
         },
     ];
 

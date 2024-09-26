@@ -18,6 +18,7 @@ import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { Overview } from "../components/overview";
 import BrandRecentList from "./component/BrandRecentList";
 import { PieChartComponent } from "../components/PieChart";
+import SimpleTable, { ColumnDefinition } from "../../../components/table/SimpleTable";
 
 type TDashBoardData = {
     brandsCount: number;
@@ -96,6 +97,29 @@ function BrandDashboard({ setCount }: Props) {
 
     console.log('dash ', dashboardData);
 
+    const sampleData = [
+        { category: "Automoblies", brandCount: 15, },
+        { category: "Automotive", brandCount: 25, },
+        { category: "Agriculture", brandCount: 10, },
+        { category: "Banking & Finance", brandCount: 8, },
+        { category: "Fintech", brandCount: 20, },
+        { category: "E-Commerce", brandCount: 17, },
+        { category: "Fashion", brandCount: 14, },
+
+        { category: "Automoblies", brandCount: 15, },
+        { category: "Automotive", brandCount: 25, },
+        { category: "Agriculture", brandCount: 10, },
+        { category: "Banking & Finance", brandCount: 8, },
+        { category: "Fintech", brandCount: 20, },
+        { category: "E-Commerce", brandCount: 17, },
+        { category: "Fashion", brandCount: 14, },
+    ]
+
+    const columnDefinitions: ColumnDefinition[] = [
+        { key: "category", label: "Category Name" },
+        { key: "brandCount", label: "Number of Brands" },
+    ]
+
 
     return (
         <>
@@ -104,8 +128,16 @@ function BrandDashboard({ setCount }: Props) {
                     <CardHeader>
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>
-                    <CardContent className="pl-2">
-                        <Overview data={dashboardData?.categoriesCount} />
+                    <CardContent className="pl-2 ">
+                        <div className="pl-4 pb-2">Category Brands Overview</div>
+                        <div className=" h-96 overflow-y-scroll scrollbar ">
+                            <SimpleTable
+                                data={sampleData}
+                                columns={columnDefinitions}
+                                caption="Category Brands Overview"
+                            />
+                        </div>
+                        {/* <Overview data={dashboardData?.categoriesCount} /> */}
                     </CardContent>
                 </Card>
                 {/* </div>

@@ -18,6 +18,7 @@ import MultiCheckBoxFilter from './MultiCheckBoxFilter';
 import SearchFilter from './SearchFilter';
 import SelectBoxFilter from './SelectBoxFilter';
 import ToggleButton from '../../button/ToggleButton';
+import { Checkbox } from '../../ui/checkbox';
 
 interface FilterOption {
     label: string;
@@ -32,6 +33,7 @@ interface FilterContent {
     options: FilterOption[];
     range?: { min: number; max: number } | { start: string; end: string };
     isMultiple?: boolean;
+    isMandatory: boolean;
 }
 interface FilterModalProps {
     isOpen: boolean;
@@ -49,12 +51,14 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
 
     const getCurrentFilters = () => filterValues[pageKey] || {};
 
-    const handleInputChange = (key: string, value: any) => {
+    const currentValues = getCurrentFilters();
+
+    const handleInputChange = (key: string, value: any,) => {
         setFilterValues((prev) => ({
             ...prev,
             [pageKey]: {
-                ...getCurrentFilters(),
-                [key]: { type: filters.find((f) => f.key === key)?.type, value },
+                ...currentValues,
+                [key]: { type: filters.find((f) => f.key === key)?.type, value, isMandatory: currentValues[key]?.isMandatory },
             },
         }));
     };
@@ -68,12 +72,23 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
         setOpen(false);
     };
 
+    console.log('currentValues -=- ', currentValues);
+
+
     const renderFilter = (filter: FilterContent) => {
-        const currentValues = getCurrentFilters();
+
+        const handleMandatoryChange = (key: string, value: any) => {
+            console.log('value -=- ', value);
+
+            setFilterValues((prev) => ({ ...prev, [pageKey]: { ...currentValues, [key]: { ...currentValues[filter.key], isMandatory: value }, }, }));
+        };
 
         return (
             <div key={filter.key} className="mb-4">
-                <label className="block text-sm font-medium mb-2">{filter.displayName}</label>
+                <div className='flex gap-2 items-center'>
+                    <Checkbox className="block text-sm font-medium mb-2 peer h-4 w-4 rounded-sm border-yellow-500 bg-yellow-100 ring-offset-2 focus:ring-yellow-500 data-[state=checked]:bg-yellow-500 data-[state=checked]:border-yellow-600" checked={currentValues[filter.key]?.isMandatory} onCheckedChange={(value) => handleMandatoryChange(filter.key, value)} />
+                    <label className="block text-sm font-medium mb-2">{filter.displayName} </label>
+                </div>
                 {(() => {
                     switch (filter.type) {
                         case 'text':
