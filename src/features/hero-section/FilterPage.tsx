@@ -9,7 +9,7 @@ const FilterPage = () => {
     const pageKey = 'page1';
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const [filterValues, setFilterValues] = useRecoilState(filterState);
-
+    
     const filterConfig: FilterContent[] = [
         {
             displayName: 'Search Brand',

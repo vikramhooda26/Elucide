@@ -79,7 +79,7 @@ function getFilters(pageKey: TPageKey) {
             displayName: 'Age Range',
             key: 'ageRange',
             type: 'range',
-            value: filterValues[pageKey]?.age?.value || [0, 100],
+            value: filterValues[pageKey]?.age?.value || [0, 1000],
             range: { min: 0, max: 100 },
             isMandatory: true,
             pageKeys: ['brandList', 'leagueList', 'teamList', 'athleteList'],
