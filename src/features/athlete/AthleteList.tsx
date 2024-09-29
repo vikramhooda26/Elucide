@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -11,25 +10,29 @@ import {
     useReactTable,
     VisibilityState
 } from "@tanstack/react-table";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
+import { ConditionalButton } from "../../components/button/ConditionalButton";
+import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
+import { getColumns } from "../../components/core/view/common-columns";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
-import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
+import useMetadataStore from "../../hooks/useMetadataStore";
 import useNavigator from "../../hooks/useNavigator";
+import { useUser } from "../../hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import AthleteService from "../../services/features/AthleteService";
+import MetadataService from "../../services/features/MetadataService";
+import { filterState } from "../../store/atoms/filterAtom";
+import { listLoadingAtom } from "../../store/atoms/global";
 import { athlete } from "../../types/athlete/AthleteListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
-import MetadataService from "../../services/features/MetadataService";
-import { useUser } from "../../hooks/useUser";
-import { listLoadingAtom } from "../../store/atoms/global";
-import { getColumns } from "../../components/core/view/common-columns";
-import { ConditionalButton } from "../../components/button/ConditionalButton";
+import { fetchFilters, TPageKey } from "../utils/FilterConfigs";
 
 function AthleteList() {
     const navigator = useNavigator();
@@ -44,6 +47,11 @@ function AthleteList() {
     const { logout } = useAuth();
     const navigate = useNavigate();
     const userRole = useUser()?.role;
+
+    const pageKey: TPageKey = 'athleteList';
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
+    const metadataStore = useMetadataStore();
 
     if (!userRole) {
         return;
@@ -180,6 +188,13 @@ function AthleteList() {
         />
     ];
 
+
+    const filterConfig: FilterContent[] = fetchFilters(pageKey);
+
+    const handleApplyFilters = () => {
+        console.log('Filters applied successfully.');
+    };
+
     return (
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
@@ -192,6 +207,13 @@ function AthleteList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
+                    <FilterModal
+                        isOpen={isFilterModalOpen}
+                        filters={filterConfig}
+                        onClose={() => setIsFilterModalOpen(false)}
+                        onApplyFilters={handleApplyFilters}
+                        pageKey={pageKey}
+                    />
                     <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.CREATE_ATHLETE)

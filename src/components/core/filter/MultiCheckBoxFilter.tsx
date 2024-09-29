@@ -19,7 +19,7 @@ const MultiCheckBoxFilter: React.FC<MultiCheckBoxFilterProps> = ({ options, valu
 
   return (
     <div className="space-y-2">
-      <Label>Select Options</Label>
+      {/* <Label>Select Options</Label> */}
       {options.map((option) => (
         <div key={option.value} className="flex items-center space-x-2">
           <Checkbox

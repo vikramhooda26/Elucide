@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { filterState } from '../../store/atoms/filterAtom';
-import FilterModal from '../../components/core/filter/FilterModal';
+import FilterModal, { FilterContent } from '../../components/core/filter/FilterModal';
 import { Button } from '../../components/ui/button';
 
 const FilterPage = () => {
@@ -10,7 +10,7 @@ const FilterPage = () => {
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const [filterValues, setFilterValues] = useRecoilState(filterState);
 
-    const filterConfig = [
+    const filterConfig: FilterContent[] = [
         {
             displayName: 'Search Brand',
             key: 'search',
@@ -19,8 +19,8 @@ const FilterPage = () => {
             isMandatory: true,
         },
         {
-            displayName: 'Category',
-            key: 'category',
+            displayName: 'Brands',
+            key: 'brand',
             type: 'select',
             value: filterValues[pageKey]?.category?.value || '',
             options: [
@@ -52,12 +52,14 @@ const FilterPage = () => {
             isMandatory: true,
         },
         {
-            displayName: 'Age Range',
-            key: 'ageRange',
-            type: 'range',
-            value: filterValues[pageKey]?.price?.value || [0, 1000],
-            range: { min: 0, max: 1000 },
+            displayName: 'Cost Of Association',
+            subTitle: { title1: 'In Thousands', title2: 'In Lakhs' },
+            key: 'costOfAssociation',
+            type: 'doubleRange',
+            value: filterValues[pageKey]?.costOfAssociation?.value,
+            doubleRange: { min: { min1: 0, min2: 0, }, max: { max1: 100000, max2: 1000000 } },
             isMandatory: true,
+            steps: { step1: 1000, step2: 100000 },
         },
         {
             displayName: 'Target Gender',
@@ -69,6 +71,14 @@ const FilterPage = () => {
                 { label: 'Female', value: 'Female' },
                 { label: 'Transgender', value: 'Transgender' },
             ],
+            isMandatory: true,
+        },
+        {
+            displayName: 'Age Range',
+            key: 'ageRange',
+            type: 'range',
+            value: filterValues[pageKey]?.ageRange?.value || [0, 1000],
+            range: { min: 0, max: 1000 },
             isMandatory: true,
         },
         {

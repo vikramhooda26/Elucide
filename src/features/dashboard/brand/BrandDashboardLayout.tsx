@@ -34,9 +34,9 @@ function BrandDashboardLayout() {
                             value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
                             onChange={(range) => console.log(range)}
                         />
-                        {/* <div className="w-full h-full">
+                        <div className="w-full h-full">
                             <FilterPage />
-                        </div> */}
+                        </div>
                         <Button onClick={onViewList}>View List</Button>
                     </div>
                 </div>

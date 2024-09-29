@@ -121,7 +121,7 @@ function AthleteDashboard({ setCount }: Props) {
                     <CardContent className="pl-2">
                         {/* <Overview data={dashboardData?.numberOfAthletesPerSport} /> */}
                         {dashboardData?.numberOfAthletesPerSport ?
-                            <PieChartComponent chart={dashboardData?.numberOfAthletesPerSport} displayName={'Athletes'} />
+                            <PieChartComponent chart={dashboardData?.numberOfAthletesPerSport} displayName={'Athletes-Sports'} />
                             : null}
                     </CardContent>
                 </Card>

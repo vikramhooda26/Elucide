@@ -30,6 +30,8 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { getColumns } from "../../components/core/view/common-columns";
 import { ConditionalButton } from "../../components/button/ConditionalButton";
+import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
+import { fetchFilters, TPageKey } from "../utils/FilterConfigs";
 
 function LeagueList() {
     const navigator = useNavigator();
@@ -43,6 +45,9 @@ function LeagueList() {
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
+
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+    const pageKey: TPageKey = 'leagueList';
 
     const userRole = useUser()?.role;
 
@@ -178,6 +183,12 @@ function LeagueList() {
         />
     ];
 
+    const filterConfig: FilterContent[] = fetchFilters(pageKey);
+
+    const handleApplyFilters = () => {
+        console.log('Filters applied successfully.');
+    };
+
     return (
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
@@ -190,6 +201,13 @@ function LeagueList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
+                    <FilterModal
+                        isOpen={isFilterModalOpen}
+                        filters={filterConfig}
+                        onClose={() => setIsFilterModalOpen(false)}
+                        onApplyFilters={handleApplyFilters}
+                        pageKey={pageKey}
+                    />
                     <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.CREATE_LEAGUE)
