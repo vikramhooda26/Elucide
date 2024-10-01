@@ -26,7 +26,7 @@ function RecentList({
     operationKey
 }: Props) {
     return (
-        <Card className="col-span-3">
+        <Card className="col-span-4">
             <CardHeader>
                 <CardTitle>
                     Recently <span className="ms-1">{title || ""}</span>

@@ -12,7 +12,6 @@ function useNavigator() {
         const urlQuery = new URLSearchParams(query as Record<string, string>);
         const search = urlQuery.toString();
         const url = `${route}${urlParams ? `/${urlParams}` : ""}${search ? `?${search}` : ""}`;
-        console.log("url -=- ", url);
 
         navigate(url);
     };

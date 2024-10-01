@@ -48,7 +48,6 @@ const RangeSlider = React.forwardRef(
         }, [min, max, value, isSingle]);
 
         const handleValueChange = (newValues: number[]) => {
-            console.log("\nnewValues:", newValues);
             setLocalValues(newValues);
             if (onValueChange) {
                 onValueChange(newValues);

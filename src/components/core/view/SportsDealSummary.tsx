@@ -98,7 +98,6 @@ function SportsDealSummary({ data, partnerKey }: Props) {
                 sportsDeal.partner =
                     d?.athlete?.name || d?.league?.name || d?.team?.name;
             }
-            console.log("sportsDeal.partner -=- ", sportsDeal);
 
             sportsDealSummary?.push(sportsDeal);
         });

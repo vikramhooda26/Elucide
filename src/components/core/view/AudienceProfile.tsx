@@ -97,8 +97,6 @@ function AudienceProfile({ data, title = "" }: Props) {
           )
         : null;
 
-    console.log(sortedAgeRange);
-
     return (
         <div className="space-y-6">
             {targetAudience?.some((formName) => formName === title) ? (

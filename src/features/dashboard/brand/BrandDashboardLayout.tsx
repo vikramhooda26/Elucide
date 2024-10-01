@@ -16,7 +16,7 @@ import FilterPage from "../../hero-section/FilterPage";
 
 function BrandDashboardLayout() {
     const navigator = useNavigator();
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState({ brandCount: 0, categoriesCount: 0 });
 
     const onViewList = () => {
         navigator(NAVIGATION_ROUTES.BRAND_LIST);
@@ -35,7 +35,7 @@ function BrandDashboardLayout() {
                             onChange={(range) => console.log(range)}
                         />
                         <div className="w-full h-full">
-                            <FilterPage />
+                            {/* <FilterPage /> */}
                         </div>
                         <Button onClick={onViewList}>View List</Button>
                     </div>
@@ -51,10 +51,18 @@ function BrandDashboardLayout() {
                                 <Building />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{count}</div>
-                                {/* <p className="text-xs text-muted-foreground">
-                            +20.1% from last month
-                        </p> */}
+                                <div className="text-2xl font-bold">{count?.brandCount || 0}</div>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle className="text-sm font-medium">
+                                    Total Categories
+                                </CardTitle>
+                                <Building />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">{count?.categoriesCount || 0}</div>
                             </CardContent>
                         </Card>
                     </div>

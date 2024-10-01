@@ -6,7 +6,6 @@ type Props = {
 }
 
 function LeagueRecentList({ recentlyCreated, recentlyModified }: Props) {
-    console.log('recentlyCreated -=-', recentlyCreated);
 
     return (
         <>

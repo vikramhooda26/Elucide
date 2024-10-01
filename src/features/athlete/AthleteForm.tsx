@@ -429,8 +429,6 @@ function AthleteForm() {
             ? format(athleteFormValues.athleteAge, "yyyy-MM-dd")
             : undefined;
 
-        console.log("\n\n\n\nRequest Body:", athleteFormValues);
-
         try {
             setIsSubmitting(true);
             if (id) {

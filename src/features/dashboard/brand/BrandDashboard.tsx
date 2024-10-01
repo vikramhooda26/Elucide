@@ -28,7 +28,7 @@ type TDashBoardData = {
 }
 
 type Props = {
-    setCount?: (num: number) => void;
+    setCount?: (count: { brandCount: number; categoriesCount: number; }) => void;
 }
 
 function BrandDashboard({ setCount }: Props) {
@@ -67,14 +67,11 @@ function BrandDashboard({ setCount }: Props) {
 
                 data.recentlyModifiedBrands = recentModified;
 
-                // data.numberOfAthletesPerSport = data?.numberOfAthletesPerSport?.map((d: any) => {
-                //     return {
-                //         name: d?.name || '',
-                //         total: d?._count.dashapp_athlete || 0
-                //     }
-                // })
+                data.categoriesCount = data.categoriesCount?.map((brand: any, i: number) => {
+                    return { category: brand?.name, brandCount: brand?.brandCount, };
+                });
 
-                setCount?.(data?.brandsCount || 0);
+                setCount?.({ brandCount: data?.brandsCount || 0, categoriesCount: data?.brandsCount || 0 });
                 setDashboardData(data);
             }
         } catch (error) {
@@ -95,26 +92,6 @@ function BrandDashboard({ setCount }: Props) {
         fetch();
     }, []);
 
-    console.log('dash ', dashboardData);
-
-    const sampleData = [
-        { category: "Automoblies", brandCount: 15, },
-        { category: "Automotive", brandCount: 25, },
-        { category: "Agriculture", brandCount: 10, },
-        { category: "Banking & Finance", brandCount: 8, },
-        { category: "Fintech", brandCount: 20, },
-        { category: "E-Commerce", brandCount: 17, },
-        { category: "Fashion", brandCount: 14, },
-
-        { category: "Automoblies", brandCount: 15, },
-        { category: "Automotive", brandCount: 25, },
-        { category: "Agriculture", brandCount: 10, },
-        { category: "Banking & Finance", brandCount: 8, },
-        { category: "Fintech", brandCount: 20, },
-        { category: "E-Commerce", brandCount: 17, },
-        { category: "Fashion", brandCount: 14, },
-    ]
-
     const columnDefinitions: ColumnDefinition[] = [
         { key: "category", label: "Category Name" },
         { key: "brandCount", label: "Number of Brands" },
@@ -123,7 +100,7 @@ function BrandDashboard({ setCount }: Props) {
 
     return (
         <>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
                 <Card className="col-span-4">
                     <CardHeader>
                         <CardTitle>Overview</CardTitle>
@@ -132,12 +109,12 @@ function BrandDashboard({ setCount }: Props) {
                         <div className="pl-4 pb-2">Category Brands Overview</div>
                         <div className=" h-96 overflow-y-scroll scrollbar ">
                             <SimpleTable
-                                data={sampleData}
+                                data={dashboardData?.categoriesCount}
                                 columns={columnDefinitions}
                                 caption="Category Brands Overview"
                             />
                         </div>
-                        {/* <Overview data={dashboardData?.categoriesCount} /> */}
+
                     </CardContent>
                 </Card>
                 {/* </div>

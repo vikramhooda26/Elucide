@@ -105,8 +105,6 @@ function ActivationForm() {
 
                     const partner = getStakeholderType(activationData);
 
-                    console.log(partner);
-
                     form.reset({
                         name: activationData.name || undefined,
                         brandId: activationData.brand?.id || undefined,
@@ -202,7 +200,6 @@ function ActivationForm() {
     };
 
     const onSubmit = async (activationFormValues: TActivationFormSchema) => {
-        console.log("\n\n\n\nRequest Body:", activationFormValues);
 
         try {
             setIsSubmitting(true);

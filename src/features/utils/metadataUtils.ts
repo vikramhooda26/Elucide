@@ -76,7 +76,6 @@ const populateMetadataStore = async (requestBody: any) => {
         const response = await AuthService.getMetadata(requestBody);
 
         if (response.status === HTTP_STATUS_CODES.OK) {
-            console.log("metadata response", response.data);
             return response.data;
         }
     } catch (error) {
@@ -89,7 +88,6 @@ const getMetadataHasUpdated = async () => {
         const response = await AuthService.getMetadataHasUpdated();
 
         if (response.status === HTTP_STATUS_CODES.OK) {
-            console.log("metadata status response", response.data);
             return response.data;
         }
     } catch (error) {

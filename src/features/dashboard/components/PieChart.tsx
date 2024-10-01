@@ -20,14 +20,16 @@ import {
 
 export const description = "A pie chart with a label list"
 
+export type TchartData = {
+    name: string;
+    total: number;
+    fill: string;
+}
+
 type Props = {
     chart: {
         chartConfig: ChartConfig;
-        chartData: {
-            name: string;
-            total: number;
-            fill: string;
-        }[];
+        chartData: TchartData[];
     };
     displayName: string;
 }

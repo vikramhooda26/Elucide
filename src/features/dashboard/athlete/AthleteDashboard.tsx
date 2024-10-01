@@ -17,15 +17,11 @@ import { athlete } from "../../../types/athlete/AthleteListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { Overview } from "../components/overview";
 import AthleteRecentList from "./component/AthleteRecentList";
-import { PieChartComponent } from "../components/PieChart";
+import { PieChartComponent, TchartData } from "../components/PieChart";
 import { getRandomColor } from "../../utils/helpers";
 import { ChartConfig } from "../../../components/ui/chart";
 
-type TchartData = {
-    name: string;
-    total: number;
-    fill: string;
-}
+
 type TDashBoardData = {
     athletesCount: number;
     numberOfAthletesPerSport: {
@@ -113,7 +109,7 @@ function AthleteDashboard({ setCount }: Props) {
 
     return (
         <>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
                 <Card className="col-span-4">
                     <CardHeader>
                         <CardTitle>Overview</CardTitle>

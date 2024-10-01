@@ -86,13 +86,9 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
         setOpen(false);
     };
 
-    console.log('currentValues -=- ', currentValues);
-
-
     const renderFilter = (filter: FilterContent) => {
 
         const handleMandatoryChange = (key: string, value: any) => {
-            console.log('value -=- ', value);
 
             setFilterValues((prev) => ({ ...prev, [pageKey]: { ...currentValues, [key]: { ...currentValues[filter.key], isMandatory: value }, }, }));
         };

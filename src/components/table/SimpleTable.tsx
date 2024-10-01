@@ -17,7 +17,7 @@ export interface ColumnDefinition {
 }
 
 export interface DynamicTableProps {
-    data: TableData[]
+    data: TableData[] | undefined;
     columns: ColumnDefinition[]
     caption?: string
 }

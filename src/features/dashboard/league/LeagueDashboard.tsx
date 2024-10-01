@@ -17,10 +17,15 @@ import { league } from "../../../types/league/LeagueListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { Overview } from "../components/overview";
 import LeagueRecentList from "./component/LeagueRecentList";
+import { PieChartComponent, TchartData } from "../components/PieChart";
+import { getRandomColor } from "../../utils/helpers";
+import { ChartConfig } from "../../../components/ui/chart";
 
 type TDashBoardData = {
     leaguesCount: number;
-    numberOfLeaguesPerSport: Array<any>;
+    numberOfLeaguesPerSport: {
+        chartData: TchartData[], chartConfig: ChartConfig
+    };
     recentlyAddedLeagues: Array<any>;
     recentlyModifiedLeagues: Array<any>;
 }
@@ -66,15 +71,22 @@ function LeagueDashboard({ setCount }: Props) {
 
                 data.recentlyModifiedLeagues = recentModified;
 
-                data.numberOfTeamsPerSport = data?.numberOfLeaguesPerSport?.map((d: any) => {
-                    return {
-                        name: d?.name || '',
-                        total: d?._count?.dashapp_league || 0
+                const chartData: TchartData[] = [];
+                const chartConfig: any = { total: { label: "Total Leagues", }, };
+
+                data?.numberOfLeaguesPerSport?.forEach((d: any, i: number) => {
+                    if (d?._count.dashapp_leagueinfo > 0) {
+                        chartData?.push({ name: d?.name || '', total: d?._count.dashapp_leagueinfo || 1, fill: getRandomColor(i) })
+                        chartConfig[d?.name] = {
+                            label: d?.name,
+                            color: getRandomColor(i),
+                        };
                     }
-                })
+                });
+
+                data.numberOfLeaguesPerSport = { chartData, chartConfig }
 
                 setCount?.(data?.leaguesCount || 0);
-                console.log('data -=-', data);
                 setDashboardData(data);
             }
         } catch (error) {
@@ -95,18 +107,18 @@ function LeagueDashboard({ setCount }: Props) {
         fetch();
     }, []);
 
-    console.log('dashboardData -=- ', dashboardData);
-
-
     return (
         <>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
                 <Card className="col-span-4">
                     <CardHeader>
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>
+
                     <CardContent className="pl-2">
-                        <Overview data={dashboardData?.numberOfLeaguesPerSport} />
+                        {dashboardData?.numberOfLeaguesPerSport ?
+                            <PieChartComponent chart={dashboardData?.numberOfLeaguesPerSport} displayName={'Leagues-Sports'} />
+                            : null}
                     </CardContent>
                 </Card>
                 {/* </div>

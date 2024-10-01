@@ -55,7 +55,6 @@ export default function Dashboard() {
                 return d;
             });
             setStakesCountState(data);
-            console.log("data -=- ", data);
         }
     };
 

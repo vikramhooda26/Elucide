@@ -369,8 +369,6 @@ function BrandForm() {
             return;
         }
 
-        console.log("\n\n\n\nRequest Body:", brandFormValues);
-
         try {
             setIsSubmitting(true);
             if (id) {
