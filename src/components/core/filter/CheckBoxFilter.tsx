@@ -2,14 +2,16 @@
 import React from 'react';
 import { Checkbox } from '../../ui/checkbox';
 import { Label } from '../../ui/label';
+import { cn } from '../../../lib/utils';
 
 interface CheckBoxFilterProps {
     options: { label: string; value: string }[];
     value: string;
     onChange: (value: string | null) => void;
+    className?: string;
 }
 
-const CheckBoxFilter: React.FC<CheckBoxFilterProps> = ({ options, value, onChange }) => {
+const CheckBoxFilter: React.FC<CheckBoxFilterProps> = ({ options, value, onChange, className }) => {
     const handleChange = (optionValue: string) => {
         if (value === optionValue) {
             onChange(null);
@@ -19,8 +21,8 @@ const CheckBoxFilter: React.FC<CheckBoxFilterProps> = ({ options, value, onChang
     };
 
     return (
-        <div className="space-y-2">
-            <Label>Select Option</Label>
+        <div className={cn("", className || "space-y-2")}>
+            {/* <Label>Select Option</Label> */}
             {options.map((option) => (
                 <div key={option.value} className="flex items-center space-x-2">
                     <Checkbox

@@ -30,6 +30,8 @@ import { useUser } from "../../hooks/useUser";
 import MetadataService from "../../services/features/MetadataService";
 import { getColumns } from "../../components/core/view/common-columns";
 import { ConditionalButton } from "../../components/button/ConditionalButton";
+import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
+import { fetchFilters, TPageKey } from "../utils/FilterConfigs";
 
 function TeamList() {
     const navigator = useNavigator();
@@ -41,6 +43,9 @@ function TeamList() {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
+
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+    const pageKey: TPageKey = 'teamList';
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -178,6 +183,12 @@ function TeamList() {
         />
     ];
 
+    const filterConfig: FilterContent[] = fetchFilters(pageKey);
+
+    const handleApplyFilters = () => {
+        console.log('Filters applied successfully.');
+    };
+
     return (
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
@@ -190,6 +201,13 @@ function TeamList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
+                    <FilterModal
+                        isOpen={isFilterModalOpen}
+                        filters={filterConfig}
+                        onClose={() => setIsFilterModalOpen(false)}
+                        onApplyFilters={handleApplyFilters}
+                        pageKey={pageKey}
+                    />
                     <ConditionalButton
                         onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)}
                         accessLevel="all_staff"

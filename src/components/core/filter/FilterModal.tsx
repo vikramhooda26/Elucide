@@ -19,20 +19,28 @@ import SearchFilter from './SearchFilter';
 import SelectBoxFilter from './SelectBoxFilter';
 import ToggleButton from '../../button/ToggleButton';
 import { Checkbox } from '../../ui/checkbox';
+import DoubleRangeFilter from './DoubleRangeFilter';
 
-interface FilterOption {
+export interface FilterOption {
     label: string;
     value: string;
 }
 
-interface FilterContent {
+export interface FilterContent {
     displayName: string;
     key: string;
-    type: 'select' | 'range' | 'dateRange' | 'text' | 'check' | 'multicheck' | 'toggle';
-    value?: string | number | [number, number];
-    options: FilterOption[];
+    type: 'select' | 'range' | 'doubleRange' | 'dateRange' | 'text' | 'check' | 'multicheck' | 'toggle';
+
+    value?: string | number | [number, number] | [[number, number], [number, number]];
+    options?: FilterOption[];
+
     range?: { min: number; max: number } | { start: string; end: string };
+    doubleRange?: { min: { min1: number; min2: number; }, max: { max1: number; max2: number; } };
+    steps?: { step1: number; step2: number; }
     isMultiple?: boolean;
+    operationType?: string;
+    subTitle?: { title1: string; title2: string; }
+
     isMandatory: boolean;
 }
 interface FilterModalProps {
@@ -53,12 +61,18 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
 
     const currentValues = getCurrentFilters();
 
-    const handleInputChange = (key: string, value: any,) => {
+    const handleInputChange = (key: string, value: any) => {
+        const foundFilter = filters.find((f) => f.key === key);
+
         setFilterValues((prev) => ({
             ...prev,
             [pageKey]: {
                 ...currentValues,
-                [key]: { type: filters.find((f) => f.key === key)?.type, value, isMandatory: currentValues[key]?.isMandatory },
+                [key]: {
+                    type: foundFilter?.type || "text",
+                    value,
+                    isMandatory: currentValues[key]?.isMandatory || false,
+                },
             },
         }));
     };
@@ -111,20 +125,42 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
                                 />
                             );
                         case 'range':
-                            return (
-                                <div key={filter.key} className="mb-4">
-                                    <RangeSlider
-                                        minStepsBetweenThumbs={1}
-                                        min={filter.range?.min || 0}
-                                        max={filter.range?.max || 100}
-                                        step={1}
-                                        onValueChange={(value) => handleInputChange(filter.key, value)}
-                                        className="w-full"
-                                        isSingle={false}
-                                        value={currentValues[filter.key]?.value || [0, 100]}
-                                    />
-                                </div>
-                            );
+                            if (filter.range && 'min' in filter.range && 'max' in filter.range) {
+                                return (
+                                    <div key={filter.key} className="mb-4">
+                                        <RangeSlider
+                                            minStepsBetweenThumbs={1}
+                                            min={filter.range?.min || 0}
+                                            max={filter.range?.max || 100}
+                                            step={1}
+                                            onValueChange={(value) => handleInputChange(filter.key, value)}
+                                            className="w-full"
+                                            isSingle={false}
+                                            value={currentValues[filter.key]?.value}
+                                        />
+                                    </div>
+                                );
+                            }
+                            return null;
+                        case 'doubleRange':
+                            if (filter.doubleRange && 'min' in filter.doubleRange && 'max' in filter.doubleRange) {
+                                return (
+                                    <div key={filter.key} className="mb-4">
+                                        <DoubleRangeFilter
+                                            subTitle={filter.subTitle}
+                                            minStepsBetweenThumbs={1}
+                                            min={filter.doubleRange?.min}
+                                            max={filter.doubleRange?.max}
+                                            steps={filter?.steps || { step1: 1, step2: 0 }}
+                                            onValueChange={(value) => handleInputChange(filter.key, value)}
+                                            className="w-full"
+                                            isSingle={false}
+                                            values={currentValues[filter.key]?.value}
+                                        />
+                                    </div>
+                                );
+                            }
+                            return null
                         case 'dateRange':
                             return (
                                 <CalendarDateRangePicker
@@ -170,14 +206,14 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
             <DialogTrigger asChild>
                 <Button variant="outline">Open Filters</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] md:max-w-[600px] lg:max-w-[800px] xl:max-w-[1000px] w-[75vw] h-[75vh] max-h-[75vh] flex flex-col">
+            <DialogContent className="sm:max-w-[425px] md:max-w-[600px] lg:max-w-[1100px] xl:max-w-[1100px] w-[75vw] h-[75vh] max-h-[75vh] flex flex-col">
                 <DialogHeader>
                     <DialogTitle>Add Filters</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
-                <div className="flex-grow overflow-y-auto py-4">
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="flex-grow overflow-y-auto py-4 scrollbar ">
+                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                         {filters && filters?.length && filters?.map((filter) => renderFilter(filter))}
                     </div>
                 </div>

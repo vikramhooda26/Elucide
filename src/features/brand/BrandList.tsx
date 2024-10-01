@@ -29,6 +29,8 @@ import { listLoadingAtom } from "../../store/atoms/global";
 import { brand } from "../../types/brand/BrandListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
+import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
+import { fetchFilters, TPageKey } from "../utils/FilterConfigs";
 
 function BrandList() {
     const navigator = useNavigator();
@@ -42,6 +44,9 @@ function BrandList() {
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
+
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+    const pageKey: TPageKey = 'brandList';
 
     const userRole = useUser()?.role;
     if (!userRole) {
@@ -175,6 +180,12 @@ function BrandList() {
         />
     ];
 
+    const filterConfig: FilterContent[] = fetchFilters(pageKey);
+
+    const handleApplyFilters = () => {
+        console.log('Filters applied successfully.');
+    };
+
     return (
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
@@ -187,6 +198,13 @@ function BrandList() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
+                    <FilterModal
+                        isOpen={isFilterModalOpen}
+                        filters={filterConfig}
+                        onClose={() => setIsFilterModalOpen(false)}
+                        onApplyFilters={handleApplyFilters}
+                        pageKey={pageKey}
+                    />
                     <ConditionalButton
                         onClick={() =>
                             navigator(NAVIGATION_ROUTES.CREATE_BRAND)
