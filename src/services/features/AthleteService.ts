@@ -29,5 +29,13 @@ class AthleteService {
             "GET"
         );
     }
+
+    static getFilteredAthlete(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/filter/athlete",
+            params,
+            "POST"
+        );
+    }
 }
 export default AthleteService;

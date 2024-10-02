@@ -32,7 +32,8 @@ import { listLoadingAtom } from "../../store/atoms/global";
 import { athlete } from "../../types/athlete/AthleteListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
-import { fetchFilters, TPageKey } from "../utils/FilterConfigs";
+import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
+import FilterService from "../../services/filter/FilterService";
 
 function AthleteList() {
     const navigator = useNavigator();
@@ -50,6 +51,7 @@ function AthleteList() {
 
     const pageKey: TPageKey = 'athleteList';
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+    const [filterValues, setFilterValues] = useRecoilState(filterState);
 
     const metadataStore = useMetadataStore();
 
@@ -191,12 +193,57 @@ function AthleteList() {
 
     const filterConfig: FilterContent[] = fetchFilters(pageKey);
 
-    const handleApplyFilters = () => {
+    const handleApplyFilters = async () => {
+
+        try {
+            setIsLoading(true);
+            const processedData = FilterService.processFilterData(filterValues[pageKey]);
+            if (processedData?.athleteIds) {
+                processedData.ids = processedData?.athleteIds;
+            }
+            delete processedData?.athleteIds;
+
+            const response = await AthleteService.getFilteredAthlete(processedData);
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                const athleteList = response.data;
+                athleteList.forEach((athlete: athlete, i: number) => {
+                    athleteList[i].createdBy =
+                        athlete?.createdBy?.email || "N/A";
+                    athleteList[i].modifiedBy =
+                        athlete?.modifiedBy?.email || "N/A";
+                });
+                setAthletes(athleteList);
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (
+                unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+            ) {
+                toast.error("An unknown error occurred");
+            }
+        } finally {
+            setIsLoading(false);
+        }
         console.log('Filters applied successfully.');
     };
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
+            <div className="mt-8">
+                <h2 className="text-2xl font-semibold mb-4">Applied Filters:</h2>
+                <ul className="list-disc pl-5">
+                    {Object.entries(filterValues[pageKey] || {}).map(([key, filter]) => (
+                        <li key={key}>
+                            <strong>{key}:</strong> {JSON.stringify(filter.value)}
+                        </li>
+                    ))}
+                </ul>
+            </div>
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

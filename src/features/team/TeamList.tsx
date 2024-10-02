@@ -31,7 +31,7 @@ import MetadataService from "../../services/features/MetadataService";
 import { getColumns } from "../../components/core/view/common-columns";
 import { ConditionalButton } from "../../components/button/ConditionalButton";
 import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
-import { fetchFilters, TPageKey } from "../utils/FilterConfigs";
+import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
 
 function TeamList() {
     const navigator = useNavigator();

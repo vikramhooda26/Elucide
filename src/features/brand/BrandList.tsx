@@ -30,7 +30,7 @@ import { brand } from "../../types/brand/BrandListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
-import { fetchFilters, TPageKey } from "../utils/FilterConfigs";
+import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
 
 function BrandList() {
     const navigator = useNavigator();

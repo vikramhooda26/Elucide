@@ -121,7 +121,12 @@ export const ALL_METADATA = {
     AGENCY: "agency",
     ASSET: "asset",
     BROADCAST_PARTNER: "broadcastPartner",
+
+    MAINCATEGORY: "maincategory",
     CATEGORY: "category",
+    MAINPERSONALITY: "mainpersonality",
+    PERSONALITY_TRAIT: "personalityTrait",
+
     FORMAT: "format",
     KEY_MARKET: "keyMarket",
     LEAGUE: "league",
@@ -130,7 +135,7 @@ export const ALL_METADATA = {
     NCCS: "nccs",
     OTT_PARTNER: "ottPartner",
     PARENT_ORG: "parentOrg",
-    PERSONALITY_TRAIT: "personalityTrait",
+
     SPORTS_DEAL_SUMMARY_LEVEL: "sportsDealSummaryLevel",
     SPORTS_DEAL_SUMMARY_STATUS: "sportsDealSummaryStatus",
     SPORTS_DEAL_SUMMARY_TERRITORY: "sportsDealSummaryTerritory",
@@ -147,6 +152,5 @@ export const ALL_METADATA = {
     TEAM: "team",
     ATHLETE: "athlete",
     BRAND: "brand",
-    MAINCATEGORY: "maincategory",
-    MAINPERSONALITY: "mainpersonality",
+
 } as const;

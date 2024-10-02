@@ -47,10 +47,16 @@ function DoubleRangeFilter({
 
     return (
         <div>
-            <div className=''>
+            <div className='flex items-center space-x-2'>
                 <CheckBoxFilter
                     value={values?.operationType || ''}
-                    options={[{ label: 'Greater', value: 'gt' }, { label: 'Lesser', value: 'lt' }, { label: 'Equal', value: 'eq' }] || []}
+                    options={[{ label: 'Greater', value: 'gt' }, { label: 'Lesser', value: 'lt' }] || []}
+                    onChange={(value) => handleOperationChange(value || '')}
+                    className={'flex items-center space-x-2 mx-4 mb-4'}
+                />
+                <CheckBoxFilter
+                    value={values?.operationType || ''}
+                    options={[{ label: 'Range', value: 'in' }] || []}
                     onChange={(value) => handleOperationChange(value || '')}
                     className={'flex items-center space-x-2 mx-4 mb-4'}
                 />
