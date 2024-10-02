@@ -69,7 +69,7 @@ function DoubleRangeFilter({
                 step={steps?.step1}
                 onValueChange={(value) => handleRangeChange({ range1: value, range2: values?.value2 as number[] })}
                 className="w-full"
-                isSingle={true}
+                isSingle={false}
                 value={values?.value1}
             />
             <div className='my-1'>{subTitle?.title2}</div>
@@ -80,7 +80,7 @@ function DoubleRangeFilter({
                 step={steps?.step2}
                 onValueChange={(value) => handleRangeChange({ range1: values?.value1 as number[], range2: value })}
                 className="w-full"
-                isSingle={true}
+                isSingle={false}
                 value={values?.value2}
             />
         </div>

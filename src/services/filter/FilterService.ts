@@ -48,6 +48,7 @@ class FilterService {
             const cost = [value11 + value21, value12 + value22];
 
             costOfAssociation = { cost, operationType: costOfAssociation?.operationType }
+            processedFilters.costOfAssociation = costOfAssociation;
         }
 
         return processedFilters;
