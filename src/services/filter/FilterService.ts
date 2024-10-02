@@ -75,6 +75,17 @@ class FilterService {
             athleteAge = { age, operationType: athleteAge?.operationType }
             processedFilters.athleteAge = athleteAge;
         }
+        if (processedFilters?.yearOfInception?.length > 0) {
+            processedFilters.yearOfInception = processedFilters?.yearOfInception?.[0]
+        }
+        if (processedFilters?.franchiseFee?.length > 0) {
+            if (!isNaN(processedFilters?.franchiseFee)) {
+                processedFilters.franchiseFee = Number(processedFilters?.franchiseFee || 0);
+            } else {
+                delete processedFilters?.franchiseFee;
+            }
+
+        }
 
         return processedFilters;
     }

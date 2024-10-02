@@ -1,38 +1,26 @@
 import {
     ColumnFiltersState,
-    getCoreRowModel,
-    getFacetedRowModel,
-    getFacetedUniqueValues,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
     SortingState,
-    useReactTable,
     VisibilityState
 } from "@tanstack/react-table";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { ConditionalButton } from "../../components/button/ConditionalButton";
-import { getColumns } from "../../components/core/view/common-columns";
-import DataTable from "../../components/data-table/data-table";
-import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
-import { Input } from "../../components/ui/input";
+import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
 import useNavigator from "../../hooks/useNavigator";
 import { useUser } from "../../hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import BrandService from "../../services/features/BrandService";
-import MetadataService from "../../services/features/MetadataService";
+import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
+import FilterService from "../../services/filter/FilterService";
+import { filterState } from "../../store/atoms/filterAtom";
 import { listLoadingAtom } from "../../store/atoms/global";
 import { brand } from "../../types/brand/BrandListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { priorities, statuses } from "./data/data";
-import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
-import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
-import { filterState } from "../../store/atoms/filterAtom";
-import FilterService from "../../services/filter/FilterService";
+import BrandTable from "./data/BrandTable";
 
 function BrandList() {
     const navigator = useNavigator();
@@ -84,105 +72,12 @@ function BrandList() {
     };
 
     useEffect(() => {
-        fetchBrands();
-    }, []);
-
-    const onDelete = useCallback(async (id: string) => {
-        try {
-            setIsLoading(true);
-            const response = await MetadataService.deleteData(
-                id,
-                "/api/admin/brand/delete/"
-            );
-
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Deleted successfully");
-                setBrandList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-
-            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setBrandList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
-            } else {
-                toast.error("Could not delete this data");
-            }
-        } finally {
-            setIsLoading(false);
+        if (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length > 0) {
+            handleApplyFilters()
+        } else {
+            fetchBrands();
         }
     }, []);
-
-    const onEdit = useCallback((id: string) => {
-        navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`);
-    }, []);
-
-    const viewRoute = NAVIGATION_ROUTES.BRAND;
-
-    const canEdit = userRole !== "USER" && userRole !== "STAFF";
-
-    const columns = useMemo(
-        () =>
-            getColumns({
-                onDelete,
-                onEdit,
-                userRole,
-                viewRoute,
-                searchQuerykey: "name",
-                title: "Brand name",
-                canEdit
-            }),
-        []
-    );
-    const table = useReactTable({
-        data: brandList,
-        columns,
-        state: {
-            sorting,
-            columnVisibility,
-            rowSelection,
-            columnFilters
-        },
-        enableRowSelection: true,
-        onRowSelectionChange: setRowSelection,
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
-        onColumnVisibilityChange: setColumnVisibility,
-        getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues()
-    });
-
-    const toolbarAttributes = [
-        <Input
-            placeholder="Filter tasks..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
-            }
-            className="h-8 w-[150px] lg:w-[250px]"
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("createdDate")}
-            title="Created At"
-            options={statuses}
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("modifiedDate")}
-            title="Modiefied At"
-            options={priorities}
-        />
-    ];
 
     const filterConfig: FilterContent[] = fetchFilters(pageKey);
 
@@ -202,7 +97,7 @@ function BrandList() {
                 brandList.forEach((brand: brand, i: number) => {
                     brandList[i].createdBy =
                         brand?.createdBy?.email || "N/A";
-                        brandList[i].modifiedBy =
+                    brandList[i].modifiedBy =
                         brand?.modifiedBy?.email || "N/A";
                 });
                 setBrandList(brandList);
@@ -267,10 +162,9 @@ function BrandList() {
                     </ConditionalButton>
                 </div>
             </div>
-            <DataTable
-                table={table}
-                columns={columns}
-                toolbarAttributes={toolbarAttributes}
+            <BrandTable
+                brandList={brandList}
+                setBrandList={setBrandList}
             />
         </div>
     );

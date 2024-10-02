@@ -34,6 +34,7 @@ import FilterModal, { FilterContent } from "../../components/core/filter/FilterM
 import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
 import FilterService from "../../services/filter/FilterService";
 import { filterState } from "../../store/atoms/filterAtom";
+import LeagueTable from "./data/LeagueTable";
 
 function LeagueList() {
     const navigator = useNavigator();
@@ -85,7 +86,11 @@ function LeagueList() {
     };
 
     useEffect(() => {
-        fetchLeagues();
+        if (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length > 0) {
+            handleApplyFilters()
+        } else {
+            fetchLeagues();
+        }
     }, []);
 
     const onDelete = useCallback(async (id: string) => {
@@ -167,7 +172,7 @@ function LeagueList() {
 
     const toolbarAttributes = [
         <Input
-            placeholder="Filter tasks..."
+            placeholder="Filter leagues..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
                 table.getColumn("name")?.setFilterValue(event.target.value)
@@ -194,8 +199,12 @@ function LeagueList() {
             const processedData = FilterService.processFilterData(filterValues[pageKey]);
             if (processedData?.leagueIds) {
                 processedData.ids = processedData?.leagueIds;
+                delete processedData?.leagueIds;
             }
-            delete processedData?.leagueIds;
+            if (processedData?.leagueOwnerIds) {
+                processedData.ownerIds = processedData?.leagueOwnerIds;
+                delete processedData?.leagueOwnerIds;
+            }
 
             const response = await LeagueService.getFilteredLeagues(processedData);
 
@@ -203,9 +212,9 @@ function LeagueList() {
                 const leagueList = response.data;
                 leagueList.forEach((league: league, i: number) => {
                     leagueList[i].createdBy =
-                    league?.createdBy?.email || "N/A";
+                        league?.createdBy?.email || "N/A";
                     leagueList[i].modifiedBy =
-                    league?.modifiedBy?.email || "N/A";
+                        league?.modifiedBy?.email || "N/A";
                 });
                 setLeagueList(leagueList);
             }
@@ -257,10 +266,9 @@ function LeagueList() {
                     </ConditionalButton>
                 </div>
             </div>
-            <DataTable
-                table={table}
-                columns={columns}
-                toolbarAttributes={toolbarAttributes}
+            <LeagueTable
+                leagueList={leagueList}
+                setLeagueList={setLeagueList}
             />
         </div>
     );

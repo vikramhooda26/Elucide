@@ -1,40 +1,26 @@
 import {
     ColumnFiltersState,
-    getCoreRowModel,
-    getFacetedRowModel,
-    getFacetedUniqueValues,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
     SortingState,
-    useReactTable,
     VisibilityState
 } from "@tanstack/react-table";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import DataTable from "../../components/data-table/data-table";
-import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
+import { ConditionalButton } from "../../components/button/ConditionalButton";
+import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
 import useNavigator from "../../hooks/useNavigator";
+import { useUser } from "../../hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import TeamService from "../../services/features/TeamService";
-import { listLoadingAtom } from "../../store/atoms/global";
-import { team } from "../../types/team/TeamListTypes";
-import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { priorities, statuses } from "./data/data";
-import { useUser } from "../../hooks/useUser";
-import MetadataService from "../../services/features/MetadataService";
-import { getColumns } from "../../components/core/view/common-columns";
-import { ConditionalButton } from "../../components/button/ConditionalButton";
-import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
 import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
 import FilterService from "../../services/filter/FilterService";
 import { filterState } from "../../store/atoms/filterAtom";
-import AthleteService from "../../services/features/AthleteService";
+import { listLoadingAtom } from "../../store/atoms/global";
+import { team } from "../../types/team/TeamListTypes";
+import { useAuth } from "../auth/auth-provider/AuthProvider";
+import TeamTable from "./data/TeamTable";
 
 function TeamList() {
     const navigator = useNavigator();
@@ -86,106 +72,13 @@ function TeamList() {
     };
 
     useEffect(() => {
-        fetchTeams();
-    }, []);
-
-    const onDelete = useCallback(async (id: string) => {
-        try {
-            setIsLoading(true);
-            const response = await MetadataService.deleteData(
-                id,
-                "/api/admin/team/delete/"
-            );
-
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Deleted successfully");
-                setTeamList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-
-            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setTeamList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
-            } else {
-                toast.error("Could not delete this data");
-            }
-        } finally {
-            setIsLoading(false);
+        if (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length > 0) {
+            handleApplyFilters()
+        } else {
+            fetchTeams();
         }
+
     }, []);
-
-    const onEdit = useCallback((id: string) => {
-        navigate(`${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`);
-    }, []);
-
-    const viewRoute = NAVIGATION_ROUTES.TEAM;
-
-    const canEdit = userRole !== "USER" && userRole !== "STAFF";
-
-    const columns = useMemo(
-        () =>
-            getColumns({
-                onDelete,
-                onEdit,
-                userRole,
-                viewRoute,
-                searchQuerykey: "name",
-                title: "Team name",
-                canEdit
-            }),
-        []
-    );
-
-    const table = useReactTable({
-        data: teamList,
-        columns,
-        state: {
-            sorting,
-            columnVisibility,
-            rowSelection,
-            columnFilters
-        },
-        enableRowSelection: true,
-        onRowSelectionChange: setRowSelection,
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
-        onColumnVisibilityChange: setColumnVisibility,
-        getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues()
-    });
-
-    const toolbarAttributes = [
-        <Input
-            placeholder="Filter tasks..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
-            }
-            className="h-8 w-[150px] lg:w-[250px]"
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("createdDate")}
-            title="Created At"
-            options={statuses}
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("modifiedDate")}
-            title="Modiefied At"
-            options={priorities}
-        />
-    ];
 
     const filterConfig: FilterContent[] = fetchFilters(pageKey);
 
@@ -195,8 +88,12 @@ function TeamList() {
             const processedData = FilterService.processFilterData(filterValues[pageKey]);
             if (processedData?.teamIds) {
                 processedData.ids = processedData?.teamIds;
+                delete processedData?.teamIds;
             }
-            delete processedData?.teamIds;
+            if (processedData?.teamOwnerIds) {
+                processedData.ownerIds = processedData?.teamOwnerIds;
+                delete processedData?.teamOwnerIds;
+            }
 
             const response = await TeamService.getFilteredTeams(processedData);
 
@@ -256,10 +153,9 @@ function TeamList() {
                     </ConditionalButton>
                 </div>
             </div>
-            <DataTable
-                table={table}
-                columns={columns}
-                toolbarAttributes={toolbarAttributes}
+            <TeamTable
+                teamList={teamList}
+                setTeamList={setTeamList}
             />
         </div>
     );

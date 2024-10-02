@@ -119,6 +119,7 @@ import { userAtom } from "../store/atoms/user";
 import { loadingBarSelector } from "../store/selectors/global";
 import { routeChildrenType, routeObjType } from "../types/routes/RoutesTypes";
 import UserList from "../features/user/UserList";
+import Explore from "../features/explore/Explore";
 
 const routeChildren: routeChildrenType[] = [
     {
@@ -131,6 +132,11 @@ const routeChildren: routeChildrenType[] = [
     {
         path: NAVIGATION_ROUTES.DASHBOARD,
         element: <Dashboard />,
+        access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"]
+    },
+    {
+        path: NAVIGATION_ROUTES.EXPLORE,
+        element: <Explore />,
         access: ["SUPER_ADMIN", "ADMIN", "STAFF", "USER"]
     },
     {

@@ -1,49 +1,25 @@
-import {
-    ColumnFiltersState,
-    getCoreRowModel,
-    getFacetedRowModel,
-    getFacetedUniqueValues,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
-    SortingState,
-    useReactTable,
-    VisibilityState
-} from "@tanstack/react-table";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { ConditionalButton } from "../../components/button/ConditionalButton";
 import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
-import { getColumns } from "../../components/core/view/common-columns";
-import DataTable from "../../components/data-table/data-table";
-import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
-import { Input } from "../../components/ui/input";
-import useMetadataStore from "../../hooks/useMetadataStore";
 import useNavigator from "../../hooks/useNavigator";
 import { useUser } from "../../hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import AthleteService from "../../services/features/AthleteService";
-import MetadataService from "../../services/features/MetadataService";
+import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
+import FilterService from "../../services/filter/FilterService";
 import { filterState } from "../../store/atoms/filterAtom";
 import { listLoadingAtom } from "../../store/atoms/global";
 import { athlete } from "../../types/athlete/AthleteListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { priorities, statuses } from "./data/data";
-import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
-import FilterService from "../../services/filter/FilterService";
+import AthleteTable from "./data/AthleteTable";
 
 function AthleteList() {
     const navigator = useNavigator();
     const [athletes, setAthletes] = useState<Array<any>>([]);
-    const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -53,14 +29,16 @@ function AthleteList() {
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const filterValues = useRecoilValue(filterState);
 
-    const metadataStore = useMetadataStore();
-
     if (!userRole) {
         return;
     }
 
     useEffect(() => {
-        fetchAthletes();
+        if (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length > 0) {
+            handleApplyFilters()
+        } else {
+            fetchAthletes();
+        }
     }, []);
 
     const fetchAthletes = async () => {
@@ -92,104 +70,6 @@ function AthleteList() {
             setIsLoading(false);
         }
     };
-
-    const onDelete = useCallback(async (id: string) => {
-        try {
-            setIsLoading(true);
-            const response = await MetadataService.deleteData(
-                id,
-                "/api/admin/athlete/delete/"
-            );
-
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Deleted successfully");
-                setAthletes((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-
-            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setAthletes((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
-            } else {
-                toast.error("Could not delete this data");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    }, []);
-
-    const onEdit = useCallback((id: string) => {
-        navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`);
-    }, []);
-
-    const viewRoute = NAVIGATION_ROUTES.ATHLETE;
-
-    const canEdit = userRole !== "USER" && userRole !== "STAFF";
-
-    const columns = useMemo(
-        () =>
-            getColumns({
-                onDelete,
-                onEdit,
-                userRole,
-                viewRoute,
-                searchQuerykey: "name",
-                title: "Athlete name",
-                canEdit
-            }),
-        []
-    );
-
-    const table = useReactTable({
-        data: athletes,
-        columns,
-        state: {
-            sorting,
-            columnVisibility,
-            rowSelection,
-            columnFilters
-        },
-        enableRowSelection: true,
-        onRowSelectionChange: setRowSelection,
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
-        onColumnVisibilityChange: setColumnVisibility,
-        getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues()
-    });
-
-    const toolbarAttributes = [
-        <Input
-            placeholder="Filter tasks..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
-            }
-            className="h-8 w-[150px] lg:w-[250px]"
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("createdDate")}
-            title="Created At"
-            options={statuses}
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("modifiedDate")}
-            title="Modiefied At"
-            options={priorities}
-        />
-    ];
 
     const filterConfig: FilterContent[] = fetchFilters(pageKey);
 
@@ -263,10 +143,9 @@ function AthleteList() {
                     </ConditionalButton>
                 </div>
             </div>
-            <DataTable
-                table={table}
-                columns={columns}
-                toolbarAttributes={toolbarAttributes}
+            <AthleteTable
+                athletes={athletes}
+                setAthletes={setAthletes}
             />
         </div>
     );

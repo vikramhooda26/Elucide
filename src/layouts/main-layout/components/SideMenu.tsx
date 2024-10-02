@@ -5,7 +5,8 @@ import {
     FileText,
     Trophy,
     Users,
-    Building
+    Building,
+    Telescope
 } from "lucide-react";
 import {
     ResizableHandle,
@@ -35,6 +36,13 @@ export const SideMenuLinks: Pick<NavProps, "links"> = {
             icon: BarChart,
             label: "50",
             navigateTo: NAVIGATION_ROUTES.DASHBOARD,
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
+        },
+        {
+            title: "Explore",
+            icon: Telescope,
+            label: "50",
+            navigateTo: NAVIGATION_ROUTES.EXPLORE,
             roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
         },
         {

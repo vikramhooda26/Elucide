@@ -25,6 +25,7 @@ export const NAVIGATION_ROUTES = {
     LOGIN: "/elucide/login",
     HOME: "/elucide/home",
     DASHBOARD: "/dashboard",
+    EXPLORE: "/explore",
 
     CREATE_USER: "/create-user",
     USERS_LIST: "/users-list",

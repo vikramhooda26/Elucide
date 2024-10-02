@@ -41,6 +41,14 @@ class DashboardService {
             "GET"
         );
     }
+
+    static getFilteredStakes(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/filter/multiple",
+            params,
+            "POST"
+        );
+    }
 }
 
 export default DashboardService;
