@@ -29,5 +29,13 @@ class TeamService {
             "GET"
         );
     }
+
+    static getFilteredTeams(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/filter/team",
+            params,
+            "POST"
+        );
+    }
 }
 export default TeamService;

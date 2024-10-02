@@ -29,6 +29,14 @@ class LeagueService {
             "PUT"
         );
     }
+
+    static getFilteredLeagues(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/filter/league",
+            params,
+            "POST"
+        );
+    }
 }
 
 export default LeagueService;

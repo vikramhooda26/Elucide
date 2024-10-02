@@ -30,7 +30,7 @@ class AthleteService {
         );
     }
 
-    static getFilteredAthlete(params: any) {
+    static getFilteredAthletes(params: any) {
         return AjaxService.request(
             API_URL + "/api/admin/filter/athlete",
             params,

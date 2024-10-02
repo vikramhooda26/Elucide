@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { ConditionalButton } from "../../components/button/ConditionalButton";
 import { getColumns } from "../../components/core/view/common-columns";
@@ -31,6 +31,8 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
 import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
+import { filterState } from "../../store/atoms/filterAtom";
+import FilterService from "../../services/filter/FilterService";
 
 function BrandList() {
     const navigator = useNavigator();
@@ -47,6 +49,8 @@ function BrandList() {
 
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const pageKey: TPageKey = 'brandList';
+    const filterValues = useRecoilValue(filterState);
+
 
     const userRole = useUser()?.role;
     if (!userRole) {
@@ -182,12 +186,59 @@ function BrandList() {
 
     const filterConfig: FilterContent[] = fetchFilters(pageKey);
 
-    const handleApplyFilters = () => {
-        console.log('Filters applied successfully.');
+    const handleApplyFilters = async () => {
+        try {
+            setIsLoading(true);
+            const processedData = FilterService.processFilterData(filterValues[pageKey]);
+            if (processedData?.brandIds) {
+                processedData.ids = processedData?.brandIds;
+            }
+            delete processedData?.brandIds;
+
+            const response = await BrandService.getFilteredBrands(processedData);
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                const brandList = response.data;
+                brandList.forEach((brand: brand, i: number) => {
+                    brandList[i].createdBy =
+                        brand?.createdBy?.email || "N/A";
+                        brandList[i].modifiedBy =
+                        brand?.modifiedBy?.email || "N/A";
+                });
+                setBrandList(brandList);
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (
+                unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+            ) {
+                toast.error("An unknown error occurred");
+            } else {
+                setBrandList([]);
+            }
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
+
+            {/* <div className="mt-8">
+                <h2 className="text-2xl font-semibold mb-4">Applied Filters:</h2>
+                <ul className="list-disc pl-5">
+                    {Object.entries(filterValues[pageKey] || {}).map(([key, filter]) => (
+                        <li key={key}>
+                            <strong>{key}:</strong> {JSON.stringify(filter.value)}
+                        </li>
+                    ))}
+                </ul>
+            </div> */}
+
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
@@ -203,6 +254,7 @@ function BrandList() {
                         filters={filterConfig}
                         onClose={() => setIsFilterModalOpen(false)}
                         onApplyFilters={handleApplyFilters}
+                        onDiscardFilters={fetchBrands}
                         pageKey={pageKey}
                     />
                     <ConditionalButton

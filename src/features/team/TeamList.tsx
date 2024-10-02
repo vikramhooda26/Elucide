@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
@@ -32,6 +32,9 @@ import { getColumns } from "../../components/core/view/common-columns";
 import { ConditionalButton } from "../../components/button/ConditionalButton";
 import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
 import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
+import FilterService from "../../services/filter/FilterService";
+import { filterState } from "../../store/atoms/filterAtom";
+import AthleteService from "../../services/features/AthleteService";
 
 function TeamList() {
     const navigator = useNavigator();
@@ -46,6 +49,7 @@ function TeamList() {
 
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const pageKey: TPageKey = 'teamList';
+    const filterValues = useRecoilValue(filterState);
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -185,8 +189,43 @@ function TeamList() {
 
     const filterConfig: FilterContent[] = fetchFilters(pageKey);
 
-    const handleApplyFilters = () => {
-        console.log('Filters applied successfully.');
+    const handleApplyFilters = async () => {
+        try {
+            setIsLoading(true);
+            const processedData = FilterService.processFilterData(filterValues[pageKey]);
+            if (processedData?.teamIds) {
+                processedData.ids = processedData?.teamIds;
+            }
+            delete processedData?.teamIds;
+
+            const response = await TeamService.getFilteredTeams(processedData);
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                const teamList = response.data;
+                teamList.forEach((athlete: team, i: number) => {
+                    teamList[i].createdBy =
+                        athlete?.createdBy?.email || "N/A";
+                    teamList[i].modifiedBy =
+                        athlete?.modifiedBy?.email || "N/A";
+                });
+                setTeamList(teamList);
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (
+                unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+            ) {
+                toast.error("An unknown error occurred");
+            } else {
+                setTeamList([]);
+            }
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -206,6 +245,7 @@ function TeamList() {
                         filters={filterConfig}
                         onClose={() => setIsFilterModalOpen(false)}
                         onApplyFilters={handleApplyFilters}
+                        onDiscardFilters={fetchTeams}
                         pageKey={pageKey}
                     />
                     <ConditionalButton

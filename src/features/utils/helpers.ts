@@ -241,6 +241,57 @@ export const customRound = (num: number) => {
 
 export const getRandomColor = (index: number) => {
     const colorArr = [
+        "#0000FF", // Blue
+        "#0000CC", // Medium Blue
+        "#000099", // Dark Blue
+        "#000066", // Navy Blue
+        
+        "#7CB9E8",
+        "#00308F",
+        "#72A0C1",
+
+        "#007FFF",
+        "#89CFF0",
+        "#0066b2",
+        "#0000FF",
+        "#318CE7",
+        "#5072A7",
+        "#6699CC",
+        "#0039a6",
+        "#5F9EA0",
+        "#A3C1AD",
+        "#6082B6",
+        "#0093AF",
+        
+
+       
+        "#000033", // Midnight Blue
+        "#0033FF", // Azure
+        "#0033CC", // Cobalt Blue
+        "#003399", // Royal Blue
+        "#003366", // Indigo
+        "#003349", // Teal Blue
+        "#0066FF", // Sky Blue
+        "#0066CC", // Deep Sky Blue
+        "#006699", // Cerulean
+        "#006666", // Caribbean Blue
+        "#0099FF", // Dodger Blue
+        "#0099CC", // Ocean Blue
+        "#009999", // Turquoise Blue
+        "#009966", // Aquamarine
+        "#00CCFF", // Light Sky Blue
+        "#00CCCC", // Light Cyan
+        "#00CC99", // Sea Blue
+        "#00FFCC", // Aqua Blue
+        "#33CCFF", // Baby Blue
+        "#33CCCC", // Electric Blue
+        "#33CC99", // Aquatic Blue
+        "#3399FF", // Light Azure
+        "#3366FF", // Cornflower Blue
+        "#3366CC", // Ultramarine
+        "#336699", // Denim Blue
+        "#6699FF", // Periwinkle
+
         "#cd68e6", "#388d3d", "#f8e9b5", "#5e9643", "#cbc1c1",
         "#826e51", "#e5bfdb", "#735d44", "#b4a99a", "#53766c",
         "#bcdcf9", "#799256", "#c4aee2", "#4f5095", "#caa4a6",

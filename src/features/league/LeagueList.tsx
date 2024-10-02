@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import DataTable from "../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
@@ -32,6 +32,8 @@ import { getColumns } from "../../components/core/view/common-columns";
 import { ConditionalButton } from "../../components/button/ConditionalButton";
 import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
 import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
+import FilterService from "../../services/filter/FilterService";
+import { filterState } from "../../store/atoms/filterAtom";
 
 function LeagueList() {
     const navigator = useNavigator();
@@ -48,6 +50,7 @@ function LeagueList() {
 
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const pageKey: TPageKey = 'leagueList';
+    const filterValues = useRecoilValue(filterState);
 
     const userRole = useUser()?.role;
 
@@ -185,8 +188,43 @@ function LeagueList() {
 
     const filterConfig: FilterContent[] = fetchFilters(pageKey);
 
-    const handleApplyFilters = () => {
-        console.log('Filters applied successfully.');
+    const handleApplyFilters = async () => {
+        try {
+            setIsLoading(true);
+            const processedData = FilterService.processFilterData(filterValues[pageKey]);
+            if (processedData?.leagueIds) {
+                processedData.ids = processedData?.leagueIds;
+            }
+            delete processedData?.leagueIds;
+
+            const response = await LeagueService.getFilteredLeagues(processedData);
+
+            if (response.status === HTTP_STATUS_CODES.OK) {
+                const leagueList = response.data;
+                leagueList.forEach((league: league, i: number) => {
+                    leagueList[i].createdBy =
+                    league?.createdBy?.email || "N/A";
+                    leagueList[i].modifiedBy =
+                    league?.modifiedBy?.email || "N/A";
+                });
+                setLeagueList(leagueList);
+            }
+        } catch (error) {
+            const unknownError = ErrorService.handleCommonErrors(
+                error,
+                logout,
+                navigate
+            );
+            if (
+                unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+            ) {
+                toast.error("An unknown error occurred");
+            } else {
+                setLeagueList([]);
+            }
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -206,6 +244,7 @@ function LeagueList() {
                         filters={filterConfig}
                         onClose={() => setIsFilterModalOpen(false)}
                         onApplyFilters={handleApplyFilters}
+                        onDiscardFilters={fetchLeagues}
                         pageKey={pageKey}
                     />
                     <ConditionalButton

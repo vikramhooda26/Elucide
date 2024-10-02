@@ -20,6 +20,7 @@ import SelectBoxFilter from './SelectBoxFilter';
 import ToggleButton from '../../button/ToggleButton';
 import { Checkbox } from '../../ui/checkbox';
 import DoubleRangeFilter from './DoubleRangeFilter';
+import SingleRangeFilter from './SingleRangeFilter';
 
 export interface FilterOption {
     label: string;
@@ -29,18 +30,20 @@ export interface FilterOption {
 export interface FilterContent {
     displayName: string;
     key: string;
-    type: 'select' | 'range' | 'doubleRange' | 'dateRange' | 'text' | 'check' | 'multicheck' | 'toggle';
+    type: 'select' | 'range' | 'doubleRange' | 'singleRange' | 'dateRange' | 'text' | 'check' | 'multicheck' | 'toggle';
 
     value?: string | number | [number, number] | [[number, number], [number, number]];
     options?: FilterOption[];
 
     range?: { min: number; max: number } | { start: string; end: string };
     doubleRange?: { min: { min1: number; min2: number; }, max: { max1: number; max2: number; } };
+    singleRange?: { min: number; max: number; };
     steps?: { step1: number; step2: number; }
-    isMultiple?: boolean;
+    step?: number;
     operationType?: string;
-    subTitle?: { title1: string; title2: string; }
+    subTitle?: { title1: string; title2?: string; }
 
+    isMultiple?: boolean;
     isMandatory: boolean;
 }
 interface FilterModalProps {
@@ -48,10 +51,11 @@ interface FilterModalProps {
     filters: FilterContent[];
     onClose: () => void;
     onApplyFilters: () => void;
+    onDiscardFilters: () => void;
     pageKey: string;
 }
 
-export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey }: FilterModalProps) {
+export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey, onDiscardFilters }: FilterModalProps) {
     const [isDateRangeModalOpen, setIsDateRangeModalOpen] = useState(false);
     const [open, setOpen] = useState(false)
 
@@ -84,6 +88,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
         }));
         onClose();
         setOpen(false);
+        onDiscardFilters();
     };
 
     const renderFilter = (filter: FilterContent) => {
@@ -96,7 +101,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
         return (
             <div key={filter.key} className="mb-4">
                 <div className='flex gap-2 items-center'>
-                    <Checkbox className="block text-sm font-medium mb-2 peer h-4 w-4 rounded-sm border-yellow-500 bg-yellow-100 ring-offset-2 focus:ring-yellow-500 data-[state=checked]:bg-yellow-500 data-[state=checked]:border-yellow-600" checked={currentValues[filter.key]?.isMandatory} onCheckedChange={(value) => handleMandatoryChange(filter.key, value)} />
+                    <Checkbox className="block text-sm font-medium mb-2 peer h-4 w-4 rounded-sm bg-green-100 ring-offset-2 focus:ring-green-500 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-600" checked={currentValues[filter.key]?.isMandatory} onCheckedChange={(value) => handleMandatoryChange(filter.key, value)} />
                     <label className="block text-sm font-medium mb-2">{filter.displayName} </label>
                 </div>
                 {(() => {
@@ -138,8 +143,27 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
                                 );
                             }
                             return null;
+                        case 'singleRange':
+                            if (filter?.singleRange && 'min' in filter.singleRange && 'max' in filter?.singleRange) {
+                                return (
+                                    <div key={filter.key} className="mb-4">
+                                        <SingleRangeFilter
+                                            subTitle={{ title1: filter.subTitle?.title1 || '' }}
+                                            minStepsBetweenThumbs={1}
+                                            min={filter.singleRange?.min}
+                                            max={filter.singleRange?.max}
+                                            step={filter?.step || 1}
+                                            onValueChange={(value) => handleInputChange(filter.key, value)}
+                                            className="w-full"
+                                            isSingle={false}
+                                            values={Object.keys(currentValues[filter.key]?.value || {})?.length > 0 ? currentValues[filter.key]?.value : { value: [0, 0], operationType: 'in' }}
+                                        />
+                                    </div>
+                                );
+                            }
+                            return null
                         case 'doubleRange':
-                            if (filter.doubleRange && 'min' in filter.doubleRange && 'max' in filter.doubleRange) {
+                            if (filter?.doubleRange && 'min' in filter.doubleRange && 'max' in filter?.doubleRange) {
                                 return (
                                     <div key={filter.key} className="mb-4">
                                         <DoubleRangeFilter
@@ -151,7 +175,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey 
                                             onValueChange={(value) => handleInputChange(filter.key, value)}
                                             className="w-full"
                                             isSingle={false}
-                                            values={currentValues[filter.key]?.value}
+                                            values={Object.keys(currentValues[filter.key]?.value || {})?.length > 0 ? currentValues[filter.key]?.value : { value1: [0, 0], value2: [0, 0], operationType: 'in' }}
                                         />
                                     </div>
                                 );

@@ -81,13 +81,16 @@ function getFilters(pageKey: TPageKey) {
 
         {
             displayName: 'Age',
+            subTitle: { title1: 'Age Range', },
             key: 'athleteAge',
-            type: 'range',
-            value: filterValues[pageKey]?.athleteAge?.value || [0, 100],
-            range: { min: 0, max: 100 },
+            type: 'singleRange',
+            value: Object.keys(filterValues[pageKey]?.athleteAge?.value || {})?.length > 0 ? filterValues[pageKey]?.athleteAge?.value : { value: [0, 0], operationType: 'in' },
+            singleRange: { min: 0, max: 100 },
             isMandatory: true,
-            pageKeys: ['athleteList',],
+            step: 1,
+            pageKeys: ['athleteList'],
         },
+
         {
             displayName: 'Athlete Gender',
             key: 'athleteGenderIds',
@@ -96,18 +99,18 @@ function getFilters(pageKey: TPageKey) {
             options: metadataStore?.gender,
             isMultiple: true,
             isMandatory: true,
-            pageKeys: ['athleteList', 'teamList', 'leagueList'],
+            pageKeys: ['athleteList',],
         },
 
         {
             displayName: 'Cost Of Association',
-            subTitle: { title1: 'In Thousands', title2: 'In Lakhs' },
+            subTitle: { title1: 'In Crore', title2: 'In Lakhs' },
             key: 'costOfAssociation',
             type: 'doubleRange',
-            value: filterValues[pageKey]?.costOfAssociation?.value,
-            doubleRange: { min: { min1: 0, min2: 0, }, max: { max1: 100000, max2: 1000000 } },
+            value: Object.keys(filterValues[pageKey]?.costOfAssociation?.value || {})?.length > 0 ? filterValues[pageKey]?.costOfAssociation?.value : { value1: [0, 0], value2: [0, 0], operationType: 'in' },
+            doubleRange: { min: { min1: 0, min2: 0, }, max: { max1: 1000000000, max2: 9000000 } },
             isMandatory: true,
-            steps: { step1: 1000, step2: 100000 },
+            steps: { step1: 10000000, step2: 1000000 },
             pageKeys: ['brandList', 'leagueList', 'teamList', 'athleteList'],
         },
         {
@@ -131,7 +134,7 @@ function getFilters(pageKey: TPageKey) {
             isMandatory: true,
             pageKeys: ['athleteList', 'teamList', 'leagueList'],
         },
-        
+
 
         {
             displayName: 'City',

@@ -40,15 +40,40 @@ class FilterService {
                 throw new Error("Please select valid range of cost of association.");
             }
 
+            const operationType = costOfAssociation?.operationType;
+
             let value11 = costOfAssociation?.value1?.[0] || 0;
             let value12 = costOfAssociation?.value1?.[1] || 0;
             let value21 = costOfAssociation?.value2?.[0] || 0;
             let value22 = costOfAssociation?.value2?.[1] || 0;
 
-            const cost = [value11 + value21, value12 + value22];
+            let cost = [];
+            if (operationType !== 'in') {
+                cost = [value11 + value21];
+            } else {
+                cost = [value11 + value21, value12 + value22];
+            }
 
-            costOfAssociation = { cost, operationType: costOfAssociation?.operationType }
+            costOfAssociation = { cost, operationType }
             processedFilters.costOfAssociation = costOfAssociation;
+        }
+
+        if (processedFilters?.athleteAge) {
+            let athleteAge = processedFilters?.athleteAge;
+            if (!athleteAge?.operationType) {
+                throw new Error("Please select any of these ['Greater', 'Lesser'].");
+            }
+
+            if (!athleteAge?.value) {
+                throw new Error("Please select valid age range");
+            }
+
+            let value = athleteAge?.value || [0];
+
+            const age = value;
+
+            athleteAge = { age, operationType: athleteAge?.operationType }
+            processedFilters.athleteAge = athleteAge;
         }
 
         return processedFilters;

@@ -29,5 +29,13 @@ class BrandService {
             "PUT"
         );
     }
+
+    static getFilteredBrands(params: any) {
+        return AjaxService.request(
+            API_URL + "/api/admin/filter/brand",
+            params,
+            "POST"
+        );
+    }
 }
 export default BrandService;

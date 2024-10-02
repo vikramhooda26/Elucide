@@ -2,38 +2,32 @@ import React, { useState } from 'react'
 import { RangeSlider } from '../../ui/RangeSlider';
 import CheckBoxFilter from './CheckBoxFilter';
 
-const rangeInitialValue = { value1: [0, 0], value2: [0, 0], operationType: 'in' };
-const singleBoundInitialValue = { value1: [0], value2: [0], operationType: 'gt' }
-
-type TDRange = {
-    range1: number[],
-    range2: number[],
-}
+const rangeInitialValue = { value: [0, 0], operationType: 'in' };
+const singleBoundInitialValue = { value: [0], operationType: 'gt' }
 
 type Props = {
-    onValueChange: (value: { value1: number[]; value2: number[]; operationType: string; }) => void;
+    onValueChange: (value: { value: number[], operationType: string }) => void;
 
     className?: string;
-
-    subTitle?: { title1: string; title2?: string; }
-    min: { min1: number; min2: number; };
-    max: { max1: number; max2: number; };
+    subTitle: { title1: string;}
+    min: number;
+    max: number;
     minStepsBetweenThumbs: number;
-    steps: { step1: number; step2: number };
+    step: number;
     formatLabel?: (value: number) => string;
-    values?: { value1: number[] | readonly number[]; value2: number[] | readonly number[]; operationType: string; };
+    values?: { value: number[] | readonly number[]; operationType: string; };
     isSingle?: boolean;
     isEdit?: boolean;
 }
 
-function DoubleRangeFilter({
+function SingleRangeFilter({
     onValueChange,
 
     className,
     subTitle,
     min,
     max,
-    steps,
+    step,
     formatLabel,
     values,
     isSingle = false,
@@ -42,8 +36,8 @@ function DoubleRangeFilter({
     const [rangeValue, setRangeValue] = useState(rangeInitialValue);
     const [singleBoundValue, setSingleBoundValue] = useState(singleBoundInitialValue);
 
-    const handleRangeChange = ({ range1, range2 }: TDRange) => {
-        const sliderValue = { value1: range1, value2: range2, operationType: values?.operationType || '' };
+    const handleRangeChange = (value: number[]) => {
+        const sliderValue = { value: value, operationType: values?.operationType || '' };
         onValueChange(sliderValue);
 
         if (values?.operationType === 'in') {
@@ -60,7 +54,7 @@ function DoubleRangeFilter({
         if (operationType === 'in') {
             onValueChange(rangeValue);
         } else {
-            onValueChange({ value1: singleBoundValue?.value1 as number[], value2: singleBoundValue?.value2 as number[], operationType });
+            onValueChange({ value: singleBoundValue?.value as number[], operationType });
         }
     }
 
@@ -83,27 +77,17 @@ function DoubleRangeFilter({
             <div className='my-1'>{subTitle?.title1}</div>
             <RangeSlider
                 minStepsBetweenThumbs={1}
-                min={min?.min1 || 0}
-                max={max?.max1 || 100}
-                step={steps?.step1}
-                onValueChange={(value) => handleRangeChange({ range1: value, range2: values?.value2 as number[] })}
+                min={min || 0}
+                max={max || 100}
+                step={step}
+                onValueChange={(value) => handleRangeChange(value)}
                 className="w-full"
                 isSingle={values?.operationType !== 'in'}
-                value={values?.value1}
+                value={values?.value}
             />
-            <div className='my-1'>{subTitle?.title2}</div>
-            <RangeSlider
-                minStepsBetweenThumbs={1}
-                min={min?.min2 || 0}
-                max={max?.max2 || 100}
-                step={steps?.step2}
-                onValueChange={(value) => handleRangeChange({ range1: values?.value1 as number[], range2: value })}
-                className="w-full"
-                isSingle={values?.operationType !== 'in'}
-                value={values?.value2}
-            />
+
         </div>
     )
 }
 
-export default DoubleRangeFilter;
+export default SingleRangeFilter;

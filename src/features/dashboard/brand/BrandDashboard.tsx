@@ -22,7 +22,8 @@ import SimpleTable, { ColumnDefinition } from "../../../components/table/SimpleT
 
 type TDashBoardData = {
     brandsCount: number;
-    categoriesCount: Array<any>;
+    categoriesCount: number;
+    brandsPerCategory: Array<any>;
     recentlyAddedBrands: Array<any>;
     recentlyModifiedBrands: Array<any>;
 }
@@ -67,11 +68,11 @@ function BrandDashboard({ setCount }: Props) {
 
                 data.recentlyModifiedBrands = recentModified;
 
-                data.categoriesCount = data.categoriesCount?.map((brand: any, i: number) => {
+                data.brandsPerCategory = data.brandsPerCategory?.map((brand: any, i: number) => {
                     return { category: brand?.name, brandCount: brand?.brandCount, };
                 });
 
-                setCount?.({ brandCount: data?.brandsCount || 0, categoriesCount: data?.brandsCount || 0 });
+                setCount?.({ brandCount: data?.brandsCount || 0, categoriesCount: data?.categoriesCount || 0 });
                 setDashboardData(data);
             }
         } catch (error) {
@@ -109,7 +110,7 @@ function BrandDashboard({ setCount }: Props) {
                         <div className="pl-4 pb-2">Category Brands Overview</div>
                         <div className=" h-96 overflow-y-scroll scrollbar ">
                             <SimpleTable
-                                data={dashboardData?.categoriesCount}
+                                data={dashboardData?.brandsPerCategory}
                                 columns={columnDefinitions}
                                 caption="Category Brands Overview"
                             />
