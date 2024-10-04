@@ -390,7 +390,7 @@ function getFilters(pageKey: TPageKey) {
             options: metadataStore?.personalityTrait,
             isMultiple: true,
             isMandatory: true,
-            pageKeys: ['brandList', 'leagueList', 'teamList', 'athleteList',    'allStakeList'],
+            pageKeys: ['brandList', 'leagueList', 'teamList', 'athleteList', 'allStakeList'],
         },
 
         {
@@ -620,43 +620,60 @@ function getFilters(pageKey: TPageKey) {
         // need to do. ============================
         {
             displayName: 'Reach',
+            subTitle: { title1: 'In Crore', title2: 'In Lakhs', title3: 'Partner Type' },
             key: 'reachMetrics',
-            type: 'doubleRange',
-            value: filterValues[pageKey]?.reachMetrics?.value || '',
+            type: 'doubleRangeWithCheck',
+            value: Object.keys(filterValues[pageKey]?.reachMetrics?.value || {})?.length > 0 ? filterValues[pageKey]?.reachMetrics?.value : { value1: [0, 0], value2: [0, 0], operationType: 'in', checkType: 'ott' },
+            doubleRange: { min: { min1: 0, min2: 0, }, max: { max1: 1000000000, max2: 9000000 } },
             isMandatory: true,
-            pageKeys: [''],// 'teamList', 'leagueList',
+            steps: { step1: 10000000, step2: 1000000 },
+            pageKeys: ['leagueList', 'teamList',],
         },
         {
             displayName: 'Viewership',
+            subTitle: { title1: 'In Crore', title2: 'In Lakhs', title3: 'Partner Type' },
             key: 'viewershipMetrics',
-            type: 'doubleRange',
-            value: filterValues[pageKey]?.viewershipMetrics?.value || '',
+            type: 'doubleRangeWithCheck',
+            value: Object.keys(filterValues[pageKey]?.viewershipMetrics?.value || {})?.length > 0 ? filterValues[pageKey]?.viewershipMetrics?.value : { value1: [0, 0], value2: [0, 0], operationType: 'in', checkType: 'ott' },
+            doubleRange: { min: { min1: 0, min2: 0, }, max: { max1: 1000000000, max2: 9000000 } },
             isMandatory: true,
-            pageKeys: [''],// 'teamList', 'leagueList',
+            steps: { step1: 10000000, step2: 1000000 },
+            pageKeys: ['leagueList', 'teamList',],
         },
         {
             displayName: 'Year',
+            subTitle: { title1: 'In Crore', title2: 'In Lakhs', title3: 'Partner Type' },
             key: 'yearMetrics',
-            type: 'doubleRange',
-            value: filterValues[pageKey]?.yearMetrics?.value || '',
+            type: 'doubleRangeWithCheck',
+            value: Object.keys(filterValues[pageKey]?.yearMetrics?.value || {})?.length > 0 ? filterValues[pageKey]?.yearMetrics?.value : { value1: [0, 0], value2: [0, 0], operationType: 'in', checkType: 'ott' },
+            doubleRange: { min: { min1: 0, min2: 0, }, max: { max1: 1000000000, max2: 9000000 } },
             isMandatory: true,
-            pageKeys: [''],// 'teamList', 'leagueList',
+            steps: { step1: 10000000, step2: 1000000 },
+            pageKeys: ['leagueList', 'teamList',],
         },
+
+
         {
             displayName: 'Partners',
             key: 'partnerIdMetrics',
-            type: 'doubleRange',
-            value: filterValues[pageKey]?.partnerIdMetrics?.value || '',
+            type: 'conditionalDropDown',
+            value: filterValues[pageKey]?.partnerIdMetrics?.value || { value: [], checkType: 'ott' },
             isMandatory: true,
-            pageKeys: [''],// 'teamList', 'leagueList',
+            options: [{ label: 'OTT', value: 'ott' }, { label: 'Broadcast', value: 'broadcast' }],
+            isMultiple: true,
+            conditionalDropDowns: { ott: metadataStore?.ottPartner || [], broadcast: metadataStore?.broadcastPartner || [], },
+            subTitle: { title1: 'Partner Type', title2: 'Partners' },
+            pageKeys: ['teamList', 'leagueList',],
         },
+
         {
             displayName: 'Endorsement',
             key: 'endorsement',
-            type: 'doubleRange',
+            type: 'conditionalText',
             value: filterValues[pageKey]?.endorsement?.value || '',
+            subTitle: { title1: 'Active', },
             isMandatory: true,
-            pageKeys: [''],// 'brandList', 'leagueList', 'teamList'
+            pageKeys: ['brandList', 'leagueList', 'teamList'],
         },
         // need to do. ========================
     ];

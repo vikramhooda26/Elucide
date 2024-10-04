@@ -58,6 +58,92 @@ class FilterService {
             processedFilters.costOfAssociation = costOfAssociation;
         }
 
+        if (processedFilters?.reachMetrics) {
+            let reachMetrics = processedFilters?.reachMetrics;
+            if (!reachMetrics?.operationType) {
+                throw new Error("Please select any of these ['Greater', 'Lesser'].");
+            }
+
+            if (!reachMetrics?.value1 || !reachMetrics?.value2) {
+                throw new Error("Please select valid range of reach.");
+            }
+
+            const operationType = reachMetrics?.operationType;
+            const partnerType = reachMetrics?.checkType;
+
+            let reach = shapeRange(reachMetrics, operationType);
+
+            reachMetrics = { reach, operationType, partnerType }
+            processedFilters.reachMetrics = reachMetrics;
+        }
+
+        if (processedFilters?.viewershipMetrics) {
+            let viewershipMetrics = processedFilters?.viewershipMetrics;
+            if (!viewershipMetrics?.operationType) {
+                throw new Error("Please select any of these ['Greater', 'Lesser'].");
+            }
+
+            if (!viewershipMetrics?.value1 || !viewershipMetrics?.value2) {
+                throw new Error("Please select valid range of viewship.");
+            }
+
+            const operationType = viewershipMetrics?.operationType;
+            const partnerType = viewershipMetrics?.checkType;
+
+            let viewership = shapeRange(viewershipMetrics, operationType);
+
+            viewershipMetrics = { viewership, operationType, partnerType }
+            processedFilters.viewershipMetrics = viewershipMetrics;
+        }
+
+
+        if (processedFilters?.yearMetrics) {
+            let yearMetrics = processedFilters?.yearMetrics;
+            if (!yearMetrics?.operationType) {
+                throw new Error("Please select any of these ['Greater', 'Lesser'].");
+            }
+
+            if (!yearMetrics?.value1 || !yearMetrics?.value2) {
+                throw new Error("Please select valid range of year matrics.");
+            }
+
+            const operationType = yearMetrics?.operationType;
+            const partnerType = yearMetrics?.checkType;
+
+            let year = shapeRange(yearMetrics, operationType);
+
+            yearMetrics = { year, operationType, partnerType }
+            processedFilters.yearMetrics = yearMetrics;
+        }
+
+        if (processedFilters?.partnerIdMetrics) {
+            let partnerIdMetrics = processedFilters?.partnerIdMetrics;
+            if (!partnerIdMetrics?.checkType) {
+                throw new Error("Please select any of these ['OTT', 'Broadcast'].");
+            }
+
+            if (!partnerIdMetrics?.value) {
+                throw new Error("Please select valid partners");
+            }
+
+            let partnerIds = partnerIdMetrics?.value || [];
+
+            partnerIdMetrics = { partnerIds, partnerType: partnerIdMetrics?.checkType }
+            processedFilters.partnerIdMetrics = partnerIdMetrics;
+        }
+
+        if (processedFilters?.endorsement) {
+            let endorsement = processedFilters?.endorsement;
+            if (!endorsement?.value) {
+                throw new Error("Please enter endrosement name.");
+            }
+
+            let name = endorsement?.value || '';
+
+            endorsement = { name, isActive: endorsement?.isActive || false }
+            processedFilters.endorsement = endorsement;
+        }
+
         if (processedFilters?.athleteAge) {
             let athleteAge = processedFilters?.athleteAge;
             if (!athleteAge?.operationType) {
@@ -75,9 +161,11 @@ class FilterService {
             athleteAge = { age, operationType: athleteAge?.operationType }
             processedFilters.athleteAge = athleteAge;
         }
+
         if (processedFilters?.yearOfInception?.length > 0) {
             processedFilters.yearOfInception = processedFilters?.yearOfInception?.[0]
         }
+
         if (processedFilters?.franchiseFee?.length > 0) {
             if (!isNaN(processedFilters?.franchiseFee)) {
                 processedFilters.franchiseFee = Number(processedFilters?.franchiseFee || 0);
@@ -93,6 +181,28 @@ class FilterService {
 
 export default FilterService;
 
+const shapeRange = (valueRanges: any, operationType: string) => {
+
+    let value11 = valueRanges?.value1?.[0] || 0;
+    let value12 = valueRanges?.value1?.[1] || 0;
+    let value21 = valueRanges?.value2?.[0] || 0;
+    let value22 = valueRanges?.value2?.[1] || 0;
+
+    let cost = [];
+    if (operationType !== 'in') {
+        cost = [value11 + "" + value21 + ""];
+    } else {
+        cost = [(value11 + value21) + "", (value12 + value22) + ""];
+    }
+
+    return cost;
+}
+
+// reachMetrics: {"value1":[380000000],"value2":[3000000],"operationType":"gte","checkType":"ott"}
+// viewershipMetrics: {"value1":[340000000],"value2":[3000000],"operationType":"lte","checkType":"ott"}
+// yearMetrics: {"value1":[380000000],"value2":[1000000],"operationType":"lte","checkType":"broadcast"}
+// partnerIdMetrics: {"value":["7","6"],"checkType":"broadcast"}
+// endorsement: {"value":"endrosement","isActive":true}
 
 // Applied Filters:
 // athleteIds: ["14","11"]

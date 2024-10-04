@@ -63,9 +63,9 @@ function LeagueList() {
         try {
             setIsLoading(true);
             const response = await LeagueService.getAll();
-            if (response.status === HTTP_STATUS_CODES.OK) {
+            if (response?.status === HTTP_STATUS_CODES.OK) {
                 const leagues = response.data;
-                leagues.forEach((league: league, i: number) => {
+                leagues?.forEach((league: league, i: number) => {
                     leagues[i].createdBy = league?.createdBy?.email || "N/A";
                     leagues[i].modifiedBy = league?.modifiedBy?.email || "N/A";
                 });
@@ -101,7 +101,7 @@ function LeagueList() {
                 "/api/admin/league/delete/"
             );
 
-            if (response.status === HTTP_STATUS_CODES.OK) {
+            if (response?.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
                 setLeagueList((prevDataList) =>
                     prevDataList.filter((data) => data.id !== id)
@@ -114,7 +114,7 @@ function LeagueList() {
                 navigate
             );
 
-            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+            if (unknownError?.response?.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 setLeagueList((prevDataList) =>
                     prevDataList.filter((data) => data.id !== id)
                 );
@@ -208,9 +208,9 @@ function LeagueList() {
 
             const response = await LeagueService.getFilteredLeagues(processedData);
 
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                const leagueList = response.data;
-                leagueList.forEach((league: league, i: number) => {
+            if (response?.status === HTTP_STATUS_CODES.OK) {
+                const leagueList = response?.data;
+                leagueList?.forEach((league: league, i: number) => {
                     leagueList[i].createdBy =
                         league?.createdBy?.email || "N/A";
                     leagueList[i].modifiedBy =
@@ -225,8 +225,10 @@ function LeagueList() {
                 navigate
             );
             if (
-                unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
+                unknownError?.response?.status !== HTTP_STATUS_CODES.NOT_FOUND
             ) {
+                console.log('error -=- ', error);
+
                 toast.error("An unknown error occurred");
             } else {
                 setLeagueList([]);
@@ -238,6 +240,17 @@ function LeagueList() {
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
+            {/* <div className="mt-8">
+                <h2 className="text-2xl font-semibold mb-4">Applied Filters:</h2>
+                <ul className="list-disc pl-5">
+                    {Object.entries(filterValues[pageKey] || {}).map(([key, filter]) => (
+                        <li key={key}>
+                            <strong>{key}:</strong> {JSON.stringify(filter.value)}
+                        </li>
+                    ))}
+                </ul>
+            </div> */}
+
             <div className="flex items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">

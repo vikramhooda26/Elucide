@@ -21,6 +21,9 @@ import ToggleButton from '../../button/ToggleButton';
 import { Checkbox } from '../../ui/checkbox';
 import DoubleRangeFilter from './DoubleRangeFilter';
 import SingleRangeFilter from './SingleRangeFilter';
+import DoubleRangeWithCheckFilter from './DoubleRangeWithCheckFilter';
+import ConditionalDropDownFilter, { Option } from './ConditionalDropDownFilter';
+import ConditionalTextFilter from './ConditionalTextFilter';
 
 export interface FilterOption {
     label: string;
@@ -30,7 +33,7 @@ export interface FilterOption {
 export interface FilterContent {
     displayName: string;
     key: string;
-    type: 'select' | 'range' | 'doubleRange' | 'singleRange' | 'dateRange' | 'text' | 'check' | 'multicheck' | 'toggle';
+    type: 'select' | 'range' | 'doubleRange' | 'singleRange' | 'dateRange' | 'text' | 'conditionalText' | 'check' | 'multicheck' | 'toggle' | 'doubleRangeWithCheck' | 'conditionalDropDown';
 
     value?: string | number | [number, number] | [[number, number], [number, number]];
     options?: FilterOption[];
@@ -41,7 +44,9 @@ export interface FilterContent {
     steps?: { step1: number; step2: number; }
     step?: number;
     operationType?: string;
-    subTitle?: { title1: string; title2?: string; }
+    subTitle?: { title1: string; title2?: string; title3?: string; }
+
+    conditionalDropDowns?: { [key: string]: Option[] | string; };
 
     isMultiple?: boolean;
     isMandatory: boolean;
@@ -114,6 +119,16 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                                     onChange={(value) => handleInputChange(filter.key, value)}
                                 />
                             );
+                        case 'conditionalText':
+                            return (
+                                <ConditionalTextFilter
+                                    key={filter?.key}
+                                    onChange={(value) => handleInputChange(filter.key, value)}
+                                    placeholder={filter?.displayName}
+                                    values={currentValues[filter.key]?.value || { value: '', isActive: true }}
+                                    subTitle={filter?.subTitle}
+                                />
+                            );
                         case 'select':
                             return (
                                 <SelectBoxFilter
@@ -123,6 +138,19 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                                     onChange={(value) => handleInputChange(filter.key, value)}
                                     multiple={filter?.isMultiple}
                                     placeholder={(filter?.displayName || '').toLowerCase() || ''}
+                                />
+                            );
+                        case 'conditionalDropDown':
+                            return (
+                                <ConditionalDropDownFilter
+                                    key={filter.key}
+                                    values={currentValues[filter.key]?.value || { value: [], checkType: 'ott' }}
+                                    options={filter.options || []}
+                                    onChange={(value) => handleInputChange(filter.key, value)}
+                                    multiple={filter?.isMultiple}
+                                    placeholder={(filter?.displayName || '').toLowerCase() || ''}
+                                    conditionalDropDowns={filter?.conditionalDropDowns}
+                                    subTitle={filter?.subTitle}
                                 />
                             );
                         case 'range':
@@ -176,6 +204,25 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                                             className="w-full"
                                             isSingle={false}
                                             values={Object.keys(currentValues[filter.key]?.value || {})?.length > 0 ? currentValues[filter.key]?.value : { value1: [0, 0], value2: [0, 0], operationType: 'in' }}
+                                        />
+                                    </div>
+                                );
+                            }
+                            return null;
+                        case 'doubleRangeWithCheck':
+                            if (filter?.doubleRange && 'min' in filter.doubleRange && 'max' in filter?.doubleRange) {
+                                return (
+                                    <div key={filter.key} className="mb-4">
+                                        <DoubleRangeWithCheckFilter
+                                            subTitle={filter.subTitle}
+                                            minStepsBetweenThumbs={1}
+                                            min={filter.doubleRange?.min}
+                                            max={filter.doubleRange?.max}
+                                            steps={filter?.steps || { step1: 1, step2: 0 }}
+                                            onValueChange={(value) => handleInputChange(filter.key, value)}
+                                            className="w-full"
+                                            isSingle={false}
+                                            values={Object.keys(currentValues[filter.key]?.value || {})?.length > 0 ? currentValues[filter.key]?.value : { value1: [0, 0], value2: [0, 0], operationType: 'in', checkType: 'ott' }}
                                         />
                                     </div>
                                 );
