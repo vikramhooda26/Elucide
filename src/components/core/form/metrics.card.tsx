@@ -1,8 +1,5 @@
 import { PlusCircle, Trash2 } from "lucide-react";
-import {
-    getListOfYears,
-    onNumInputChange
-} from "../../../features/utils/helpers";
+import { getListOfYears, onNumInputChange } from "../../../features/utils/helpers";
 import { FormItemWrapper } from "../../form/item-wrapper";
 import { TableHeaderWrapper } from "../../table/table-header-wrapper";
 import { Button } from "../../ui/button";
@@ -20,20 +17,11 @@ type TMetricsCardProps = {
         reach: string;
         viewership: string;
         year: string;
-    } & (
-        | { ottPartnerId: string; broadcastPartnerId?: never }
-        | { broadcastPartnerId: string; ottPartnerId?: never }
-    );
+    } & ({ ottPartnerId: string; broadcastPartnerId?: never } | { broadcastPartnerId: string; ottPartnerId?: never });
     register: string;
 };
 
-export const MetricsCard: React.FC<TMetricsCardProps> = ({
-    fieldArray,
-    form,
-    options,
-    defaultValue,
-    register
-}) => {
+export const MetricsCard: React.FC<TMetricsCardProps> = ({ fieldArray, form, options, defaultValue, register }) => {
     return (
         <>
             <TableHeaderWrapper
@@ -145,16 +133,9 @@ export const MetricsCard: React.FC<TMetricsCardProps> = ({
             </TableHeaderWrapper>
 
             <div className="mt-4 flex justify-end">
-                <Button
-                    onClick={() => fieldArray.append(defaultValue)}
-                    size="sm"
-                    className="h-7 gap-1"
-                    type="button"
-                >
+                <Button onClick={() => fieldArray.append(defaultValue)} size="sm" className="h-7 gap-1" type="button">
                     <PlusCircle className="h-3.5 w-3.5" />
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                        Add
-                    </span>
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add</span>
                 </Button>
             </div>
         </>

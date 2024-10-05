@@ -62,11 +62,7 @@ export const InputDrawer: React.FC<TInputDrawerProps> = ({
 
     const onSubmit = async (data: TSchema) => {
         if (!data) {
-            form.setError(
-                register,
-                { message: "This field is required" },
-                { shouldFocus: true }
-            );
+            form.setError(register, { message: "This field is required" }, { shouldFocus: true });
             return;
         }
         try {
@@ -79,11 +75,7 @@ export const InputDrawer: React.FC<TInputDrawerProps> = ({
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -95,11 +87,7 @@ export const InputDrawer: React.FC<TInputDrawerProps> = ({
     return (
         <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
             <DrawerTrigger asChild>{children}</DrawerTrigger>
-            <DrawerContent
-                onPointerDownOutside={(e) =>
-                    isLoading ? e.preventDefault() : null
-                }
-            >
+            <DrawerContent onPointerDownOutside={(e) => (isLoading ? e.preventDefault() : null)}>
                 <Form {...form}>
                     <form
                         className="mx-auto w-full max-w-sm"
@@ -111,11 +99,7 @@ export const InputDrawer: React.FC<TInputDrawerProps> = ({
                     >
                         <DrawerHeader>
                             <DrawerTitle>{title}</DrawerTitle>
-                            {description && (
-                                <DrawerDescription>
-                                    {description}
-                                </DrawerDescription>
-                            )}
+                            {description && <DrawerDescription>{description}</DrawerDescription>}
                         </DrawerHeader>
                         <div className="p-4">
                             <FormField
@@ -135,20 +119,12 @@ export const InputDrawer: React.FC<TInputDrawerProps> = ({
                             />
                         </div>
                         <DrawerFooter>
-                            <Button
-                                className="gap-2 active:brightness-75"
-                                disabled={isLoading}
-                                type="submit"
-                            >
+                            <Button className="gap-2 active:brightness-75" disabled={isLoading} type="submit">
                                 <span>Submit</span>
                                 <Loader visible={isLoading} />
                             </Button>
                             <DrawerClose asChild>
-                                <Button
-                                    variant="outline"
-                                    type="button"
-                                    disabled={isLoading}
-                                >
+                                <Button variant="outline" type="button" disabled={isLoading}>
                                     Discard
                                 </Button>
                             </DrawerClose>

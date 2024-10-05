@@ -45,14 +45,8 @@ function AssetForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This asset does not exists");
                     navigate(-1);
                 } else {
@@ -76,10 +70,7 @@ function AssetForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editAsset(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editAsset(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Asset updated successfully");
                 }
@@ -94,11 +85,7 @@ function AssetForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }

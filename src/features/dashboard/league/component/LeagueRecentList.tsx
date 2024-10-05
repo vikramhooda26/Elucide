@@ -3,10 +3,9 @@ import RecentList from "../../components/RecentList";
 type Props = {
     recentlyCreated: Array<any>;
     recentlyModified: Array<any>;
-}
+};
 
 function LeagueRecentList({ recentlyCreated, recentlyModified }: Props) {
-
     return (
         <>
             <RecentList

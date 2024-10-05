@@ -13,10 +13,7 @@ import MetadataService from "../../../services/features/MetadataService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
-import {
-    ottPartnerFormSchema,
-    TOttPartnerFormSchema
-} from "./constants/metadata";
+import { ottPartnerFormSchema, TOttPartnerFormSchema } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function OttPartnerForm() {
@@ -48,14 +45,8 @@ function OttPartnerForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This ott partner does not exists");
                     navigate(-1);
                 } else {
@@ -79,17 +70,13 @@ function OttPartnerForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editOttPartner(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editOttPartner(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("OTT Partner updated successfully");
                 }
                 return;
             }
-            const response =
-                await MetadataService.createOttPartner(requestBody);
+            const response = await MetadataService.createOttPartner(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("OTT Partner created successfully");
                 form.reset({
@@ -98,11 +85,7 @@ function OttPartnerForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }

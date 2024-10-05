@@ -12,10 +12,7 @@ import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import { useEffect, useState } from "react";
-import {
-    teamOwnerFormSchema,
-    TTeamOwnerFormSchema
-} from "./constants/metadata";
+import { teamOwnerFormSchema, TTeamOwnerFormSchema } from "./constants/metadata";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
@@ -48,14 +45,8 @@ function TeamOwnerForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This team owner does not exists");
                     navigate(-1);
                 } else {
@@ -79,10 +70,7 @@ function TeamOwnerForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editTeamOwner(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editTeamOwner(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Team owner updated successfully");
                 }
@@ -97,11 +85,7 @@ function TeamOwnerForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }

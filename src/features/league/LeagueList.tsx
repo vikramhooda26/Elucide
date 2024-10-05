@@ -40,9 +40,7 @@ function LeagueList() {
     const navigator = useNavigator();
     const [leagueList, setLeagueList] = useState<Array<any>>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -50,7 +48,7 @@ function LeagueList() {
     const navigate = useNavigate();
 
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-    const pageKey: TPageKey = 'leagueList';
+    const pageKey: TPageKey = "leagueList";
     const filterValues = useRecoilValue(filterState);
 
     const userRole = useUser()?.role;
@@ -72,11 +70,7 @@ function LeagueList() {
                 setLeagueList(leagues);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -87,7 +81,7 @@ function LeagueList() {
 
     useEffect(() => {
         if (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length > 0) {
-            handleApplyFilters()
+            handleApplyFilters();
         } else {
             fetchLeagues();
         }
@@ -96,28 +90,17 @@ function LeagueList() {
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(
-                id,
-                "/api/admin/league/delete/"
-            );
+            const response = await MetadataService.deleteData(id, "/api/admin/league/delete/");
 
             if (response?.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
-                setLeagueList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setLeagueList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
 
             if (unknownError?.response?.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setLeagueList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setLeagueList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             } else {
                 toast.error("Could not delete this data");
             }
@@ -174,21 +157,11 @@ function LeagueList() {
         <Input
             placeholder="Filter leagues..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
-            }
+            onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
             className="h-8 w-[150px] lg:w-[250px]"
         />,
-        <DataTableFacetedFilter
-            column={table.getColumn("createdDate")}
-            title="Created At"
-            options={statuses}
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("modifiedDate")}
-            title="Modiefied At"
-            options={priorities}
-        />
+        <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
+        <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
     ];
 
     const filterConfig: FilterContent[] = fetchFilters(pageKey);
@@ -211,23 +184,15 @@ function LeagueList() {
             if (response?.status === HTTP_STATUS_CODES.OK) {
                 const leagueList = response?.data;
                 leagueList?.forEach((league: league, i: number) => {
-                    leagueList[i].createdBy =
-                        league?.createdBy?.email || "N/A";
-                    leagueList[i].modifiedBy =
-                        league?.modifiedBy?.email || "N/A";
+                    leagueList[i].createdBy = league?.createdBy?.email || "N/A";
+                    leagueList[i].modifiedBy = league?.modifiedBy?.email || "N/A";
                 });
                 setLeagueList(leagueList);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-            if (
-                unknownError?.response?.status !== HTTP_STATUS_CODES.NOT_FOUND
-            ) {
-                console.log('error -=- ', error);
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+            if (unknownError?.response?.status !== HTTP_STATUS_CODES.NOT_FOUND) {
+                console.log("error -=- ", error);
 
                 toast.error("An unknown error occurred");
             } else {
@@ -253,12 +218,8 @@ function LeagueList() {
 
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">
-                        League List
-                    </h2>
-                    <p className="text-muted-foreground">
-                        Here&apos;s a list of leagues.
-                    </p>
+                    <h2 className="text-2xl font-bold tracking-tight">League List</h2>
+                    <p className="text-muted-foreground">Here&apos;s a list of leagues.</p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <FilterModal
@@ -270,19 +231,14 @@ function LeagueList() {
                         pageKey={pageKey}
                     />
                     <ConditionalButton
-                        onClick={() =>
-                            navigator(NAVIGATION_ROUTES.CREATE_LEAGUE)
-                        }
+                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_LEAGUE)}
                         accessLevel="all_staff"
                     >
                         Create League
                     </ConditionalButton>
                 </div>
             </div>
-            <LeagueTable
-                leagueList={leagueList}
-                setLeagueList={setLeagueList}
-            />
+            <LeagueTable leagueList={leagueList} setLeagueList={setLeagueList} />
         </div>
     );
 }

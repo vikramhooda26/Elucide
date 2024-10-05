@@ -9,10 +9,7 @@ import { CardWrapper } from "../../components/card/card-wrapper";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { EndorsementCard } from "../../components/core/form/endorsement-card";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import {
-    TDisplayFields,
-    VerticalFieldsCard
-} from "../../components/core/form/vertical-fields-card";
+import { TDisplayFields, VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import Loader from "../../components/Loader";
@@ -40,17 +37,11 @@ import { stateFormSchema } from "../metadata/state/constants/metadata";
 import { taglineFormSchema } from "../metadata/tagline/constants/metadata";
 import { validateEndorsements } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
-import {
-    BRAND_METADATA,
-    brandFormSchema,
-    TBrandFormSchema,
-    TEditBrandformSchema
-} from "./constants/metadata";
+import { BRAND_METADATA, brandFormSchema, TBrandFormSchema, TEditBrandformSchema } from "./constants/metadata";
 
 function BrandForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
-    const [isFetchingMetadata, setIsFetchingMetadata] =
-        useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
@@ -72,11 +63,7 @@ function BrandForm() {
             await getMetadata(metadataStore, setMetadataStore, BRAND_METADATA);
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
                 navigate(NAVIGATION_ROUTES.DASHBOARD);
@@ -101,109 +88,65 @@ function BrandForm() {
                 const response = await BrandService.getOne(id);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
-                    printLogs(
-                        "Get brand by id response for edit page:",
-                        response.data
-                    );
+                    printLogs("Get brand by id response for edit page:", response.data);
                     const brandData: TEditBrandformSchema = response.data;
 
                     form.reset({
                         userId: user?.id || undefined,
                         name: brandData.name || undefined,
-                        taglineIds:
-                            brandData.taglines?.map((tier) => tier.id) ||
-                            undefined,
-                        strategyOverview:
-                            brandData.strategyOverview || undefined,
+                        taglineIds: brandData.taglines?.map((tier) => tier.id) || undefined,
+                        strategyOverview: brandData.strategyOverview || undefined,
                         agencyId: brandData.agency?.id || undefined,
                         parentOrgId: brandData.parentOrg?.id || undefined,
-                        activeCampaignIds:
-                            brandData.activeCampaigns?.map(
-                                (campaign) => campaign.id
-                            ) || undefined,
+                        activeCampaignIds: brandData.activeCampaigns?.map((campaign) => campaign.id) || undefined,
                         primaryMarketingPlatformIds:
-                            brandData.primaryMarketingPlatform?.map(
-                                (platform) => platform.id
-                            ) || undefined,
+                            brandData.primaryMarketingPlatform?.map((platform) => platform.id) || undefined,
                         secondaryMarketingPlatformIds:
-                            brandData.secondaryMarketingPlatform?.map(
-                                (platform) => platform.id
-                            ) || undefined,
-                        primaryMarketIds:
-                            brandData.primaryKeyMarket?.map(
-                                (market) => market.id
-                            ) || undefined,
-                        secondaryMarketIds:
-                            brandData.secondaryKeyMarket?.map(
-                                (market) => market.id
-                            ) || undefined,
-                        tertiaryIds:
-                            brandData.tertiary?.map(
-                                (tertiary) => tertiary.id
-                            ) || undefined,
+                            brandData.secondaryMarketingPlatform?.map((platform) => platform.id) || undefined,
+                        primaryMarketIds: brandData.primaryKeyMarket?.map((market) => market.id) || undefined,
+                        secondaryMarketIds: brandData.secondaryKeyMarket?.map((market) => market.id) || undefined,
+                        tertiaryIds: brandData.tertiary?.map((tertiary) => tertiary.id) || undefined,
                         instagram: brandData?.instagram || undefined,
                         facebook: brandData?.facebook || undefined,
                         twitter: brandData?.twitter || undefined,
                         linkedin: brandData?.linkedin || undefined,
                         website: brandData?.website || undefined,
                         youtube: brandData?.youtube || undefined,
-                        endorsements: brandData.endorsements?.map(
-                            (endorse) => ({
-                                name: endorse.name,
-                                active: endorse.active
-                            })
-                        ),
+                        endorsements: brandData.endorsements?.map((endorse) => ({
+                            name: endorse.name,
+                            active: endorse.active
+                        })),
                         contactPerson:
                             brandData.contactPersons?.map((details) => ({
                                 contactId: details.contactId || undefined,
                                 contactName: details.contactName || undefined,
                                 contactEmail: details.contactEmail || undefined,
-                                contactLinkedin:
-                                    details.contactLinkedin || undefined,
-                                contactDesignation:
-                                    details.contactDesignation || undefined,
-                                contactNumber:
-                                    details.contactNumber || undefined
+                                contactLinkedin: details.contactLinkedin || undefined,
+                                contactDesignation: details.contactDesignation || undefined,
+                                contactNumber: details.contactNumber || undefined
                             })) || undefined,
                         subCategoryIds:
                             brandData.mainCategories?.flatMap((category) =>
-                                category.subCategories?.map(
-                                    (subcategory) => subcategory.id
-                                )
+                                category.subCategories?.map((subcategory) => subcategory.id)
                             ) || undefined,
                         cityId: brandData.city?.id || undefined,
                         stateId: brandData.state?.id || undefined,
                         subPersonalityTraitIds:
                             brandData.mainPersonalityTraits
-                                ?.map((traits) =>
-                                    traits.subPersonalityTraits?.map(
-                                        (sub) => sub.id || []
-                                    )
-                                )
+                                ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
                                 .flat(2) || undefined,
                         tierIds:
-                            brandData.tiers
-                                ?.filter((tier) => tier.id !== undefined)
-                                .map((tier) => tier.id) || undefined,
-                        nccsIds:
-                            brandData.nccs?.map((nccs) => nccs.id) || undefined,
-                        ageIds:
-                            brandData.age?.map((age) => age.id) || undefined,
-                        genderIds:
-                            brandData.gender?.map((gender) => gender.id) ||
-                            undefined
+                            brandData.tiers?.filter((tier) => tier.id !== undefined).map((tier) => tier.id) ||
+                            undefined,
+                        nccsIds: brandData.nccs?.map((nccs) => nccs.id) || undefined,
+                        ageIds: brandData.age?.map((age) => age.id) || undefined,
+                        genderIds: brandData.gender?.map((gender) => gender.id) || undefined
                     });
                 }
             } catch (error) {
                 console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("An unknown error occurred");
                 }
             } finally {
@@ -306,12 +249,7 @@ function BrandForm() {
     const socials: {
         name: Extract<
             keyof TBrandFormSchema,
-            | "instagram"
-            | "facebook"
-            | "linkedin"
-            | "youtube"
-            | "website"
-            | "twitter"
+            "instagram" | "facebook" | "linkedin" | "youtube" | "website" | "twitter"
         >;
     }[] = [
         {
@@ -360,10 +298,7 @@ function BrandForm() {
             }
         }
 
-        const isEndorsementsValid = validateEndorsements(
-            brandFormValues.endorsements,
-            form.setError
-        );
+        const isEndorsementsValid = validateEndorsements(brandFormValues.endorsements, form.setError);
 
         if (isEndorsementsValid === null) {
             return;
@@ -372,10 +307,7 @@ function BrandForm() {
         try {
             setIsSubmitting(true);
             if (id) {
-                const response = await BrandService.editBrand(
-                    id,
-                    brandFormValues
-                );
+                const response = await BrandService.editBrand(id, brandFormValues);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Brand updated successfully");
                 }
@@ -387,11 +319,7 @@ function BrandForm() {
                 form.reset();
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.CONFLICT) {
                 const endorsements = form.getValues("endorsements");
                 endorsements?.map((endorse, index) => {
@@ -415,10 +343,7 @@ function BrandForm() {
     return (
         <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="mx-auto grid flex-1 auto-rows-max gap-4"
-                >
+                <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
                     <div className="flex items-center gap-4">
                         <Button
                             variant="outline"
@@ -441,11 +366,7 @@ function BrandForm() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={
-                                    isSubmitting ||
-                                    isFetchingDetails ||
-                                    isFetchingMetadata
-                                }
+                                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                                 onClick={() =>
                                     navigate(NAVIGATION_ROUTES.BRAND_LIST, {
                                         replace: true
@@ -459,11 +380,7 @@ function BrandForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={
-                                    isSubmitting ||
-                                    isFetchingDetails ||
-                                    isFetchingMetadata
-                                }
+                                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                             >
                                 <span>Save Brand</span>
                                 <Loader visible={isSubmitting} />
@@ -483,10 +400,7 @@ function BrandForm() {
                                                 name="name"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Brand Name">
-                                                        <Input
-                                                            {...field}
-                                                            placeholder="Brand name"
-                                                        />
+                                                        <Input {...field} placeholder="Brand name" />
                                                     </FormItemWrapper>
                                                 )}
                                             />
@@ -499,15 +413,9 @@ function BrandForm() {
                                                     <FormItemWrapper label="Taglines">
                                                         <div className="flex w-full items-center gap-3">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.tagline
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.tagline}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 className="w-full"
                                                                 placeholder="Select a tagline"
                                                                 inputPlaceholder="Search for a tagline..."
@@ -518,15 +426,9 @@ function BrandForm() {
                                                                 title="Tagline"
                                                                 description="Create a new tagline to add to the dropdown"
                                                                 register="taglineName"
-                                                                schema={
-                                                                    taglineFormSchema
-                                                                }
-                                                                createFn={
-                                                                    MetadataService.createTagline
-                                                                }
-                                                                fetchMetadataFn={
-                                                                    fetchMetadata
-                                                                }
+                                                                schema={taglineFormSchema}
+                                                                createFn={MetadataService.createTagline}
+                                                                fetchMetadataFn={fetchMetadata}
                                                             >
                                                                 <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                             </InputDrawer>
@@ -558,15 +460,9 @@ function BrandForm() {
                                                     <FormItemWrapper label="Agency">
                                                         <div className="flex w-full items-center gap-3">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.agency
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.agency}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 className="w-full"
                                                                 placeholder="Select a agency"
                                                                 inputPlaceholder="Search for agencys..."
@@ -576,15 +472,9 @@ function BrandForm() {
                                                                 title="Agency"
                                                                 description="Create a new agency to add to the dropdown"
                                                                 register="agencyName"
-                                                                schema={
-                                                                    agencyFormSchema
-                                                                }
-                                                                createFn={
-                                                                    MetadataService.createAgency
-                                                                }
-                                                                fetchMetadataFn={
-                                                                    fetchMetadata
-                                                                }
+                                                                schema={agencyFormSchema}
+                                                                createFn={MetadataService.createAgency}
+                                                                fetchMetadataFn={fetchMetadata}
                                                             >
                                                                 <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                             </InputDrawer>
@@ -601,15 +491,9 @@ function BrandForm() {
                                                     <FormItemWrapper label="Parent Organization">
                                                         <div className="flex w-full items-center gap-3">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.parentOrg
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.parentOrg}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 className="w-full"
                                                                 placeholder="Select a organization"
                                                                 inputPlaceholder="Search for organizations..."
@@ -619,15 +503,9 @@ function BrandForm() {
                                                                 title="Parent Organization"
                                                                 description="Create a new parent organization to add to the dropdown"
                                                                 register="parentOrgName"
-                                                                schema={
-                                                                    parentOrgFormSchema
-                                                                }
-                                                                createFn={
-                                                                    MetadataService.createParentOrg
-                                                                }
-                                                                fetchMetadataFn={
-                                                                    fetchMetadata
-                                                                }
+                                                                schema={parentOrgFormSchema}
+                                                                createFn={MetadataService.createParentOrg}
+                                                                fetchMetadataFn={fetchMetadata}
                                                             >
                                                                 <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                             </InputDrawer>
@@ -645,15 +523,9 @@ function BrandForm() {
                                                     <FormItemWrapper label="Active Campaigns">
                                                         <div className="flex w-full items-center gap-3">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.activeCampaign
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.activeCampaign}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 className="w-full"
                                                                 placeholder="Select a campaign"
                                                                 inputPlaceholder="Search for campaigns..."
@@ -664,15 +536,9 @@ function BrandForm() {
                                                                 title="Active Campaign"
                                                                 description="Create a new active campaign to add to the dropdown"
                                                                 register="activeCampaignName"
-                                                                schema={
-                                                                    activeCampaignFormSchema
-                                                                }
-                                                                createFn={
-                                                                    MetadataService.createActiveCampaign
-                                                                }
-                                                                fetchMetadataFn={
-                                                                    fetchMetadata
-                                                                }
+                                                                schema={activeCampaignFormSchema}
+                                                                createFn={MetadataService.createActiveCampaign}
+                                                                fetchMetadataFn={fetchMetadata}
                                                             >
                                                                 <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                             </InputDrawer>
@@ -694,15 +560,9 @@ function BrandForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Primary Marketing Platform">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.marketingPlatform
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.marketingPlatform}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a platform"
                                                                 inputPlaceholder="Search for a platform..."
                                                                 emptyPlaceholder="No platform found"
@@ -720,15 +580,9 @@ function BrandForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Secondary Marketing Platform">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.marketingPlatform
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.marketingPlatform}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a platform"
                                                                 inputPlaceholder="Search for a platform..."
                                                                 emptyPlaceholder="No platform found"
@@ -747,15 +601,9 @@ function BrandForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Primary key Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.keyMarket
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.keyMarket}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a market"
                                                                 inputPlaceholder="Search for a market..."
                                                                 emptyPlaceholder="No market found"
@@ -772,15 +620,9 @@ function BrandForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Secondary key Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.keyMarket
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.keyMarket}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a market"
                                                                 inputPlaceholder="Search for a market..."
                                                                 emptyPlaceholder="No market found"
@@ -797,15 +639,9 @@ function BrandForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Tertiary Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.state
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.state}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a state"
                                                                 inputPlaceholder="Search for a state..."
                                                                 emptyPlaceholder="No state found"
@@ -831,19 +667,14 @@ function BrandForm() {
                                     >
                                         {socials.map((social, index) => (
                                             <TableRow key={index}>
-                                                <TableCell className="capitalize">
-                                                    {social.name}
-                                                </TableCell>
+                                                <TableCell className="capitalize">{social.name}</TableCell>
                                                 <FormField
                                                     control={form.control}
                                                     name={social.name}
                                                     render={({ field }) => (
                                                         <TableCell>
                                                             <FormItemWrapper>
-                                                                <Input
-                                                                    type="text"
-                                                                    {...field}
-                                                                />
+                                                                <Input type="text" {...field} />
                                                             </FormItemWrapper>
                                                         </TableCell>
                                                     )}
@@ -879,11 +710,7 @@ function BrandForm() {
                             type="submit"
                             size="sm"
                             className="w-full gap-1 py-5"
-                            disabled={
-                                isSubmitting ||
-                                isFetchingDetails ||
-                                isFetchingMetadata
-                            }
+                            disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                         >
                             <span>Save Brand</span>
                             <Loader visible={isSubmitting} />
@@ -892,11 +719,7 @@ function BrandForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={
-                                isSubmitting ||
-                                isFetchingDetails ||
-                                isFetchingMetadata
-                            }
+                            disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.BRAND_LIST, {
                                     replace: true

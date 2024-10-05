@@ -38,11 +38,7 @@ function MainCategoryView() {
 
             setViewData(viewObj);
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("This category does not exists");
                 navigate(-1);
@@ -59,9 +55,7 @@ function MainCategoryView() {
         fetchTeam();
     }, []);
 
-    const infoHeaders: { header: string; className?: string }[] = [
-        { header: "Name" }
-    ];
+    const infoHeaders: { header: string; className?: string }[] = [{ header: "Name" }];
 
     const navigateToEditPage = () => {
         navigate(`${NAVIGATION_ROUTES.MAIN_CATEGORY_EDIT}/${id}`);
@@ -89,13 +83,9 @@ function MainCategoryView() {
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                                 <Card x-chunk="dashboard-07-chunk-0">
-                                    <TableHeaderWrapper
-                                        headersArray={infoHeaders}
-                                    >
+                                    <TableHeaderWrapper headersArray={infoHeaders}>
                                         <TableRow>
-                                            <TableCell>
-                                                {viewData?.categoryName || "-"}
-                                            </TableCell>
+                                            <TableCell>{viewData?.categoryName || "-"}</TableCell>
                                         </TableRow>
                                     </TableHeaderWrapper>
                                 </Card>

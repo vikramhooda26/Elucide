@@ -11,8 +11,7 @@ export const FeatureHighlight = () => {
                     <AnimatedGradientText>200+ Profiles</AnimatedGradientText>
                 </h3>
                 <p className="mb-4 max-w-xl text-neutral-400">
-                    of Sports Leagues, Teams, Athletes & Events that cover the
-                    entire Indian sports ecosystem
+                    of Sports Leagues, Teams, Athletes & Events that cover the entire Indian sports ecosystem
                 </p>
             </div>
         </div>

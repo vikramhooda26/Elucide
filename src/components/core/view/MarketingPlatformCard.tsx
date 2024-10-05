@@ -12,9 +12,7 @@ const MarketingPlatformCard = ({ data }: TMarketingPlatformCardProps) => {
     return (
         <Card x-chunk="dashboard-07-chunk-0 w-full">
             <CardHeader>
-                <CardTitle className="text-lg font-normal">
-                    Marketing Platform
-                </CardTitle>
+                <CardTitle className="text-lg font-normal">Marketing Platform</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="grid gap-6">
@@ -24,19 +22,12 @@ const MarketingPlatformCard = ({ data }: TMarketingPlatformCardProps) => {
                                 <Label>Primary Marketing Platform</Label>
                                 <ul className="mt-2 grid gap-1">
                                     {data?.primaryMarketingPlatform?.length ? (
-                                        data?.primaryMarketingPlatform?.map(
-                                            (market: any, i: number) => (
-                                                <li
-                                                    className="flex items-center text-sm text-muted-foreground"
-                                                    key={i}
-                                                >
-                                                    <Dot />
-                                                    <span>
-                                                        {market?.name || "N/A"}
-                                                    </span>
-                                                </li>
-                                            )
-                                        )
+                                        data?.primaryMarketingPlatform?.map((market: any, i: number) => (
+                                            <li className="flex items-center text-sm text-muted-foreground" key={i}>
+                                                <Dot />
+                                                <span>{market?.name || "N/A"}</span>
+                                            </li>
+                                        ))
                                     ) : (
                                         <NoDataText />
                                     )}
@@ -49,21 +40,13 @@ const MarketingPlatformCard = ({ data }: TMarketingPlatformCardProps) => {
                             <div>
                                 <Label>Secondary Marketing Platform</Label>
                                 <ul className="mt-2 grid gap-1">
-                                    {data?.secondaryMarketingPlatform?.length >
-                                    0 ? (
-                                        data?.secondaryMarketingPlatform?.map(
-                                            (market: nameAndId, i: number) => (
-                                                <li
-                                                    className="flex items-center text-sm text-muted-foreground"
-                                                    key={i}
-                                                >
-                                                    <Dot />
-                                                    <span>
-                                                        {market?.name || "N/A"}
-                                                    </span>
-                                                </li>
-                                            )
-                                        )
+                                    {data?.secondaryMarketingPlatform?.length > 0 ? (
+                                        data?.secondaryMarketingPlatform?.map((market: nameAndId, i: number) => (
+                                            <li className="flex items-center text-sm text-muted-foreground" key={i}>
+                                                <Dot />
+                                                <span>{market?.name || "N/A"}</span>
+                                            </li>
+                                        ))
                                     ) : (
                                         <NoDataText />
                                     )}

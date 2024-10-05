@@ -38,22 +38,15 @@ function AssociationLevelForm() {
         const fetchAssociationLevelDetails = async (id: string) => {
             try {
                 setIsLoading(true);
-                const response =
-                    await MetadataService.getOneAssociationLevel(id);
+                const response = await MetadataService.getOneAssociationLevel(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
                         associationLevelName: response.data.associationLevelName
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This association level does not exists");
                     navigate(-1);
                 } else {
@@ -79,10 +72,7 @@ function AssociationLevelForm() {
             };
 
             if (id) {
-                const response = await MetadataService.editAssociationLevel(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editAssociationLevel(id, requestBody);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Association level updated successfully");
@@ -90,8 +80,7 @@ function AssociationLevelForm() {
                 return;
             }
 
-            const response =
-                await MetadataService.createAssociationLevel(requestBody);
+            const response = await MetadataService.createAssociationLevel(requestBody);
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Association level created successfully");
@@ -101,11 +90,7 @@ function AssociationLevelForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -138,10 +123,7 @@ function AssociationLevelForm() {
                     name="associationLevelName"
                     render={({ field }) => (
                         <FormItemWrapper label="Association level name">
-                            <Input
-                                {...field}
-                                placeholder="Association level name"
-                            />
+                            <Input {...field} placeholder="Association level name" />
                         </FormItemWrapper>
                     )}
                 />

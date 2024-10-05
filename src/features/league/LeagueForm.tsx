@@ -11,10 +11,7 @@ import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { EndorsementCard } from "../../components/core/form/endorsement-card";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { MetricsCard } from "../../components/core/form/metrics.card";
-import {
-    TDisplayFields,
-    VerticalFieldsCard
-} from "../../components/core/form/vertical-fields-card";
+import { TDisplayFields, VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import Loader from "../../components/Loader";
@@ -48,23 +45,15 @@ import {
     validateMetrics
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
-import {
-    LEAGUE_METADATA,
-    leagueFormSchema,
-    TEditLeagueFormSchema,
-    TLeagueFormSchema
-} from "./constants.ts/metadata";
+import { LEAGUE_METADATA, leagueFormSchema, TEditLeagueFormSchema, TLeagueFormSchema } from "./constants.ts/metadata";
 
 function LeagueForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
-    const [isFetchingMetadata, setIsFetchingMetadata] =
-        useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const location = useLocation();
-    const [leagueData, setLeaguesData] = useState<TEditLeagueFormSchema>(
-        location.state || undefined
-    );
+    const [leagueData, setLeaguesData] = useState<TEditLeagueFormSchema>(location.state || undefined);
     const user = useRecoilValue(userAtom);
     const { id } = useParams();
 
@@ -84,11 +73,7 @@ function LeagueForm() {
             await getMetadata(metadataStore, setMetadataStore, LEAGUE_METADATA);
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
                 navigate(NAVIGATION_ROUTES.DASHBOARD);
@@ -112,36 +97,22 @@ function LeagueForm() {
         printLogs("leagueData:", leagueData);
         form.reset({
             name: leagueData.name || undefined,
-            taglineIds:
-                leagueData.taglines?.map((tagline) => tagline.id) || undefined,
+            taglineIds: leagueData.taglines?.map((tagline) => tagline.id) || undefined,
             strategyOverview: leagueData.strategyOverview || undefined,
             association: leagueData.association?.map((asso) => ({
                 associationId: asso.associationId,
                 associationLevelId: asso.associationLevel?.id,
-                costOfAssociation:
-                    convertRupeesToCrore(asso?.costOfAssociation) || undefined
+                costOfAssociation: convertRupeesToCrore(asso?.costOfAssociation) || undefined
             })),
             yearOfInception: leagueData.yearOfInception || undefined,
-            activeCampaignIds:
-                leagueData.activeCampaigns?.map((campaign) => campaign.id) ||
-                undefined,
+            activeCampaignIds: leagueData.activeCampaigns?.map((campaign) => campaign.id) || undefined,
             primaryMarketingPlatformIds:
-                leagueData.primaryMarketingPlatform?.map(
-                    (platform) => platform.id
-                ) || undefined,
+                leagueData.primaryMarketingPlatform?.map((platform) => platform.id) || undefined,
             secondaryMarketingPlatformIds:
-                leagueData.secondaryMarketingPlatform?.map(
-                    (platform) => platform.id
-                ) || undefined,
-            primaryMarketIds:
-                leagueData.primaryKeyMarket?.map((market) => market.id) ||
-                undefined,
-            secondaryMarketIds:
-                leagueData.secondaryKeyMarket?.map((market) => market.id) ||
-                undefined,
-            tertiaryIds:
-                leagueData.tertiary?.map((tertiaries) => tertiaries.id) ||
-                undefined,
+                leagueData.secondaryMarketingPlatform?.map((platform) => platform.id) || undefined,
+            primaryMarketIds: leagueData.primaryKeyMarket?.map((market) => market.id) || undefined,
+            secondaryMarketIds: leagueData.secondaryKeyMarket?.map((market) => market.id) || undefined,
+            tertiaryIds: leagueData.tertiary?.map((tertiaries) => tertiaries.id) || undefined,
             broadcastPartnerMetrics:
                 leagueData.broadcastPartnerMetrics?.map((metric) => ({
                     reach: metric.reach || undefined,
@@ -181,18 +152,13 @@ function LeagueForm() {
             })),
             subPersonalityTraitIds:
                 leagueData.mainPersonalityTraits
-                    ?.map((traits) =>
-                        traits.subPersonalityTraits?.map((sub) => sub.id || [])
-                    )
+                    ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
                     .flat(2) || undefined,
-            tierIds: leagueData.tiers
-                ?.filter((tier) => tier?.id !== undefined)
-                .map((tier) => tier.id),
+            tierIds: leagueData.tiers?.filter((tier) => tier?.id !== undefined).map((tier) => tier.id),
             broadCastPartnerId: leagueData.broadcastPartner?.id || undefined,
             ottPartnerId: leagueData.ottPartner?.id || undefined,
             ageIds: leagueData.age?.map((ageRange) => ageRange.id) || undefined,
-            genderIds:
-                leagueData.gender?.map((gender) => gender.id) || undefined,
+            genderIds: leagueData.gender?.map((gender) => gender.id) || undefined,
             userId: user?.id
         });
     };
@@ -214,14 +180,8 @@ function LeagueForm() {
                 }
             } catch (error) {
                 console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("An unknown error occurred");
                 }
             } finally {
@@ -380,12 +340,7 @@ function LeagueForm() {
     const socials: {
         name: Extract<
             keyof TLeagueFormSchema,
-            | "instagram"
-            | "facebook"
-            | "linkedin"
-            | "youtube"
-            | "website"
-            | "twitter"
+            "instagram" | "facebook" | "linkedin" | "youtube" | "website" | "twitter"
         >;
     }[] = [
         {
@@ -413,9 +368,7 @@ function LeagueForm() {
         const convertedCostOfAssociations: number[] = [];
 
         leagueFormValues?.association?.forEach((association, i) => {
-            const convertedCostOfAssociation = convertCroreToRupees(
-                association?.costOfAssociation
-            );
+            const convertedCostOfAssociation = convertCroreToRupees(association?.costOfAssociation);
 
             if (convertedCostOfAssociation === false) {
                 hasErrors = true;
@@ -429,9 +382,7 @@ function LeagueForm() {
                 return;
             } else {
                 if (convertedCostOfAssociation) {
-                    convertedCostOfAssociations.push(
-                        convertedCostOfAssociation
-                    );
+                    convertedCostOfAssociations.push(convertedCostOfAssociation);
                 }
             }
         });
@@ -500,17 +451,11 @@ function LeagueForm() {
             form.setError
         );
 
-        if (
-            validatedOttPartnerMetrics === undefined ||
-            validatedBroadcastMetrics === undefined
-        ) {
+        if (validatedOttPartnerMetrics === undefined || validatedBroadcastMetrics === undefined) {
             return;
         }
 
-        const isEndorsementsValid = validateEndorsements(
-            leagueFormValues.endorsements,
-            form.setError
-        );
+        const isEndorsementsValid = validateEndorsements(leagueFormValues.endorsements, form.setError);
 
         if (isEndorsementsValid === null) {
             return;
@@ -531,10 +476,7 @@ function LeagueForm() {
         try {
             setIsSubmitting(true);
             if (id) {
-                const response = await LeagueService.editLeague(
-                    id,
-                    requestBody
-                );
+                const response = await LeagueService.editLeague(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("League updated successfully");
                 }
@@ -546,11 +488,7 @@ function LeagueForm() {
                 form.reset();
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -562,10 +500,7 @@ function LeagueForm() {
     return (
         <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="mx-auto grid flex-1 auto-rows-max gap-4"
-                >
+                <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
                     <div className="flex items-center gap-4">
                         <Button
                             variant="outline"
@@ -585,11 +520,7 @@ function LeagueForm() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={
-                                    isSubmitting ||
-                                    isFetchingDetails ||
-                                    isFetchingMetadata
-                                }
+                                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                                 onClick={() =>
                                     navigate(NAVIGATION_ROUTES.LEAGUE_LIST, {
                                         replace: true
@@ -603,11 +534,7 @@ function LeagueForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={
-                                    isSubmitting ||
-                                    isFetchingDetails ||
-                                    isFetchingMetadata
-                                }
+                                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                             >
                                 <span>Save League</span>
                                 <Loader visible={isSubmitting} />
@@ -627,10 +554,7 @@ function LeagueForm() {
                                                 name="name"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Property Name">
-                                                        <Input
-                                                            {...field}
-                                                            placeholder="Property name"
-                                                        />
+                                                        <Input {...field} placeholder="Property name" />
                                                     </FormItemWrapper>
                                                 )}
                                             />
@@ -643,16 +567,10 @@ function LeagueForm() {
                                                     <FormItemWrapper label="Taglines">
                                                         <div className="flex w-full items-center gap-3">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.tagline
-                                                                }
+                                                                options={metadataStore?.tagline}
                                                                 className="w-full"
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a tagline"
                                                                 inputPlaceholder="Search for a tagline..."
                                                                 emptyPlaceholder="No tagline found"
@@ -662,15 +580,9 @@ function LeagueForm() {
                                                                 title="Tagline"
                                                                 description="Create a new tagline to add to the dropdown"
                                                                 register="taglineName"
-                                                                schema={
-                                                                    taglineFormSchema
-                                                                }
-                                                                createFn={
-                                                                    MetadataService.createTagline
-                                                                }
-                                                                fetchMetadataFn={
-                                                                    fetchMetadata
-                                                                }
+                                                                schema={taglineFormSchema}
+                                                                createFn={MetadataService.createTagline}
+                                                                fetchMetadataFn={fetchMetadata}
                                                             >
                                                                 <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                             </InputDrawer>
@@ -703,9 +615,7 @@ function LeagueForm() {
                                                         <SelectBox
                                                             options={getListOfYears()}
                                                             value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
+                                                            onChange={field.onChange}
                                                             placeholder="Select a year"
                                                             inputPlaceholder="Search for a year..."
                                                             emptyPlaceholder="No year found"
@@ -723,16 +633,10 @@ function LeagueForm() {
                                                     <FormItemWrapper label="Active Campaigns">
                                                         <div className="flex w-full items-center gap-3">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.activeCampaign
-                                                                }
+                                                                options={metadataStore?.activeCampaign}
                                                                 className="w-full"
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a campaign"
                                                                 inputPlaceholder="Search for campaigns..."
                                                                 emptyPlaceholder="No campaign found"
@@ -742,15 +646,9 @@ function LeagueForm() {
                                                                 title="Active Campaign"
                                                                 description="Create a new active campaign to add to the dropdown"
                                                                 register="activeCampaignName"
-                                                                schema={
-                                                                    activeCampaignFormSchema
-                                                                }
-                                                                createFn={
-                                                                    MetadataService.createActiveCampaign
-                                                                }
-                                                                fetchMetadataFn={
-                                                                    fetchMetadata
-                                                                }
+                                                                schema={activeCampaignFormSchema}
+                                                                createFn={MetadataService.createActiveCampaign}
+                                                                fetchMetadataFn={fetchMetadata}
                                                             >
                                                                 <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                             </InputDrawer>
@@ -772,15 +670,9 @@ function LeagueForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Primary Marketing Platform">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.marketingPlatform
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.marketingPlatform}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a platform"
                                                                 inputPlaceholder="Search for a platform..."
                                                                 emptyPlaceholder="No platform found"
@@ -798,15 +690,9 @@ function LeagueForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Secondary Marketing Platform">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.marketingPlatform
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.marketingPlatform}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a platform"
                                                                 inputPlaceholder="Search for a platform..."
                                                                 emptyPlaceholder="No platform found"
@@ -825,15 +711,9 @@ function LeagueForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Primary key Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.keyMarket
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.keyMarket}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a market"
                                                                 inputPlaceholder="Search for a market..."
                                                                 emptyPlaceholder="No market found"
@@ -850,15 +730,9 @@ function LeagueForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Secondary key Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.keyMarket
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.keyMarket}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a market"
                                                                 inputPlaceholder="Search for a market..."
                                                                 emptyPlaceholder="No market found"
@@ -875,15 +749,9 @@ function LeagueForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Tertiary Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.state
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.state}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a state"
                                                                 inputPlaceholder="Search for a state..."
                                                                 emptyPlaceholder="No state found"
@@ -913,14 +781,10 @@ function LeagueForm() {
 
                                 <CardWrapper title="Broadcast Partner Metrics">
                                     <MetricsCard
-                                        fieldArray={
-                                            broadcastPartnerMetricFieldArray
-                                        }
+                                        fieldArray={broadcastPartnerMetricFieldArray}
                                         form={form}
                                         options={metadataStore.broadcastPartner}
-                                        defaultValue={
-                                            defaultBroadcastPartnerMetric
-                                        }
+                                        defaultValue={defaultBroadcastPartnerMetric}
                                         register="broadcastPartnerMetrics"
                                     />
                                 </CardWrapper>
@@ -937,19 +801,14 @@ function LeagueForm() {
                                     >
                                         {socials.map((social, index) => (
                                             <TableRow key={index}>
-                                                <TableCell className="capitalize">
-                                                    {social.name}
-                                                </TableCell>
+                                                <TableCell className="capitalize">{social.name}</TableCell>
                                                 <FormField
                                                     control={form.control}
                                                     name={social.name}
                                                     render={({ field }) => (
                                                         <TableCell>
                                                             <FormItemWrapper>
-                                                                <Input
-                                                                    type="text"
-                                                                    {...field}
-                                                                />
+                                                                <Input type="text" {...field} />
                                                             </FormItemWrapper>
                                                         </TableCell>
                                                     )}
@@ -996,11 +855,7 @@ function LeagueForm() {
                             type="submit"
                             size="sm"
                             className="w-full gap-1 py-5"
-                            disabled={
-                                isSubmitting ||
-                                isFetchingDetails ||
-                                isFetchingMetadata
-                            }
+                            disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                         >
                             <span>Save League</span>
                             <Loader visible={isSubmitting} />
@@ -1009,11 +864,7 @@ function LeagueForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={
-                                isSubmitting ||
-                                isFetchingDetails ||
-                                isFetchingMetadata
-                            }
+                            disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.LEAGUE_LIST, {
                                     replace: true

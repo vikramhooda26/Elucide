@@ -1,12 +1,6 @@
 import { cn } from "../../lib/utils";
 
-export const AnimatedGradientText = ({
-    children,
-    className
-}: {
-    children: React.ReactNode;
-    className?: string;
-}) => {
+export const AnimatedGradientText = ({ children, className }: { children: React.ReactNode; className?: string }) => {
     return (
         <span
             className={cn(

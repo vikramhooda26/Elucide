@@ -14,10 +14,7 @@ import { toast } from "sonner";
 
 const deleteCall = async (id: string) => {
     try {
-        const response = await MetadataService.deleteData(
-            id,
-            "/api/admin/team/delete/"
-        );
+        const response = await MetadataService.deleteData(id, "/api/admin/team/delete/");
         if (response.status === HTTP_STATUS_CODES.OK) {
             toast.success("Deleted successfully");
             return true;

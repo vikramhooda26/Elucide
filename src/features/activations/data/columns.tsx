@@ -12,23 +12,14 @@ interface TColumnProps {
     userRole: TRoles;
 }
 
-export const getColumns = ({
-    onEdit,
-    onDelete,
-    userRole
-}: TColumnProps): ColumnDef<schemaType>[] => {
+export const getColumns = ({ onEdit, onDelete, userRole }: TColumnProps): ColumnDef<schemaType>[] => {
     const column: ColumnDef<schemaType>[] = [
         {
             id: "select",
             header: ({ table }) => (
                 <Checkbox
-                    checked={
-                        table.getIsAllPageRowsSelected() ||
-                        (table.getIsSomePageRowsSelected() && "indeterminate")
-                    }
-                    onCheckedChange={(value) =>
-                        table.toggleAllPageRowsSelected(!!value)
-                    }
+                    checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
                     aria-label="Select all"
                     className="translate-y-[2px]"
                 />
@@ -46,32 +37,20 @@ export const getColumns = ({
         },
         {
             accessorKey: "name",
-            header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title="Activation name"
-                />
-            ),
-            cell: ({ row }) => (
-                <div className="w-[80px]">{row.getValue("name")}</div>
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Activation name" />,
+            cell: ({ row }) => <div className="w-[80px]">{row.getValue("name")}</div>,
             enableSorting: false,
             enableHiding: false
         },
         {
             accessorKey: "createdDate",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Created At" />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
             cell: ({ row }) => {
                 return (
                     <div className="flex space-x-2">
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("createdDate")
-                                ? format(
-                                      row.getValue("createdDate"),
-                                      "dd-MM-yyyy, hh:mm aaaaaa"
-                                  )
+                                ? format(row.getValue("createdDate"), "dd-MM-yyyy, hh:mm aaaaaa")
                                 : ""}
                         </span>
                     </div>
@@ -80,29 +59,20 @@ export const getColumns = ({
         },
         {
             accessorKey: "createdBy",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Created By" />
-            ),
-            cell: ({ row }) => (
-                <div className="w-[80px]">{row.getValue("createdBy")}</div>
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Created By" />,
+            cell: ({ row }) => <div className="w-[80px]">{row.getValue("createdBy")}</div>,
             enableSorting: true,
             enableHiding: false
         },
         {
             accessorKey: "modifiedDate",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Modified At" />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Modified At" />,
             cell: ({ row }) => {
                 return (
                     <div className="flex space-x-2">
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("modifiedDate")
-                                ? format(
-                                      row.getValue("modifiedDate"),
-                                      "dd-MM-yyyy, HH:mm"
-                                  )
+                                ? format(row.getValue("modifiedDate"), "dd-MM-yyyy, HH:mm")
                                 : ""}
                         </span>
                     </div>
@@ -111,12 +81,8 @@ export const getColumns = ({
         },
         {
             accessorKey: "modifiedBy",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Modified By" />
-            ),
-            cell: ({ row }) => (
-                <div className="w-[80px]">{row.getValue("modifiedBy")}</div>
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Modified By" />,
+            cell: ({ row }) => <div className="w-[80px]">{row.getValue("modifiedBy")}</div>,
             enableSorting: false,
             enableHiding: false
         }
@@ -125,14 +91,7 @@ export const getColumns = ({
     if (userRole === "SUPER_ADMIN") {
         column.push({
             id: "actions",
-            cell: ({ row }) => (
-                <DataTableRowActions
-                    row={row}
-                    onDelete={onDelete}
-                    onEdit={onEdit}
-                    schema={schema}
-                />
-            )
+            cell: ({ row }) => <DataTableRowActions row={row} onDelete={onDelete} onEdit={onEdit} schema={schema} />
         });
     }
 

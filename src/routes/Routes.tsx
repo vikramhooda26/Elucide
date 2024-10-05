@@ -975,9 +975,7 @@ function Routes() {
     const userRole: TRoles | undefined = user?.role;
 
     const protectedRoutes: routeObjType[] = routeChildren
-        .filter((route: routeChildrenType) =>
-            route.access.some((role) => role === userRole)
-        )
+        .filter((route: routeChildrenType) => route.access.some((role) => role === userRole))
         .map((route) => ({
             path: route.path,
             element: route.element,

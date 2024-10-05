@@ -1,5 +1,5 @@
-import React from 'react'
-import SelectBox from '../../ui/multi-select'
+import React from "react";
+import SelectBox from "../../ui/multi-select";
 
 export interface Option {
     value: string;
@@ -34,11 +34,11 @@ function SelectBoxFilter({
             onChange={onChange}
             placeholder={`select ${placeholder}`}
             className={className}
-            inputPlaceholder={`Search for ${(inputPlaceholder || '')?.toLowerCase()}...`}
-            emptyPlaceholder={`No ${(emptyPlaceholder || '')?.toLowerCase()} data found`}
+            inputPlaceholder={`Search for ${(inputPlaceholder || "")?.toLowerCase()}...`}
+            emptyPlaceholder={`No ${(emptyPlaceholder || "")?.toLowerCase()} data found`}
             multiple={multiple}
         />
-    )
+    );
 }
 
-export default SelectBoxFilter
+export default SelectBoxFilter;

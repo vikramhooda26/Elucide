@@ -1,17 +1,6 @@
 import * as React from "react";
-import {
-    Dumbbell,
-    BarChart,
-    FileText,
-    Trophy,
-    Users,
-    Building,
-    Telescope
-} from "lucide-react";
-import {
-    ResizableHandle,
-    ResizablePanel
-} from "../../../components/ui/resizable";
+import { Dumbbell, BarChart, FileText, Trophy, Users, Building, Telescope } from "lucide-react";
+import { ResizableHandle, ResizablePanel } from "../../../components/ui/resizable";
 import { Nav, NavProps } from "../athlete/new-nax";
 import { cn } from "../../../lib/utils";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
@@ -83,11 +72,7 @@ export const SideMenuLinks: Pick<NavProps, "links"> = {
     ]
 };
 
-export const SideMenu = ({
-    defaultLayout = [15],
-    defaultCollapsed = false,
-    navCollapsedSize
-}: MailProps) => {
+export const SideMenu = ({ defaultLayout = [15], defaultCollapsed = false, navCollapsedSize }: MailProps) => {
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
 
     return (
@@ -98,21 +83,14 @@ export const SideMenu = ({
                 collapsible={true}
                 minSize={10}
                 maxSize={15}
-                className={cn(
-                    isCollapsed &&
-                        "relative min-w-[50px] transition-all duration-300 ease-in-out"
-                )}
+                className={cn(isCollapsed && "relative min-w-[50px] transition-all duration-300 ease-in-out")}
                 onCollapse={() => {
                     setIsCollapsed(true);
-                    document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-                        true
-                    )}`;
+                    document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(true)}`;
                 }}
                 onResize={() => {
                     setIsCollapsed(false);
-                    document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-                        false
-                    )}`;
+                    document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(false)}`;
                 }}
                 style={{ overflow: "clip" }}
             >

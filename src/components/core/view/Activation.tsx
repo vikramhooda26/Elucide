@@ -65,8 +65,7 @@ function Activation({ data, partnerKey }: Props) {
             activation.team = d?.team?.name;
             activation.territory = d?.territory?.name;
             if (!partnerKey || partnerKey?.length <= 0) {
-                activation.partner =
-                    d?.athlete?.name || d?.league?.name || d?.team?.name;
+                activation.partner = d?.athlete?.name || d?.league?.name || d?.team?.name;
             }
             activations?.push(activation);
         });
@@ -91,10 +90,7 @@ function Activation({ data, partnerKey }: Props) {
     ];
 
     const createButton = (
-        <ConditionalButton
-            onClick={() => navigator(NAVIGATION_ROUTES.ACTIVATION_CREATE)}
-            accessLevel="all_staff"
-        >
+        <ConditionalButton onClick={() => navigator(NAVIGATION_ROUTES.ACTIVATION_CREATE)} accessLevel="all_staff">
             Create Activation
         </ConditionalButton>
     );
@@ -104,15 +100,10 @@ function Activation({ data, partnerKey }: Props) {
     }, []);
 
     return (
-        <Card
-            x-chunk="dashboard-07-chunk-0"
-            className="grid grid-cols-1 overflow-hidden"
-        >
+        <Card x-chunk="dashboard-07-chunk-0" className="grid grid-cols-1 overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                        Activation Summary
-                    </CardTitle>
+                    <CardTitle className="group flex items-center gap-2 text-lg">Activation Summary</CardTitle>
                 </div>
             </CardHeader>
             <CardContent className="p-6">

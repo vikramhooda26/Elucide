@@ -35,17 +35,11 @@ function ActivationView() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 setViewData(response.data);
             } else {
-                toast.error(
-                    "Looks like our servers are busy! Please try again later!"
-                );
+                toast.error("Looks like our servers are busy! Please try again later!");
                 navigate(-1);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("This activation does not exists");
                 navigate(-1);
@@ -66,10 +60,7 @@ function ActivationView() {
         }
     }, [id]);
 
-    const infoHeaders: { header: string; className?: string }[] = [
-        { header: "Name" },
-        { header: "Year" }
-    ];
+    const infoHeaders: { header: string; className?: string }[] = [{ header: "Name" }, { header: "Year" }];
 
     return (
         <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
@@ -95,12 +86,8 @@ function ActivationView() {
                             <Card x-chunk="dashboard-07-chunk-0">
                                 <TableHeaderWrapper headersArray={infoHeaders}>
                                     <TableRow>
-                                        <TableCell>
-                                            {viewData?.name || "N/A"}
-                                        </TableCell>
-                                        <TableCell>
-                                            {viewData?.year || "N/A"}
-                                        </TableCell>
+                                        <TableCell>{viewData?.name || "N/A"}</TableCell>
+                                        <TableCell>{viewData?.year || "N/A"}</TableCell>
                                     </TableRow>
                                 </TableHeaderWrapper>
                             </Card>
@@ -111,10 +98,7 @@ function ActivationView() {
                                         <div>Brand Name</div>
                                         <ul className="grid gap-3">
                                             <li className="flex items-center text-sm text-muted-foreground">
-                                                <span>
-                                                    {viewData?.brand?.name ||
-                                                        "N/A"}
-                                                </span>
+                                                <span>{viewData?.brand?.name || "N/A"}</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -141,23 +125,15 @@ function ActivationView() {
                                         <div>
                                             <div>Assets</div>
                                             <ul className="mt-2 grid gap-3">
-                                                {viewData?.asset &&
-                                                viewData?.asset?.length > 0 ? (
-                                                    viewData?.asset?.map(
-                                                        (asset, i: number) => (
-                                                            <li
-                                                                key={i}
-                                                                className="flex items-center gap-2"
-                                                            >
-                                                                <span className="text-muted-foreground">
-                                                                    <Diamond className="h-4 w-4" />
-                                                                </span>
-                                                                <span>
-                                                                    {asset.name}
-                                                                </span>
-                                                            </li>
-                                                        )
-                                                    )
+                                                {viewData?.asset && viewData?.asset?.length > 0 ? (
+                                                    viewData?.asset?.map((asset, i: number) => (
+                                                        <li key={i} className="flex items-center gap-2">
+                                                            <span className="text-muted-foreground">
+                                                                <Diamond className="h-4 w-4" />
+                                                            </span>
+                                                            <span>{asset.name}</span>
+                                                        </li>
+                                                    ))
                                                 ) : (
                                                     <NoDataText />
                                                 )}
@@ -168,23 +144,15 @@ function ActivationView() {
                                         <div>
                                             <div>Types</div>
                                             <ul className="mt-2 grid gap-3">
-                                                {viewData?.type &&
-                                                viewData?.type?.length > 0 ? (
-                                                    viewData?.type?.map(
-                                                        (type, i: number) => (
-                                                            <li
-                                                                key={i}
-                                                                className="flex items-center gap-2"
-                                                            >
-                                                                <span className="text-muted-foreground">
-                                                                    <Diamond className="h-4 w-4" />
-                                                                </span>
-                                                                <span>
-                                                                    {type.name}
-                                                                </span>
-                                                            </li>
-                                                        )
-                                                    )
+                                                {viewData?.type && viewData?.type?.length > 0 ? (
+                                                    viewData?.type?.map((type, i: number) => (
+                                                        <li key={i} className="flex items-center gap-2">
+                                                            <span className="text-muted-foreground">
+                                                                <Diamond className="h-4 w-4" />
+                                                            </span>
+                                                            <span>{type.name}</span>
+                                                        </li>
+                                                    ))
                                                 ) : (
                                                     <NoDataText />
                                                 )}
@@ -195,26 +163,15 @@ function ActivationView() {
                                         <div>
                                             <div>Markets</div>
                                             <ul className="mt-2 grid gap-3">
-                                                {viewData?.marketIds &&
-                                                viewData?.marketIds?.length >
-                                                    0 ? (
-                                                    viewData?.marketIds?.map(
-                                                        (market, i: number) => (
-                                                            <li
-                                                                key={i}
-                                                                className="flex items-center gap-2"
-                                                            >
-                                                                <span className="text-muted-foreground">
-                                                                    <Diamond className="h-4 w-4" />
-                                                                </span>
-                                                                <span>
-                                                                    {
-                                                                        market.name
-                                                                    }
-                                                                </span>
-                                                            </li>
-                                                        )
-                                                    )
+                                                {viewData?.marketIds && viewData?.marketIds?.length > 0 ? (
+                                                    viewData?.marketIds?.map((market, i: number) => (
+                                                        <li key={i} className="flex items-center gap-2">
+                                                            <span className="text-muted-foreground">
+                                                                <Diamond className="h-4 w-4" />
+                                                            </span>
+                                                            <span>{market.name}</span>
+                                                        </li>
+                                                    ))
                                                 ) : (
                                                     <NoDataText />
                                                 )}

@@ -13,10 +13,7 @@ import MetadataService from "../../../services/features/MetadataService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
-import {
-    maincategoryFormSchema,
-    TMaincategoryFormSchema
-} from "./constants/metadata";
+import { maincategoryFormSchema, TMaincategoryFormSchema } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function MainCategoryForm() {
@@ -48,14 +45,8 @@ function MainCategoryForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This main category does not exists");
                     navigate(-1);
                 } else {
@@ -71,9 +62,7 @@ function MainCategoryForm() {
         }
     }, [id]);
 
-    const onSubmit = async (
-        maincategoryFormValues: TMaincategoryFormSchema
-    ) => {
+    const onSubmit = async (maincategoryFormValues: TMaincategoryFormSchema) => {
         try {
             setIsSubmitting(true);
             const requestBody = {
@@ -81,17 +70,13 @@ function MainCategoryForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editCategory(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editCategory(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Main Category updated successfully");
                 }
                 return;
             }
-            const response =
-                await MetadataService.createMaincategory(requestBody);
+            const response = await MetadataService.createMaincategory(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Main Category created successfully");
                 form.reset({
@@ -100,11 +85,7 @@ function MainCategoryForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -137,10 +118,7 @@ function MainCategoryForm() {
                     name="categoryName"
                     render={({ field }) => (
                         <FormItemWrapper label="Main Category name">
-                            <Input
-                                {...field}
-                                placeholder="Main Category name"
-                            />
+                            <Input {...field} placeholder="Main Category name" />
                         </FormItemWrapper>
                     )}
                 />

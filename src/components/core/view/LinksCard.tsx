@@ -30,9 +30,7 @@ function LinksCard({ data, metadatas, title }: Props) {
                     </div>
                 </Link>
                 <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                        {data[metadata?.key]}
-                    </p>
+                    <p className="text-sm font-medium leading-none">{data[metadata?.key]}</p>
                 </div>
                 <div className="ml-auto font-medium">
                     <Button
@@ -76,18 +74,12 @@ function LinksCard({ data, metadatas, title }: Props) {
         <Card x-chunk="dashboard-07-chunk-0" className="overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                        {title || "Links"}
-                    </CardTitle>
+                    <CardTitle className="group flex items-center gap-2 text-lg">{title || "Links"}</CardTitle>
                 </div>
             </CardHeader>
             <CardContent className="grid gap-8 p-6">
                 <div className="flex flex-col gap-4 text-muted-foreground">
-                    {metadataUi?.length > 0 ? (
-                        <>{...metadataUi || "N/A"}</>
-                    ) : (
-                        <NoDataText />
-                    )}
+                    {metadataUi?.length > 0 ? <>{...metadataUi || "N/A"}</> : <NoDataText />}
                 </div>
             </CardContent>
         </Card>

@@ -1,11 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage
-} from "../../../components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
 import { Button } from "../../../components/ui/button";
 import {
     DropdownMenu,
@@ -43,11 +39,7 @@ export function UserNav() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occured");
             }
@@ -59,29 +51,18 @@ export function UserNav() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button
-                    variant="ghost"
-                    className="relative h-8 w-8 rounded-full"
-                >
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                     <Avatar className="h-8 w-8">
                         <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                        <AvatarFallback>
-                            {user
-                                ? user.firstName?.[0] + user.lastName?.[0]
-                                : ""}
-                        </AvatarFallback>
+                        <AvatarFallback>{user ? user.firstName?.[0] + user.lastName?.[0] : ""}</AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">
-                            {user?.firstName || ""}
-                        </p>
-                        <p className="text-xs leading-none text-muted-foreground">
-                            {user?.email || ""}
-                        </p>
+                        <p className="text-sm font-medium leading-none">{user?.firstName || ""}</p>
+                        <p className="text-xs leading-none text-muted-foreground">{user?.email || ""}</p>
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />

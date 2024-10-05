@@ -16,12 +16,8 @@ type TDialogBoxProps = {
     description?: string;
     positiveTitle?: string;
     negativeTitle?: string;
-    positiveOnClick?: (
-        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => void;
-    negativeOnClick?: (
-        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => void;
+    positiveOnClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    negativeOnClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     PositiveButtonStyles?: string;
 };
 
@@ -42,19 +38,10 @@ export const Alert: React.FC<TDialogBoxProps> = ({
                 <AlertDialogHeader>
                     <AlertDialogTitle>{title}</AlertDialogTitle>
                 </AlertDialogHeader>
-                {description && (
-                    <AlertDialogDescription>
-                        {description}
-                    </AlertDialogDescription>
-                )}
+                {description && <AlertDialogDescription>{description}</AlertDialogDescription>}
                 <AlertDialogFooter>
-                    <AlertDialogCancel onClick={negativeOnClick}>
-                        {negativeTitle}
-                    </AlertDialogCancel>
-                    <AlertDialogAction
-                        onClick={positiveOnClick}
-                        className={PositiveButtonStyles}
-                    >
+                    <AlertDialogCancel onClick={negativeOnClick}>{negativeTitle}</AlertDialogCancel>
+                    <AlertDialogAction onClick={positiveOnClick} className={PositiveButtonStyles}>
                         {positiveTitle}
                     </AlertDialogAction>
                 </AlertDialogFooter>

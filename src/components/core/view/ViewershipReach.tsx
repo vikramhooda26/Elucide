@@ -23,60 +23,33 @@ function ViewershipReach({ data }: Props) {
         <Card x-chunk="dashboard-07-chunk-0" className="overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                        Viewership & Reach
-                    </CardTitle>
+                    <CardTitle className="group flex items-center gap-2 text-lg">Viewership & Reach</CardTitle>
                 </div>
             </CardHeader>
             <Card x-chunk="dashboard-07-chunk-0">
                 <CardHeader>
-                    <CardTitle className="text-lg font-normal">
-                        Broadcast Partner Details
-                    </CardTitle>
+                    <CardTitle className="text-lg font-normal">Broadcast Partner Details</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Card x-chunk="dashboard-07-chunk-0">
-                        <TableHeaderWrapper
-                            headersArray={viewershipReachHeaders}
-                        >
+                        <TableHeaderWrapper headersArray={viewershipReachHeaders}>
                             {broadcastPartners?.length ? (
-                                broadcastPartners?.map(
-                                    (broadcastPartner: any, index: number) => (
-                                        <TableRow
-                                            key={index}
-                                            className="text-muted-foreground"
-                                        >
-                                            <TableCell>
-                                                {broadcastPartner
-                                                    ?.broadcastPartner?.name ||
-                                                    "N/A"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {broadcastPartner?.year ||
-                                                    "N/A"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {formatNumberWithCommas(
-                                                    broadcastPartner?.viewership
-                                                ) || "N/A"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {formatNumberWithCommas(
-                                                    broadcastPartner?.reach
-                                                ) || "N/A"}
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                )
+                                broadcastPartners?.map((broadcastPartner: any, index: number) => (
+                                    <TableRow key={index} className="text-muted-foreground">
+                                        <TableCell>{broadcastPartner?.broadcastPartner?.name || "N/A"}</TableCell>
+                                        <TableCell>{broadcastPartner?.year || "N/A"}</TableCell>
+                                        <TableCell>
+                                            {formatNumberWithCommas(broadcastPartner?.viewership) || "N/A"}
+                                        </TableCell>
+                                        <TableCell>
+                                            {formatNumberWithCommas(broadcastPartner?.reach) || "N/A"}
+                                        </TableCell>
+                                    </TableRow>
+                                ))
                             ) : (
                                 <TableRow>
-                                    <TableCell
-                                        className="text-center"
-                                        colSpan={4}
-                                    >
-                                        <span className="text-muted-foreground">
-                                            No broadcast partner data found
-                                        </span>
+                                    <TableCell className="text-center" colSpan={4}>
+                                        <span className="text-muted-foreground">No broadcast partner data found</span>
                                     </TableCell>
                                 </TableRow>
                             )}
@@ -84,51 +57,24 @@ function ViewershipReach({ data }: Props) {
                     </Card>
                 </CardContent>
                 <CardHeader>
-                    <CardTitle className="text-lg font-normal">
-                        OTT Partner Details
-                    </CardTitle>
+                    <CardTitle className="text-lg font-normal">OTT Partner Details</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Card x-chunk="dashboard-07-chunk-0">
-                        <TableHeaderWrapper
-                            headersArray={viewershipReachHeaders}
-                        >
+                        <TableHeaderWrapper headersArray={viewershipReachHeaders}>
                             {ottPartners?.length ? (
-                                ottPartners?.map(
-                                    (ottPartner: any, index: number) => (
-                                        <TableRow
-                                            key={index}
-                                            className="text-muted-foreground"
-                                        >
-                                            <TableCell>
-                                                {ottPartner?.ottPartner.name ||
-                                                    "N/A"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {ottPartner?.year || "N/A"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {formatNumberWithCommas(
-                                                    ottPartner?.viewership
-                                                ) || "N/A"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {formatNumberWithCommas(
-                                                    ottPartner?.reach
-                                                ) || "N/A"}
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                )
+                                ottPartners?.map((ottPartner: any, index: number) => (
+                                    <TableRow key={index} className="text-muted-foreground">
+                                        <TableCell>{ottPartner?.ottPartner.name || "N/A"}</TableCell>
+                                        <TableCell>{ottPartner?.year || "N/A"}</TableCell>
+                                        <TableCell>{formatNumberWithCommas(ottPartner?.viewership) || "N/A"}</TableCell>
+                                        <TableCell>{formatNumberWithCommas(ottPartner?.reach) || "N/A"}</TableCell>
+                                    </TableRow>
+                                ))
                             ) : (
                                 <TableRow>
-                                    <TableCell
-                                        className="text-center"
-                                        colSpan={4}
-                                    >
-                                        <span className="text-muted-foreground">
-                                            No ott partner data found
-                                        </span>
+                                    <TableCell className="text-center" colSpan={4}>
+                                        <span className="text-muted-foreground">No ott partner data found</span>
                                     </TableCell>
                                 </TableRow>
                             )}

@@ -8,23 +8,21 @@ function Footer() {
                     <div className="animate-fadeIn flex flex-col items-center">
                         <h6 className="mb-4 text-2xl font-bold">Discover</h6>
                         <p className="text-center">
-                            Understand brand objectives & leverage our advanced
-                            search filters find the best match for your brand.
+                            Understand brand objectives & leverage our advanced search filters find the best match for
+                            your brand.
                         </p>
                     </div>
                     <div className="animate-fadeIn delay-1s flex flex-col items-center">
                         <h6 className="mb-4 text-2xl font-bold">Analyze</h6>
                         <p className="text-center">
-                            Use industry insights & AI-enhanced match-making
-                            capability to analyze the ideal fit based on brand
-                            objectives.
+                            Use industry insights & AI-enhanced match-making capability to analyze the ideal fit based
+                            on brand objectives.
                         </p>
                     </div>
                     <div className="animate-fadeIn delay-2s flex flex-col items-center">
                         <h6 className="mb-4 text-2xl font-bold">Engage</h6>
                         <p className="text-center">
-                            Facilitate & execute partnerships with the
-                            identified stakeholders to create mutually
+                            Facilitate & execute partnerships with the identified stakeholders to create mutually
                             beneficial associations.
                         </p>
                     </div>
@@ -38,11 +36,7 @@ function Footer() {
                   <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.325v21.351C0 23.4.6 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.41c0-3.1 1.893-4.788 4.658-4.788 1.325 0 2.464.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.714-1.795 1.763v2.309h3.588l-.468 3.622h-3.12V24h6.116c.725 0 1.325-.6 1.325-1.324V1.325C24 .6 23.4 0 22.675 0z" />
                 </svg>
               </a> */}
-                            <a
-                                href="https://twitter.com"
-                                target="_blank"
-                                className="animate-pulse text-blue-500"
-                            >
+                            <a href="https://twitter.com" target="_blank" className="animate-pulse text-blue-500">
                                 <svg
                                     className="h-6 w-6"
                                     fill="currentColor"
@@ -85,11 +79,7 @@ function Footer() {
 
                     <div className="mb-5 flex flex-col items-start gap-2">
                         <div className="flex items-center gap-2">
-                            <a
-                                href="tel:+1234567890"
-                                className="animate-pulse text-blue-500"
-                                target="_blank"
-                            >
+                            <a href="tel:+1234567890" className="animate-pulse text-blue-500" target="_blank">
                                 <svg
                                     className="h-6 w-6"
                                     fill="currentColor"
@@ -102,10 +92,7 @@ function Footer() {
                             <span>+91-7011353855</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <a
-                                href="mailto:info@sponsor-sync.com"
-                                className="animate-pulse text-blue-500"
-                            >
+                            <a href="mailto:info@sponsor-sync.com" className="animate-pulse text-blue-500">
                                 <svg
                                     className="h-6 w-6"
                                     fill="currentColor"
@@ -120,8 +107,7 @@ function Footer() {
                     </div>
 
                     <p className="animate-pulse text-sm">
-                        © {new Date().getFullYear()} Evolvus Technologies. All
-                        rights reserved.
+                        © {new Date().getFullYear()} Evolvus Technologies. All rights reserved.
                     </p>
                 </div>
             </div>

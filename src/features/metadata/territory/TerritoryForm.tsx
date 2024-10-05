@@ -13,10 +13,7 @@ import MetadataService from "../../../services/features/MetadataService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
-import {
-    territoryFormSchema,
-    TTerritoryFormSchema
-} from "./constants/metadata";
+import { territoryFormSchema, TTerritoryFormSchema } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function TerritoryForm() {
@@ -48,14 +45,8 @@ function TerritoryForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This territory does not exists");
                     navigate(-1);
                 } else {
@@ -79,10 +70,7 @@ function TerritoryForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editTerritory(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editTerritory(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Territory updated successfully");
                 }
@@ -97,11 +85,7 @@ function TerritoryForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }

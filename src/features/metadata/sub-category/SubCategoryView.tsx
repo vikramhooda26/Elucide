@@ -43,11 +43,7 @@ function SubCategoryView() {
 
             setViewData(viewObj);
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("This sub category does not exists");
                 navigate(-1);
@@ -64,9 +60,7 @@ function SubCategoryView() {
         fetchTeam();
     }, []);
 
-    const infoHeaders: { header: string; className?: string }[] = [
-        { header: "Name" }
-    ];
+    const infoHeaders: { header: string; className?: string }[] = [{ header: "Name" }];
 
     return (
         <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
@@ -89,9 +83,7 @@ function SubCategoryView() {
                         <Card x-chunk="dashboard-07-chunk-0">
                             <TableHeaderWrapper headersArray={infoHeaders}>
                                 <TableRow>
-                                    <TableCell>
-                                        {viewData?.subcategoryName || "-"}
-                                    </TableCell>
+                                    <TableCell>{viewData?.subcategoryName || "-"}</TableCell>
                                 </TableRow>
                             </TableHeaderWrapper>
                         </Card>

@@ -1,17 +1,9 @@
 "use client";
 
-import {
-    CaretSortIcon,
-    CheckIcon,
-    PlusCircledIcon
-} from "@radix-ui/react-icons";
+import { CaretSortIcon, CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage
-} from "../../../components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
 import { Button } from "../../../components/ui/button";
 import {
     Command,
@@ -33,18 +25,8 @@ import {
 } from "../../../components/ui/dialog";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger
-} from "../../../components/ui/popover";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from "../../../components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
 import { cn } from "../../../lib/utils";
 
 const groups = [
@@ -74,18 +56,14 @@ const groups = [
 
 type Team = (typeof groups)[number]["teams"][number];
 
-type PopoverTriggerProps = React.ComponentPropsWithoutRef<
-    typeof PopoverTrigger
->;
+type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
 interface TeamSwitcherProps extends PopoverTriggerProps {}
 
 export default function TeamSwitcher({ className }: TeamSwitcherProps) {
     const [open, setOpen] = React.useState(false);
     const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
-    const [selectedTeam, setSelectedTeam] = React.useState<Team>(
-        groups[0].teams[0]
-    );
+    const [selectedTeam, setSelectedTeam] = React.useState<Team>(groups[0].teams[0]);
 
     return (
         <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
@@ -116,10 +94,7 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
                             <CommandInput placeholder="Search team..." />
                             <CommandEmpty>No team found.</CommandEmpty>
                             {groups.map((group) => (
-                                <CommandGroup
-                                    key={group.label}
-                                    heading={group.label}
-                                >
+                                <CommandGroup key={group.label} heading={group.label}>
                                     {group.teams.map((team) => (
                                         <CommandItem
                                             key={team.value}
@@ -135,18 +110,13 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
                                                     alt={team.label}
                                                     className="grayscale"
                                                 />
-                                                <AvatarFallback>
-                                                    SC
-                                                </AvatarFallback>
+                                                <AvatarFallback>SC</AvatarFallback>
                                             </Avatar>
                                             {team.label}
                                             <CheckIcon
                                                 className={cn(
                                                     "ml-auto h-4 w-4",
-                                                    selectedTeam.value ===
-                                                        team.value
-                                                        ? "opacity-100"
-                                                        : "opacity-0"
+                                                    selectedTeam.value === team.value ? "opacity-100" : "opacity-0"
                                                 )}
                                             />
                                         </CommandItem>
@@ -176,9 +146,7 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Create team</DialogTitle>
-                    <DialogDescription>
-                        Add a new team to manage products and customers.
-                    </DialogDescription>
+                    <DialogDescription>Add a new team to manage products and customers.</DialogDescription>
                 </DialogHeader>
                 <div>
                     <div className="space-y-4 py-2 pb-4">
@@ -194,20 +162,12 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="free">
-                                        <span className="font-medium">
-                                            Free
-                                        </span>{" "}
-                                        -{" "}
-                                        <span className="text-muted-foreground">
-                                            Trial for two weeks
-                                        </span>
+                                        <span className="font-medium">Free</span> -{" "}
+                                        <span className="text-muted-foreground">Trial for two weeks</span>
                                     </SelectItem>
                                     <SelectItem value="pro">
-                                        <span className="font-medium">Pro</span>{" "}
-                                        -{" "}
-                                        <span className="text-muted-foreground">
-                                            $9/month per user
-                                        </span>
+                                        <span className="font-medium">Pro</span> -{" "}
+                                        <span className="text-muted-foreground">$9/month per user</span>
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
@@ -215,10 +175,7 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button
-                        variant="outline"
-                        onClick={() => setShowNewTeamDialog(false)}
-                    >
+                    <Button variant="outline" onClick={() => setShowNewTeamDialog(false)}>
                         Cancel
                     </Button>
                     <Button type="submit">Continue</Button>

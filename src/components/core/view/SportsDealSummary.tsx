@@ -95,8 +95,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
             sportsDeal.territory = d?.territory?.name;
 
             if (!partnerKey || partnerKey?.length <= 0) {
-                sportsDeal.partner =
-                    d?.athlete?.name || d?.league?.name || d?.team?.name;
+                sportsDeal.partner = d?.athlete?.name || d?.league?.name || d?.team?.name;
             }
 
             sportsDealSummary?.push(sportsDeal);
@@ -124,9 +123,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
 
     const createButton = (
         <ConditionalButton
-            onClick={() =>
-                navigator(NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY)
-            }
+            onClick={() => navigator(NAVIGATION_ROUTES.CREATE_SPORTS_DEAL_SUMMARY)}
             accessLevel="all_staff"
         >
             Create Deal
@@ -138,15 +135,10 @@ function SportsDealSummary({ data, partnerKey }: Props) {
     }, []);
 
     return (
-        <Card
-            x-chunk="dashboard-07-chunk-0"
-            className="grid grid-cols-1 overflow-hidden"
-        >
+        <Card x-chunk="dashboard-07-chunk-0" className="grid grid-cols-1 overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                        Sports Deal Summary
-                    </CardTitle>
+                    <CardTitle className="group flex items-center gap-2 text-lg">Sports Deal Summary</CardTitle>
                 </div>
             </CardHeader>
             <CardContent className="p-6">

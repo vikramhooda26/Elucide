@@ -17,14 +17,7 @@ import {
     YAxis
 } from "recharts";
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle
-} from "./ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "./ui/chart";
 import { Separator } from "./ui/separator";
 
@@ -101,9 +94,7 @@ export function Home() {
                                     axisLine={false}
                                     tickMargin={4}
                                     tickFormatter={(value) => {
-                                        return new Date(
-                                            value
-                                        ).toLocaleDateString("en-US", {
+                                        return new Date(value).toLocaleDateString("en-US", {
                                             weekday: "short"
                                         });
                                     }}
@@ -114,9 +105,7 @@ export function Home() {
                                         <ChartTooltipContent
                                             hideIndicator
                                             labelFormatter={(value) => {
-                                                return new Date(
-                                                    value
-                                                ).toLocaleDateString("en-US", {
+                                                return new Date(value).toLocaleDateString("en-US", {
                                                     day: "numeric",
                                                     month: "long",
                                                     year: "numeric"
@@ -153,41 +142,28 @@ export function Home() {
                     <CardFooter className="flex-col items-start gap-1">
                         <CardDescription>
                             Over the past 7 days, you have walked{" "}
-                            <span className="font-medium text-foreground">
-                                53,305
-                            </span>{" "}
-                            steps.
+                            <span className="font-medium text-foreground">53,305</span> steps.
                         </CardDescription>
                         <CardDescription>
-                            You need{" "}
-                            <span className="font-medium text-foreground">
-                                12,584
-                            </span>{" "}
-                            more steps to reach your goal.
+                            You need <span className="font-medium text-foreground">12,584</span> more steps to reach
+                            your goal.
                         </CardDescription>
                     </CardFooter>
                 </Card>
-                <Card
-                    className="flex flex-col lg:max-w-md"
-                    x-chunk="charts-01-chunk-1"
-                >
+                <Card className="flex flex-col lg:max-w-md" x-chunk="charts-01-chunk-1">
                     <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2 [&>div]:flex-1">
                         <div>
                             <CardDescription>Resting HR</CardDescription>
                             <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
                                 62
-                                <span className="text-sm font-normal tracking-normal text-muted-foreground">
-                                    bpm
-                                </span>
+                                <span className="text-sm font-normal tracking-normal text-muted-foreground">bpm</span>
                             </CardTitle>
                         </div>
                         <div>
                             <CardDescription>Variability</CardDescription>
                             <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
                                 35
-                                <span className="text-sm font-normal tracking-normal text-muted-foreground">
-                                    ms
-                                </span>
+                                <span className="text-sm font-normal tracking-normal text-muted-foreground">ms</span>
                             </CardTitle>
                         </div>
                     </CardHeader>
@@ -245,19 +221,14 @@ export function Home() {
                                     stroke="hsl(var(--muted-foreground))"
                                     strokeOpacity={0.5}
                                 />
-                                <YAxis
-                                    hide
-                                    domain={["dataMin - 10", "dataMax + 10"]}
-                                />
+                                <YAxis hide domain={["dataMin - 10", "dataMax + 10"]} />
                                 <XAxis
                                     dataKey="date"
                                     tickLine={false}
                                     axisLine={false}
                                     tickMargin={8}
                                     tickFormatter={(value) => {
-                                        return new Date(
-                                            value
-                                        ).toLocaleDateString("en-US", {
+                                        return new Date(value).toLocaleDateString("en-US", {
                                             weekday: "short"
                                         });
                                     }}
@@ -280,9 +251,7 @@ export function Home() {
                                         <ChartTooltipContent
                                             indicator="line"
                                             labelFormatter={(value) => {
-                                                return new Date(
-                                                    value
-                                                ).toLocaleDateString("en-US", {
+                                                return new Date(value).toLocaleDateString("en-US", {
                                                     day: "numeric",
                                                     month: "long",
                                                     year: "numeric"
@@ -301,18 +270,13 @@ export function Home() {
                 <Card className="max-w-xs" x-chunk="charts-01-chunk-2">
                     <CardHeader>
                         <CardTitle>Progress</CardTitle>
-                        <CardDescription>
-                            You're average more steps a day this year than last
-                            year.
-                        </CardDescription>
+                        <CardDescription>You're average more steps a day this year than last year.</CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-4">
                         <div className="grid auto-rows-min gap-2">
                             <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
                                 12,453
-                                <span className="text-sm font-normal text-muted-foreground">
-                                    steps/day
-                                </span>
+                                <span className="text-sm font-normal text-muted-foreground">steps/day</span>
                             </div>
                             <ChartContainer
                                 config={{
@@ -339,12 +303,7 @@ export function Home() {
                                         }
                                     ]}
                                 >
-                                    <Bar
-                                        dataKey="steps"
-                                        fill="var(--color-steps)"
-                                        radius={4}
-                                        barSize={32}
-                                    >
+                                    <Bar dataKey="steps" fill="var(--color-steps)" radius={4} barSize={32}>
                                         <LabelList
                                             position="insideLeft"
                                             dataKey="date"
@@ -353,12 +312,7 @@ export function Home() {
                                             fill="white"
                                         />
                                     </Bar>
-                                    <YAxis
-                                        dataKey="date"
-                                        type="category"
-                                        tickCount={1}
-                                        hide
-                                    />
+                                    <YAxis dataKey="date" type="category" tickCount={1} hide />
                                     <XAxis dataKey="steps" type="number" hide />
                                 </BarChart>
                             </ChartContainer>
@@ -366,9 +320,7 @@ export function Home() {
                         <div className="grid auto-rows-min gap-2">
                             <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
                                 10,103
-                                <span className="text-sm font-normal text-muted-foreground">
-                                    steps/day
-                                </span>
+                                <span className="text-sm font-normal text-muted-foreground">steps/day</span>
                             </div>
                             <ChartContainer
                                 config={{
@@ -395,12 +347,7 @@ export function Home() {
                                         }
                                     ]}
                                 >
-                                    <Bar
-                                        dataKey="steps"
-                                        fill="var(--color-steps)"
-                                        radius={4}
-                                        barSize={32}
-                                    >
+                                    <Bar dataKey="steps" fill="var(--color-steps)" radius={4} barSize={32}>
                                         <LabelList
                                             position="insideLeft"
                                             dataKey="date"
@@ -409,12 +356,7 @@ export function Home() {
                                             fill="hsl(var(--muted-foreground))"
                                         />
                                     </Bar>
-                                    <YAxis
-                                        dataKey="date"
-                                        type="category"
-                                        tickCount={1}
-                                        hide
-                                    />
+                                    <YAxis dataKey="date" type="category" tickCount={1} hide />
                                     <XAxis dataKey="steps" type="number" hide />
                                 </BarChart>
                             </ChartContainer>
@@ -425,16 +367,13 @@ export function Home() {
                     <CardHeader className="p-4 pb-0">
                         <CardTitle>Walking Distance</CardTitle>
                         <CardDescription>
-                            Over the last 7 days, your distance walked and run
-                            was 12.5 miles per day.
+                            Over the last 7 days, your distance walked and run was 12.5 miles per day.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-row items-baseline gap-4 p-4 pt-0">
                         <div className="flex items-baseline gap-1 text-3xl font-bold tabular-nums leading-none">
                             12.5
-                            <span className="text-sm font-normal text-muted-foreground">
-                                miles/day
-                            </span>
+                            <span className="text-sm font-normal text-muted-foreground">miles/day</span>
                         </div>
                         <ChartContainer
                             config={{
@@ -492,13 +431,7 @@ export function Home() {
                                     activeIndex={6}
                                     activeBar={<Rectangle fillOpacity={0.8} />}
                                 />
-                                <XAxis
-                                    dataKey="date"
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickMargin={4}
-                                    hide
-                                />
+                                <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={4} hide />
                             </BarChart>
                         </ChartContainer>
                     </CardContent>
@@ -577,44 +510,26 @@ export function Home() {
                     <CardFooter className="flex flex-row border-t p-4">
                         <div className="flex w-full items-center gap-2">
                             <div className="grid flex-1 auto-rows-min gap-0.5">
-                                <div className="text-xs text-muted-foreground">
-                                    Move
-                                </div>
+                                <div className="text-xs text-muted-foreground">Move</div>
                                 <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
                                     562
-                                    <span className="text-sm font-normal text-muted-foreground">
-                                        kcal
-                                    </span>
+                                    <span className="text-sm font-normal text-muted-foreground">kcal</span>
                                 </div>
                             </div>
-                            <Separator
-                                orientation="vertical"
-                                className="mx-2 h-10 w-px"
-                            />
+                            <Separator orientation="vertical" className="mx-2 h-10 w-px" />
                             <div className="grid flex-1 auto-rows-min gap-0.5">
-                                <div className="text-xs text-muted-foreground">
-                                    Exercise
-                                </div>
+                                <div className="text-xs text-muted-foreground">Exercise</div>
                                 <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
                                     73
-                                    <span className="text-sm font-normal text-muted-foreground">
-                                        min
-                                    </span>
+                                    <span className="text-sm font-normal text-muted-foreground">min</span>
                                 </div>
                             </div>
-                            <Separator
-                                orientation="vertical"
-                                className="mx-2 h-10 w-px"
-                            />
+                            <Separator orientation="vertical" className="mx-2 h-10 w-px" />
                             <div className="grid flex-1 auto-rows-min gap-0.5">
-                                <div className="text-xs text-muted-foreground">
-                                    Stand
-                                </div>
+                                <div className="text-xs text-muted-foreground">Stand</div>
                                 <div className="flex items-baseline gap-1 text-2xl font-bold tabular-nums leading-none">
                                     14
-                                    <span className="text-sm font-normal text-muted-foreground">
-                                        hr
-                                    </span>
+                                    <span className="text-sm font-normal text-muted-foreground">hr</span>
                                 </div>
                             </div>
                         </div>
@@ -626,36 +541,24 @@ export function Home() {
                     <CardContent className="flex gap-4 p-4">
                         <div className="grid items-center gap-2">
                             <div className="grid flex-1 auto-rows-min gap-0.5">
-                                <div className="text-sm text-muted-foreground">
-                                    Move
-                                </div>
+                                <div className="text-sm text-muted-foreground">Move</div>
                                 <div className="flex items-baseline gap-1 text-xl font-bold tabular-nums leading-none">
                                     562/600
-                                    <span className="text-sm font-normal text-muted-foreground">
-                                        kcal
-                                    </span>
+                                    <span className="text-sm font-normal text-muted-foreground">kcal</span>
                                 </div>
                             </div>
                             <div className="grid flex-1 auto-rows-min gap-0.5">
-                                <div className="text-sm text-muted-foreground">
-                                    Exercise
-                                </div>
+                                <div className="text-sm text-muted-foreground">Exercise</div>
                                 <div className="flex items-baseline gap-1 text-xl font-bold tabular-nums leading-none">
                                     73/120
-                                    <span className="text-sm font-normal text-muted-foreground">
-                                        min
-                                    </span>
+                                    <span className="text-sm font-normal text-muted-foreground">min</span>
                                 </div>
                             </div>
                             <div className="grid flex-1 auto-rows-min gap-0.5">
-                                <div className="text-sm text-muted-foreground">
-                                    Stand
-                                </div>
+                                <div className="text-sm text-muted-foreground">Stand</div>
                                 <div className="flex items-baseline gap-1 text-xl font-bold tabular-nums leading-none">
                                     8/12
-                                    <span className="text-sm font-normal text-muted-foreground">
-                                        hr
-                                    </span>
+                                    <span className="text-sm font-normal text-muted-foreground">hr</span>
                                 </div>
                             </div>
                         </div>
@@ -705,17 +608,8 @@ export function Home() {
                                 startAngle={90}
                                 endAngle={450}
                             >
-                                <PolarAngleAxis
-                                    type="number"
-                                    domain={[0, 100]}
-                                    dataKey="value"
-                                    tick={false}
-                                />
-                                <RadialBar
-                                    dataKey="value"
-                                    background
-                                    cornerRadius={5}
-                                />
+                                <PolarAngleAxis type="number" domain={[0, 100]} dataKey="value" tick={false} />
+                                <RadialBar dataKey="value" background cornerRadius={5} />
                             </RadialBarChart>
                         </ChartContainer>
                     </CardContent>
@@ -723,17 +617,12 @@ export function Home() {
                 <Card className="max-w-xs" x-chunk="charts-01-chunk-6">
                     <CardHeader className="p-4 pb-0">
                         <CardTitle>Active Energy</CardTitle>
-                        <CardDescription>
-                            You're burning an average of 754 calories per day.
-                            Good job!
-                        </CardDescription>
+                        <CardDescription>You're burning an average of 754 calories per day. Good job!</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-row items-baseline gap-4 p-4 pt-2">
                         <div className="flex items-baseline gap-2 text-3xl font-bold tabular-nums leading-none">
                             1,254
-                            <span className="text-sm font-normal text-muted-foreground">
-                                kcal/day
-                            </span>
+                            <span className="text-sm font-normal text-muted-foreground">kcal/day</span>
                         </div>
                         <ChartContainer
                             config={{
@@ -791,13 +680,7 @@ export function Home() {
                                     activeIndex={6}
                                     activeBar={<Rectangle fillOpacity={0.8} />}
                                 />
-                                <XAxis
-                                    dataKey="date"
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickMargin={4}
-                                    hide
-                                />
+                                <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={4} hide />
                             </BarChart>
                         </ChartContainer>
                     </CardContent>
@@ -865,28 +748,11 @@ export function Home() {
                                 }}
                             >
                                 <XAxis dataKey="date" hide />
-                                <YAxis
-                                    domain={["dataMin - 5", "dataMax + 2"]}
-                                    hide
-                                />
+                                <YAxis domain={["dataMin - 5", "dataMax + 2"]} hide />
                                 <defs>
-                                    <linearGradient
-                                        id="fillTime"
-                                        x1="0"
-                                        y1="0"
-                                        x2="0"
-                                        y2="1"
-                                    >
-                                        <stop
-                                            offset="5%"
-                                            stopColor="var(--color-time)"
-                                            stopOpacity={0.8}
-                                        />
-                                        <stop
-                                            offset="95%"
-                                            stopColor="var(--color-time)"
-                                            stopOpacity={0.1}
-                                        />
+                                    <linearGradient id="fillTime" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="var(--color-time)" stopOpacity={0.8} />
+                                        <stop offset="95%" stopColor="var(--color-time)" stopOpacity={0.1} />
                                     </linearGradient>
                                 </defs>
                                 <Area
@@ -904,9 +770,7 @@ export function Home() {
                                             Time in bed
                                             <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
                                                 {value}
-                                                <span className="font-normal text-muted-foreground">
-                                                    hr
-                                                </span>
+                                                <span className="font-normal text-muted-foreground">hr</span>
                                             </div>
                                         </div>
                                     )}

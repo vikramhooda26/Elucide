@@ -1,21 +1,11 @@
 import { Dot } from "lucide-react";
 import React from "react";
 import { nameAndId } from "../../types/metadata/Metadata";
-import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger
-} from "../ui/hover-card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 
-export const FloatingCard = ({
-    children,
-    data
-}: {
-    children?: React.ReactNode;
-    data: any;
-}) => {
+export const FloatingCard = ({ children, data }: { children?: React.ReactNode; data: any }) => {
     return (
         <HoverCard openDelay={200} closeDelay={0}>
             <HoverCardTrigger asChild>{children}</HoverCardTrigger>

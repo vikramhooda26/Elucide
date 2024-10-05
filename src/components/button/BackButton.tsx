@@ -10,13 +10,7 @@ function BackButton() {
     };
 
     return (
-        <Button
-            variant="outline"
-            size="icon"
-            className="h-7 w-7"
-            onClick={handleBack}
-            type="button"
-        >
+        <Button variant="outline" size="icon" className="h-7 w-7" onClick={handleBack} type="button">
             <ChevronLeft className="h-4 w-4" />
             <span className="sr-only">Back</span>
         </Button>

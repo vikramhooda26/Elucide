@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { cn } from "../lib/utils";
 
-export const ScrollToTopButtonWrapper = ({
-    children
-}: {
-    children: React.ReactNode;
-}) => {
+export const ScrollToTopButtonWrapper = ({ children }: { children: React.ReactNode }) => {
     const [showScrollToTop, setShowScrollToTop] = useState<boolean>(false);
 
     useEffect(() => {

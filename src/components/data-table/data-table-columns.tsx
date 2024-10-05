@@ -5,9 +5,7 @@ import { Checkbox } from "../ui/checkbox";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 
-export function generateColumns<T extends object>(
-    config: TableConfig<T>
-): ColumnDef<T>[] {
+export function generateColumns<T extends object>(config: TableConfig<T>): ColumnDef<T>[] {
     const columns: ColumnDef<T>[] = [];
 
     if (config.showCheckbox) {
@@ -15,13 +13,8 @@ export function generateColumns<T extends object>(
             id: "select",
             header: ({ table }) => (
                 <Checkbox
-                    checked={
-                        table.getIsAllPageRowsSelected() ||
-                        (table.getIsSomePageRowsSelected() && "indeterminate")
-                    }
-                    onCheckedChange={(value) =>
-                        table.toggleAllPageRowsSelected(!!value)
-                    }
+                    checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
                     aria-label="Select all"
                     className="translate-y-[2px]"
                 />
@@ -43,12 +36,7 @@ export function generateColumns<T extends object>(
         ...config.columns.map((columnConfig) => {
             const column: ColumnDef<T> = {
                 accessorKey: columnConfig.key,
-                header: ({ column }) => (
-                    <DataTableColumnHeader
-                        column={column}
-                        title={columnConfig.title}
-                    />
-                ),
+                header: ({ column }) => <DataTableColumnHeader column={column} title={columnConfig.title} />,
                 cell: columnConfig.customRender
                     ? columnConfig.customRender
                     : ({ row }: CellContext<T, unknown>) => {
@@ -78,9 +66,7 @@ export function generateColumns<T extends object>(
 
     columns.push({
         id: "actions",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title={"Actions"} />
-        ),
+        header: ({ column }) => <DataTableColumnHeader column={column} title={"Actions"} />,
         cell: ({ row }: CellContext<T, unknown>) => (
             <DataTableRowActions
                 row={row}

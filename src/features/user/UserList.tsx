@@ -38,9 +38,7 @@ const UserList: React.FC<TUserList> = () => {
     const navigator = useNavigator();
     const [userList, setUserList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -63,11 +61,7 @@ const UserList: React.FC<TUserList> = () => {
                 setUserList(users);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -87,21 +81,13 @@ const UserList: React.FC<TUserList> = () => {
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
-                setUserList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setUserList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
 
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setUserList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setUserList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             } else {
                 toast.error("Could not delete this user");
             }
@@ -153,12 +139,8 @@ const UserList: React.FC<TUserList> = () => {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={
-                (table.getColumn("username")?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-                table.getColumn("username")?.setFilterValue(event.target.value)
-            }
+            value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
+            onChange={(event) => table.getColumn("username")?.setFilterValue(event.target.value)}
             className="h-8 w-[150px] lg:w-[250px]"
         />
     ];
@@ -167,12 +149,8 @@ const UserList: React.FC<TUserList> = () => {
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">
-                        User List
-                    </h2>
-                    <p className="text-muted-foreground">
-                        Here&apos;s a list of users.
-                    </p>
+                    <h2 className="text-2xl font-bold tracking-tight">User List</h2>
+                    <p className="text-muted-foreground">Here&apos;s a list of users.</p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <ConditionalButton
@@ -183,11 +161,7 @@ const UserList: React.FC<TUserList> = () => {
                     </ConditionalButton>
                 </div>
             </div>
-            <DataTable
-                table={table}
-                columns={columns}
-                toolbarAttributes={toolbarAttributes}
-            />
+            <DataTable table={table} columns={columns} toolbarAttributes={toolbarAttributes} />
         </div>
     );
 };

@@ -35,9 +35,7 @@ function SubPersonalityView() {
                 setLoading(false);
                 return;
             }
-            const resp = await MetadataService.getOneSubPersonality(
-                id ? id : ""
-            );
+            const resp = await MetadataService.getOneSubPersonality(id ? id : "");
             if (resp?.status !== 200 || Object.keys(resp?.data)?.length <= 0) {
                 throw new Error("");
             }
@@ -46,11 +44,7 @@ function SubPersonalityView() {
 
             setViewData(viewObj);
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("This sub personality does not exists");
                 navigate(-1);
@@ -67,9 +61,7 @@ function SubPersonalityView() {
         fetchTeam();
     }, []);
 
-    const infoHeaders: { header: string; className?: string }[] = [
-        { header: "Name" }
-    ];
+    const infoHeaders: { header: string; className?: string }[] = [{ header: "Name" }];
 
     return (
         <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
@@ -94,14 +86,9 @@ function SubPersonalityView() {
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                                 <Card x-chunk="dashboard-07-chunk-0">
-                                    <TableHeaderWrapper
-                                        headersArray={infoHeaders}
-                                    >
+                                    <TableHeaderWrapper headersArray={infoHeaders}>
                                         <TableRow>
-                                            <TableCell>
-                                                {viewData?.subpersonalityName ||
-                                                    "-"}
-                                            </TableCell>
+                                            <TableCell>{viewData?.subpersonalityName || "-"}</TableCell>
                                         </TableRow>
                                     </TableHeaderWrapper>
                                 </Card>

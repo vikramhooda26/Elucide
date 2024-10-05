@@ -18,27 +18,15 @@ export function DatePicker({
         <Popover>
             <PopoverTrigger asChild>
                 <Button
-                    className={cn(
-                        "pl-3 text-left font-normal",
-                        !value && "text-muted-foreground"
-                    )}
+                    className={cn("pl-3 text-left font-normal", !value && "text-muted-foreground")}
                     variant="outline"
                 >
-                    {value ? (
-                        format(value, "dd/MM/yyyy")
-                    ) : (
-                        <span>{placeholder}</span>
-                    )}
+                    {value ? format(value, "dd/MM/yyyy") : <span>{placeholder}</span>}
                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent align="start" className="w-auto p-2">
-                <CalendarComponent
-                    initialFocus
-                    mode="single"
-                    selected={value}
-                    onSelect={onChange}
-                />
+                <CalendarComponent initialFocus mode="single" selected={value} onSelect={onChange} />
             </PopoverContent>
         </Popover>
     );

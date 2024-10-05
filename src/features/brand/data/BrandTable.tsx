@@ -1,24 +1,35 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import DataTable from '../../../components/data-table/data-table';
-import { useUser } from '../../../hooks/useUser';
-import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { listLoadingAtom } from '../../../store/atoms/global';
-import { useAuth } from '../../auth/auth-provider/AuthProvider';
-import { ColumnFiltersState, getCoreRowModel, getFacetedRowModel, getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from '@tanstack/react-table';
-import MetadataService from '../../../services/features/MetadataService';
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from '../../../lib/constants';
-import { toast } from 'sonner';
-import ErrorService from '../../../services/error/ErrorService';
+import React, { useCallback, useMemo, useState } from "react";
+import DataTable from "../../../components/data-table/data-table";
+import { useUser } from "../../../hooks/useUser";
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { listLoadingAtom } from "../../../store/atoms/global";
+import { useAuth } from "../../auth/auth-provider/AuthProvider";
+import {
+    ColumnFiltersState,
+    getCoreRowModel,
+    getFacetedRowModel,
+    getFacetedUniqueValues,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    SortingState,
+    useReactTable,
+    VisibilityState
+} from "@tanstack/react-table";
+import MetadataService from "../../../services/features/MetadataService";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
+import { toast } from "sonner";
+import ErrorService from "../../../services/error/ErrorService";
 import { getColumns } from "../../../components/core/view/common-columns";
-import { Input } from '../../../components/ui/input';
-import { DataTableFacetedFilter } from '../../../components/data-table/data-table-faceted-filter';
-import { priorities, statuses } from './data';
+import { Input } from "../../../components/ui/input";
+import { DataTableFacetedFilter } from "../../../components/data-table/data-table-faceted-filter";
+import { priorities, statuses } from "./data";
 
 type Props = {
     brandList: Array<any>;
-    setBrandList: (value: React.SetStateAction<any[]>) => void
-}
+    setBrandList: (value: React.SetStateAction<any[]>) => void;
+};
 
 function BrandTable({ brandList, setBrandList }: Props) {
     const userRole = useUser()?.role;
@@ -26,9 +37,7 @@ function BrandTable({ brandList, setBrandList }: Props) {
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -39,28 +48,17 @@ function BrandTable({ brandList, setBrandList }: Props) {
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(
-                id,
-                "/api/admin/brand/delete/"
-            );
+            const response = await MetadataService.deleteData(id, "/api/admin/brand/delete/");
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
-                setBrandList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setBrandList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
 
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setBrandList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setBrandList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             } else {
                 toast.error("Could not delete this data");
             }
@@ -116,33 +114,18 @@ function BrandTable({ brandList, setBrandList }: Props) {
         <Input
             placeholder="Filter brands..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
-            }
+            onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
             className="h-8 w-[150px] lg:w-[250px]"
         />,
-        <DataTableFacetedFilter
-            column={table.getColumn("createdDate")}
-            title="Created At"
-            options={statuses}
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("modifiedDate")}
-            title="Modiefied At"
-            options={priorities}
-        />
+        <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
+        <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
     ];
-
 
     return (
         <>
-            <DataTable
-                table={table}
-                columns={columns}
-                toolbarAttributes={toolbarAttributes}
-            />
+            <DataTable table={table} columns={columns} toolbarAttributes={toolbarAttributes} />
         </>
-    )
+    );
 }
 
 export default BrandTable;

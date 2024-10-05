@@ -6,6 +6,4 @@ export const subpersonalityFormSchema = z.object({
     mainPersonalityId: z.string().min(1, "Please select a main personality")
 });
 
-export type TSubpersonalityFormSchema = z.infer<
-    typeof subpersonalityFormSchema
->;
+export type TSubpersonalityFormSchema = z.infer<typeof subpersonalityFormSchema>;

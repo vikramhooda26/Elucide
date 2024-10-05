@@ -45,14 +45,8 @@ function TaglineForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This tagline does not exists");
                     navigate(-1);
                 } else {
@@ -76,10 +70,7 @@ function TaglineForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editTagline(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editTagline(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Tagline updated successfully");
                 }
@@ -94,11 +85,7 @@ function TaglineForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -116,12 +103,7 @@ function TaglineForm() {
     }, [isSubmitting]);
 
     return (
-        <SingleInputForm
-            onSubmit={onSubmit}
-            form={form}
-            title="Tagline"
-            isSubmitting={isSubmitting || isLoading}
-        >
+        <SingleInputForm onSubmit={onSubmit} form={form} title="Tagline" isSubmitting={isSubmitting || isLoading}>
             {isLoading ? (
                 <FormSkeleton />
             ) : (

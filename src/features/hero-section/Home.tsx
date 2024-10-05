@@ -31,10 +31,7 @@ export const Home = () => {
             <Features />
             <Clients />
             <ScrollToTopButtonWrapper>
-                <GradientButton
-                    className="rounded-full !px-4"
-                    onClick={handleScrollToTop}
-                >
+                <GradientButton className="rounded-full !px-4" onClick={handleScrollToTop}>
                     <ChevronsUp className="h-5 w-5" />
                 </GradientButton>
             </ScrollToTopButtonWrapper>

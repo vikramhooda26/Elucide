@@ -1,11 +1,5 @@
 import { MinusCircle, PlusCircle } from "lucide-react";
-import {
-    ArrayPath,
-    Control,
-    FieldValues,
-    Path,
-    useFieldArray
-} from "react-hook-form";
+import { ArrayPath, Control, FieldValues, Path, useFieldArray } from "react-hook-form";
 import { cn } from "../../../lib/utils";
 import { CardWrapper } from "../../card/card-wrapper";
 import { FormItemWrapper } from "../../form/item-wrapper";
@@ -40,9 +34,7 @@ type TVerticalFieldsCardProps<T extends FieldValues> = {
     control: Control<T>;
 };
 
-const ContactPersonCard = <T extends FieldValues>({
-    control
-}: TVerticalFieldsCardProps<T>): JSX.Element => {
+const ContactPersonCard = <T extends FieldValues>({ control }: TVerticalFieldsCardProps<T>): JSX.Element => {
     const fieldArray = useFieldArray<T>({
         control,
         name: "contactPerson" as ArrayPath<T>
@@ -91,60 +83,35 @@ const ContactPersonCard = <T extends FieldValues>({
             <div className="grid gap-6">
                 {fieldArray.fields.map((field, index) => (
                     <CardWrapper title={`Contact Person - ${index + 1}`}>
-                        <div
-                            className={cn(
-                                "grid auto-rows-max items-start gap-3 lg:grid-cols-2"
-                            )}
-                            key={field.id}
-                        >
+                        <div className={cn("grid auto-rows-max items-start gap-3 lg:grid-cols-2")} key={field.id}>
                             {contactDetails(index).map((fieldDetails) => (
                                 <FormField
                                     key={fieldDetails.register}
                                     control={control}
                                     name={fieldDetails.register}
                                     render={({ field }) => (
-                                        <FormItemWrapper
-                                            label={fieldDetails.title}
-                                        >
+                                        <FormItemWrapper label={fieldDetails.title}>
                                             <>
-                                                {fieldDetails.type ===
-                                                    "DROPDOWN" && (
+                                                {fieldDetails.type === "DROPDOWN" && (
                                                     <SelectBox
-                                                        options={
-                                                            fieldDetails.options ||
-                                                            []
-                                                        }
+                                                        options={fieldDetails.options || []}
                                                         value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
+                                                        onChange={field.onChange}
                                                         placeholder={`Select ${fieldDetails.title?.toLowerCase()}`}
                                                         inputPlaceholder={`Search for ${fieldDetails.title?.toLowerCase()}...`}
                                                         emptyPlaceholder={`No ${fieldDetails.title?.toLowerCase()} found`}
-                                                        multiple={
-                                                            fieldDetails.multiple
-                                                        }
+                                                        multiple={fieldDetails.multiple}
                                                     />
                                                 )}
-                                                {fieldDetails.type ===
-                                                    "INPUT" && (
+                                                {fieldDetails.type === "INPUT" && (
                                                     <Input
                                                         {...field}
-                                                        type={
-                                                            fieldDetails.input
-                                                                ?.type
-                                                        }
-                                                        placeholder={
-                                                            fieldDetails.placeholder
-                                                        }
+                                                        type={fieldDetails.input?.type}
+                                                        placeholder={fieldDetails.placeholder}
                                                     />
                                                 )}
-                                                {fieldDetails.type ===
-                                                    "PHONE" && (
-                                                    <PhoneInput
-                                                        {...field}
-                                                        defaultCountry="IN"
-                                                    />
+                                                {fieldDetails.type === "PHONE" && (
+                                                    <PhoneInput {...field} defaultCountry="IN" />
                                                 )}
                                             </>
                                         </FormItemWrapper>
@@ -161,9 +128,7 @@ const ContactPersonCard = <T extends FieldValues>({
                                         type="button"
                                     >
                                         <MinusCircle className="h-3.5 w-3.5" />
-                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                            Remove
-                                        </span>
+                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Remove</span>
                                     </Button>
                                 </div>
                             )}
@@ -175,19 +140,13 @@ const ContactPersonCard = <T extends FieldValues>({
             <CardFooter>
                 <div className="mt-4 flex w-full items-end justify-end">
                     <Button
-                        onClick={() =>
-                            fieldArray.append(
-                                initialValue as T["contactPerson"][number]
-                            )
-                        }
+                        onClick={() => fieldArray.append(initialValue as T["contactPerson"][number])}
                         size="sm"
                         className="h-7 gap-1"
                         type="button"
                     >
                         <PlusCircle className="h-3.5 w-3.5" />
-                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                            Add
-                        </span>
+                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add</span>
                     </Button>
                 </div>
             </CardFooter>

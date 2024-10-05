@@ -3,19 +3,11 @@ import AjaxService from "../AjaxService";
 
 class TeamService {
     static createTeam(params: any) {
-        return AjaxService.request(
-            `${API_URL}/api/admin/team/create`,
-            params,
-            "POST"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/team/create`, params, "POST");
     }
 
     static editTeam(id: string, params: any) {
-        return AjaxService.request(
-            `${API_URL}/api/admin/team/edit/${id}`,
-            params,
-            "PUT"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/team/edit/${id}`, params, "PUT");
     }
 
     static getAll(params: any) {
@@ -23,19 +15,11 @@ class TeamService {
     }
 
     static getOne(id: string, params?: any) {
-        return AjaxService.request(
-            API_URL + "/api/admin/team/" + id,
-            params,
-            "GET"
-        );
+        return AjaxService.request(API_URL + "/api/admin/team/" + id, params, "GET");
     }
 
     static getFilteredTeams(params: any) {
-        return AjaxService.request(
-            API_URL + "/api/admin/filter/team",
-            params,
-            "POST"
-        );
+        return AjaxService.request(API_URL + "/api/admin/filter/team", params, "POST");
     }
 }
 export default TeamService;

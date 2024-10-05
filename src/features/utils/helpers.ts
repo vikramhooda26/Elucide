@@ -36,17 +36,17 @@ export const validateMetrics = (
             const metricFields =
                 metricType === "ottPartnerMetrics"
                     ? {
-                        field1: "ottPartnerId",
-                        field2: "year",
-                        field3: "viewership",
-                        field4: "reach"
-                    }
+                          field1: "ottPartnerId",
+                          field2: "year",
+                          field3: "viewership",
+                          field4: "reach"
+                      }
                     : {
-                        field1: "broadcastPartnerId",
-                        field2: "year",
-                        field3: "viewership",
-                        field4: "reach"
-                    };
+                          field1: "broadcastPartnerId",
+                          field2: "year",
+                          field3: "viewership",
+                          field4: "reach"
+                      };
 
             const isAnyProvided =
                 metric[metricFields.field1] ||
@@ -54,8 +54,7 @@ export const validateMetrics = (
                 metric[metricFields.field3] ||
                 metric[metricFields.field4];
 
-            const isRequiredProvided =
-                metric[metricFields.field1] && metric[metricFields.field2];
+            const isRequiredProvided = metric[metricFields.field1] && metric[metricFields.field2];
 
             if (isAnyProvided && !isRequiredProvided) {
                 Object.values(metricFields).forEach((field) => {
@@ -78,9 +77,7 @@ export const validateMetrics = (
             return isAnyProvided ? metric : null;
         });
 
-        return result.some((metric) => metric === undefined)
-            ? undefined
-            : result.filter((metric) => metric !== null);
+        return result.some((metric) => metric === undefined) ? undefined : result.filter((metric) => metric !== null);
     }
     return [];
 };
@@ -89,11 +86,7 @@ export const formatNumberWithCommas = (num: number) => {
     return new Intl.NumberFormat("en-IN").format(num);
 };
 
-export const onNumInputChange = (
-    form: UseFormReturn<any>,
-    e: ChangeEvent<HTMLInputElement>,
-    key: string
-) => {
+export const onNumInputChange = (form: UseFormReturn<any>, e: ChangeEvent<HTMLInputElement>, key: string) => {
     const inputValue = e.target.value;
     if (/^\d*\.?\d*$/.test(inputValue) || inputValue === "") {
         form.setValue(key, inputValue);
@@ -131,27 +124,23 @@ export const validateAssociation = (
                 const associationFields =
                     stakeholderType === "TEAM"
                         ? {
-                            field1: "associationLevelId",
-                            field2: "costOfAssociation",
-                            field3: "brandIds"
-                        }
+                              field1: "associationLevelId",
+                              field2: "costOfAssociation",
+                              field3: "brandIds"
+                          }
                         : {
-                            field1: "associationLevelId",
-                            field2: "costOfAssociation",
-                            field3: "costOfAssociation"
-                        };
+                              field1: "associationLevelId",
+                              field2: "costOfAssociation",
+                              field3: "costOfAssociation"
+                          };
 
                 const isAnyProvided =
                     association[associationFields.field1] ||
-                        association[associationFields.field2] ||
-                        association[associationFields.field3]
+                    association[associationFields.field2] ||
+                    association[associationFields.field3]
                         ? true
                         : false;
-                const isAssociationLevelProvided = association[
-                    associationFields.field1
-                ]
-                    ? true
-                    : false;
+                const isAssociationLevelProvided = association[associationFields.field1] ? true : false;
                 if (isAnyProvided && !isAssociationLevelProvided) {
                     if (!association["associationLevelId"]) {
                         setError(
@@ -245,7 +234,7 @@ export const getRandomColor = (index: number) => {
         "#0000CC", // Medium Blue
         "#000099", // Dark Blue
         "#000066", // Navy Blue
-        
+
         "#7CB9E8",
         "#00308F",
         "#72A0C1",
@@ -262,9 +251,7 @@ export const getRandomColor = (index: number) => {
         "#A3C1AD",
         "#6082B6",
         "#0093AF",
-        
 
-       
         "#000033", // Midnight Blue
         "#0033FF", // Azure
         "#0033CC", // Cobalt Blue
@@ -292,13 +279,29 @@ export const getRandomColor = (index: number) => {
         "#336699", // Denim Blue
         "#6699FF", // Periwinkle
 
-        "#cd68e6", "#388d3d", "#f8e9b5", "#5e9643", "#cbc1c1",
-        "#826e51", "#e5bfdb", "#735d44", "#b4a99a", "#53766c",
-        "#bcdcf9", "#799256", "#c4aee2", "#4f5095", "#caa4a6",
-        "#588d58", "#c9b8f9", "#783d59", "#c8b1cb", "#795756"
+        "#cd68e6",
+        "#388d3d",
+        "#f8e9b5",
+        "#5e9643",
+        "#cbc1c1",
+        "#826e51",
+        "#e5bfdb",
+        "#735d44",
+        "#b4a99a",
+        "#53766c",
+        "#bcdcf9",
+        "#799256",
+        "#c4aee2",
+        "#4f5095",
+        "#caa4a6",
+        "#588d58",
+        "#c9b8f9",
+        "#783d59",
+        "#c8b1cb",
+        "#795756"
     ];
     if (index < colorArr?.length) {
         return colorArr[index];
     }
     return "#6d080c";
-}
+};

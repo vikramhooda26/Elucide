@@ -3,20 +3,11 @@ import { useUser } from "../../../hooks/useUser.tsx";
 import { NAVIGATION_ROUTES } from "../../../lib/constants.ts";
 import { cn } from "../../../lib/utils";
 
-export function MainNav({
-    className,
-    ...props
-}: React.HTMLAttributes<HTMLElement>) {
+export function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
     const user = useUser();
     const hasPermission = user?.role === "SUPER_ADMIN";
     return (
-        <nav
-            className={cn(
-                "flex items-center space-x-4 lg:space-x-6",
-                className
-            )}
-            {...props}
-        >
+        <nav className={cn("flex items-center space-x-4 lg:space-x-6", className)} {...props}>
             {hasPermission && (
                 <Link
                     to={NAVIGATION_ROUTES.CREATE_USER}

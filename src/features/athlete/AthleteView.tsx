@@ -25,8 +25,7 @@ import { TEditAthleteFormSchema } from "./constants/metadata";
 function AthleteView() {
     const { id } = useParams<string>();
     const [athlete, setAthlete] = useState<any>({});
-    const [athleteDetails, setAthleteDetails] =
-        useState<TEditAthleteFormSchema>();
+    const [athleteDetails, setAthleteDetails] = useState<TEditAthleteFormSchema>();
     const [isLoading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const { logout } = useAuth();
@@ -46,14 +45,8 @@ function AthleteView() {
                 athleteObj.modifiedBy = athleteObj?.modifiedBy?.firstName || "";
 
                 if (athleteObj?.athleteAge) {
-                    athleteObj.dob = format(
-                        athleteObj?.athleteAge,
-                        "dd-MM-yyyy"
-                    );
-                    athleteObj.athleteAge = differenceInYears(
-                        new Date(),
-                        athleteObj?.athleteAge
-                    );
+                    athleteObj.dob = format(athleteObj?.athleteAge, "dd-MM-yyyy");
+                    athleteObj.athleteAge = differenceInYears(new Date(), athleteObj?.athleteAge);
                 }
                 setAthlete(athleteObj);
                 setAthleteDetails(response?.data);
@@ -62,11 +55,7 @@ function AthleteView() {
                 navigate(-1);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("This athlete does not exists");
                 navigate(-1);
@@ -97,17 +86,13 @@ function AthleteView() {
                     </h1>
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        {(userRole === "SUPER_ADMIN" ||
-                            userRole === "ADMIN") && (
+                        {(userRole === "SUPER_ADMIN" || userRole === "ADMIN") && (
                             <Button
                                 size="sm"
                                 onClick={() =>
-                                    navigate(
-                                        `${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`,
-                                        {
-                                            state: athleteDetails
-                                        }
-                                    )
+                                    navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`, {
+                                        state: athleteDetails
+                                    })
                                 }
                             >
                                 <Pencil className="h-4 w-4" />{" "}
@@ -123,25 +108,15 @@ function AthleteView() {
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                                 <AthleteOverviewCard athlete={athlete} />
                                 <MarketingOverviewCard data={athlete} />
-                                <LinksCard
-                                    data={athlete}
-                                    metadatas={socials}
-                                    title="Digital Presence"
-                                />
+                                <LinksCard data={athlete} metadatas={socials} title="Digital Presence" />
                                 <Association data={athlete} />
                             </div>
                             <AudienceProfile data={athlete} title={"Athlete"} />
                         </div>
                         <div className="my-4 lg:my-8">
                             <div className="space-y-4 lg:space-y-8">
-                                <SportsDealSummary
-                                    data={athlete}
-                                    partnerKey={"athlete"}
-                                />
-                                <Activation
-                                    data={athlete}
-                                    partnerKey={"athlete"}
-                                />
+                                <SportsDealSummary data={athlete} partnerKey={"athlete"} />
+                                <Activation data={athlete} partnerKey={"athlete"} />
                             </div>
                         </div>
 

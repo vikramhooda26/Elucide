@@ -2,10 +2,7 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { SideMenu } from "./components/SideMenu";
-import {
-    ResizablePanel,
-    ResizablePanelGroup
-} from "../../components/ui/resizable";
+import { ResizablePanel, ResizablePanelGroup } from "../../components/ui/resizable";
 import { TooltipProvider } from "../../components/ui/tooltip";
 import useWindowDimensions from "../../hooks/useWindowDimension";
 
@@ -28,17 +25,13 @@ function DataEntryList() {
 
     return (
         <div className="h-full w-full">
-            <div className="relative h-full w-full px-4 py-8 lg:hidden">
-                {width <= 1024 && <Outlet />}
-            </div>
+            <div className="relative h-full w-full px-4 py-8 lg:hidden">{width <= 1024 && <Outlet />}</div>
             <div className="relative flex h-full w-full max-lg:hidden">
                 <TooltipProvider delayDuration={0}>
                     <ResizablePanelGroup
                         direction="horizontal"
                         onLayout={(sizes: number[]) => {
-                            document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
-                                sizes
-                            )}`;
+                            document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(sizes)}`;
                         }}
                         className="h-full items-stretch gap-4"
                         style={{ overflow: "clip" }}
@@ -49,9 +42,7 @@ function DataEntryList() {
                             navCollapsedSize={4}
                         />
                         <ResizablePanel>
-                            <div className="h-full w-full px-4 py-8">
-                                {width > 1024 && <Outlet />}
-                            </div>
+                            <div className="h-full w-full px-4 py-8">{width > 1024 && <Outlet />}</div>
                         </ResizablePanel>
                     </ResizablePanelGroup>
                 </TooltipProvider>

@@ -9,10 +9,7 @@ import { Input } from "../../../components/ui/input";
 import { userAtom } from "../../../store/atoms/user";
 import { TActivationFormSchema } from "../../activations/constants/metadata";
 import { SingleInputForm } from "../SingleInputForm";
-import {
-    activeCampaignFormSchema,
-    TActiveCampaignFormSchema
-} from "./constants/metadata";
+import { activeCampaignFormSchema, TActiveCampaignFormSchema } from "./constants/metadata";
 import MetadataService from "../../../services/features/MetadataService";
 import { HTTP_STATUS_CODES } from "../../../lib/constants";
 import { toast } from "sonner";
@@ -49,14 +46,8 @@ function ActiveCampaignForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This active campaign does not exists");
                     navigate(-1);
                 } else {
@@ -72,9 +63,7 @@ function ActiveCampaignForm() {
         }
     }, [id]);
 
-    const onSubmit = async (
-        activeCampaignFormValues: TActivationFormSchema
-    ) => {
+    const onSubmit = async (activeCampaignFormValues: TActivationFormSchema) => {
         try {
             setIsSubmitting(true);
             const requestBody = {
@@ -82,17 +71,13 @@ function ActiveCampaignForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editActiveCampign(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editActiveCampign(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Active campaign updated successfully");
                 }
                 return;
             }
-            const response =
-                await MetadataService.createActiveCampaign(requestBody);
+            const response = await MetadataService.createActiveCampaign(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Active campaign created successfully");
                 form.reset({
@@ -101,11 +86,7 @@ function ActiveCampaignForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }

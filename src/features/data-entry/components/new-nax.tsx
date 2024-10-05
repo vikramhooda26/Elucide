@@ -39,33 +39,21 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                     to={link.navigateTo}
                                     className={cn(
                                         buttonVariants({
-                                            variant: getVariant(
-                                                link.navigateTo
-                                            ),
+                                            variant: getVariant(link.navigateTo),
                                             size: "icon"
                                         }),
                                         "h-9 w-9",
-                                        getVariant(link.navigateTo) ===
-                                            "default" &&
+                                        getVariant(link.navigateTo) === "default" &&
                                             "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
                                     )}
                                 >
                                     <link.icon className="h-4 w-4" />
-                                    <span className="sr-only">
-                                        {link.title}
-                                    </span>
+                                    <span className="sr-only">{link.title}</span>
                                 </Link>
                             </TooltipTrigger>
-                            <TooltipContent
-                                side="right"
-                                className="flex items-center gap-4"
-                            >
+                            <TooltipContent side="right" className="flex items-center gap-4">
                                 {link.title}
-                                {link.label && (
-                                    <span className="ml-auto text-muted-foreground">
-                                        {link.label}
-                                    </span>
-                                )}
+                                {link.label && <span className="ml-auto text-muted-foreground">{link.label}</span>}
                             </TooltipContent>
                         </Tooltip>
                     ) : (
@@ -88,9 +76,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                                 <span
                                     className={cn(
                                         "ml-auto",
-                                        getVariant(link.navigateTo) ===
-                                            "default" &&
-                                            "text-background dark:text-white"
+                                        getVariant(link.navigateTo) === "default" && "text-background dark:text-white"
                                     )}
                                 >
                                     {link.label}

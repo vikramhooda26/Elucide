@@ -1,15 +1,8 @@
 import { AnimatedGradientText } from "../../components/ui/animated-gradient-text";
-import {
-    CanvasRevealEffect,
-    Card
-} from "../../components/ui/card-reveal-effect";
+import { CanvasRevealEffect, Card } from "../../components/ui/card-reveal-effect";
 import { GradientButton } from "../../components/ui/gradient-button";
 
-export const Approach = ({
-    approachRef
-}: {
-    approachRef: React.RefObject<HTMLDivElement>;
-}) => {
+export const Approach = ({ approachRef }: { approachRef: React.RefObject<HTMLDivElement> }) => {
     return (
         <div
             className="flex w-full flex-col items-center justify-center gap-16 bg-[#000319] px-8 py-24 text-white md:min-h-dvh md:py-40"
@@ -24,10 +17,7 @@ export const Approach = ({
                     description="By prioritizing and understanding the specific objectives of each brand, we ensure that every partnership is goal-oriented and results-driven"
                     icon={<GradientButton>Advantage 1</GradientButton>}
                 >
-                    <CanvasRevealEffect
-                        animationSpeed={3}
-                        containerClassName="bg-emerald-900"
-                    />
+                    <CanvasRevealEffect animationSpeed={3} containerClassName="bg-emerald-900" />
                 </Card>
                 <Card
                     title="Data-Driven Insights"
@@ -49,11 +39,7 @@ export const Approach = ({
                     description="Our bespoke service tailors each sponsorship opportunity to meet the specific goals and needs of each brand, rather than offering generic packages."
                     icon={<GradientButton>Advantage 3</GradientButton>}
                 >
-                    <CanvasRevealEffect
-                        animationSpeed={3}
-                        containerClassName="bg-sky-600"
-                        colors={[[125, 211, 252]]}
-                    />
+                    <CanvasRevealEffect animationSpeed={3} containerClassName="bg-sky-600" colors={[[125, 211, 252]]} />
                 </Card>
                 <Card
                     title="Comprehensive Support"

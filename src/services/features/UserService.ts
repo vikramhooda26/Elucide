@@ -3,27 +3,15 @@ import AjaxService from "../AjaxService";
 
 class UserService {
     static createUser(params: any) {
-        return AjaxService.request(
-            `${API_URL}/api/admin/user/create`,
-            params,
-            "POST"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/user/create`, params, "POST");
     }
 
     static editUser(id: string, params: any) {
-        return AjaxService.request(
-            `${API_URL}/api/admin/user/edit/${id}`,
-            params,
-            "PUT"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/user/edit/${id}`, params, "PUT");
     }
 
     static deleteUser(id: string) {
-        return AjaxService.request(
-            `${API_URL}/api/admin/user/delete/${id}`,
-            {},
-            "DELETE"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/user/delete/${id}`, {}, "DELETE");
     }
 
     static getAllUsers() {
@@ -31,19 +19,11 @@ class UserService {
     }
 
     static fetchUserDetails() {
-        return AjaxService.request(
-            `${API_URL}/api/admin/user/get-by-id`,
-            {},
-            "GET"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/user/get-by-id`, {}, "GET");
     }
 
     static getUserById(id: string) {
-        return AjaxService.request(
-            `${API_URL}/api/admin/user/${id}`,
-            {},
-            "GET"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/user/${id}`, {}, "GET");
     }
 }
 export default UserService;

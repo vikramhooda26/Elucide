@@ -14,18 +14,13 @@ export const HomePageNavbar: React.FC = (): JSX.Element => {
                     className="flex h-8 w-full cursor-pointer items-center max-sm:justify-center"
                     onClick={() => navigate(NAVIGATION_ROUTES.HOME)}
                 >
-                    <img
-                        src={Logo}
-                        className="h-full object-contain object-center"
-                    />
+                    <img src={Logo} className="h-full object-contain object-center" />
                 </div>
 
                 <div className="ml-auto flex items-center space-x-4">
                     <ButtonBackgroundShine
                         onClick={() =>
-                            isAuthenticated
-                                ? navigate(NAVIGATION_ROUTES.DASHBOARD)
-                                : navigate(NAVIGATION_ROUTES.LOGIN)
+                            isAuthenticated ? navigate(NAVIGATION_ROUTES.DASHBOARD) : navigate(NAVIGATION_ROUTES.LOGIN)
                         }
                         className="max-sm:hidden"
                     >

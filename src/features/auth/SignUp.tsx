@@ -105,30 +105,14 @@ function SignUpPage() {
             }
         } catch (error) {
             printLogs("Error fetching user details for edit", error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
-                if (
-                    unknownError.response?.status ===
-                    HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                if (unknownError.response?.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This user does not exist");
-                } else if (
-                    unknownError.response?.status ===
-                    HTTP_STATUS_CODES.BAD_REQUEST
-                ) {
-                    toast.error(
-                        "Invalid request. Contact developer for support"
-                    );
-                } else if (
-                    unknownError.response?.status === HTTP_STATUS_CODES.CONFLICT
-                ) {
-                    toast.error(
-                        "This username already exist. Please use a different username"
-                    );
+                } else if (unknownError.response?.status === HTTP_STATUS_CODES.BAD_REQUEST) {
+                    toast.error("Invalid request. Contact developer for support");
+                } else if (unknownError.response?.status === HTTP_STATUS_CODES.CONFLICT) {
+                    toast.error("This username already exist. Please use a different username");
                 } else {
                     toast.error("Unknown error occurred. Try again later");
                 }
@@ -145,8 +129,7 @@ function SignUpPage() {
     }, [id]);
 
     const [isPasswordVisible, setisPasswordVisible] = useState<boolean>(false);
-    const [isConfirmPasswordVisible, setisConfirmPasswordVisible] =
-        useState<boolean>(false);
+    const [isConfirmPasswordVisible, setisConfirmPasswordVisible] = useState<boolean>(false);
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -186,11 +169,7 @@ function SignUpPage() {
                 });
             }
         } catch (error: any) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.CONFLICT) {
                 toast.error("Username already exists!");
             } else {
@@ -233,12 +212,7 @@ function SignUpPage() {
                             >
                                 Discard
                             </Button>
-                            <Button
-                                type="submit"
-                                size="sm"
-                                className="gap-1"
-                                disabled={isSubmitting}
-                            >
+                            <Button type="submit" size="sm" className="gap-1" disabled={isSubmitting}>
                                 <span>{id ? "Update" : "Save"} User</span>
                                 <Loader visible={isSubmitting} />
                             </Button>
@@ -258,10 +232,7 @@ function SignUpPage() {
                                                     name="firstName"
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="First Name">
-                                                            <Input
-                                                                {...field}
-                                                                placeholder="First name"
-                                                            />
+                                                            <Input {...field} placeholder="First name" />
                                                         </FormItemWrapper>
                                                     )}
                                                 />
@@ -272,10 +243,7 @@ function SignUpPage() {
                                                     name="lastName"
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Last Name">
-                                                            <Input
-                                                                {...field}
-                                                                placeholder="Last name"
-                                                            />
+                                                            <Input {...field} placeholder="Last name" />
                                                         </FormItemWrapper>
                                                     )}
                                                 />
@@ -303,11 +271,7 @@ function SignUpPage() {
                                                     name="email"
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Email">
-                                                            <Input
-                                                                {...field}
-                                                                placeholder="Email"
-                                                                type="email"
-                                                            />
+                                                            <Input {...field} placeholder="Email" type="email" />
                                                         </FormItemWrapper>
                                                     )}
                                                 />
@@ -322,9 +286,7 @@ function SignUpPage() {
                                                         <SelectBox
                                                             options={roles}
                                                             value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
+                                                            onChange={field.onChange}
                                                             placeholder="Select a role"
                                                             inputPlaceholder="Search for a role..."
                                                             emptyPlaceholder="No role found"
@@ -344,36 +306,18 @@ function SignUpPage() {
                                                                 <Input
                                                                     {...field}
                                                                     placeholder="••••••••"
-                                                                    type={
-                                                                        isPasswordVisible
-                                                                            ? "text"
-                                                                            : "password"
-                                                                    }
+                                                                    type={isPasswordVisible ? "text" : "password"}
                                                                     autoComplete="new-password"
                                                                 />
                                                                 {isPasswordVisible ? (
                                                                     <EyeOff
                                                                         className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
-                                                                        onClick={() =>
-                                                                            setisPasswordVisible(
-                                                                                (
-                                                                                    p
-                                                                                ) =>
-                                                                                    !p
-                                                                            )
-                                                                        }
+                                                                        onClick={() => setisPasswordVisible((p) => !p)}
                                                                     />
                                                                 ) : (
                                                                     <Eye
                                                                         className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
-                                                                        onClick={() =>
-                                                                            setisPasswordVisible(
-                                                                                (
-                                                                                    p
-                                                                                ) =>
-                                                                                    !p
-                                                                            )
-                                                                        }
+                                                                        onClick={() => setisPasswordVisible((p) => !p)}
                                                                     />
                                                                 )}
                                                             </div>
@@ -392,33 +336,21 @@ function SignUpPage() {
                                                                     {...field}
                                                                     placeholder="••••••••"
                                                                     type={
-                                                                        isConfirmPasswordVisible
-                                                                            ? "text"
-                                                                            : "password"
+                                                                        isConfirmPasswordVisible ? "text" : "password"
                                                                     }
                                                                 />
                                                                 {isConfirmPasswordVisible ? (
                                                                     <EyeOff
                                                                         className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
                                                                         onClick={() =>
-                                                                            setisConfirmPasswordVisible(
-                                                                                (
-                                                                                    p
-                                                                                ) =>
-                                                                                    !p
-                                                                            )
+                                                                            setisConfirmPasswordVisible((p) => !p)
                                                                         }
                                                                     />
                                                                 ) : (
                                                                     <Eye
                                                                         className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
                                                                         onClick={() =>
-                                                                            setisConfirmPasswordVisible(
-                                                                                (
-                                                                                    p
-                                                                                ) =>
-                                                                                    !p
-                                                                            )
+                                                                            setisConfirmPasswordVisible((p) => !p)
                                                                         }
                                                                     />
                                                                 )}
@@ -435,12 +367,7 @@ function SignUpPage() {
                     )}
 
                     <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
-                        <Button
-                            type="submit"
-                            size="sm"
-                            className="w-full gap-1 py-5"
-                            disabled={isSubmitting}
-                        >
+                        <Button type="submit" size="sm" className="w-full gap-1 py-5" disabled={isSubmitting}>
                             <span>{id ? "Update" : "Save"} User</span>
                             <Loader visible={isSubmitting} />
                         </Button>

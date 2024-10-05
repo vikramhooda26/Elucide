@@ -8,13 +8,7 @@ import { NAVIGATION_ROUTES } from "../../lib/constants";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import FilterPage from "./FilterPage";
 
-export const Hero = ({
-    words,
-    approachRef
-}: {
-    words: string[];
-    approachRef: React.RefObject<HTMLDivElement>;
-}) => {
+export const Hero = ({ words, approachRef }: { words: string[]; approachRef: React.RefObject<HTMLDivElement> }) => {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -37,26 +31,18 @@ export const Hero = ({
                 Hub of Information on Hundreds of <FlipWords words={words} />
             </h2>
             <p className="my-6 text-start text-white sm:max-w-md sm:text-center md:max-w-2xl md:text-2xl">
-                An end-to-end sports sponsorship service centered around an
-                AI-enhanced matchmaking platform, designed to discover and
-                engage with the ideal sports teams, leagues, athletes, and
-                events.
+                An end-to-end sports sponsorship service centered around an AI-enhanced matchmaking platform, designed
+                to discover and engage with the ideal sports teams, leagues, athletes, and events.
             </p>
             <div className="flex w-full items-start justify-center gap-5 max-sm:flex-col sm:items-center">
                 <GradientButton
                     onClick={() =>
-                        isAuthenticated
-                            ? navigate(NAVIGATION_ROUTES.DASHBOARD)
-                            : navigate(NAVIGATION_ROUTES.LOGIN)
+                        isAuthenticated ? navigate(NAVIGATION_ROUTES.DASHBOARD) : navigate(NAVIGATION_ROUTES.LOGIN)
                     }
                 >
                     {isAuthenticated ? "Dashboard" : "Login"}
                 </GradientButton>
-                <GradientButton
-                    className="group"
-                    containerClassName="max-sm:hidden"
-                    onClick={handleScrollToApproach}
-                >
+                <GradientButton className="group" containerClassName="max-sm:hidden" onClick={handleScrollToApproach}>
                     See more{" "}
                     <ChevronRight className="ml-1 h-4 w-4 text-white duration-200 ease-in-out group-hover:translate-x-1" />
                 </GradientButton>

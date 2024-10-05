@@ -45,14 +45,8 @@ function CountryForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This nationality does not exists");
                     navigate(-1);
                 } else {
@@ -76,17 +70,13 @@ function CountryForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editNationality(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editNationality(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Country updated successfully");
                 }
                 return;
             }
-            const response =
-                await MetadataService.createNationality(requestBody);
+            const response = await MetadataService.createNationality(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Country created successfully");
                 form.reset({
@@ -95,11 +85,7 @@ function CountryForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }

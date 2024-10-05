@@ -1,8 +1,4 @@
-import {
-    ColumnFiltersState,
-    SortingState,
-    VisibilityState
-} from "@tanstack/react-table";
+import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -26,9 +22,7 @@ function BrandList() {
     const navigator = useNavigator();
     const [brandList, setBrandList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -36,9 +30,8 @@ function BrandList() {
     const navigate = useNavigate();
 
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-    const pageKey: TPageKey = 'brandList';
+    const pageKey: TPageKey = "brandList";
     const filterValues = useRecoilValue(filterState);
-
 
     const userRole = useUser()?.role;
     if (!userRole) {
@@ -58,11 +51,7 @@ function BrandList() {
                 setBrandList(brands);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -73,7 +62,7 @@ function BrandList() {
 
     useEffect(() => {
         if (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length > 0) {
-            handleApplyFilters()
+            handleApplyFilters();
         } else {
             fetchBrands();
         }
@@ -95,22 +84,14 @@ function BrandList() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const brandList = response.data;
                 brandList.forEach((brand: brand, i: number) => {
-                    brandList[i].createdBy =
-                        brand?.createdBy?.email || "N/A";
-                    brandList[i].modifiedBy =
-                        brand?.modifiedBy?.email || "N/A";
+                    brandList[i].createdBy = brand?.createdBy?.email || "N/A";
+                    brandList[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
                 });
                 setBrandList(brandList);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-            if (
-                unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
-            ) {
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("An unknown error occurred");
             } else {
                 setBrandList([]);
@@ -122,7 +103,6 @@ function BrandList() {
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
-
             {/* <div className="mt-8">
                 <h2 className="text-2xl font-semibold mb-4">Applied Filters:</h2>
                 <ul className="list-disc pl-5">
@@ -136,12 +116,8 @@ function BrandList() {
 
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">
-                        Brand List
-                    </h2>
-                    <p className="text-muted-foreground">
-                        Here&apos;s a list of brands.
-                    </p>
+                    <h2 className="text-2xl font-bold tracking-tight">Brand List</h2>
+                    <p className="text-muted-foreground">Here&apos;s a list of brands.</p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <FilterModal
@@ -153,19 +129,14 @@ function BrandList() {
                         pageKey={pageKey}
                     />
                     <ConditionalButton
-                        onClick={() =>
-                            navigator(NAVIGATION_ROUTES.CREATE_BRAND)
-                        }
+                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_BRAND)}
                         accessLevel="all_staff"
                     >
                         Create Brand
                     </ConditionalButton>
                 </div>
             </div>
-            <BrandTable
-                brandList={brandList}
-                setBrandList={setBrandList}
-            />
+            <BrandTable brandList={brandList} setBrandList={setBrandList} />
         </div>
     );
 }

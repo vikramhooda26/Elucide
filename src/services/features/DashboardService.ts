@@ -3,51 +3,27 @@ import AjaxService from "../AjaxService";
 
 class DashboardService {
     static master() {
-        return AjaxService.request(
-            API_URL + "/api/admin/dashboard/master",
-            {},
-            "GET"
-        );
+        return AjaxService.request(API_URL + "/api/admin/dashboard/master", {}, "GET");
     }
 
     static brand() {
-        return AjaxService.request(
-            API_URL + "/api/admin/dashboard/brand",
-            {},
-            "GET"
-        );
+        return AjaxService.request(API_URL + "/api/admin/dashboard/brand", {}, "GET");
     }
 
     static league() {
-        return AjaxService.request(
-            API_URL + "/api/admin/dashboard/league",
-            {},
-            "GET"
-        );
+        return AjaxService.request(API_URL + "/api/admin/dashboard/league", {}, "GET");
     }
 
     static team() {
-        return AjaxService.request(
-            API_URL + "/api/admin/dashboard/team",
-            {},
-            "GET"
-        );
+        return AjaxService.request(API_URL + "/api/admin/dashboard/team", {}, "GET");
     }
 
     static athlete() {
-        return AjaxService.request(
-            API_URL + "/api/admin/dashboard/athlete",
-            {},
-            "GET"
-        );
+        return AjaxService.request(API_URL + "/api/admin/dashboard/athlete", {}, "GET");
     }
 
     static getFilteredStakes(params: any) {
-        return AjaxService.request(
-            API_URL + "/api/admin/filter/multiple",
-            params,
-            "POST"
-        );
+        return AjaxService.request(API_URL + "/api/admin/filter/multiple", params, "POST");
     }
 }
 

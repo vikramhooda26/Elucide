@@ -65,28 +65,17 @@ export const getColumns = ({
         // },
         {
             accessorKey: nameSearchQueryKey,
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={name} />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title={name} />,
             cell: ({ row }) => {
                 const id = (row.original as { id: string }).id;
                 if (id && viewRoute && viewRoute?.length > 0) {
                     return (
-                        <Link
-                            to={`${viewRoute}/${id}`}
-                            className="cursor-pointer hover:text-blue-600 hover:underline"
-                        >
-                            <div className="w-[120px]">
-                                {row.getValue(nameSearchQueryKey)}
-                            </div>
+                        <Link to={`${viewRoute}/${id}`} className="cursor-pointer hover:text-blue-600 hover:underline">
+                            <div className="w-[120px]">{row.getValue(nameSearchQueryKey)}</div>
                         </Link>
                     );
                 } else {
-                    return (
-                        <div className="w-[120px]">
-                            {row.getValue(nameSearchQueryKey)}
-                        </div>
-                    );
+                    return <div className="w-[120px]">{row.getValue(nameSearchQueryKey)}</div>;
                 }
             },
             enableSorting: false,
@@ -94,28 +83,17 @@ export const getColumns = ({
         },
         {
             accessorKey: brandSearchQueryKey,
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={brandTitle} />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title={brandTitle} />,
             cell: ({ row }) => {
                 const id = (row.original as { id: string }).id;
                 if (id && viewRoute && viewRoute?.length > 0) {
                     return (
-                        <Link
-                            to={`${viewRoute}/${id}`}
-                            className="cursor-pointer hover:text-blue-600 hover:underline"
-                        >
-                            <div className="w-[120px]">
-                                {row.getValue(brandSearchQueryKey)}
-                            </div>
+                        <Link to={`${viewRoute}/${id}`} className="cursor-pointer hover:text-blue-600 hover:underline">
+                            <div className="w-[120px]">{row.getValue(brandSearchQueryKey)}</div>
                         </Link>
                     );
                 } else {
-                    return (
-                        <div className="w-[120px]">
-                            {row.getValue(brandSearchQueryKey)}
-                        </div>
-                    );
+                    return <div className="w-[120px]">{row.getValue(brandSearchQueryKey)}</div>;
                 }
             },
             enableSorting: false,
@@ -123,28 +101,17 @@ export const getColumns = ({
         },
         {
             accessorKey: partnerSearchQueryKey,
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={partnerTitle} />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title={partnerTitle} />,
             cell: ({ row }) => {
                 const id = (row.original as { id: string }).id;
                 if (id && viewRoute && viewRoute?.length > 0) {
                     return (
-                        <Link
-                            to={`${viewRoute}/${id}`}
-                            className="cursor-pointer hover:text-blue-600 hover:underline"
-                        >
-                            <div className="w-[120px]">
-                                {row.getValue(partnerSearchQueryKey)}
-                            </div>
+                        <Link to={`${viewRoute}/${id}`} className="cursor-pointer hover:text-blue-600 hover:underline">
+                            <div className="w-[120px]">{row.getValue(partnerSearchQueryKey)}</div>
                         </Link>
                     );
                 } else {
-                    return (
-                        <div className="w-[120px]">
-                            {row.getValue(partnerSearchQueryKey)}
-                        </div>
-                    );
+                    return <div className="w-[120px]">{row.getValue(partnerSearchQueryKey)}</div>;
                 }
             },
             enableSorting: false,
@@ -152,18 +119,13 @@ export const getColumns = ({
         },
         {
             accessorKey: "createdDate",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Created At" />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
             cell: ({ row }) => {
                 return (
                     <div className="flex space-x-2">
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("createdDate")
-                                ? format(
-                                      row.getValue("createdDate"),
-                                      "dd-MM-yyyy, hh:mm aaaaaa"
-                                  )
+                                ? format(row.getValue("createdDate"), "dd-MM-yyyy, hh:mm aaaaaa")
                                 : ""}
                         </span>
                     </div>
@@ -172,29 +134,20 @@ export const getColumns = ({
         },
         {
             accessorKey: "createdBy",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Created By" />
-            ),
-            cell: ({ row }) => (
-                <div className="w-[80px]">{row.getValue("createdBy")}</div>
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Created By" />,
+            cell: ({ row }) => <div className="w-[80px]">{row.getValue("createdBy")}</div>,
             enableSorting: true,
             enableHiding: true
         },
         {
             accessorKey: "modifiedDate",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Modified At" />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Modified At" />,
             cell: ({ row }) => {
                 return (
                     <div className="flex space-x-2">
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("modifiedDate")
-                                ? format(
-                                      row.getValue("modifiedDate"),
-                                      "dd-MM-yyyy, hh:mm aaaaaa"
-                                  )
+                                ? format(row.getValue("modifiedDate"), "dd-MM-yyyy, hh:mm aaaaaa")
                                 : ""}
                         </span>
                     </div>
@@ -203,12 +156,8 @@ export const getColumns = ({
         },
         {
             accessorKey: "modifiedBy",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Modified By" />
-            ),
-            cell: ({ row }) => (
-                <div className="w-[80px]">{row.getValue("modifiedBy")}</div>
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Modified By" />,
+            cell: ({ row }) => <div className="w-[80px]">{row.getValue("modifiedBy")}</div>,
             enableSorting: false,
             enableHiding: false
         }
@@ -216,17 +165,9 @@ export const getColumns = ({
 
     column.push({
         id: "actions",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Actions" />
-        ),
+        header: ({ column }) => <DataTableColumnHeader column={column} title="Actions" />,
         cell: ({ row }) => (
-            <DataTableRowActions
-                row={row}
-                onDelete={onDelete}
-                onEdit={onEdit}
-                schema={schema}
-                canEdit={canEdit}
-            />
+            <DataTableRowActions row={row} onDelete={onDelete} onEdit={onEdit} schema={schema} canEdit={canEdit} />
         )
     });
 

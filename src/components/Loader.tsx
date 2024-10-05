@@ -8,10 +8,7 @@ const Loader = ({ visible }: { visible: boolean }) => {
             <div className="sonner-loading-wrapper" data-visible={visible}>
                 <div className="sonner-spinner">
                     {bars.map((_, i) => (
-                        <div
-                            className={"sonner-loading-bar"}
-                            key={`spinner-bar-${i}`}
-                        />
+                        <div className={"sonner-loading-bar"} key={`spinner-bar-${i}`} />
                     ))}
                 </div>
             </div>

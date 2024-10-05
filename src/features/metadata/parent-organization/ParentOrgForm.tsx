@@ -13,10 +13,7 @@ import MetadataService from "../../../services/features/MetadataService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
-import {
-    parentOrgFormSchema,
-    TParentOrgFormSchema
-} from "./constants/metadata";
+import { parentOrgFormSchema, TParentOrgFormSchema } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function ParentOrgForm() {
@@ -48,14 +45,8 @@ function ParentOrgForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This parent organization does not exists");
                     navigate(-1);
                 } else {
@@ -79,10 +70,7 @@ function ParentOrgForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editParentOrg(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editParentOrg(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Parent Organization updated successfully");
                 }
@@ -97,11 +85,7 @@ function ParentOrgForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }

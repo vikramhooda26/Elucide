@@ -41,16 +41,10 @@ function BrandView() {
                 teamObj.modifiedBy = teamObj?.modifiedBy?.firstName || "";
                 setBrand(teamObj);
             } else {
-                toast.error(
-                    "Looks like our servers are down. Please try again later!"
-                );
+                toast.error("Looks like our servers are down. Please try again later!");
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("This brand does not exists");
                 navigate(-1);
@@ -82,14 +76,7 @@ function BrandView() {
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
                         {userRole === "SUPER_ADMIN" ? (
-                            <Button
-                                size="sm"
-                                onClick={() =>
-                                    navigate(
-                                        `${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`
-                                    )
-                                }
-                            >
+                            <Button size="sm" onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`)}>
                                 <Pencil className="h-4 w-4" />{" "}
                             </Button>
                         ) : null}
@@ -107,11 +94,7 @@ function BrandView() {
 
                                 <MarketingOverviewCard data={brand} />
 
-                                <LinksCard
-                                    data={brand}
-                                    metadatas={socials}
-                                    title="Digital Presence"
-                                />
+                                <LinksCard data={brand} metadatas={socials} title="Digital Presence" />
                             </div>
                             <AudienceProfile data={brand} title={"Brand"} />
                         </div>

@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-export const createSummarySchema = (fieldNames: {
-    brandName: string;
-    partnerName: string;
-}) =>
+export const createSummarySchema = (fieldNames: { brandName: string; partnerName: string }) =>
     z.object({
         id: z.string(),
         [fieldNames.brandName]: z.string(),

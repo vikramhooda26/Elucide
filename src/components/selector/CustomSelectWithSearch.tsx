@@ -2,13 +2,7 @@ import { SelectViewport } from "@radix-ui/react-select";
 import React, { useEffect, useState } from "react";
 import { selectorContentType } from "../../types/components/SelectorTypes";
 import { Label } from "../ui/label";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 const CustomSelectWithSearch: React.FC<{
     selectorContent: selectorContentType;
@@ -49,9 +43,7 @@ const CustomSelectWithSearch: React.FC<{
         }
     };
 
-    const filteredItems = items.filter((item) =>
-        item.label.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredItems = items.filter((item) => item.label.toLowerCase().includes(searchTerm.toLowerCase()));
 
     const clearSelection = () => {
         setSelectedValues([]);
@@ -64,13 +56,8 @@ const CustomSelectWithSearch: React.FC<{
         <div className="grid gap-3">
             <Label htmlFor={title.toLowerCase()}>{title}</Label>
             <Select>
-                <SelectTrigger
-                    id={title.toLowerCase()}
-                    aria-label="Select status"
-                >
-                    <SelectValue
-                        placeholder={`Select ${title.toLowerCase()}`}
-                    />
+                <SelectTrigger id={title.toLowerCase()} aria-label="Select status">
+                    <SelectValue placeholder={`Select ${title.toLowerCase()}`} />
                     {isClearable && selectedValues.length > 0 && (
                         <button onClick={clearSelection} className="ml-2">
                             Clear
@@ -91,11 +78,7 @@ const CustomSelectWithSearch: React.FC<{
                     )}
                     <SelectViewport className="p-1">
                         {filteredItems.map((item, i) => (
-                            <SelectItem
-                                key={i}
-                                value={item.value}
-                                onClick={() => handleChange(item.value)}
-                            >
+                            <SelectItem key={i} value={item.value} onClick={() => handleChange(item.value)}>
                                 {item.label}
                             </SelectItem>
                         ))}

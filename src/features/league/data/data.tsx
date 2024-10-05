@@ -5,10 +5,7 @@ import MetadataService from "../../../services/features/MetadataService";
 
 const deleteCall = async (id: string) => {
     try {
-        const response = await MetadataService.deleteData(
-            id,
-            "/api/admin/league/delete/"
-        );
+        const response = await MetadataService.deleteData(id, "/api/admin/league/delete/");
 
         if (response.status === HTTP_STATUS_CODES.OK) {
             toast.success("Deleted successfully");

@@ -13,10 +13,7 @@ import MetadataService from "../../../services/features/MetadataService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
-import {
-    broadcastPartnerFormSchema,
-    TBroadcastPartnerFormSchema
-} from "./constants/metadata";
+import { broadcastPartnerFormSchema, TBroadcastPartnerFormSchema } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function BroadcastPartnerForm() {
@@ -41,22 +38,15 @@ function BroadcastPartnerForm() {
         const fetchBroadcastPartnerDetails = async (id: string) => {
             try {
                 setIsLoading(true);
-                const response =
-                    await MetadataService.getOneBroadcastPartner(id);
+                const response = await MetadataService.getOneBroadcastPartner(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
                         broadcastPartnerName: response.data.broadcastPartnerName
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This broadcast partner does not exists");
                     navigate(-1);
                 } else {
@@ -72,9 +62,7 @@ function BroadcastPartnerForm() {
         }
     }, [id]);
 
-    const onSubmit = async (
-        broadcastPartnerFormValues: TBroadcastPartnerFormSchema
-    ) => {
+    const onSubmit = async (broadcastPartnerFormValues: TBroadcastPartnerFormSchema) => {
         try {
             setIsSubmitting(true);
             const requestBody = {
@@ -82,17 +70,13 @@ function BroadcastPartnerForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editBroadcastPartner(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editBroadcastPartner(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Broadcast Partner updated successfully");
                 }
                 return;
             }
-            const response =
-                await MetadataService.createBroadcastPartner(requestBody);
+            const response = await MetadataService.createBroadcastPartner(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Broadcast Partner created successfully");
                 form.reset({
@@ -101,11 +85,7 @@ function BroadcastPartnerForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -138,10 +118,7 @@ function BroadcastPartnerForm() {
                     name="broadcastPartnerName"
                     render={({ field }) => (
                         <FormItemWrapper label="Broadcast Partner name">
-                            <Input
-                                {...field}
-                                placeholder="Broadcast Partner name"
-                            />
+                            <Input {...field} placeholder="Broadcast Partner name" />
                         </FormItemWrapper>
                     )}
                 />

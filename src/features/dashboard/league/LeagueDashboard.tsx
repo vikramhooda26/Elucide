@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle
-} from "../../../components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import { useUser } from "../../../hooks/useUser";
 import { HTTP_STATUS_CODES } from "../../../lib/constants";
 import ErrorService from "../../../services/error/ErrorService";
@@ -24,15 +19,16 @@ import { ChartConfig } from "../../../components/ui/chart";
 type TDashBoardData = {
     leaguesCount: number;
     numberOfLeaguesPerSport: {
-        chartData: TchartData[], chartConfig: ChartConfig
+        chartData: TchartData[];
+        chartConfig: ChartConfig;
     };
     recentlyAddedLeagues: Array<any>;
     recentlyModifiedLeagues: Array<any>;
-}
+};
 
 type Props = {
     setCount?: (num: number) => void;
-}
+};
 
 function LeagueDashboard({ setCount }: Props) {
     const [dashboardData, setDashboardData] = useState<TDashBoardData>();
@@ -51,7 +47,6 @@ function LeagueDashboard({ setCount }: Props) {
             const resp = await DashboardService.league();
             if (resp?.status === HTTP_STATUS_CODES.OK) {
                 const data = resp?.data;
-
 
                 const recentCreated = data.recentlyAddedLeagues?.slice(0, 6);
 
@@ -72,29 +67,29 @@ function LeagueDashboard({ setCount }: Props) {
                 data.recentlyModifiedLeagues = recentModified;
 
                 const chartData: TchartData[] = [];
-                const chartConfig: any = { total: { label: "Total Leagues", }, };
+                const chartConfig: any = { total: { label: "Total Leagues" } };
 
                 data?.numberOfLeaguesPerSport?.forEach((d: any, i: number) => {
                     if (d?._count.dashapp_leagueinfo > 0) {
-                        chartData?.push({ name: d?.name || '', total: d?._count.dashapp_leagueinfo || 1, fill: getRandomColor(i) })
+                        chartData?.push({
+                            name: d?.name || "",
+                            total: d?._count.dashapp_leagueinfo || 1,
+                            fill: getRandomColor(i)
+                        });
                         chartConfig[d?.name] = {
                             label: d?.name,
-                            color: getRandomColor(i),
+                            color: getRandomColor(i)
                         };
                     }
                 });
 
-                data.numberOfLeaguesPerSport = { chartData, chartConfig }
+                data.numberOfLeaguesPerSport = { chartData, chartConfig };
 
                 setCount?.(data?.leaguesCount || 0);
                 setDashboardData(data);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -116,9 +111,12 @@ function LeagueDashboard({ setCount }: Props) {
                     </CardHeader>
 
                     <CardContent className="pl-2">
-                        {dashboardData?.numberOfLeaguesPerSport ?
-                            <PieChartComponent chart={dashboardData?.numberOfLeaguesPerSport} displayName={'Leagues-Sports'} />
-                            : null}
+                        {dashboardData?.numberOfLeaguesPerSport ? (
+                            <PieChartComponent
+                                chart={dashboardData?.numberOfLeaguesPerSport}
+                                displayName={"Leagues-Sports"}
+                            />
+                        ) : null}
                     </CardContent>
                 </Card>
                 {/* </div>

@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle
-} from "../../../components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import { useUser } from "../../../hooks/useUser";
 import { HTTP_STATUS_CODES } from "../../../lib/constants";
 import ErrorService from "../../../services/error/ErrorService";
@@ -21,19 +16,19 @@ import { PieChartComponent, TchartData } from "../components/PieChart";
 import { getRandomColor } from "../../utils/helpers";
 import { ChartConfig } from "../../../components/ui/chart";
 
-
 type TDashBoardData = {
     athletesCount: number;
     numberOfAthletesPerSport: {
-        chartData: TchartData[], chartConfig: ChartConfig
+        chartData: TchartData[];
+        chartConfig: ChartConfig;
     };
     recentlyAddedAthletes: Array<any>;
     recentlyModifiedAthletes: Array<any>;
-}
+};
 
 type Props = {
     setCount?: (num: number) => void;
-}
+};
 
 function AthleteDashboard({ setCount }: Props) {
     const [dashboardData, setDashboardData] = useState<TDashBoardData>();
@@ -72,29 +67,29 @@ function AthleteDashboard({ setCount }: Props) {
                 data.recentlyModifiedAthletes = rmAthletes;
 
                 const chartData: TchartData[] = [];
-                const chartConfig: any = { total: { label: "Total Athletes", }, };
+                const chartConfig: any = { total: { label: "Total Athletes" } };
 
                 data?.numberOfAthletesPerSport?.forEach((d: any, i: number) => {
                     if (d?._count.dashapp_athlete > 0) {
-                        chartData?.push({ name: d?.name || '', total: d?._count.dashapp_athlete || 1, fill: getRandomColor(i) })
+                        chartData?.push({
+                            name: d?.name || "",
+                            total: d?._count.dashapp_athlete || 1,
+                            fill: getRandomColor(i)
+                        });
                         chartConfig[d?.name] = {
                             label: d?.name,
-                            color: getRandomColor(i),
+                            color: getRandomColor(i)
                         };
                     }
-                })
+                });
 
-                data.numberOfAthletesPerSport = { chartData, chartConfig }
+                data.numberOfAthletesPerSport = { chartData, chartConfig };
 
                 setCount?.(data?.athletesCount || 0);
                 setDashboardData(data);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -116,9 +111,12 @@ function AthleteDashboard({ setCount }: Props) {
                     </CardHeader>
                     <CardContent className="pl-2">
                         {/* <Overview data={dashboardData?.numberOfAthletesPerSport} /> */}
-                        {dashboardData?.numberOfAthletesPerSport ?
-                            <PieChartComponent chart={dashboardData?.numberOfAthletesPerSport} displayName={'Athletes-Sports'} />
-                            : null}
+                        {dashboardData?.numberOfAthletesPerSport ? (
+                            <PieChartComponent
+                                chart={dashboardData?.numberOfAthletesPerSport}
+                                displayName={"Athletes-Sports"}
+                            />
+                        ) : null}
                     </CardContent>
                 </Card>
                 {/* </div>

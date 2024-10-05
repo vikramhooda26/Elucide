@@ -10,10 +10,7 @@ import { CardWrapper } from "../../components/card/card-wrapper";
 import AssociationCard from "../../components/core/form/association-card";
 import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import {
-    TDisplayFields,
-    VerticalFieldsCard
-} from "../../components/core/form/vertical-fields-card";
+import { TDisplayFields, VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { DatePicker } from "../../components/date/DatePicker";
 import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
@@ -40,23 +37,15 @@ import { sportFormSchema } from "../metadata/sport/constants/metadata";
 import { stateFormSchema } from "../metadata/state/constants/metadata";
 import { convertCroreToRupees, convertRupeesToCrore } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
-import {
-    ATHLETE_METADATA,
-    athleteFormSchema,
-    TAthleteFormSchema,
-    TEditAthleteFormSchema
-} from "./constants/metadata";
+import { ATHLETE_METADATA, athleteFormSchema, TAthleteFormSchema, TEditAthleteFormSchema } from "./constants/metadata";
 
 function AthleteForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
-    const [isFetchingMetadata, setIsFetchingMetadata] =
-        useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const location = useLocation();
-    const [athleteData, setAthleteData] = useState<TEditAthleteFormSchema>(
-        location.state || undefined
-    );
+    const [athleteData, setAthleteData] = useState<TEditAthleteFormSchema>(location.state || undefined);
     let associationId: string | undefined;
     const user = useRecoilValue(userAtom);
 
@@ -75,18 +64,10 @@ function AthleteForm() {
     const fetchMetadata = async () => {
         try {
             setIsFetchingMetadata(true);
-            await getMetadata(
-                metadataStore,
-                setMetadataStore,
-                ATHLETE_METADATA
-            );
+            await getMetadata(metadataStore, setMetadataStore, ATHLETE_METADATA);
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("An unknown error occurred");
                 navigate(NAVIGATION_ROUTES.DASHBOARD);
@@ -110,37 +91,20 @@ function AthleteForm() {
             website: athleteData?.website || undefined,
             youtube: athleteData?.youtube || undefined,
             strategyOverview: athleteData.strategyOverview || undefined,
-            primaryMarketIds:
-                athleteData.primaryKeyMarket?.map(
-                    (keyMarket) => keyMarket.id
-                ) || undefined,
-            secondaryMarketIds:
-                athleteData.secondaryKeyMarket?.map(
-                    (keyMarket) => keyMarket.id
-                ) || undefined,
-            tertiaryIds:
-                athleteData.tertiary?.map((tertiary) => tertiary.id) ||
-                undefined,
+            primaryMarketIds: athleteData.primaryKeyMarket?.map((keyMarket) => keyMarket.id) || undefined,
+            secondaryMarketIds: athleteData.secondaryKeyMarket?.map((keyMarket) => keyMarket.id) || undefined,
+            tertiaryIds: athleteData.tertiary?.map((tertiary) => tertiary.id) || undefined,
             primarySocialMediaPlatformIds:
-                athleteData.primaryMarketingPlatform?.map(
-                    (platform) => platform.id
-                ) || undefined,
+                athleteData.primaryMarketingPlatform?.map((platform) => platform.id) || undefined,
             secondarySocialMediaPlatformIds:
-                athleteData.secondaryMarketingPlatform?.map(
-                    (platform) => platform.id
-                ) || undefined,
+                athleteData.secondaryMarketingPlatform?.map((platform) => platform.id) || undefined,
             tierIds: athleteData.tiers?.map((tier) => tier.id) || undefined,
             subPersonalityTraitIds:
                 athleteData.mainPersonalityTraits
-                    ?.map((traits) =>
-                        traits.subPersonalityTraits?.map((sub) => sub.id || [])
-                    )
+                    ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
                     .flat(2) || undefined,
-            athleteAge: athleteData?.athleteAge
-                ? parseISO(athleteData?.athleteAge)
-                : undefined,
-            genderIds:
-                athleteData.gender?.map((gender) => gender.id) || undefined,
+            athleteAge: athleteData?.athleteAge ? parseISO(athleteData?.athleteAge) : undefined,
+            genderIds: athleteData.gender?.map((gender) => gender.id) || undefined,
             athleteGenderId: athleteData.athleteGender?.id || undefined,
             ageIds: athleteData.age?.map((age) => age.id) || undefined,
             nccsIds: athleteData.nccs?.map((nccs) => nccs.id) || undefined,
@@ -150,9 +114,7 @@ function AthleteForm() {
                 athleteData.association?.map((asso) => ({
                     associationId: asso.associationId || undefined,
                     associationLevelId: asso.associationLevel?.id || undefined,
-                    costOfAssociation:
-                        convertRupeesToCrore(asso?.costOfAssociation) ||
-                        undefined
+                    costOfAssociation: convertRupeesToCrore(asso?.costOfAssociation) || undefined
                 })) || undefined,
             userId: user?.id || undefined,
             contactPerson:
@@ -178,23 +140,14 @@ function AthleteForm() {
 
                 const response = await AthleteService.getOne(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
-                    printLogs(
-                        "Get athletes by id response for edit page:",
-                        response.data
-                    );
+                    printLogs("Get athletes by id response for edit page:", response.data);
                     populateForm(response.data);
                     setAthleteData(response.data);
                 }
             } catch (error) {
                 console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("An unknown error occurred");
                 }
             } finally {
@@ -315,12 +268,7 @@ function AthleteForm() {
     const socials: {
         name: Extract<
             keyof TAthleteFormSchema,
-            | "instagram"
-            | "facebook"
-            | "linkedin"
-            | "youtube"
-            | "website"
-            | "twitter"
+            "instagram" | "facebook" | "linkedin" | "youtube" | "website" | "twitter"
         >;
     }[] = [
         {
@@ -348,9 +296,7 @@ function AthleteForm() {
         const convertedCostOfAssociations: number[] = [];
 
         athleteFormValues?.association?.forEach((association, i) => {
-            const convertedCostOfAssociation = convertCroreToRupees(
-                association?.costOfAssociation
-            );
+            const convertedCostOfAssociation = convertCroreToRupees(association?.costOfAssociation);
 
             if (convertedCostOfAssociation === false) {
                 hasErrors = true;
@@ -364,9 +310,7 @@ function AthleteForm() {
                 return;
             } else {
                 if (convertedCostOfAssociation) {
-                    convertedCostOfAssociations.push(
-                        convertedCostOfAssociation
-                    );
+                    convertedCostOfAssociations.push(convertedCostOfAssociation);
                 }
             }
         });
@@ -376,26 +320,24 @@ function AthleteForm() {
         }
 
         if (athleteFormValues?.contactPerson) {
-            const isNotValid = athleteFormValues?.contactPerson?.find(
-                (d, i) => {
-                    if (d?.contactNumber) {
-                        const phoneData = getPhoneData(d?.contactNumber);
-                        if (!phoneData.isValid) {
-                            form.setError(
-                                `contactPerson.${i}.contactNumber`,
-                                {
-                                    message: "Invalid phone number"
-                                },
-                                { shouldFocus: true }
-                            );
-                            toast.error("Invalid phone number");
-                            return true;
-                        } else {
-                            return false;
-                        }
+            const isNotValid = athleteFormValues?.contactPerson?.find((d, i) => {
+                if (d?.contactNumber) {
+                    const phoneData = getPhoneData(d?.contactNumber);
+                    if (!phoneData.isValid) {
+                        form.setError(
+                            `contactPerson.${i}.contactNumber`,
+                            {
+                                message: "Invalid phone number"
+                            },
+                            { shouldFocus: true }
+                        );
+                        toast.error("Invalid phone number");
+                        return true;
+                    } else {
+                        return false;
                     }
                 }
-            );
+            });
 
             if (isNotValid) {
                 return;
@@ -436,13 +378,10 @@ function AthleteForm() {
                     ...athleteFormValues,
                     associationId: associationId,
                     athleteAge: formatedDOB,
-                    association: athleteFormValues.association?.map(
-                        (asso, index) => ({
-                            ...asso,
-                            costOfAssociation:
-                                convertedCostOfAssociations[index]
-                        })
-                    )
+                    association: athleteFormValues.association?.map((asso, index) => ({
+                        ...asso,
+                        costOfAssociation: convertedCostOfAssociations[index]
+                    }))
                 });
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
@@ -453,23 +392,17 @@ function AthleteForm() {
             const response = await AthleteService.createAthlete({
                 ...athleteFormValues,
                 athleteAge: formatedDOB,
-                association: athleteFormValues.association?.map(
-                    (asso, index) => ({
-                        ...asso,
-                        costOfAssociation: convertedCostOfAssociations[index]
-                    })
-                )
+                association: athleteFormValues.association?.map((asso, index) => ({
+                    ...asso,
+                    costOfAssociation: convertedCostOfAssociations[index]
+                }))
             });
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Athlete created successfully");
                 form.reset();
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -481,10 +414,7 @@ function AthleteForm() {
     return (
         <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="mx-auto grid flex-1 auto-rows-max gap-4"
-                >
+                <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
                     <div className="flex items-center gap-4">
                         <Button
                             variant="outline"
@@ -504,11 +434,7 @@ function AthleteForm() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={
-                                    isSubmitting ||
-                                    isFetchingMetadata ||
-                                    isFetchingDetails
-                                }
+                                disabled={isSubmitting || isFetchingMetadata || isFetchingDetails}
                                 onClick={() => navigate(-1)}
                                 type="button"
                             >
@@ -518,11 +444,7 @@ function AthleteForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={
-                                    isSubmitting ||
-                                    isFetchingMetadata ||
-                                    isFetchingDetails
-                                }
+                                disabled={isSubmitting || isFetchingMetadata || isFetchingDetails}
                             >
                                 <span>Save Athlete</span>
                                 <Loader visible={isSubmitting} />
@@ -543,10 +465,7 @@ function AthleteForm() {
                                                     name="name"
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Athlete Name">
-                                                            <Input
-                                                                {...field}
-                                                                placeholder="Athlete name"
-                                                            />
+                                                            <Input {...field} placeholder="Athlete name" />
                                                         </FormItemWrapper>
                                                     )}
                                                 />
@@ -558,10 +477,7 @@ function AthleteForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Athlete Age">
                                                             <div className="grid">
-                                                                <DatePicker
-                                                                    placeholder="Date of birth"
-                                                                    {...field}
-                                                                />
+                                                                <DatePicker placeholder="Date of birth" {...field} />
                                                             </div>
                                                         </FormItemWrapper>
                                                     )}
@@ -593,15 +509,9 @@ function AthleteForm() {
                                                     <FormItemWrapper label="Agency">
                                                         <div className="flex w-full items-center gap-3">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.agency
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.agency}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 className="w-full"
                                                                 placeholder="Select a agency"
                                                                 inputPlaceholder="Search for a agency..."
@@ -611,15 +521,9 @@ function AthleteForm() {
                                                                 title="Agency"
                                                                 description="Create a new agency to add to the dropdown"
                                                                 register="agencyName"
-                                                                schema={
-                                                                    agencyFormSchema
-                                                                }
-                                                                createFn={
-                                                                    MetadataService.createAgency
-                                                                }
-                                                                fetchMetadataFn={
-                                                                    fetchMetadata
-                                                                }
+                                                                schema={agencyFormSchema}
+                                                                createFn={MetadataService.createAgency}
+                                                                fetchMetadataFn={fetchMetadata}
                                                             >
                                                                 <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                             </InputDrawer>
@@ -635,13 +539,9 @@ function AthleteForm() {
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Athlete Gender">
                                                         <SelectBox
-                                                            options={
-                                                                metadataStore?.gender
-                                                            }
+                                                            options={metadataStore?.gender}
                                                             value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
+                                                            onChange={field.onChange}
                                                             placeholder="Select a gender"
                                                             inputPlaceholder="Search for a gender..."
                                                             emptyPlaceholder="No gender found"
@@ -663,15 +563,9 @@ function AthleteForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Primary Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.keyMarket
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.keyMarket}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a market"
                                                                 inputPlaceholder="Search for a market..."
                                                                 emptyPlaceholder="No market found"
@@ -688,15 +582,9 @@ function AthleteForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Secondary Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.keyMarket
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.keyMarket}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a market"
                                                                 inputPlaceholder="Search for a market..."
                                                                 emptyPlaceholder="No market found"
@@ -713,15 +601,9 @@ function AthleteForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Tertiary Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.state
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.state}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a state"
                                                                 inputPlaceholder="Search for a state..."
                                                                 emptyPlaceholder="No state found"
@@ -740,15 +622,9 @@ function AthleteForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Primary Marketing Platform">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.socialMedia
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.socialMedia}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a platform"
                                                                 inputPlaceholder="Search for a platform..."
                                                                 emptyPlaceholder="No platform found"
@@ -765,15 +641,9 @@ function AthleteForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Secondary Marketing Platform">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.socialMedia
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.socialMedia}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a platform"
                                                                 inputPlaceholder="Search for a platform..."
                                                                 emptyPlaceholder="No platform found"
@@ -799,18 +669,14 @@ function AthleteForm() {
                                     >
                                         {socials.map((social, index) => (
                                             <TableRow key={index}>
-                                                <TableCell className="capitalize">
-                                                    {social.name}
-                                                </TableCell>
+                                                <TableCell className="capitalize">{social.name}</TableCell>
                                                 <TableCell>
                                                     <FormField
                                                         control={form.control}
                                                         name={social.name}
                                                         render={({ field }) => (
                                                             <FormItemWrapper>
-                                                                <Input
-                                                                    {...field}
-                                                                />
+                                                                <Input {...field} />
                                                             </FormItemWrapper>
                                                         )}
                                                     />
@@ -849,11 +715,7 @@ function AthleteForm() {
                             type="submit"
                             size="sm"
                             className="w-full gap-1 py-5"
-                            disabled={
-                                isSubmitting ||
-                                isFetchingMetadata ||
-                                isFetchingDetails
-                            }
+                            disabled={isSubmitting || isFetchingMetadata || isFetchingDetails}
                         >
                             <span>Save Athlete</span>
                             <Loader visible={isSubmitting} />
@@ -862,11 +724,7 @@ function AthleteForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={
-                                isSubmitting ||
-                                isFetchingMetadata ||
-                                isFetchingDetails
-                            }
+                            disabled={isSubmitting || isFetchingMetadata || isFetchingDetails}
                             onClick={() => navigate(-1)}
                             type="button"
                         >

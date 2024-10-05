@@ -20,9 +20,7 @@ export const sportsDealSummaryFormSchema = z.object({
     partnerType: z.enum(["Athlete", "Team", "League"])
 });
 
-export type TSportsDealSummaryFormSchema = z.infer<
-    typeof sportsDealSummaryFormSchema
->;
+export type TSportsDealSummaryFormSchema = z.infer<typeof sportsDealSummaryFormSchema>;
 
 export const SPORTS_DEAL_SUMMARY_KEYS = {
     SPORTS_DEAL_SUMMARY_LEVEL: "sportsDealSummaryLevel",

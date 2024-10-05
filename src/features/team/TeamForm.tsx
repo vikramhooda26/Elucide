@@ -11,10 +11,7 @@ import ContactPersonCard from "../../components/core/form/contact-person-card";
 import { EndorsementCard } from "../../components/core/form/endorsement-card";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import { MetricsCard } from "../../components/core/form/metrics.card";
-import {
-    TDisplayFields,
-    VerticalFieldsCard
-} from "../../components/core/form/vertical-fields-card";
+import { TDisplayFields, VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
 import { InputDrawer } from "../../components/form/input-drawer";
 import { FormItemWrapper } from "../../components/form/item-wrapper";
 import Loader from "../../components/Loader";
@@ -50,17 +47,11 @@ import {
     validateMetrics
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
-import {
-    TEAM_METADATA,
-    teamFormSchema,
-    TEditTeamFormSchema,
-    TTeamFormSchema
-} from "./constants/metadata";
+import { TEAM_METADATA, teamFormSchema, TEditTeamFormSchema, TTeamFormSchema } from "./constants/metadata";
 
 export function TeamForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
-    const [isFetchingMetadata, setIsFetchingMetadata] =
-        useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
@@ -82,11 +73,7 @@ export function TeamForm() {
             await getMetadata(metadataStore, setMetadataStore, TEAM_METADATA);
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
                 navigate(NAVIGATION_ROUTES.DASHBOARD);
@@ -107,68 +94,41 @@ export function TeamForm() {
                 const response = await TeamService.getOne(id);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
-                    printLogs(
-                        "Get team by id response for edit page:",
-                        response.data
-                    );
+                    printLogs("Get team by id response for edit page:", response.data);
                     const teamData: TEditTeamFormSchema = response.data;
 
                     form.reset({
                         userId: user?.id || undefined,
                         name: teamData.name || undefined,
-                        taglineIds:
-                            teamData.taglines?.map((tagline) => tagline.id) ||
-                            undefined,
-                        strategyOverview:
-                            teamData.strategyOverview || undefined,
+                        taglineIds: teamData.taglines?.map((tagline) => tagline.id) || undefined,
+                        strategyOverview: teamData.strategyOverview || undefined,
                         yearOfInception: teamData.yearOfInception || undefined,
-                        franchiseFee:
-                            convertRupeesToCrore(teamData.franchiseFee) ||
-                            undefined,
+                        franchiseFee: convertRupeesToCrore(teamData.franchiseFee) || undefined,
                         association: teamData.association?.map((asso) => ({
                             associationId: asso.associationId,
                             associationLevelId: asso.associationLevel?.id,
-                            costOfAssociation:
-                                convertRupeesToCrore(asso?.costOfAssociation) ||
-                                undefined,
+                            costOfAssociation: convertRupeesToCrore(asso?.costOfAssociation) || undefined,
                             brandIds: asso.brand?.map((brand) => brand.id)
                         })),
                         endorsements: teamData.endorsements?.map((endorse) => ({
                             name: endorse.name,
                             active: endorse.active
                         })),
-                        activeCampaignIds:
-                            teamData.activeCampaigns?.map(
-                                (campaign) => campaign.id
-                            ) || undefined,
-                        nccsIds:
-                            teamData.nccs?.map((nccs) => nccs.id) || undefined,
+                        activeCampaignIds: teamData.activeCampaigns?.map((campaign) => campaign.id) || undefined,
+                        nccsIds: teamData.nccs?.map((nccs) => nccs.id) || undefined,
                         primaryMarketingPlatformIds:
-                            teamData.primaryMarketingPlatform?.map(
-                                (platform) => platform.id
-                            ) || undefined,
+                            teamData.primaryMarketingPlatform?.map((platform) => platform.id) || undefined,
                         secondaryMarketingPlatformIds:
-                            teamData.secondaryMarketingPlatform?.map(
-                                (platform) => platform.id
-                            ) || undefined,
-                        primaryMarketIds:
-                            teamData.primaryKeyMarket?.map(
-                                (market) => market.id
-                            ) || undefined,
-                        secondaryMarketIds:
-                            teamData.secondaryKeyMarket?.map(
-                                (market) => market.id
-                            ) || undefined,
-                        tertiaryIds:
-                            teamData.tertiary?.map((tertiary) => tertiary.id) ||
-                            undefined,
+                            teamData.secondaryMarketingPlatform?.map((platform) => platform.id) || undefined,
+                        primaryMarketIds: teamData.primaryKeyMarket?.map((market) => market.id) || undefined,
+                        secondaryMarketIds: teamData.secondaryKeyMarket?.map((market) => market.id) || undefined,
+                        tertiaryIds: teamData.tertiary?.map((tertiary) => tertiary.id) || undefined,
                         broadcastPartnerMetrics:
                             teamData.broadcastPartnerMetrics?.map((metric) => ({
                                 reach: metric.reach || undefined,
                                 viewership: metric.viewership || undefined,
                                 year: metric.year || undefined,
-                                broadcastPartnerId:
-                                    metric.broadcastPartner.id || undefined
+                                broadcastPartnerId: metric.broadcastPartner.id || undefined
                             })) || undefined,
                         ottPartnerMetrics:
                             teamData.ottPartnerMetrics?.map((metric) => ({
@@ -188,48 +148,29 @@ export function TeamForm() {
                                 contactId: details.contactId || undefined,
                                 contactName: details.contactName || undefined,
                                 contactEmail: details.contactEmail || undefined,
-                                contactLinkedin:
-                                    details.contactLinkedin || undefined,
-                                contactDesignation:
-                                    details.contactDesignation || undefined,
-                                contactNumber:
-                                    details.contactNumber || undefined
+                                contactLinkedin: details.contactLinkedin || undefined,
+                                contactDesignation: details.contactDesignation || undefined,
+                                contactNumber: details.contactNumber || undefined
                             })) || undefined,
                         sportId: teamData.sport?.id || undefined,
                         leagueId: teamData.league?.id || undefined,
-                        ownerIds:
-                            teamData.owners?.map((owner) => owner.id) ||
-                            undefined,
+                        ownerIds: teamData.owners?.map((owner) => owner.id) || undefined,
                         cityId: teamData.city?.id || undefined,
                         stateId: teamData.state?.id || undefined,
                         subPersonalityTraitIds:
                             teamData.mainPersonalityTraits
-                                ?.map((traits) =>
-                                    traits.subPersonalityTraits?.map(
-                                        (sub) => sub.id || []
-                                    )
-                                )
+                                ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
                                 .flat(2) || undefined,
                         tierIds:
-                            teamData.tiers
-                                ?.filter((tier) => tier.id !== undefined)
-                                .map((tier) => tier.id) || undefined,
+                            teamData.tiers?.filter((tier) => tier.id !== undefined).map((tier) => tier.id) || undefined,
                         ageIds: teamData.age?.map((age) => age.id) || undefined,
-                        genderIds:
-                            teamData.gender?.map((gender) => gender.id) ||
-                            undefined
+                        genderIds: teamData.gender?.map((gender) => gender.id) || undefined
                     });
                 }
             } catch (error) {
                 console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("An unknown error occurred");
                 }
             } finally {
@@ -385,15 +326,7 @@ export function TeamForm() {
     ];
 
     const socials: {
-        name: Extract<
-            keyof TTeamFormSchema,
-            | "instagram"
-            | "facebook"
-            | "linkedin"
-            | "youtube"
-            | "website"
-            | "twitter"
-        >;
+        name: Extract<keyof TTeamFormSchema, "instagram" | "facebook" | "linkedin" | "youtube" | "website" | "twitter">;
     }[] = [
         {
             name: "instagram"
@@ -416,9 +349,7 @@ export function TeamForm() {
     ];
 
     const onSubmit = async (teamFormValues: TTeamFormSchema) => {
-        const convertedFranciseFee = convertCroreToRupees(
-            teamFormValues?.franchiseFee
-        );
+        const convertedFranciseFee = convertCroreToRupees(teamFormValues?.franchiseFee);
 
         if (convertedFranciseFee === false) {
             form.setError(
@@ -435,9 +366,7 @@ export function TeamForm() {
         const convertedCostOfAssociations: number[] = [];
 
         teamFormValues?.association?.forEach((association, i) => {
-            const convertedCostOfAssociation = convertCroreToRupees(
-                association?.costOfAssociation
-            );
+            const convertedCostOfAssociation = convertCroreToRupees(association?.costOfAssociation);
 
             if (convertedCostOfAssociation === false) {
                 hasErrors = true;
@@ -451,9 +380,7 @@ export function TeamForm() {
                 return;
             } else {
                 if (convertedCostOfAssociation) {
-                    convertedCostOfAssociations.push(
-                        convertedCostOfAssociation
-                    );
+                    convertedCostOfAssociations.push(convertedCostOfAssociation);
                 }
             }
         });
@@ -521,11 +448,7 @@ export function TeamForm() {
             form.setError
         );
 
-        const validatedAssociation = validateAssociation(
-            "TEAM",
-            teamFormValues?.association,
-            form.setError
-        );
+        const validatedAssociation = validateAssociation("TEAM", teamFormValues?.association, form.setError);
 
         if (
             validatedOttPartnerMetrics === undefined ||
@@ -535,10 +458,7 @@ export function TeamForm() {
             return;
         }
 
-        const isEndorsementsValid = validateEndorsements(
-            teamFormValues.endorsements,
-            form.setError
-        );
+        const isEndorsementsValid = validateEndorsements(teamFormValues.endorsements, form.setError);
 
         if (isEndorsementsValid === null) {
             return;
@@ -574,11 +494,7 @@ export function TeamForm() {
                 form.reset();
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -590,10 +506,7 @@ export function TeamForm() {
     return (
         <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="mx-auto grid flex-1 auto-rows-max gap-4"
-                >
+                <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
                     <div className="flex items-center gap-4">
                         <Button
                             variant="outline"
@@ -613,11 +526,7 @@ export function TeamForm() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={
-                                    isSubmitting ||
-                                    isFetchingDetails ||
-                                    isFetchingMetadata
-                                }
+                                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                                 onClick={() =>
                                     navigate(NAVIGATION_ROUTES.TEAM_LIST, {
                                         replace: true
@@ -631,11 +540,7 @@ export function TeamForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={
-                                    isSubmitting ||
-                                    isFetchingDetails ||
-                                    isFetchingMetadata
-                                }
+                                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                             >
                                 <span>Save Team</span>
                                 <Loader visible={isSubmitting} />
@@ -655,10 +560,7 @@ export function TeamForm() {
                                                 name="name"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Team Name">
-                                                        <Input
-                                                            {...field}
-                                                            placeholder="Team name"
-                                                        />
+                                                        <Input {...field} placeholder="Team name" />
                                                     </FormItemWrapper>
                                                 )}
                                             />
@@ -671,15 +573,9 @@ export function TeamForm() {
                                                     <FormItemWrapper label="Taglines">
                                                         <div className="flex w-full items-center gap-3">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.tagline
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.tagline}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 className="w-full"
                                                                 placeholder="Select a tagline"
                                                                 inputPlaceholder="Search for a tagline..."
@@ -690,15 +586,9 @@ export function TeamForm() {
                                                                 title="Tagline"
                                                                 description="Create a new tagline to add to the dropdown"
                                                                 register="taglineName"
-                                                                schema={
-                                                                    taglineFormSchema
-                                                                }
-                                                                createFn={
-                                                                    MetadataService.createTagline
-                                                                }
-                                                                fetchMetadataFn={
-                                                                    fetchMetadata
-                                                                }
+                                                                schema={taglineFormSchema}
+                                                                createFn={MetadataService.createTagline}
+                                                                fetchMetadataFn={fetchMetadata}
                                                             >
                                                                 <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                             </InputDrawer>
@@ -730,12 +620,8 @@ export function TeamForm() {
                                                         <FormItemWrapper label="Year of Inception">
                                                             <SelectBox
                                                                 options={getListOfYears()}
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a year"
                                                                 inputPlaceholder="Search for a year..."
                                                                 emptyPlaceholder="No year found"
@@ -755,11 +641,7 @@ export function TeamForm() {
                                                                 placeholder="Franchise fees"
                                                                 type="text"
                                                                 onChange={(e) =>
-                                                                    onNumInputChange(
-                                                                        form,
-                                                                        e,
-                                                                        "franchiseFee"
-                                                                    )
+                                                                    onNumInputChange(form, e, "franchiseFee")
                                                                 }
                                                             />
                                                         </FormItemWrapper>
@@ -776,15 +658,9 @@ export function TeamForm() {
                                                     <FormItemWrapper label="Active Campaigns">
                                                         <div className="flex w-full items-center gap-3">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.activeCampaign
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.activeCampaign}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 className="w-full"
                                                                 placeholder="Select a campaign"
                                                                 inputPlaceholder="Search for campaigns..."
@@ -795,15 +671,9 @@ export function TeamForm() {
                                                                 title="Active Campaign"
                                                                 description="Create a new active campaign to add to the dropdown"
                                                                 register="activeCampaignName"
-                                                                schema={
-                                                                    activeCampaignFormSchema
-                                                                }
-                                                                createFn={
-                                                                    MetadataService.createActiveCampaign
-                                                                }
-                                                                fetchMetadataFn={
-                                                                    fetchMetadata
-                                                                }
+                                                                schema={activeCampaignFormSchema}
+                                                                createFn={MetadataService.createActiveCampaign}
+                                                                fetchMetadataFn={fetchMetadata}
                                                             >
                                                                 <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                             </InputDrawer>
@@ -825,15 +695,9 @@ export function TeamForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Primary Marketing Platform">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.marketingPlatform
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.marketingPlatform}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a platform"
                                                                 inputPlaceholder="Search for a platform..."
                                                                 emptyPlaceholder="No platform found"
@@ -851,15 +715,9 @@ export function TeamForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Secondary Marketing Platform">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.marketingPlatform
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.marketingPlatform}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a platform"
                                                                 inputPlaceholder="Search for a platform..."
                                                                 emptyPlaceholder="No platform found"
@@ -878,15 +736,9 @@ export function TeamForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Primary key Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.keyMarket
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.keyMarket}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a market"
                                                                 inputPlaceholder="Search for a market..."
                                                                 emptyPlaceholder="No market found"
@@ -903,15 +755,9 @@ export function TeamForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Secondary key Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.keyMarket
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.keyMarket}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a market"
                                                                 inputPlaceholder="Search for a market..."
                                                                 emptyPlaceholder="No market found"
@@ -928,15 +774,9 @@ export function TeamForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Tertiary Market">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.state
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.state}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a state"
                                                                 inputPlaceholder="Search for a state..."
                                                                 emptyPlaceholder="No state found"
@@ -966,14 +806,10 @@ export function TeamForm() {
 
                                 <CardWrapper title="Broadcast Partner Metrics">
                                     <MetricsCard
-                                        fieldArray={
-                                            broadcastPartnerMetricFieldArray
-                                        }
+                                        fieldArray={broadcastPartnerMetricFieldArray}
                                         form={form}
                                         options={metadataStore.broadcastPartner}
-                                        defaultValue={
-                                            defaultBroadcastPartnerMetric
-                                        }
+                                        defaultValue={defaultBroadcastPartnerMetric}
                                         register="broadcastPartnerMetrics"
                                     />
                                 </CardWrapper>
@@ -990,19 +826,14 @@ export function TeamForm() {
                                     >
                                         {socials.map((social, index) => (
                                             <TableRow key={index}>
-                                                <TableCell className="capitalize">
-                                                    {social.name}
-                                                </TableCell>
+                                                <TableCell className="capitalize">{social.name}</TableCell>
                                                 <FormField
                                                     control={form.control}
                                                     name={social.name}
                                                     render={({ field }) => (
                                                         <TableCell>
                                                             <FormItemWrapper>
-                                                                <Input
-                                                                    type="text"
-                                                                    {...field}
-                                                                />
+                                                                <Input type="text" {...field} />
                                                             </FormItemWrapper>
                                                         </TableCell>
                                                     )}
@@ -1044,11 +875,7 @@ export function TeamForm() {
                             type="submit"
                             size="sm"
                             className="w-full gap-1 py-5"
-                            disabled={
-                                isSubmitting ||
-                                isFetchingDetails ||
-                                isFetchingMetadata
-                            }
+                            disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                         >
                             <span>Save Team</span>
                             <Loader visible={isSubmitting} />
@@ -1057,11 +884,7 @@ export function TeamForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={
-                                isSubmitting ||
-                                isFetchingDetails ||
-                                isFetchingMetadata
-                            }
+                            disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.TEAM_LIST, {
                                     replace: true

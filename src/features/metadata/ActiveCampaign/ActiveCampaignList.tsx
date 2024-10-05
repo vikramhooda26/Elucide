@@ -34,9 +34,7 @@ function ActiveCampaignList() {
     const navigator = useNavigator();
     const [dataList, setDataList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -62,11 +60,7 @@ function ActiveCampaignList() {
                 setDataList(teams);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -82,28 +76,17 @@ function ActiveCampaignList() {
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(
-                id,
-                "/api/admin/active-campaign/delete/"
-            );
+            const response = await MetadataService.deleteData(id, "/api/admin/active-campaign/delete/");
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
-                setDataList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setDataList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
 
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setDataList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setDataList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             } else {
                 toast.error("Could not delete this data");
             }
@@ -159,57 +142,31 @@ function ActiveCampaignList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={
-                (table
-                    .getColumn("activeCampaignName")
-                    ?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-                table
-                    .getColumn("activeCampaignName")
-                    ?.setFilterValue(event.target.value)
-            }
+            value={(table.getColumn("activeCampaignName")?.getFilterValue() as string) ?? ""}
+            onChange={(event) => table.getColumn("activeCampaignName")?.setFilterValue(event.target.value)}
             className="h-8 w-[150px] lg:w-[250px]"
         />,
-        <DataTableFacetedFilter
-            column={table.getColumn("createdDate")}
-            title="Created At"
-            options={statuses}
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("modifiedDate")}
-            title="Modiefied At"
-            options={priorities}
-        />
+        <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
+        <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
     ];
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">
-                        Active Campaign List
-                    </h2>
-                    <p className="text-muted-foreground">
-                        Here&apos;s a list of active campaigns
-                    </p>
+                    <h2 className="text-2xl font-bold tracking-tight">Active Campaign List</h2>
+                    <p className="text-muted-foreground">Here&apos;s a list of active campaigns</p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <ConditionalButton
-                        onClick={() =>
-                            navigator(NAVIGATION_ROUTES.CAMPAIGN_CREATE)
-                        }
+                        onClick={() => navigator(NAVIGATION_ROUTES.CAMPAIGN_CREATE)}
                         accessLevel="all_staff"
                     >
                         Create Campaign
                     </ConditionalButton>
                 </div>
             </div>
-            <DataTable
-                table={table}
-                columns={columns}
-                toolbarAttributes={toolbarAttributes}
-            />
+            <DataTable table={table} columns={columns} toolbarAttributes={toolbarAttributes} />
         </div>
     );
 }

@@ -6,22 +6,14 @@ import { DateRange } from "react-day-picker";
 import { cn } from "../../../lib/utils";
 import { Button } from "../../../components/ui/button";
 import { Calendar } from "../../../components/ui/calendar";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger
-} from "../../../components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
 
 interface CalendarDateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {
     value?: DateRange;
     onChange: (range: DateRange | undefined) => void;
 }
 
-export function CalendarDateRangePicker({
-    value,
-    onChange,
-    className
-}: CalendarDateRangePickerProps) {
+export function CalendarDateRangePicker({ value, onChange, className }: CalendarDateRangePickerProps) {
     return (
         <div className={cn("grid gap-2", className)}>
             <Popover>
@@ -38,8 +30,7 @@ export function CalendarDateRangePicker({
                         {value?.from ? (
                             value.to ? (
                                 <>
-                                    {format(value.from, "LLL dd, y")} -{" "}
-                                    {format(value.to, "LLL dd, y")}
+                                    {format(value.from, "LLL dd, y")} - {format(value.to, "LLL dd, y")}
                                 </>
                             ) : (
                                 format(value.from, "LLL dd, y")

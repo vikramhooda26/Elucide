@@ -21,11 +21,7 @@ export const getMetadata = async (
 
     const metadataHasUpdated = await getMetadataHasUpdated();
 
-    const metadataToGet = determineMetadataToGet(
-        metadataStore,
-        metadataHasUpdated,
-        metadataType
-    );
+    const metadataToGet = determineMetadataToGet(metadataStore, metadataHasUpdated, metadataType);
 
     if (Object.keys(metadataToGet).length > 0) {
         const metadata = await populateMetadataStore(metadataToGet);

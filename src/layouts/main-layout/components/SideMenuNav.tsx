@@ -39,10 +39,7 @@ export function SideMenuNav({ links, isCollapsed = false }: NavProps) {
                         to={link?.route}
                         className={cn(
                             buttonVariants({
-                                variant:
-                                    pathname === link?.route
-                                        ? "secondary"
-                                        : "ghost",
+                                variant: pathname === link?.route ? "secondary" : "ghost",
                                 size: "sm"
                             }),
                             pathname === link?.route &&

@@ -27,10 +27,7 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
     return (
         <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="mx-auto grid flex-1 auto-rows-max gap-4"
-                >
+                <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
                     <div className="flex items-center gap-4">
                         <Button
                             variant="outline"
@@ -56,12 +53,7 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
                             >
                                 Discard
                             </Button>
-                            <Button
-                                type="submit"
-                                size="sm"
-                                className="gap-1"
-                                disabled={isSubmitting}
-                            >
+                            <Button type="submit" size="sm" className="gap-1" disabled={isSubmitting}>
                                 <span>{`Save ${title}`}</span>
                                 <Loader visible={isSubmitting} />
                             </Button>
@@ -78,12 +70,7 @@ export const SingleInputForm: React.FC<TSingleInputFormProps> = ({
                     </div>
 
                     <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
-                        <Button
-                            type="submit"
-                            size="sm"
-                            className="w-full gap-1 py-5"
-                            disabled={isSubmitting}
-                        >
+                        <Button type="submit" size="sm" className="w-full gap-1 py-5" disabled={isSubmitting}>
                             <span>{`Save ${title}`}</span>
                             <Loader visible={isSubmitting} />
                         </Button>

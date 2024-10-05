@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle
-} from "../../../components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import { useUser } from "../../../hooks/useUser";
 import { HTTP_STATUS_CODES } from "../../../lib/constants";
 import ErrorService from "../../../services/error/ErrorService";
@@ -25,16 +20,17 @@ import { getRandomColor } from "../../utils/helpers";
 type TDashBoardData = {
     teamsCount: number;
     numberOfTeamsPerSport: {
-        chartData: TchartData[], chartConfig: ChartConfig
+        chartData: TchartData[];
+        chartConfig: ChartConfig;
     };
     numberOfTeamsPerState: TableData[];
     recentlyAddedTeams: Array<any>;
     recentlyModifiedTeams: Array<any>;
-}
+};
 
 type Props = {
     setCount?: (num: number) => void;
-}
+};
 
 function TeamDashboard({ setCount }: Props) {
     const [dashboardData, setDashboardData] = useState<TDashBoardData>();
@@ -73,33 +69,33 @@ function TeamDashboard({ setCount }: Props) {
                 data.recentlyModifiedTeams = recentModified;
 
                 data.numberOfTeamsPerState = data.numberOfTeamsPerState?.map((team: any, i: number) => {
-                    return { hqState: team?.state || '', teamsCount: team?._count?.dashapp_team || 0 }
+                    return { hqState: team?.state || "", teamsCount: team?._count?.dashapp_team || 0 };
                 });
 
                 const chartData: TchartData[] = [];
-                const chartConfig: any = { total: { label: "Total Teams", }, };
+                const chartConfig: any = { total: { label: "Total Teams" } };
 
                 data?.numberOfTeamsPerSport?.forEach((d: any, i: number) => {
                     if (d?._count.dashapp_team > 0) {
-                        chartData?.push({ name: d?.name || '', total: d?._count.dashapp_team || 1, fill: getRandomColor(i) })
+                        chartData?.push({
+                            name: d?.name || "",
+                            total: d?._count.dashapp_team || 1,
+                            fill: getRandomColor(i)
+                        });
                         chartConfig[d?.name] = {
                             label: d?.name,
-                            color: getRandomColor(i),
+                            color: getRandomColor(i)
                         };
                     }
                 });
 
-                data.numberOfTeamsPerSport = { chartData, chartConfig }
+                data.numberOfTeamsPerSport = { chartData, chartConfig };
 
                 setCount?.(data?.teamsCount || 0);
                 setDashboardData(data);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -114,8 +110,8 @@ function TeamDashboard({ setCount }: Props) {
 
     const columnDefinitions: ColumnDefinition[] = [
         { key: "hqState", label: "HQ State " },
-        { key: "teamsCount", label: "Number of Teams" },
-    ]
+        { key: "teamsCount", label: "Number of Teams" }
+    ];
 
     return (
         <>
@@ -124,9 +120,9 @@ function TeamDashboard({ setCount }: Props) {
                     <CardHeader>
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>
-                    <CardContent className="pl-2 ">
-                        <div className="pl-4 pb-2">Category Brands Overview</div>
-                        <div className=" h-96 overflow-y-scroll scrollbar ">
+                    <CardContent className="pl-2">
+                        <div className="pb-2 pl-4">Category Brands Overview</div>
+                        <div className="scrollbar h-96 overflow-y-scroll">
                             <SimpleTable
                                 data={dashboardData?.numberOfTeamsPerState}
                                 columns={columnDefinitions}
@@ -139,11 +135,14 @@ function TeamDashboard({ setCount }: Props) {
                     <CardHeader>
                         <CardTitle>Teams Per Sport</CardTitle>
                     </CardHeader>
-                    <CardContent className="pl-2 ">
-                        <div className="pl-4 pb-2">Teams Per Sport Overview</div>
-                        {dashboardData?.numberOfTeamsPerSport ?
-                            <PieChartComponent chart={dashboardData?.numberOfTeamsPerSport} displayName={'Team-Sports'} />
-                            : null}
+                    <CardContent className="pl-2">
+                        <div className="pb-2 pl-4">Teams Per Sport Overview</div>
+                        {dashboardData?.numberOfTeamsPerSport ? (
+                            <PieChartComponent
+                                chart={dashboardData?.numberOfTeamsPerSport}
+                                displayName={"Team-Sports"}
+                            />
+                        ) : null}
                     </CardContent>
                 </Card>
                 {/* </div>

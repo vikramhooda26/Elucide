@@ -7,12 +7,8 @@ export const FormSkeleton: React.FC = (): JSX.Element => {
                 <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
                     <CardWrapper options={[{ rows: 4 }]} />
                     <CardWrapper options={[{ rows: 2, multiple: true }]} />
-                    <CardWrapper
-                        options={[{ rows: 1, multiple: true }, { rows: 1 }]}
-                    />
-                    <CardWrapper
-                        options={[{ rows: 1 }, { rows: 1, multiple: true }]}
-                    />
+                    <CardWrapper options={[{ rows: 1, multiple: true }, { rows: 1 }]} />
+                    <CardWrapper options={[{ rows: 1 }, { rows: 1, multiple: true }]} />
                 </div>
                 <div className="grid auto-rows-max items-start gap-4">
                     <CardWrapper options={[{ rows: 4 }]} />
@@ -24,13 +20,7 @@ export const FormSkeleton: React.FC = (): JSX.Element => {
     );
 };
 
-function CardWrapper({
-    multiple,
-    options
-}: {
-    multiple?: boolean;
-    options?: { rows: number; multiple?: boolean }[];
-}) {
+function CardWrapper({ multiple, options }: { multiple?: boolean; options?: { rows: number; multiple?: boolean }[] }) {
     return (
         <Card x-chunk="dashboard-07-chunk-3">
             <SkeletonHeader />

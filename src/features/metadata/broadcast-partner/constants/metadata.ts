@@ -5,6 +5,4 @@ export const broadcastPartnerFormSchema = z.object({
     broadcastPartnerName: z.string()
 });
 
-export type TBroadcastPartnerFormSchema = z.infer<
-    typeof broadcastPartnerFormSchema
->;
+export type TBroadcastPartnerFormSchema = z.infer<typeof broadcastPartnerFormSchema>;

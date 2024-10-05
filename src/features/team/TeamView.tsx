@@ -56,11 +56,7 @@ function TeamView() {
 
             setTeam(teamObj);
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("This team does not exists");
                 navigate(-1);
@@ -88,14 +84,7 @@ function TeamView() {
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
                         {userRole === "SUPER_ADMIN" ? (
-                            <Button
-                                size="sm"
-                                onClick={() =>
-                                    navigate(
-                                        `${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`
-                                    )
-                                }
-                            >
+                            <Button size="sm" onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`)}>
                                 <Pencil className="h-4 w-4" />{" "}
                             </Button>
                         ) : null}
@@ -109,11 +98,7 @@ function TeamView() {
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                                 <TeamOverviewCard data={team} />
                                 <MarketingOverviewCard data={team} />
-                                <LinksCard
-                                    data={team}
-                                    metadatas={socials}
-                                    title="Digital Presence"
-                                />
+                                <LinksCard data={team} metadatas={socials} title="Digital Presence" />
                                 <ViewershipReach data={team} />
                                 <Association data={team} />
                             </div>
@@ -121,10 +106,7 @@ function TeamView() {
                         </div>
                         <div className="my-4 lg:my-8">
                             <div className="space-y-4 lg:space-y-8">
-                                <SportsDealSummary
-                                    data={team}
-                                    partnerKey={"team"}
-                                />
+                                <SportsDealSummary data={team} partnerKey={"team"} />
                                 <Activation data={team} partnerKey={"team"} />
                             </div>
                         </div>

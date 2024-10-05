@@ -1,64 +1,64 @@
 @keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @keyframes wiggle {
-  0%,
-  100% {
-    transform: rotate(-3deg);
-  }
-  50% {
-    transform: rotate(3deg);
-  }
+    0%,
+    100% {
+        transform: rotate(-3deg);
+    }
+    50% {
+        transform: rotate(3deg);
+    }
 }
 
 @keyframes spinSlow {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient 15s ease infinite;
+    background-size: 200% 200%;
+    animation: gradient 15s ease infinite;
 }
 
 .animate-wiggle {
-  animation: wiggle 1s ease-in-out infinite;
+    animation: wiggle 1s ease-in-out infinite;
 }
 
 .animate-spin-slow {
-  animation: spinSlow 10s linear infinite;
+    animation: spinSlow 10s linear infinite;
 }
 
 .animate-fadeIn {
-  animation: fadeIn 2s ease-in-out forwards;
+    animation: fadeIn 2s ease-in-out forwards;
 }
 
 .delay-1s {
-  animation-delay: 1s;
+    animation-delay: 1s;
 }
 
 .delay-2s {
-  animation-delay: 2s;
+    animation-delay: 2s;
 }

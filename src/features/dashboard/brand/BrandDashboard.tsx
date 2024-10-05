@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle
-} from "../../../components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import { useUser } from "../../../hooks/useUser";
 import { HTTP_STATUS_CODES } from "../../../lib/constants";
 import ErrorService from "../../../services/error/ErrorService";
@@ -26,11 +21,11 @@ type TDashBoardData = {
     brandsPerCategory: Array<any>;
     recentlyAddedBrands: Array<any>;
     recentlyModifiedBrands: Array<any>;
-}
+};
 
 type Props = {
-    setCount?: (count: { brandCount: number; categoriesCount: number; }) => void;
-}
+    setCount?: (count: { brandCount: number; categoriesCount: number }) => void;
+};
 
 function BrandDashboard({ setCount }: Props) {
     const [dashboardData, setDashboardData] = useState<TDashBoardData>();
@@ -69,18 +64,14 @@ function BrandDashboard({ setCount }: Props) {
                 data.recentlyModifiedBrands = recentModified;
 
                 data.brandsPerCategory = data.brandsPerCategory?.map((brand: any, i: number) => {
-                    return { category: brand?.name, brandCount: brand?.brandCount, };
+                    return { category: brand?.name, brandCount: brand?.brandCount };
                 });
 
                 setCount?.({ brandCount: data?.brandsCount || 0, categoriesCount: data?.categoriesCount || 0 });
                 setDashboardData(data);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -95,9 +86,8 @@ function BrandDashboard({ setCount }: Props) {
 
     const columnDefinitions: ColumnDefinition[] = [
         { key: "category", label: "Category Name" },
-        { key: "brandCount", label: "Number of Brands" },
-    ]
-
+        { key: "brandCount", label: "Number of Brands" }
+    ];
 
     return (
         <>
@@ -106,16 +96,15 @@ function BrandDashboard({ setCount }: Props) {
                     <CardHeader>
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>
-                    <CardContent className="pl-2 ">
-                        <div className="pl-4 pb-2">Category Brands Overview</div>
-                        <div className=" h-96 overflow-y-scroll scrollbar ">
+                    <CardContent className="pl-2">
+                        <div className="pb-2 pl-4">Category Brands Overview</div>
+                        <div className="scrollbar h-96 overflow-y-scroll">
                             <SimpleTable
                                 data={dashboardData?.brandsPerCategory}
                                 columns={columnDefinitions}
                                 caption="Category Brands Overview"
                             />
                         </div>
-
                     </CardContent>
                 </Card>
                 {/* </div>

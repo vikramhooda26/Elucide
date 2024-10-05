@@ -15,9 +15,7 @@ const MarketingOverviewCard = ({ data }: TMarketingOverviewCardProps) => {
         <Card x-chunk="dashboard-07-chunk-0" className="overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                        Marketing Overview
-                    </CardTitle>
+                    <CardTitle className="group flex items-center gap-2 text-lg">Marketing Overview</CardTitle>
                 </div>
             </CardHeader>
             <StrategyOverview strategy={data?.strategyOverview} />

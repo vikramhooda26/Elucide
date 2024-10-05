@@ -20,13 +20,7 @@
         "project": "./tsconfig.json",
         "extraFileExtensions": [".md", ".json"]
     },
-    "plugins": [
-        "react",
-        "react-hooks",
-        "@typescript-eslint",
-        "prettier",
-        "import"
-    ],
+    "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier", "import"],
     "rules": {
         "semi": [2, "always"],
         "react-hooks/rules-of-hooks": "error",

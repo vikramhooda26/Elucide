@@ -3,19 +3,11 @@ import AjaxService from "../AjaxService";
 
 class AthleteService {
     static createAthlete(params: any) {
-        return AjaxService.request(
-            API_URL + "/api/admin/athlete/create",
-            params,
-            "POST"
-        );
+        return AjaxService.request(API_URL + "/api/admin/athlete/create", params, "POST");
     }
 
     static editAthlete(id: string, params: any) {
-        return AjaxService.request(
-            API_URL + "/api/admin/athlete/edit/" + id,
-            params,
-            "PUT"
-        );
+        return AjaxService.request(API_URL + "/api/admin/athlete/edit/" + id, params, "PUT");
     }
 
     static getAll() {
@@ -23,19 +15,11 @@ class AthleteService {
     }
 
     static getOne(id: string, params?: any) {
-        return AjaxService.request(
-            API_URL + "/api/admin/athlete/" + id,
-            params,
-            "GET"
-        );
+        return AjaxService.request(API_URL + "/api/admin/athlete/" + id, params, "GET");
     }
 
     static getFilteredAthletes(params: any) {
-        return AjaxService.request(
-            API_URL + "/api/admin/filter/athlete",
-            params,
-            "POST"
-        );
+        return AjaxService.request(API_URL + "/api/admin/filter/athlete", params, "POST");
     }
 }
 export default AthleteService;

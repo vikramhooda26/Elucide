@@ -70,11 +70,7 @@ function LoginPage() {
                 toast.error("Internal server error");
             }
         } catch (error: any) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occured");
             }
@@ -90,13 +86,9 @@ function LoginPage() {
                     Welcome to Elucide Sports
                 </h2>
                 <p className="mt-2 max-w-sm text-center text-sm text-neutral-600 dark:text-neutral-300">
-                    Login to elucide sports to start taking data backed
-                    decisions
+                    Login to elucide sports to start taking data backed decisions
                 </p>
-                <form
-                    className="my-8"
-                    onSubmit={handleSubmit(handleLoginSubmit)}
-                >
+                <form className="my-8" onSubmit={handleSubmit(handleLoginSubmit)}>
                     <LabelInputContainer className="mb-4">
                         <CustomLabel htmlFor="username">Username</CustomLabel>
                         <AnimatedInput
@@ -110,8 +102,7 @@ function LoginPage() {
                             <ErrorMsg
                                 msg="Username is required"
                                 show={
-                                    typeof errors?.username?.message ===
-                                        "string" &&
+                                    typeof errors?.username?.message === "string" &&
                                     errors?.username?.message?.length > 0
                                 }
                             />
@@ -130,16 +121,12 @@ function LoginPage() {
                             {isPasswordVisible ? (
                                 <EyeOff
                                     className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
-                                    onClick={() =>
-                                        setisPasswordVisible((p) => !p)
-                                    }
+                                    onClick={() => setisPasswordVisible((p) => !p)}
                                 />
                             ) : (
                                 <Eye
                                     className="absolute right-2 top-1/2 size-5 -translate-y-1/2 cursor-pointer select-none"
-                                    onClick={() =>
-                                        setisPasswordVisible((p) => !p)
-                                    }
+                                    onClick={() => setisPasswordVisible((p) => !p)}
                                 />
                             )}
                         </div>
@@ -147,8 +134,7 @@ function LoginPage() {
                             <ErrorMsg
                                 msg="Please enter your password"
                                 show={
-                                    typeof errors?.password?.message ===
-                                        "string" &&
+                                    typeof errors?.password?.message === "string" &&
                                     errors?.password?.message?.length > 0
                                 }
                             />
@@ -160,18 +146,9 @@ function LoginPage() {
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        <div
-                            className={cn(
-                                "flex items-center justify-center gap-3",
-                                isSubmitting && "brightness-50"
-                            )}
-                        >
+                        <div className={cn("flex items-center justify-center gap-3", isSubmitting && "brightness-50")}>
                             <span>Login</span>
-                            {isSubmitting ? (
-                                <Loader visible={isSubmitting} />
-                            ) : (
-                                <ArrowRight className="size-4" />
-                            )}
+                            {isSubmitting ? <Loader visible={isSubmitting} /> : <ArrowRight className="size-4" />}
                         </div>
                         <BottomGradient />
                     </button>

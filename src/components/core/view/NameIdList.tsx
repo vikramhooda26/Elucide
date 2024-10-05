@@ -17,14 +17,9 @@ function NameIdList({ data, navLink, title }: Props) {
                 {data && data?.length > 0 ? (
                     data?.map((sub: nameAndId | undefined, i: number) => (
                         <li key={i} className="me-5 flex items-center gap-2">
-                            <Link
-                                to={navLink + `/${sub?.id}`}
-                                className="flex items-center gap-2"
-                            >
+                            <Link to={navLink + `/${sub?.id}`} className="flex items-center gap-2">
                                 <span>{i + 1}</span>
-                                <span className="text-muted-foreground">
-                                    {sub?.name}
-                                </span>
+                                <span className="text-muted-foreground">{sub?.name}</span>
 
                                 <SquareArrowOutUpRight className="h-4 w-4" />
                             </Link>

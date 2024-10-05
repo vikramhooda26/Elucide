@@ -75,14 +75,8 @@ function AgeForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This age range does not exists");
                     navigate(-1);
                 } else {
@@ -116,11 +110,7 @@ function AgeForm() {
 
             if (convertedAgeRange === null) {
                 toast.error("Invalid range. Contact developer");
-                form.setError(
-                    "ageRange",
-                    { message: "Invalid age range" },
-                    { shouldFocus: true }
-                );
+                form.setError("ageRange", { message: "Invalid age range" }, { shouldFocus: true });
                 return;
             }
 
@@ -131,10 +121,7 @@ function AgeForm() {
             };
 
             if (id) {
-                const response = await MetadataService.editAgeRange(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editAgeRange(id, requestBody);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Age range updated successfully");
@@ -152,18 +139,10 @@ function AgeForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.CONFLICT) {
                 toast.info("This age range already exists");
-                form.setError(
-                    "ageRange",
-                    { message: "This age range already exists" },
-                    { shouldFocus: true }
-                );
+                form.setError("ageRange", { message: "This age range already exists" }, { shouldFocus: true });
                 return;
             }
 
@@ -209,11 +188,7 @@ function AgeForm() {
                                         onValueChange={field.onChange}
                                         className={cn("w-full")}
                                         isSingle={ageTypeValue === "Max"}
-                                        value={
-                                            Boolean(id)
-                                                ? field.value
-                                                : undefined
-                                        }
+                                        value={Boolean(id) ? field.value : undefined}
                                     />
                                 </FormItemWrapper>
                             )}
@@ -230,10 +205,7 @@ function AgeForm() {
                                             if (ageTypeValue === "Range") {
                                                 form.setValue("ageRange", [0]);
                                             } else {
-                                                form.setValue(
-                                                    "ageRange",
-                                                    [0, 100]
-                                                );
+                                                form.setValue("ageRange", [0, 100]);
                                             }
                                             field.onChange(selected);
                                         }}

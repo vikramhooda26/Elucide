@@ -38,17 +38,11 @@ function SportsDealSummaryView() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 setViewData(response.data);
             } else {
-                toast.error(
-                    "Looks like our servers are busy. Please try again later!"
-                );
+                toast.error("Looks like our servers are busy. Please try again later!");
                 navigate(-1);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError === HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("This sports deal summary does not exists");
                 navigate(NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST, {
@@ -100,32 +94,19 @@ function SportsDealSummaryView() {
                         <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                                 <Card x-chunk="dashboard-07-chunk-0">
-                                    <TableHeaderWrapper
-                                        headersArray={infoHeaders}
-                                    >
+                                    <TableHeaderWrapper headersArray={infoHeaders}>
                                         <TableRow>
-                                            <TableCell>
-                                                {viewData?.brand?.name || "-"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {viewData?.territory?.name ||
-                                                    "-"}
-                                            </TableCell>
+                                            <TableCell>{viewData?.brand?.name || "-"}</TableCell>
+                                            <TableCell>{viewData?.territory?.name || "-"}</TableCell>
                                             <TableCell>
                                                 {viewData.athlete?.name ||
                                                     viewData.team?.name ||
                                                     viewData.league?.name ||
                                                     "-"}
                                             </TableCell>
-                                            <TableCell>
-                                                {viewData?.level?.name || "-"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {viewData?.type || "-"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {viewData?.status || "-"}
-                                            </TableCell>
+                                            <TableCell>{viewData?.level?.name || "-"}</TableCell>
+                                            <TableCell>{viewData?.type || "-"}</TableCell>
+                                            <TableCell>{viewData?.status || "-"}</TableCell>
                                         </TableRow>
                                     </TableHeaderWrapper>
                                 </Card>
@@ -136,10 +117,7 @@ function SportsDealSummaryView() {
                                             <div>Commencement Date</div>
                                             <ul className="grid gap-3">
                                                 <li className="flex items-center text-sm text-muted-foreground">
-                                                    <span>
-                                                        {viewData?.commencementDate ||
-                                                            "-"}
-                                                    </span>
+                                                    <span>{viewData?.commencementDate || "-"}</span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -148,10 +126,7 @@ function SportsDealSummaryView() {
                                             <div>Expiration Date</div>
                                             <ul className="grid gap-3">
                                                 <li className="flex items-center text-sm text-muted-foreground">
-                                                    <span>
-                                                        {viewData?.expirationDate ||
-                                                            "-"}
-                                                    </span>
+                                                    <span>{viewData?.expirationDate || "-"}</span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -160,10 +135,7 @@ function SportsDealSummaryView() {
                                             <div>Duration</div>
                                             <ul className="grid gap-3">
                                                 <li className="flex items-center text-sm text-muted-foreground">
-                                                    <span>
-                                                        {viewData?.duration ||
-                                                            "-"}
-                                                    </span>
+                                                    <span>{viewData?.duration || "-"}</span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -175,9 +147,7 @@ function SportsDealSummaryView() {
                                                     <span>
                                                         {viewData?.annualValue
                                                             ? `₹ ${formatNumberWithCommas(
-                                                                  Number(
-                                                                      viewData.annualValue
-                                                                  )
+                                                                  Number(viewData.annualValue)
                                                               )}`
                                                             : "N/A"}
                                                     </span>
@@ -191,11 +161,7 @@ function SportsDealSummaryView() {
                                                 <li className="flex items-center text-sm text-muted-foreground">
                                                     <span>
                                                         {viewData?.totalValue
-                                                            ? `₹ ${formatNumberWithCommas(
-                                                                  Number(
-                                                                      viewData.totalValue
-                                                                  )
-                                                              )}`
+                                                            ? `₹ ${formatNumberWithCommas(Number(viewData.totalValue))}`
                                                             : "N/A"}
                                                     </span>
                                                 </li>
@@ -221,23 +187,15 @@ function SportsDealSummaryView() {
                                         <div className="grid gap-3 rounded-md border p-4">
                                             <div>Assets</div>
                                             <ul className="grid gap-3">
-                                                {viewData?.assets &&
-                                                viewData?.assets?.length > 0 ? (
-                                                    viewData?.assets?.map(
-                                                        (asset, i) => (
-                                                            <li
-                                                                key={i}
-                                                                className="flex items-center gap-2"
-                                                            >
-                                                                <span className="text-muted-foreground">
-                                                                    <Diamond className="h-4 w-4" />
-                                                                </span>
-                                                                <span>
-                                                                    {asset.name}
-                                                                </span>
-                                                            </li>
-                                                        )
-                                                    )
+                                                {viewData?.assets && viewData?.assets?.length > 0 ? (
+                                                    viewData?.assets?.map((asset, i) => (
+                                                        <li key={i} className="flex items-center gap-2">
+                                                            <span className="text-muted-foreground">
+                                                                <Diamond className="h-4 w-4" />
+                                                            </span>
+                                                            <span>{asset.name}</span>
+                                                        </li>
+                                                    ))
                                                 ) : (
                                                     <NoDataText />
                                                 )}

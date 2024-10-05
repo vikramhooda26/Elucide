@@ -1,13 +1,6 @@
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import {
-    ArrayPath,
-    FieldValues,
-    Path,
-    useFieldArray,
-    UseFormReturn,
-    useWatch
-} from "react-hook-form";
+import { ArrayPath, FieldValues, Path, useFieldArray, UseFormReturn, useWatch } from "react-hook-form";
 import { associationSchema } from "../../../features/metadata/association-level/constants/metadata";
 import { onNumInputChange } from "../../../features/utils/helpers";
 import { useUser } from "../../../hooks/useUser";
@@ -64,40 +57,26 @@ const AssociationCard = <T extends FieldValues>({
 
     const userRole = useUser()?.role;
 
-    const canAccessAddButton =
-        userRole === "SUPER_ADMIN" ||
-        userRole === "ADMIN" ||
-        userRole === "STAFF";
+    const canAccessAddButton = userRole === "SUPER_ADMIN" || userRole === "ADMIN" || userRole === "STAFF";
 
     const selectedAssociationLevels = useWatch({
         control: form.control,
-        name: fieldArray.fields.map(
-            (_, index) => `association.${index}.associationLevelId` as Path<T>
-        ) as Path<T>[]
+        name: fieldArray.fields.map((_, index) => `association.${index}.associationLevelId` as Path<T>) as Path<T>[]
     });
 
     useEffect(() => {
-        const selectedValues = selectedAssociationLevels.filter(
-            (value) => value
-        ) as string[];
+        const selectedValues = selectedAssociationLevels.filter((value) => value) as string[];
 
         const newFilteredOptions = fieldArray.fields.map((_, index) => {
             return (
                 metadataStore?.associationLevel.filter((option) => {
-                    return (
-                        option.value === selectedAssociationLevels[index] ||
-                        !selectedValues.includes(option.value)
-                    );
+                    return option.value === selectedAssociationLevels[index] || !selectedValues.includes(option.value);
                 }) || []
             );
         });
 
         setFilteredOptions(newFilteredOptions);
-    }, [
-        selectedAssociationLevels,
-        metadataStore?.associationLevel,
-        fieldArray.fields
-    ]);
+    }, [selectedAssociationLevels, metadataStore?.associationLevel, fieldArray.fields]);
 
     const associationDetails = (index: number): Array<TDisplayFields<T>> => {
         const fields: Array<TDisplayFields<T>> = [
@@ -141,82 +120,50 @@ const AssociationCard = <T extends FieldValues>({
         <CardWrapper title="Association Details">
             <div className="grid gap-6">
                 {fieldArray.fields.map((field, index) => (
-                    <CardWrapper
-                        title={`Association - ${index + 1}`}
-                        key={field.id}
-                    >
-                        <div
-                            className={cn(
-                                "grid auto-rows-max items-start gap-3 lg:grid-cols-2"
-                            )}
-                        >
+                    <CardWrapper title={`Association - ${index + 1}`} key={field.id}>
+                        <div className={cn("grid auto-rows-max items-start gap-3 lg:grid-cols-2")}>
                             {associationDetails(index).map((fieldDetails) => (
                                 <FormField
                                     key={fieldDetails.register}
                                     control={form.control}
                                     name={fieldDetails.register}
                                     render={({ field }) => (
-                                        <FormItemWrapper
-                                            label={fieldDetails.title}
-                                        >
+                                        <FormItemWrapper label={fieldDetails.title}>
                                             {fieldDetails.type === "INPUT" ? (
                                                 <Input
                                                     {...field}
                                                     value={field.value || ""}
                                                     onChange={(e) => {
-                                                        onNumInputChange(
-                                                            form,
-                                                            e,
-                                                            fieldDetails.register
-                                                        );
+                                                        onNumInputChange(form, e, fieldDetails.register);
                                                     }}
-                                                    type={
-                                                        fieldDetails.input?.type
-                                                    }
-                                                    placeholder={
-                                                        fieldDetails.placeholder
-                                                    }
+                                                    type={fieldDetails.input?.type}
+                                                    placeholder={fieldDetails.placeholder}
                                                 />
                                             ) : (
                                                 <div className="flex w-full items-center gap-3">
                                                     <SelectBox
-                                                        options={
-                                                            fieldDetails.data!
-                                                        }
+                                                        options={fieldDetails.data!}
                                                         value={field.value}
-                                                        onChange={
-                                                            field.onChange
-                                                        }
-                                                        placeholder={
-                                                            fieldDetails.placeholder
-                                                        }
+                                                        onChange={field.onChange}
+                                                        placeholder={fieldDetails.placeholder}
                                                         className="w-full"
                                                         inputPlaceholder={`Search for a ${fieldDetails.title?.toLowerCase()}...`}
                                                         emptyPlaceholder={`No ${fieldDetails.title?.toLowerCase()} found`}
-                                                        multiple={
-                                                            fieldDetails.isMultiple
-                                                        }
+                                                        multiple={fieldDetails.isMultiple}
                                                     />
                                                     {/* Not working */}
-                                                    {canAccessAddButton &&
-                                                        fieldDetails.showAddButton && (
-                                                            <InputDrawer
-                                                                title="Association Level"
-                                                                description="Create a new association level to add to the dropdown"
-                                                                register="associationLevelName"
-                                                                schema={
-                                                                    associationSchema
-                                                                }
-                                                                createFn={
-                                                                    MetadataService.createAssociationLevel
-                                                                }
-                                                                fetchMetadataFn={
-                                                                    fetchMetadata
-                                                                }
-                                                            >
-                                                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
-                                                            </InputDrawer>
-                                                        )}
+                                                    {canAccessAddButton && fieldDetails.showAddButton && (
+                                                        <InputDrawer
+                                                            title="Association Level"
+                                                            description="Create a new association level to add to the dropdown"
+                                                            register="associationLevelName"
+                                                            schema={associationSchema}
+                                                            createFn={MetadataService.createAssociationLevel}
+                                                            fetchMetadataFn={fetchMetadata}
+                                                        >
+                                                            <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                                                        </InputDrawer>
+                                                    )}
                                                 </div>
                                             )}
                                         </FormItemWrapper>
@@ -229,18 +176,14 @@ const AssociationCard = <T extends FieldValues>({
                                     {!showBrand ? <div></div> : null}
                                     <div className="mt-4 flex items-end justify-end">
                                         <Button
-                                            onClick={() =>
-                                                fieldArray.remove(index)
-                                            }
+                                            onClick={() => fieldArray.remove(index)}
                                             size="sm"
                                             className="h-7 gap-1"
                                             variant="destructive"
                                             type="button"
                                         >
                                             <MinusCircle className="h-3.5 w-3.5" />
-                                            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                                Remove
-                                            </span>
+                                            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Remove</span>
                                         </Button>
                                     </div>
                                 </>
@@ -253,19 +196,13 @@ const AssociationCard = <T extends FieldValues>({
             <CardFooter>
                 <div className="mt-4 flex w-full items-end justify-end">
                     <Button
-                        onClick={() =>
-                            fieldArray.append(
-                                initialValue as T["association"][number]
-                            )
-                        }
+                        onClick={() => fieldArray.append(initialValue as T["association"][number])}
                         size="sm"
                         className="h-7 gap-1"
                         type="button"
                     >
                         <PlusCircle className="h-3.5 w-3.5" />
-                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                            Add
-                        </span>
+                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add</span>
                     </Button>
                 </div>
             </CardFooter>

@@ -3,17 +3,11 @@ import { NavigateFunction } from "react-router-dom";
 import { toast } from "sonner";
 
 class ErrorService {
-    static handleCommonErrors(
-        error: any,
-        logout: () => void,
-        navigate?: NavigateFunction
-    ) {
+    static handleCommonErrors(error: any, logout: () => void, navigate?: NavigateFunction) {
         switch (error?.response?.status) {
             case HTTP_STATUS_CODES.FORBIDDEN:
                 logout();
-                if (
-                    window.location.pathname.startsWith(NAVIGATION_ROUTES.LOGIN)
-                ) {
+                if (window.location.pathname.startsWith(NAVIGATION_ROUTES.LOGIN)) {
                     toast.error("Login failed!");
                 } else {
                     toast.error("Session expired!");
@@ -25,9 +19,7 @@ class ErrorService {
                 }
                 break;
             case HTTP_STATUS_CODES.BAD_REQUEST:
-                toast.error(
-                    "Invalid Request. Contact the developer for support"
-                );
+                toast.error("Invalid Request. Contact the developer for support");
                 break;
             default:
                 return error;

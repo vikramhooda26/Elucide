@@ -80,10 +80,7 @@ const customStyles: StylesConfig<OptionType, true, GroupBase<OptionType>> = {
     })
 };
 
-const ReactSelect: React.FC<MySelectComponentProps> = ({
-    field,
-    selectArr
-}) => {
+const ReactSelect: React.FC<MySelectComponentProps> = ({ field, selectArr }) => {
     return (
         <Select
             {...field}

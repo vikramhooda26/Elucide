@@ -18,16 +18,10 @@ export const ConditionalButton: React.FC<TConditionalButtonProps> = ({
         if (accessLevel === "super_admin") {
             return userRole === "SUPER_ADMIN";
         } else if (accessLevel === "all_staff") {
-            return (
-                userRole === "SUPER_ADMIN" ||
-                userRole === "ADMIN" ||
-                userRole === "STAFF"
-            );
+            return userRole === "SUPER_ADMIN" || userRole === "ADMIN" || userRole === "STAFF";
         }
         return false;
     };
 
-    return shouldRenderButton() ? (
-        <Button onClick={onClick}>{children}</Button>
-    ) : null;
+    return shouldRenderButton() ? <Button onClick={onClick}>{children}</Button> : null;
 };

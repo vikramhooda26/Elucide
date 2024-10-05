@@ -1,19 +1,6 @@
 import { cn } from "../../lib/utils";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from "../ui/card";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
-} from "../ui/table";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 
 function TableSkeleton() {
     return (
@@ -46,13 +33,7 @@ function TableSkeleton() {
                         </TableHeader>
                         <TableBody>
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((c, i) => (
-                                <TableRow
-                                    key={i}
-                                    className={cn(
-                                        "h-11",
-                                        i % 2 !== 0 ? "bg-accent" : ""
-                                    )}
-                                >
+                                <TableRow key={i} className={cn("h-11", i % 2 !== 0 ? "bg-accent" : "")}>
                                     {[1, 2, 3, 4, 5].map((c, i) => (
                                         <TableCell className="">
                                             <div className="h-5 w-28 rounded-md bg-gradient-to-r from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700"></div>

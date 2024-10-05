@@ -25,7 +25,7 @@ function AthleteList() {
     const navigate = useNavigate();
     const userRole = useUser()?.role;
 
-    const pageKey: TPageKey = 'athleteList';
+    const pageKey: TPageKey = "athleteList";
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const filterValues = useRecoilValue(filterState);
 
@@ -35,7 +35,7 @@ function AthleteList() {
 
     useEffect(() => {
         if (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length > 0) {
-            handleApplyFilters()
+            handleApplyFilters();
         } else {
             fetchAthletes();
         }
@@ -48,22 +48,14 @@ function AthleteList() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const athleteList = response.data;
                 athleteList.forEach((athlete: athlete, i: number) => {
-                    athleteList[i].createdBy =
-                        athlete?.createdBy?.email || "N/A";
-                    athleteList[i].modifiedBy =
-                        athlete?.modifiedBy?.email || "N/A";
+                    athleteList[i].createdBy = athlete?.createdBy?.email || "N/A";
+                    athleteList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
                 });
                 setAthletes(athleteList);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-            if (
-                unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
-            ) {
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("An unknown error occurred");
             }
         } finally {
@@ -74,7 +66,6 @@ function AthleteList() {
     const filterConfig: FilterContent[] = fetchFilters(pageKey);
 
     const handleApplyFilters = async () => {
-
         try {
             setIsLoading(true);
             const processedData = FilterService.processFilterData(filterValues[pageKey]);
@@ -88,22 +79,14 @@ function AthleteList() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const athleteList = response.data;
                 athleteList.forEach((athlete: athlete, i: number) => {
-                    athleteList[i].createdBy =
-                        athlete?.createdBy?.email || "N/A";
-                    athleteList[i].modifiedBy =
-                        athlete?.modifiedBy?.email || "N/A";
+                    athleteList[i].createdBy = athlete?.createdBy?.email || "N/A";
+                    athleteList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
                 });
                 setAthletes(athleteList);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-            if (
-                unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
-            ) {
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("An unknown error occurred");
             } else {
                 setAthletes([]);
@@ -117,12 +100,8 @@ function AthleteList() {
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">
-                        Athlete List
-                    </h2>
-                    <p className="text-muted-foreground">
-                        Here&apos;s a list of athletes.
-                    </p>
+                    <h2 className="text-2xl font-bold tracking-tight">Athlete List</h2>
+                    <p className="text-muted-foreground">Here&apos;s a list of athletes.</p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <FilterModal
@@ -134,19 +113,14 @@ function AthleteList() {
                         pageKey={pageKey}
                     />
                     <ConditionalButton
-                        onClick={() =>
-                            navigator(NAVIGATION_ROUTES.CREATE_ATHLETE)
-                        }
+                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_ATHLETE)}
                         accessLevel="all_staff"
                     >
                         Create Athlete
                     </ConditionalButton>
                 </div>
             </div>
-            <AthleteTable
-                athletes={athletes}
-                setAthletes={setAthletes}
-            />
+            <AthleteTable athletes={athletes} setAthletes={setAthletes} />
         </div>
     );
 }

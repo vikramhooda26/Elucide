@@ -1,8 +1,8 @@
 // CheckBoxFilter.tsx
-import React from 'react';
-import { Checkbox } from '../../ui/checkbox';
-import { Label } from '../../ui/label';
-import { cn } from '../../../lib/utils';
+import React from "react";
+import { Checkbox } from "../../ui/checkbox";
+import { Label } from "../../ui/label";
+import { cn } from "../../../lib/utils";
 
 interface CheckBoxFilterProps {
     options: { label: string; value: string }[];

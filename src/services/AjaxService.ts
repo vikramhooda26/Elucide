@@ -11,10 +11,7 @@ class AjaxService {
         let t: any = {};
         keys.forEach((x) => {
             const p = typeof params[x];
-            t[x] =
-                p == "object" && p != null
-                    ? JSON.stringify(params[x])
-                    : params[x];
+            t[x] = p == "object" && p != null ? JSON.stringify(params[x]) : params[x];
         });
         return t;
     }
@@ -29,10 +26,7 @@ class AjaxService {
         try {
             let defaultConfig: AxiosRequestConfig = {
                 headers: {
-                    "Content-Type":
-                        dataConfig?.contentType?.length > 0
-                            ? dataConfig?.contentType
-                            : "application/json"
+                    "Content-Type": dataConfig?.contentType?.length > 0 ? dataConfig?.contentType : "application/json"
                 }
             };
 
@@ -43,14 +37,8 @@ class AjaxService {
             const r: AxiosResponse = await axios({
                 url: url,
                 method,
-                data:
-                    ["put", "post"].indexOf(method.toLowerCase()) != -1
-                        ? params
-                        : {},
-                params:
-                    ["put", "post"].indexOf(method.toLowerCase()) == -1
-                        ? this.prepareParams(params)
-                        : {},
+                data: ["put", "post"].indexOf(method.toLowerCase()) != -1 ? params : {},
+                params: ["put", "post"].indexOf(method.toLowerCase()) == -1 ? this.prepareParams(params) : {},
                 ...defaultConfig,
                 ...config,
                 withCredentials: true

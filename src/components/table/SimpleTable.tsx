@@ -1,34 +1,26 @@
-import React from "react"
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "../../components/ui/table"
+import React from "react";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
 
-export type TableData = Record<string, string | number>
+export type TableData = Record<string, string | number>;
 
 export interface ColumnDefinition {
-    key: string
-    label: string
+    key: string;
+    label: string;
 }
 
 export interface DynamicTableProps {
     data: TableData[] | undefined;
-    columns: ColumnDefinition[]
-    caption?: string
+    columns: ColumnDefinition[];
+    caption?: string;
 }
 
 export default function SimpleTable({ data, columns, caption }: DynamicTableProps) {
     if (!data || data.length === 0) {
-        return <p>No data available</p>
+        return <p>No data available</p>;
     }
 
     return (
-        <div className="container mx-auto py-10 overflow-x-auto">
+        <div className="container mx-auto overflow-x-auto py-10">
             <Table>
                 {/* {caption && <TableCaption>{caption}</TableCaption>} */}
                 <TableHeader>
@@ -53,5 +45,5 @@ export default function SimpleTable({ data, columns, caption }: DynamicTableProp
                 </TableBody>
             </Table>
         </div>
-    )
+    );
 }

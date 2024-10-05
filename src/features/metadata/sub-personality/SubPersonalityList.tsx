@@ -34,9 +34,7 @@ function SubPersonalityList() {
     const navigator = useNavigator();
     const [dataList, setDataList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -56,19 +54,13 @@ function SubPersonalityList() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const subPersonalities = response.data;
                 subPersonalities.forEach((subPersonality: team, i: number) => {
-                    subPersonalities[i].createdBy =
-                        subPersonality?.createdBy?.email || "N/A";
-                    subPersonalities[i].modifiedBy =
-                        subPersonality?.modifiedBy?.email || "N/A";
+                    subPersonalities[i].createdBy = subPersonality?.createdBy?.email || "N/A";
+                    subPersonalities[i].modifiedBy = subPersonality?.modifiedBy?.email || "N/A";
                 });
                 setDataList(subPersonalities);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("An unknown error occurred");
             }
@@ -84,28 +76,17 @@ function SubPersonalityList() {
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(
-                id,
-                "/api/admin/sub-personality/delete/"
-            );
+            const response = await MetadataService.deleteData(id, "/api/admin/sub-personality/delete/");
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
-                setDataList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setDataList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
 
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setDataList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setDataList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             } else {
                 toast.error("Could not delete this data");
             }
@@ -161,57 +142,31 @@ function SubPersonalityList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={
-                (table
-                    .getColumn("subpersonalityName")
-                    ?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-                table
-                    .getColumn("subpersonalityName")
-                    ?.setFilterValue(event.target.value)
-            }
+            value={(table.getColumn("subpersonalityName")?.getFilterValue() as string) ?? ""}
+            onChange={(event) => table.getColumn("subpersonalityName")?.setFilterValue(event.target.value)}
             className="h-8 w-[150px] lg:w-[250px]"
         />,
-        <DataTableFacetedFilter
-            column={table.getColumn("createdDate")}
-            title="Created At"
-            options={statuses}
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("modifiedDate")}
-            title="Modiefied At"
-            options={priorities}
-        />
+        <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
+        <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
     ];
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">
-                        Sub personality List
-                    </h2>
-                    <p className="text-muted-foreground">
-                        Here&apos;s a list of sub personalities.
-                    </p>
+                    <h2 className="text-2xl font-bold tracking-tight">Sub personality List</h2>
+                    <p className="text-muted-foreground">Here&apos;s a list of sub personalities.</p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <ConditionalButton
-                        onClick={() =>
-                            navigator(NAVIGATION_ROUTES.SUB_PERSONALITY_CREATE)
-                        }
+                        onClick={() => navigator(NAVIGATION_ROUTES.SUB_PERSONALITY_CREATE)}
                         accessLevel="super_admin"
                     >
                         Create Sub Personality
                     </ConditionalButton>
                 </div>
             </div>
-            <DataTable
-                table={table}
-                columns={columns}
-                toolbarAttributes={toolbarAttributes}
-            />
+            <DataTable table={table} columns={columns} toolbarAttributes={toolbarAttributes} />
         </div>
     );
 }

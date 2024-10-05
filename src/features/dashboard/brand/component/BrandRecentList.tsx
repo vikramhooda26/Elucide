@@ -15,10 +15,9 @@ import { brand } from "../../../../types/brand/BrandListTypes";
 type Props = {
     recentlyCreated: Array<any>;
     recentlyModified: Array<any>;
-}
+};
 
 function BrandRecentList({ recentlyCreated, recentlyModified }: Props) {
-
     return (
         <>
             <RecentList

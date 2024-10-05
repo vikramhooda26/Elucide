@@ -12,18 +12,11 @@ class AuthService {
     }
 
     static getMetadataHasUpdated() {
-        return AjaxService.request(
-            `${API_URL}/api/admin/metadata/has-updated`,
-            "GET"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/metadata/has-updated`, "GET");
     }
 
     static getMetadata(params: any) {
-        return AjaxService.request(
-            `${API_URL}/api/admin/metadata/get-all`,
-            params,
-            "POST"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/metadata/get-all`, params, "POST");
     }
 
     static setUser(value: any) {

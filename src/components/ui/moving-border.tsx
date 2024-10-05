@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    motion,
-    useAnimationFrame,
-    useMotionTemplate,
-    useMotionValue,
-    useTransform
-} from "framer-motion";
+import { motion, useAnimationFrame, useMotionTemplate, useMotionValue, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { cn } from "../../lib/utils";
 
@@ -30,19 +24,13 @@ export function MovingBorderCard({
 }) {
     return (
         <Component
-            className={cn(
-                "relative h-full overflow-hidden bg-transparent p-[1px] text-xl",
-                containerClassName
-            )}
+            className={cn("relative h-full overflow-hidden bg-transparent p-[1px] text-xl", containerClassName)}
             style={{
                 borderRadius: borderRadius
             }}
             {...otherProps}
         >
-            <div
-                className="absolute inset-0"
-                style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
-            >
+            <div className="absolute inset-0" style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}>
                 <MovingBorder duration={duration} rx="30%" ry="30%">
                     <div
                         className={cn(
@@ -92,14 +80,8 @@ export const MovingBorder = ({
         }
     });
 
-    const x = useTransform(
-        progress,
-        (val) => pathRef.current?.getPointAtLength(val).x
-    );
-    const y = useTransform(
-        progress,
-        (val) => pathRef.current?.getPointAtLength(val).y
-    );
+    const x = useTransform(progress, (val) => pathRef.current?.getPointAtLength(val).x);
+    const y = useTransform(progress, (val) => pathRef.current?.getPointAtLength(val).y);
 
     const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
 
@@ -113,14 +95,7 @@ export const MovingBorder = ({
                 height="100%"
                 {...otherProps}
             >
-                <rect
-                    fill="none"
-                    width="100%"
-                    height="100%"
-                    rx={rx}
-                    ry={ry}
-                    ref={pathRef}
-                />
+                <rect fill="none" width="100%" height="100%" rx={rx} ry={ry} ref={pathRef} />
             </svg>
             <motion.div
                 style={{

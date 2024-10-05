@@ -74,8 +74,7 @@ const DashboardNavbar = () => {
                             setIsActive={setShowDataEntryMenu}
                             className={cn(
                                 "stroke-[#020817] dark:stroke-white",
-                                showDataEntryMenu &&
-                                    "stroke-white dark:stroke-white"
+                                showDataEntryMenu && "stroke-white dark:stroke-white"
                             )}
                         />
                     ) : (
@@ -103,10 +102,7 @@ const DashboardNavbar = () => {
                                 key={index}
                                 className="textshine w-full border-b border-t text-4xl md:active:brightness-50"
                                 onClick={() => {
-                                    if (
-                                        navLink.navigateTo ===
-                                        NAVIGATION_ROUTES.DATA_ENTRY_LIST
-                                    ) {
+                                    if (navLink.navigateTo === NAVIGATION_ROUTES.DATA_ENTRY_LIST) {
                                         setShowMenu(false);
                                         setShowDataEntryMenu(true);
                                     } else {

@@ -53,14 +53,8 @@ function NccsForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This nccs class does not exists");
                     navigate(-1);
                 } else {
@@ -84,10 +78,7 @@ function NccsForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editNccs(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editNccs(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Nccs class updated successfully");
                 }
@@ -102,11 +93,7 @@ function NccsForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }

@@ -151,6 +151,5 @@ export const ALL_METADATA = {
     ATHLETE_STATUS: "athleteStatus",
     TEAM: "team",
     ATHLETE: "athlete",
-    BRAND: "brand",
-
+    BRAND: "brand"
 } as const;

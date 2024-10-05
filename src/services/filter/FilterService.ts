@@ -1,9 +1,7 @@
 import { FilterContent } from "../../components/core/filter/FilterModal";
 
 class FilterService {
-
-    static processFilterData(filterData: Record<string, { type: string; value: any, isMandatory: boolean; }>) {
-
+    static processFilterData(filterData: Record<string, { type: string; value: any; isMandatory: boolean }>) {
         if (!filterData || Object.keys(filterData)?.length <= 0) {
             return;
         }
@@ -14,7 +12,7 @@ class FilterService {
 
         Object.entries(filterData).map(([key, filter]) => {
             if (key && filter && filter?.value) {
-                if (typeof filter?.value === 'object') {
+                if (typeof filter?.value === "object") {
                     if (Array.isArray(filter?.value) && filter?.value?.length <= 0) {
                         return;
                     } else if (Object.keys(filter?.value)?.length <= 0) {
@@ -22,9 +20,13 @@ class FilterService {
                     } else {
                         processedFilters[key] = filter?.value;
                     }
-                } else if (typeof filter?.value === 'string' && filter?.value?.length > 0) {
+                } else if (typeof filter?.value === "string" && filter?.value?.length > 0) {
                     processedFilters[key] = filter?.value;
-                } else if (typeof filter?.value === 'number' || typeof filter?.value === 'bigint' || typeof filter?.value === 'boolean') {
+                } else if (
+                    typeof filter?.value === "number" ||
+                    typeof filter?.value === "bigint" ||
+                    typeof filter?.value === "boolean"
+                ) {
                     processedFilters[key] = filter?.value;
                 }
             }
@@ -48,13 +50,13 @@ class FilterService {
             let value22 = costOfAssociation?.value2?.[1] || 0;
 
             let cost = [];
-            if (operationType !== 'in') {
+            if (operationType !== "in") {
                 cost = [value11 + value21];
             } else {
                 cost = [value11 + value21, value12 + value22];
             }
 
-            costOfAssociation = { cost, operationType }
+            costOfAssociation = { cost, operationType };
             processedFilters.costOfAssociation = costOfAssociation;
         }
 
@@ -73,7 +75,7 @@ class FilterService {
 
             let reach = shapeRange(reachMetrics, operationType);
 
-            reachMetrics = { reach, operationType, partnerType }
+            reachMetrics = { reach, operationType, partnerType };
             processedFilters.reachMetrics = reachMetrics;
         }
 
@@ -92,10 +94,9 @@ class FilterService {
 
             let viewership = shapeRange(viewershipMetrics, operationType);
 
-            viewershipMetrics = { viewership, operationType, partnerType }
+            viewershipMetrics = { viewership, operationType, partnerType };
             processedFilters.viewershipMetrics = viewershipMetrics;
         }
-
 
         if (processedFilters?.yearMetrics) {
             let yearMetrics = processedFilters?.yearMetrics;
@@ -112,7 +113,7 @@ class FilterService {
 
             let year = shapeRange(yearMetrics, operationType);
 
-            yearMetrics = { year, operationType, partnerType }
+            yearMetrics = { year, operationType, partnerType };
             processedFilters.yearMetrics = yearMetrics;
         }
 
@@ -128,7 +129,7 @@ class FilterService {
 
             let partnerIds = partnerIdMetrics?.value || [];
 
-            partnerIdMetrics = { partnerIds, partnerType: partnerIdMetrics?.checkType }
+            partnerIdMetrics = { partnerIds, partnerType: partnerIdMetrics?.checkType };
             processedFilters.partnerIdMetrics = partnerIdMetrics;
         }
 
@@ -138,9 +139,9 @@ class FilterService {
                 throw new Error("Please enter endrosement name.");
             }
 
-            let name = endorsement?.value || '';
+            let name = endorsement?.value || "";
 
-            endorsement = { name, isActive: endorsement?.isActive || false }
+            endorsement = { name, isActive: endorsement?.isActive || false };
             processedFilters.endorsement = endorsement;
         }
 
@@ -158,12 +159,12 @@ class FilterService {
 
             const age = value;
 
-            athleteAge = { age, operationType: athleteAge?.operationType }
+            athleteAge = { age, operationType: athleteAge?.operationType };
             processedFilters.athleteAge = athleteAge;
         }
 
         if (processedFilters?.yearOfInception?.length > 0) {
-            processedFilters.yearOfInception = processedFilters?.yearOfInception?.[0]
+            processedFilters.yearOfInception = processedFilters?.yearOfInception?.[0];
         }
 
         if (processedFilters?.franchiseFee?.length > 0) {
@@ -172,7 +173,6 @@ class FilterService {
             } else {
                 delete processedFilters?.franchiseFee;
             }
-
         }
 
         return processedFilters;
@@ -182,21 +182,20 @@ class FilterService {
 export default FilterService;
 
 const shapeRange = (valueRanges: any, operationType: string) => {
-
     let value11 = valueRanges?.value1?.[0] || 0;
     let value12 = valueRanges?.value1?.[1] || 0;
     let value21 = valueRanges?.value2?.[0] || 0;
     let value22 = valueRanges?.value2?.[1] || 0;
 
     let cost = [];
-    if (operationType !== 'in') {
+    if (operationType !== "in") {
         cost = [value11 + "" + value21 + ""];
     } else {
-        cost = [(value11 + value21) + "", (value12 + value22) + ""];
+        cost = [value11 + value21 + "", value12 + value22 + ""];
     }
 
     return cost;
-}
+};
 
 // reachMetrics: {"value1":[380000000],"value2":[3000000],"operationType":"gte","checkType":"ott"}
 // viewershipMetrics: {"value1":[340000000],"value2":[3000000],"operationType":"lte","checkType":"ott"}

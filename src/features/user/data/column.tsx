@@ -32,28 +32,17 @@ export const getColumns = ({
     const column: ColumnDef<TSchemaType>[] = [
         {
             accessorKey: searchQuerykey,
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={title} />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title={title} />,
             cell: ({ row }) => {
                 const id = (row.original as { id: string }).id;
                 if (id && viewRoute && viewRoute?.length > 0) {
                     return (
-                        <Link
-                            to={`${viewRoute}/${id}`}
-                            className="cursor-pointer hover:text-blue-600 hover:underline"
-                        >
-                            <div className="w-[120px]">
-                                {row.getValue(searchQuerykey) || "N/A"}
-                            </div>
+                        <Link to={`${viewRoute}/${id}`} className="cursor-pointer hover:text-blue-600 hover:underline">
+                            <div className="w-[120px]">{row.getValue(searchQuerykey) || "N/A"}</div>
                         </Link>
                     );
                 } else {
-                    return (
-                        <div className="w-[120px]">
-                            {row.getValue(searchQuerykey) || "N/A"}
-                        </div>
-                    );
+                    return <div className="w-[120px]">{row.getValue(searchQuerykey) || "N/A"}</div>;
                 }
             },
             enableSorting: false,
@@ -61,46 +50,31 @@ export const getColumns = ({
         },
         {
             accessorKey: "email",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Email" />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />,
             cell: ({ row }) => {
                 return (
                     <div className="flex space-x-2">
-                        <span className="max-w-[400px] truncate font-medium">
-                            {row.getValue("email") || "N/A"}
-                        </span>
+                        <span className="max-w-[400px] truncate font-medium">{row.getValue("email") || "N/A"}</span>
                     </div>
                 );
             }
         },
         {
             accessorKey: "first_name",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Name" />
-            ),
-            cell: ({ row }) => (
-                <div className="w-[80px]">
-                    {row.getValue("first_name") || "N/A"}
-                </div>
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
+            cell: ({ row }) => <div className="w-[80px]">{row.getValue("first_name") || "N/A"}</div>,
             enableSorting: true,
             enableHiding: false
         },
         {
             accessorKey: "date_joined",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Joined on" />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Joined on" />,
             cell: ({ row }) => {
                 return (
                     <div className="flex space-x-2">
                         <span className="max-w-[400px] truncate font-medium">
                             {row.getValue("date_joined")
-                                ? format(
-                                      row.getValue("date_joined"),
-                                      "dd-MM-yyyy, hh:mm aaaaaa"
-                                  )
+                                ? format(row.getValue("date_joined"), "dd-MM-yyyy, hh:mm aaaaaa")
                                 : "N/A"}
                         </span>
                     </div>
@@ -109,12 +83,8 @@ export const getColumns = ({
         },
         {
             accessorKey: "role",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Role" />
-            ),
-            cell: ({ row }) => (
-                <div className="w-[80px]">{row.getValue("role") || "N/A"}</div>
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Role" />,
+            cell: ({ row }) => <div className="w-[80px]">{row.getValue("role") || "N/A"}</div>,
             enableSorting: false,
             enableHiding: false
         }
@@ -123,17 +93,9 @@ export const getColumns = ({
     if (userRole === "SUPER_ADMIN" || canEdit) {
         column.push({
             id: "actions",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Actions" />
-            ),
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Actions" />,
             cell: ({ row }) => (
-                <DataTableRowActions
-                    row={row}
-                    onDelete={onDelete}
-                    onEdit={onEdit}
-                    schema={schema}
-                    canEdit={canEdit}
-                />
+                <DataTableRowActions row={row} onDelete={onDelete} onEdit={onEdit} schema={schema} canEdit={canEdit} />
             )
         });
     }

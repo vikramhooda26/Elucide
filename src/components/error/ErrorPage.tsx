@@ -18,10 +18,7 @@ const GlobalErrorHandler: React.FC = () => {
         <div className="flex h-dvh w-full flex-col items-center justify-center gap-5 bg-black text-white">
             <div className="w-full text-center">
                 <h1>An unexpected error has occurred!</h1>
-                <p>
-                    If the error persists, please contact the developer for
-                    support
-                </p>
+                <p>If the error persists, please contact the developer for support</p>
             </div>
             <Button variant="link">
                 <Link to={NAVIGATION_ROUTES.HOME} replace>

@@ -16,19 +16,14 @@ function ActiveCampaign({ data }: Props) {
                     </li>
                     <ul className="grid gap-3">
                         {data?.activeCampaigns?.length > 0 ? (
-                            data?.activeCampaigns?.map(
-                                (campaign: nameAndId, i: number) => (
-                                    <li
-                                        key={i}
-                                        className="flex items-center gap-2 text-muted-foreground"
-                                    >
-                                        <span>
-                                            <Activity className="h-4 w-4" />
-                                        </span>
-                                        <span>{campaign?.name || "N/A"}</span>
-                                    </li>
-                                )
-                            )
+                            data?.activeCampaigns?.map((campaign: nameAndId, i: number) => (
+                                <li key={i} className="flex items-center gap-2 text-muted-foreground">
+                                    <span>
+                                        <Activity className="h-4 w-4" />
+                                    </span>
+                                    <span>{campaign?.name || "N/A"}</span>
+                                </li>
+                            ))
                         ) : (
                             <NoDataText />
                         )}

@@ -11,12 +11,7 @@ interface ActionButtonsProps<TData> {
     onEdit?: (id: string) => void;
     canEdit?: boolean;
 }
-export function ActionButtons<TData>({
-    row,
-    onDelete,
-    onEdit,
-    canEdit = false
-}: ActionButtonsProps<TData>) {
+export function ActionButtons<TData>({ row, onDelete, onEdit, canEdit = false }: ActionButtonsProps<TData>) {
     const id = (row.original as { id: string }).id;
     const user = useUser();
 
@@ -37,9 +32,7 @@ export function ActionButtons<TData>({
                         <Alert
                             title={`You're about to delete this data`}
                             description="Are you sure you want to complete this action? It's irreversible and all the data will be lost forever."
-                            positiveOnClick={async () =>
-                                onDelete && onDelete(id)
-                            }
+                            positiveOnClick={async () => onDelete && onDelete(id)}
                             positiveTitle="Delete"
                             PositiveButtonStyles="bg-destructive hover:bg-destructive/60"
                         >

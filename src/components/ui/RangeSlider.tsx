@@ -32,19 +32,13 @@ const RangeSlider = React.forwardRef(
         }: SliderProps,
         ref
     ) => {
-        const initialValue = Array.isArray(value)
-            ? value
-            : isSingle
-              ? [min]
-              : [min, max];
+        const initialValue = Array.isArray(value) ? value : isSingle ? [min] : [min, max];
 
         const [localValues, setLocalValues] = useState(initialValue);
 
         useEffect(() => {
             // Update localValues when the external value prop changes
-            setLocalValues(
-                Array.isArray(value) ? value : isSingle ? [min] : [min, max]
-            );
+            setLocalValues(Array.isArray(value) ? value : isSingle ? [min] : [min, max]);
         }, [min, max, value, isSingle]);
 
         const handleValueChange = (newValues: number[]) => {
@@ -62,10 +56,7 @@ const RangeSlider = React.forwardRef(
                 step={step}
                 value={localValues}
                 onValueChange={handleValueChange}
-                className={cn(
-                    "relative mb-6 flex w-full touch-none select-none items-center",
-                    className
-                )}
+                className={cn("relative mb-6 flex w-full touch-none select-none items-center", className)}
                 {...props}
             >
                 <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-primary/20">
@@ -76,15 +67,11 @@ const RangeSlider = React.forwardRef(
                         <div
                             className="absolute text-center"
                             style={{
-                                left: `calc(${
-                                    ((value - min) / (max - min)) * 100
-                                }% + 0px)`,
+                                left: `calc(${((value - min) / (max - min)) * 100}% + 0px)`,
                                 top: `10px`
                             }}
                         >
-                            <span className="text-sm">
-                                {formatLabel ? formatLabel(value) : value}
-                            </span>
+                            <span className="text-sm">{formatLabel ? formatLabel(value) : value}</span>
                         </div>
                         <SliderPrimitive.Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
                     </React.Fragment>

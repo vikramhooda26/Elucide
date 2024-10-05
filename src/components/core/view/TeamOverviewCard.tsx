@@ -12,51 +12,37 @@ const TeamOverviewCard = ({ data }: TOverviewCardProps) => {
         <Card x-chunk="dashboard-07-chunk-" className="overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                        Overview
-                    </CardTitle>
+                    <CardTitle className="group flex items-center gap-2 text-lg">Overview</CardTitle>
                 </div>
             </CardHeader>
             <div className="text-sm">
                 <ul className="grid gap-3 p-6">
                     <li className="flex">
                         <span className="w-1/2">Name</span>
-                        <span className="text-muted-foreground">
-                            {data?.name || "N/A"}
-                        </span>
+                        <span className="text-muted-foreground">{data?.name || "N/A"}</span>
                     </li>
                     <li className="flex">
                         <span className="w-1/2">Sport</span>
-                        <span className="text-muted-foreground">
-                            {data?.sport?.name || "N/A"}
-                        </span>
+                        <span className="text-muted-foreground">{data?.sport?.name || "N/A"}</span>
                     </li>
 
                     <li className="flex items-center">
                         <span className="w-1/2">Year Of Inception</span>
-                        <span className="text-muted-foreground">
-                            {data?.yearOfInception || "N/A"}
-                        </span>
+                        <span className="text-muted-foreground">{data?.yearOfInception || "N/A"}</span>
                     </li>
                     <li className="flex items-center">
                         <span className="w-1/2">Franchise Fee</span>
                         <span className="text-muted-foreground">
-                            ₹{" "}
-                            {formatNumberWithCommas(data?.franchiseFee) ||
-                                "N/A"}
+                            ₹ {formatNumberWithCommas(data?.franchiseFee) || "N/A"}
                         </span>
                     </li>
                     <li className="flex items-center">
                         <span className="w-1/2">City</span>
-                        <span className="text-muted-foreground">
-                            {data?.city?.name || "N/A"}
-                        </span>
+                        <span className="text-muted-foreground">{data?.city?.name || "N/A"}</span>
                     </li>
                     <li className="flex items-center">
                         <span className="w-1/2">State</span>
-                        <span className="text-muted-foreground">
-                            {data?.state?.name || "N/A"}
-                        </span>
+                        <span className="text-muted-foreground">{data?.state?.name || "N/A"}</span>
                     </li>
                 </ul>
                 <Separator />

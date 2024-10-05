@@ -13,10 +13,7 @@ import MetadataService from "../../../services/features/MetadataService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
-import {
-    subCategoryFormSchema,
-    TSubCategoryFormSchema
-} from "./constants/metadata";
+import { subCategoryFormSchema, TSubCategoryFormSchema } from "./constants/metadata";
 import { getMetadata } from "../../utils/metadataUtils";
 import { metadataStoreAtom } from "../../../store/atoms/metadata";
 import SelectBox from "../../../components/ui/multi-select";
@@ -25,8 +22,7 @@ import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 function SubCategoryForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isFetchingMetadata, setIsFetchingMetadata] =
-        useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
 
@@ -52,11 +48,7 @@ function SubCategoryForm() {
                 });
             } catch (error) {
                 console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
                 if (unknownError) {
                     toast.error("An unknown error occurred");
                     navigate(NAVIGATION_ROUTES.DASHBOARD);
@@ -81,14 +73,8 @@ function SubCategoryForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This sub category does not exists");
                     navigate(-1);
                 } else {
@@ -112,17 +98,13 @@ function SubCategoryForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editSubcategory(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editSubcategory(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Sub Category updated successfully");
                 }
                 return;
             }
-            const response =
-                await MetadataService.createSubcategory(requestBody);
+            const response = await MetadataService.createSubcategory(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sub Category created successfully");
                 form.reset({
@@ -131,11 +113,7 @@ function SubCategoryForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -161,9 +139,7 @@ function SubCategoryForm() {
             onSubmit={onSubmit}
             form={form}
             title="Sub Category"
-            isSubmitting={
-                isSubmitting || isFetchingMetadata || isFetchingDetails
-            }
+            isSubmitting={isSubmitting || isFetchingMetadata || isFetchingDetails}
             isEdit={Boolean(id)}
         >
             {isFetchingMetadata || isFetchingDetails ? (
@@ -191,10 +167,7 @@ function SubCategoryForm() {
                         name="subcategoryName"
                         render={({ field }) => (
                             <FormItemWrapper label="Sub Category name">
-                                <Input
-                                    {...field}
-                                    placeholder="Sub Category name"
-                                />
+                                <Input {...field} placeholder="Sub Category name" />
                             </FormItemWrapper>
                         )}
                     />

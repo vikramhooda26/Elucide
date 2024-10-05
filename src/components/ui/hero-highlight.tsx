@@ -14,11 +14,7 @@ export const HeroHighlight = ({
     let mouseX = useMotionValue(0);
     let mouseY = useMotionValue(0);
 
-    function handleMouseMove({
-        currentTarget,
-        clientX,
-        clientY
-    }: React.MouseEvent<HTMLDivElement>) {
+    function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent<HTMLDivElement>) {
         if (!currentTarget) return;
         let { left, top } = currentTarget.getBoundingClientRect();
 
@@ -59,13 +55,7 @@ export const HeroHighlight = ({
     );
 };
 
-export const Highlight = ({
-    children,
-    className
-}: {
-    children: React.ReactNode;
-    className?: string;
-}) => {
+export const Highlight = ({ children, className }: { children: React.ReactNode; className?: string }) => {
     return (
         <motion.span
             initial={{

@@ -1,30 +1,18 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { LabelList, Pie, PieChart } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { LabelList, Pie, PieChart } from "recharts";
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "../../../components/ui/card"
-import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
-} from "../../../components/ui/chart"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../../components/ui/card";
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../../../components/ui/chart";
 
-export const description = "A pie chart with a label list"
+export const description = "A pie chart with a label list";
 
 export type TchartData = {
     name: string;
     total: number;
     fill: string;
-}
+};
 
 type Props = {
     chart: {
@@ -32,14 +20,13 @@ type Props = {
         chartData: TchartData[];
     };
     displayName: string;
-}
-
+};
 
 export function PieChartComponent({ chart, displayName }: Props) {
     return (
         <Card className="flex flex-col border-none">
             <CardHeader className="items-center pb-0">
-                <CardTitle>{displayName || ''} Chart</CardTitle>
+                <CardTitle>{displayName || ""} Chart</CardTitle>
                 {/* <CardDescription>January - June 2024</CardDescription> */}
             </CardHeader>
             <CardContent className="flex-1 pb-0">
@@ -48,9 +35,7 @@ export function PieChartComponent({ chart, displayName }: Props) {
                     className="mx-auto aspect-square max-h-[250px] lg:max-h-[350px]"
                 >
                     <PieChart>
-                        <ChartTooltip
-                            content={<ChartTooltipContent nameKey="total" hideLabel />}
-                        />
+                        <ChartTooltip content={<ChartTooltipContent nameKey="total" hideLabel />} />
                         <Pie data={chart?.chartData} dataKey="total">
                             <LabelList
                                 dataKey="name"
@@ -74,5 +59,5 @@ export function PieChartComponent({ chart, displayName }: Props) {
                 </div> */}
             </CardFooter>
         </Card>
-    )
+    );
 }

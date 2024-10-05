@@ -1,8 +1,4 @@
-import {
-    InstagramLogoIcon,
-    LinkedInLogoIcon,
-    TwitterLogoIcon
-} from "@radix-ui/react-icons";
+import { InstagramLogoIcon, LinkedInLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
 import { FacebookIcon, Globe, YoutubeIcon } from "lucide-react";
 
 export const socials = [

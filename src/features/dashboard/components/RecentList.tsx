@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from "../../../components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card";
 import ListCard from "./ListCard";
 
 type Props = {
@@ -17,14 +11,7 @@ type Props = {
     operationKey: string;
 };
 
-function RecentList({
-    title,
-    list,
-    operation,
-    nameKey,
-    dateKey,
-    operationKey
-}: Props) {
+function RecentList({ title, list, operation, nameKey, dateKey, operationKey }: Props) {
     return (
         <Card className="col-span-4">
             <CardHeader>

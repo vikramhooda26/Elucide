@@ -1,114 +1,114 @@
 // MainPage.tsx
-import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { filterState } from '../../store/atoms/filterAtom';
-import FilterModal, { FilterContent } from '../../components/core/filter/FilterModal';
-import { Button } from '../../components/ui/button';
+import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { filterState } from "../../store/atoms/filterAtom";
+import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
+import { Button } from "../../components/ui/button";
 
 const FilterPage = () => {
-    const pageKey = 'page1';
+    const pageKey = "page1";
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const [filterValues, setFilterValues] = useRecoilState(filterState);
-    
+
     const filterConfig: FilterContent[] = [
         {
-            displayName: 'Search Brand',
-            key: 'search',
-            type: 'text',
-            value: filterValues[pageKey]?.search?.value || '',
-            isMandatory: true,
+            displayName: "Search Brand",
+            key: "search",
+            type: "text",
+            value: filterValues[pageKey]?.search?.value || "",
+            isMandatory: true
         },
         {
-            displayName: 'Brands',
-            key: 'brand',
-            type: 'select',
-            value: filterValues[pageKey]?.category?.value || '',
+            displayName: "Brands",
+            key: "brand",
+            type: "select",
+            value: filterValues[pageKey]?.category?.value || "",
             options: [
-                { label: 'Electronics', value: 'electronics' },
-                { label: 'Clothing', value: 'clothing' },
-                { label: 'Books', value: 'books' },
+                { label: "Electronics", value: "electronics" },
+                { label: "Clothing", value: "clothing" },
+                { label: "Books", value: "books" }
             ],
-            isMandatory: true,
+            isMandatory: true
         },
         {
-            displayName: 'Category',
-            key: 'category',
-            type: 'select',
-            value: filterValues[pageKey]?.category?.value || '',
+            displayName: "Category",
+            key: "category",
+            type: "select",
+            value: filterValues[pageKey]?.category?.value || "",
             options: [
-                { label: 'Electronics', value: 'electronics' },
-                { label: 'Clothing', value: 'clothing' },
-                { label: 'Books', value: 'books' },
+                { label: "Electronics", value: "electronics" },
+                { label: "Clothing", value: "clothing" },
+                { label: "Books", value: "books" }
             ],
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: true
         },
         {
-            displayName: 'Date Filter',
-            key: 'dateAdded',
-            type: 'dateRange',
-            value: filterValues[pageKey]?.dateAdded?.value || { start: '', end: '' },
-            range: { start: '2024-01-01', end: '2024-12-31' },
-            isMandatory: true,
+            displayName: "Date Filter",
+            key: "dateAdded",
+            type: "dateRange",
+            value: filterValues[pageKey]?.dateAdded?.value || { start: "", end: "" },
+            range: { start: "2024-01-01", end: "2024-12-31" },
+            isMandatory: true
         },
         {
-            displayName: 'Cost Of Association',
-            subTitle: { title1: 'In Thousands', title2: 'In Lakhs' },
-            key: 'costOfAssociation',
-            type: 'doubleRange',
+            displayName: "Cost Of Association",
+            subTitle: { title1: "In Thousands", title2: "In Lakhs" },
+            key: "costOfAssociation",
+            type: "doubleRange",
             value: filterValues[pageKey]?.costOfAssociation?.value,
-            doubleRange: { min: { min1: 0, min2: 0, }, max: { max1: 100000, max2: 1000000 } },
+            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100000, max2: 1000000 } },
             isMandatory: true,
-            steps: { step1: 1000, step2: 100000 },
+            steps: { step1: 1000, step2: 100000 }
         },
         {
-            displayName: 'Target Gender',
-            key: 'gender',
-            type: 'check',
+            displayName: "Target Gender",
+            key: "gender",
+            type: "check",
             value: filterValues[pageKey]?.gender?.value || false,
             options: [
-                { label: 'Male', value: 'Male' },
-                { label: 'Female', value: 'Female' },
-                { label: 'Transgender', value: 'Transgender' },
+                { label: "Male", value: "Male" },
+                { label: "Female", value: "Female" },
+                { label: "Transgender", value: "Transgender" }
             ],
-            isMandatory: true,
+            isMandatory: true
         },
         {
-            displayName: 'Age Range',
-            key: 'ageRange',
-            type: 'range',
+            displayName: "Age Range",
+            key: "ageRange",
+            type: "range",
             value: filterValues[pageKey]?.ageRange?.value || [0, 1000],
             range: { min: 0, max: 1000 },
-            isMandatory: true,
+            isMandatory: true
         },
         {
-            displayName: 'NCCS',
-            key: 'nccs',
-            type: 'multicheck',
+            displayName: "NCCS",
+            key: "nccs",
+            type: "multicheck",
             value: filterValues[pageKey]?.nccs?.value || [],
             options: [
-                { label: 'NCCS A', value: 'nccs_a' },
-                { label: 'NCCS B', value: 'nccs_b' },
-                { label: 'NCCS C', value: 'nccs_c' },
+                { label: "NCCS A", value: "nccs_a" },
+                { label: "NCCS B", value: "nccs_b" },
+                { label: "NCCS C", value: "nccs_c" }
             ],
-            isMandatory: true,
+            isMandatory: true
         },
         {
-            displayName: 'Enable Feature',
-            key: 'featureToggle',
-            type: 'toggle',
+            displayName: "Enable Feature",
+            key: "featureToggle",
+            type: "toggle",
             value: filterValues[pageKey]?.featureToggle?.value || false,
-            isMandatory: true,
-        },
+            isMandatory: true
+        }
     ];
 
     const handleApplyFilters = () => {
-        console.log('Filters applied successfully.');
+        console.log("Filters applied successfully.");
     };
 
     return (
         <div className="container mx-auto py-10">
-            <h1 className="text-3xl font-bold mb-6"> Filter Page</h1>
+            <h1 className="mb-6 text-3xl font-bold"> Filter Page</h1>
             <FilterModal
                 isOpen={isFilterModalOpen}
                 filters={filterConfig}
@@ -117,7 +117,7 @@ const FilterPage = () => {
                 pageKey={pageKey}
             />
             <div className="mt-8">
-                <h2 className="text-2xl font-semibold mb-4">Applied Filters:</h2>
+                <h2 className="mb-4 text-2xl font-semibold">Applied Filters:</h2>
                 <ul className="list-disc pl-5">
                     {Object.entries(filterValues[pageKey] || {}).map(([key, filter]) => (
                         <li key={key}>

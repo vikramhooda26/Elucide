@@ -1,6 +1,6 @@
-import { atom } from 'recoil';
+import { atom } from "recoil";
 
-export const filterState = atom<Record<string, Record<string, { type: string; value: any, isMandatory: boolean; }>>>({
-  key: 'filterState',
-  default: {},
+export const filterState = atom<Record<string, Record<string, { type: string; value: any; isMandatory: boolean }>>>({
+    key: "filterState",
+    default: {}
 });

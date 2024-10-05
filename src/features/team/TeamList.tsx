@@ -1,8 +1,4 @@
-import {
-    ColumnFiltersState,
-    SortingState,
-    VisibilityState
-} from "@tanstack/react-table";
+import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -26,15 +22,13 @@ function TeamList() {
     const navigator = useNavigator();
     const [teamList, setTeamList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
 
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-    const pageKey: TPageKey = 'teamList';
+    const pageKey: TPageKey = "teamList";
     const filterValues = useRecoilValue(filterState);
 
     const { logout } = useAuth();
@@ -58,11 +52,7 @@ function TeamList() {
                 setTeamList(teams);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -73,11 +63,10 @@ function TeamList() {
 
     useEffect(() => {
         if (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length > 0) {
-            handleApplyFilters()
+            handleApplyFilters();
         } else {
             fetchTeams();
         }
-
     }, []);
 
     const filterConfig: FilterContent[] = fetchFilters(pageKey);
@@ -100,22 +89,14 @@ function TeamList() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const teamList = response.data;
                 teamList.forEach((athlete: team, i: number) => {
-                    teamList[i].createdBy =
-                        athlete?.createdBy?.email || "N/A";
-                    teamList[i].modifiedBy =
-                        athlete?.modifiedBy?.email || "N/A";
+                    teamList[i].createdBy = athlete?.createdBy?.email || "N/A";
+                    teamList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
                 });
                 setTeamList(teamList);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
-            if (
-                unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
-            ) {
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("An unknown error occurred");
             } else {
                 setTeamList([]);
@@ -129,12 +110,8 @@ function TeamList() {
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">
-                        Team List
-                    </h2>
-                    <p className="text-muted-foreground">
-                        Here&apos;s a list of teams.
-                    </p>
+                    <h2 className="text-2xl font-bold tracking-tight">Team List</h2>
+                    <p className="text-muted-foreground">Here&apos;s a list of teams.</p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <FilterModal
@@ -145,18 +122,12 @@ function TeamList() {
                         onDiscardFilters={fetchTeams}
                         pageKey={pageKey}
                     />
-                    <ConditionalButton
-                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)}
-                        accessLevel="all_staff"
-                    >
+                    <ConditionalButton onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)} accessLevel="all_staff">
                         Create Team
                     </ConditionalButton>
                 </div>
             </div>
-            <TeamTable
-                teamList={teamList}
-                setTeamList={setTeamList}
-            />
+            <TeamTable teamList={teamList} setTeamList={setTeamList} />
         </div>
     );
 }

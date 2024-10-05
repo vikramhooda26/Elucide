@@ -14,14 +14,7 @@ import { useStateHistory } from "./use-state-history";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList
-} from "../ui/command";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command";
 import { ScrollArea } from "../ui/scroll-area";
 import { Input } from "../ui/input";
 
@@ -80,18 +73,13 @@ export function PhoneInput({
     const [value, handlers, history] = useStateHistory(valueProp);
 
     if (value && value.length > 0) {
-        defaultCountry =
-            parsePhoneNumberFromString(value)?.getPossibleCountries()[0] ||
-            defaultCountry;
+        defaultCountry = parsePhoneNumberFromString(value)?.getPossibleCountries()[0] || defaultCountry;
     }
 
     const [openCommand, setOpenCommand] = React.useState(false);
-    const [countryCode, setCountryCode] =
-        React.useState<CountryCode>(defaultCountry);
+    const [countryCode, setCountryCode] = React.useState<CountryCode>(defaultCountry);
 
-    const selectedCountry = countries.find(
-        (country) => country.iso2 === countryCode
-    );
+    const selectedCountry = countries.find((country) => country.iso2 === countryCode);
 
     const initializeDefaultValue = () => {
         if (value) {
@@ -135,25 +123,16 @@ export function PhoneInput({
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if ((event.metaKey || event.ctrlKey) && event.key === "z") {
             handlers.back();
-            if (
-                inputRef.current &&
-                history.current > 0 &&
-                history.history[history.current - 1] !== undefined
-            ) {
+            if (inputRef.current && history.current > 0 && history.history[history.current - 1] !== undefined) {
                 event.preventDefault();
-                inputRef.current.value =
-                    history.history[history.current - 1] || "";
+                inputRef.current.value = history.history[history.current - 1] || "";
             }
         }
     };
 
     return (
         <div className={cn("flex gap-2", className)}>
-            <Popover
-                open={openCommand}
-                onOpenChange={setOpenCommand}
-                modal={true}
-            >
+            <Popover open={openCommand} onOpenChange={setOpenCommand} modal={true}>
                 <PopoverTrigger asChild>
                     <Button
                         variant="outline"
@@ -162,9 +141,7 @@ export function PhoneInput({
                         className="w-max items-center justify-between whitespace-nowrap"
                     >
                         {selectedCountry?.name ? (
-                            <span className="relative top-0.5">
-                                {selectedCountry.emoji}
-                            </span>
+                            <span className="relative top-0.5">{selectedCountry.emoji}</span>
                         ) : (
                             "Select country"
                         )}
@@ -176,11 +153,7 @@ export function PhoneInput({
                         <CommandInput placeholder="Search country..." />
                         <CommandList>
                             <CommandEmpty>No country found.</CommandEmpty>
-                            <ScrollArea
-                                className={
-                                    "[&>[data-radix-scroll-area-viewport]]:max-h-[300px]"
-                                }
-                            >
+                            <ScrollArea className={"[&>[data-radix-scroll-area-viewport]]:max-h-[300px]"}>
                                 <CommandGroup>
                                     {countries.map((country) => {
                                         return (
@@ -190,39 +163,28 @@ export function PhoneInput({
                                                 onSelect={() => {
                                                     if (inputRef.current) {
                                                         inputRef.current.value = `+${country.phone_code}`;
-                                                        handlers.set(
-                                                            `+${country.phone_code}`
-                                                        );
+                                                        handlers.set(`+${country.phone_code}`);
                                                         inputRef.current.focus();
                                                     }
-                                                    setCountryCode(
-                                                        country.iso2 as CountryCode
-                                                    );
+                                                    setCountryCode(country.iso2 as CountryCode);
                                                     setOpenCommand(false);
                                                 }}
                                             >
                                                 <Check
                                                     className={cn(
                                                         "mr-2 size-4",
-                                                        countryCode ===
-                                                            country.iso2
-                                                            ? "opacity-100"
-                                                            : "opacity-0"
+                                                        countryCode === country.iso2 ? "opacity-100" : "opacity-0"
                                                     )}
                                                 />
                                                 <img
                                                     src={`/flags/${country.iso2.toLowerCase()}.svg`}
                                                     className="relative top-0.5 mr-2 h-3 w-4 object-cover"
-                                                    aria-labelledby={
-                                                        country.name
-                                                    }
+                                                    aria-labelledby={country.name}
                                                     title={country.name}
                                                     alt={country.name}
                                                 />
                                                 {country.name}
-                                                <span className="text-gray-11 ml-1">
-                                                    (+{country.phone_code})
-                                                </span>
+                                                <span className="text-gray-11 ml-1">(+{country.phone_code})</span>
                                             </CommandItem>
                                         );
                                     })}

@@ -2,14 +2,7 @@ import { CaretSortIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
 import * as React from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { cn } from "../../lib/utils";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList
-} from "./command";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./command";
 import { ScrollArea } from "./scroll-area";
 
 export interface Option {
@@ -29,19 +22,7 @@ interface SelectBoxProps {
 }
 
 const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
-    (
-        {
-            inputPlaceholder,
-            emptyPlaceholder,
-            placeholder,
-            className,
-            options,
-            value,
-            onChange,
-            multiple
-        },
-        ref
-    ) => {
+    ({ inputPlaceholder, emptyPlaceholder, placeholder, className, options, value, onChange, multiple }, ref) => {
         const [searchTerm, setSearchTerm] = React.useState<string>("");
         const [isOpen, setIsOpen] = React.useState(false);
 
@@ -74,19 +55,13 @@ const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
                         <div
                             className={cn(
                                 "items-center gap-1 overflow-hidden text-sm",
-                                multiple
-                                    ? "flex flex-grow flex-wrap"
-                                    : "inline-flex whitespace-nowrap"
+                                multiple ? "flex flex-grow flex-wrap" : "inline-flex whitespace-nowrap"
                             )}
                         >
                             {value && value.length > 0 ? (
                                 multiple ? (
                                     options
-                                        .filter(
-                                            (option) =>
-                                                Array.isArray(value) &&
-                                                value.includes(option.value)
-                                        )
+                                        .filter((option) => Array.isArray(value) && value.includes(option.value))
                                         .map((option) => (
                                             <span
                                                 key={option.value}
@@ -96,9 +71,7 @@ const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
                                                 <span
                                                     onClick={(e) => {
                                                         e.preventDefault();
-                                                        handleSelect(
-                                                            option.value
-                                                        );
+                                                        handleSelect(option.value);
                                                     }}
                                                     className="flex items-center rounded-sm px-[1px] text-muted-foreground/60 hover:bg-accent hover:text-muted-foreground"
                                                 >
@@ -107,13 +80,10 @@ const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
                                             </span>
                                         ))
                                 ) : (
-                                    options.find((opt) => opt.value === value)
-                                        ?.label
+                                    options.find((opt) => opt.value === value)?.label
                                 )
                             ) : (
-                                <span className="mr-auto text-muted-foreground">
-                                    {placeholder}
-                                </span>
+                                <span className="mr-auto text-muted-foreground">{placeholder}</span>
                             )}
                         </div>
                         <div className="flex items-center self-stretch pl-1 text-muted-foreground/60 hover:text-foreground [&>div]:flex [&>div]:items-center [&>div]:self-stretch">
@@ -134,10 +104,7 @@ const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
                         </div>
                     </div>
                 </PopoverTrigger>
-                <PopoverContent
-                    className="w-[var(--radix-popover-trigger-width)] p-0"
-                    align="start"
-                >
+                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
                     <Command>
                         <div className="relative">
                             <CommandInput
@@ -156,29 +123,19 @@ const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
                                 </div>
                             )}
                         </div>
-                        <CommandEmpty>
-                            {emptyPlaceholder ?? "No results found."}
-                        </CommandEmpty>
+                        <CommandEmpty>{emptyPlaceholder ?? "No results found."}</CommandEmpty>
                         <CommandGroup>
                             <ScrollArea>
                                 <CommandList>
                                     <div className="max-h-64">
                                         {options &&
                                             options.map((option) => {
-                                                const isSelected =
-                                                    Array.isArray(value) &&
-                                                    value.includes(
-                                                        option.value
-                                                    );
+                                                const isSelected = Array.isArray(value) && value.includes(option.value);
                                                 return (
                                                     <CommandItem
                                                         key={option.value}
                                                         // value={option.value}
-                                                        onSelect={() =>
-                                                            handleSelect(
-                                                                option.value
-                                                            )
-                                                        }
+                                                        onSelect={() => handleSelect(option.value)}
                                                     >
                                                         {multiple && (
                                                             <div
@@ -192,22 +149,15 @@ const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
                                                                 <CheckIcon />
                                                             </div>
                                                         )}
-                                                        <span>
-                                                            {option.label}
-                                                        </span>
-                                                        {!multiple &&
-                                                            option.value ===
-                                                                value && (
-                                                                <CheckIcon
-                                                                    className={cn(
-                                                                        "ml-auto",
-                                                                        option.value ===
-                                                                            value
-                                                                            ? "opacity-100"
-                                                                            : "opacity-0"
-                                                                    )}
-                                                                />
-                                                            )}
+                                                        <span>{option.label}</span>
+                                                        {!multiple && option.value === value && (
+                                                            <CheckIcon
+                                                                className={cn(
+                                                                    "ml-auto",
+                                                                    option.value === value ? "opacity-100" : "opacity-0"
+                                                                )}
+                                                            />
+                                                        )}
                                                     </CommandItem>
                                                 );
                                             })}

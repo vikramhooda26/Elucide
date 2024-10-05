@@ -7,12 +7,9 @@ type Props = {
 };
 
 function CategoriesCard({ data }: Props) {
-    const totalSubCategories = data?.mainCategories?.reduce(
-        (total: any, category: any) => {
-            return total + (category.subCategories?.length ?? 0);
-        },
-        0
-    );
+    const totalSubCategories = data?.mainCategories?.reduce((total: any, category: any) => {
+        return total + (category.subCategories?.length ?? 0);
+    }, 0);
 
     const calculateCategoryPercentage = (subCategoryCount: number) => {
         if (totalSubCategories) {
@@ -40,9 +37,7 @@ function CategoriesCard({ data }: Props) {
         <Card className="overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                        Categories
-                    </CardTitle>
+                    <CardTitle className="group flex items-center gap-2 text-lg">Categories</CardTitle>
                 </div>
             </CardHeader>
             <CardContent className="text-sm">
@@ -55,47 +50,31 @@ function CategoriesCard({ data }: Props) {
                             <div className="font-semibold">Sub Categories</div>
                         </div>
 
-                        {data?.mainCategories &&
-                        data?.mainCategories?.length > 0 ? (
-                            data?.mainCategories?.map(
-                                (category: any, i: number) => (
-                                    <>
-                                        <div className="grid">
-                                            <div key={i} className="grid">
-                                                <div className="flex flex-col text-muted-foreground">
-                                                    <span>
-                                                        {" "}
-                                                        {category?.name ||
-                                                            "N/A"}
-                                                    </span>
-                                                </div>
+                        {data?.mainCategories && data?.mainCategories?.length > 0 ? (
+                            data?.mainCategories?.map((category: any, i: number) => (
+                                <>
+                                    <div className="grid">
+                                        <div key={i} className="grid">
+                                            <div className="flex flex-col text-muted-foreground">
+                                                <span> {category?.name || "N/A"}</span>
                                             </div>
                                         </div>
-                                        <div className="grid gap-1">
-                                            {category?.subCategories?.length ? (
-                                                category?.subCategories?.map(
-                                                    (
-                                                        category: any,
-                                                        i: number
-                                                    ) => (
-                                                        <div
-                                                            key={i}
-                                                            className="grid gap-3"
-                                                        >
-                                                            <div className="text-muted-foreground">
-                                                                {category?.name ||
-                                                                    "N/A"}
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                )
-                                            ) : (
-                                                <NoDataText />
-                                            )}
-                                        </div>
-                                    </>
-                                )
-                            )
+                                    </div>
+                                    <div className="grid gap-1">
+                                        {category?.subCategories?.length ? (
+                                            category?.subCategories?.map((category: any, i: number) => (
+                                                <div key={i} className="grid gap-3">
+                                                    <div className="text-muted-foreground">
+                                                        {category?.name || "N/A"}
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <NoDataText />
+                                        )}
+                                    </div>
+                                </>
+                            ))
                         ) : (
                             <NoDataText />
                         )}

@@ -33,8 +33,7 @@ import {
 
 function ActivationForm() {
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
-    const [isFetchingMetadata, setIsFetchingMetadata] =
-        useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
     const user = useRecoilValue(userAtom);
@@ -75,11 +74,7 @@ function ActivationForm() {
             await getMetadata(metadataStore, setMetadataStore, ACTIVATION_KEYS);
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
                 navigate(NAVIGATION_ROUTES.DASHBOARD);
@@ -100,8 +95,7 @@ function ActivationForm() {
                 const response = await MetadataService.getOneActivation(id);
 
                 if (response.status === HTTP_STATUS_CODES.OK) {
-                    const activationData: TEditActivationFormSchema =
-                        response.data;
+                    const activationData: TEditActivationFormSchema = response.data;
 
                     const partner = getStakeholderType(activationData);
 
@@ -109,16 +103,10 @@ function ActivationForm() {
                         name: activationData.name || undefined,
                         brandId: activationData.brand?.id || undefined,
                         partnerType: partner?.type || undefined,
-                        assetIds:
-                            activationData.asset?.map((asset) => asset.id) ||
-                            undefined,
-                        typeIds:
-                            activationData.type?.map((type) => type.id) ||
-                            undefined,
+                        assetIds: activationData.asset?.map((asset) => asset.id) || undefined,
+                        typeIds: activationData.type?.map((type) => type.id) || undefined,
                         year: activationData.year,
-                        marketIds: activationData.marketIds?.map(
-                            (market) => market.id
-                        ),
+                        marketIds: activationData.marketIds?.map((market) => market.id),
                         ...(partner?.type === "Athlete"
                             ? { athleteId: partner.data }
                             : partner?.type === "Team"
@@ -129,14 +117,8 @@ function ActivationForm() {
                 }
             } catch (error) {
                 console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("An unknown error occurred");
                 }
             } finally {
@@ -172,11 +154,7 @@ function ActivationForm() {
     ];
 
     const getStakeholderTitle = () => {
-        return partnerTypeValue === "Team"
-            ? "Team"
-            : partnerTypeValue === "League"
-              ? "League"
-              : "Athlete";
+        return partnerTypeValue === "Team" ? "Team" : partnerTypeValue === "League" ? "League" : "Athlete";
     };
 
     const getStakeholderName = () => {
@@ -200,21 +178,16 @@ function ActivationForm() {
     };
 
     const onSubmit = async (activationFormValues: TActivationFormSchema) => {
-
         try {
             setIsSubmitting(true);
             if (id) {
-                const response = await MetadataService.editActivationSummary(
-                    id,
-                    activationFormValues
-                );
+                const response = await MetadataService.editActivationSummary(id, activationFormValues);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Activation summary updated successfully");
                 }
                 return;
             }
-            const response =
-                await MetadataService.createActivation(activationFormValues);
+            const response = await MetadataService.createActivation(activationFormValues);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Activation summary created successfully");
                 form.reset({
@@ -232,11 +205,7 @@ function ActivationForm() {
                 });
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -248,10 +217,7 @@ function ActivationForm() {
     return (
         <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
             <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="mx-auto grid flex-1 auto-rows-max gap-4"
-                >
+                <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
                     <div className="flex items-center gap-4">
                         <Button
                             variant="outline"
@@ -274,18 +240,11 @@ function ActivationForm() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                disabled={
-                                    isSubmitting ||
-                                    isFetchingDetails ||
-                                    isFetchingMetadata
-                                }
+                                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                                 onClick={() =>
-                                    navigate(
-                                        NAVIGATION_ROUTES.ACTIVATION_LIST,
-                                        {
-                                            replace: true
-                                        }
-                                    )
+                                    navigate(NAVIGATION_ROUTES.ACTIVATION_LIST, {
+                                        replace: true
+                                    })
                                 }
                                 type="button"
                             >
@@ -295,11 +254,7 @@ function ActivationForm() {
                                 type="submit"
                                 size="sm"
                                 className="gap-1"
-                                disabled={
-                                    isSubmitting ||
-                                    isFetchingDetails ||
-                                    isFetchingMetadata
-                                }
+                                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                             >
                                 <span>Save Activation</span>
                                 <Loader visible={isSubmitting} />
@@ -319,10 +274,7 @@ function ActivationForm() {
                                                 name="name"
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Activation Name">
-                                                        <Input
-                                                            {...field}
-                                                            placeholder="Activation name"
-                                                        />
+                                                        <Input {...field} placeholder="Activation name" />
                                                     </FormItemWrapper>
                                                 )}
                                             />
@@ -334,13 +286,9 @@ function ActivationForm() {
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Brand">
                                                         <SelectBox
-                                                            options={
-                                                                metadataStore?.brand
-                                                            }
+                                                            options={metadataStore?.brand}
                                                             value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
+                                                            onChange={field.onChange}
                                                             placeholder="Select a brand"
                                                             inputPlaceholder="Search for a brand..."
                                                             emptyPlaceholder="No brand found"
@@ -358,30 +306,13 @@ function ActivationForm() {
                                                         render={({ field }) => (
                                                             <FormItemWrapper label="Stakeholder">
                                                                 <SelectBox
-                                                                    options={
-                                                                        partnerType
-                                                                    }
-                                                                    value={
-                                                                        field.value
-                                                                    }
-                                                                    onChange={(
-                                                                        selected
-                                                                    ) => {
-                                                                        form.setValue(
-                                                                            "teamId",
-                                                                            ""
-                                                                        );
-                                                                        form.setValue(
-                                                                            "leagueId",
-                                                                            ""
-                                                                        );
-                                                                        form.setValue(
-                                                                            "athleteId",
-                                                                            ""
-                                                                        );
-                                                                        field.onChange(
-                                                                            selected
-                                                                        );
+                                                                    options={partnerType}
+                                                                    value={field.value}
+                                                                    onChange={(selected) => {
+                                                                        form.setValue("teamId", "");
+                                                                        form.setValue("leagueId", "");
+                                                                        form.setValue("athleteId", "");
+                                                                        field.onChange(selected);
                                                                     }}
                                                                     placeholder="Select a stakeholder"
                                                                     inputPlaceholder="Search for a stakeholder..."
@@ -396,17 +327,11 @@ function ActivationForm() {
                                                         control={form.control}
                                                         name={getStakeholderName()}
                                                         render={({ field }) => (
-                                                            <FormItemWrapper
-                                                                label={getStakeholderTitle()}
-                                                            >
+                                                            <FormItemWrapper label={getStakeholderTitle()}>
                                                                 <SelectBox
                                                                     options={getStakeholderOptions()}
-                                                                    value={
-                                                                        field.value
-                                                                    }
-                                                                    onChange={
-                                                                        field.onChange
-                                                                    }
+                                                                    value={field.value}
+                                                                    onChange={field.onChange}
                                                                     placeholder={`Select a ${getStakeholderTitle().toLowerCase()}`}
                                                                     inputPlaceholder={`Search for a ${getStakeholderTitle().toLowerCase()}...`}
                                                                     emptyPlaceholder={`No ${getStakeholderTitle().toLowerCase()} found`}
@@ -430,15 +355,9 @@ function ActivationForm() {
                                                     render={({ field }) => (
                                                         <FormItemWrapper label="Type">
                                                             <SelectBox
-                                                                options={
-                                                                    metadataStore?.marketingPlatform
-                                                                }
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                options={metadataStore?.marketingPlatform}
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a type"
                                                                 inputPlaceholder="Search for a type..."
                                                                 emptyPlaceholder="No type found"
@@ -456,15 +375,9 @@ function ActivationForm() {
                                                         <FormItemWrapper label="Market">
                                                             <div className="flex w-full items-center gap-3">
                                                                 <SelectBox
-                                                                    options={
-                                                                        metadataStore?.state
-                                                                    }
-                                                                    value={
-                                                                        field.value
-                                                                    }
-                                                                    onChange={
-                                                                        field.onChange
-                                                                    }
+                                                                    options={metadataStore?.state}
+                                                                    value={field.value}
+                                                                    onChange={field.onChange}
                                                                     className="w-full"
                                                                     placeholder="Select a market"
                                                                     inputPlaceholder="Search for a market..."
@@ -475,15 +388,9 @@ function ActivationForm() {
                                                                     title="Market"
                                                                     description="Create a new market to add to the dropdown"
                                                                     register="stateName"
-                                                                    schema={
-                                                                        stateFormSchema
-                                                                    }
-                                                                    createFn={
-                                                                        MetadataService.createState
-                                                                    }
-                                                                    fetchMetadataFn={
-                                                                        fetchMetadata
-                                                                    }
+                                                                    schema={stateFormSchema}
+                                                                    createFn={MetadataService.createState}
+                                                                    fetchMetadataFn={fetchMetadata}
                                                                 >
                                                                     <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                                 </InputDrawer>
@@ -500,12 +407,8 @@ function ActivationForm() {
                                                         <FormItemWrapper label="Year">
                                                             <SelectBox
                                                                 options={getListOfYears()}
-                                                                value={
-                                                                    field.value
-                                                                }
-                                                                onChange={
-                                                                    field.onChange
-                                                                }
+                                                                value={field.value}
+                                                                onChange={field.onChange}
                                                                 placeholder="Select a year"
                                                                 inputPlaceholder="Search for a year..."
                                                                 emptyPlaceholder="No year found"
@@ -522,13 +425,9 @@ function ActivationForm() {
                                                 render={({ field }) => (
                                                     <FormItemWrapper label="Asset">
                                                         <SelectBox
-                                                            options={
-                                                                metadataStore.asset
-                                                            }
+                                                            options={metadataStore.asset}
                                                             value={field.value}
-                                                            onChange={
-                                                                field.onChange
-                                                            }
+                                                            onChange={field.onChange}
                                                             placeholder="Select an asset"
                                                             inputPlaceholder="Search for a asset..."
                                                             emptyPlaceholder="No asset found"
@@ -549,11 +448,7 @@ function ActivationForm() {
                             type="submit"
                             size="sm"
                             className="w-full gap-1 py-5"
-                            disabled={
-                                isSubmitting ||
-                                isFetchingDetails ||
-                                isFetchingMetadata
-                            }
+                            disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                         >
                             <span>Save Activation</span>
                             <Loader visible={isSubmitting} />
@@ -562,11 +457,7 @@ function ActivationForm() {
                             variant="outline"
                             size="sm"
                             className="w-full py-5"
-                            disabled={
-                                isSubmitting ||
-                                isFetchingDetails ||
-                                isFetchingMetadata
-                            }
+                            disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
                             onClick={() =>
                                 navigate(NAVIGATION_ROUTES.ACTIVATION_LIST, {
                                     replace: true

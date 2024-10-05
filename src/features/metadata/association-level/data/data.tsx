@@ -8,19 +8,13 @@ import {
     QuestionMarkCircledIcon,
     StopwatchIcon
 } from "@radix-ui/react-icons";
-import {
-    HTTP_STATUS_CODES,
-    NAVIGATION_ROUTES
-} from "../../../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../../lib/constants";
 import { toast } from "sonner";
 import MetadataService from "../../../../services/features/MetadataService";
 
 const deleteCall = async (id: string) => {
     try {
-        const response = await MetadataService.deleteData(
-            id,
-            "/api/admin/association-level/delete/"
-        );
+        const response = await MetadataService.deleteData(id, "/api/admin/association-level/delete/");
 
         if (response.status === HTTP_STATUS_CODES.OK) {
             toast.success("Deleted successfully");

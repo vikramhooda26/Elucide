@@ -34,9 +34,7 @@ function MarketingPlatformList() {
     const navigator = useNavigator();
     const [dataList, setDataList] = useState<any[]>([]);
     const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
-    );
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -56,19 +54,13 @@ function MarketingPlatformList() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const platforms = response.data;
                 platforms.forEach((platform: team, i: number) => {
-                    platforms[i].createdBy =
-                        platform?.createdBy?.email || "N/A";
-                    platforms[i].modifiedBy =
-                        platform?.modifiedBy?.email || "N/A";
+                    platforms[i].createdBy = platform?.createdBy?.email || "N/A";
+                    platforms[i].modifiedBy = platform?.modifiedBy?.email || "N/A";
                 });
                 setDataList(platforms);
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("An unknown error occurred");
             }
@@ -84,28 +76,17 @@ function MarketingPlatformList() {
     const onDelete = useCallback(async (id: string) => {
         try {
             setIsLoading(true);
-            const response = await MetadataService.deleteData(
-                id,
-                "/api/admin/marketing-platform/delete/"
-            );
+            const response = await MetadataService.deleteData(id, "/api/admin/marketing-platform/delete/");
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Deleted successfully");
-                setDataList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setDataList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
 
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setDataList((prevDataList) =>
-                    prevDataList.filter((data) => data.id !== id)
-                );
+                setDataList((prevDataList) => prevDataList.filter((data) => data.id !== id));
             } else {
                 toast.error("Could not delete this data");
             }
@@ -158,59 +139,31 @@ function MarketingPlatformList() {
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
-            value={
-                (table
-                    .getColumn("marketingPlatformName")
-                    ?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-                table
-                    .getColumn("marketingPlatformName")
-                    ?.setFilterValue(event.target.value)
-            }
+            value={(table.getColumn("marketingPlatformName")?.getFilterValue() as string) ?? ""}
+            onChange={(event) => table.getColumn("marketingPlatformName")?.setFilterValue(event.target.value)}
             className="h-8 w-[150px] lg:w-[250px]"
         />,
-        <DataTableFacetedFilter
-            column={table.getColumn("createdDate")}
-            title="Created At"
-            options={statuses}
-        />,
-        <DataTableFacetedFilter
-            column={table.getColumn("modifiedDate")}
-            title="Modiefied At"
-            options={priorities}
-        />
+        <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
+        <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
     ];
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 md:flex">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">
-                        Platform List
-                    </h2>
-                    <p className="text-muted-foreground">
-                        Here&apos;s a list of platforms.
-                    </p>
+                    <h2 className="text-2xl font-bold tracking-tight">Platform List</h2>
+                    <p className="text-muted-foreground">Here&apos;s a list of platforms.</p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <ConditionalButton
-                        onClick={() =>
-                            navigator(
-                                NAVIGATION_ROUTES.MARKETING_PLATFORM_CREATE
-                            )
-                        }
+                        onClick={() => navigator(NAVIGATION_ROUTES.MARKETING_PLATFORM_CREATE)}
                         accessLevel="super_admin"
                     >
                         Create Platform
                     </ConditionalButton>
                 </div>
             </div>
-            <DataTable
-                table={table}
-                columns={columns}
-                toolbarAttributes={toolbarAttributes}
-            />
+            <DataTable table={table} columns={columns} toolbarAttributes={toolbarAttributes} />
         </div>
     );
 }

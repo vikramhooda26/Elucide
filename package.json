@@ -11,11 +11,11 @@
         "preview": "vite preview",
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
         "format-check": "prettier --check \"**/*.{js,jsx,ts,tsx,json}\"",
-        "prepare": "husky && husky install"
+        "prepare": "husky install"
     },
     "lint-staged": {
-        "*.{js,css,ts,tsx,jsx,json}": [
-            "prettier --write \"**/*.{js,jsx,ts,tsx,json}\""
+        "*.{js,css,ts,tsx,jsx,json,html}": [
+            "prettier . --write"
         ]
     },
     "dependencies": {

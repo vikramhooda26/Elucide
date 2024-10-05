@@ -73,43 +73,24 @@ export const VerticalFieldsCard = <T extends FieldValues>({
                                         {fieldDetails.type === "DROPDOWN" && (
                                             <div className="flex w-full items-center gap-3">
                                                 <SelectBox
-                                                    options={
-                                                        fieldDetails.options ||
-                                                        []
-                                                    }
+                                                    options={fieldDetails.options || []}
                                                     className="w-full"
                                                     value={field.value}
                                                     onChange={field.onChange}
                                                     placeholder={`Select ${fieldDetails.title?.toLowerCase()}`}
                                                     inputPlaceholder={`Search for ${fieldDetails.title?.toLowerCase()}...`}
                                                     emptyPlaceholder={`No ${fieldDetails.title?.toLowerCase()} found`}
-                                                    multiple={
-                                                        fieldDetails.multiple
-                                                    }
+                                                    multiple={fieldDetails.multiple}
                                                 />
                                                 {fieldDetails.showAddButton &&
-                                                    fieldDetails.accessLevel.some(
-                                                        (role) =>
-                                                            role === userRole
-                                                    ) && (
+                                                    fieldDetails.accessLevel.some((role) => role === userRole) && (
                                                         <InputDrawer
-                                                            title={
-                                                                fieldDetails.title ||
-                                                                ""
-                                                            }
+                                                            title={fieldDetails.title || ""}
                                                             description={`Create a new ${fieldDetails.title} to add to the dropdown`}
-                                                            register={
-                                                                fieldDetails.drawerRegister
-                                                            }
-                                                            schema={
-                                                                fieldDetails.schema
-                                                            }
-                                                            createFn={
-                                                                fieldDetails.createFn
-                                                            }
-                                                            fetchMetadataFn={
-                                                                fieldDetails.fetchMetadataFn
-                                                            }
+                                                            register={fieldDetails.drawerRegister}
+                                                            schema={fieldDetails.schema}
+                                                            createFn={fieldDetails.createFn}
+                                                            fetchMetadataFn={fieldDetails.fetchMetadataFn}
                                                         >
                                                             <PlusCircle className="size-5 cursor-pointer text-green-500" />
                                                         </InputDrawer>
@@ -120,17 +101,10 @@ export const VerticalFieldsCard = <T extends FieldValues>({
                                             <Input
                                                 {...field}
                                                 type={fieldDetails.input?.type}
-                                                placeholder={
-                                                    fieldDetails.placeholder
-                                                }
+                                                placeholder={fieldDetails.placeholder}
                                             />
                                         )}
-                                        {fieldDetails.type === "PHONE" && (
-                                            <PhoneInput
-                                                {...field}
-                                                defaultCountry="IN"
-                                            />
-                                        )}
+                                        {fieldDetails.type === "PHONE" && <PhoneInput {...field} defaultCountry="IN" />}
                                     </>
                                 </FormItemWrapper>
                             )}

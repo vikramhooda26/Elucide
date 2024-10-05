@@ -8,14 +8,7 @@ interface ImageProps {
     className?: string;
 }
 
-const Image: React.FC<ImageProps> = ({
-    src,
-    width,
-    height,
-    alt,
-    className = "",
-    ...props
-}) => {
+const Image: React.FC<ImageProps> = ({ src, width, height, alt, className = "", ...props }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [imgSrc, setImgSrc] = useState(src);
 
@@ -32,11 +25,7 @@ const Image: React.FC<ImageProps> = ({
 
     return (
         <div className={`relative ${className}`} style={{ width, height }}>
-            {isLoading && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                    Loading...
-                </div>
-            )}
+            {isLoading && <div className="absolute inset-0 flex items-center justify-center">Loading...</div>}
             <img
                 src={imgSrc}
                 alt={alt}

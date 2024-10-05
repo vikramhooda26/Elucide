@@ -40,9 +40,7 @@ function AgeView() {
         fetchTeam();
     }, []);
 
-    const infoHeaders: { header: string; className?: string }[] = [
-        { header: "Age Range" }
-    ];
+    const infoHeaders: { header: string; className?: string }[] = [{ header: "Age Range" }];
 
     return (
         <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">

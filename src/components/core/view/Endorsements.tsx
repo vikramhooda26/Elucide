@@ -15,32 +15,17 @@ function Endorsements({ data }: Props) {
                     </li>
                     <ul className="grid gap-3">
                         {data?.endorsements?.length > 0 ? (
-                            data?.endorsements?.map(
-                                (endorsement: any, i: number) => (
-                                    <li
-                                        key={i}
-                                        className="flex items-center gap-2 text-muted-foreground"
-                                    >
-                                        <span>
-                                            <Activity className="h-4 w-4" />
-                                        </span>
-                                        <span>
-                                            {endorsement?.name || "N/A"} -
-                                        </span>
-                                        <span
-                                            className={
-                                                endorsement?.active
-                                                    ? "text-green-500"
-                                                    : "text-red-500"
-                                            }
-                                        >
-                                            {endorsement?.active
-                                                ? "Active"
-                                                : "Inactive"}
-                                        </span>
-                                    </li>
-                                )
-                            )
+                            data?.endorsements?.map((endorsement: any, i: number) => (
+                                <li key={i} className="flex items-center gap-2 text-muted-foreground">
+                                    <span>
+                                        <Activity className="h-4 w-4" />
+                                    </span>
+                                    <span>{endorsement?.name || "N/A"} -</span>
+                                    <span className={endorsement?.active ? "text-green-500" : "text-red-500"}>
+                                        {endorsement?.active ? "Active" : "Inactive"}
+                                    </span>
+                                </li>
+                            ))
                         ) : (
                             <NoDataText />
                         )}

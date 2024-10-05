@@ -13,10 +13,7 @@ import MetadataService from "../../../services/features/MetadataService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
-import {
-    subpersonalityFormSchema,
-    TSubpersonalityFormSchema
-} from "./constants/metadata";
+import { subpersonalityFormSchema, TSubpersonalityFormSchema } from "./constants/metadata";
 import { metadataStoreAtom } from "../../../store/atoms/metadata";
 import { getMetadata } from "../../utils/metadataUtils";
 import SelectBox from "../../../components/ui/multi-select";
@@ -25,8 +22,7 @@ import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 function SubPersonalityForm() {
     const { logout } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isFetchingMetadata, setIsFetchingMetadata] =
-        useState<boolean>(false);
+    const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
     const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
     const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
 
@@ -52,11 +48,7 @@ function SubPersonalityForm() {
                 });
             } catch (error) {
                 console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
                 if (unknownError) {
                     toast.error("An unknown error occurred");
                     navigate(NAVIGATION_ROUTES.DASHBOARD);
@@ -81,14 +73,8 @@ function SubPersonalityForm() {
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This sub personality does not exists");
                     navigate(-1);
                 } else {
@@ -104,9 +90,7 @@ function SubPersonalityForm() {
         }
     }, [id]);
 
-    const onSubmit = async (
-        subpersonalityFormValues: TSubpersonalityFormSchema
-    ) => {
+    const onSubmit = async (subpersonalityFormValues: TSubpersonalityFormSchema) => {
         try {
             setIsSubmitting(true);
             const requestBody = {
@@ -114,17 +98,13 @@ function SubPersonalityForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editSubPersonality(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editSubPersonality(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Sub Personality updated successfully");
                 }
                 return;
             }
-            const response =
-                await MetadataService.createSubpersonality(requestBody);
+            const response = await MetadataService.createSubpersonality(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Sub Personality created successfully");
                 form.reset({
@@ -134,11 +114,7 @@ function SubPersonalityForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -164,9 +140,7 @@ function SubPersonalityForm() {
             onSubmit={onSubmit}
             form={form}
             title="Sub Personality"
-            isSubmitting={
-                isSubmitting || isFetchingDetails || isFetchingMetadata
-            }
+            isSubmitting={isSubmitting || isFetchingDetails || isFetchingMetadata}
             isEdit={Boolean(id)}
         >
             {isFetchingDetails || isFetchingMetadata ? (
@@ -194,10 +168,7 @@ function SubPersonalityForm() {
                         name="subpersonalityName"
                         render={({ field }) => (
                             <FormItemWrapper label="Sub personality name">
-                                <Input
-                                    {...field}
-                                    placeholder="Sub personality name"
-                                />
+                                <Input {...field} placeholder="Sub personality name" />
                             </FormItemWrapper>
                         )}
                     />

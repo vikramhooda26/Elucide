@@ -46,11 +46,7 @@ function LeagueView() {
                 toast.error("Internal server error");
             }
         } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                 toast.error("This league does not exists");
                 navigate(-1);
@@ -83,12 +79,7 @@ function LeagueView() {
                         {userRole === "SUPER_ADMIN" || userRole === "ADMIN" ? (
                             <Button
                                 size="sm"
-                                onClick={() =>
-                                    navigate(
-                                        `${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`,
-                                        { state: league }
-                                    )
-                                }
+                                onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`, { state: league })}
                             >
                                 <Pencil className="h-4 w-4" />{" "}
                             </Button>
@@ -103,11 +94,7 @@ function LeagueView() {
                             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                                 <LeagueOverviewCard data={league} />
                                 <MarketingOverviewCard data={league} />
-                                <LinksCard
-                                    data={league}
-                                    metadatas={socials}
-                                    title="Digital Presence"
-                                />
+                                <LinksCard data={league} metadatas={socials} title="Digital Presence" />
                                 <ViewershipReach data={league} />
                                 <Association data={league} />
                             </div>
@@ -115,14 +102,8 @@ function LeagueView() {
                         </div>
                         <div className="my-4 lg:my-8">
                             <div className="space-y-4 lg:space-y-8">
-                                <SportsDealSummary
-                                    data={league}
-                                    partnerKey={"league"}
-                                />
-                                <Activation
-                                    data={league}
-                                    partnerKey={"league"}
-                                />
+                                <SportsDealSummary data={league} partnerKey={"league"} />
+                                <Activation data={league} partnerKey={"league"} />
                             </div>
                         </div>
                         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">

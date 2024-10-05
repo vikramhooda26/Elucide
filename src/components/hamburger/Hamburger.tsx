@@ -9,19 +9,10 @@ interface HamburgerProps {
     containerClassName?: string;
 }
 
-export const Hamburger = ({
-    isActive,
-    setIsActive,
-    className,
-    containerClassName
-}: HamburgerProps) => {
+export const Hamburger = ({ isActive, setIsActive, className, containerClassName }: HamburgerProps) => {
     return (
         <label className={cn("hamburger lg:hidden", containerClassName)}>
-            <input
-                type="checkbox"
-                checked={isActive}
-                onChange={() => setIsActive((p) => !p)}
-            />
+            <input type="checkbox" checked={isActive} onChange={() => setIsActive((p) => !p)} />
             <svg viewBox="0 0 30 30">
                 <path
                     className={cn("line line-top-bottom", className)}

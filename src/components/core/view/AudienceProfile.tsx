@@ -1,11 +1,5 @@
 import { format } from "date-fns";
-import {
-    Dot,
-    MoveHorizontal,
-    PersonStanding,
-    SquareStack,
-    Unlink2
-} from "lucide-react";
+import { Dot, MoveHorizontal, PersonStanding, SquareStack, Unlink2 } from "lucide-react";
 import { customRound } from "../../../features/utils/helpers";
 import { nameAndId } from "../../../types/metadata/Metadata";
 import NoDataText from "../../no-data/NoDataText";
@@ -27,20 +21,13 @@ interface Personality extends nameAndId {
 }
 
 function AudienceProfile({ data, title = "" }: Props) {
-    const totalSubpersonalityTraits = data?.mainPersonalityTraits?.reduce(
-        (total: any, personality: any) => {
-            return total + (personality.subPersonalityTraits?.length ?? 0);
-        },
-        0
-    );
+    const totalSubpersonalityTraits = data?.mainPersonalityTraits?.reduce((total: any, personality: any) => {
+        return total + (personality.subPersonalityTraits?.length ?? 0);
+    }, 0);
 
-    const calculatePersonalityTraitPercentage = (
-        subPersonalityTraitCount: number
-    ) => {
+    const calculatePersonalityTraitPercentage = (subPersonalityTraitCount: number) => {
         if (totalSubpersonalityTraits) {
-            return customRound(
-                (subPersonalityTraitCount / totalSubpersonalityTraits) * 100
-            );
+            return customRound((subPersonalityTraitCount / totalSubpersonalityTraits) * 100);
         }
 
         return 0;
@@ -73,9 +60,7 @@ function AudienceProfile({ data, title = "" }: Props) {
         : null;
 
     const sortedTiers = data?.tiers
-        ? Array.from(data?.tiers as any[]).sort((a: any, b: any) =>
-              a?.id && b?.id ? a.id.localeCompare(b.id) : 0
-          )
+        ? Array.from(data?.tiers as any[]).sort((a: any, b: any) => (a?.id && b?.id ? a.id.localeCompare(b.id) : 0))
         : null;
 
     const sortedPrimaryKeyMarket = data?.primaryKeyMarket
@@ -85,9 +70,8 @@ function AudienceProfile({ data, title = "" }: Props) {
         : null;
 
     const sortedSecondaryKeyMarket = data?.secondaryKeyMarket
-        ? Array.from(data?.secondaryKeyMarket as any[]).sort(
-              (a: any, b: any) =>
-                  a?.name && b?.name ? a.name.localeCompare(b.name) : 0
+        ? Array.from(data?.secondaryKeyMarket as any[]).sort((a: any, b: any) =>
+              a?.name && b?.name ? a.name.localeCompare(b.name) : 0
           )
         : null;
 
@@ -103,16 +87,12 @@ function AudienceProfile({ data, title = "" }: Props) {
                 <Card className="overflow-hidden">
                     <CardHeader className="flex flex-row items-start bg-muted/50">
                         <div className="grid gap-0.5">
-                            <CardTitle className="group flex items-center gap-2 text-lg">
-                                Audience Profile
-                            </CardTitle>
+                            <CardTitle className="group flex items-center gap-2 text-lg">Audience Profile</CardTitle>
                         </div>
                     </CardHeader>
                     <Card x-chunk="dashboard-07-chunk-0">
                         <CardHeader>
-                            <CardTitle className="text-lg font-normal">
-                                Target Audience
-                            </CardTitle>
+                            <CardTitle className="text-lg font-normal">Target Audience</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="grid gap-6 text-sm">
@@ -121,31 +101,23 @@ function AudienceProfile({ data, title = "" }: Props) {
                                     <dl className="grid gap-3">
                                         {typeof sortedAgeRange === "object" ? (
                                             sortedAgeRange?.length ? (
-                                                sortedAgeRange?.map(
-                                                    (
-                                                        age: nameAndId,
-                                                        i: number
-                                                    ) => (
-                                                        <>
-                                                            {age ? (
-                                                                <div
-                                                                    key={i}
-                                                                    className="flex items-center gap-2 text-sm text-muted-foreground"
-                                                                >
-                                                                    <dt>
-                                                                        <MoveHorizontal className="h-4 w-4" />
-                                                                    </dt>
-                                                                    <dd>
-                                                                        {age?.name ||
-                                                                            "N/A"}
-                                                                    </dd>
-                                                                </div>
-                                                            ) : (
-                                                                <NoDataText />
-                                                            )}
-                                                        </>
-                                                    )
-                                                )
+                                                sortedAgeRange?.map((age: nameAndId, i: number) => (
+                                                    <>
+                                                        {age ? (
+                                                            <div
+                                                                key={i}
+                                                                className="flex items-center gap-2 text-sm text-muted-foreground"
+                                                            >
+                                                                <dt>
+                                                                    <MoveHorizontal className="h-4 w-4" />
+                                                                </dt>
+                                                                <dd>{age?.name || "N/A"}</dd>
+                                                            </div>
+                                                        ) : (
+                                                            <NoDataText />
+                                                        )}
+                                                    </>
+                                                ))
                                             ) : (
                                                 <NoDataText />
                                             )
@@ -154,9 +126,7 @@ function AudienceProfile({ data, title = "" }: Props) {
                                                 <dt className="">
                                                     <MoveHorizontal className="h-4 w-4" />
                                                 </dt>
-                                                <dd>
-                                                    {data?.age?.name || "N/A"}
-                                                </dd>
+                                                <dd>{data?.age?.name || "N/A"}</dd>
                                             </div>
                                         )}
                                     </dl>
@@ -167,24 +137,17 @@ function AudienceProfile({ data, title = "" }: Props) {
                                         <Label>NCCS</Label>
                                         <ul className="grid gap-3">
                                             {sortedNccsClass?.length ? (
-                                                sortedNccsClass?.map(
-                                                    (
-                                                        nccs: nameAndId,
-                                                        i: number
-                                                    ) => (
-                                                        <li
-                                                            key={i}
-                                                            className="flex items-center gap-2 text-sm text-muted-foreground"
-                                                        >
-                                                            <span>
-                                                                <Unlink2 className="h-4 w-4" />
-                                                            </span>
-                                                            <span>
-                                                                {nccs?.name}
-                                                            </span>
-                                                        </li>
-                                                    )
-                                                )
+                                                sortedNccsClass?.map((nccs: nameAndId, i: number) => (
+                                                    <li
+                                                        key={i}
+                                                        className="flex items-center gap-2 text-sm text-muted-foreground"
+                                                    >
+                                                        <span>
+                                                            <Unlink2 className="h-4 w-4" />
+                                                        </span>
+                                                        <span>{nccs?.name}</span>
+                                                    </li>
+                                                ))
                                             ) : (
                                                 <NoDataText />
                                             )}
@@ -195,31 +158,23 @@ function AudienceProfile({ data, title = "" }: Props) {
                                         <Label>Tiers</Label>
                                         <dl className="grid gap-3">
                                             {sortedTiers?.length ? (
-                                                sortedTiers?.map(
-                                                    (
-                                                        tier: nameAndId,
-                                                        i: number
-                                                    ) => (
-                                                        <>
-                                                            {tier ? (
-                                                                <div
-                                                                    key={i}
-                                                                    className="flex items-center gap-2 text-sm text-muted-foreground"
-                                                                >
-                                                                    <dt>
-                                                                        <SquareStack className="h-4 w-4" />
-                                                                    </dt>
-                                                                    <dd>
-                                                                        {tier?.name ||
-                                                                            "N/A"}
-                                                                    </dd>
-                                                                </div>
-                                                            ) : (
-                                                                <NoDataText />
-                                                            )}
-                                                        </>
-                                                    )
-                                                )
+                                                sortedTiers?.map((tier: nameAndId, i: number) => (
+                                                    <>
+                                                        {tier ? (
+                                                            <div
+                                                                key={i}
+                                                                className="flex items-center gap-2 text-sm text-muted-foreground"
+                                                            >
+                                                                <dt>
+                                                                    <SquareStack className="h-4 w-4" />
+                                                                </dt>
+                                                                <dd>{tier?.name || "N/A"}</dd>
+                                                            </div>
+                                                        ) : (
+                                                            <NoDataText />
+                                                        )}
+                                                    </>
+                                                ))
                                             ) : (
                                                 <NoDataText />
                                             )}
@@ -230,31 +185,23 @@ function AudienceProfile({ data, title = "" }: Props) {
                                         <Label>Gender</Label>
                                         <dl className="grid gap-3">
                                             {data?.gender?.length ? (
-                                                data?.gender?.map(
-                                                    (
-                                                        gender: nameAndId,
-                                                        i: number
-                                                    ) => (
-                                                        <>
-                                                            {gender ? (
-                                                                <div
-                                                                    key={i}
-                                                                    className="flex items-center gap-2 text-sm text-muted-foreground"
-                                                                >
-                                                                    <dt>
-                                                                        <PersonStanding className="h-4 w-4" />
-                                                                    </dt>
-                                                                    <dd>
-                                                                        {gender?.name ||
-                                                                            "N/A"}
-                                                                    </dd>
-                                                                </div>
-                                                            ) : (
-                                                                <NoDataText />
-                                                            )}
-                                                        </>
-                                                    )
-                                                )
+                                                data?.gender?.map((gender: nameAndId, i: number) => (
+                                                    <>
+                                                        {gender ? (
+                                                            <div
+                                                                key={i}
+                                                                className="flex items-center gap-2 text-sm text-muted-foreground"
+                                                            >
+                                                                <dt>
+                                                                    <PersonStanding className="h-4 w-4" />
+                                                                </dt>
+                                                                <dd>{gender?.name || "N/A"}</dd>
+                                                            </div>
+                                                        ) : (
+                                                            <NoDataText />
+                                                        )}
+                                                    </>
+                                                ))
                                             ) : (
                                                 <NoDataText />
                                             )}
@@ -266,9 +213,7 @@ function AudienceProfile({ data, title = "" }: Props) {
                     </Card>
                     <Card x-chunk="dashboard-07-chunk-0">
                         <CardHeader>
-                            <CardTitle className="text-lg font-normal">
-                                Key Markets
-                            </CardTitle>
+                            <CardTitle className="text-lg font-normal">Key Markets</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="grid grid-cols-1 gap-6">
@@ -277,23 +222,15 @@ function AudienceProfile({ data, title = "" }: Props) {
                                         <Label>Primary key Market</Label>
                                         <ul className="grid gap-2">
                                             {sortedPrimaryKeyMarket?.length ? (
-                                                sortedPrimaryKeyMarket?.map(
-                                                    (
-                                                        market: nameAndId,
-                                                        i: number
-                                                    ) => (
-                                                        <li
-                                                            className="flex items-center text-sm text-muted-foreground"
-                                                            key={i}
-                                                        >
-                                                            <Dot />
-                                                            <span>
-                                                                {market?.name ||
-                                                                    "N/A"}
-                                                            </span>
-                                                        </li>
-                                                    )
-                                                )
+                                                sortedPrimaryKeyMarket?.map((market: nameAndId, i: number) => (
+                                                    <li
+                                                        className="flex items-center text-sm text-muted-foreground"
+                                                        key={i}
+                                                    >
+                                                        <Dot />
+                                                        <span>{market?.name || "N/A"}</span>
+                                                    </li>
+                                                ))
                                             ) : (
                                                 <NoDataText />
                                             )}
@@ -306,23 +243,15 @@ function AudienceProfile({ data, title = "" }: Props) {
                                         <Label>Secondary key Market</Label>
                                         <ul className="grid gap-2">
                                             {sortedSecondaryKeyMarket?.length ? (
-                                                sortedSecondaryKeyMarket?.map(
-                                                    (
-                                                        market: nameAndId,
-                                                        i: number
-                                                    ) => (
-                                                        <li
-                                                            className="flex items-center text-sm text-muted-foreground"
-                                                            key={i}
-                                                        >
-                                                            <Dot />
-                                                            <span>
-                                                                {market?.name ||
-                                                                    "-"}
-                                                            </span>
-                                                        </li>
-                                                    )
-                                                )
+                                                sortedSecondaryKeyMarket?.map((market: nameAndId, i: number) => (
+                                                    <li
+                                                        className="flex items-center text-sm text-muted-foreground"
+                                                        key={i}
+                                                    >
+                                                        <Dot />
+                                                        <span>{market?.name || "-"}</span>
+                                                    </li>
+                                                ))
                                             ) : (
                                                 <NoDataText />
                                             )}
@@ -335,23 +264,15 @@ function AudienceProfile({ data, title = "" }: Props) {
                                         <Label>Tertiary Market</Label>
                                         <ul className="grid gap-2">
                                             {sortedTertiaryKeyMarket?.length ? (
-                                                sortedTertiaryKeyMarket?.map(
-                                                    (
-                                                        market: nameAndId,
-                                                        i: number
-                                                    ) => (
-                                                        <li
-                                                            className="flex items-center text-sm text-muted-foreground"
-                                                            key={i}
-                                                        >
-                                                            <Dot />
-                                                            <span>
-                                                                {market?.name ||
-                                                                    "N/A"}
-                                                            </span>
-                                                        </li>
-                                                    )
-                                                )
+                                                sortedTertiaryKeyMarket?.map((market: nameAndId, i: number) => (
+                                                    <li
+                                                        className="flex items-center text-sm text-muted-foreground"
+                                                        key={i}
+                                                    >
+                                                        <Dot />
+                                                        <span>{market?.name || "N/A"}</span>
+                                                    </li>
+                                                ))
                                             ) : (
                                                 <NoDataText />
                                             )}
@@ -373,85 +294,50 @@ function AudienceProfile({ data, title = "" }: Props) {
                     </div>
                 </CardHeader>
                 {/* //= ==================================== Personality Traits starts================================= = */}
-                <Card
-                    x-chunk="dashboard-07-chunk-0"
-                    className="overflow-hidden"
-                >
+                <Card x-chunk="dashboard-07-chunk-0" className="overflow-hidden">
                     <CardHeader>
-                        <CardTitle className="text-lg font-normal">
-                            Personality Traits
-                        </CardTitle>
+                        <CardTitle className="text-lg font-normal">Personality Traits</CardTitle>
                     </CardHeader>
                     <CardContent className="text-sm">
                         <div className="grid gap-6 rounded-md border p-6">
                             <div className="my-4 grid grid-cols-2 gap-6">
                                 <div className="grid gap-3">
-                                    <div className="font-semibold">
-                                        Main Traits
-                                    </div>
+                                    <div className="font-semibold">Main Traits</div>
                                 </div>
                                 <div className="grid auto-rows-max gap-3">
-                                    <div className="font-semibold">
-                                        Sub Traits
-                                    </div>
+                                    <div className="font-semibold">Sub Traits</div>
                                 </div>
 
-                                {data?.mainPersonalityTraits &&
-                                data?.mainPersonalityTraits?.length > 0 ? (
-                                    data?.mainPersonalityTraits?.map(
-                                        (trait: any, i: number) => (
-                                            <>
-                                                <div className="grid">
-                                                    <div
-                                                        key={i}
-                                                        className="grid"
-                                                    >
-                                                        <div className="flex flex-col text-muted-foreground">
-                                                            <span>
-                                                                {" "}
-                                                                {trait?.name}
-                                                            </span>
-                                                            <span>
-                                                                {calculatePercentages(
-                                                                    trait,
-                                                                    i ===
-                                                                        data
-                                                                            ?.mainPersonalityTraits
-                                                                            ?.length -
-                                                                            1
-                                                                )}
-                                                                %
-                                                            </span>
-                                                        </div>
+                                {data?.mainPersonalityTraits && data?.mainPersonalityTraits?.length > 0 ? (
+                                    data?.mainPersonalityTraits?.map((trait: any, i: number) => (
+                                        <>
+                                            <div className="grid">
+                                                <div key={i} className="grid">
+                                                    <div className="flex flex-col text-muted-foreground">
+                                                        <span> {trait?.name}</span>
+                                                        <span>
+                                                            {calculatePercentages(
+                                                                trait,
+                                                                i === data?.mainPersonalityTraits?.length - 1
+                                                            )}
+                                                            %
+                                                        </span>
                                                     </div>
                                                 </div>
-                                                <div className="grid gap-1">
-                                                    {trait?.subPersonalityTraits
-                                                        ?.length ? (
-                                                        trait?.subPersonalityTraits?.map(
-                                                            (
-                                                                trait: any,
-                                                                i: number
-                                                            ) => (
-                                                                <div
-                                                                    key={i}
-                                                                    className="grid gap-3"
-                                                                >
-                                                                    <div className="text-muted-foreground">
-                                                                        {
-                                                                            trait?.name
-                                                                        }
-                                                                    </div>
-                                                                </div>
-                                                            )
-                                                        )
-                                                    ) : (
-                                                        <NoDataText />
-                                                    )}
-                                                </div>
-                                            </>
-                                        )
-                                    )
+                                            </div>
+                                            <div className="grid gap-1">
+                                                {trait?.subPersonalityTraits?.length ? (
+                                                    trait?.subPersonalityTraits?.map((trait: any, i: number) => (
+                                                        <div key={i} className="grid gap-3">
+                                                            <div className="text-muted-foreground">{trait?.name}</div>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <NoDataText />
+                                                )}
+                                            </div>
+                                        </>
+                                    ))
                                 ) : (
                                     <NoDataText />
                                 )}
@@ -465,9 +351,7 @@ function AudienceProfile({ data, title = "" }: Props) {
             <Card x-chunk="dashboard-07-chunk-0" className="overflow-hidden">
                 <CardHeader className="flex flex-row items-start bg-muted/50">
                     <div className="grid gap-0.5">
-                        <CardTitle className="group flex items-center gap-2 text-lg">
-                            Record Details
-                        </CardTitle>
+                        <CardTitle className="group flex items-center gap-2 text-lg">Record Details</CardTitle>
                     </div>
                 </CardHeader>
                 <CardContent className="p-6 text-sm">
@@ -477,12 +361,7 @@ function AudienceProfile({ data, title = "" }: Props) {
                             <ul className="grid gap-1 text-muted-foreground">
                                 <span>{data?.createdBy?.name || "N/A"}</span>
                                 <span className="">
-                                    {data?.createdDate
-                                        ? format(
-                                              data?.createdDate,
-                                              "MMMM dd yyyy, hh:mm aaa"
-                                          )
-                                        : "N/A"}
+                                    {data?.createdDate ? format(data?.createdDate, "MMMM dd yyyy, hh:mm aaa") : "N/A"}
                                 </span>
                             </ul>
                         </div>
@@ -491,12 +370,7 @@ function AudienceProfile({ data, title = "" }: Props) {
                             <ul className="grid gap-1 text-muted-foreground">
                                 <span>{data?.modifiedBy?.name || "N/A"}</span>
                                 <span className="">
-                                    {data?.modifiedDate
-                                        ? format(
-                                              data?.modifiedDate,
-                                              "MMMM dd yyyy, hh:mm aaa"
-                                          )
-                                        : "N/A"}
+                                    {data?.modifiedDate ? format(data?.modifiedDate, "MMMM dd yyyy, hh:mm aaa") : "N/A"}
                                 </span>
                             </ul>
                         </div>

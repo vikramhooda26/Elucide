@@ -1,16 +1,6 @@
 import { Building, Dumbbell, Trophy, Users } from "lucide-react";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle
-} from "../../../components/ui/card";
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger
-} from "../../../components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs";
 import AthleteDashboard from "../athlete/AthleteDashboard";
 import BrandDashboard from "../brand/BrandDashboard";
 import LeagueDashboard from "../league/LeagueDashboard";

@@ -1,8 +1,4 @@
-import {
-    CaretSortIcon,
-    ChevronDownIcon,
-    Cross2Icon
-} from "@radix-ui/react-icons";
+import { CaretSortIcon, ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -19,21 +15,9 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { DataTablePagination } from "../data-table/data-table-pagination";
 import { Button } from "../ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger
-} from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
-} from "../ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { DataTableRowActions } from "../data-table/data-table-row-actions";
 import { ActionButtons } from "./ActionButtons";
 
@@ -47,23 +31,11 @@ type Props = {
     action?: { create: JSX.Element | null };
 };
 
-export function NoActionTable({
-    data,
-    columns,
-    searchableKey,
-    toolbarAttributes,
-    viewRoute,
-    onEdit,
-    action
-}: Props) {
-    const [tableColumns, setTableColumns] = React.useState<ColumnDef<any>[]>(
-        []
-    );
+export function NoActionTable({ data, columns, searchableKey, toolbarAttributes, viewRoute, onEdit, action }: Props) {
+    const [tableColumns, setTableColumns] = React.useState<ColumnDef<any>[]>([]);
     const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] =
-        React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({});
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
 
     const setHeader = () => {
@@ -75,11 +47,7 @@ export function NoActionTable({
                     return (
                         <Button
                             variant="ghost"
-                            onClick={() =>
-                                column.toggleSorting(
-                                    column.getIsSorted() === "asc"
-                                )
-                            }
+                            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                             className="flex items-center justify-start p-0 hover:bg-transparent active:brightness-50"
                         >
                             {header?.name || "N/A"}
@@ -89,20 +57,13 @@ export function NoActionTable({
                 },
                 cell: ({ row }) => {
                     const id = (row.original as { id: string }).id;
-                    if (
-                        id &&
-                        viewRoute &&
-                        viewRoute?.length > 0 &&
-                        header?.navigate
-                    ) {
+                    if (id && viewRoute && viewRoute?.length > 0 && header?.navigate) {
                         return (
                             <Link
                                 to={`${viewRoute}/${id}`}
                                 className="cursor-pointer hover:text-blue-600 hover:underline"
                             >
-                                <div className="line-clamp-2 text-ellipsis">
-                                    {row.getValue(header?.key) || "N/A"}
-                                </div>
+                                <div className="line-clamp-2 text-ellipsis">{row.getValue(header?.key) || "N/A"}</div>
                             </Link>
                         );
                     } else {
@@ -124,13 +85,7 @@ export function NoActionTable({
                         );
                     },
                     cell: ({ row }) => {
-                        return (
-                            <ActionButtons
-                                row={row}
-                                onEdit={onEdit}
-                                canEdit={true}
-                            />
-                        );
+                        return <ActionButtons row={row} onEdit={onEdit} canEdit={true} />;
                     }
                 });
             }
@@ -169,32 +124,18 @@ export function NoActionTable({
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Search..."
-                    value={
-                        (table
-                            .getColumn(searchableKey)
-                            ?.getFilterValue() as string) ?? ""
-                    }
-                    onChange={(event) =>
-                        table
-                            .getColumn(searchableKey)
-                            ?.setFilterValue(event.target.value)
-                    }
+                    value={(table.getColumn(searchableKey)?.getFilterValue() as string) ?? ""}
+                    onChange={(event) => table.getColumn(searchableKey)?.setFilterValue(event.target.value)}
                     className="max-w-sm"
                 />
                 <div className="mx-2 flex flex-1 items-center space-x-2">
                     {toolbarAttributes &&
                         toolbarAttributes?.length > 0 &&
                         toolbarAttributes?.map((jsxAttributes, index) => (
-                            <React.Fragment key={index}>
-                                {jsxAttributes}
-                            </React.Fragment>
+                            <React.Fragment key={index}>{jsxAttributes}</React.Fragment>
                         ))}
                     {isFiltered && (
-                        <Button
-                            variant="ghost"
-                            onClick={() => table.resetColumnFilters()}
-                            className="h-8 px-2 lg:px-3"
-                        >
+                        <Button variant="ghost" onClick={() => table.resetColumnFilters()} className="h-8 px-2 lg:px-3">
                             Reset
                             <Cross2Icon className="ml-2 h-4 w-4" />
                         </Button>
@@ -205,8 +146,7 @@ export function NoActionTable({
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="ml-auto">
-                                Columns{" "}
-                                <ChevronDownIcon className="ml-2 h-4 w-4" />
+                                Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
@@ -219,9 +159,7 @@ export function NoActionTable({
                                             key={column.id}
                                             className="capitalize"
                                             checked={column.getIsVisible()}
-                                            onCheckedChange={(value) =>
-                                                column.toggleVisibility(!!value)
-                                            }
+                                            onCheckedChange={(value) => column.toggleVisibility(!!value)}
                                         >
                                             {column.id}
                                         </DropdownMenuCheckboxItem>
@@ -243,11 +181,7 @@ export function NoActionTable({
                                         <TableHead key={header.id}>
                                             {header.isPlaceholder
                                                 ? null
-                                                : flexRender(
-                                                      header.column.columnDef
-                                                          .header,
-                                                      header.getContext()
-                                                  )}
+                                                : flexRender(header.column.columnDef.header, header.getContext())}
                                         </TableHead>
                                     );
                                 })}
@@ -255,31 +189,19 @@ export function NoActionTable({
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows &&
-                        table.getRowModel().rows?.length ? (
+                        {table.getRowModel().rows && table.getRowModel().rows?.length ? (
                             table.getRowModel()?.rows?.map((row) => (
-                                <TableRow
-                                    key={row?.id}
-                                    data-state={
-                                        row?.getIsSelected() && "selected"
-                                    }
-                                >
+                                <TableRow key={row?.id} data-state={row?.getIsSelected() && "selected"}>
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            ) || "N/A"}
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext()) || "N/A"}
                                         </TableCell>
                                     ))}
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell
-                                    colSpan={columns?.length}
-                                    className="h-24 text-center"
-                                >
+                                <TableCell colSpan={columns?.length} className="h-24 text-center">
                                     No results.
                                 </TableCell>
                             </TableRow>

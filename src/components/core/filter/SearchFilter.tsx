@@ -1,6 +1,6 @@
-import React from 'react';
-import { Label } from '../../ui/label';
-import { Input } from '../../ui/input';
+import React from "react";
+import { Label } from "../../ui/label";
+import { Input } from "../../ui/input";
 
 interface SearchFilterProps {
     value: string;
@@ -9,13 +9,8 @@ interface SearchFilterProps {
 
 const SearchFilter: React.FC<SearchFilterProps> = ({ value, onChange }) => {
     return (
-        <div className="space-y-1 ms-1">
-            <Input
-                id="search"
-                placeholder="Search ..."
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-            />
+        <div className="ms-1 space-y-1">
+            <Input id="search" placeholder="Search ..." value={value} onChange={(e) => onChange(e.target.value)} />
         </div>
     );
 };

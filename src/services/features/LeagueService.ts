@@ -7,35 +7,19 @@ class LeagueService {
     }
 
     static getOne(id: string, params?: any) {
-        return AjaxService.request(
-            API_URL + "/api/admin/league/" + id,
-            params,
-            "GET"
-        );
+        return AjaxService.request(API_URL + "/api/admin/league/" + id, params, "GET");
     }
 
     static createLeague(params?: any) {
-        return AjaxService.request(
-            `${API_URL}/api/admin/league/create`,
-            params,
-            "POST"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/league/create`, params, "POST");
     }
 
     static editLeague(id: string, params?: any) {
-        return AjaxService.request(
-            `${API_URL}/api/admin/league/edit/${id}`,
-            params,
-            "PUT"
-        );
+        return AjaxService.request(`${API_URL}/api/admin/league/edit/${id}`, params, "PUT");
     }
 
     static getFilteredLeagues(params: any) {
-        return AjaxService.request(
-            API_URL + "/api/admin/filter/league",
-            params,
-            "POST"
-        );
+        return AjaxService.request(API_URL + "/api/admin/filter/league", params, "POST");
     }
 }
 

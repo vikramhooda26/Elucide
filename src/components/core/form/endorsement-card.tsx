@@ -1,11 +1,5 @@
 import { PlusCircle, Trash2 } from "lucide-react";
-import {
-    ArrayPath,
-    Control,
-    FieldValues,
-    Path,
-    useFieldArray
-} from "react-hook-form";
+import { ArrayPath, Control, FieldValues, Path, useFieldArray } from "react-hook-form";
 import { CardWrapper } from "../../card/card-wrapper";
 import { FormItemWrapper } from "../../form/item-wrapper";
 import { TableHeaderWrapper } from "../../table/table-header-wrapper";
@@ -37,9 +31,7 @@ type TVerticalFieldsCardProps<T extends FieldValues> = {
     control: Control<T>;
 };
 
-export const EndorsementCard = <T extends FieldValues>({
-    control
-}: TVerticalFieldsCardProps<T>): JSX.Element => {
+export const EndorsementCard = <T extends FieldValues>({ control }: TVerticalFieldsCardProps<T>): JSX.Element => {
     const fieldArray = useFieldArray<T>({
         control,
         name: "endorsements" as ArrayPath<T>
@@ -66,63 +58,43 @@ export const EndorsementCard = <T extends FieldValues>({
                 {fieldArray.fields.map((field, index) => (
                     <CardWrapper title={`Endorsement - ${index + 1}`}>
                         <TableHeaderWrapper
-                            headersArray={[
-                                { header: "Name" },
-                                { header: "Active" },
-                                { header: "Actions" }
-                            ]}
+                            headersArray={[{ header: "Name" }, { header: "Active" }, { header: "Actions" }]}
                             key={field.id}
                         >
                             <TableRow>
-                                {endorsementDetails(index).map(
-                                    (fieldDetails, index) => (
-                                        <TableCell>
-                                            <FormField
-                                                key={fieldDetails.register}
-                                                control={control}
-                                                name={fieldDetails.register}
-                                                render={({ field }) => (
-                                                    <FormItemWrapper>
-                                                        <>
-                                                            {fieldDetails.type ===
-                                                                "CHECKBOX" && (
-                                                                <Checkbox
-                                                                    checked={
-                                                                        field.value
-                                                                    }
-                                                                    onCheckedChange={
-                                                                        field.onChange
-                                                                    }
-                                                                    className="aria-checked:!border-green-600 aria-checked:!bg-green-600"
-                                                                />
-                                                            )}
-                                                            {fieldDetails.type ===
-                                                                "INPUT" && (
-                                                                <Input
-                                                                    {...field}
-                                                                    type={
-                                                                        fieldDetails
-                                                                            .input
-                                                                            ?.type
-                                                                    }
-                                                                    placeholder={
-                                                                        fieldDetails.placeholder
-                                                                    }
-                                                                />
-                                                            )}
-                                                        </>
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </TableCell>
-                                    )
-                                )}
+                                {endorsementDetails(index).map((fieldDetails, index) => (
+                                    <TableCell>
+                                        <FormField
+                                            key={fieldDetails.register}
+                                            control={control}
+                                            name={fieldDetails.register}
+                                            render={({ field }) => (
+                                                <FormItemWrapper>
+                                                    <>
+                                                        {fieldDetails.type === "CHECKBOX" && (
+                                                            <Checkbox
+                                                                checked={field.value}
+                                                                onCheckedChange={field.onChange}
+                                                                className="aria-checked:!border-green-600 aria-checked:!bg-green-600"
+                                                            />
+                                                        )}
+                                                        {fieldDetails.type === "INPUT" && (
+                                                            <Input
+                                                                {...field}
+                                                                type={fieldDetails.input?.type}
+                                                                placeholder={fieldDetails.placeholder}
+                                                            />
+                                                        )}
+                                                    </>
+                                                </FormItemWrapper>
+                                            )}
+                                        />
+                                    </TableCell>
+                                ))}
                                 <TableCell className="font-semibold">
                                     {fieldArray.fields.length > 0 && (
                                         <Button
-                                            onClick={() =>
-                                                fieldArray.remove(index)
-                                            }
+                                            onClick={() => fieldArray.remove(index)}
                                             size="sm"
                                             className="h-7 gap-1 text-white"
                                             variant="destructive"
@@ -141,19 +113,13 @@ export const EndorsementCard = <T extends FieldValues>({
             <CardFooter>
                 <div className="mt-4 flex w-full items-end justify-end">
                     <Button
-                        onClick={() =>
-                            fieldArray.append(
-                                initialValue as T["endorsements"][number]
-                            )
-                        }
+                        onClick={() => fieldArray.append(initialValue as T["endorsements"][number])}
                         size="sm"
                         className="h-7 gap-1"
                         type="button"
                     >
                         <PlusCircle className="h-3.5 w-3.5" />
-                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                            Add
-                        </span>
+                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add</span>
                     </Button>
                 </div>
             </CardFooter>

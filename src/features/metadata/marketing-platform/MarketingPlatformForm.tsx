@@ -13,10 +13,7 @@ import MetadataService from "../../../services/features/MetadataService";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
-import {
-    marketingPlatformFormSchema,
-    TMarketingPlatformFormSchema
-} from "./constants/metadata";
+import { marketingPlatformFormSchema, TMarketingPlatformFormSchema } from "./constants/metadata";
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function MarketingPlatformForm() {
@@ -41,23 +38,15 @@ function MarketingPlatformForm() {
         const fetchGenderDetails = async (id: string) => {
             try {
                 setIsLoading(true);
-                const response =
-                    await MetadataService.getOneMarketingPlatform(id);
+                const response = await MetadataService.getOneMarketingPlatform(id);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     form.reset({
-                        marketingPlatformName:
-                            response.data.marketingPlatformName
+                        marketingPlatformName: response.data.marketingPlatformName
                     });
                 }
             } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(
-                    error,
-                    logout,
-                    navigate
-                );
-                if (
-                    unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND
-                ) {
+                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
                     toast.error("This marketing platform does not exists");
                     navigate(-1);
                 } else {
@@ -73,9 +62,7 @@ function MarketingPlatformForm() {
         }
     }, [id]);
 
-    const onSubmit = async (
-        marketingPlatformFormValues: TMarketingPlatformFormSchema
-    ) => {
+    const onSubmit = async (marketingPlatformFormValues: TMarketingPlatformFormSchema) => {
         try {
             setIsSubmitting(true);
             const requestBody = {
@@ -83,17 +70,13 @@ function MarketingPlatformForm() {
                 userId: user?.id
             };
             if (id) {
-                const response = await MetadataService.editMarketingPlatform(
-                    id,
-                    requestBody
-                );
+                const response = await MetadataService.editMarketingPlatform(id, requestBody);
                 if (response.status === HTTP_STATUS_CODES.OK) {
                     toast.success("Marketing platform updated successfully");
                 }
                 return;
             }
-            const response =
-                await MetadataService.createMarketingPlatform(requestBody);
+            const response = await MetadataService.createMarketingPlatform(requestBody);
             if (response.status === HTTP_STATUS_CODES.OK) {
                 toast.success("Marketing platform created successfully");
                 form.reset({
@@ -102,11 +85,7 @@ function MarketingPlatformForm() {
             }
         } catch (error) {
             console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(
-                error,
-                logout,
-                navigate
-            );
+            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
                 toast.error("An unknown error occurred");
             }
@@ -139,10 +118,7 @@ function MarketingPlatformForm() {
                     name="marketingPlatformName"
                     render={({ field }) => (
                         <FormItemWrapper label="Marketing platform name">
-                            <Input
-                                {...field}
-                                placeholder="Marketing platform name"
-                            />
+                            <Input {...field} placeholder="Marketing platform name" />
                         </FormItemWrapper>
                     )}
                 />

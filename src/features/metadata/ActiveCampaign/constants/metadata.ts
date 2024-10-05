@@ -5,6 +5,4 @@ export const activeCampaignFormSchema = z.object({
     activeCampaignName: z.string()
 });
 
-export type TActiveCampaignFormSchema = z.infer<
-    typeof activeCampaignFormSchema
->;
+export type TActiveCampaignFormSchema = z.infer<typeof activeCampaignFormSchema>;
