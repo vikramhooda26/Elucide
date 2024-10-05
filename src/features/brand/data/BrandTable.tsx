@@ -1,10 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
-import DataTable from "../../../components/data-table/data-table";
-import { useUser } from "../../../hooks/useUser";
-import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { listLoadingAtom } from "../../../store/atoms/global";
-import { useAuth } from "../../auth/auth-provider/AuthProvider";
+import DataTable from "@/components/data-table/data-table";
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -17,14 +11,20 @@ import {
     useReactTable,
     VisibilityState
 } from "@tanstack/react-table";
-import MetadataService from "../../../services/features/MetadataService";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
+import React, { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import ErrorService from "../../../services/error/ErrorService";
-import { getColumns } from "../../../components/core/view/common-columns";
-import { Input } from "../../../components/ui/input";
-import { DataTableFacetedFilter } from "../../../components/data-table/data-table-faceted-filter";
 import { priorities, statuses } from "./data";
+import { useAuth } from "@/features/auth/auth-provider/AuthProvider";
+import { useUser } from "@/hooks/useUser";
+import { listLoadingAtom } from "@/store/atoms/global";
+import MetadataService from "@/services/features/MetadataService";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import ErrorService from "@/services/error/ErrorService";
+import { Input } from "@/components/ui/input";
+import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
+import { getColumns } from "@/components/core/view/common-columns";
 
 type Props = {
     brandList: Array<any>;
