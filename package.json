@@ -15,7 +15,7 @@
     },
     "lint-staged": {
         "*.{js,css,ts,tsx,jsx,json,html}": [
-            "prettier . --write"
+            "prettier --write"
         ]
     },
     "dependencies": {
