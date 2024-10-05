@@ -1,9 +1,7 @@
-// MainPage.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { filterState } from "../../store/atoms/filterAtom";
 import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
-import { Button } from "../../components/ui/button";
+import { filterState } from "../../store/atoms/filterAtom";
 
 const FilterPage = () => {
     const pageKey = "page1";
@@ -115,6 +113,7 @@ const FilterPage = () => {
                 onClose={() => setIsFilterModalOpen(false)}
                 onApplyFilters={handleApplyFilters}
                 pageKey={pageKey}
+                onDiscardFilters={() => {}}
             />
             <div className="mt-8">
                 <h2 className="mb-4 text-2xl font-semibold">Applied Filters:</h2>

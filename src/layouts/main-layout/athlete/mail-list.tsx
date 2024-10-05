@@ -1,5 +1,5 @@
 import { ComponentProps } from "react";
-import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
+import { formatDistanceToNow } from "date-fns";
 import { ScrollArea } from "../../../components/ui/scroll-area";
 import { Badge } from "../../../components/ui/badge";
 import { cn } from "../../../lib/utils";

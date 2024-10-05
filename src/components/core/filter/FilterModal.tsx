@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { CalendarDateRangePicker } from "../../../features/dashboard/components/date-range-picker";
 import { filterState } from "../../../store/atoms/filterAtom";
+import ToggleButton from "../../button/ToggleButton";
 import { Button } from "../../ui/button";
+import { Checkbox } from "../../ui/checkbox";
 import {
     Dialog,
     DialogContent,
@@ -14,16 +16,14 @@ import {
 } from "../../ui/dialog";
 import { RangeSlider } from "../../ui/RangeSlider";
 import CheckBoxFilter from "./CheckBoxFilter";
+import ConditionalDropDownFilter, { Option } from "./ConditionalDropDownFilter";
+import ConditionalTextFilter from "./ConditionalTextFilter";
+import DoubleRangeFilter from "./DoubleRangeFilter";
+import DoubleRangeWithCheckFilter from "./DoubleRangeWithCheckFilter";
 import MultiCheckBoxFilter from "./MultiCheckBoxFilter";
 import SearchFilter from "./SearchFilter";
 import SelectBoxFilter from "./SelectBoxFilter";
-import ToggleButton from "../../button/ToggleButton";
-import { Checkbox } from "../../ui/checkbox";
-import DoubleRangeFilter from "./DoubleRangeFilter";
 import SingleRangeFilter from "./SingleRangeFilter";
-import DoubleRangeWithCheckFilter from "./DoubleRangeWithCheckFilter";
-import ConditionalDropDownFilter, { Option } from "./ConditionalDropDownFilter";
-import ConditionalTextFilter from "./ConditionalTextFilter";
 
 export interface FilterOption {
     label: string;
