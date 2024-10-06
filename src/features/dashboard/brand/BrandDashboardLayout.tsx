@@ -1,13 +1,12 @@
+import { addDays } from "date-fns";
 import { Building } from "lucide-react";
+import { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import useNavigator from "../../../hooks/useNavigator";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { CalendarDateRangePicker } from "../components/date-range-picker";
 import BrandDashboard from "./BrandDashboard";
-import { addDays } from "date-fns";
-import { useState } from "react";
-import FilterPage from "../../hero-section/FilterPage";
 
 function BrandDashboardLayout() {
     const navigator = useNavigator();
@@ -25,9 +24,8 @@ function BrandDashboardLayout() {
                     <div className="flex items-center space-x-2">
                         <CalendarDateRangePicker
                             value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
-                            onChange={(range) => console.log(range)}
+                            onChangeDate={(range) => console.log(range)}
                         />
-                        <div className="h-full w-full">{/* <FilterPage /> */}</div>
                         <Button onClick={onViewList}>View List</Button>
                     </div>
                 </div>

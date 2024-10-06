@@ -62,7 +62,7 @@ export default function Dashboard() {
                         <div className="flex items-center space-x-2">
                             <CalendarDateRangePicker
                                 value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
-                                onChange={(range) => console.log(range)}
+                                onChangeDate={(range) => console.log(range)}
                             />
                             <Button>Search</Button>
                         </div>

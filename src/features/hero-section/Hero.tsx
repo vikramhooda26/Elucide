@@ -6,7 +6,6 @@ import { GradientButton } from "../../components/ui/gradient-button";
 import { Vortex } from "../../components/ui/vortex";
 import { NAVIGATION_ROUTES } from "../../lib/constants";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import FilterPage from "./FilterPage";
 
 export const Hero = ({ words, approachRef }: { words: string[]; approachRef: React.RefObject<HTMLDivElement> }) => {
     const navigate = useNavigate();
