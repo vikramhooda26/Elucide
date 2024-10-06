@@ -22,10 +22,10 @@ function LeagueDashboardLayout() {
                 <div className="flex items-center justify-between space-y-2">
                     <h2 className="text-3xl font-bold tracking-tight">League Dashboard</h2>
                     <div className="flex items-center space-x-2">
-                        <CalendarDateRangePicker
+                        {/* <CalendarDateRangePicker
                             value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
                             onChangeDate={(range) => console.log(range)}
-                        />
+                        /> */}
                         <Button onClick={onViewList}>View List</Button>
                     </div>
                 </div>
