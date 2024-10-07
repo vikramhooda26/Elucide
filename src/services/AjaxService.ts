@@ -46,6 +46,13 @@ class AjaxService {
 
             return { status: r.status, data: r.data };
         } catch (error: any) {
+            if (axios.isAxiosError(error)) {
+                if (error.code === "ERR_NETWORK") {
+                    window.location.href = "/elucide/home";
+                    localStorage.clear();
+                    return { status: 0, data: {} };
+                }
+            }
             throw error;
         }
     }
