@@ -10,6 +10,8 @@ class FilterService {
 
         processedFilters.isMandatory = true;
 
+        let optionalCount = 0;
+
         Object.entries(filterData).map(([key, filter]) => {
             if (key && filter && filter?.value) {
                 if (typeof filter?.value === "object") {
@@ -29,8 +31,16 @@ class FilterService {
                 ) {
                     processedFilters[key] = filter?.value;
                 }
+
+                if (!filter?.isMandatory) {
+                    ++optionalCount;
+                }
             }
         });
+
+        if (optionalCount) {
+            processedFilters.isMandatory = false;
+        }
 
         if (processedFilters?.costOfAssociation) {
             let costOfAssociation = processedFilters?.costOfAssociation;
@@ -44,10 +54,10 @@ class FilterService {
 
             const operationType = costOfAssociation?.operationType;
 
-            let value11 = costOfAssociation?.value1?.[0] || 0;
-            let value12 = costOfAssociation?.value1?.[1] || 0;
-            let value21 = costOfAssociation?.value2?.[0] || 0;
-            let value22 = costOfAssociation?.value2?.[1] || 0;
+            let value11 = (costOfAssociation?.value1?.[0] || 0) * 10000000;
+            let value12 = (costOfAssociation?.value1?.[1] || 0) * 10000000;
+            let value21 = (costOfAssociation?.value2?.[0] || 0) * 100000;
+            let value22 = (costOfAssociation?.value2?.[1] || 0) * 100000;
 
             let cost = [];
             if (operationType !== "in") {
@@ -182,10 +192,10 @@ class FilterService {
 export default FilterService;
 
 const shapeRange = (valueRanges: any, operationType: string) => {
-    let value11 = valueRanges?.value1?.[0] || 0;
-    let value12 = valueRanges?.value1?.[1] || 0;
-    let value21 = valueRanges?.value2?.[0] || 0;
-    let value22 = valueRanges?.value2?.[1] || 0;
+    let value11 = (valueRanges?.value1?.[0] || 0) * 1000000;
+    let value12 = (valueRanges?.value1?.[1] || 0) * 1000000;
+    let value21 = (valueRanges?.value2?.[0] || 0) * 1000;
+    let value22 = (valueRanges?.value2?.[1] || 0) * 1000;
 
     let cost = [];
     if (operationType !== "in") {

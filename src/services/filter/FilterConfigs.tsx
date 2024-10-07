@@ -116,9 +116,9 @@ function getFilters(pageKey: TPageKey) {
                 Object.keys(filterValues[pageKey]?.costOfAssociation?.value || {})?.length > 0
                     ? filterValues[pageKey]?.costOfAssociation?.value
                     : { value1: [0, 0], value2: [0, 0], operationType: "in" },
-            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 1000000000, max2: 9000000 } },
+            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100, max2: 90 } },
             isMandatory: true,
-            steps: { step1: 10000000, step2: 1000000 },
+            steps: { step1: 1, step2: 10 },
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList"]
         },
         {
@@ -626,44 +626,44 @@ function getFilters(pageKey: TPageKey) {
         // need to do. ============================
         {
             displayName: "Reach",
-            subTitle: { title1: "In Crore", title2: "In Lakhs", title3: "Partner Type" },
+            subTitle: { title1: "In Million", title2: "In Thousands", title3: "Partner Type" },
             key: "reachMetrics",
             type: "doubleRangeWithCheck",
             value:
                 Object.keys(filterValues[pageKey]?.reachMetrics?.value || {})?.length > 0
                     ? filterValues[pageKey]?.reachMetrics?.value
                     : { value1: [0, 0], value2: [0, 0], operationType: "in", checkType: "ott" },
-            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 1000000000, max2: 9000000 } },
+            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 10, max2: 950 } },
             isMandatory: true,
-            steps: { step1: 10000000, step2: 1000000 },
+            steps: { step1: 1, step2: 50 },
             pageKeys: ["leagueList", "teamList"]
         },
         {
             displayName: "Viewership",
-            subTitle: { title1: "In Crore", title2: "In Lakhs", title3: "Partner Type" },
+            subTitle: { title1: "In Million", title2: "In Thousands", title3: "Partner Type" },
             key: "viewershipMetrics",
             type: "doubleRangeWithCheck",
             value:
                 Object.keys(filterValues[pageKey]?.viewershipMetrics?.value || {})?.length > 0
                     ? filterValues[pageKey]?.viewershipMetrics?.value
                     : { value1: [0, 0], value2: [0, 0], operationType: "in", checkType: "ott" },
-            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 1000000000, max2: 9000000 } },
+            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 10, max2: 950 } },
             isMandatory: true,
-            steps: { step1: 10000000, step2: 1000000 },
+            steps: { step1: 1, step2: 50 },
             pageKeys: ["leagueList", "teamList"]
         },
         {
             displayName: "Year",
-            subTitle: { title1: "In Crore", title2: "In Lakhs", title3: "Partner Type" },
+            subTitle: { title1: "In Million", title2: "In Thousands", title3: "Partner Type" },
             key: "yearMetrics",
             type: "doubleRangeWithCheck",
             value:
                 Object.keys(filterValues[pageKey]?.yearMetrics?.value || {})?.length > 0
                     ? filterValues[pageKey]?.yearMetrics?.value
                     : { value1: [0, 0], value2: [0, 0], operationType: "in", checkType: "ott" },
-            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 1000000000, max2: 9000000 } },
+            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 10, max2: 950 } },
             isMandatory: true,
-            steps: { step1: 10000000, step2: 1000000 },
+            steps: { step1: 1, step2: 50 },
             pageKeys: ["leagueList", "teamList"]
         },
 

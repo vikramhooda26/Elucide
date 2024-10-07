@@ -220,7 +220,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                                             minStepsBetweenThumbs={1}
                                             min={filter.doubleRange?.min}
                                             max={filter.doubleRange?.max}
-                                            steps={filter?.steps || { step1: 1, step2: 0 }}
+                                            steps={filter?.steps || { step1: 1, step2: 1 }}
                                             onValueChange={(value) => handleInputChange(filter.key, value)}
                                             className="w-full"
                                             isSingle={false}
@@ -266,7 +266,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                             return (
                                 <CalendarDateRangePicker
                                     value={currentValues[filter.key]?.value || { from: undefined, to: undefined }}
-                                    onChange={(range) => handleInputChange(filter.key, range)}
+                                    onChangeDate={(range) => handleInputChange(filter.key, range)}
                                 />
                             );
                         case "check":

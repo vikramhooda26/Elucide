@@ -60,11 +60,11 @@ export default function Dashboard() {
                     <div className="flex items-center justify-between space-y-2">
                         <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
                         <div className="flex items-center space-x-2">
-                            <CalendarDateRangePicker
+                            {/* <CalendarDateRangePicker
                                 value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
-                                onChange={(range) => console.log(range)}
+                                onChangeDate={(range) => console.log(range)}
                             />
-                            <Button>Search</Button>
+                            <Button>Search</Button> */}
                         </div>
                     </div>
                     <div className="space-y-4">
