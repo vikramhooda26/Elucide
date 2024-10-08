@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -19,9 +20,6 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import BrandTable from "../brand/data/BrandTable";
 import LeagueTable from "../league/data/LeagueTable";
 import TeamTable from "../team/data/TeamTable";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import axios from "axios";
 import ChatGPT from "./components/ChatGPT";
 
 function Explore() {
