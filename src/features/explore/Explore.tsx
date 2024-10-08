@@ -19,12 +19,17 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import BrandTable from "../brand/data/BrandTable";
 import LeagueTable from "../league/data/LeagueTable";
 import TeamTable from "../team/data/TeamTable";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import ChatGPT from "./components/ChatGPT";
 
 function Explore() {
     const [brandList, setBrandList] = useState<Array<any>>([]);
     const [leagueList, setLeagueList] = useState<Array<any>>([]);
     const [teamList, setTeamList] = useState<any[]>([]);
     const [athletes, setAthletes] = useState<Array<any>>([]);
+    const [openAi, setOpenAi] = useState(false);
 
     const pageKey: TPageKey = "allStakeList";
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -115,6 +120,7 @@ function Explore() {
                     <p className="text-muted-foreground">Here&apos;s a list of all stakes on filter.</p>
                 </div>
                 <div className="flex items-center space-x-2">
+                    <Button variant="outline" onClick={() => setOpenAi(pv => !pv)}>Open AI</Button>
                     <FilterModal
                         isOpen={isFilterModalOpen}
                         filters={filterConfig}
@@ -125,6 +131,10 @@ function Explore() {
                     />
                 </div>
             </div>
+
+            {openAi &&
+                <ChatGPT />
+            }
             <div>
                 <h3 className="my-4 text-2xl tracking-tight">List Of Brands</h3>
                 <BrandTable brandList={brandList} setBrandList={setBrandList} />
@@ -135,6 +145,7 @@ function Explore() {
                 <h3 className="my-4 text-2xl tracking-tight">List Of Athletes</h3>
                 <AthleteTable athletes={athletes} setAthletes={setAthletes} />
             </div>
+
         </div>
     );
 }
