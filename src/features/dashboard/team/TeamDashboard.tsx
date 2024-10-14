@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import { useUser } from "../../../hooks/useUser";
-import { HTTP_STATUS_CODES } from "../../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
 import ErrorService from "../../../services/error/ErrorService";
 import DashboardService from "../../../services/features/DashboardService";
 import { listLoadingAtom } from "../../../store/atoms/global";
@@ -113,6 +113,8 @@ function TeamDashboard({ setCount }: Props) {
         { key: "teamsCount", label: "Number of Teams" }
     ];
 
+    const viewRoute = NAVIGATION_ROUTES.TEAM;
+
     return (
         <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
@@ -150,6 +152,7 @@ function TeamDashboard({ setCount }: Props) {
                 <TeamRecentList
                     recentlyCreated={dashboardData?.recentlyAddedTeams || []}
                     recentlyModified={dashboardData?.recentlyModifiedTeams || []}
+                    viewRoute={viewRoute}
                 />
             </div>
         </>

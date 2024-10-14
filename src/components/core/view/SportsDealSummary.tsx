@@ -7,6 +7,7 @@ import { NoActionTable } from "../../table/NoActionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import SelectBox from "../../ui/multi-select";
 import { useNavigate } from "react-router-dom";
+import { convertRupeesToCrore } from "@/features/utils/helpers";
 
 type Props = {
     data: any;
@@ -93,7 +94,8 @@ function SportsDealSummary({ data, partnerKey }: Props) {
             sportsDeal.league = d?.league?.name;
             sportsDeal.team = d?.team?.name;
             sportsDeal.territory = d?.territory?.name;
-
+            sportsDeal.annualValue = convertRupeesToCrore(d?.annualValue) || "";
+            sportsDeal.totalValue = convertRupeesToCrore(d?.totalValue) || "";
             if (!partnerKey || partnerKey?.length <= 0) {
                 sportsDeal.partner = d?.athlete?.name || d?.league?.name || d?.team?.name;
             }
@@ -150,7 +152,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
                     toolbarAttributes={toolbarAttributes}
                     viewRoute={NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY}
                     action={{ create: createButton }}
-                    onEdit={userRole === "SUPER_ADMIN" ? onEdit : () => {}}
+                    onEdit={userRole === "SUPER_ADMIN" || userRole === "ADMIN" ? onEdit : () => { }}
                 />
                 {/* ) : (
                     <span className="text-muted-foreground">

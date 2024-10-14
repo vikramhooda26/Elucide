@@ -15,9 +15,10 @@ import { brand } from "../../../../types/brand/BrandListTypes";
 type Props = {
     recentlyCreated: Array<any>;
     recentlyModified: Array<any>;
+    viewRoute: string;
 };
 
-function BrandRecentList({ recentlyCreated, recentlyModified }: Props) {
+function BrandRecentList({ recentlyCreated, recentlyModified, viewRoute }: Props) {
     return (
         <>
             <RecentList
@@ -27,6 +28,7 @@ function BrandRecentList({ recentlyCreated, recentlyModified }: Props) {
                 nameKey={"name"}
                 dateKey={"createdAt"}
                 operationKey={"createdBy"}
+                viewRoute={viewRoute}
             />
             <RecentList
                 title={"Modified Brands"}
@@ -35,6 +37,7 @@ function BrandRecentList({ recentlyCreated, recentlyModified }: Props) {
                 nameKey={"name"}
                 dateKey={"modifiedAt"}
                 operationKey={"modifiedBy"}
+                viewRoute={viewRoute}
             />
         </>
     );

@@ -120,7 +120,7 @@ function AthleteList() {
                     </ConditionalButton>
                 </div>
             </div>
-            <AthleteTable athletes={athletes} setAthletes={setAthletes} />
+            <AthleteTable athletes={athletes} setAthletes={setAthletes} filters={filterValues[pageKey]} />
         </div>
     );
 }
