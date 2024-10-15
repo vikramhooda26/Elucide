@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ArrowDownIcon, ArrowUpIcon, CaretSortIcon, EyeNoneIcon } from "@radix-ui/react-icons";
 import { Column } from "@tanstack/react-table";
 
@@ -22,8 +22,17 @@ export function OptionalColumnHeader<TData, TValue>({
     title,
     className
 }: DataTableColumnHeaderProps<TData, TValue>) {
+
     if (!column.getCanSort()) {
         return <div className={cn(className)}>{title}</div>;
+    }
+
+    const setMatched = (matched: string) => {
+        if (matched?.length > 0) {
+            column?.setFilterValue(matched);
+        } else {
+            column?.setFilterValue('');
+        }
     }
 
     return (
@@ -42,13 +51,17 @@ export function OptionalColumnHeader<TData, TValue>({
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
-                    <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
+                    <DropdownMenuItem onClick={() => { setMatched('Matched') }}>
                         <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Matched
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
+                    <DropdownMenuItem onClick={() => { setMatched('Not Matched') }}>
                         <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Not Matched
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => { setMatched('') }}>
+                        <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                        ALL
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>

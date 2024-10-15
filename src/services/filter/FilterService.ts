@@ -1,3 +1,4 @@
+import { AllColumns } from "@/types/metadata/Metadata";
 import { FilterContent } from "../../components/core/filter/FilterModal";
 
 class FilterService {
@@ -187,6 +188,171 @@ class FilterService {
 
         return processedFilters;
     }
+
+    static validateMatching(listData: AllColumns[], filters: Record<string, { type: string; value: any; isMandatory: boolean; }>) {
+        const finalList: any = [];
+        const processedFilters = this.processFilterData(filters);
+
+        const matchData = (data: AllColumns) => {
+            if (!data || Object.keys(data)?.length === 0) return;
+
+            const finalObj: { [key: string]: string } = { ...data } as { [key: string]: string };
+
+            const brandIds = filters?.brandIds;
+            const teamIds = filters?.teamIds;
+            const leagueIds = filters?.leagueIds;
+            const athleteIds = filters?.athleteIds;
+
+            const statusIds = filters?.statusIds; // done
+            const athleteAge = filters?.athleteAge; // done
+            const athleteGenderIds = filters?.athleteGenderIds; // done
+            const costOfAssociation = filters?.costOfAssociation;
+            const ageIds = filters?.ageIds; // done
+            const genderIds = filters?.genderIds;
+            const cityIds = filters?.cityIds;
+            const stateIds = filters?.stateIds;
+            const activeCampaignIds = filters?.activeCampaignIds;
+            const agencyIds = filters?.agencyIds;
+            const assetIds = filters?.assetIds;
+            const broadcastPartnerIds = filters?.broadcastPartnerIds;
+            const maincategoryIds = filters?.maincategoryIds;
+            const subCategoryIds = filters?.subCategoryIds;
+            const formatIds = filters?.formatIds;
+            const primaryMarketIds = filters?.primaryMarketIds;
+            const secondaryMarketIds = filters?.secondaryMarketIds;
+            const tertiaryIds = filters?.tertiaryIds;
+            const primaryMarketingPlatformIds = filters?.primaryMarketingPlatformIds;
+            const secondaryMarketingPlatformIds = filters?.secondaryMarketingPlatformIds;
+            const primarySocialMediaPlatformIds = filters?.primarySocialMediaPlatformIds;
+            const secondarySocialMediaPlatformIds = filters?.secondarySocialMediaPlatformIds;
+            const yearOfInception = filters?.yearOfInception;
+            const franchiseFee = filters?.franchiseFee;
+            const leagueOwnerIds = filters?.leagueOwnerIds;
+            const nccsIds = filters?.nccsIds;
+            const ottPartnerIds = filters?.ottPartnerIds;
+            const parentOrgIds = filters?.parentOrgIds;
+            const mainpersonalityIds = filters?.mainpersonalityIds;
+            const subPersonalityTraitIds = filters?.subPersonalityTraitIds;
+            const sportsDealSummaryLevelIds = filters?.sportsDealSummaryLevelIds;
+            const sportsDealSummaryStatusIds = filters?.sportsDealSummaryStatusIds;
+            const sportsDealSummaryTerritoryIds = filters?.sportsDealSummaryTerritoryIds;
+            const sportsDealSummaryTypeIds = filters?.sportsDealSummaryTypeIds;
+            const taglineIds = filters?.taglineIds;
+            const teamOwnerIds = filters?.teamOwnerIds;
+            const sportIds = filters?.sportIds;
+            const tierIds = filters?.tierIds;
+            const associationLevelIds = filters?.associationLevelIds;
+            const nationalityIds = filters?.nationalityIds;
+            const socialMediaIds = filters?.socialMediaIds;
+            const athleteStatusIds = filters?.athleteStatusIds;
+            const strategyOverview = filters?.strategyOverview;
+
+            const facebook = filters?.facebook;
+            const instagram = filters?.instagram;
+            const twitter = filters?.twitter;
+            const linkedin = filters?.linkedin;
+            const youtube = filters?.youtube;
+            const website = filters?.website;
+
+            const contactName = filters?.contactName;
+            const contactDesignation = filters?.contactDesignation;
+            const contactEmail = filters?.contactEmail;
+            const contactNumber = filters?.contactNumber;
+            const contactLinkedin = filters?.contactLinkedin;
+
+            const reachMetrics = filters?.reachMetrics;
+            const viewershipMetrics = filters?.viewershipMetrics;
+            const yearMetrics = filters?.yearMetrics;
+            const partnerIdMetrics = filters?.partnerIdMetrics;
+            const endorsement = filters?.endorsement;
+
+            if (statusIds && statusIds?.isMandatory === false && data?.status) {
+                finalObj.status = statusIds?.value?.includes(data?.status?.id) ? 'Matched' : 'Not Matched';
+            }
+
+            if (ageIds && ageIds?.isMandatory === false && data?.age) {
+                finalObj.age = data?.age?.some((age: any) => ageIds?.value.includes(age.id)) ? 'Matched' : 'Not Matched';
+            }
+
+            if (athleteAge && athleteAge?.isMandatory === false && data?.athleteAge) {
+                finalObj.athleteAge = '';
+                if (processedFilters?.['athleteAge']?.operationType === 'in') {
+                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] >= data?.athleteAge && processedFilters?.['athleteGenderIds']?.age?.[1] <= data?.athleteAge ? 'Matched' : 'Not Matched';
+                } else if (processedFilters?.['athleteAge']?.operationType === 'gte') {
+                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] >= data?.athleteAge ? 'Matched' : 'Not Matched';
+                } else if (processedFilters?.['athleteAge']?.operationType === 'lte') {
+                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] <= data?.athleteAge ? 'Matched' : 'Not Matched';
+                }
+            }
+
+            if (athleteGenderIds && athleteGenderIds?.isMandatory === false && data?.athleteGender) {
+                finalObj.age = data?.athleteGender?.some((gender: any) => athleteGenderIds?.value.includes(gender.id)) ? 'Matched' : 'Not Matched';
+            }
+
+            if (genderIds && genderIds?.isMandatory === false && data?.gender) {
+                finalObj.gender = data?.gender?.some((gender: any) => genderIds?.value.includes(gender.id)) ? 'Matched' : 'Not Matched';
+            }
+
+            if (stateIds && stateIds?.isMandatory === false && data?.state) {
+                finalObj.state = data?.state?.some((state: any) => stateIds?.value.includes(state.id)) ? 'Matched' : 'Not Matched';
+            }
+
+            if (cityIds && cityIds?.isMandatory === false && data?.city) {
+                finalObj.city = cityIds?.value.includes(data?.city?.id) ? 'Matched' : 'Not Matched';
+            }
+
+            if (teamIds && teamIds?.isMandatory === false && data?.team) {
+                finalObj.team = teamIds?.value?.includes(data?.team?.id) ? 'Matched' : 'Not Matched';
+            }
+
+            // if (brandIds && brandIds?.isMandatory === false && data?.brand) {
+            //     finalObj.brand = brandIds?.value?.includes(data?.brand?.id) ? 'Matched' : 'Not Matched';
+            // }
+
+            if (parentOrgIds && parentOrgIds?.isMandatory === false && data?.parentOrg) {
+                finalObj.parentOrg = parentOrgIds?.value?.includes(data?.parentOrg?.id) ? 'Matched' : 'Not Matched';
+            }
+
+            if (primaryMarketIds && primaryMarketIds?.isMandatory === false && data?.primaryKeyMarket) {
+                finalObj.primaryKeyMarket = data?.primaryKeyMarket?.some((market: any) => primaryMarketIds?.value.includes(market.id)) ? 'Matched' : 'Not Matched';
+            }
+
+            if (secondaryMarketIds && secondaryMarketIds?.isMandatory === false && data?.secondaryKeyMarket) {
+                finalObj.secondaryKeyMarket = data?.secondaryKeyMarket?.some((market: any) => secondaryMarketIds?.value.includes(market.id)) ? 'Matched' : 'Not Matched';
+            }
+
+            if (tertiaryIds && tertiaryIds?.isMandatory === false && data?.tertiary) {
+                finalObj.tertiary = data?.tertiary?.some((market: any) => tertiaryIds?.value.includes(market.id)) ? 'Matched' : 'Not Matched';
+            }
+
+            if (primaryMarketingPlatformIds && primaryMarketingPlatformIds?.isMandatory === false && data?.primaryMarketingPlatform) {
+                finalObj.primaryMarketingPlatform = data?.primaryMarketingPlatform?.some((platform: any) => primaryMarketingPlatformIds?.value.includes(platform.id)) ? 'Matched' : 'Not Matched';
+            }
+
+            if (secondaryMarketingPlatformIds && secondaryMarketingPlatformIds?.isMandatory === false && data?.secondaryMarketingPlatform) {
+                finalObj.secondaryMarketingPlatform = data?.secondaryMarketingPlatform?.some((platform: any) => secondaryMarketingPlatformIds?.value.includes(platform.id)) ? 'Matched' : 'Not Matched';
+            }
+
+            if (contactName && contactName?.isMandatory === false && data?.contactPersons) {
+                finalObj.contactName = data?.contactPersons?.some((contact: any) => contact.contactName.includes(contactName.value)) ? 'Matched' : 'Not Matched';
+            }
+
+            if (contactEmail && contactEmail?.isMandatory === false && data?.contactPersons) {
+                finalObj.contactEmail = data?.contactPersons?.some((contact: any) => contact.contactEmail?.includes(contactEmail.value)) ? 'Matched' : 'Not Matched';
+            }
+
+
+            return finalObj;
+        }
+
+        listData?.forEach((data: AllColumns) => {
+            const matchedData = matchData(data);
+            finalList?.push(matchedData);
+        });
+
+        return finalList;
+    }
+
 }
 
 export default FilterService;
@@ -206,6 +372,7 @@ const shapeRange = (valueRanges: any, operationType: string) => {
 
     return cost;
 };
+
 
 // reachMetrics: {"value1":[380000000],"value2":[3000000],"operationType":"gte","checkType":"ott"}
 // viewershipMetrics: {"value1":[340000000],"value2":[3000000],"operationType":"lte","checkType":"ott"}

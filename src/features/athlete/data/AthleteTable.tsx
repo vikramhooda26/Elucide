@@ -96,7 +96,7 @@ function AthleteTable({ athletes, setAthletes, filters }: Props) {
                 searchQuerykey: "name",
                 title: "Athlete name",
                 canEdit
-            }), 
+            }),
         []
     );
 
@@ -105,7 +105,7 @@ function AthleteTable({ athletes, setAthletes, filters }: Props) {
     const setOptionalColumns = () => {
         if (filters) {
             const optionalColumns = OptionalColumns.getOptionalColumns(filters);
-            const updateColumns = [...allowedColumns,];
+            const updateColumns = [...columns,];
 
             updateColumns?.splice(1, 0, ...optionalColumns);
 

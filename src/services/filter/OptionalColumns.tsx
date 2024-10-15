@@ -3,46 +3,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns";
 import { z } from 'zod';
 import OptionalColumnHeader from "./OptionalColumnHeader";
-
-export const createSchema = () =>
-    z.object({
-        id: z.string().optional(),
-        name: z.string().optional(),
-        nationality: z.object({
-            id: z.string(),
-            name: z.string(),
-        }).optional(),
-        sport: z.object({
-            id: z.string(),
-            name: z.string(),
-        }).optional(),
-        agency: z.object({
-            id: z.string(),
-            name: z.string(),
-        }).optional(),
-        age: z.array(z.object({
-            id: z.string().optional(),
-            name: z.string().optional(),
-        })).optional(),
-        athleteGender: z.object({
-            id: z.string().optional(),
-            name: z.string().optional(),
-        }).optional(),
-        gender: z.array(z.object({
-            id: z.string().optional(),
-            name: z.string().optional(),
-        })).optional(),
-        createdDate: z.string().optional(),
-        modifiedDate: z.string().optional(),
-        mainPersonalityTraits: z.array(z.object({
-            id: z.string().optional(),
-            name: z.string().optional(),
-            subPersonalityTraits: z.array(z.object({
-                id: z.string().optional(),
-                name: z.string().optional(),
-            })).optional()
-        })).optional(),
-    });
+import { AllColumns } from "@/types/metadata/Metadata";
 
 type CustomColumnDef<TData> = ColumnDef<TData> & {
     filterKey?: string;
@@ -55,8 +16,8 @@ class OptionalColumns {
         value: any;
         isMandatory: boolean;
     }>) {
-        const schema = createSchema();
-        type TSchemaType = z.infer<typeof schema>;
+
+        type TSchemaType = AllColumns;
         const columns: CustomColumnDef<TSchemaType>[] = [
             {
                 accessorKey: "age",
@@ -69,9 +30,7 @@ class OptionalColumns {
                     return (
                         <div className="flex space-x-2">
                             <span className="max-w-[400px] truncate font-medium">
-                                {Array.isArray(ageValues) && Array.isArray(filterValues) && ageValues.some((age: any) => filterValues.includes(age.id))
-                                    ? "Matched"
-                                    : "Not Matched"}
+                                {row.getValue("age") || "Not Matched"}
                             </span>
                         </div>
                     );
@@ -90,9 +49,7 @@ class OptionalColumns {
                     return (
                         <div className="flex space-x-2">
                             <span className="max-w-[400px] truncate font-medium">
-                                {athleteGender?.id && Array.isArray(filterValues) && filterValues.includes(athleteGender.id)
-                                    ? "Matched"
-                                    : "Not Matched"}
+                                {row.getValue("athleteGender") || "Not Matched"}
                             </span>
                         </div>
                     );
@@ -111,9 +68,7 @@ class OptionalColumns {
                     return (
                         <div className="flex space-x-2">
                             <span className="max-w-[400px] truncate font-medium">
-                                {Array.isArray(genderValues) && Array.isArray(filterValues) && genderValues.some((gender: any) => filterValues.includes(gender.id))
-                                    ? "Matched"
-                                    : "Not Matched"}
+                                {row.getValue("gender") || "Not Matched"}
                             </span>
                         </div>
                     );
@@ -132,9 +87,7 @@ class OptionalColumns {
                     return (
                         <div className="flex space-x-2">
                             <span className="max-w-[400px] truncate font-medium">
-                                {nationality?.id && Array.isArray(filterValues) && filterValues.includes(nationality.id)
-                                    ? "Matched"
-                                    : "Not Matched"}
+                                {row.getValue("nationality") || "Not Matched"}
                             </span>
                         </div>
                     );
@@ -153,9 +106,7 @@ class OptionalColumns {
                     return (
                         <div className="flex space-x-2">
                             <span className="max-w-[400px] truncate font-medium">
-                                {sport?.id && Array.isArray(filterValues) && filterValues.includes(sport.id)
-                                    ? "Matched"
-                                    : "Not Matched"}
+                                {row.getValue("sport") || "Not Matched"}
                             </span>
                         </div>
                     );
@@ -174,29 +125,11 @@ class OptionalColumns {
                     return (
                         <div className="flex space-x-2">
                             <span className="max-w-[400px] truncate font-medium">
-                                {agency?.id && Array.isArray(filterValues) && filterValues.includes(agency.id)
-                                    ? "Matched"
-                                    : "Not Matched"}
+                                {row.getValue("agency") || "Not Matched"}
                             </span>
                         </div>
                     );
                 },
-                enableSorting: true,
-                enableHiding: true,
-            },
-            {
-                accessorKey: "createdDate",
-                filterKey: 'dateRange',
-                header: ({ column }) => <OptionalColumnHeader column={column} title="Created At" />,
-                cell: ({ row }) => (
-                    <div className="flex space-x-2">
-                        <span className="max-w-[400px] truncate font-medium">
-                            {row.getValue("createdDate")
-                                ? format(new Date(row.getValue("createdDate")), "dd-MM-yyyy, hh:mm aaaaaa")
-                                : ""}
-                        </span>
-                    </div>
-                ),
                 enableSorting: true,
                 enableHiding: true,
             },
@@ -316,6 +249,253 @@ export default OptionalColumns;
 //         endorsement: z.string().optional(),
 //     };
 
+// view keys
+
+// export type TEditEntityFormSchema = {
+//     // Athlete-specific fields
+//     athleteAge?: string;
+//     sportsDealsummary?: {
+//         id?: string;
+//         annualValue?: string;
+//         totalValue?: string;
+//         assets?: {
+//             id: string;
+//             name: string;
+//         }[];
+//         commencementDate?: string;
+//         expirationDate?: string;
+//         duration?: string;
+//         territory?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         mediaLink?: string;
+//         level?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         status?: string;
+//         type?: string;
+//         brandName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         athleteName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         leagueName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         teamName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//     }[];
+//     association?: {
+//         associationId?: string;
+//         associationLevel?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         costOfAssociation?: string;
+//     }[];
+
+//     // Brand-specific fields
+//     parentOrg?: {
+//         id?: string;
+//         name?: string;
+//     };
+//     mainCategories?: {
+//         id?: string;
+//         name?: string;
+//         subCategories?: {
+//             id?: string;
+//             name?: string;
+//         }[];
+//     }[];
+//     sportsDealSummary?: {
+//         id?: string;
+//         annualValue?: string;
+//         totalValue?: string;
+//         assets?: {
+//             id?: string;
+//             name?: string;
+//         }[];
+//         commencementDate?: string;
+//         expirationDate?: string;
+//         duration?: string;
+//         territory?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         mediaLink?: string;
+//         level?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         status?: string;
+//         type?: string;
+//         brandName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         athleteName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         leagueName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         teamName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//     }[];
+
+//     // League-specific fields
+//     owners?: {
+//         id?: string;
+//         name?: string;
+//     }[];
+//     yearOfInception: string;
+//     ottPartnerMetrics?: {
+//         id: string;
+//         viewership: string;
+//         reach: string;
+//         year: string;
+//         ottPartner: { id: string; name: string };
+//     }[];
+//     broadcastPartnerMetrics?: {
+//         id: string;
+//         reach: string;
+//         viewership: string;
+//         year: string;
+//         broadcastPartner: { id: string; name: string };
+//     }[];
+
+//     // Team-specific fields
+//     franchiseFee?: string;
+//     activationSummary?: {
+//         asset: {
+//             id?: string;
+//             name?: string;
+//         }[];
+//         market: {
+//             id?: string;
+//             name?: string;
+//         }[];
+//         name: string;
+//         type: {
+//             id?: string;
+//             name?: string;
+//         }[];
+//         year: string;
+//         athleteName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         leagueName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         teamName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//         brandName?: {
+//             id?: string;
+//             name?: string;
+//         };
+//     }[];
+
+//     // Common fields (moved to the bottom)
+//     id?: string;
+//     name?: string;
+//     sport?: {
+//         id?: string;
+//         name?: string;
+//     };
+//     agency?: {
+//         id?: string;
+//         name?: string;
+//     };
+//     instagram?: string;
+//     linkedin?: string;
+//     youtube?: string;
+//     website?: string;
+//     twitter?: string;
+//     facebook?: string;
+//     strategyOverview?: string;
+//     primaryKeyMarket?: {
+//         id?: string;
+//         name?: string;
+//     }[];
+//     secondaryKeyMarket?: {
+//         id?: string;
+//         name?: string;
+//     }[];
+//     tertiary?: {
+//         id?: string;
+//         name?: string;
+//     }[];
+//     primaryMarketingPlatform?: {
+//         id?: string;
+//         name?: string;
+//     }[];
+//     secondaryMarketingPlatform?: {
+//         id?: string;
+//         name?: string;
+//     }[];
+//     tiers?: {
+//         id?: string;
+//         name?: string;
+//     }[];
+//     age?: {
+//         id?: string;
+//         name?: string;
+//     }[];
+//     mainPersonalityTraits?: {
+//         id?: string;
+//         name?: string;
+//         subPersonalityTraits?: {
+//             id?: string;
+//             name?: string;
+//         }[];
+//     }[];
+//     contactPersons?: {
+//         contactId: string;
+//         contactName: string;
+//         contactEmail?: string;
+//         contactLinkedin?: string;
+//         contactNumber?: string;
+//         contactDesignation?: string;
+//     }[];
+//     gender?: {
+//         id?: string;
+//         name?: string;
+//     }[];
+//     nccs?: {
+//         id?: string;
+//         name?: string;
+//     }[];
+//     state?: {
+//         id?: string;
+//         name?: string;
+//     };
+//     createdBy?: {
+//         id?: string;
+//         name?: string;
+//     };
+//     modifiedBy?: {
+//         id?: string;
+//         name?: string;
+//     };
+//     createdDate?: Date;
+//     modifiedDate?: Date;
+// };
 
 // Applied Filters:
 // athleteIds: ["14","11"]
