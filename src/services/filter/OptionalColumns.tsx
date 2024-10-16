@@ -1,14 +1,10 @@
-import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { ColumnDef } from "@tanstack/react-table"
-import { format } from "date-fns";
-import { z } from 'zod';
+import { AllColumns, matched } from "@/types/metadata/Metadata";
+import { ColumnDef } from "@tanstack/react-table";
 import OptionalColumnHeader from "./OptionalColumnHeader";
-import { AllColumns } from "@/types/metadata/Metadata";
 
 type CustomColumnDef<TData> = ColumnDef<TData> & {
     filterKey?: string;
 };
-
 class OptionalColumns {
 
     static getOptionalColumns(filters: Record<string, {
@@ -17,123 +13,64 @@ class OptionalColumns {
         isMandatory: boolean;
     }>) {
 
+        const matchedLabel = 'Matched';
+        const notMatchedLabel = "Not Matched";
+
         type TSchemaType = AllColumns;
-        const columns: CustomColumnDef<TSchemaType>[] = [
-            {
-                accessorKey: "age",
-                filterKey: 'ageIds',
-                header: ({ column }) => <OptionalColumnHeader column={column} title="Age" />,
-                cell: ({ row }) => {
-                    const ageValues = row.getValue("age");
-                    const filterValues = filters?.ageIds?.value;
 
-                    return (
-                        <div className="flex space-x-2">
-                            <span className="max-w-[400px] truncate font-medium">
-                                {row.getValue("age") || "Not Matched"}
-                            </span>
-                        </div>
-                    );
-                },
-                enableSorting: true,
-                enableHiding: true,
-            },
-            {
-                accessorKey: "athleteGender",
-                filterKey: 'athleteGenderIds',
-                header: ({ column }) => <OptionalColumnHeader column={column} title="Athlete Gender" />,
-                cell: ({ row }) => {
-                    const athleteGender: { id: string } = row.getValue("athleteGender");
-                    const filterValues = filters?.athleteGenderIds?.value;
+        const MatchedCell = ({ value }: { value: 'Data Matched' | "Not Matched" }) => (
+            <div className="flex space-x-2">
+                <span className="max-w-[400px] truncate font-medium">
+                    {value === matched ? matchedLabel : notMatchedLabel}
+                </span>
+            </div>
+        );
 
-                    return (
-                        <div className="flex space-x-2">
-                            <span className="max-w-[400px] truncate font-medium">
-                                {row.getValue("athleteGender") || "Not Matched"}
-                            </span>
-                        </div>
-                    );
-                },
-                enableSorting: true,
-                enableHiding: true,
-            },
-            {
-                accessorKey: "gender",
-                filterKey: 'genderIds',
-                header: ({ column }) => <OptionalColumnHeader column={column} title="Gender" />,
-                cell: ({ row }) => {
-                    const genderValues = row.getValue("gender");
-                    const filterValues = filters?.genderIds?.value;
+        const createDynamicColumn = <TData,>(
+            accessorKey: keyof TData,
+            filterKey: string,
+            title: string
+        ): CustomColumnDef<TData> => ({
+            accessorKey: accessorKey as string,
+            filterKey,
+            header: ({ column }) => <OptionalColumnHeader column={column} title={title} />,
+            cell: ({ row }) => <MatchedCell value={row.getValue(accessorKey as string)} />,
+            enableSorting: true,
+            enableHiding: true,
+        });
 
-                    return (
-                        <div className="flex space-x-2">
-                            <span className="max-w-[400px] truncate font-medium">
-                                {row.getValue("gender") || "Not Matched"}
-                            </span>
-                        </div>
-                    );
-                },
-                enableSorting: true,
-                enableHiding: true,
-            },
-            {
-                accessorKey: "nationality",
-                filterKey: 'nationalityIds',
-                header: ({ column }) => <OptionalColumnHeader column={column} title="Nationality" />,
-                cell: ({ row }) => {
-                    const nationality: { id: string } = row.getValue("nationality");
-                    const filterValues = filters?.nationalityIds?.value;
+        const columnConfigs: Array<{
+            accessorKey: keyof TSchemaType;
+            filterKey: string;
+            title: string;
+        }> = [
+                { accessorKey: "athleteAge", filterKey: "athleteAge", title: "Athlete Age" },
+                { accessorKey: "age", filterKey: "ageIds", title: "Target Age" },
+                { accessorKey: "athleteGender", filterKey: "athleteGenderIds", title: "Athlete Gender" },
+                { accessorKey: "gender", filterKey: "genderIds", title: "Target Gender" },
+                { accessorKey: "nationality", filterKey: "nationalityIds", title: "Nationality" },
+                { accessorKey: "sport", filterKey: "sportIds", title: "Sport" },
+                { accessorKey: "agency", filterKey: "agencyIds", title: "Agency" },
+                { accessorKey: "status", filterKey: "statusIds", title: "Status" },
 
-                    return (
-                        <div className="flex space-x-2">
-                            <span className="max-w-[400px] truncate font-medium">
-                                {row.getValue("nationality") || "Not Matched"}
-                            </span>
-                        </div>
-                    );
-                },
-                enableSorting: true,
-                enableHiding: true,
-            },
-            {
-                accessorKey: "sport",
-                filterKey: 'sportIds',
-                header: ({ column }) => <OptionalColumnHeader column={column} title="Sport" />,
-                cell: ({ row }) => {
-                    const sport: { id: string } = row.getValue("sport");
-                    const filterValues = filters?.sportIds?.value;
+                { accessorKey: "state", filterKey: "stateIds", title: "State" },
+                { accessorKey: "city", filterKey: "cityIds", title: "City" },
+                { accessorKey: "team", filterKey: "teamIds", title: "Team" },
+                { accessorKey: "parentOrg", filterKey: "parentOrgIds", title: "Parent Org." },
+                { accessorKey: "primaryKeyMarket", filterKey: "primaryMarketIds", title: "Primary Market" },
+                { accessorKey: "secondaryKeyMarket", filterKey: "secondaryMarketIds", title: "Secondary Market" },
+                { accessorKey: "tertiary", filterKey: "tertiaryIds", title: "Tertiary Market" },
+                { accessorKey: "primaryMarketingPlatform", filterKey: "primaryMarketingPlatformIds", title: "Primary Market Platform" },
+                { accessorKey: "secondaryMarketingPlatform", filterKey: "secondaryMarketingPlatformIds", title: "Secondary Market Platform" },
 
-                    return (
-                        <div className="flex space-x-2">
-                            <span className="max-w-[400px] truncate font-medium">
-                                {row.getValue("sport") || "Not Matched"}
-                            </span>
-                        </div>
-                    );
-                },
-                enableSorting: true,
-                enableHiding: true,
-            },
-            {
-                accessorKey: "agency",
-                filterKey: 'agencyIds',
-                header: ({ column }) => <OptionalColumnHeader column={column} title="Agency" />,
-                cell: ({ row }) => {
-                    const agency: { id: string } = row.getValue("agency");
-                    const filterValues = filters?.agencyIds?.value;
+                { accessorKey: "contactName", filterKey: "contactName", title: "Contact Name" },
+                { accessorKey: "contactEmail", filterKey: "contactEmail", title: "Contact Email" },
 
-                    return (
-                        <div className="flex space-x-2">
-                            <span className="max-w-[400px] truncate font-medium">
-                                {row.getValue("agency") || "Not Matched"}
-                            </span>
-                        </div>
-                    );
-                },
-                enableSorting: true,
-                enableHiding: true,
-            },
-        ];
+            ];
+
+        const columns: CustomColumnDef<TSchemaType>[] = columnConfigs.map(config =>
+            createDynamicColumn<TSchemaType>(config.accessorKey as keyof TSchemaType, config.filterKey, config.title)
+        );
 
         const optionalFilterKeys: string[] = [];
 

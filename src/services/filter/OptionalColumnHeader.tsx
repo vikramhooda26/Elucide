@@ -11,6 +11,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "../../components/ui/dropdown-menu";
+import { matched, notMatched } from '@/types/metadata/Metadata';
 
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
     column: Column<TData, TValue>;
@@ -51,11 +52,11 @@ export function OptionalColumnHeader<TData, TValue>({
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
-                    <DropdownMenuItem onClick={() => { setMatched('Matched') }}>
+                    <DropdownMenuItem onClick={() => { setMatched(matched) }}>
                         <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Matched
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => { setMatched('Not Matched') }}>
+                    <DropdownMenuItem onClick={() => { setMatched(notMatched) }}>
                         <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Not Matched
                     </DropdownMenuItem>

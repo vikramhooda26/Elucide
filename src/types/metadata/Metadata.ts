@@ -163,11 +163,15 @@ export const allColumnsSchema = () =>
 
         // Athlete-specific fields
         athleteAge: z.string().optional(),
-        athleteGender: z.array(
-            z.object({
-                id: z.string().optional(),
-                name: z.string().optional(),
-            })).optional(),
+        athleteGender: z.object({
+            id: z.string().optional(),
+            name: z.string().optional(),
+        }).optional(),
+
+        nationality: z.object({
+            id: z.string().optional(),
+            name: z.string().optional(),
+        }).optional(),
 
         city: z.object({
             id: z.string().optional(),
@@ -260,12 +264,10 @@ export const allColumnsSchema = () =>
         franchiseFee: z.string().optional(),
 
         // Common fields
-        sport: z
-            .object({
-                id: z.string().optional(),
-                name: z.string().optional(),
-            })
-            .optional(),
+        sport: z.object({
+            id: z.string().optional(),
+            name: z.string().optional(),
+        }).optional(),
         agency: z
             .object({
                 id: z.string().optional(),
@@ -350,6 +352,8 @@ export const allColumnsSchema = () =>
                         .optional(),
                 })
             ).optional(),
+        contactName: z.string().optional(),
+        contactEmail: z.string().optional(),
         contactPersons: z
             .array(
                 z.object({
@@ -402,4 +406,5 @@ export const allColumnsSchema = () =>
 
 export type AllColumns = z.infer<ReturnType<typeof allColumnsSchema>>;
 
-
+export const matched = "Data Matched";
+export const notMatched = "Not Matched";

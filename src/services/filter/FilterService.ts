@@ -1,5 +1,6 @@
-import { AllColumns } from "@/types/metadata/Metadata";
+import { AllColumns, matched, notMatched } from "@/types/metadata/Metadata";
 import { FilterContent } from "../../components/core/filter/FilterModal";
+import { differenceInYears } from "date-fns";
 
 class FilterService {
     static processFilterData(filterData: Record<string, { type: string; value: any; isMandatory: boolean }>) {
@@ -266,43 +267,56 @@ class FilterService {
             const partnerIdMetrics = filters?.partnerIdMetrics;
             const endorsement = filters?.endorsement;
 
-            if (statusIds && statusIds?.isMandatory === false && data?.status) {
-                finalObj.status = statusIds?.value?.includes(data?.status?.id) ? 'Matched' : 'Not Matched';
-            }
-
             if (ageIds && ageIds?.isMandatory === false && data?.age) {
-                finalObj.age = data?.age?.some((age: any) => ageIds?.value.includes(age.id)) ? 'Matched' : 'Not Matched';
+                finalObj.age = data?.age?.some((age: any) => ageIds?.value.includes(age.id)) ? matched : notMatched;
             }
 
             if (athleteAge && athleteAge?.isMandatory === false && data?.athleteAge) {
                 finalObj.athleteAge = '';
+                const athleteAge: number = differenceInYears(new Date(), new Date(data?.athleteAge)) || 0;
                 if (processedFilters?.['athleteAge']?.operationType === 'in') {
-                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] >= data?.athleteAge && processedFilters?.['athleteGenderIds']?.age?.[1] <= data?.athleteAge ? 'Matched' : 'Not Matched';
+                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] <= athleteAge && athleteAge <= processedFilters?.['athleteAge']?.age?.[1] ? matched : notMatched;
                 } else if (processedFilters?.['athleteAge']?.operationType === 'gte') {
-                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] >= data?.athleteAge ? 'Matched' : 'Not Matched';
+                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] >= athleteAge ? matched : notMatched;
                 } else if (processedFilters?.['athleteAge']?.operationType === 'lte') {
-                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] <= data?.athleteAge ? 'Matched' : 'Not Matched';
+                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] <= athleteAge ? matched : notMatched;
                 }
             }
 
             if (athleteGenderIds && athleteGenderIds?.isMandatory === false && data?.athleteGender) {
-                finalObj.age = data?.athleteGender?.some((gender: any) => athleteGenderIds?.value.includes(gender.id)) ? 'Matched' : 'Not Matched';
+                finalObj.athleteGender = athleteGenderIds?.value.includes(data?.athleteGender?.id) ? matched : notMatched;
             }
 
             if (genderIds && genderIds?.isMandatory === false && data?.gender) {
-                finalObj.gender = data?.gender?.some((gender: any) => genderIds?.value.includes(gender.id)) ? 'Matched' : 'Not Matched';
+                finalObj.gender = data?.gender?.some((gender: any) => genderIds?.value.includes(gender.id)) ? matched : notMatched;
+            }
+
+            if (nationalityIds && nationalityIds?.isMandatory === false && data?.nationality) {
+                finalObj.nationality = nationalityIds?.value.includes(data?.nationality?.id) ? matched : notMatched;
+            }
+
+            if (sportIds && sportIds?.isMandatory === false && data?.sport) {
+                finalObj.sport = sportIds?.value.includes(data?.sport?.id) ? matched : notMatched;
+            }
+
+            if (agencyIds && agencyIds?.isMandatory === false && data?.agency) {
+                finalObj.agency = agencyIds?.value.includes(data?.agency?.id) ? matched : notMatched;
+            }
+
+            if (statusIds && statusIds?.isMandatory === false && data?.status) {
+                finalObj.status = statusIds?.value?.includes(data?.status?.id) ? matched : notMatched;
             }
 
             if (stateIds && stateIds?.isMandatory === false && data?.state) {
-                finalObj.state = data?.state?.some((state: any) => stateIds?.value.includes(state.id)) ? 'Matched' : 'Not Matched';
+                finalObj.state = data?.state?.some((state: any) => stateIds?.value.includes(state.id)) ? matched : notMatched;
             }
 
             if (cityIds && cityIds?.isMandatory === false && data?.city) {
-                finalObj.city = cityIds?.value.includes(data?.city?.id) ? 'Matched' : 'Not Matched';
+                finalObj.city = cityIds?.value.includes(data?.city?.id) ? matched : notMatched;
             }
 
             if (teamIds && teamIds?.isMandatory === false && data?.team) {
-                finalObj.team = teamIds?.value?.includes(data?.team?.id) ? 'Matched' : 'Not Matched';
+                finalObj.team = teamIds?.value?.includes(data?.team?.id) ? matched : notMatched
             }
 
             // if (brandIds && brandIds?.isMandatory === false && data?.brand) {
@@ -310,37 +324,36 @@ class FilterService {
             // }
 
             if (parentOrgIds && parentOrgIds?.isMandatory === false && data?.parentOrg) {
-                finalObj.parentOrg = parentOrgIds?.value?.includes(data?.parentOrg?.id) ? 'Matched' : 'Not Matched';
+                finalObj.parentOrg = parentOrgIds?.value?.includes(data?.parentOrg?.id) ? matched : notMatched;
             }
 
             if (primaryMarketIds && primaryMarketIds?.isMandatory === false && data?.primaryKeyMarket) {
-                finalObj.primaryKeyMarket = data?.primaryKeyMarket?.some((market: any) => primaryMarketIds?.value.includes(market.id)) ? 'Matched' : 'Not Matched';
+                finalObj.primaryKeyMarket = data?.primaryKeyMarket?.some((market: any) => primaryMarketIds?.value.includes(market.id)) ? matched : notMatched;
             }
 
             if (secondaryMarketIds && secondaryMarketIds?.isMandatory === false && data?.secondaryKeyMarket) {
-                finalObj.secondaryKeyMarket = data?.secondaryKeyMarket?.some((market: any) => secondaryMarketIds?.value.includes(market.id)) ? 'Matched' : 'Not Matched';
+                finalObj.secondaryKeyMarket = data?.secondaryKeyMarket?.some((market: any) => secondaryMarketIds?.value.includes(market.id)) ? matched : notMatched;
             }
 
             if (tertiaryIds && tertiaryIds?.isMandatory === false && data?.tertiary) {
-                finalObj.tertiary = data?.tertiary?.some((market: any) => tertiaryIds?.value.includes(market.id)) ? 'Matched' : 'Not Matched';
+                finalObj.tertiary = data?.tertiary?.some((market: any) => tertiaryIds?.value.includes(market.id)) ? matched : notMatched;
             }
 
             if (primaryMarketingPlatformIds && primaryMarketingPlatformIds?.isMandatory === false && data?.primaryMarketingPlatform) {
-                finalObj.primaryMarketingPlatform = data?.primaryMarketingPlatform?.some((platform: any) => primaryMarketingPlatformIds?.value.includes(platform.id)) ? 'Matched' : 'Not Matched';
+                finalObj.primaryMarketingPlatform = data?.primaryMarketingPlatform?.some((platform: any) => primaryMarketingPlatformIds?.value.includes(platform.id)) ? matched : notMatched;
             }
 
             if (secondaryMarketingPlatformIds && secondaryMarketingPlatformIds?.isMandatory === false && data?.secondaryMarketingPlatform) {
-                finalObj.secondaryMarketingPlatform = data?.secondaryMarketingPlatform?.some((platform: any) => secondaryMarketingPlatformIds?.value.includes(platform.id)) ? 'Matched' : 'Not Matched';
+                finalObj.secondaryMarketingPlatform = data?.secondaryMarketingPlatform?.some((platform: any) => secondaryMarketingPlatformIds?.value.includes(platform.id)) ? matched : notMatched;
             }
 
             if (contactName && contactName?.isMandatory === false && data?.contactPersons) {
-                finalObj.contactName = data?.contactPersons?.some((contact: any) => contact.contactName.includes(contactName.value)) ? 'Matched' : 'Not Matched';
+                finalObj.contactName = data?.contactPersons?.some((contact: any) => contact.contactName.includes(contactName.value)) ? matched : notMatched;
             }
 
             if (contactEmail && contactEmail?.isMandatory === false && data?.contactPersons) {
-                finalObj.contactEmail = data?.contactPersons?.some((contact: any) => contact.contactEmail?.includes(contactEmail.value)) ? 'Matched' : 'Not Matched';
+                finalObj.contactEmail = data?.contactPersons?.some((contact: any) => contact.contactEmail?.includes(contactEmail.value)) ? matched : notMatched;
             }
-
 
             return finalObj;
         }
