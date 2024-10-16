@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import DataTable from "../../../components/data-table/data-table";
 import { getColumns } from "../../../components/core/view/common-columns";
 import { useUser } from "../../../hooks/useUser";
@@ -25,13 +25,19 @@ import {
 import { DataTableFacetedFilter } from "../../../components/data-table/data-table-faceted-filter";
 import { Input } from "../../../components/ui/input";
 import { priorities, statuses } from "./data";
+import OptionalColumns from "@/services/filter/OptionalColumns";
 
 type Props = {
     athletes: Array<any>;
     setAthletes: (value: React.SetStateAction<any[]>) => void;
+    filters?: Record<string, {
+        type: string;
+        value: any;
+        isMandatory: boolean;
+    }>
 };
 
-function AthleteTable({ athletes, setAthletes }: Props) {
+function AthleteTable({ athletes, setAthletes, filters }: Props) {
     const userRole = useUser()?.role;
     const navigate = useNavigate();
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -44,6 +50,10 @@ function AthleteTable({ athletes, setAthletes }: Props) {
     if (!userRole) {
         return;
     }
+
+    useEffect(() => {
+        setOptionalColumns();
+    }, [filters])
 
     const onEdit = useCallback((id: string) => {
         navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`);
@@ -75,6 +85,7 @@ function AthleteTable({ athletes, setAthletes }: Props) {
         }
     }, []);
 
+
     const columns = useMemo(
         () =>
             getColumns({
@@ -89,9 +100,22 @@ function AthleteTable({ athletes, setAthletes }: Props) {
         []
     );
 
+    const [allowedColumns, setAllowedColumns] = useState(columns);
+
+    const setOptionalColumns = () => {
+        if (filters) {
+            const optionalColumns = OptionalColumns.getOptionalColumns(filters);
+            const updateColumns = [...columns,];
+
+            updateColumns?.splice(1, 0, ...optionalColumns);
+
+            setAllowedColumns(updateColumns);
+        }
+    }
+
     const table = useReactTable({
         data: athletes,
-        columns,
+        columns: allowedColumns,
         state: {
             sorting,
             columnVisibility,

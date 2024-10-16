@@ -7,7 +7,7 @@ import { TRoles } from "../../../lib/constants";
 import { createSchema } from "../schema/schema";
 import z from "zod";
 
-interface TColumnProps {
+export interface TColumnProps {
     onEdit: (id: string) => void;
     onDelete: (id: string) => void;
     userRole: TRoles;

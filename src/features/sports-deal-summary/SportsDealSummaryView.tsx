@@ -14,7 +14,7 @@ import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { toast } from "sonner";
-import { formatNumberWithCommas } from "../utils/helpers";
+import { convertRupeesToCrore, formatNumberWithCommas } from "../utils/helpers";
 import LinksCard from "../../components/core/view/LinksCard";
 import { socials } from "../../components/core/data/socials";
 import { useUser } from "../../hooks/useUser";
@@ -36,6 +36,8 @@ function SportsDealSummaryView() {
             setIsLoading(true);
             const response = await MetadataService.getOneSportsDealSummary(id);
             if (response.status === HTTP_STATUS_CODES.OK) {
+                // response.data.annualValue = convertRupeesToCrore(response?.data?.annualValue) || "";
+                // response.data.totalValue = convertRupeesToCrore(response?.data?.totalValue) || "";
                 setViewData(response.data);
             } else {
                 toast.error("Looks like our servers are busy. Please try again later!");
@@ -82,7 +84,7 @@ function SportsDealSummaryView() {
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
                         <EditButton
-                            show={userRole === "SUPER_ADMIN"}
+                            show={userRole === "SUPER_ADMIN" || userRole === "ADMIN"}
                             route={`${NAVIGATION_ROUTES.EDIT_SPORTS_DEAL_SUMMARY}/${id}`}
                         />
                     </div>

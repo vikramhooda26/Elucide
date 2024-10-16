@@ -9,9 +9,10 @@ type Props = {
     nameKey: string;
     dateKey: string;
     operationKey: string;
+    viewRoute: string;
 };
 
-function RecentList({ title, list, operation, nameKey, dateKey, operationKey }: Props) {
+function RecentList({ title, list, operation, nameKey, dateKey, operationKey, viewRoute }: Props) {
     return (
         <Card className="col-span-4">
             <CardHeader>
@@ -30,6 +31,7 @@ function RecentList({ title, list, operation, nameKey, dateKey, operationKey }: 
                     nameKey={nameKey}
                     dateKey={dateKey}
                     operationKey={operationKey}
+                    viewRoute={viewRoute}
                 />
             </CardContent>
         </Card>

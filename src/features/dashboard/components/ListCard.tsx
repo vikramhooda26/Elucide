@@ -1,6 +1,7 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 type Props = {
     list: Array<any>;
@@ -8,13 +9,14 @@ type Props = {
     nameKey: string;
     dateKey: string;
     operationKey: string;
+    viewRoute: string;
 };
 
-function ListCard({ list = [], operation = "", nameKey = "", dateKey = "", operationKey = "" }: Props) {
+function ListCard({ list = [], operation = "", nameKey = "", dateKey = "", operationKey = "" , viewRoute = ''}: Props) {
     return (
         <div className="space-y-8">
             {list?.map((data, i) => (
-                <div className="flex items-center" key={i}>
+                <Link to={`${viewRoute}/${data?.id}`} className="flex items-center border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" key={i}>
                     <Avatar className="h-9 w-9">
                         <AvatarImage src="/avatars/01.png" alt="Avatar" />
                         <AvatarFallback>{i + 1}</AvatarFallback>
@@ -42,7 +44,7 @@ function ListCard({ list = [], operation = "", nameKey = "", dateKey = "", opera
                     ) : (
                         "-"
                     )}
-                </div>
+                </Link>
             ))}
         </div>
     );

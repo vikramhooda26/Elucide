@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export type activation = {
     id?: string;
     name?: string | null;
@@ -153,3 +155,256 @@ export const ALL_METADATA = {
     ATHLETE: "athlete",
     BRAND: "brand"
 } as const;
+
+export const allColumnsSchema = () =>
+    z.object({
+        id: z.string().optional(),
+        name: z.string().optional(),
+
+        // Athlete-specific fields
+        athleteAge: z.string().optional(),
+        athleteGender: z.object({
+            id: z.string().optional(),
+            name: z.string().optional(),
+        }).optional(),
+
+        nationality: z.object({
+            id: z.string().optional(),
+            name: z.string().optional(),
+        }).optional(),
+
+        city: z.object({
+            id: z.string().optional(),
+            name: z.string().optional(),
+        }).optional(),
+        team: z.object({
+            id: z.string().optional(),
+            name: z.string().optional(),
+        }).optional(),
+        // Association-specific fields
+        association: z
+            .array(
+                z.object({
+                    associationId: z.string().optional(),
+                    associationLevel: z
+                        .object({
+                            id: z.string().optional(),
+                            name: z.string().optional(),
+                        })
+                        .optional(),
+                    costOfAssociation: z.string().optional(),
+                })
+            )
+            .optional(),
+
+        // Brand-specific fields
+        parentOrg: z
+            .object({
+                id: z.string().optional(),
+                name: z.string().optional(),
+            })
+            .optional(),
+        mainCategories: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                    subCategories: z
+                        .array(
+                            z.object({
+                                id: z.string().optional(),
+                                name: z.string().optional(),
+                            })
+                        )
+                        .optional(),
+                })
+            )
+            .optional(),
+
+        // League-specific fields
+        owners: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            )
+            .optional(),
+        yearOfInception: z.string().optional(),
+        ottPartnerMetrics: z
+            .array(
+                z.object({
+                    id: z.string(),
+                    viewership: z.string(),
+                    reach: z.string(),
+                    year: z.string(),
+                    ottPartner: z.object({
+                        id: z.string(),
+                        name: z.string(),
+                    }),
+                })
+            )
+            .optional(),
+        broadcastPartnerMetrics: z
+            .array(
+                z.object({
+                    id: z.string(),
+                    reach: z.string(),
+                    viewership: z.string(),
+                    year: z.string(),
+                    broadcastPartner: z.object({
+                        id: z.string(),
+                        name: z.string(),
+                    }),
+                })
+            )
+            .optional(),
+
+        // Team-specific fields
+        franchiseFee: z.string().optional(),
+
+        // Common fields
+        sport: z.object({
+            id: z.string().optional(),
+            name: z.string().optional(),
+        }).optional(),
+        agency: z
+            .object({
+                id: z.string().optional(),
+                name: z.string().optional(),
+            })
+            .optional(),
+        instagram: z.string().optional(),
+        linkedin: z.string().optional(),
+        youtube: z.string().optional(),
+        website: z.string().optional(),
+        twitter: z.string().optional(),
+        facebook: z.string().optional(),
+        strategyOverview: z.string().optional(),
+        primaryKeyMarket: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            )
+            .optional(),
+        secondaryKeyMarket: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            )
+            .optional(),
+        tertiary: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            )
+            .optional(),
+        primaryMarketingPlatform: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            )
+            .optional(),
+        secondaryMarketingPlatform: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            )
+            .optional(),
+        tiers: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            )
+            .optional(),
+        age: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            )
+            .optional(),
+        mainPersonalityTraits: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                    subPersonalityTraits: z
+                        .array(
+                            z.object({
+                                id: z.string().optional(),
+                                name: z.string().optional(),
+                            })
+                        )
+                        .optional(),
+                })
+            ).optional(),
+        contactName: z.string().optional(),
+        contactEmail: z.string().optional(),
+        contactPersons: z
+            .array(
+                z.object({
+                    contactId: z.string(),
+                    contactName: z.string(),
+                    contactEmail: z.string().optional(),
+                    contactLinkedin: z.string().optional(),
+                    contactNumber: z.string().optional(),
+                    contactDesignation: z.string().optional(),
+                })
+            ).optional(),
+        gender: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            ).optional(),
+        nccs: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            ).optional(),
+        status: z
+            .object({
+                id: z.string().optional(),
+                name: z.string().optional(),
+            }).optional(),
+        state: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            ).optional(),
+        marketplaceLink: z.string().optional(),
+        documents: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string(),
+                    type: z.string(),
+                    link: z.string(),
+                })
+            ).optional(),
+    });
+
+
+export type AllColumns = z.infer<ReturnType<typeof allColumnsSchema>>;
+
+export const matched = "Data Matched";
+export const notMatched = "Not Matched";

@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import { useUser } from "../../../hooks/useUser";
-import { HTTP_STATUS_CODES } from "../../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
 import ErrorService from "../../../services/error/ErrorService";
 import DashboardService from "../../../services/features/DashboardService";
 import { listLoadingAtom } from "../../../store/atoms/global";
@@ -89,6 +89,8 @@ function BrandDashboard({ setCount }: Props) {
         { key: "brandCount", label: "Number of Brands" }
     ];
 
+    const viewRoute = NAVIGATION_ROUTES.BRAND;
+
     return (
         <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
@@ -112,6 +114,7 @@ function BrandDashboard({ setCount }: Props) {
                 <BrandRecentList
                     recentlyCreated={dashboardData?.recentlyAddedBrands?.slice(0, 6) || []}
                     recentlyModified={dashboardData?.recentlyModifiedBrands?.slice(0, 6) || []}
+                    viewRoute={viewRoute}
                 />
             </div>
         </>

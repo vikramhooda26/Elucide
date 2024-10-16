@@ -3,9 +3,10 @@ import RecentList from "../../components/RecentList";
 type Props = {
     recentlyCreated: Array<any>;
     recentlyModified: Array<any>;
+    viewRoute: string;
 };
 
-function TeamRecentList({ recentlyCreated, recentlyModified }: Props) {
+function TeamRecentList({ recentlyCreated, recentlyModified, viewRoute }: Props) {
     return (
         <>
             <RecentList
@@ -15,6 +16,7 @@ function TeamRecentList({ recentlyCreated, recentlyModified }: Props) {
                 nameKey={"name"}
                 dateKey={"createdAt"}
                 operationKey={"createdBy"}
+                viewRoute={viewRoute}
             />
             <RecentList
                 title={"Modified Teams"}
@@ -23,6 +25,7 @@ function TeamRecentList({ recentlyCreated, recentlyModified }: Props) {
                 nameKey={"name"}
                 dateKey={"modifiedAt"}
                 operationKey={"modifiedBy"}
+                viewRoute={viewRoute}
             />
         </>
     );

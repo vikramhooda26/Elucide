@@ -3,8 +3,9 @@ import { Dumbbell, BarChart, FileText, Trophy, Users, Building, Telescope } from
 import { ResizableHandle, ResizablePanel } from "../../../components/ui/resizable";
 import { Nav, NavProps } from "../athlete/new-nax";
 import { cn } from "../../../lib/utils";
-import { NAVIGATION_ROUTES } from "../../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
 import { TMail } from "../athlete/data";
+import DashboardService from "@/services/features/DashboardService";
 
 interface MailProps {
     accounts: {
@@ -46,34 +47,54 @@ export const SideMenuLinks: Pick<NavProps, "links"> = {
             icon: Building,
             label: "100",
             navigateTo: NAVIGATION_ROUTES.BRAND_DASHBOARD,
-            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+            key: "brandsCount",
         },
         {
             title: "League",
             icon: Trophy,
             label: "50",
             navigateTo: NAVIGATION_ROUTES.League_DASHBOARD,
-            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+            key: "leaguesCount",
         },
         {
             title: "Team",
             icon: Users,
             label: "150",
             navigateTo: NAVIGATION_ROUTES.TEAM_DASHBOARD,
-            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+            key: "teamsCount",
         },
         {
             title: "Athlete",
             icon: Dumbbell,
             label: "200",
             navigateTo: NAVIGATION_ROUTES.ATHLETE_DASHBOARD,
-            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"]
+            roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
+            key: "athletesCount",
         }
     ]
 };
 
 export const SideMenu = ({ defaultLayout = [15], defaultCollapsed = false, navCollapsedSize }: MailProps) => {
     const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
+    const [sideMenus, setSideMenus] = React.useState(SideMenuLinks.links);
+
+    React.useEffect(() => {
+        fetchMasterData();
+    }, []);
+
+    const fetchMasterData = async () => {
+        const resp = await DashboardService.master();
+        if (resp?.status === HTTP_STATUS_CODES.OK) {
+            const data = sideMenus?.map((d) => {
+                d.label = d?.key && resp?.data?.[d?.key];
+                return d;
+            });
+            setSideMenus(data);
+        }
+    };
 
     return (
         <>
