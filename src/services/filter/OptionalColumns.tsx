@@ -1,6 +1,9 @@
 import { AllColumns, matched } from "@/types/metadata/Metadata";
 import { ColumnDef } from "@tanstack/react-table";
 import OptionalColumnHeader from "./OptionalColumnHeader";
+import Association from "@/components/core/view/Association";
+import ModalWrapper from "@/components/modal/ModalWrapper";
+import { TAssociation } from "@/features/league/constants.ts/metadata";
 
 type CustomColumnDef<TData> = ColumnDef<TData> & {
     filterKey?: string;
@@ -16,7 +19,7 @@ class OptionalColumns {
         const matchedLabel = 'Matched';
         const notMatchedLabel = "Not Matched";
 
-        type TSchemaType = AllColumns;
+        type TSchemaType = AllColumns & { associationValues: TAssociation[]; };
 
         const MatchedCell = ({ value }: { value: 'Data Matched' | "Not Matched" }) => (
             <div className="flex space-x-2">
@@ -25,6 +28,21 @@ class OptionalColumns {
                 </span>
             </div>
         );
+
+        const CostOfAssociationCell = ({ association, value }: { association: TAssociation[], value: 'Data Matched' | "Not Matched" }) => {
+            console.log("row.getValue('associationValues') -=- ", association);
+            return (
+                <div className="flex space-x-2">
+                    <span className="max-w-[400px] truncate font-medium">
+                        {association?.length > 0 ?
+                            <ModalWrapper triggerOnHover={true} triggerLabel={value === matched ? matchedLabel : notMatchedLabel} title="" >
+                                <Association data={{ association }} />
+                            </ModalWrapper>
+                            : value === matched ? matchedLabel : notMatchedLabel}
+                    </span>
+                </div>
+            )
+        };
 
         const createDynamicColumn = <TData,>(
             accessorKey: keyof TData,
@@ -84,6 +102,13 @@ class OptionalColumns {
             delete d.filterKey;
             return d;
         })
+
+        if (filters?.costOfAssociation) {
+            const costOfAssocitionColumn: CustomColumnDef<TSchemaType>  =
+                createDynamicColumn<TSchemaType>('association' as keyof TSchemaType, 'costOfAssociation', 'Cost Of Association');
+            costOfAssocitionColumn.cell = ({ row }) => <CostOfAssociationCell association={row.getValue('associationValues')} value={row.getValue('association' as string)} />,
+                optionalColumns?.unshift(costOfAssocitionColumn);
+        }
 
         return optionalColumns;
     }

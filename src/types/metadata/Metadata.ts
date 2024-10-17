@@ -196,6 +196,20 @@ export const allColumnsSchema = () =>
                 })
             )
             .optional(),
+        associationValues: z
+            .array(
+                z.object({
+                    associationId: z.string().optional(),
+                    associationLevel: z
+                        .object({
+                            id: z.string().optional(),
+                            name: z.string().optional(),
+                        })
+                        .optional(),
+                    costOfAssociation: z.string().optional(),
+                })
+            )
+            .optional(),
 
         // Brand-specific fields
         parentOrg: z
