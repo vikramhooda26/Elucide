@@ -114,13 +114,12 @@
     ::-moz-selection {
         /* Code for Firefox */
         color: black;
-        /* background: #e9d2fd; */
-        background: #3576df;
+        background: #e9d2fd;
     }
 
     ::selection {
         color: black;
-        background: #3576df;
+        background: #e9d2fd;
     }
 
     /* Input field styles */
