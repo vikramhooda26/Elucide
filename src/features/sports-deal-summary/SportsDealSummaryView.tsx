@@ -1,24 +1,22 @@
-import { Diamond, Globe, Pencil } from "lucide-react";
+import { Diamond, Globe } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 import BackButton from "../../components/button/BackButton";
+import EditButton from "../../components/button/EditButton";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
+import LinksCard from "../../components/core/view/LinksCard";
 import NoDataText from "../../components/no-data/NoDataText";
 import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
-import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import { TableCell, TableRow } from "../../components/ui/table";
-import MetadataService from "../../services/features/MetadataService";
-import { sportsDealSummary } from "../../types/metadata/Metadata";
+import { useUser } from "../../hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
+import MetadataService from "../../services/features/MetadataService";
+import { sportsDealSummary } from "../../types/metadata/Metadata";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { toast } from "sonner";
 import { convertRupeesToCrore, formatNumberWithCommas } from "../utils/helpers";
-import LinksCard from "../../components/core/view/LinksCard";
-import { socials } from "../../components/core/data/socials";
-import { useUser } from "../../hooks/useUser";
-import EditButton from "../../components/button/EditButton";
 
 function SportsDealSummaryView() {
     const { id } = useParams<string>();
@@ -143,13 +141,13 @@ function SportsDealSummaryView() {
                                         </div>
 
                                         <div className="grid gap-3 rounded-md border p-4">
-                                            <div>Annual Value</div>
+                                            <div>Annual Value (in cr)</div>
                                             <ul className="grid gap-3">
                                                 <li className="flex items-center text-sm text-muted-foreground">
                                                     <span>
                                                         {viewData?.annualValue
                                                             ? `₹ ${formatNumberWithCommas(
-                                                                  Number(viewData.annualValue)
+                                                                  Number(convertRupeesToCrore(viewData.annualValue))
                                                               )}`
                                                             : "N/A"}
                                                     </span>
@@ -158,12 +156,12 @@ function SportsDealSummaryView() {
                                         </div>
 
                                         <div className="grid gap-3 rounded-md border p-4">
-                                            <div>Total Value</div>
+                                            <div>Total Value (in cr)</div>
                                             <ul className="grid gap-3">
                                                 <li className="flex items-center text-sm text-muted-foreground">
                                                     <span>
                                                         {viewData?.totalValue
-                                                            ? `₹ ${formatNumberWithCommas(Number(viewData.totalValue))}`
+                                                            ? `₹ ${formatNumberWithCommas(Number(convertRupeesToCrore(viewData.totalValue)))}`
                                                             : "N/A"}
                                                     </span>
                                                 </li>

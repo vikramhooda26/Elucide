@@ -45,11 +45,11 @@ function SportsDealSummary({ data, partnerKey }: Props) {
         },
         {
             key: "annualValue",
-            name: "Annual Value"
+            name: "Annual Value (in cr)"
         },
         {
             key: "totalValue",
-            name: "Total Value"
+            name: "Total Value (in cr)"
         },
         {
             key: "commencementDate",
@@ -152,7 +152,7 @@ function SportsDealSummary({ data, partnerKey }: Props) {
                     toolbarAttributes={toolbarAttributes}
                     viewRoute={NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY}
                     action={{ create: createButton }}
-                    onEdit={userRole === "SUPER_ADMIN" || userRole === "ADMIN" ? onEdit : () => { }}
+                    onEdit={userRole === "SUPER_ADMIN" || userRole === "ADMIN" ? onEdit : () => {}}
                 />
                 {/* ) : (
                     <span className="text-muted-foreground">

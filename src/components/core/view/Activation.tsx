@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useNavigator from "../../../hooks/useNavigator";
 import { useUser } from "../../../hooks/useUser";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
@@ -6,7 +7,6 @@ import { ConditionalButton } from "../../button/ConditionalButton";
 import { NoActionTable } from "../../table/NoActionTable";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import SelectBox from "../../ui/multi-select";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
     data: any;
@@ -115,7 +115,7 @@ function Activation({ data, partnerKey }: Props) {
                     toolbarAttributes={toolbarAttributes}
                     viewRoute={NAVIGATION_ROUTES?.ACTIVATION}
                     action={{ create: createButton }}
-                    onEdit={userRole === "SUPER_ADMIN" ? onEdit : () => {}}
+                    onEdit={userRole === "SUPER_ADMIN" || userRole === "ADMIN" ? onEdit : () => {}}
                 />
                 {/* ) : (
                     <span className="text-muted-foreground">

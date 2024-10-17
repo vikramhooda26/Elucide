@@ -1,21 +1,20 @@
-import { Diamond, Pencil } from "lucide-react";
+import { Diamond } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import BackButton from "../../components/button/BackButton";
+import EditButton from "../../components/button/EditButton";
 import { FormSkeleton } from "../../components/core/form/form-skeleton";
 import NoDataText from "../../components/no-data/NoDataText";
 import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
-import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import { TableCell, TableRow } from "../../components/ui/table";
+import { useUser } from "../../hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
 import ErrorService from "../../services/error/ErrorService";
 import MetadataService from "../../services/features/MetadataService";
 import { activation } from "../../types/metadata/Metadata";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { useUser } from "../../hooks/useUser";
-import EditButton from "../../components/button/EditButton";
 
 function ActivationView() {
     const { id } = useParams<string>();
@@ -73,7 +72,7 @@ function ActivationView() {
 
                     <div className="hidden items-center gap-2 md:ml-auto md:flex">
                         <EditButton
-                            show={userRole === "SUPER_ADMIN"}
+                            show={userRole === "SUPER_ADMIN" || userRole === "ADMIN"}
                             route={`${NAVIGATION_ROUTES.ACTIVATION_EDIT}/${id}`}
                         />
                     </div>

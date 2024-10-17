@@ -1,4 +1,4 @@
-import { formatNumberWithCommas } from "../../../features/utils/helpers";
+import { convertRupeesToCrore, formatNumberWithCommas } from "../../../features/utils/helpers";
 import { Card, CardHeader, CardTitle } from "../../ui/card";
 import { Separator } from "../../ui/separator";
 import Owners from "./Owners";
@@ -31,9 +31,12 @@ const TeamOverviewCard = ({ data }: TOverviewCardProps) => {
                         <span className="text-muted-foreground">{data?.yearOfInception || "N/A"}</span>
                     </li>
                     <li className="flex items-center">
-                        <span className="w-1/2">Franchise Fee</span>
+                        <span className="w-1/2">Franchise Fee (in cr)</span>
                         <span className="text-muted-foreground">
-                            ₹ {formatNumberWithCommas(data?.franchiseFee) || "N/A"}
+                            ₹{" "}
+                            {data?.franchiseFee
+                                ? formatNumberWithCommas(Number(convertRupeesToCrore(data?.franchiseFee)))
+                                : "N/A"}
                         </span>
                     </li>
                     <li className="flex items-center">

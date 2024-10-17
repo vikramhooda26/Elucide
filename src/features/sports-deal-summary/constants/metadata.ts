@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const sportsDealSummaryFormSchema = z.object({
-    type: z.string().min(1, "Brand is required"),
+    type: z.string().min(1, "Type is required"),
     status: z.string().optional(),
     levelId: z.string().optional(),
     commencementYear: z.string().optional(),

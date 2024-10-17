@@ -1,4 +1,4 @@
-import { formatNumberWithCommas } from "../../../features/utils/helpers";
+import { convertRupeesToCrore, formatNumberWithCommas } from "../../../features/utils/helpers";
 import { FloatingCard } from "../../card/floating-card";
 import { TableHeaderWrapper } from "../../table/table-header-wrapper";
 import { Button } from "../../ui/button";
@@ -12,7 +12,7 @@ type Props = {
 function Association({ data }: Props) {
     const associationHeaders: { header: string; className?: string }[] = [
         { header: "Association Level" },
-        { header: "Cost Of Association" }
+        { header: "Cost Of Association (in cr)" }
     ];
 
     if (data?.association?.length && data?.association[0]?.brand) {
@@ -35,8 +35,10 @@ function Association({ data }: Props) {
                                     <TableCell>{asso?.associationLevel?.name || "N/A"}</TableCell>
                                     <TableCell>
                                         ₹{" "}
-                                        {asso?.costOfAssociation > 0
-                                            ? formatNumberWithCommas(asso?.costOfAssociation)
+                                        {asso?.costOfAssociation
+                                            ? formatNumberWithCommas(
+                                                  Number(convertRupeesToCrore(asso?.costOfAssociation))
+                                              )
                                             : "N/A"}
                                     </TableCell>
                                     {asso?.brand?.length && (

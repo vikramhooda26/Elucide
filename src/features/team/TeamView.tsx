@@ -35,7 +35,7 @@ function TeamView() {
     const teamInfoHeaders: { header: string; className?: string }[] = [
         { header: "Name" },
         { header: "Year of Inception" },
-        { header: "Franchise Fee" }
+        { header: "Franchise Fee (in cr)" }
     ];
 
     const fetchTeam = async () => {

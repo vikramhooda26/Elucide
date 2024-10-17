@@ -122,22 +122,22 @@ function SportsDealSummaryForm() {
                         brandId: sportsDealSummaryDetails.brand?.id || undefined,
                         partnerType: partner?.type || undefined,
                         ...(partner?.type === "Athlete"
-                            ? { athleteId: partner.data }
+                            ? { athleteId: partner.data || undefined }
                             : partner?.type === "Team"
-                              ? { teamId: partner.data }
-                              : { leagueId: partner?.data }),
+                              ? { teamId: partner.data || undefined }
+                              : { leagueId: partner?.data || undefined }),
                         userId: user?.id || undefined,
                         assetIds: sportsDealSummaryDetails.assets?.map((asset) => asset.id) || undefined,
-                        commencementYear: sportsDealSummaryDetails.commencementDate,
-                        expirationDate: sportsDealSummaryDetails.expirationDate,
+                        commencementYear: sportsDealSummaryDetails.commencementDate || undefined,
+                        expirationDate: sportsDealSummaryDetails.expirationDate || undefined,
                         annualValue: convertRupeesToCrore(sportsDealSummaryDetails.annualValue) || undefined,
                         totalValue: convertRupeesToCrore(sportsDealSummaryDetails.totalValue) || undefined,
-                        mediaLink: sportsDealSummaryDetails.mediaLink,
-                        duration: sportsDealSummaryDetails.duration,
-                        type: sportsDealSummaryDetails?.type,
-                        levelId: sportsDealSummaryDetails.level?.id,
-                        status: sportsDealSummaryDetails.status,
-                        territoryId: sportsDealSummaryDetails.territory?.id
+                        mediaLink: sportsDealSummaryDetails.mediaLink || undefined,
+                        duration: sportsDealSummaryDetails.duration || undefined,
+                        type: sportsDealSummaryDetails?.type || undefined,
+                        levelId: sportsDealSummaryDetails.level?.id || undefined,
+                        status: sportsDealSummaryDetails.status || undefined,
+                        territoryId: sportsDealSummaryDetails.territory?.id || undefined
                     });
                 }
             } catch (error) {
