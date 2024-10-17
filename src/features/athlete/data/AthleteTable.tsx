@@ -1,15 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import DataTable from "../../../components/data-table/data-table";
-import { getColumns } from "../../../components/core/view/common-columns";
-import { useUser } from "../../../hooks/useUser";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
-import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { listLoadingAtom } from "../../../store/atoms/global";
-import MetadataService from "../../../services/features/MetadataService";
-import { toast } from "sonner";
-import ErrorService from "../../../services/error/ErrorService";
-import { useAuth } from "../../auth/auth-provider/AuthProvider";
+import OptionalColumns from "@/services/filter/OptionalColumns";
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -22,19 +11,33 @@ import {
     useReactTable,
     VisibilityState
 } from "@tanstack/react-table";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { toast } from "sonner";
+import { getColumns } from "../../../components/core/view/common-columns";
+import DataTable from "../../../components/data-table/data-table";
 import { DataTableFacetedFilter } from "../../../components/data-table/data-table-faceted-filter";
 import { Input } from "../../../components/ui/input";
+import { useUser } from "../../../hooks/useUser";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
+import ErrorService from "../../../services/error/ErrorService";
+import MetadataService from "../../../services/features/MetadataService";
+import { listLoadingAtom } from "../../../store/atoms/global";
+import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data";
-import OptionalColumns from "@/services/filter/OptionalColumns";
 
 type Props = {
     athletes: Array<any>;
     setAthletes: (value: React.SetStateAction<any[]>) => void;
-    filters?: Record<string, {
-        type: string;
-        value: any;
-        isMandatory: boolean;
-    }>
+    filters?: Record<
+        string,
+        {
+            type: string;
+            value: any;
+            isMandatory: boolean;
+        }
+    >;
 };
 
 function AthleteTable({ athletes, setAthletes, filters }: Props) {
@@ -53,7 +56,7 @@ function AthleteTable({ athletes, setAthletes, filters }: Props) {
 
     useEffect(() => {
         setOptionalColumns();
-    }, [filters])
+    }, [filters]);
 
     const onEdit = useCallback((id: string) => {
         navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`);
@@ -85,7 +88,6 @@ function AthleteTable({ athletes, setAthletes, filters }: Props) {
         }
     }, []);
 
-
     const columns = useMemo(
         () =>
             getColumns({
@@ -105,13 +107,13 @@ function AthleteTable({ athletes, setAthletes, filters }: Props) {
     const setOptionalColumns = () => {
         if (filters) {
             const optionalColumns = OptionalColumns.getOptionalColumns(filters);
-            const updateColumns = [...columns,];
-
+            const updateColumns = [...columns];
+            //@ts-ignore
             updateColumns?.splice(1, 0, ...optionalColumns);
 
             setAllowedColumns(updateColumns);
         }
-    }
+    };
 
     const table = useReactTable({
         data: athletes,

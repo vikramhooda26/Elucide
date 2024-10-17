@@ -6,19 +6,22 @@ type CustomColumnDef<TData> = ColumnDef<TData> & {
     filterKey?: string;
 };
 class OptionalColumns {
-
-    static getOptionalColumns(filters: Record<string, {
-        type: string;
-        value: any;
-        isMandatory: boolean;
-    }>) {
-
-        const matchedLabel = 'Matched';
+    static getOptionalColumns(
+        filters: Record<
+            string,
+            {
+                type: string;
+                value: any;
+                isMandatory: boolean;
+            }
+        >
+    ) {
+        const matchedLabel = "Matched";
         const notMatchedLabel = "Not Matched";
 
         type TSchemaType = AllColumns;
 
-        const MatchedCell = ({ value }: { value: 'Data Matched' | "Not Matched" }) => (
+        const MatchedCell = ({ value }: { value: "Data Matched" | "Not Matched" }) => (
             <div className="flex space-x-2">
                 <span className="max-w-[400px] truncate font-medium">
                     {value === matched ? matchedLabel : notMatchedLabel}
@@ -36,7 +39,7 @@ class OptionalColumns {
             header: ({ column }) => <OptionalColumnHeader column={column} title={title} />,
             cell: ({ row }) => <MatchedCell value={row.getValue(accessorKey as string)} />,
             enableSorting: true,
-            enableHiding: true,
+            enableHiding: true
         });
 
         const columnConfigs: Array<{
@@ -44,31 +47,38 @@ class OptionalColumns {
             filterKey: string;
             title: string;
         }> = [
-                { accessorKey: "athleteAge", filterKey: "athleteAge", title: "Athlete Age" },
-                { accessorKey: "age", filterKey: "ageIds", title: "Target Age" },
-                { accessorKey: "athleteGender", filterKey: "athleteGenderIds", title: "Athlete Gender" },
-                { accessorKey: "gender", filterKey: "genderIds", title: "Target Gender" },
-                { accessorKey: "nationality", filterKey: "nationalityIds", title: "Nationality" },
-                { accessorKey: "sport", filterKey: "sportIds", title: "Sport" },
-                { accessorKey: "agency", filterKey: "agencyIds", title: "Agency" },
-                { accessorKey: "status", filterKey: "statusIds", title: "Status" },
+            { accessorKey: "athleteAge", filterKey: "athleteAge", title: "Athlete Age" },
+            { accessorKey: "age", filterKey: "ageIds", title: "Target Age" },
+            { accessorKey: "athleteGender", filterKey: "athleteGenderIds", title: "Athlete Gender" },
+            { accessorKey: "gender", filterKey: "genderIds", title: "Target Gender" },
+            { accessorKey: "nationality", filterKey: "nationalityIds", title: "Nationality" },
+            { accessorKey: "sport", filterKey: "sportIds", title: "Sport" },
+            { accessorKey: "agency", filterKey: "agencyIds", title: "Agency" },
+            { accessorKey: "status", filterKey: "statusIds", title: "Status" },
 
-                { accessorKey: "state", filterKey: "stateIds", title: "State" },
-                { accessorKey: "city", filterKey: "cityIds", title: "City" },
-                { accessorKey: "team", filterKey: "teamIds", title: "Team" },
-                { accessorKey: "parentOrg", filterKey: "parentOrgIds", title: "Parent Org." },
-                { accessorKey: "primaryKeyMarket", filterKey: "primaryMarketIds", title: "Primary Market" },
-                { accessorKey: "secondaryKeyMarket", filterKey: "secondaryMarketIds", title: "Secondary Market" },
-                { accessorKey: "tertiary", filterKey: "tertiaryIds", title: "Tertiary Market" },
-                { accessorKey: "primaryMarketingPlatform", filterKey: "primaryMarketingPlatformIds", title: "Primary Market Platform" },
-                { accessorKey: "secondaryMarketingPlatform", filterKey: "secondaryMarketingPlatformIds", title: "Secondary Market Platform" },
+            { accessorKey: "state", filterKey: "stateIds", title: "State" },
+            { accessorKey: "city", filterKey: "cityIds", title: "City" },
+            { accessorKey: "team", filterKey: "teamIds", title: "Team" },
+            { accessorKey: "parentOrg", filterKey: "parentOrgIds", title: "Parent Org." },
+            { accessorKey: "primaryKeyMarket", filterKey: "primaryMarketIds", title: "Primary Market" },
+            { accessorKey: "secondaryKeyMarket", filterKey: "secondaryMarketIds", title: "Secondary Market" },
+            { accessorKey: "tertiary", filterKey: "tertiaryIds", title: "Tertiary Market" },
+            {
+                accessorKey: "primaryMarketingPlatform",
+                filterKey: "primaryMarketingPlatformIds",
+                title: "Primary Market Platform"
+            },
+            {
+                accessorKey: "secondaryMarketingPlatform",
+                filterKey: "secondaryMarketingPlatformIds",
+                title: "Secondary Market Platform"
+            },
 
-                { accessorKey: "contactName", filterKey: "contactName", title: "Contact Name" },
-                { accessorKey: "contactEmail", filterKey: "contactEmail", title: "Contact Email" },
+            { accessorKey: "contactName", filterKey: "contactName", title: "Contact Name" },
+            { accessorKey: "contactEmail", filterKey: "contactEmail", title: "Contact Email" }
+        ];
 
-            ];
-
-        const columns: CustomColumnDef<TSchemaType>[] = columnConfigs.map(config =>
+        const columns: CustomColumnDef<TSchemaType>[] = columnConfigs.map((config) =>
             createDynamicColumn<TSchemaType>(config.accessorKey as keyof TSchemaType, config.filterKey, config.title)
         );
 
@@ -80,10 +90,12 @@ class OptionalColumns {
             }
         });
 
-        const optionalColumns: ColumnDef<TSchemaType>[] = columns?.filter((d) => d?.filterKey && optionalFilterKeys.includes(d?.filterKey)).map((d) => {
-            delete d.filterKey;
-            return d;
-        })
+        const optionalColumns: ColumnDef<TSchemaType>[] = columns
+            ?.filter((d) => d?.filterKey && optionalFilterKeys.includes(d?.filterKey))
+            .map((d) => {
+                delete d.filterKey;
+                return d;
+            });
 
         return optionalColumns;
     }
