@@ -120,6 +120,7 @@
     ::selection {
         color: black;
         background: #e9d2fd;
+        /* background: #3576df; */
     }
 
     /* Input field styles */
