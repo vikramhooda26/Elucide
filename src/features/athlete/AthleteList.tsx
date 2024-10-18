@@ -84,7 +84,7 @@ function AthleteList() {
                     athleteList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
                 });
 
-                athleteList = FilterService.validateMatching(athleteList, filterValues[pageKey])
+                athleteList = FilterService.validateMatching(athleteList, filterValues[pageKey]);
                 setAthletes(athleteList);
             }
         } catch (error) {
