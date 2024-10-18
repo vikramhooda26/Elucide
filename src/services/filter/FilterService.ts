@@ -1,6 +1,7 @@
 import { AllColumns, matched, notMatched } from "@/types/metadata/Metadata";
 import { FilterContent } from "../../components/core/filter/FilterModal";
 import { differenceInYears } from "date-fns";
+import { TAssociation } from "@/features/league/constants.ts/metadata";
 
 class FilterService {
     static processFilterData(filterData: Record<string, { type: string; value: any; isMandatory: boolean }>) {
@@ -197,7 +198,8 @@ class FilterService {
         const matchData = (data: AllColumns) => {
             if (!data || Object.keys(data)?.length === 0) return;
 
-            const finalObj: { [key: string]: string } = { ...data } as { [key: string]: string };
+            const finalObj: { [key: string]: string; } & { associationValues: TAssociation[]; }
+                = { ...data } as { [key: string]: string; } & { associationValues: TAssociation[]; };
 
             const brandIds = filters?.brandIds;
             const teamIds = filters?.teamIds;
@@ -355,6 +357,38 @@ class FilterService {
                 finalObj.contactEmail = data?.contactPersons?.some((contact: any) => contact.contactEmail?.includes(contactEmail.value)) ? matched : notMatched;
             }
 
+            if (costOfAssociation && data?.association) {
+                finalObj.association = notMatched;
+                finalObj.associationValues = [];
+
+                const cost1 = processedFilters?.['costOfAssociation']?.cost?.[0];
+                const cost2 = processedFilters?.['costOfAssociation']?.cost?.[1];
+                const operationType = processedFilters?.['costOfAssociation']?.operationType;
+
+                data?.association?.forEach((d) => {
+                    if (!d?.costOfAssociation) return;
+
+                    if (operationType === 'in') {
+                        if (cost1 <= d?.costOfAssociation && d?.costOfAssociation <= cost2) {
+                            finalObj.association = matched;
+                            finalObj.associationValues?.push(d);
+                        }
+                    } else if (operationType === 'gte') {
+                        if (cost1 >= athleteAge) {
+                            finalObj.association = matched;
+                            finalObj.associationValues?.push(d);
+                        }
+                    } else if (operationType === 'lte') {
+                        if (cost1 <= athleteAge) {
+                            finalObj.association = matched;
+                            finalObj.associationValues?.push(d);
+                        }
+                    }
+
+                })
+
+            }
+            
             return finalObj;
         }
 
@@ -386,6 +420,24 @@ const shapeRange = (valueRanges: any, operationType: string) => {
     return cost;
 };
 
+// "association": [
+//     {
+//         "associationId": "19",
+//         "associationLevel": {
+//             "id": "3",
+//             "name": "Association level name 3"
+//         },
+//         "costOfAssociation": "75000000"
+//     },
+//     {
+//         "associationId": "20",
+//         "associationLevel": {
+//             "id": "5",
+//             "name": "Brand Ambassador"
+//         },
+//         "costOfAssociation": "100000000"
+//     }
+// ],
 
 // reachMetrics: {"value1":[380000000],"value2":[3000000],"operationType":"gte","checkType":"ott"}
 // viewershipMetrics: {"value1":[340000000],"value2":[3000000],"operationType":"lte","checkType":"ott"}

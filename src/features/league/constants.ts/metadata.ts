@@ -98,6 +98,15 @@ export const leagueFormSchema = z.object({
 
 export type TLeagueFormSchema = z.infer<typeof leagueFormSchema>;
 
+export type TAssociation = {
+    associationId?: string;
+    associationLevel?: {
+        id?: string;
+        name?: string;
+    };
+    costOfAssociation?: string;
+};
+
 export type TEditLeagueFormSchema = {
     id?: string;
     name?: string;
@@ -163,14 +172,7 @@ export type TEditLeagueFormSchema = {
         id?: string;
         name?: string;
     }[];
-    association?: {
-        associationId?: string;
-        associationLevel?: {
-            id?: string;
-            name?: string;
-        };
-        costOfAssociation?: string;
-    }[];
+    association?: TAssociation[];
     tiers?: {
         id?: string;
         name?: string;
