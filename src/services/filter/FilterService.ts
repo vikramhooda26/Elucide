@@ -1,4 +1,4 @@
-import { AllColumns, matched, notMatched } from "@/types/metadata/Metadata";
+import { AllColumns, matched, notMatched, TMatrics } from "@/types/metadata/Metadata";
 import { FilterContent } from "../../components/core/filter/FilterModal";
 import { differenceInYears } from "date-fns";
 import { TAssociation } from "@/features/league/constants.ts/metadata";
@@ -213,65 +213,65 @@ class FilterService {
             const statusIds = filters?.statusIds; // done
             const athleteAge = filters?.athleteAge; // done
             const athleteGenderIds = filters?.athleteGenderIds; // done
-            const costOfAssociation = filters?.costOfAssociation;
+            const costOfAssociation = filters?.costOfAssociation; // done
             const ageIds = filters?.ageIds; // done
-            const genderIds = filters?.genderIds;
-            const cityIds = filters?.cityIds;
-            const stateIds = filters?.stateIds;
+            const genderIds = filters?.genderIds; // done
+            const cityIds = filters?.cityIds; // done
+            const stateIds = filters?.stateIds; // done
             const activeCampaignIds = filters?.activeCampaignIds;
-            const agencyIds = filters?.agencyIds;
+            const agencyIds = filters?.agencyIds; // done
             const assetIds = filters?.assetIds;
             const broadcastPartnerIds = filters?.broadcastPartnerIds;
-            const maincategoryIds = filters?.maincategoryIds;
-            const subCategoryIds = filters?.subCategoryIds;
+            const maincategoryIds = filters?.maincategoryIds; // done
+            const subCategoryIds = filters?.subCategoryIds; // done
             const formatIds = filters?.formatIds;
-            const primaryMarketIds = filters?.primaryMarketIds;
-            const secondaryMarketIds = filters?.secondaryMarketIds;
-            const tertiaryIds = filters?.tertiaryIds;
-            const primaryMarketingPlatformIds = filters?.primaryMarketingPlatformIds;
-            const secondaryMarketingPlatformIds = filters?.secondaryMarketingPlatformIds;
-            const primarySocialMediaPlatformIds = filters?.primarySocialMediaPlatformIds;
-            const secondarySocialMediaPlatformIds = filters?.secondarySocialMediaPlatformIds;
-            const yearOfInception = filters?.yearOfInception;
-            const franchiseFee = filters?.franchiseFee;
-            const leagueOwnerIds = filters?.leagueOwnerIds;
-            const nccsIds = filters?.nccsIds;
-            const ottPartnerIds = filters?.ottPartnerIds;
-            const parentOrgIds = filters?.parentOrgIds;
-            const mainpersonalityIds = filters?.mainpersonalityIds;
-            const subPersonalityTraitIds = filters?.subPersonalityTraitIds;
+            const primaryMarketIds = filters?.primaryMarketIds; // done
+            const secondaryMarketIds = filters?.secondaryMarketIds; // done
+            const tertiaryIds = filters?.tertiaryIds; // done
+            const primaryMarketingPlatformIds = filters?.primaryMarketingPlatformIds; // done
+            const secondaryMarketingPlatformIds = filters?.secondaryMarketingPlatformIds; // done
+            const primarySocialMediaPlatformIds = filters?.primarySocialMediaPlatformIds; // done
+            const secondarySocialMediaPlatformIds = filters?.secondarySocialMediaPlatformIds; // done
+            const yearOfInception = filters?.yearOfInception; // done
+            const franchiseFee = filters?.franchiseFee; // done
+            const leagueOwnerIds = filters?.leagueOwnerIds; // done
+            const nccsIds = filters?.nccsIds; // done
+            const ottPartnerIds = filters?.ottPartnerIds; // done
+            const parentOrgIds = filters?.parentOrgIds; // done
+            const mainpersonalityIds = filters?.mainpersonalityIds; // done
+            const subPersonalityTraitIds = filters?.subPersonalityTraitIds; // done
             const sportsDealSummaryLevelIds = filters?.sportsDealSummaryLevelIds;
             const sportsDealSummaryStatusIds = filters?.sportsDealSummaryStatusIds;
             const sportsDealSummaryTerritoryIds = filters?.sportsDealSummaryTerritoryIds;
             const sportsDealSummaryTypeIds = filters?.sportsDealSummaryTypeIds;
-            const taglineIds = filters?.taglineIds;
-            const teamOwnerIds = filters?.teamOwnerIds;
+            const taglineIds = filters?.taglineIds; // done
+            const teamOwnerIds = filters?.teamOwnerIds; // done
             const sportIds = filters?.sportIds;
-            const tierIds = filters?.tierIds;
-            const associationLevelIds = filters?.associationLevelIds;
-            const nationalityIds = filters?.nationalityIds;
-            const socialMediaIds = filters?.socialMediaIds;
-            const athleteStatusIds = filters?.athleteStatusIds;
-            const strategyOverview = filters?.strategyOverview;
+            const tierIds = filters?.tierIds; // done
+            const associationLevelIds = filters?.associationLevelIds; // done
+            const nationalityIds = filters?.nationalityIds; // done
+            // const socialMediaIds = filters?.socialMediaIds;
+            const athleteStatusIds = filters?.athleteStatusIds; // done
+            const strategyOverview = filters?.strategyOverview; // done
 
-            const facebook = filters?.facebook;
-            const instagram = filters?.instagram;
-            const twitter = filters?.twitter;
-            const linkedin = filters?.linkedin;
-            const youtube = filters?.youtube;
-            const website = filters?.website;
+            const facebook = filters?.facebook; // done
+            const instagram = filters?.instagram; // done
+            const twitter = filters?.twitter; // done
+            const linkedin = filters?.linkedin; // done
+            const youtube = filters?.youtube; // done
+            const website = filters?.website;  // done
 
-            const contactName = filters?.contactName;
-            const contactDesignation = filters?.contactDesignation;
-            const contactEmail = filters?.contactEmail;
-            const contactNumber = filters?.contactNumber;
-            const contactLinkedin = filters?.contactLinkedin;
+            const contactName = filters?.contactName; // done
+            const contactEmail = filters?.contactEmail; // done
+            const contactDesignation = filters?.contactDesignation; // done
+            const contactNumber = filters?.contactNumber; // done
+            const contactLinkedin = filters?.contactLinkedin; // done
 
             const reachMetrics = filters?.reachMetrics;
             const viewershipMetrics = filters?.viewershipMetrics;
             const yearMetrics = filters?.yearMetrics;
             const partnerIdMetrics = filters?.partnerIdMetrics;
-            const endorsement = filters?.endorsement;
+            const endorsement = filters?.endorsement; // done
 
             if (ageIds && ageIds?.isMandatory === false && data?.age) {
                 finalObj.age = data?.age?.some((age: any) => ageIds?.value.includes(age.id)) ? matched : notMatched;
@@ -391,6 +391,14 @@ class FilterService {
                     : notMatched;
             }
 
+            if (primarySocialMediaPlatformIds && primarySocialMediaPlatformIds?.isMandatory === false && data?.primaryMarketingPlatform) {
+                finalObj.primaryMarketingPlatform = data?.primaryMarketingPlatform?.some((platform: any) => primarySocialMediaPlatformIds?.value.includes(platform.id)) ? matched : notMatched;
+            }
+
+            if (secondarySocialMediaPlatformIds && secondarySocialMediaPlatformIds?.isMandatory === false && data?.secondaryMarketingPlatform) {
+                finalObj.primaryMarketingPlatform = data?.secondaryMarketingPlatform?.some((platform: any) => primarySocialMediaPlatformIds?.value.includes(platform.id)) ? matched : notMatched;
+            }
+
             if (contactName && contactName?.isMandatory === false && data?.contactPersons) {
                 finalObj.contactName = data?.contactPersons?.some((contact: any) =>
                     contact.contactName.includes(contactName.value)
@@ -406,6 +414,131 @@ class FilterService {
                     ? matched
                     : notMatched;
             }
+
+            if (contactDesignation && contactDesignation?.isMandatory === false && data?.contactPersons) {
+                finalObj.contactDesignation = data?.contactPersons?.some((contact: any) => contact.contactDesignation?.includes(contactDesignation.value)) ? matched : notMatched;
+            }
+
+            if (contactNumber && contactNumber?.isMandatory === false && data?.contactPersons) {
+                finalObj.contactNumber = data?.contactPersons?.some((contact: any) => contact.contactNumber?.includes(contactNumber.value)) ? matched : notMatched;
+            }
+
+            if (contactLinkedin && contactLinkedin?.isMandatory === false && data?.contactPersons) {
+                finalObj.contactLinkedin = data?.contactPersons?.some((contact: any) => contact.contactLinkedin?.includes(contactLinkedin.value)) ? matched : notMatched;
+            }
+
+            if (maincategoryIds && maincategoryIds?.isMandatory === false && data?.mainCategories) {
+                finalObj.mainCategories = data?.mainCategories?.some((category: any) => maincategoryIds?.value.includes(category?.id)) ? matched : notMatched;
+            }
+
+            if (subCategoryIds && subCategoryIds?.isMandatory === false && data?.mainCategories) {
+                finalObj.subCategories = data?.mainCategories?.some((category: any) => category?.subCategories?.some((subCategory: any) => subCategoryIds?.value.includes(subCategory?.id))) ? matched : notMatched;
+            }
+
+            if (yearOfInception && yearOfInception?.isMandatory === false && data?.yearOfInception) {
+                finalObj.yearOfInception = yearOfInception?.value === data?.yearOfInception ? matched : notMatched;
+            }
+
+            if (franchiseFee && franchiseFee?.isMandatory === false && data?.franchiseFee) {
+                finalObj.franchiseFee = franchiseFee?.value === data?.franchiseFee ? matched : notMatched;
+            }
+
+            //////////////////////////////////////////////
+
+            if (leagueOwnerIds && leagueOwnerIds.isMandatory === false && data?.owners) {
+                finalObj.leagueOwners = data?.owners?.some((owner: any) => leagueOwnerIds.value.includes(owner.id)) ? matched : notMatched;
+            }
+
+            if (nccsIds && nccsIds.isMandatory === false && data?.nccs) {
+                finalObj.nccs = data.nccs.some((nccs: any) => nccsIds.value.includes(nccs.id)) ? matched : notMatched;
+            }
+
+            if (ottPartnerIds && ottPartnerIds?.isMandatory === false && data?.ottPartnerMetrics) {
+                finalObj.ottPartner = data?.ottPartnerMetrics?.some((matrics: any) => ottPartnerIds?.value.includes(matrics?.ottPartner?.id)) ? matched : notMatched;
+            }
+
+            if (parentOrgIds && parentOrgIds.isMandatory === false && data?.parentOrg) {
+                finalObj.parentOrg = parentOrgIds.value.includes(data.parentOrg.id) ? matched : notMatched;
+            }
+
+            if (mainpersonalityIds && mainpersonalityIds.isMandatory === false && data?.mainPersonalityTraits) {
+                finalObj.mainPersonalityTraits = data?.mainPersonalityTraits?.some((traits: any) => mainpersonalityIds.value.includes(traits.id)) ? matched : notMatched;
+            }
+
+            if (subPersonalityTraitIds && subPersonalityTraitIds.isMandatory === false && data?.mainPersonalityTraits) {
+                finalObj.subPersonalityTraits = data?.mainPersonalityTraits?.some((traits: any) => traits?.subPersonalityTraits?.some((subTraits: any) => subPersonalityTraitIds?.value.includes(subTraits?.id))) ? matched : notMatched;
+            }
+
+            // if (sportsDealSummaryLevelIds && sportsDealSummaryLevelIds.isMandatory === false && data?.sportsDealSummaryLevels) {
+            //     finalObj.sportsDealSummaryLevels = sportsDealSummaryLevelIds.value.includes(data.sportsDealSummaryLevels.id) ? matched : notMatched;
+            // }
+
+            // if (sportsDealSummaryStatusIds && sportsDealSummaryStatusIds.isMandatory === false && data?.sportsDealSummaryStatus) {
+            //     finalObj.sportsDealSummaryStatus = sportsDealSummaryStatusIds.value.includes(data.sportsDealSummaryStatus.id) ? matched : notMatched;
+            // }
+
+            // if (sportsDealSummaryTerritoryIds && sportsDealSummaryTerritoryIds.isMandatory === false && data?.sportsDealSummaryTerritories) {
+            //     finalObj.sportsDealSummaryTerritories = sportsDealSummaryTerritoryIds.value.includes(data.sportsDealSummaryTerritories.id) ? matched : notMatched;
+            // }
+
+            // if (sportsDealSummaryTypeIds && sportsDealSummaryTypeIds.isMandatory === false && data?.sportsDealSummaryTypes) {
+            //     finalObj.sportsDealSummaryTypes = sportsDealSummaryTypeIds.value.includes(data.sportsDealSummaryTypes.id) ? matched : notMatched;
+            // }
+
+            if (taglineIds && taglineIds.isMandatory === false && data?.taglines) {
+                finalObj.taglines = data.taglines.some((tag: any) => taglineIds.value.includes(tag.id)) ? matched : notMatched;
+            }
+
+            if (teamOwnerIds && teamOwnerIds.isMandatory === false && data?.owners) {
+                finalObj.teamOwners = data?.owners?.some((owner: any) => teamOwnerIds.value.includes(owner.id)) ? matched : notMatched;
+            }
+
+            if (tierIds && tierIds.isMandatory === false && data?.tiers) {
+                finalObj.tiers = data.tiers.some((tier: any) => tierIds.value.includes(tier.id)) ? matched : notMatched;
+            }
+
+            if (associationLevelIds && associationLevelIds?.isMandatory === false && data?.association) {
+                finalObj.associationLevel = data?.association?.some((association: any) => associationLevelIds?.value.includes(association?.associationLevel?.id)) ? matched : notMatched;
+            }
+
+            // if (socialMediaIds && socialMediaIds.isMandatory === false && data?.socialMedia) {
+            //     finalObj.socialMedia = data.socialMedia.some((media: any) => socialMediaIds.value.includes(media.id)) ? matched : notMatched;
+            // }
+
+            if (athleteStatusIds && athleteStatusIds.isMandatory === false && data?.status) {
+                finalObj.status = athleteStatusIds.value.includes(data.status.id) ? matched : notMatched;
+            }
+
+            if (strategyOverview && strategyOverview.isMandatory === false && data?.strategyOverview) {
+                finalObj.strategyOverview = strategyOverview.value.includes(data.strategyOverview) ? matched : notMatched;
+            }
+
+            if (facebook && facebook.isMandatory === false && data?.facebook) {
+                finalObj.facebook = facebook.value.includes(data.facebook) ? matched : notMatched;
+            }
+
+            if (instagram && instagram.isMandatory === false && data?.instagram) {
+                finalObj.instagram = instagram.value.includes(data.instagram) ? matched : notMatched;
+            }
+
+            if (twitter && twitter.isMandatory === false && data?.twitter) {
+                finalObj.twitter = twitter.value.includes(data.twitter) ? matched : notMatched;
+            }
+
+            if (linkedin && linkedin.isMandatory === false && data?.linkedin) {
+                finalObj.linkedin = linkedin.value.includes(data.linkedin) ? matched : notMatched;
+            }
+
+            if (youtube && youtube.isMandatory === false && data?.youtube) {
+                finalObj.youtube = youtube.value.includes(data.youtube) ? matched : notMatched;
+            }
+
+            if (website && website.isMandatory === false && data?.website) {
+                finalObj.website = website.value.includes(data.website) ? matched : notMatched;
+            }
+
+            //////////////////////////////////////////////
+
 
             if (costOfAssociation && data?.association) {
                 finalObj.association = notMatched;
@@ -423,18 +556,52 @@ class FilterService {
                             finalObj.association = matched;
                             finalObj.associationValues?.push(d);
                         }
-                    } else if (operationType === "gte") {
-                        if (cost1 >= athleteAge) {
+                    } else if (operationType === 'gte') {
+                        if (cost1 >= d?.costOfAssociation) {
                             finalObj.association = matched;
                             finalObj.associationValues?.push(d);
                         }
-                    } else if (operationType === "lte") {
-                        if (cost1 <= athleteAge) {
+                    } else if (operationType === 'lte') {
+                        if (cost1 <= d?.costOfAssociation) {
                             finalObj.association = matched;
                             finalObj.associationValues?.push(d);
                         }
                     }
                 });
+            }
+
+            const checkMatrics = (matricsType: 'ottPartnerMetrics' | 'broadcastPartnerMetrics', filterType: 'ott' | 'broadcast') => {
+                finalObj.reachMetrics = notMatched;
+                finalObj.viewershipMetrics = notMatched;
+                finalObj.yearMetrics = notMatched;
+
+                data?.[matricsType]?.forEach((matricsData: TMatrics) => {
+                    if (reachMetrics && finalObj.reachMetrics === notMatched) {
+                        finalObj.reachMetrics = validateMatrics(processedFilters?.['reachMetrics'], matricsData, 'reach', filterType,)
+                    }
+                    if (viewershipMetrics && finalObj.viewershipMetrics === notMatched) {
+                        finalObj.viewershipMetrics = validateMatrics(processedFilters?.['viewershipMetrics'], matricsData, 'viewership', filterType,)
+                    }
+                    if (yearMetrics && finalObj.yearMetrics === notMatched) {
+                        finalObj.yearMetrics = validateMatrics(processedFilters?.['yearMetrics'], matricsData, 'year', filterType,)
+                    }
+
+                    if (partnerIdMetrics && finalObj.partnerIdMetrics === notMatched) {
+                        finalObj.partnerIdMetrics = partnerIdMetrics?.value?.includes(filterType === 'ott' ? matricsData?.ottPartner?.id : matricsData?.broadcastPartner?.id) ? matched : notMatched;
+                    }
+                });
+            }
+
+            if (reachMetrics && data?.ottPartnerMetrics) {
+                checkMatrics('ottPartnerMetrics', 'ott');
+            }
+
+            if (reachMetrics && data?.broadcastPartnerMetrics) {
+                checkMatrics('broadcastPartnerMetrics', 'broadcast');
+            }
+
+            if (endorsement && endorsement.isMandatory === false && data?.endorsement) {
+                finalObj.endorsement = data.endorsement.some((endorse: any) => endorsement.value?.name?.includes(endorse.name) && endorsement.value?.isActive === endorse.active) ? matched : notMatched;
             }
 
             return finalObj;
@@ -467,24 +634,109 @@ const shapeRange = (valueRanges: any, operationType: string) => {
     return cost;
 };
 
-// "association": [
-//     {
-//         "associationId": "19",
-//         "associationLevel": {
-//             "id": "3",
-//             "name": "Association level name 3"
-//         },
-//         "costOfAssociation": "75000000"
+
+const validateMatrics = (matricsFilters: { [key: string]: string; }, matricsData: TMatrics, valueKey: 'reach' | 'year' | 'viewership', filterType: 'ott' | 'broadcast') => {
+    let cost1 = Number(matricsFilters?.[valueKey]?.[0]);
+    let cost2 = Number(matricsFilters?.[valueKey]?.[1]);
+    let value = Number(matricsData?.[valueKey]);
+    let operationType = matricsFilters?.operationType;
+    let partnerType = matricsFilters?.partnerType;
+
+    if (operationType === 'in' && partnerType === filterType) {
+        if (cost1 <= value && value <= cost2) {
+            return matched;
+        }
+    } else if (operationType === 'gte' && partnerType === filterType) {
+        if (cost1 >= value) {
+            return matched;
+        }
+    } else if (operationType === 'lte' && partnerType === filterType) {
+        if (cost1 <= value) {
+            return matched;
+        }
+    }
+    return notMatched;
+}
+
+// {
+//     "reachMetrics": {
+//         "reach": [
+//             "0",
+//             "7000000"
+//         ],
+//         "operationType": "in",
+//         "partnerType": "ott"
 //     },
-//     {
-//         "associationId": "20",
-//         "associationLevel": {
-//             "id": "5",
-//             "name": "Brand Ambassador"
-//         },
-//         "costOfAssociation": "100000000"
+//     "viewershipMetrics": {
+//         "viewership": [
+//             "0",
+//             "6000000"
+//         ],
+//        "operationType": "in",
+//        "partnerType": "ott"
+//     },
+//     "partnerIdMetrics": {
+//         "partnerIds": [
+//             "7",
+//             "4"
+//         ],
+//         "partnerType": "ott"
+//     },
+//     "yearMetrics": {
+//         "year": [
+//             "0",
+//             "6600000"
+//         ],
+//         "operationType": "in",
+//         "partnerType": "ott"
 //     }
-// ],
+// }
+
+// "ottPartnerMetrics": [
+//             {
+//                 "id": "21",
+//                 "viewership": "2500000",
+//                 "reach": "2500032103",
+//                 "year": "2024",
+//                 "ottPartner": {
+//                     "id": "4",
+//                     "name": "Hotstar"
+//                 }
+//             },
+//             {
+//                 "id": "22",
+//                 "viewership": "160000",
+//                 "reach": "1200000",
+//                 "year": "2024",
+//                 "ottPartner": {
+//                     "id": "3",
+//                     "name": "Jio Cinema"
+//                 }
+//             }
+//         ],
+
+// "broadcastPartnerMetrics": [
+//             {
+//                 "id": "20",
+//                 "reach": "39821738127983",
+//                 "viewership": "1236182873",
+//                 "year": "2020",
+//                 "broadcastPartner": {
+//                     "id": "4",
+//                     "name": "Viacom18"
+//                 }
+//             },
+//             {
+//                 "id": "21",
+//                 "reach": "9210931923091",
+//                 "viewership": "9213012390",
+//                 "year": "2020",
+//                 "broadcastPartner": {
+//                     "id": "6",
+//                     "name": "Sports18 Khel"
+//                 }
+//             }
+//         ]
 
 // reachMetrics: {"value1":[380000000],"value2":[3000000],"operationType":"gte","checkType":"ott"}
 // viewershipMetrics: {"value1":[340000000],"value2":[3000000],"operationType":"lte","checkType":"ott"}

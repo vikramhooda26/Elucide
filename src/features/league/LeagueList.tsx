@@ -43,6 +43,8 @@ function LeagueList() {
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
+    const [isFilterApplied, setIsFilterApplied] = useState(false);
+
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -182,11 +184,16 @@ function LeagueList() {
             const response = await LeagueService.getFilteredLeagues(processedData);
 
             if (response?.status === HTTP_STATUS_CODES.OK) {
-                const leagueList = response?.data;
+                let leagueList = response?.data;
                 leagueList?.forEach((league: league, i: number) => {
                     leagueList[i].createdBy = league?.createdBy?.email || "N/A";
                     leagueList[i].modifiedBy = league?.modifiedBy?.email || "N/A";
                 });
+
+                leagueList = FilterService.validateMatching(leagueList, filterValues[pageKey]);
+
+                setIsFilterApplied(true);
+
                 setLeagueList(leagueList);
             }
         } catch (error) {
@@ -238,7 +245,7 @@ function LeagueList() {
                     </ConditionalButton>
                 </div>
             </div>
-            <LeagueTable leagueList={leagueList} setLeagueList={setLeagueList} />
+            <LeagueTable leagueList={leagueList} setLeagueList={setLeagueList} filters={filterValues[pageKey]} isFilterApplied={isFilterApplied} setIsFilterApplied={setIsFilterApplied} />
         </div>
     );
 }

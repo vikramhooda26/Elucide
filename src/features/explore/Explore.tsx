@@ -28,6 +28,7 @@ function Explore() {
     const [teamList, setTeamList] = useState<any[]>([]);
     const [athletes, setAthletes] = useState<Array<any>>([]);
     const [openAi, setOpenAi] = useState(false);
+    const [isFilterApplied, setIsFilterApplied] = useState(false);
 
     const pageKey: TPageKey = "allStakeList";
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -67,35 +68,38 @@ function Explore() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const allStakeList = response.data;
 
-                const brandList = allStakeList?.filteredBrands;
+                let brandList = allStakeList?.filteredBrands;
                 brandList.forEach((brand: brand, i: number) => {
                     brandList[i].createdBy = brand?.createdBy?.email || "N/A";
                     brandList[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
                 });
+                brandList = FilterService.validateMatching(brandList, filterValues[pageKey]);
+                setIsFilterApplied(true);
                 setBrandList(brandList);
 
-                const leagueList = allStakeList?.filteredLeagues;
-
+                let leagueList = allStakeList?.filteredLeagues;
                 leagueList.forEach((league: league, i: number) => {
                     leagueList[i].createdBy = league?.createdBy?.email || "N/A";
                     leagueList[i].modifiedBy = league?.modifiedBy?.email || "N/A";
                 });
+                leagueList = FilterService.validateMatching(leagueList, filterValues[pageKey]);
                 setLeagueList(leagueList);
 
-                const teamList = allStakeList?.filteredTeams;
+                let teamList = allStakeList?.filteredTeams;
 
                 teamList.forEach((athlete: team, i: number) => {
                     teamList[i].createdBy = athlete?.createdBy?.email || "N/A";
                     teamList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
                 });
+                teamList = FilterService.validateMatching(teamList, filterValues[pageKey]);
                 setTeamList(teamList);
 
-                const athleteList = allStakeList?.filteredAthletes;
-
+                let athleteList = allStakeList?.filteredAthletes;
                 allStakeList?.filteredAthletes.forEach((athlete: athlete, i: number) => {
                     athleteList[i].createdBy = athlete?.createdBy?.email || "N/A";
                     athleteList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
                 });
+                athleteList = FilterService.validateMatching(athleteList, filterValues[pageKey]);
                 setAthletes(athleteList);
             }
         } catch (error) {
@@ -134,14 +138,32 @@ function Explore() {
 
             {openAi && <ChatGPT />}
             <div>
-                <h3 className="my-4 text-2xl tracking-tight">List Of Brands</h3>
-                <BrandTable brandList={brandList} setBrandList={setBrandList} />
+                {/* <h3 className="my-4 text-2xl tracking-tight">List Of Brands</h3>
+                <BrandTable brandList={brandList} setBrandList={setBrandList} /> */}
                 <h3 className="my-4 text-2xl tracking-tight">List Of Leagues</h3>
-                <LeagueTable leagueList={leagueList} setLeagueList={setLeagueList} />
+                <LeagueTable
+                    leagueList={leagueList}
+                    setLeagueList={setLeagueList}
+                    // filters={filterValues[pageKey]}
+                    isFilterApplied={isFilterApplied}
+                    setIsFilterApplied={setIsFilterApplied}
+                />
                 <h3 className="my-4 text-2xl tracking-tight">List Of Teams</h3>
-                <TeamTable teamList={teamList} setTeamList={setTeamList} />
+                <TeamTable
+                    teamList={teamList}
+                    setTeamList={setTeamList}
+                    // filters={filterValues[pageKey]}
+                    isFilterApplied={isFilterApplied}
+                    setIsFilterApplied={setIsFilterApplied}
+                />
                 <h3 className="my-4 text-2xl tracking-tight">List Of Athletes</h3>
-                <AthleteTable athletes={athletes} setAthletes={setAthletes} />
+                <AthleteTable
+                    athletes={athletes}
+                    setAthletes={setAthletes}
+                    // filters={filterValues[pageKey]}
+                    isFilterApplied={isFilterApplied}
+                    setIsFilterApplied={setIsFilterApplied}
+                />
             </div>
         </div>
     );

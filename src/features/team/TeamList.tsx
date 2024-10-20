@@ -26,6 +26,7 @@ function TeamList() {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
+    const [isFilterApplied, setIsFilterApplied] = useState(false);
 
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const pageKey: TPageKey = "teamList";
@@ -87,11 +88,16 @@ function TeamList() {
             const response = await TeamService.getFilteredTeams(processedData);
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                const teamList = response.data;
+                let teamList = response.data;
                 teamList.forEach((athlete: team, i: number) => {
                     teamList[i].createdBy = athlete?.createdBy?.email || "N/A";
                     teamList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
                 });
+
+                teamList = FilterService.validateMatching(teamList, filterValues[pageKey]);
+
+                setIsFilterApplied(true);
+
                 setTeamList(teamList);
             }
         } catch (error) {
@@ -127,7 +133,13 @@ function TeamList() {
                     </ConditionalButton>
                 </div>
             </div>
-            <TeamTable teamList={teamList} setTeamList={setTeamList} />
+            <TeamTable
+                teamList={teamList}
+                setTeamList={setTeamList}
+                filters={filterValues[pageKey]}
+                isFilterApplied={isFilterApplied}
+                setIsFilterApplied={setIsFilterApplied}
+            />
         </div>
     );
 }

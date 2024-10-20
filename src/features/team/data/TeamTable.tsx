@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { getColumns } from "../../../components/core/view/common-columns";
 import { useUser } from "../../../hooks/useUser";
 import { useNavigate } from "react-router-dom";
@@ -25,13 +25,23 @@ import { Input } from "../../../components/ui/input";
 import { DataTableFacetedFilter } from "../../../components/data-table/data-table-faceted-filter";
 import { priorities, statuses } from "./data";
 import DataTable from "../../../components/data-table/data-table";
+import OptionalColumns from "@/services/filter/OptionalColumns";
 
 type Props = {
     teamList: Array<any>;
     setTeamList: (value: React.SetStateAction<any[]>) => void;
+    filters?: Record<
+        string,
+        {
+            type: string;
+            value: any;
+            isMandatory: boolean;
+        }>;
+    isFilterApplied: boolean;
+    setIsFilterApplied: (b: boolean) => void;
 };
 
-function TeamTable({ teamList, setTeamList }: Props) {
+function TeamTable({ teamList, setTeamList, filters, isFilterApplied, setIsFilterApplied }: Props) {
     const userRole = useUser()?.role;
     const navigate = useNavigate();
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -44,6 +54,12 @@ function TeamTable({ teamList, setTeamList }: Props) {
     if (!userRole) {
         return;
     }
+
+    useEffect(() => {
+        if (isFilterApplied || filters && Object.keys(filters)?.length <= 0) {
+            setOptionalColumns();
+        }
+    }, [filters, isFilterApplied]);
 
     const onDelete = useCallback(async (id: string) => {
         try {
@@ -89,9 +105,24 @@ function TeamTable({ teamList, setTeamList }: Props) {
         []
     );
 
+    const [allowedColumns, setAllowedColumns] = useState(columns);
+
+    const setOptionalColumns = () => {
+        if (filters) {
+            const optionalColumns = OptionalColumns.getOptionalColumns(filters);
+            const updateColumns = [...columns];
+            //@ts-ignore
+            updateColumns?.splice(1, 0, ...optionalColumns);
+
+            setAllowedColumns(updateColumns);
+
+            setIsFilterApplied(false);
+        }
+    };
+
     const table = useReactTable({
         data: teamList,
-        columns,
+        columns: allowedColumns,
         state: {
             sorting,
             columnVisibility,
