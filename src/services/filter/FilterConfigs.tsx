@@ -71,10 +71,10 @@ function getFilters(pageKey: TPageKey) {
         //= ===================== Main stakes list filter ends here ======================== =//
 
         {
-            displayName: "Status",
-            key: "statusIds",
+            displayName: "Athlete Status",
+            key: "athleteStatusIds",
             type: "select",
-            value: filterValues?.[pageKey]?.statusIds?.value || "",
+            value: filterValues?.[pageKey]?.athleteStatusIds?.value || "",
             options: metadataStore?.athleteStatus,
             isMultiple: true,
             isMandatory: true,
@@ -399,46 +399,46 @@ function getFilters(pageKey: TPageKey) {
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
 
-        {
-            displayName: "Sports Deal Summary Level",
-            key: "sportsDealSummaryLevelIds",
-            type: "select",
-            value: filterValues?.[pageKey]?.sportsDealSummaryLevelIds?.value || "",
-            options: metadataStore?.sportsDealSummaryLevel,
-            isMultiple: true,
-            isMandatory: true,
-            pageKeys: ["teamList"]
-        },
-        {
-            displayName: "Sports Deal Summary Status",
-            key: "sportsDealSummaryStatusIds",
-            type: "select",
-            value: filterValues?.[pageKey]?.sportsDealSummaryStatusIds?.value || "",
-            options: metadataStore?.sportsDealSummaryStatus,
-            isMultiple: true,
-            isMandatory: true,
-            pageKeys: ["teamList"]
-        },
-        {
-            displayName: "Sports Deal Summary Territory",
-            key: "sportsDealSummaryTerritoryIds",
-            type: "select",
-            value: filterValues?.[pageKey]?.sportsDealSummaryTerritoryIds?.value || "",
-            options: metadataStore?.sportsDealSummaryTerritory,
-            isMultiple: true,
-            isMandatory: true,
-            pageKeys: ["teamList"]
-        },
-        {
-            displayName: "Sports Deal Summary Type",
-            key: "sportsDealSummaryTypeIds",
-            type: "select",
-            value: filterValues?.[pageKey]?.sportsDealSummaryTypeIds?.value || "",
-            options: metadataStore?.sportsDealSummaryType,
-            isMultiple: true,
-            isMandatory: true,
-            pageKeys: ["teamList"]
-        },
+        // {
+        //     displayName: "Sports Deal Summary Level",
+        //     key: "sportsDealSummaryLevelIds",
+        //     type: "select",
+        //     value: filterValues?.[pageKey]?.sportsDealSummaryLevelIds?.value || "",
+        //     options: metadataStore?.sportsDealSummaryLevel,
+        //     isMultiple: true,
+        //     isMandatory: true,
+        //     pageKeys: ["teamList"]
+        // },
+        // {
+        //     displayName: "Sports Deal Summary Status",
+        //     key: "sportsDealSummaryStatusIds",
+        //     type: "select",
+        //     value: filterValues?.[pageKey]?.sportsDealSummaryStatusIds?.value || "",
+        //     options: metadataStore?.sportsDealSummaryStatus,
+        //     isMultiple: true,
+        //     isMandatory: true,
+        //     pageKeys: ["teamList"]
+        // },
+        // {
+        //     displayName: "Sports Deal Summary Territory",
+        //     key: "sportsDealSummaryTerritoryIds",
+        //     type: "select",
+        //     value: filterValues?.[pageKey]?.sportsDealSummaryTerritoryIds?.value || "",
+        //     options: metadataStore?.sportsDealSummaryTerritory,
+        //     isMultiple: true,
+        //     isMandatory: true,
+        //     pageKeys: ["teamList"]
+        // },
+        // {
+        //     displayName: "Sports Deal Summary Type",
+        //     key: "sportsDealSummaryTypeIds",
+        //     type: "select",
+        //     value: filterValues?.[pageKey]?.sportsDealSummaryTypeIds?.value || "",
+        //     options: metadataStore?.sportsDealSummaryType,
+        //     isMultiple: true,
+        //     isMandatory: true,
+        //     pageKeys: ["teamList"]
+        // },
         {
             displayName: "Tagline",
             key: "taglineIds",
@@ -510,16 +510,7 @@ function getFilters(pageKey: TPageKey) {
             isMandatory: true,
             pageKeys: ["athleteList"]
         },
-        {
-            displayName: "Athlete Status",
-            key: "athleteStatusIds",
-            type: "select",
-            value: filterValues?.[pageKey]?.athleteStatusIds?.value || "",
-            options: metadataStore?.athleteStatus,
-            isMultiple: true,
-            isMandatory: true,
-            pageKeys: ["athleteList"]
-        },
+
 
         //= ====================== Social Media Filters Starts ============================ =//
         {
@@ -694,7 +685,7 @@ function getFilters(pageKey: TPageKey) {
             subTitle: { title1: "Active" },
             isMandatory: true,
             pageKeys: ["brandList", "leagueList", "teamList"]
-        }
+        },
         // need to do. ========================
     ];
 

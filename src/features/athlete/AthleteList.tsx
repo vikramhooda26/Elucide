@@ -21,6 +21,8 @@ function AthleteList() {
     const navigator = useNavigator();
     const [athletes, setAthletes] = useState<Array<any>>([]);
     const setIsLoading = useSetRecoilState(listLoadingAtom);
+    const [isFilterApplied, setIsFilterApplied] = useState(false);
+
     const { logout } = useAuth();
     const navigate = useNavigate();
     const userRole = useUser()?.role;
@@ -85,6 +87,9 @@ function AthleteList() {
                 });
 
                 athleteList = FilterService.validateMatching(athleteList, filterValues[pageKey]);
+
+                setIsFilterApplied(true);
+
                 setAthletes(athleteList);
             }
         } catch (error) {
@@ -99,7 +104,7 @@ function AthleteList() {
         } finally {
             setIsLoading(false);
         }
-    };
+    };    
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
@@ -125,7 +130,13 @@ function AthleteList() {
                     </ConditionalButton>
                 </div>
             </div>
-            <AthleteTable athletes={athletes} setAthletes={setAthletes} filters={filterValues[pageKey]} />
+            <AthleteTable
+                athletes={athletes}
+                setAthletes={setAthletes}
+                filters={filterValues[pageKey]}
+                isFilterApplied={isFilterApplied}
+                setIsFilterApplied={setIsFilterApplied}
+            />
         </div>
     );
 }

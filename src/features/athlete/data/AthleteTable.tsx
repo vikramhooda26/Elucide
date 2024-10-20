@@ -11,7 +11,7 @@ import {
     useReactTable,
     VisibilityState
 } from "@tanstack/react-table";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -38,9 +38,11 @@ type Props = {
             isMandatory: boolean;
         }
     >;
+    isFilterApplied: boolean;
+    setIsFilterApplied: (b: boolean) => void;
 };
 
-function AthleteTable({ athletes, setAthletes, filters }: Props) {
+function AthleteTable({ athletes, setAthletes, filters, isFilterApplied, setIsFilterApplied }: Props) {
     const userRole = useUser()?.role;
     const navigate = useNavigate();
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -55,8 +57,10 @@ function AthleteTable({ athletes, setAthletes, filters }: Props) {
     }
 
     useEffect(() => {
-        setOptionalColumns();
-    }, [filters]);
+        if (isFilterApplied || filters && Object.keys(filters)?.length <= 0) {
+            setOptionalColumns();
+        }
+    }, [filters, isFilterApplied]);
 
     const onEdit = useCallback((id: string) => {
         navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`);
@@ -99,7 +103,7 @@ function AthleteTable({ athletes, setAthletes, filters }: Props) {
                 title: "Athlete name",
                 canEdit
             }),
-        []
+        [filters, isFilterApplied]
     );
 
     const [allowedColumns, setAllowedColumns] = useState(columns);
@@ -112,6 +116,8 @@ function AthleteTable({ athletes, setAthletes, filters }: Props) {
             updateColumns?.splice(1, 0, ...optionalColumns);
 
             setAllowedColumns(updateColumns);
+
+            setIsFilterApplied(false);
         }
     };
 
@@ -155,4 +161,4 @@ function AthleteTable({ athletes, setAthletes, filters }: Props) {
     );
 }
 
-export default AthleteTable;
+export default memo(AthleteTable);

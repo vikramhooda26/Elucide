@@ -68,36 +68,76 @@ class OptionalColumns {
             filterKey: string;
             title: string;
         }> = [
-            { accessorKey: "athleteAge", filterKey: "athleteAge", title: "Athlete Age" },
-            { accessorKey: "age", filterKey: "ageIds", title: "Target Age" },
-            { accessorKey: "athleteGender", filterKey: "athleteGenderIds", title: "Athlete Gender" },
-            { accessorKey: "gender", filterKey: "genderIds", title: "Target Gender" },
-            { accessorKey: "nationality", filterKey: "nationalityIds", title: "Nationality" },
-            { accessorKey: "sport", filterKey: "sportIds", title: "Sport" },
-            { accessorKey: "agency", filterKey: "agencyIds", title: "Agency" },
-            { accessorKey: "status", filterKey: "statusIds", title: "Status" },
+                { accessorKey: "athleteAge", filterKey: "athleteAge", title: "Athlete Age" },
+                { accessorKey: "age", filterKey: "ageIds", title: "Target Age" },
+                { accessorKey: "athleteGender", filterKey: "athleteGenderIds", title: "Athlete Gender" },
+                { accessorKey: "gender", filterKey: "genderIds", title: "Target Gender" },
+                { accessorKey: "nationality", filterKey: "nationalityIds", title: "Nationality" },
+                { accessorKey: "sport", filterKey: "sportIds", title: "Sport" },
+                { accessorKey: "agency", filterKey: "agencyIds", title: "Agency" },
+                { accessorKey: "status", filterKey: "athleteStatusIds", title: "Status" },
 
-            { accessorKey: "state", filterKey: "stateIds", title: "State" },
-            { accessorKey: "city", filterKey: "cityIds", title: "City" },
-            { accessorKey: "team", filterKey: "teamIds", title: "Team" },
-            { accessorKey: "parentOrg", filterKey: "parentOrgIds", title: "Parent Org." },
-            { accessorKey: "primaryKeyMarket", filterKey: "primaryMarketIds", title: "Primary Market" },
-            { accessorKey: "secondaryKeyMarket", filterKey: "secondaryMarketIds", title: "Secondary Market" },
-            { accessorKey: "tertiary", filterKey: "tertiaryIds", title: "Tertiary Market" },
-            {
-                accessorKey: "primaryMarketingPlatform",
-                filterKey: "primaryMarketingPlatformIds",
-                title: "Primary Market Platform"
-            },
-            {
-                accessorKey: "secondaryMarketingPlatform",
-                filterKey: "secondaryMarketingPlatformIds",
-                title: "Secondary Market Platform"
-            },
+                { accessorKey: "state", filterKey: "stateIds", title: "State" },
+                { accessorKey: "city", filterKey: "cityIds", title: "City" },
+                { accessorKey: "team", filterKey: "teamIds", title: "Team" },
+                { accessorKey: "parentOrg", filterKey: "parentOrgIds", title: "Parent Org." },
+                { accessorKey: "primaryKeyMarket", filterKey: "primaryMarketIds", title: "Primary Market" },
+                { accessorKey: "secondaryKeyMarket", filterKey: "secondaryMarketIds", title: "Secondary Market" },
+                { accessorKey: "tertiary", filterKey: "tertiaryIds", title: "Tertiary Market" },
+                {
+                    accessorKey: "primaryMarketingPlatform",
+                    filterKey: "primaryMarketingPlatformIds",
+                    title: "Primary Market Platform"
+                },
+                {
+                    accessorKey: "secondaryMarketingPlatform",
+                    filterKey: "secondaryMarketingPlatformIds",
+                    title: "Secondary Market Platform"
+                },
 
-            { accessorKey: "contactName", filterKey: "contactName", title: "Contact Name" },
-            { accessorKey: "contactEmail", filterKey: "contactEmail", title: "Contact Email" }
-        ];
+                { accessorKey: "mainCategories", filterKey: "maincategoryIds", title: "Main Category" },
+                { accessorKey: "subCategories", filterKey: "subCategoryIds", title: "Sub Category" },
+
+                { accessorKey: "mainPersonalityTraits", filterKey: "mainpersonalityIds", title: "Main Personality Trait" },
+                { accessorKey: "subPersonalityTraits", filterKey: "subPersonalityTraitIds", title: "Sub Personality Trait" },
+
+                { accessorKey: "yearOfInception", filterKey: "yearOfInception", title: "Year Of Inception" },
+                { accessorKey: "franchiseFee", filterKey: "franchiseFee", title: "Franchise Fee" },
+                { accessorKey: "owners", filterKey: "leagueOwnerIds", title: "Owners" },
+                { accessorKey: "owners", filterKey: "teamOwnerIds", title: "Owners" },
+                { accessorKey: "nccs", filterKey: "nccsIds", title: "NCCS" },
+                { accessorKey: "ottPartner", filterKey: "ottPartnerIds", title: "OTT Partners" },
+                { accessorKey: "parentOrg", filterKey: "parentOrgIds", title: "Parent Org" },
+                { accessorKey: "taglines", filterKey: "taglineIds", title: "Taglines" },
+                { accessorKey: "tiers", filterKey: "tierIds", title: "Tiers" },
+                { accessorKey: "associationLevel", filterKey: "associationLevelIds", title: "Association Level" },
+
+                { accessorKey: "reachMetrics", filterKey: "reachMetrics", title: "Reach" },
+                { accessorKey: "viewershipMetrics", filterKey: "viewershipMetrics", title: "Viewership" },
+                { accessorKey: "yearMetrics", filterKey: "yearMetrics", title: "Year" },
+                { accessorKey: "partnerIdMetrics", filterKey: "partnerIdMetrics", title: "Partner" },
+
+                { accessorKey: "endorsement", filterKey: "endorsement", title: "Endorsement" },
+
+                { accessorKey: "strategyOverview", filterKey: "strategyOverview", title: "Strategy Overview" },
+                
+                { accessorKey: "contactDesignation", filterKey: "contactDesignation", title: "Contact Designation" },
+                { accessorKey: "contactNumber", filterKey: "contactNumber", title: "Contact Number" },
+                { accessorKey: "contactLinkedin", filterKey: "contactLinkedin", title: "Contact LinkedIn" },
+                { accessorKey: "facebook", filterKey: "facebook", title: "Facebook" },
+                { accessorKey: "instagram", filterKey: "instagram", title: "Instagram" },
+                { accessorKey: "twitter", filterKey: "twitter", title: "Twitter" },
+                { accessorKey: "linkedin", filterKey: "linkedin", title: "LinkedIn" },
+                { accessorKey: "youtube", filterKey: "youtube", title: "YouTube" },
+                { accessorKey: "website", filterKey: "website", title: "Website" },
+
+
+                { accessorKey: "contactName", filterKey: "contactName", title: "Contact Name" },
+                { accessorKey: "contactEmail", filterKey: "contactEmail", title: "Contact Email" },
+                { accessorKey: "contactDesignation", filterKey: "contactDesignation", title: "Contact Designation" },
+                { accessorKey: "contactNumber", filterKey: "contactNumber", title: "Contact Number" },
+                { accessorKey: "contactLinkedin", filterKey: "contactLinkedin", title: "Contact LinkedIn" },
+            ];
 
         const columns: CustomColumnDef<TSchemaType>[] = columnConfigs.map((config) =>
             createDynamicColumn<TSchemaType>(config.accessorKey as keyof TSchemaType, config.filterKey, config.title)

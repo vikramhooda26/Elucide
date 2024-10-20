@@ -11,7 +11,7 @@ import {
     useReactTable,
     VisibilityState
 } from "@tanstack/react-table";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -25,13 +25,24 @@ import ErrorService from "@/services/error/ErrorService";
 import { Input } from "@/components/ui/input";
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
 import { getColumns } from "@/components/core/view/common-columns";
+import OptionalColumns from "@/services/filter/OptionalColumns";
 
 type Props = {
     brandList: Array<any>;
     setBrandList: (value: React.SetStateAction<any[]>) => void;
+    filters?: Record<
+        string,
+        {
+            type: string;
+            value: any;
+            isMandatory: boolean;
+        }
+    >;
+    isFilterApplied: boolean;
+    setIsFilterApplied: (b: boolean) => void;
 };
 
-function BrandTable({ brandList, setBrandList }: Props) {
+function BrandTable({ brandList, setBrandList, filters, isFilterApplied, setIsFilterApplied }: Props) {
     const userRole = useUser()?.role;
     const navigate = useNavigate();
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -44,6 +55,12 @@ function BrandTable({ brandList, setBrandList }: Props) {
     if (!userRole) {
         return;
     }
+
+    useEffect(() => {
+        if (isFilterApplied || filters && Object.keys(filters)?.length <= 0) {
+            setOptionalColumns();
+        }
+    }, [filters, isFilterApplied]);
 
     const onDelete = useCallback(async (id: string) => {
         try {
@@ -88,9 +105,25 @@ function BrandTable({ brandList, setBrandList }: Props) {
             }),
         []
     );
+
+    const [allowedColumns, setAllowedColumns] = useState(columns);
+
+    const setOptionalColumns = () => {
+        if (filters) {
+            const optionalColumns = OptionalColumns.getOptionalColumns(filters);
+            const updateColumns = [...columns];
+            //@ts-ignore
+            updateColumns?.splice(1, 0, ...optionalColumns);
+
+            setAllowedColumns(updateColumns);
+
+            setIsFilterApplied(false);
+        }
+    };
+
     const table = useReactTable({
         data: brandList,
-        columns,
+        columns: allowedColumns,
         state: {
             sorting,
             columnVisibility,

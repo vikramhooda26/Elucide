@@ -234,7 +234,14 @@ export const allColumnsSchema = () =>
                 })
             )
             .optional(),
-
+        subCategories: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+            )
+            .optional(),
         // League-specific fields
         owners: z
             .array(
@@ -278,6 +285,10 @@ export const allColumnsSchema = () =>
         franchiseFee: z.string().optional(),
 
         // Common fields
+        taglines: z.array(z.object({
+            id: z.string().optional(),
+            name: z.string().optional(),
+        })).optional(),
         sport: z.object({
             id: z.string().optional(),
             name: z.string().optional(),
@@ -295,14 +306,11 @@ export const allColumnsSchema = () =>
         twitter: z.string().optional(),
         facebook: z.string().optional(),
         strategyOverview: z.string().optional(),
-        primaryKeyMarket: z
-            .array(
-                z.object({
-                    id: z.string().optional(),
-                    name: z.string().optional(),
-                })
-            )
-            .optional(),
+        primaryKeyMarket: z.array(
+            z.object({
+                id: z.string().optional(),
+                name: z.string().optional(),
+            })).optional(),
         secondaryKeyMarket: z
             .array(
                 z.object({
@@ -366,8 +374,7 @@ export const allColumnsSchema = () =>
                         .optional(),
                 })
             ).optional(),
-        contactName: z.string().optional(),
-        contactEmail: z.string().optional(),
+
         contactPersons: z
             .array(
                 z.object({
@@ -415,6 +422,38 @@ export const allColumnsSchema = () =>
                     link: z.string(),
                 })
             ).optional(),
+        endorsement: z.array(
+            z.object({
+                id: z.string().optional(),
+                name: z.string(),
+                active: z.boolean(),
+            })).optional(),
+        //= ================= custom keys ======================= =//
+        ottPartner: z.object({
+            id: z.string(),
+            name: z.string(),
+        }).optional(),
+        subPersonalityTraits: z.array(
+            z.object({
+                id: z.string().optional(),
+                name: z.string().optional(),
+            })
+        )
+            .optional(),
+        associationLevel: z.object({
+            id: z.string().optional(),
+            name: z.string().optional(),
+        }).optional(),
+        contactName: z.string().optional(),
+        contactEmail: z.string().optional(),
+        contactDesignation: z.string().optional(),
+        contactNumber: z.string().optional(),
+        contactLinkedin: z.string().optional(),
+
+        reachMetrics: z.string().optional(),
+        viewershipMetrics: z.string().optional(),
+        yearMetrics: z.string().optional(),
+        partnerIdMetrics: z.string().optional(),
     });
 
 
@@ -422,3 +461,18 @@ export type AllColumns = z.infer<ReturnType<typeof allColumnsSchema>>;
 
 export const matched = "Data Matched";
 export const notMatched = "Not Matched";
+
+export type TMatrics = {
+    id: string;
+    viewership: string;
+    reach: string;
+    year: string;
+    ottPartner?: {
+        id: string;
+        name: string;
+    };
+    broadcastPartner?: {
+        id: string;
+        name: string;
+    };
+}

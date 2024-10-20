@@ -25,6 +25,8 @@ function BrandList() {
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
+    const [isFilterApplied, setIsFilterApplied] = useState(false);
+
     const setIsLoading = useSetRecoilState(listLoadingAtom);
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -82,11 +84,16 @@ function BrandList() {
             const response = await BrandService.getFilteredBrands(processedData);
 
             if (response.status === HTTP_STATUS_CODES.OK) {
-                const brandList = response.data;
+                let brandList = response.data;
                 brandList.forEach((brand: brand, i: number) => {
                     brandList[i].createdBy = brand?.createdBy?.email || "N/A";
                     brandList[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
                 });
+
+                brandList = FilterService.validateMatching(brandList, filterValues[pageKey]);
+
+                setIsFilterApplied(true);
+
                 setBrandList(brandList);
             }
         } catch (error) {
@@ -136,7 +143,13 @@ function BrandList() {
                     </ConditionalButton>
                 </div>
             </div>
-            <BrandTable brandList={brandList} setBrandList={setBrandList} />
+            <BrandTable
+                brandList={brandList}
+                setBrandList={setBrandList}
+                filters={filterValues[pageKey]}
+                isFilterApplied={isFilterApplied}
+                setIsFilterApplied={setIsFilterApplied}
+            />
         </div>
     );
 }

@@ -34,18 +34,18 @@ export interface FilterContent {
     displayName: string;
     key: string;
     type:
-        | "select"
-        | "range"
-        | "doubleRange"
-        | "singleRange"
-        | "dateRange"
-        | "text"
-        | "conditionalText"
-        | "check"
-        | "multicheck"
-        | "toggle"
-        | "doubleRangeWithCheck"
-        | "conditionalDropDown";
+    | "select"
+    | "range"
+    | "doubleRange"
+    | "singleRange"
+    | "dateRange"
+    | "text"
+    | "conditionalText"
+    | "check"
+    | "multicheck"
+    | "toggle"
+    | "doubleRangeWithCheck"
+    | "conditionalDropDown";
 
     value?: string | number | [number, number] | [[number, number], [number, number]];
     options?: FilterOption[];
@@ -92,7 +92,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                 [key]: {
                     type: foundFilter?.type || "text",
                     value,
-                    isMandatory: currentValues[key]?.isMandatory || false
+                    isMandatory: currentValues[key]?.isMandatory === false ? false : true,
                 }
             }
         }));
@@ -121,7 +121,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                 <div className="flex items-center gap-2">
                     <Checkbox
                         className="peer mb-2 block h-4 w-4 rounded-sm bg-green-100 text-sm font-medium ring-offset-2 focus:ring-green-500 data-[state=checked]:border-green-600 data-[state=checked]:bg-green-500"
-                        checked={currentValues[filter.key]?.isMandatory}
+                        checked={currentValues[filter.key]?.isMandatory === false ? false : true}
                         onCheckedChange={(value) => handleMandatoryChange(filter.key, value)}
                     />
                     <label className="mb-2 block text-sm font-medium">{filter.displayName} </label>
@@ -251,11 +251,11 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                                                 Object.keys(currentValues[filter.key]?.value || {})?.length > 0
                                                     ? currentValues[filter.key]?.value
                                                     : {
-                                                          value1: [0, 0],
-                                                          value2: [0, 0],
-                                                          operationType: "in",
-                                                          checkType: "ott"
-                                                      }
+                                                        value1: [0, 0],
+                                                        value2: [0, 0],
+                                                        operationType: "in",
+                                                        checkType: "ott"
+                                                    }
                                             }
                                         />
                                     </div>
