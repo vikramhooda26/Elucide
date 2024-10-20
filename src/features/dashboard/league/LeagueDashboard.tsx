@@ -15,13 +15,15 @@ import LeagueRecentList from "./component/LeagueRecentList";
 import { PieChartComponent, TchartData } from "../components/PieChart";
 import { getRandomColor } from "../../utils/helpers";
 import { ChartConfig } from "../../../components/ui/chart";
+import SimpleTable, { ColumnDefinition } from "@/components/table/SimpleTable";
 
 type TDashBoardData = {
     leaguesCount: number;
-    numberOfLeaguesPerSport: {
-        chartData: TchartData[];
-        chartConfig: ChartConfig;
-    };
+    numberOfLeaguesPerSport: Array<any>;
+    // numberOfLeaguesPerSport: {
+    //     chartData: TchartData[];
+    //     chartConfig: ChartConfig;
+    // };
     recentlyAddedLeagues: Array<any>;
     recentlyModifiedLeagues: Array<any>;
 };
@@ -66,24 +68,28 @@ function LeagueDashboard({ setCount }: Props) {
 
                 data.recentlyModifiedLeagues = recentModified;
 
-                const chartData: TchartData[] = [];
-                const chartConfig: any = { total: { label: "Total Leagues" } };
+                // const chartData: TchartData[] = [];
+                // const chartConfig: any = { total: { label: "Total Leagues" } };
 
-                data?.numberOfLeaguesPerSport?.forEach((d: any, i: number) => {
-                    if (d?._count.dashapp_leagueinfo > 0) {
-                        chartData?.push({
-                            name: d?.name || "",
-                            total: d?._count.dashapp_leagueinfo || 1,
-                            fill: getRandomColor(i)
-                        });
-                        chartConfig[d?.name] = {
-                            label: d?.name,
-                            color: getRandomColor(i)
-                        };
-                    }
+                // data?.numberOfLeaguesPerSport?.forEach((d: any, i: number) => {
+                //     if (d?._count.dashapp_leagueinfo > 0) {
+                //         chartData?.push({
+                //             name: d?.name || "",
+                //             total: d?._count.dashapp_leagueinfo || 1,
+                //             fill: getRandomColor(i)
+                //         });
+                //         chartConfig[d?.name] = {
+                //             label: d?.name,
+                //             color: getRandomColor(i)
+                //         };
+                //     }
+                // });
+
+                // data.numberOfLeaguesPerSport = { chartData, chartConfig };
+
+                data.numberOfLeaguesPerSport = data.numberOfLeaguesPerSport?.map((league: any, i: number) => {
+                    return { sport: league?.name, leagueCount: league?._count?.dashapp_leagueinfo };
                 });
-
-                data.numberOfLeaguesPerSport = { chartData, chartConfig };
 
                 setCount?.(data?.leaguesCount || 0);
                 setDashboardData(data);
@@ -104,6 +110,11 @@ function LeagueDashboard({ setCount }: Props) {
 
     const viewRoute = NAVIGATION_ROUTES.LEAGUE;
 
+    const columnDefinitions: ColumnDefinition[] = [
+        { key: "sport", label: "Sports Name" },
+        { key: "leagueCount", label: "Number of League" }
+    ];
+
     return (
         <>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
@@ -113,12 +124,20 @@ function LeagueDashboard({ setCount }: Props) {
                     </CardHeader>
 
                     <CardContent className="pl-2">
-                        {dashboardData?.numberOfLeaguesPerSport ? (
+                        <div className="pb-2 pl-4">Leagues-Sports Overview</div>
+                        <div className="scrollbar h-96 overflow-y-scroll">
+                            <SimpleTable
+                                data={dashboardData?.numberOfLeaguesPerSport}
+                                columns={columnDefinitions}
+                                caption="Category Brands Overview"
+                            />
+                        </div>
+                        {/* {dashboardData?.numberOfLeaguesPerSport ? (
                             <PieChartComponent
                                 chart={dashboardData?.numberOfLeaguesPerSport}
                                 displayName={"Leagues-Sports"}
                             />
-                        ) : null}
+                        ) : null} */}
                     </CardContent>
                 </Card>
                 {/* </div>
