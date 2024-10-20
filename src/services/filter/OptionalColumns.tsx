@@ -24,7 +24,7 @@ class OptionalColumns {
         const matchedLabel = "Matched";
         const notMatchedLabel = "Not Matched";
 
-        type TSchemaType = AllColumns & { associationValues: TAssociation[]; };
+        type TSchemaType = AllColumns & { associationValues: TAssociation[] };
 
         const MatchedCell = ({ value }: { value: "Data Matched" | "Not Matched" }) => (
             <div className="flex space-x-2">
@@ -34,20 +34,34 @@ class OptionalColumns {
             </div>
         );
 
-        const CostOfAssociationCell = ({ association, value }: { association: TAssociation[], value: 'Data Matched' | "Not Matched" }) => {
+        const CostOfAssociationCell = ({
+            association,
+            value
+        }: {
+            association: TAssociation[];
+            value: "Data Matched" | "Not Matched";
+        }) => {
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[400px] truncate font-medium">
-                        {association?.length > 0 ?
-                            <Tooltip triggerOnHover={true} triggerText={value === matched ? matchedLabel : notMatchedLabel} className={'w-full p-0 border-none'}>
-                                <div className="max-h-80 overflow-scroll scrollbar">
+                        {association?.length > 0 ? (
+                            <Tooltip
+                                triggerOnHover={true}
+                                triggerText={value === matched ? matchedLabel : notMatchedLabel}
+                                className={"w-full border-none p-0"}
+                            >
+                                <div className="scrollbar max-h-80 overflow-scroll">
                                     <AssociationLevel data={{ association }} />
                                 </div>
                             </Tooltip>
-                            : value === matched ? matchedLabel : notMatchedLabel}
+                        ) : value === matched ? (
+                            matchedLabel
+                        ) : (
+                            notMatchedLabel
+                        )}
                     </span>
                 </div>
-            )
+            );
         };
 
         const createDynamicColumn = <TData,>(
@@ -120,15 +134,26 @@ class OptionalColumns {
 
         if (filters?.costOfAssociation) {
             let associationValues: TAssociation;
-            const associationValueColumn: CustomColumnDef<TSchemaType> =
-                createDynamicColumn<TSchemaType>('associationValues' as keyof TSchemaType, 'costOfAssociation', 'Cost Of Association');
-            associationValueColumn.header = ({ column }) => <></>,
-                associationValueColumn.cell = ({ row }) => <></>,
+            const associationValueColumn: CustomColumnDef<TSchemaType> = createDynamicColumn<TSchemaType>(
+                "associationValues" as keyof TSchemaType,
+                "costOfAssociation",
+                "Cost Of Association"
+            );
+            (associationValueColumn.header = ({ column }) => <></>),
+                (associationValueColumn.cell = ({ row }) => <></>),
                 optionalColumns?.unshift(associationValueColumn);
 
-            const costOfAssocitionColumn: CustomColumnDef<TSchemaType> =
-                createDynamicColumn<TSchemaType>('association' as keyof TSchemaType, 'costOfAssociation', 'Cost Of Association');
-            costOfAssocitionColumn.cell = ({ row }) => <CostOfAssociationCell association={row.getValue('associationValues')} value={row.getValue('association' as string)} />,
+            const costOfAssocitionColumn: CustomColumnDef<TSchemaType> = createDynamicColumn<TSchemaType>(
+                "association" as keyof TSchemaType,
+                "costOfAssociation",
+                "Cost Of Association"
+            );
+            (costOfAssocitionColumn.cell = ({ row }) => (
+                <CostOfAssociationCell
+                    association={row.getValue("associationValues")}
+                    value={row.getValue("association" as string)}
+                />
+            )),
                 optionalColumns?.unshift(costOfAssocitionColumn);
         }
 

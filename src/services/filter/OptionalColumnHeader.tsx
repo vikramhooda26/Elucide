@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon, CaretSortIcon, EyeNoneIcon } from "@radix-ui/react-icons";
 import { Column } from "@tanstack/react-table";
 
@@ -11,7 +11,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "../../components/ui/dropdown-menu";
-import { matched, notMatched } from '@/types/metadata/Metadata';
+import { matched, notMatched } from "@/types/metadata/Metadata";
 
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
     column: Column<TData, TValue>;
@@ -23,7 +23,6 @@ export function OptionalColumnHeader<TData, TValue>({
     title,
     className
 }: DataTableColumnHeaderProps<TData, TValue>) {
-
     if (!column.getCanSort()) {
         return <div className={cn(className)}>{title}</div>;
     }
@@ -32,9 +31,9 @@ export function OptionalColumnHeader<TData, TValue>({
         if (matched?.length > 0) {
             column?.setFilterValue(matched);
         } else {
-            column?.setFilterValue('');
+            column?.setFilterValue("");
         }
-    }
+    };
 
     return (
         <div className={cn("flex items-center space-x-2", className)}>
@@ -52,15 +51,27 @@ export function OptionalColumnHeader<TData, TValue>({
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
-                    <DropdownMenuItem onClick={() => { setMatched(matched) }}>
+                    <DropdownMenuItem
+                        onClick={() => {
+                            setMatched(matched);
+                        }}
+                    >
                         <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Matched
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => { setMatched(notMatched) }}>
+                    <DropdownMenuItem
+                        onClick={() => {
+                            setMatched(notMatched);
+                        }}
+                    >
                         <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Not Matched
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => { setMatched('') }}>
+                    <DropdownMenuItem
+                        onClick={() => {
+                            setMatched("");
+                        }}
+                    >
                         <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         ALL
                     </DropdownMenuItem>

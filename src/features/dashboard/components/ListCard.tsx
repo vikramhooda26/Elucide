@@ -12,11 +12,15 @@ type Props = {
     viewRoute: string;
 };
 
-function ListCard({ list = [], operation = "", nameKey = "", dateKey = "", operationKey = "" , viewRoute = ''}: Props) {
+function ListCard({ list = [], operation = "", nameKey = "", dateKey = "", operationKey = "", viewRoute = "" }: Props) {
     return (
         <div className="space-y-8">
             {list?.map((data, i) => (
-                <Link to={`${viewRoute}/${data?.id}`} className="flex items-center border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" key={i}>
+                <Link
+                    to={`${viewRoute}/${data?.id}`}
+                    className="flex items-center border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                    key={i}
+                >
                     <Avatar className="h-9 w-9">
                         <AvatarImage src="/avatars/01.png" alt="Avatar" />
                         <AvatarFallback>{i + 1}</AvatarFallback>
