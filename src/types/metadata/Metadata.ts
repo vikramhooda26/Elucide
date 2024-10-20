@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export type activation = {
     id?: string;
@@ -163,24 +163,32 @@ export const allColumnsSchema = () =>
 
         // Athlete-specific fields
         athleteAge: z.string().optional(),
-        athleteGender: z.object({
-            id: z.string().optional(),
-            name: z.string().optional(),
-        }).optional(),
+        athleteGender: z
+            .object({
+                id: z.string().optional(),
+                name: z.string().optional()
+            })
+            .optional(),
 
-        nationality: z.object({
-            id: z.string().optional(),
-            name: z.string().optional(),
-        }).optional(),
+        nationality: z
+            .object({
+                id: z.string().optional(),
+                name: z.string().optional()
+            })
+            .optional(),
 
-        city: z.object({
-            id: z.string().optional(),
-            name: z.string().optional(),
-        }).optional(),
-        team: z.object({
-            id: z.string().optional(),
-            name: z.string().optional(),
-        }).optional(),
+        city: z
+            .object({
+                id: z.string().optional(),
+                name: z.string().optional()
+            })
+            .optional(),
+        team: z
+            .object({
+                id: z.string().optional(),
+                name: z.string().optional()
+            })
+            .optional(),
         // Association-specific fields
         association: z
             .array(
@@ -189,10 +197,10 @@ export const allColumnsSchema = () =>
                     associationLevel: z
                         .object({
                             id: z.string().optional(),
-                            name: z.string().optional(),
+                            name: z.string().optional()
                         })
                         .optional(),
-                    costOfAssociation: z.string().optional(),
+                    costOfAssociation: z.string().optional()
                 })
             )
             .optional(),
@@ -203,10 +211,10 @@ export const allColumnsSchema = () =>
                     associationLevel: z
                         .object({
                             id: z.string().optional(),
-                            name: z.string().optional(),
+                            name: z.string().optional()
                         })
                         .optional(),
-                    costOfAssociation: z.string().optional(),
+                    costOfAssociation: z.string().optional()
                 })
             )
             .optional(),
@@ -215,7 +223,7 @@ export const allColumnsSchema = () =>
         parentOrg: z
             .object({
                 id: z.string().optional(),
-                name: z.string().optional(),
+                name: z.string().optional()
             })
             .optional(),
         mainCategories: z
@@ -227,10 +235,10 @@ export const allColumnsSchema = () =>
                         .array(
                             z.object({
                                 id: z.string().optional(),
-                                name: z.string().optional(),
+                                name: z.string().optional()
                             })
                         )
-                        .optional(),
+                        .optional()
                 })
             )
             .optional(),
@@ -247,7 +255,7 @@ export const allColumnsSchema = () =>
             .array(
                 z.object({
                     id: z.string().optional(),
-                    name: z.string().optional(),
+                    name: z.string().optional()
                 })
             )
             .optional(),
@@ -261,8 +269,8 @@ export const allColumnsSchema = () =>
                     year: z.string(),
                     ottPartner: z.object({
                         id: z.string(),
-                        name: z.string(),
-                    }),
+                        name: z.string()
+                    })
                 })
             )
             .optional(),
@@ -275,8 +283,8 @@ export const allColumnsSchema = () =>
                     year: z.string(),
                     broadcastPartner: z.object({
                         id: z.string(),
-                        name: z.string(),
-                    }),
+                        name: z.string()
+                    })
                 })
             )
             .optional(),
@@ -296,7 +304,7 @@ export const allColumnsSchema = () =>
         agency: z
             .object({
                 id: z.string().optional(),
-                name: z.string().optional(),
+                name: z.string().optional()
             })
             .optional(),
         instagram: z.string().optional(),
@@ -315,7 +323,7 @@ export const allColumnsSchema = () =>
             .array(
                 z.object({
                     id: z.string().optional(),
-                    name: z.string().optional(),
+                    name: z.string().optional()
                 })
             )
             .optional(),
@@ -323,7 +331,7 @@ export const allColumnsSchema = () =>
             .array(
                 z.object({
                     id: z.string().optional(),
-                    name: z.string().optional(),
+                    name: z.string().optional()
                 })
             )
             .optional(),
@@ -331,7 +339,7 @@ export const allColumnsSchema = () =>
             .array(
                 z.object({
                     id: z.string().optional(),
-                    name: z.string().optional(),
+                    name: z.string().optional()
                 })
             )
             .optional(),
@@ -339,7 +347,7 @@ export const allColumnsSchema = () =>
             .array(
                 z.object({
                     id: z.string().optional(),
-                    name: z.string().optional(),
+                    name: z.string().optional()
                 })
             )
             .optional(),
@@ -347,7 +355,7 @@ export const allColumnsSchema = () =>
             .array(
                 z.object({
                     id: z.string().optional(),
-                    name: z.string().optional(),
+                    name: z.string().optional()
                 })
             )
             .optional(),
@@ -355,7 +363,7 @@ export const allColumnsSchema = () =>
             .array(
                 z.object({
                     id: z.string().optional(),
-                    name: z.string().optional(),
+                    name: z.string().optional()
                 })
             )
             .optional(),
@@ -368,10 +376,10 @@ export const allColumnsSchema = () =>
                         .array(
                             z.object({
                                 id: z.string().optional(),
-                                name: z.string().optional(),
+                                name: z.string().optional()
                             })
                         )
-                        .optional(),
+                        .optional()
                 })
             ).optional(),
 
@@ -383,35 +391,40 @@ export const allColumnsSchema = () =>
                     contactEmail: z.string().optional(),
                     contactLinkedin: z.string().optional(),
                     contactNumber: z.string().optional(),
-                    contactDesignation: z.string().optional(),
+                    contactDesignation: z.string().optional()
                 })
-            ).optional(),
+            )
+            .optional(),
         gender: z
             .array(
                 z.object({
                     id: z.string().optional(),
-                    name: z.string().optional(),
+                    name: z.string().optional()
                 })
-            ).optional(),
+            )
+            .optional(),
         nccs: z
             .array(
                 z.object({
                     id: z.string().optional(),
-                    name: z.string().optional(),
+                    name: z.string().optional()
                 })
-            ).optional(),
+            )
+            .optional(),
         status: z
             .object({
                 id: z.string().optional(),
-                name: z.string().optional(),
-            }).optional(),
+                name: z.string().optional()
+            })
+            .optional(),
         state: z
             .array(
                 z.object({
                     id: z.string().optional(),
-                    name: z.string().optional(),
+                    name: z.string().optional()
                 })
-            ).optional(),
+            )
+            .optional(),
         marketplaceLink: z.string().optional(),
         documents: z
             .array(
@@ -419,7 +432,7 @@ export const allColumnsSchema = () =>
                     id: z.string().optional(),
                     name: z.string(),
                     type: z.string(),
-                    link: z.string(),
+                    link: z.string()
                 })
             ).optional(),
         endorsement: z.array(
@@ -455,7 +468,6 @@ export const allColumnsSchema = () =>
         yearMetrics: z.string().optional(),
         partnerIdMetrics: z.string().optional(),
     });
-
 
 export type AllColumns = z.infer<ReturnType<typeof allColumnsSchema>>;
 

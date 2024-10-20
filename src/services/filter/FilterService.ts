@@ -191,15 +191,19 @@ class FilterService {
         return processedFilters;
     }
 
-    static validateMatching(listData: AllColumns[], filters: Record<string, { type: string; value: any; isMandatory: boolean; }>) {
+    static validateMatching(
+        listData: AllColumns[],
+        filters: Record<string, { type: string; value: any; isMandatory: boolean }>
+    ) {
         const finalList: any = [];
         const processedFilters = this.processFilterData(filters);
 
         const matchData = (data: AllColumns) => {
             if (!data || Object.keys(data)?.length === 0) return;
 
-            const finalObj: { [key: string]: string; } & { associationValues: TAssociation[]; }
-                = { ...data } as { [key: string]: string; } & { associationValues: TAssociation[]; };
+            const finalObj: { [key: string]: string } & { associationValues: TAssociation[] } = { ...data } as {
+                [key: string]: string;
+            } & { associationValues: TAssociation[] };
 
             const brandIds = filters?.brandIds;
             const teamIds = filters?.teamIds;
@@ -274,23 +278,33 @@ class FilterService {
             }
 
             if (athleteAge && athleteAge?.isMandatory === false && data?.athleteAge) {
-                finalObj.athleteAge = '';
+                finalObj.athleteAge = "";
                 const athleteAge: number = differenceInYears(new Date(), new Date(data?.athleteAge)) || 0;
-                if (processedFilters?.['athleteAge']?.operationType === 'in') {
-                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] <= athleteAge && athleteAge <= processedFilters?.['athleteAge']?.age?.[1] ? matched : notMatched;
-                } else if (processedFilters?.['athleteAge']?.operationType === 'gte') {
-                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] >= athleteAge ? matched : notMatched;
-                } else if (processedFilters?.['athleteAge']?.operationType === 'lte') {
-                    finalObj.athleteAge = processedFilters?.['athleteAge']?.age?.[0] <= athleteAge ? matched : notMatched;
+                if (processedFilters?.["athleteAge"]?.operationType === "in") {
+                    finalObj.athleteAge =
+                        processedFilters?.["athleteAge"]?.age?.[0] <= athleteAge &&
+                        athleteAge <= processedFilters?.["athleteAge"]?.age?.[1]
+                            ? matched
+                            : notMatched;
+                } else if (processedFilters?.["athleteAge"]?.operationType === "gte") {
+                    finalObj.athleteAge =
+                        processedFilters?.["athleteAge"]?.age?.[0] >= athleteAge ? matched : notMatched;
+                } else if (processedFilters?.["athleteAge"]?.operationType === "lte") {
+                    finalObj.athleteAge =
+                        processedFilters?.["athleteAge"]?.age?.[0] <= athleteAge ? matched : notMatched;
                 }
             }
 
             if (athleteGenderIds && athleteGenderIds?.isMandatory === false && data?.athleteGender) {
-                finalObj.athleteGender = athleteGenderIds?.value.includes(data?.athleteGender?.id) ? matched : notMatched;
+                finalObj.athleteGender = athleteGenderIds?.value.includes(data?.athleteGender?.id)
+                    ? matched
+                    : notMatched;
             }
 
             if (genderIds && genderIds?.isMandatory === false && data?.gender) {
-                finalObj.gender = data?.gender?.some((gender: any) => genderIds?.value.includes(gender.id)) ? matched : notMatched;
+                finalObj.gender = data?.gender?.some((gender: any) => genderIds?.value.includes(gender.id))
+                    ? matched
+                    : notMatched;
             }
 
             if (nationalityIds && nationalityIds?.isMandatory === false && data?.nationality) {
@@ -310,7 +324,9 @@ class FilterService {
             }
 
             if (stateIds && stateIds?.isMandatory === false && data?.state) {
-                finalObj.state = data?.state?.some((state: any) => stateIds?.value.includes(state.id)) ? matched : notMatched;
+                finalObj.state = data?.state?.some((state: any) => stateIds?.value.includes(state.id))
+                    ? matched
+                    : notMatched;
             }
 
             if (cityIds && cityIds?.isMandatory === false && data?.city) {
@@ -318,7 +334,7 @@ class FilterService {
             }
 
             if (teamIds && teamIds?.isMandatory === false && data?.team) {
-                finalObj.team = teamIds?.value?.includes(data?.team?.id) ? matched : notMatched
+                finalObj.team = teamIds?.value?.includes(data?.team?.id) ? matched : notMatched;
             }
 
             // if (brandIds && brandIds?.isMandatory === false && data?.brand) {
@@ -330,23 +346,49 @@ class FilterService {
             }
 
             if (primaryMarketIds && primaryMarketIds?.isMandatory === false && data?.primaryKeyMarket) {
-                finalObj.primaryKeyMarket = data?.primaryKeyMarket?.some((market: any) => primaryMarketIds?.value.includes(market.id)) ? matched : notMatched;
+                finalObj.primaryKeyMarket = data?.primaryKeyMarket?.some((market: any) =>
+                    primaryMarketIds?.value.includes(market.id)
+                )
+                    ? matched
+                    : notMatched;
             }
 
             if (secondaryMarketIds && secondaryMarketIds?.isMandatory === false && data?.secondaryKeyMarket) {
-                finalObj.secondaryKeyMarket = data?.secondaryKeyMarket?.some((market: any) => secondaryMarketIds?.value.includes(market.id)) ? matched : notMatched;
+                finalObj.secondaryKeyMarket = data?.secondaryKeyMarket?.some((market: any) =>
+                    secondaryMarketIds?.value.includes(market.id)
+                )
+                    ? matched
+                    : notMatched;
             }
 
             if (tertiaryIds && tertiaryIds?.isMandatory === false && data?.tertiary) {
-                finalObj.tertiary = data?.tertiary?.some((market: any) => tertiaryIds?.value.includes(market.id)) ? matched : notMatched;
+                finalObj.tertiary = data?.tertiary?.some((market: any) => tertiaryIds?.value.includes(market.id))
+                    ? matched
+                    : notMatched;
             }
 
-            if (primaryMarketingPlatformIds && primaryMarketingPlatformIds?.isMandatory === false && data?.primaryMarketingPlatform) {
-                finalObj.primaryMarketingPlatform = data?.primaryMarketingPlatform?.some((platform: any) => primaryMarketingPlatformIds?.value.includes(platform.id)) ? matched : notMatched;
+            if (
+                primaryMarketingPlatformIds &&
+                primaryMarketingPlatformIds?.isMandatory === false &&
+                data?.primaryMarketingPlatform
+            ) {
+                finalObj.primaryMarketingPlatform = data?.primaryMarketingPlatform?.some((platform: any) =>
+                    primaryMarketingPlatformIds?.value.includes(platform.id)
+                )
+                    ? matched
+                    : notMatched;
             }
 
-            if (secondaryMarketingPlatformIds && secondaryMarketingPlatformIds?.isMandatory === false && data?.secondaryMarketingPlatform) {
-                finalObj.secondaryMarketingPlatform = data?.secondaryMarketingPlatform?.some((platform: any) => secondaryMarketingPlatformIds?.value.includes(platform.id)) ? matched : notMatched;
+            if (
+                secondaryMarketingPlatformIds &&
+                secondaryMarketingPlatformIds?.isMandatory === false &&
+                data?.secondaryMarketingPlatform
+            ) {
+                finalObj.secondaryMarketingPlatform = data?.secondaryMarketingPlatform?.some((platform: any) =>
+                    secondaryMarketingPlatformIds?.value.includes(platform.id)
+                )
+                    ? matched
+                    : notMatched;
             }
 
             if (primarySocialMediaPlatformIds && primarySocialMediaPlatformIds?.isMandatory === false && data?.primaryMarketingPlatform) {
@@ -358,11 +400,19 @@ class FilterService {
             }
 
             if (contactName && contactName?.isMandatory === false && data?.contactPersons) {
-                finalObj.contactName = data?.contactPersons?.some((contact: any) => contact.contactName.includes(contactName.value)) ? matched : notMatched;
+                finalObj.contactName = data?.contactPersons?.some((contact: any) =>
+                    contact.contactName.includes(contactName.value)
+                )
+                    ? matched
+                    : notMatched;
             }
 
             if (contactEmail && contactEmail?.isMandatory === false && data?.contactPersons) {
-                finalObj.contactEmail = data?.contactPersons?.some((contact: any) => contact.contactEmail?.includes(contactEmail.value)) ? matched : notMatched;
+                finalObj.contactEmail = data?.contactPersons?.some((contact: any) =>
+                    contact.contactEmail?.includes(contactEmail.value)
+                )
+                    ? matched
+                    : notMatched;
             }
 
             if (contactDesignation && contactDesignation?.isMandatory === false && data?.contactPersons) {
@@ -494,14 +544,14 @@ class FilterService {
                 finalObj.association = notMatched;
                 finalObj.associationValues = [];
 
-                const cost1 = processedFilters?.['costOfAssociation']?.cost?.[0];
-                const cost2 = processedFilters?.['costOfAssociation']?.cost?.[1];
-                const operationType = processedFilters?.['costOfAssociation']?.operationType;
+                const cost1 = processedFilters?.["costOfAssociation"]?.cost?.[0];
+                const cost2 = processedFilters?.["costOfAssociation"]?.cost?.[1];
+                const operationType = processedFilters?.["costOfAssociation"]?.operationType;
 
                 data?.association?.forEach((d) => {
                     if (!d?.costOfAssociation) return;
 
-                    if (operationType === 'in') {
+                    if (operationType === "in") {
                         if (cost1 <= d?.costOfAssociation && d?.costOfAssociation <= cost2) {
                             finalObj.association = matched;
                             finalObj.associationValues?.push(d);
@@ -517,15 +567,8 @@ class FilterService {
                             finalObj.associationValues?.push(d);
                         }
                     }
-
-                })
-
+                });
             }
-
-            // const reachMetrics = filters?.reachMetrics;
-            // const viewershipMetrics = filters?.viewershipMetrics;
-            // const yearMetrics = filters?.yearMetrics;
-            // const partnerIdMetrics = filters?.partnerIdMetrics;
 
             const checkMatrics = (matricsType: 'ottPartnerMetrics' | 'broadcastPartnerMetrics', filterType: 'ott' | 'broadcast') => {
                 finalObj.reachMetrics = notMatched;
@@ -562,7 +605,7 @@ class FilterService {
             }
 
             return finalObj;
-        }
+        };
 
         listData?.forEach((data: AllColumns) => {
             const matchedData = matchData(data);
@@ -571,7 +614,6 @@ class FilterService {
 
         return finalList;
     }
-
 }
 
 export default FilterService;

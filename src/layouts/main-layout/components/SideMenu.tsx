@@ -48,7 +48,7 @@ export const SideMenuLinks: Pick<NavProps, "links"> = {
             label: "100",
             navigateTo: NAVIGATION_ROUTES.BRAND_DASHBOARD,
             roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
-            key: "brandsCount",
+            key: "brandsCount"
         },
         {
             title: "League",
@@ -56,7 +56,7 @@ export const SideMenuLinks: Pick<NavProps, "links"> = {
             label: "50",
             navigateTo: NAVIGATION_ROUTES.League_DASHBOARD,
             roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
-            key: "leaguesCount",
+            key: "leaguesCount"
         },
         {
             title: "Team",
@@ -64,7 +64,7 @@ export const SideMenuLinks: Pick<NavProps, "links"> = {
             label: "150",
             navigateTo: NAVIGATION_ROUTES.TEAM_DASHBOARD,
             roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
-            key: "teamsCount",
+            key: "teamsCount"
         },
         {
             title: "Athlete",
@@ -72,7 +72,7 @@ export const SideMenuLinks: Pick<NavProps, "links"> = {
             label: "200",
             navigateTo: NAVIGATION_ROUTES.ATHLETE_DASHBOARD,
             roles: ["ADMIN", "STAFF", "SUPER_ADMIN", "USER"],
-            key: "athletesCount",
+            key: "athletesCount"
         }
     ]
 };

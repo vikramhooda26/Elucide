@@ -99,8 +99,7 @@ function AthleteList() {
             } else {
                 setAthletes([]);
             }
-            console.log('error -=- ', error);
-
+            console.log("error -=- ", error);
         } finally {
             setIsLoading(false);
         }
