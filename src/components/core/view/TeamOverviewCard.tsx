@@ -22,6 +22,10 @@ const TeamOverviewCard = ({ data }: TOverviewCardProps) => {
                         <span className="text-muted-foreground">{data?.name || "N/A"}</span>
                     </li>
                     <li className="flex">
+                        <span className="w-1/2">League</span>
+                        <span className="text-muted-foreground">{data?.league?.name || "N/A"}</span>
+                    </li>
+                    <li className="flex">
                         <span className="w-1/2">Sport</span>
                         <span className="text-muted-foreground">{data?.sport?.name || "N/A"}</span>
                     </li>
