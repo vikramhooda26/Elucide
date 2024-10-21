@@ -576,10 +576,10 @@ class FilterService {
                 finalObj.yearMetrics = notMatched;
 
                 data?.[matricsType]?.forEach((matricsData: TMatrics) => {
-                    if (reachMetrics && finalObj.reachMetrics === notMatched) {
+                    if (reachMetrics && finalObj?.reachMetrics === notMatched) {
                         finalObj.reachMetrics = validateMatrics(processedFilters?.['reachMetrics'], matricsData, 'reach', filterType,)
                     }
-                    if (viewershipMetrics && finalObj.viewershipMetrics === notMatched) {
+                    if (viewershipMetrics && finalObj?.viewershipMetrics === notMatched) {
                         finalObj.viewershipMetrics = validateMatrics(processedFilters?.['viewershipMetrics'], matricsData, 'viewership', filterType,)
                     }
                     if (yearMetrics && finalObj.yearMetrics === notMatched) {
@@ -601,7 +601,7 @@ class FilterService {
             }
 
             if (endorsement && endorsement.isMandatory === false && data?.endorsement) {
-                finalObj.endorsement = data.endorsement.some((endorse: any) => endorsement.value?.name?.includes(endorse.name) && endorsement.value?.isActive === endorse.active) ? matched : notMatched;
+                finalObj.endorsement = data?.endorsement?.some((endorse: any) => endorsement?.value?.name?.includes(endorse?.name) && endorsement?.value?.isActive === endorse?.active) ? matched : notMatched;
             }
 
             return finalObj;

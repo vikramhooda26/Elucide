@@ -67,15 +67,15 @@ function Explore() {
 
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const allStakeList = response.data;
-
-                let brandList = allStakeList?.filteredBrands;
-                brandList.forEach((brand: brand, i: number) => {
-                    brandList[i].createdBy = brand?.createdBy?.email || "N/A";
-                    brandList[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
-                });
-                brandList = FilterService.validateMatching(brandList, filterValues[pageKey]);
                 setIsFilterApplied(true);
-                setBrandList(brandList);
+
+                // let brandList = allStakeList?.filteredBrands;
+                // brandList.forEach((brand: brand, i: number) => {
+                //     brandList[i].createdBy = brand?.createdBy?.email || "N/A";
+                //     brandList[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
+                // });
+                // brandList = FilterService.validateMatching(brandList, filterValues[pageKey]);
+                // setBrandList(brandList);
 
                 let leagueList = allStakeList?.filteredLeagues;
                 leagueList.forEach((league: league, i: number) => {
@@ -122,9 +122,7 @@ function Explore() {
                     <p className="text-muted-foreground">Here&apos;s a list of all stakes on filter.</p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button variant="outline" onClick={() => setOpenAi((pv) => !pv)}>
-                        Open AI
-                    </Button>
+
                     <FilterModal
                         isOpen={isFilterModalOpen}
                         filters={filterConfig}
@@ -133,6 +131,10 @@ function Explore() {
                         onDiscardFilters={setEmpty}
                         pageKey={pageKey}
                     />
+
+                    <Button variant="outline" onClick={() => setOpenAi((pv) => !pv)}>
+                        Open AI
+                    </Button>
                 </div>
             </div>
 
@@ -144,7 +146,7 @@ function Explore() {
                 <LeagueTable
                     leagueList={leagueList}
                     setLeagueList={setLeagueList}
-                    // filters={filterValues[pageKey]}
+                    filters={filterValues[pageKey]}
                     isFilterApplied={isFilterApplied}
                     setIsFilterApplied={setIsFilterApplied}
                 />
@@ -152,7 +154,7 @@ function Explore() {
                 <TeamTable
                     teamList={teamList}
                     setTeamList={setTeamList}
-                    // filters={filterValues[pageKey]}
+                    filters={filterValues[pageKey]}
                     isFilterApplied={isFilterApplied}
                     setIsFilterApplied={setIsFilterApplied}
                 />
@@ -160,7 +162,7 @@ function Explore() {
                 <AthleteTable
                     athletes={athletes}
                     setAthletes={setAthletes}
-                    // filters={filterValues[pageKey]}
+                    filters={filterValues[pageKey]}
                     isFilterApplied={isFilterApplied}
                     setIsFilterApplied={setIsFilterApplied}
                 />

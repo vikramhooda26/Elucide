@@ -162,8 +162,8 @@ function LeagueList() {
             onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
             className="h-8 w-[150px] lg:w-[250px]"
         />,
-        <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
-        <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
+        // <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
+        // <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
     ];
 
     const filterConfig: FilterContent[] = fetchFilters(pageKey);

@@ -119,7 +119,7 @@ function getFilters(pageKey: TPageKey) {
             doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100, max2: 90 } },
             isMandatory: true,
             steps: { step1: 1, step2: 10 },
-            pageKeys: ["brandList", "leagueList", "teamList", "athleteList"]
+            pageKeys: ["leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
             displayName: "Target Age",
@@ -468,7 +468,7 @@ function getFilters(pageKey: TPageKey) {
             options: metadataStore?.sport,
             isMultiple: true,
             isMandatory: true,
-            pageKeys: ["brandList", "leagueList", "athleteList", "teamList"]
+            pageKeys: ["brandList", "leagueList", "athleteList", "teamList", "allStakeList"]
         },
         {
             displayName: "Tier",
@@ -488,7 +488,7 @@ function getFilters(pageKey: TPageKey) {
             options: metadataStore?.associationLevel,
             isMultiple: true,
             isMandatory: true,
-            pageKeys: ["brandList", "athleteList", "teamList", "leagueList"]
+            pageKeys: ["athleteList", "teamList", "leagueList", "allStakeList"]
         },
         {
             displayName: "Nationality",
