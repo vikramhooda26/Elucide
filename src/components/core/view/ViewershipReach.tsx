@@ -31,10 +31,10 @@ function ViewershipReach({ data }: Props) {
                     <CardTitle className="text-lg font-normal">Broadcast Partner Details</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Card x-chunk="dashboard-07-chunk-0">
+                    <Card x-chunk="dashboard-07-chunk-0 bg-white">
                         <TableHeaderWrapper headersArray={viewershipReachHeaders}>
                             {broadcastPartners?.length ? (
-                                broadcastPartners?.map((broadcastPartner: any, index: number) => (
+                                broadcastPartners?.sort((a: any, b: any) => Number(b?.year) - Number(a?.year))?.map((broadcastPartner: any, index: number) => (
                                     <TableRow key={index} className="text-muted-foreground">
                                         <TableCell>{broadcastPartner?.broadcastPartner?.name || "N/A"}</TableCell>
                                         <TableCell>{broadcastPartner?.year || "N/A"}</TableCell>
@@ -63,7 +63,7 @@ function ViewershipReach({ data }: Props) {
                     <Card x-chunk="dashboard-07-chunk-0">
                         <TableHeaderWrapper headersArray={viewershipReachHeaders}>
                             {ottPartners?.length ? (
-                                ottPartners?.map((ottPartner: any, index: number) => (
+                                ottPartners?.sort((a: any, b: any) => Number(b?.year) - Number(a?.year))?.map((ottPartner: any, index: number) => (
                                     <TableRow key={index} className="text-muted-foreground">
                                         <TableCell>{ottPartner?.ottPartner.name || "N/A"}</TableCell>
                                         <TableCell>{ottPartner?.year || "N/A"}</TableCell>

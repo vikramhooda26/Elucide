@@ -27,17 +27,22 @@ function SelectBoxFilter({
     onChange,
     multiple
 }: SelectBoxProps) {
+    const enableInnerScroll = (e: React.WheelEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+    };
     return (
-        <SelectBox
-            options={options}
-            value={value}
-            onChange={onChange}
-            placeholder={`select ${placeholder}`}
-            className={className}
-            inputPlaceholder={`Search for ${(inputPlaceholder || "")?.toLowerCase()}...`}
-            emptyPlaceholder={`No ${(emptyPlaceholder || "")?.toLowerCase()} data found`}
-            multiple={multiple}
-        />
+        <div onWheel={enableInnerScroll} className="scrollbar flex-grow overflow-y-auto ">
+            <SelectBox
+                options={options}
+                value={value}
+                onChange={onChange}
+                placeholder={`select ${placeholder}`}
+                className={className}
+                inputPlaceholder={`Search for ${(inputPlaceholder || "")?.toLowerCase()}...`}
+                emptyPlaceholder={`No ${(emptyPlaceholder || "")?.toLowerCase()} data found`}
+                multiple={multiple}
+            />
+        </div>
     );
 }
 
