@@ -16,7 +16,7 @@ export interface DynamicTableProps {
 
 export default function SimpleTable({ data, columns, caption }: DynamicTableProps) {
     if (!data || data.length === 0) {
-        return <p>No data available</p>;
+        return <p className="m-5">No data available</p>;
     }
 
     return (
