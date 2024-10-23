@@ -13,12 +13,11 @@ interface Message {
 
 const initialMsg: Message = {
     role: "assistant",
-    content: 'Are you recruiter ? Type Yes or No',
+    content: 'How can i assist you today ?',
 }
 
 const reply: { [key: string]: any } = {
     Hi: "How can i assist you today ?",
-    Anirudh: "Shubhashitha wants him.",
     Tea: "Its too cold, let's have coffe.",
     Yes: 'username: test, password: test'
 };
