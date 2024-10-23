@@ -58,7 +58,7 @@ const ChatBot = () => {
         setTimeout(() => {
             setIsOpen(true);
             setIsAnimating(false);
-        }, 500); // Match this duration with the animation time
+        }, 500);
     };
 
     const handleClose = () => {
@@ -100,11 +100,7 @@ const ChatBot = () => {
                                 ✖
                             </button>
                         </div>
-                        {/* {!messages?.length ?
-                            <div className="flex-1 overflow-y-auto p-2">
-                                <p className="text-gray-600">How can I help you today?</p>
-                            </div>
-                            : null} */}
+
                         <div className="mx-auto flex h-[65vh] flex-col rounded-2xl border-2">
                             {messages?.length ?
                                 <ScrollArea className="flex-grow p-4 ">
