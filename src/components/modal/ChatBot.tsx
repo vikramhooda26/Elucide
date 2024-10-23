@@ -72,7 +72,7 @@ const ChatBot = () => {
                     className="w-16 h-16 border border-primary bg-primary-foreground rounded-full shadow-lg cursor-pointer flex items-center justify-center"
                     whileHover={{ scale: 1.1 }}
                     onClick={handleClick}
-                    animate={isAnimating ? { x: '-50vw', y: '-50vh', scale: 2 } : {}}
+                    animate={isAnimating ? { x: '-40vw', y: '-40vh', scale: 2 } : {}}
                     transition={{ duration: 0.6 }}
                 >
                     <span className="text-white text-lg">💬</span>
