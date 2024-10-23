@@ -11,7 +11,6 @@ interface Message {
 
 const reply: { [key: string]: any } = {
     Hi: "How can i assist you today ?",
-    Anirudh: "Shubhashitha wants him.",
     Tea: "Its too cold, let's have coffe.",
 };
 
