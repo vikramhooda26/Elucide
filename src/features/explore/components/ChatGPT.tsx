@@ -11,8 +11,7 @@ interface Message {
 
 const reply: { [key: string]: any } = {
     Hi: "How can i assist you today ?",
-    Anirudh: "Shubhashitha wants him.",
-    Tea: "Its too cold, let's have coffe."
+    Tea: "Its too cold, let's have coffe.",
 };
 
 export default function ChatGPT() {
@@ -44,7 +43,7 @@ export default function ChatGPT() {
     };
 
     return (
-        <div className="mx-auto flex h-screen w-3/4 flex-col rounded-2xl border-2">
+        <div className="mx-auto flex h-[80vh] w-3/4 flex-col rounded-2xl border-2">
             <header className="flex items-center justify-between rounded-2xl border-b p-4">
                 <h1 className="text-xl font-bold">Interacting with AI</h1>
                 {/* <Button variant="outline">New Chat</Button> */}
