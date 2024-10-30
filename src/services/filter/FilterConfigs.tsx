@@ -511,7 +511,6 @@ function getFilters(pageKey: TPageKey) {
             pageKeys: ["athleteList"]
         },
 
-
         //= ====================== Social Media Filters Starts ============================ =//
         {
             displayName: "Strategy Overview",
@@ -624,9 +623,9 @@ function getFilters(pageKey: TPageKey) {
                 Object.keys(filterValues[pageKey]?.reachMetrics?.value || {})?.length > 0
                     ? filterValues[pageKey]?.reachMetrics?.value
                     : { value1: [0, 0], value2: [0, 0], operationType: "in", checkType: "ott" },
-            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 10, max2: 950 } },
+            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100, max2: 950 } },
             isMandatory: true,
-            steps: { step1: 1, step2: 50 },
+            steps: { step1: 10, step2: 50 },
             pageKeys: ["leagueList", "teamList"]
         },
         {
@@ -638,9 +637,9 @@ function getFilters(pageKey: TPageKey) {
                 Object.keys(filterValues[pageKey]?.viewershipMetrics?.value || {})?.length > 0
                     ? filterValues[pageKey]?.viewershipMetrics?.value
                     : { value1: [0, 0], value2: [0, 0], operationType: "in", checkType: "ott" },
-            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 10, max2: 950 } },
+            doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100, max2: 950 } },
             isMandatory: true,
-            steps: { step1: 1, step2: 50 },
+            steps: { step1: 10, step2: 50 },
             pageKeys: ["leagueList", "teamList"]
         },
         {
@@ -685,7 +684,7 @@ function getFilters(pageKey: TPageKey) {
             subTitle: { title1: "Active" },
             isMandatory: true,
             pageKeys: ["brandList", "leagueList", "teamList"]
-        },
+        }
         // need to do. ========================
     ];
 
