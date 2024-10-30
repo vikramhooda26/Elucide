@@ -33,7 +33,7 @@ export const Hero = ({ words, approachRef }: { words: string[]; approachRef: Rea
                 An end-to-end sports sponsorship service centered around an AI-enhanced matchmaking platform, designed
                 to discover and engage with the ideal sports teams, leagues, athletes, and events.
             </p>
-            <div className="flex w-full items-start justify-center gap-5 max-sm:flex-col sm:items-center">
+            <div className="flex w-full items-center justify-center gap-5 max-sm:flex-col">
                 <GradientButton
                     onClick={() =>
                         isAuthenticated ? navigate(NAVIGATION_ROUTES.DASHBOARD) : navigate(NAVIGATION_ROUTES.LOGIN)

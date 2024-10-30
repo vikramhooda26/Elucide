@@ -1,13 +1,12 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import DashboardNavbar from "./components/DashboardNavbar";
-import { SideMenu } from "./components/SideMenu";
 import { ResizablePanel, ResizablePanelGroup } from "../../components/ui/resizable";
 import { TooltipProvider } from "../../components/ui/tooltip";
-import { accounts, mails } from "./athlete/data";
 import useWindowDimensions from "../../hooks/useWindowDimension";
-import ChatBot from "@/components/modal/ChatBot";
+import { accounts, mails } from "./athlete/data";
+import DashboardNavbar from "./components/DashboardNavbar";
+import { SideMenu } from "./components/SideMenu";
 
 function MainLayout() {
     const [defaultLayout, setDefaultLayout] = useState(undefined);
@@ -34,7 +33,7 @@ function MainLayout() {
                 </div>
                 <div className="relative h-full w-full px-4 lg:hidden">{width <= 1024 && <Outlet />}</div>
             </div>
-            <ChatBot />
+            {/* <ChatBot /> */}
             <div className="relative flex h-full w-full max-lg:hidden">
                 <TooltipProvider delayDuration={0}>
                     <ResizablePanelGroup
