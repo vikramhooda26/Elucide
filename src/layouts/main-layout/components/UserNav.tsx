@@ -65,7 +65,7 @@ export function UserNav() {
                         <p className="text-xs leading-none text-muted-foreground">{user?.email || ""}</p>
                     </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                {/* <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
                         Profile
@@ -76,9 +76,9 @@ export function UserNav() {
                         <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem>New Team</DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
+                </DropdownMenuGroup> */}
 
+                <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
                     <Alert
                         title="You are about to logout"
