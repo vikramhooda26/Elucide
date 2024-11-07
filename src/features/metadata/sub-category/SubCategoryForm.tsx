@@ -4,20 +4,20 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
 import { FormField } from "../../../components/ui/form";
 import { Input } from "../../../components/ui/input";
+import SelectBox from "../../../components/ui/multi-select";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
 import ErrorService from "../../../services/error/ErrorService";
 import MetadataService from "../../../services/features/MetadataService";
+import { metadataStoreAtom } from "../../../store/atoms/metadata";
 import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
+import { getMetadata } from "../../utils/metadataUtils";
 import { SingleInputForm } from "../SingleInputForm";
 import { subCategoryFormSchema, TSubCategoryFormSchema } from "./constants/metadata";
-import { getMetadata } from "../../utils/metadataUtils";
-import { metadataStoreAtom } from "../../../store/atoms/metadata";
-import SelectBox from "../../../components/ui/multi-select";
-import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function SubCategoryForm() {
     const { logout } = useAuth();
@@ -95,6 +95,7 @@ function SubCategoryForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...subcategoryFormValues,
+                subcategoryName: subcategoryFormValues.subcategoryName.trim(),
                 userId: user?.id
             };
             if (id) {
@@ -115,6 +116,18 @@ function SubCategoryForm() {
             console.error(error);
             const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
+                if (unknownError.response.status === HTTP_STATUS_CODES.CONFLICT) {
+                    form.setError(
+                        "subcategoryName",
+                        {
+                            message: "A subcategory with this name already exists for this main category"
+                        },
+                        { shouldFocus: true }
+                    );
+                    toast.error("A subcategory with this name already exists for this main category");
+                    return;
+                }
+
                 toast.error("An unknown error occurred");
             }
         } finally {

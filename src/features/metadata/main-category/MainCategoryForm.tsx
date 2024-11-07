@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { toast } from "sonner";
+import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 import { FormItemWrapper } from "../../../components/form/item-wrapper";
 import { FormField } from "../../../components/ui/form";
 import { Input } from "../../../components/ui/input";
@@ -14,7 +15,6 @@ import { userAtom } from "../../../store/atoms/user";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { SingleInputForm } from "../SingleInputForm";
 import { maincategoryFormSchema, TMaincategoryFormSchema } from "./constants/metadata";
-import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function MainCategoryForm() {
     const { logout } = useAuth();
@@ -67,6 +67,7 @@ function MainCategoryForm() {
             setIsSubmitting(true);
             const requestBody = {
                 ...maincategoryFormValues,
+                categoryName: maincategoryFormValues.categoryName.trim(),
                 userId: user?.id
             };
             if (id) {
@@ -87,6 +88,18 @@ function MainCategoryForm() {
             console.error(error);
             const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
             if (unknownError) {
+                if (unknownError.response.status === HTTP_STATUS_CODES.CONFLICT) {
+                    form.setError(
+                        "categoryName",
+                        {
+                            message: "A main category with this name already exists"
+                        },
+                        { shouldFocus: true }
+                    );
+                    toast.error("A main category with this name already exists");
+                    return;
+                }
+
                 toast.error("An unknown error occurred");
             }
         } finally {

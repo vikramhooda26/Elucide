@@ -39,8 +39,8 @@ function OverView() {
                     </TabsTrigger>
                 ))}
             </TabsList>
-            {tabs?.map((content) => (
-                <TabsContent value={content?.value} className="space-y-4">
+            {tabs?.map((content, i) => (
+                <TabsContent value={content?.value} className="space-y-4" key={i}>
                     {content?.component}
                 </TabsContent>
             ))}
