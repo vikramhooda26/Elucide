@@ -4,7 +4,7 @@ import { DataTableColumnHeader } from "../../../../components/data-table/data-ta
 import { DataTableRowActions } from "../../../../components/data-table/data-table-row-actions";
 import { Checkbox } from "../../../../components/ui/checkbox";
 import { schema, schemaType } from "./schema";
-import { TRoles } from "../../../../lib/constants";
+import { NAVIGATION_ROUTES, TRoles } from "../../../../lib/constants";
 import { Link } from "react-router-dom";
 
 interface TColumnProps {
@@ -12,9 +12,18 @@ interface TColumnProps {
     onDelete: (id: string) => void;
     userRole: TRoles;
     viewRoute?: string;
+    title: string;
+    searchQuerykey: string;
+    canEdit?: boolean;
 }
 
-export const getColumns = ({ onEdit, onDelete, userRole, viewRoute }: TColumnProps): ColumnDef<schemaType>[] => {
+export const getColumns = ({ onEdit,
+    onDelete,
+    userRole,
+    viewRoute,
+    searchQuerykey,
+    title,
+    canEdit = false }: TColumnProps): ColumnDef<schemaType>[] => {
     const column: ColumnDef<schemaType>[] = [
         {
             id: "select",
@@ -51,6 +60,19 @@ export const getColumns = ({ onEdit, onDelete, userRole, viewRoute }: TColumnPro
                 } else {
                     return <div className="w-[80px]">{row.getValue("subcategoryName")}</div>;
                 }
+            },
+            enableSorting: false,
+            enableHiding: false
+        },
+        {
+            accessorKey: "category",
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Main Category" />,
+            cell: ({ row }) => {
+                const category = row.getValue("category") as unknown as { id: string; name: string };
+                return (
+                    <Link to={`${NAVIGATION_ROUTES.MAIN_CATEGORY}/${category?.id}`} className="cursor-pointer hover:text-blue-800">
+                        <div className="w-[80px]">{category?.name}</div>
+                    </Link>)
             },
             enableSorting: false,
             enableHiding: false
@@ -101,10 +123,13 @@ export const getColumns = ({ onEdit, onDelete, userRole, viewRoute }: TColumnPro
         }
     ];
 
-    if (userRole === "SUPER_ADMIN") {
+    if (userRole === "SUPER_ADMIN" || canEdit) {
         column.push({
             id: "actions",
-            cell: ({ row }) => <DataTableRowActions row={row} onDelete={onDelete} onEdit={onEdit} schema={schema} />
+            header: ({ column }) => <DataTableColumnHeader column={column} title="Actions" />,
+            cell: ({ row }) => (
+                <DataTableRowActions row={row} onDelete={onDelete} onEdit={onEdit} schema={schema} canEdit={canEdit} />
+            )
         });
     }
 

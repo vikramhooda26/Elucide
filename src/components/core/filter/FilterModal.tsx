@@ -92,7 +92,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                 [key]: {
                     type: foundFilter?.type || "text",
                     value,
-                    isMandatory: currentValues[key]?.isMandatory === false ? false : true,
+                    isMandatory: currentValues[key]?.isMandatory === true ? true : false,
                 }
             }
         }));
@@ -121,7 +121,7 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                 <div className="flex items-center gap-2">
                     <Checkbox
                         className="peer mb-2 block h-4 w-4 rounded-sm bg-green-100 text-sm font-medium ring-offset-2 focus:ring-green-500 data-[state=checked]:border-green-600 data-[state=checked]:bg-green-500"
-                        checked={currentValues[filter.key]?.isMandatory === false ? false : true}
+                        checked={currentValues[filter.key]?.isMandatory === true ? true : false}
                         onCheckedChange={(value) => handleMandatoryChange(filter.key, value)}
                     />
                     <label className="mb-2 block text-sm font-medium">{filter.displayName} </label>

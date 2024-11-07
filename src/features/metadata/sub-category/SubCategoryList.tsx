@@ -27,8 +27,8 @@ import { team } from "../../../types/team/TeamListTypes";
 import { useAuth } from "../../auth/auth-provider/AuthProvider";
 import { priorities, statuses } from "./data/data";
 import { useUser } from "../../../hooks/useUser";
-import { getColumns } from "../../../components/core/view/common-columns";
 import { ConditionalButton } from "../../../components/button/ConditionalButton";
+import { getColumns } from "./data/columns";
 
 function SubCategoryList() {
     const navigator = useNavigator();
@@ -100,6 +100,7 @@ function SubCategoryList() {
     }, []);
 
     const viewRoute = NAVIGATION_ROUTES.SUB_CATEGORY;
+    const mainCatViewRoute = NAVIGATION_ROUTES.MAIN_CATEGORY;
 
     const canEdit = userRole === "SUPER_ADMIN";
 
@@ -112,7 +113,7 @@ function SubCategoryList() {
                 viewRoute,
                 searchQuerykey: "subcategoryName",
                 title: "Sub Category",
-                canEdit
+                canEdit,
             }),
         []
     );

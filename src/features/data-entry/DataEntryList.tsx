@@ -42,7 +42,7 @@ function DataEntryList() {
                             navCollapsedSize={4}
                         />
                         <ResizablePanel>
-                            <div className="h-full w-full px-4 py-8">{width > 1024 && <Outlet />}</div>
+                            <div className="h-full w-[65vw] px-4 py-8">{width > 1024 && <Outlet />}</div>
                         </ResizablePanel>
                     </ResizablePanelGroup>
                 </TooltipProvider>
