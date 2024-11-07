@@ -35,7 +35,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.brandIds?.value || "",
             options: metadataStore?.brand,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList"]
         },
         {
@@ -45,7 +45,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.teamIds?.value || "",
             options: metadataStore?.team,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["teamList"]
         },
         {
@@ -55,7 +55,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.leagueIds?.value || "",
             options: metadataStore?.league,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["leagueList", "teamList"]
         },
         {
@@ -65,7 +65,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.athleteIds?.value || "",
             options: metadataStore?.athlete,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["athleteList"]
         },
         //= ===================== Main stakes list filter ends here ======================== =//
@@ -77,7 +77,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.athleteStatusIds?.value || "",
             options: metadataStore?.athleteStatus,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["athleteList"]
         },
 
@@ -91,7 +91,7 @@ function getFilters(pageKey: TPageKey) {
                     ? filterValues[pageKey]?.athleteAge?.value
                     : { value: [0, 0], operationType: "in" },
             singleRange: { min: 0, max: 100 },
-            isMandatory: true,
+            isMandatory: false,
             step: 1,
             pageKeys: ["athleteList"]
         },
@@ -103,7 +103,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.athleteGenderIds?.value || "",
             options: metadataStore?.gender,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["athleteList"]
         },
 
@@ -117,7 +117,7 @@ function getFilters(pageKey: TPageKey) {
                     ? filterValues[pageKey]?.costOfAssociation?.value
                     : { value1: [0, 0], value2: [0, 0], operationType: "in" },
             doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100, max2: 90 } },
-            isMandatory: true,
+            isMandatory: false,
             steps: { step1: 1, step2: 10 },
             pageKeys: ["leagueList", "teamList", "athleteList", "allStakeList"]
         },
@@ -128,7 +128,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.ageIds?.value || "",
             options: metadataStore?.age,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
 
@@ -139,7 +139,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.genderIds?.value || "",
             options: metadataStore?.gender,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
 
@@ -150,7 +150,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.cityIds?.value || "",
             options: metadataStore?.city,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "teamList"]
         },
         {
@@ -160,7 +160,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.stateIds?.value || "",
             options: metadataStore?.state,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["athleteList", "teamList", "brandList", "leagueList"]
         },
         {
@@ -170,7 +170,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.activeCampaignIds?.value || "",
             options: metadataStore?.activeCampaign,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList"]
         },
         {
@@ -180,7 +180,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.agencyIds?.value || "",
             options: metadataStore?.agency,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["athleteList", "teamList", "brandList"]
         },
         {
@@ -190,7 +190,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.assetIds?.value || "",
             options: metadataStore?.asset,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["teamList"]
         },
         {
@@ -200,7 +200,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.broadcastPartnerIds?.value || "",
             options: metadataStore?.broadcastPartner,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["leagueList"]
         },
 
@@ -211,7 +211,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.maincategoryIds?.value || "",
             options: metadataStore?.maincategory,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList"]
         },
         {
@@ -221,7 +221,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.subCategoryIds?.value || "",
             options: metadataStore?.category,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList"]
         },
 
@@ -232,7 +232,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.formatIds?.value || "",
             options: metadataStore?.format,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["leagueList"]
         },
 
@@ -244,7 +244,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.primaryMarketIds?.value || "",
             options: metadataStore?.keyMarket,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -254,7 +254,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.secondaryMarketIds?.value || "",
             options: metadataStore?.keyMarket,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
 
@@ -265,7 +265,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.tertiaryIds?.value || "",
             options: metadataStore?.state,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
 
@@ -279,7 +279,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.primaryMarketingPlatformIds?.value || "",
             options: metadataStore?.marketingPlatform,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList"]
         },
         {
@@ -289,7 +289,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.secondaryMarketingPlatformIds?.value || "",
             options: metadataStore?.marketingPlatform,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList"]
         },
 
@@ -301,7 +301,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.primarySocialMediaPlatformIds?.value || "",
             options: metadataStore?.socialMedia,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["athleteList"]
         },
         {
@@ -311,7 +311,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.secondarySocialMediaPlatformIds?.value || "",
             options: metadataStore?.socialMedia,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["athleteList"]
         },
         //= ============== Athlete Marketing Platform filters ends here ======================== =//
@@ -324,7 +324,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.yearOfInception?.value || "",
             options: getListOfYears(),
             isMultiple: false,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["teamList", "leagueList"]
         },
         {
@@ -332,7 +332,7 @@ function getFilters(pageKey: TPageKey) {
             key: "franchiseFee",
             type: "text",
             value: filterValues[pageKey]?.franchiseFee?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["teamList"]
         },
 
@@ -343,7 +343,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.leagueOwnerIds?.value || "",
             options: metadataStore?.leagueOwner,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["leagueList"]
         },
 
@@ -354,7 +354,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.nccsIds?.value || "",
             options: metadataStore?.nccs,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -364,7 +364,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.ottPartnerIds?.value || "",
             options: metadataStore?.ottPartner,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["leagueList"]
         },
         {
@@ -374,7 +374,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.parentOrgIds?.value || "",
             options: metadataStore?.parentOrg,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList"]
         },
 
@@ -385,7 +385,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.mainpersonalityIds?.value || "",
             options: metadataStore?.mainpersonality,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList"]
         },
         {
@@ -395,7 +395,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.subPersonalityTraitIds?.value || "",
             options: metadataStore?.personalityTrait,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
 
@@ -406,7 +406,7 @@ function getFilters(pageKey: TPageKey) {
         //     value: filterValues?.[pageKey]?.sportsDealSummaryLevelIds?.value || "",
         //     options: metadataStore?.sportsDealSummaryLevel,
         //     isMultiple: true,
-        //     isMandatory: true,
+        //     isMandatory: false,
         //     pageKeys: ["teamList"]
         // },
         // {
@@ -416,7 +416,7 @@ function getFilters(pageKey: TPageKey) {
         //     value: filterValues?.[pageKey]?.sportsDealSummaryStatusIds?.value || "",
         //     options: metadataStore?.sportsDealSummaryStatus,
         //     isMultiple: true,
-        //     isMandatory: true,
+        //     isMandatory: false,
         //     pageKeys: ["teamList"]
         // },
         // {
@@ -426,7 +426,7 @@ function getFilters(pageKey: TPageKey) {
         //     value: filterValues?.[pageKey]?.sportsDealSummaryTerritoryIds?.value || "",
         //     options: metadataStore?.sportsDealSummaryTerritory,
         //     isMultiple: true,
-        //     isMandatory: true,
+        //     isMandatory: false,
         //     pageKeys: ["teamList"]
         // },
         // {
@@ -436,7 +436,7 @@ function getFilters(pageKey: TPageKey) {
         //     value: filterValues?.[pageKey]?.sportsDealSummaryTypeIds?.value || "",
         //     options: metadataStore?.sportsDealSummaryType,
         //     isMultiple: true,
-        //     isMandatory: true,
+        //     isMandatory: false,
         //     pageKeys: ["teamList"]
         // },
         {
@@ -446,7 +446,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.taglineIds?.value || "",
             options: metadataStore?.tagline,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList"]
         },
         {
@@ -456,7 +456,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.teamOwnerIds?.value || "",
             options: metadataStore?.teamOwner,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["teamList"]
         },
 
@@ -467,7 +467,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.sportIds?.value || "",
             options: metadataStore?.sport,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "athleteList", "teamList", "allStakeList"]
         },
         {
@@ -477,7 +477,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.tierIds?.value || "",
             options: metadataStore?.tier,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -487,7 +487,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.associationLevelIds?.value || "",
             options: metadataStore?.associationLevel,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["athleteList", "teamList", "leagueList", "allStakeList"]
         },
         {
@@ -497,7 +497,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.nationalityIds?.value || "",
             options: metadataStore?.nationality,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["athleteList"]
         },
         {
@@ -507,7 +507,7 @@ function getFilters(pageKey: TPageKey) {
             value: filterValues?.[pageKey]?.socialMediaIds?.value || "",
             options: metadataStore?.socialMedia,
             isMultiple: true,
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["athleteList"]
         },
 
@@ -517,7 +517,7 @@ function getFilters(pageKey: TPageKey) {
             key: "strategyOverview",
             type: "text",
             value: filterValues[pageKey]?.strategyOverview?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -525,7 +525,7 @@ function getFilters(pageKey: TPageKey) {
             key: "facebook",
             type: "text",
             value: filterValues[pageKey]?.facebook?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -533,7 +533,7 @@ function getFilters(pageKey: TPageKey) {
             key: "instagram",
             type: "text",
             value: filterValues[pageKey]?.instagram?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -541,7 +541,7 @@ function getFilters(pageKey: TPageKey) {
             key: "twitter",
             type: "text",
             value: filterValues[pageKey]?.twitter?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -549,7 +549,7 @@ function getFilters(pageKey: TPageKey) {
             key: "linkedin",
             type: "text",
             value: filterValues[pageKey]?.linkedin?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -557,7 +557,7 @@ function getFilters(pageKey: TPageKey) {
             key: "youtube",
             type: "text",
             value: filterValues[pageKey]?.youtube?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -565,7 +565,7 @@ function getFilters(pageKey: TPageKey) {
             key: "website",
             type: "text",
             value: filterValues[pageKey]?.website?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         //= ====================== Social Media Filters Ends ============================ =//
@@ -576,7 +576,7 @@ function getFilters(pageKey: TPageKey) {
             key: "contactName",
             type: "text",
             value: filterValues[pageKey]?.contactName?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -584,7 +584,7 @@ function getFilters(pageKey: TPageKey) {
             key: "contactDesignation",
             type: "text",
             value: filterValues[pageKey]?.contactDesignation?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -592,7 +592,7 @@ function getFilters(pageKey: TPageKey) {
             key: "contactEmail",
             type: "text",
             value: filterValues[pageKey]?.contactEmail?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -600,7 +600,7 @@ function getFilters(pageKey: TPageKey) {
             key: "contactNumber",
             type: "text",
             value: filterValues[pageKey]?.contactNumber?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         {
@@ -608,7 +608,7 @@ function getFilters(pageKey: TPageKey) {
             key: "contactLinkedin",
             type: "text",
             value: filterValues[pageKey]?.contactLinkedin?.value || "",
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"]
         },
         //= ====================== Contact Person Filters Ends ============================ =//
@@ -624,7 +624,7 @@ function getFilters(pageKey: TPageKey) {
                     ? filterValues[pageKey]?.reachMetrics?.value
                     : { value1: [0, 0], value2: [0, 0], operationType: "in", checkType: "ott" },
             doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100, max2: 950 } },
-            isMandatory: true,
+            isMandatory: false,
             steps: { step1: 10, step2: 50 },
             pageKeys: ["leagueList", "teamList"]
         },
@@ -638,7 +638,7 @@ function getFilters(pageKey: TPageKey) {
                     ? filterValues[pageKey]?.viewershipMetrics?.value
                     : { value1: [0, 0], value2: [0, 0], operationType: "in", checkType: "ott" },
             doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100, max2: 950 } },
-            isMandatory: true,
+            isMandatory: false,
             steps: { step1: 10, step2: 50 },
             pageKeys: ["leagueList", "teamList"]
         },
@@ -652,7 +652,7 @@ function getFilters(pageKey: TPageKey) {
                     ? filterValues[pageKey]?.yearMetrics?.value
                     : { value1: [0, 0], value2: [0, 0], operationType: "in", checkType: "ott" },
             doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 10, max2: 950 } },
-            isMandatory: true,
+            isMandatory: false,
             steps: { step1: 1, step2: 50 },
             pageKeys: ["leagueList", "teamList"]
         },
@@ -662,7 +662,7 @@ function getFilters(pageKey: TPageKey) {
             key: "partnerIdMetrics",
             type: "conditionalDropDown",
             value: filterValues[pageKey]?.partnerIdMetrics?.value || { value: [], checkType: "ott" },
-            isMandatory: true,
+            isMandatory: false,
             options: [
                 { label: "OTT", value: "ott" },
                 { label: "Broadcast", value: "broadcast" }
@@ -682,7 +682,7 @@ function getFilters(pageKey: TPageKey) {
             type: "conditionalText",
             value: filterValues[pageKey]?.endorsement?.value || "",
             subTitle: { title1: "Active" },
-            isMandatory: true,
+            isMandatory: false,
             pageKeys: ["brandList", "leagueList", "teamList"]
         }
         // need to do. ========================
@@ -696,7 +696,7 @@ function getFilters(pageKey: TPageKey) {
 //     key: 'search',
 //     type: 'text',
 //     value: filterValues[pageKey]?.search?.value || '',
-//     isMandatory: true,
+//     isMandatory: false,
 //     pageKeys: ['athleteList', 'teamList', 'brandList', 'leagueList'],
 // },
 // {
@@ -709,7 +709,7 @@ function getFilters(pageKey: TPageKey) {
 //         { label: 'Clothing', value: 'clothing' },
 //         { label: 'Books', value: 'books' },
 //     ],
-//     isMandatory: true,
+//     isMandatory: false,
 //     pageKeys: ['athleteList', 'teamList', 'brandList', 'leagueList'],
 // },
 // {
@@ -723,7 +723,7 @@ function getFilters(pageKey: TPageKey) {
 //         { label: 'Books', value: 'books' },
 //     ],
 //     isMultiple: true,
-//     isMandatory: true,
+//     isMandatory: false,
 //     pageKeys: ['athleteList', 'teamList', 'brandList', 'leagueList'],
 // },
 // {
@@ -732,7 +732,7 @@ function getFilters(pageKey: TPageKey) {
 //     type: 'dateRange',
 //     value: filterValues[pageKey]?.dateAdded?.value || { start: '', end: '' },
 //     range: { start: '2024-01-01', end: '2024-12-31' },
-//     isMandatory: true,
+//     isMandatory: false,
 //     pageKeys: ['athleteList', 'teamList', 'brandList', 'leagueList'],
 // },
 // {
@@ -741,7 +741,7 @@ function getFilters(pageKey: TPageKey) {
 //     type: 'range',
 //     value: filterValues[pageKey]?.price?.value || [0, 1000],
 //     range: { min: 0, max: 1000 },
-//     isMandatory: true,
+//     isMandatory: false,
 //     pageKeys: ['athleteList', 'teamList', 'brandList', 'leagueList'],
 // },
 // {
@@ -754,7 +754,7 @@ function getFilters(pageKey: TPageKey) {
 //         { label: 'Female', value: 'Female' },
 //         { label: 'Transgender', value: 'Transgender' },
 //     ],
-//     isMandatory: true,
+//     isMandatory: false,
 //     pageKeys: ['athleteList', 'teamList', 'brandList', 'leagueList'],
 // },
 // {
@@ -767,7 +767,7 @@ function getFilters(pageKey: TPageKey) {
 //         { label: 'NCCS B', value: 'nccs_b' },
 //         { label: 'NCCS C', value: 'nccs_c' },
 //     ],
-//     isMandatory: true,
+//     isMandatory: false,
 //     pageKeys: ['athleteList', 'teamList', 'brandList', 'leagueList'],
 // },
 // {
@@ -775,6 +775,6 @@ function getFilters(pageKey: TPageKey) {
 //     key: 'featureToggle',
 //     type: 'toggle',
 //     value: filterValues[pageKey]?.featureToggle?.value || false,
-//     isMandatory: true,
+//     isMandatory: false,
 //     pageKeys: ['athleteList', 'teamList', 'brandList', 'leagueList'],
 // },

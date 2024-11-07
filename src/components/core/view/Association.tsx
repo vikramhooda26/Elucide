@@ -18,6 +18,9 @@ function Association({ data }: Props) {
     if (data?.association?.length && data?.association[0]?.brand) {
         associationHeaders.push({ header: "Brands" });
     }
+    if (data?.association?.length) {
+        data?.association?.sort((a: any, b: any) =>  b?.costOfAssociation - a?.costOfAssociation);
+    }
 
     return (
         <Card x-chunk="dashboard-07-chunk-0" className="overflow-hidden">
@@ -37,8 +40,8 @@ function Association({ data }: Props) {
                                         ₹{" "}
                                         {asso?.costOfAssociation
                                             ? formatNumberWithCommas(
-                                                  Number(convertRupeesToCrore(asso?.costOfAssociation))
-                                              )
+                                                Number(convertRupeesToCrore(asso?.costOfAssociation))
+                                            )
                                             : "N/A"}
                                     </TableCell>
                                     {asso?.brand?.length && (

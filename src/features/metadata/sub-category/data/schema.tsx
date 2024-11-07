@@ -3,6 +3,7 @@ import { z } from "zod";
 export const schema = z.object({
     id: z.string().optional(),
     subcategoryName: z.string(),
+    category: z.object({ id: z.string(), name: z.string() }),
     createdDate: z.string(),
     modifiedDate: z.string(),
     createdBy: z.string(),
