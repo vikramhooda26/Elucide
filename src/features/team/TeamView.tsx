@@ -50,10 +50,6 @@ function TeamView() {
                 throw new Error("");
             }
             const teamObj = resp?.data;
-
-            teamObj.createdBy = teamObj?.createdBy?.firstName || "";
-            teamObj.modifiedBy = teamObj?.modifiedBy?.firstName || "";
-
             setTeam(teamObj);
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);

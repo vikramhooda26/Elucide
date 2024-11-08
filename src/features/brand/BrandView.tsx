@@ -37,8 +37,6 @@ function BrandView() {
             const response = await BrandService.getOne(id ? id : "");
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const teamObj = response?.data;
-                teamObj.createdBy = teamObj?.createdBy?.firstName || "";
-                teamObj.modifiedBy = teamObj?.modifiedBy?.firstName || "";
                 setBrand(teamObj);
             } else {
                 toast.error("Looks like our servers are down. Please try again later!");

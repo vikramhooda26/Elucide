@@ -41,9 +41,6 @@ function AthleteView() {
             if (response.status === HTTP_STATUS_CODES.OK) {
                 const athleteObj = response?.data;
 
-                athleteObj.createdBy = athleteObj?.createdBy?.firstName || "";
-                athleteObj.modifiedBy = athleteObj?.modifiedBy?.firstName || "";
-
                 if (athleteObj?.athleteAge) {
                     athleteObj.dob = format(athleteObj?.athleteAge, "dd-MM-yyyy");
                     athleteObj.athleteAge = differenceInYears(new Date(), athleteObj?.athleteAge);
