@@ -25,6 +25,57 @@ function MainLayout() {
             setDefaultCollapsed(JSON.parse(collapsed));
         }
     }, []);
+    
+    useEffect(() => {
+        const CHATLING_SCRIPT_ID = "chatling-embed-script";
+
+        // Function to inject chatling script
+        const addChatlingScript = () => {
+            console.log("Adding Chatling script...");
+
+            const script = document.createElement("script");
+            script.id = CHATLING_SCRIPT_ID;
+            script.src = "https://chatling.ai/js/embed.js";
+            script.async = true;
+
+            if (!document.getElementById(CHATLING_SCRIPT_ID)) {
+                document.body.appendChild(script);
+                console.log("Chatling script successfully added.");
+            } else {
+                console.warn("Chatling script already exists.");
+            }
+
+            window.chtlConfig = { chatbotId: "4211148512" };
+            console.log("Chatling configuration set:", window.chtlConfig);
+        };
+
+        const removeChatlingScript = () => {
+            console.log("Removing Chatling script...");
+            const script = document.getElementById(CHATLING_SCRIPT_ID);
+            if (script) {
+                document.body.removeChild(script);
+                console.log("Chatling script removed.");
+            } else {
+                console.warn("No Chatling script found to remove.");
+            }
+
+            if (window.chtlConfig) {
+                delete window.chtlConfig;
+                console.log("Chatling configuration cleaned up.");
+            }
+        };
+
+        if (isAuthenticated) {
+            addChatlingScript();
+        } else {
+            removeChatlingScript();
+        }
+
+        return () => {
+            console.log("Component unmounted. Cleaning up script...");
+            removeChatlingScript();
+        };
+    }, [isAuthenticated]);
 
     return (
         <React.Fragment>
