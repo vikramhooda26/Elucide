@@ -8,11 +8,13 @@ import useWindowDimensions from "../../hooks/useWindowDimension";
 import { accounts, mails } from "./athlete/data";
 import DashboardNavbar from "./components/DashboardNavbar";
 import { SideMenu } from "./components/SideMenu";
+import { useAuth } from "@/features/auth/auth-provider/AuthProvider";
 
 function MainLayout() {
     const [defaultLayout, setDefaultLayout] = useState(undefined);
     const [defaultCollapsed, setDefaultCollapsed] = useState(undefined);
     const { width } = useWindowDimensions();
+    const {isAuthenticated} = useAuth();
 
     useEffect(() => {
         const layout = Cookies.get("react-resizable-panels:layout:mail");
