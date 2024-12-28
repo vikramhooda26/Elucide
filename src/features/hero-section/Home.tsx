@@ -17,6 +17,12 @@ export const Home = () => {
 
     useEffect(() => {
         setTheme("dark");
+
+         // If not authenticated, ensure all Chatling elements are removed
+         const existingScript = document.getElementById("chatling-embed-script");
+         if (existingScript) {
+           existingScript.remove();
+         }
     }, []);
 
     const handleScrollToTop = () => {
