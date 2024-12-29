@@ -18,6 +18,9 @@
             "prettier --write"
         ]
     },
+    "files": [
+        "/src/types/global.d.ts"
+    ],
     "dependencies": {
         "@hookform/resolvers": "^3.9.0",
         "@radix-ui/react-alert-dialog": "^1.1.1",

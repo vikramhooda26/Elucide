@@ -23,8 +23,8 @@ export const ScrollToTopButtonWrapper = ({ children }: { children: React.ReactNo
     return (
         <div
             className={cn(
-                "fixed -bottom-20 right-6 z-50 transition-all duration-500 ease-in-out",
-                showScrollToTop && "bottom-6"
+                "fixed -bottom-20 right-10 z-50 transition-all duration-500 ease-in-out",
+                showScrollToTop && "!bottom-[5.5rem]"
             )}
         >
             {children}

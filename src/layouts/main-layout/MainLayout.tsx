@@ -1,4 +1,5 @@
 import { ScrollToTopButton } from "@/components/button/ScrollToTopButton";
+import { useAuth } from "@/features/auth/auth-provider/AuthProvider";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
@@ -8,13 +9,12 @@ import useWindowDimensions from "../../hooks/useWindowDimension";
 import { accounts, mails } from "./athlete/data";
 import DashboardNavbar from "./components/DashboardNavbar";
 import { SideMenu } from "./components/SideMenu";
-import { useAuth } from "@/features/auth/auth-provider/AuthProvider";
 
 function MainLayout() {
     const [defaultLayout, setDefaultLayout] = useState(undefined);
     const [defaultCollapsed, setDefaultCollapsed] = useState(undefined);
     const { width } = useWindowDimensions();
-    const {isAuthenticated} = useAuth();
+    const { isAuthenticated } = useAuth();
 
     useEffect(() => {
         const layout = Cookies.get("react-resizable-panels:layout:mail");
@@ -27,11 +27,11 @@ function MainLayout() {
             setDefaultCollapsed(JSON.parse(collapsed));
         }
     }, []);
-    
+
     useEffect(() => {
         const CHATLING_SCRIPT_ID = "chatling-embed-script";
+        const CHATLING_WIDGET_ID = "chatling-widget";
 
-        // Function to inject chatling script
         const addChatlingScript = () => {
             console.log("Adding Chatling script...");
 
@@ -48,33 +48,38 @@ function MainLayout() {
             }
 
             window.chtlConfig = { chatbotId: "4211148512" };
-            console.log("Chatling configuration set:", window.chtlConfig);
         };
 
         const removeChatlingScript = () => {
-            console.log("Removing Chatling script...");
             const script = document.getElementById(CHATLING_SCRIPT_ID);
             if (script) {
-                document.body.removeChild(script);
-                console.log("Chatling script removed.");
-            } else {
-                console.warn("No Chatling script found to remove.");
+                script.remove();
             }
 
-            if (window.chtlConfig) {
+            const widget = document.getElementById(CHATLING_WIDGET_ID);
+            if (widget) {
+                widget.remove();
+            }
+
+            document.querySelectorAll('[id^="chatling"]').forEach((element) => {
+                element.remove();
+            });
+
+            if ("chtlConfig" in window) {
                 delete window.chtlConfig;
-                console.log("Chatling configuration cleaned up.");
             }
         };
 
-        if (isAuthenticated) {
-            addChatlingScript();
-        } else {
-            removeChatlingScript();
-        }
+        const timer = setTimeout(() => {
+            if (isAuthenticated) {
+                addChatlingScript();
+            } else {
+                removeChatlingScript();
+            }
+        }, 100);
 
         return () => {
-            console.log("Component unmounted. Cleaning up script...");
+            clearTimeout(timer);
             removeChatlingScript();
         };
     }, [isAuthenticated]);
@@ -88,7 +93,6 @@ function MainLayout() {
                     </div>
                     <div className="relative h-full w-full px-4 lg:hidden">{width <= 1024 && <Outlet />}</div>
                 </div>
-                {/* <ChatBot /> */}
                 <div className="relative flex h-full w-full max-lg:hidden">
                     <TooltipProvider delayDuration={0}>
                         <ResizablePanelGroup
