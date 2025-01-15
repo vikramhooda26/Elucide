@@ -303,9 +303,7 @@ function SportsDealSummaryForm() {
                             size="icon"
                             className="h-7 w-7"
                             onClick={() =>
-                                navigate(NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST, {
-                                    replace: true
-                                })
+                               navigate(-1)
                             }
                         >
                             <ChevronLeft className="h-4 w-4" />
