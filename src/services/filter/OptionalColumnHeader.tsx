@@ -12,16 +12,19 @@ import {
     DropdownMenuTrigger
 } from "../../components/ui/dropdown-menu";
 import { matched, notMatched } from "@/types/metadata/Metadata";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
     column: Column<TData, TValue>;
     title: string;
+    isMandatory: boolean;
 }
 
 export function OptionalColumnHeader<TData, TValue>({
     column,
     title,
-    className
+    className,
+    isMandatory,
 }: DataTableColumnHeaderProps<TData, TValue>) {
     if (!column.getCanSort()) {
         return <div className={cn(className)}>{title}</div>;
@@ -40,14 +43,23 @@ export function OptionalColumnHeader<TData, TValue>({
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="-ml-3 h-8 data-[state=open]:bg-accent">
-                        <span>{title}</span>
-                        {column.getIsSorted() === "desc" ? (
-                            <ArrowDownIcon className="ml-2 h-4 w-4" />
-                        ) : column.getIsSorted() === "asc" ? (
-                            <ArrowUpIcon className="ml-2 h-4 w-4" />
-                        ) : (
-                            <CaretSortIcon className="ml-2 h-4 w-4" />
-                        )}
+
+                        <div className="flex items-center gap-2">
+                            {isMandatory ?
+                                <Checkbox
+                                    className="peer block h-4 w-4 rounded-sm bg-green-100 text-sm font-medium ring-offset-2 focus:ring-green-500 data-[state=checked]:border-green-600 data-[state=checked]:bg-green-500"
+                                    checked={isMandatory}
+                                />
+                                : null}
+                            <label className=" block text-sm font-medium">{title || ""} </label>
+                            {column.getIsSorted() === "desc" ? (
+                                <ArrowDownIcon className="ml-2 h-4 w-4" />
+                            ) : column.getIsSorted() === "asc" ? (
+                                <ArrowUpIcon className="ml-2 h-4 w-4" />
+                            ) : (
+                                <CaretSortIcon className="ml-2 h-4 w-4" />
+                            )}
+                        </div>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
