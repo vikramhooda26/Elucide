@@ -102,7 +102,7 @@ function TeamList() {
             }
         } catch (error) {
             const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
+            if (unknownError?.response?.status !== HTTP_STATUS_CODES?.NOT_FOUND) {
                 toast.error("An unknown error occurred");
             } else {
                 setTeamList([]);
