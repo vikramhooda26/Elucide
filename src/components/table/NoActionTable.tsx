@@ -73,7 +73,7 @@ export function NoActionTable({ data, columns, searchableKey, toolbarAttributes,
             });
             if (i + 1 == columns?.length && onEdit) {
                 headers.push({
-                    accessorKey: header?.key,
+                    accessorKey: 'Action',
                     header: () => {
                         return (
                             <Button
