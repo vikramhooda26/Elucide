@@ -425,6 +425,14 @@ export const allColumnsSchema = () =>
                 })
             )
             .optional(),
+        activeCampaigns: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                    name: z.string().optional()
+                })
+            )
+            .optional(),
         marketplaceLink: z.string().optional(),
         documents: z
             .array(
