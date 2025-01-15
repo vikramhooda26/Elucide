@@ -273,25 +273,25 @@ class FilterService {
             const partnerIdMetrics = filters?.partnerIdMetrics;
             const endorsement = filters?.endorsement; // done
 
-            if (ageIds && ageIds?.isMandatory === false && data?.age) {
+            if (ageIds && data?.age) {
                 finalObj.age = data?.age?.some((age: any) => ageIds?.value.includes(age.id)) ? matched : notMatched;
             }
 
-            if (athleteAge && athleteAge?.isMandatory === false && data?.athleteAge) {
+            if (athleteAge && data?.athleteAge) {
                 finalObj.athleteAge = "";
                 const athleteAge: number = differenceInYears(new Date(), new Date(data?.athleteAge)) || 0;
                 if (processedFilters?.["athleteAge"]?.operationType === "in") {
                     finalObj.athleteAge =
                         processedFilters?.["athleteAge"]?.age?.[0] <= athleteAge &&
-                        athleteAge <= processedFilters?.["athleteAge"]?.age?.[1]
+                            athleteAge <= processedFilters?.["athleteAge"]?.age?.[1]
                             ? matched
                             : notMatched;
                 } else if (processedFilters?.["athleteAge"]?.operationType === "gte") {
                     finalObj.athleteAge =
-                        processedFilters?.["athleteAge"]?.age?.[0] >= athleteAge ? matched : notMatched;
+                        processedFilters?.["athleteAge"]?.age?.[0] <= athleteAge ? matched : notMatched;
                 } else if (processedFilters?.["athleteAge"]?.operationType === "lte") {
                     finalObj.athleteAge =
-                        processedFilters?.["athleteAge"]?.age?.[0] <= athleteAge ? matched : notMatched;
+                        processedFilters?.["athleteAge"]?.age?.[0] >= athleteAge ? matched : notMatched;
                 }
             }
 
@@ -301,39 +301,51 @@ class FilterService {
                     : notMatched;
             }
 
-            if (genderIds && genderIds?.isMandatory === false && data?.gender) {
+            if (genderIds && data?.gender) {
                 finalObj.gender = data?.gender?.some((gender: any) => genderIds?.value.includes(gender.id))
                     ? matched
                     : notMatched;
             }
 
-            if (nationalityIds && nationalityIds?.isMandatory === false && data?.nationality) {
+            if (nationalityIds && data?.nationality) {
                 finalObj.nationality = nationalityIds?.value.includes(data?.nationality?.id) ? matched : notMatched;
             }
 
-            if (sportIds && sportIds?.isMandatory === false && data?.sport) {
+            if (sportIds && data?.sport) {
                 finalObj.sport = sportIds?.value.includes(data?.sport?.id) ? matched : notMatched;
             }
 
-            if (agencyIds && agencyIds?.isMandatory === false && data?.agency) {
+            if (agencyIds && data?.agency) {
                 finalObj.agency = agencyIds?.value.includes(data?.agency?.id) ? matched : notMatched;
             }
 
-            if (statusIds && statusIds?.isMandatory === false && data?.status) {
+            if (statusIds && data?.status) {
                 finalObj.status = statusIds?.value?.includes(data?.status?.id) ? matched : notMatched;
             }
 
-            if (stateIds && stateIds?.isMandatory === false && data?.state) {
-                finalObj.state = data?.state?.some((state: any) => stateIds?.value.includes(state.id))
+            if (stateIds && data?.state) {
+                if (Array.isArray(data?.state)) {
+                    finalObj.state = data?.state?.some((state: any) => stateIds?.value.includes(state.id))
+                        ? matched
+                        : notMatched;
+                } else if (typeof data.state === 'object' && data.state !== null && 'id' in data.state) {
+                    finalObj.state = stateIds?.value.includes((data.state as { id: any }).id)
+                        ? matched
+                        : notMatched;
+                }
+            }
+
+            if (cityIds && data?.city) {
+                finalObj.city = cityIds?.value.includes(data?.city?.id) ? matched : notMatched;
+            }
+
+            if (activeCampaignIds && data?.activeCampaigns) {
+                finalObj.activeCampaigns = data?.activeCampaigns?.some((campaign: any) => activeCampaignIds?.value.includes(campaign.id))
                     ? matched
                     : notMatched;
             }
 
-            if (cityIds && cityIds?.isMandatory === false && data?.city) {
-                finalObj.city = cityIds?.value.includes(data?.city?.id) ? matched : notMatched;
-            }
-
-            if (teamIds && teamIds?.isMandatory === false && data?.team) {
+            if (teamIds && data?.team) {
                 finalObj.team = teamIds?.value?.includes(data?.team?.id) ? matched : notMatched;
             }
 
@@ -341,11 +353,11 @@ class FilterService {
             //     finalObj.brand = brandIds?.value?.includes(data?.brand?.id) ? 'Matched' : 'Not Matched';
             // }
 
-            if (parentOrgIds && parentOrgIds?.isMandatory === false && data?.parentOrg) {
+            if (parentOrgIds && data?.parentOrg) {
                 finalObj.parentOrg = parentOrgIds?.value?.includes(data?.parentOrg?.id) ? matched : notMatched;
             }
 
-            if (primaryMarketIds && primaryMarketIds?.isMandatory === false && data?.primaryKeyMarket) {
+            if (primaryMarketIds && data?.primaryKeyMarket) {
                 finalObj.primaryKeyMarket = data?.primaryKeyMarket?.some((market: any) =>
                     primaryMarketIds?.value.includes(market.id)
                 )
@@ -353,7 +365,7 @@ class FilterService {
                     : notMatched;
             }
 
-            if (secondaryMarketIds && secondaryMarketIds?.isMandatory === false && data?.secondaryKeyMarket) {
+            if (secondaryMarketIds && data?.secondaryKeyMarket) {
                 finalObj.secondaryKeyMarket = data?.secondaryKeyMarket?.some((market: any) =>
                     secondaryMarketIds?.value.includes(market.id)
                 )
@@ -361,7 +373,7 @@ class FilterService {
                     : notMatched;
             }
 
-            if (tertiaryIds && tertiaryIds?.isMandatory === false && data?.tertiary) {
+            if (tertiaryIds && data?.tertiary) {
                 finalObj.tertiary = data?.tertiary?.some((market: any) => tertiaryIds?.value.includes(market.id))
                     ? matched
                     : notMatched;
@@ -369,7 +381,6 @@ class FilterService {
 
             if (
                 primaryMarketingPlatformIds &&
-                primaryMarketingPlatformIds?.isMandatory === false &&
                 data?.primaryMarketingPlatform
             ) {
                 finalObj.primaryMarketingPlatform = data?.primaryMarketingPlatform?.some((platform: any) =>
@@ -381,7 +392,6 @@ class FilterService {
 
             if (
                 secondaryMarketingPlatformIds &&
-                secondaryMarketingPlatformIds?.isMandatory === false &&
                 data?.secondaryMarketingPlatform
             ) {
                 finalObj.secondaryMarketingPlatform = data?.secondaryMarketingPlatform?.some((platform: any) =>
@@ -391,15 +401,15 @@ class FilterService {
                     : notMatched;
             }
 
-            if (primarySocialMediaPlatformIds && primarySocialMediaPlatformIds?.isMandatory === false && data?.primaryMarketingPlatform) {
+            if (primarySocialMediaPlatformIds && data?.primaryMarketingPlatform) {
                 finalObj.primaryMarketingPlatform = data?.primaryMarketingPlatform?.some((platform: any) => primarySocialMediaPlatformIds?.value.includes(platform.id)) ? matched : notMatched;
             }
 
-            if (secondarySocialMediaPlatformIds && secondarySocialMediaPlatformIds?.isMandatory === false && data?.secondaryMarketingPlatform) {
+            if (secondarySocialMediaPlatformIds && data?.secondaryMarketingPlatform) {
                 finalObj.primaryMarketingPlatform = data?.secondaryMarketingPlatform?.some((platform: any) => primarySocialMediaPlatformIds?.value.includes(platform.id)) ? matched : notMatched;
             }
 
-            if (contactName && contactName?.isMandatory === false && data?.contactPersons) {
+            if (contactName && data?.contactPersons) {
                 finalObj.contactName = data?.contactPersons?.some((contact: any) =>
                     contact.contactName.includes(contactName.value)
                 )
@@ -407,7 +417,7 @@ class FilterService {
                     : notMatched;
             }
 
-            if (contactEmail && contactEmail?.isMandatory === false && data?.contactPersons) {
+            if (contactEmail && data?.contactPersons) {
                 finalObj.contactEmail = data?.contactPersons?.some((contact: any) =>
                     contact.contactEmail?.includes(contactEmail.value)
                 )
@@ -415,57 +425,57 @@ class FilterService {
                     : notMatched;
             }
 
-            if (contactDesignation && contactDesignation?.isMandatory === false && data?.contactPersons) {
+            if (contactDesignation && data?.contactPersons) {
                 finalObj.contactDesignation = data?.contactPersons?.some((contact: any) => contact.contactDesignation?.includes(contactDesignation.value)) ? matched : notMatched;
             }
 
-            if (contactNumber && contactNumber?.isMandatory === false && data?.contactPersons) {
+            if (contactNumber && data?.contactPersons) {
                 finalObj.contactNumber = data?.contactPersons?.some((contact: any) => contact.contactNumber?.includes(contactNumber.value)) ? matched : notMatched;
             }
 
-            if (contactLinkedin && contactLinkedin?.isMandatory === false && data?.contactPersons) {
+            if (contactLinkedin && data?.contactPersons) {
                 finalObj.contactLinkedin = data?.contactPersons?.some((contact: any) => contact.contactLinkedin?.includes(contactLinkedin.value)) ? matched : notMatched;
             }
 
-            if (maincategoryIds && maincategoryIds?.isMandatory === false && data?.mainCategories) {
+            if (maincategoryIds && data?.mainCategories) {
                 finalObj.mainCategories = data?.mainCategories?.some((category: any) => maincategoryIds?.value.includes(category?.id)) ? matched : notMatched;
             }
 
-            if (subCategoryIds && subCategoryIds?.isMandatory === false && data?.mainCategories) {
+            if (subCategoryIds && data?.mainCategories) {
                 finalObj.subCategories = data?.mainCategories?.some((category: any) => category?.subCategories?.some((subCategory: any) => subCategoryIds?.value.includes(subCategory?.id))) ? matched : notMatched;
             }
 
-            if (yearOfInception && yearOfInception?.isMandatory === false && data?.yearOfInception) {
+            if (yearOfInception && data?.yearOfInception) {
                 finalObj.yearOfInception = yearOfInception?.value === data?.yearOfInception ? matched : notMatched;
             }
 
-            if (franchiseFee && franchiseFee?.isMandatory === false && data?.franchiseFee) {
+            if (franchiseFee && data?.franchiseFee) {
                 finalObj.franchiseFee = franchiseFee?.value === data?.franchiseFee ? matched : notMatched;
             }
 
             //////////////////////////////////////////////
 
-            if (leagueOwnerIds && leagueOwnerIds.isMandatory === false && data?.owners) {
+            if (leagueOwnerIds && data?.owners) {
                 finalObj.leagueOwners = data?.owners?.some((owner: any) => leagueOwnerIds.value.includes(owner.id)) ? matched : notMatched;
             }
 
-            if (nccsIds && nccsIds.isMandatory === false && data?.nccs) {
+            if (nccsIds && data?.nccs) {
                 finalObj.nccs = data.nccs.some((nccs: any) => nccsIds.value.includes(nccs.id)) ? matched : notMatched;
             }
 
-            if (ottPartnerIds && ottPartnerIds?.isMandatory === false && data?.ottPartnerMetrics) {
+            if (ottPartnerIds && data?.ottPartnerMetrics) {
                 finalObj.ottPartner = data?.ottPartnerMetrics?.some((matrics: any) => ottPartnerIds?.value.includes(matrics?.ottPartner?.id)) ? matched : notMatched;
             }
 
-            if (parentOrgIds && parentOrgIds.isMandatory === false && data?.parentOrg) {
+            if (parentOrgIds && data?.parentOrg) {
                 finalObj.parentOrg = parentOrgIds.value.includes(data.parentOrg.id) ? matched : notMatched;
             }
 
-            if (mainpersonalityIds && mainpersonalityIds.isMandatory === false && data?.mainPersonalityTraits) {
+            if (mainpersonalityIds && data?.mainPersonalityTraits) {
                 finalObj.mainPersonalityTraits = data?.mainPersonalityTraits?.some((traits: any) => mainpersonalityIds.value.includes(traits.id)) ? matched : notMatched;
             }
 
-            if (subPersonalityTraitIds && subPersonalityTraitIds.isMandatory === false && data?.mainPersonalityTraits) {
+            if (subPersonalityTraitIds && data?.mainPersonalityTraits) {
                 finalObj.subPersonalityTraits = data?.mainPersonalityTraits?.some((traits: any) => traits?.subPersonalityTraits?.some((subTraits: any) => subPersonalityTraitIds?.value.includes(subTraits?.id))) ? matched : notMatched;
             }
 
@@ -485,19 +495,19 @@ class FilterService {
             //     finalObj.sportsDealSummaryTypes = sportsDealSummaryTypeIds.value.includes(data.sportsDealSummaryTypes.id) ? matched : notMatched;
             // }
 
-            if (taglineIds && taglineIds.isMandatory === false && data?.taglines) {
+            if (taglineIds && data?.taglines) {
                 finalObj.taglines = data.taglines.some((tag: any) => taglineIds.value.includes(tag.id)) ? matched : notMatched;
             }
 
-            if (teamOwnerIds && teamOwnerIds.isMandatory === false && data?.owners) {
+            if (teamOwnerIds && data?.owners) {
                 finalObj.teamOwners = data?.owners?.some((owner: any) => teamOwnerIds.value.includes(owner.id)) ? matched : notMatched;
             }
 
-            if (tierIds && tierIds.isMandatory === false && data?.tiers) {
+            if (tierIds && data?.tiers) {
                 finalObj.tiers = data.tiers.some((tier: any) => tierIds.value.includes(tier.id)) ? matched : notMatched;
             }
 
-            if (associationLevelIds && associationLevelIds?.isMandatory === false && data?.association) {
+            if (associationLevelIds && data?.association) {
                 finalObj.associationLevel = data?.association?.some((association: any) => associationLevelIds?.value.includes(association?.associationLevel?.id)) ? matched : notMatched;
             }
 
@@ -505,35 +515,35 @@ class FilterService {
             //     finalObj.socialMedia = data.socialMedia.some((media: any) => socialMediaIds.value.includes(media.id)) ? matched : notMatched;
             // }
 
-            if (athleteStatusIds && athleteStatusIds.isMandatory === false && data?.status) {
+            if (athleteStatusIds && data?.status) {
                 finalObj.status = athleteStatusIds.value.includes(data.status.id) ? matched : notMatched;
             }
 
-            if (strategyOverview && strategyOverview.isMandatory === false && data?.strategyOverview) {
+            if (strategyOverview && data?.strategyOverview) {
                 finalObj.strategyOverview = strategyOverview.value.includes(data.strategyOverview) ? matched : notMatched;
             }
 
-            if (facebook && facebook.isMandatory === false && data?.facebook) {
+            if (facebook && data?.facebook) {
                 finalObj.facebook = facebook.value.includes(data.facebook) ? matched : notMatched;
             }
 
-            if (instagram && instagram.isMandatory === false && data?.instagram) {
+            if (instagram && data?.instagram) {
                 finalObj.instagram = instagram.value.includes(data.instagram) ? matched : notMatched;
             }
 
-            if (twitter && twitter.isMandatory === false && data?.twitter) {
+            if (twitter && data?.twitter) {
                 finalObj.twitter = twitter.value.includes(data.twitter) ? matched : notMatched;
             }
 
-            if (linkedin && linkedin.isMandatory === false && data?.linkedin) {
+            if (linkedin && data?.linkedin) {
                 finalObj.linkedin = linkedin.value.includes(data.linkedin) ? matched : notMatched;
             }
 
-            if (youtube && youtube.isMandatory === false && data?.youtube) {
+            if (youtube && data?.youtube) {
                 finalObj.youtube = youtube.value.includes(data.youtube) ? matched : notMatched;
             }
 
-            if (website && website.isMandatory === false && data?.website) {
+            if (website && data?.website) {
                 finalObj.website = website.value.includes(data.website) ? matched : notMatched;
             }
 
@@ -600,7 +610,7 @@ class FilterService {
                 checkMatrics('broadcastPartnerMetrics', 'broadcast');
             }
 
-            if (endorsement && endorsement.isMandatory === false && data?.endorsement) {
+            if (endorsement && data?.endorsement) {
                 finalObj.endorsement = data?.endorsement?.some((endorse: any) => endorsement?.value?.name?.includes(endorse?.name) && endorsement?.value?.isActive === endorse?.active) ? matched : notMatched;
             }
 
@@ -657,125 +667,3 @@ const validateMatrics = (matricsFilters: { [key: string]: string; }, matricsData
     }
     return notMatched;
 }
-
-// {
-//     "reachMetrics": {
-//         "reach": [
-//             "0",
-//             "7000000"
-//         ],
-//         "operationType": "in",
-//         "partnerType": "ott"
-//     },
-//     "viewershipMetrics": {
-//         "viewership": [
-//             "0",
-//             "6000000"
-//         ],
-//        "operationType": "in",
-//        "partnerType": "ott"
-//     },
-//     "partnerIdMetrics": {
-//         "partnerIds": [
-//             "7",
-//             "4"
-//         ],
-//         "partnerType": "ott"
-//     },
-//     "yearMetrics": {
-//         "year": [
-//             "0",
-//             "6600000"
-//         ],
-//         "operationType": "in",
-//         "partnerType": "ott"
-//     }
-// }
-
-// "ottPartnerMetrics": [
-//             {
-//                 "id": "21",
-//                 "viewership": "2500000",
-//                 "reach": "2500032103",
-//                 "year": "2024",
-//                 "ottPartner": {
-//                     "id": "4",
-//                     "name": "Hotstar"
-//                 }
-//             },
-//             {
-//                 "id": "22",
-//                 "viewership": "160000",
-//                 "reach": "1200000",
-//                 "year": "2024",
-//                 "ottPartner": {
-//                     "id": "3",
-//                     "name": "Jio Cinema"
-//                 }
-//             }
-//         ],
-
-// "broadcastPartnerMetrics": [
-//             {
-//                 "id": "20",
-//                 "reach": "39821738127983",
-//                 "viewership": "1236182873",
-//                 "year": "2020",
-//                 "broadcastPartner": {
-//                     "id": "4",
-//                     "name": "Viacom18"
-//                 }
-//             },
-//             {
-//                 "id": "21",
-//                 "reach": "9210931923091",
-//                 "viewership": "9213012390",
-//                 "year": "2020",
-//                 "broadcastPartner": {
-//                     "id": "6",
-//                     "name": "Sports18 Khel"
-//                 }
-//             }
-//         ]
-
-// reachMetrics: {"value1":[380000000],"value2":[3000000],"operationType":"gte","checkType":"ott"}
-// viewershipMetrics: {"value1":[340000000],"value2":[3000000],"operationType":"lte","checkType":"ott"}
-// yearMetrics: {"value1":[380000000],"value2":[1000000],"operationType":"lte","checkType":"broadcast"}
-// partnerIdMetrics: {"value":["7","6"],"checkType":"broadcast"}
-// endorsement: {"value":"endrosement","isActive":true}
-
-// Applied Filters:
-// athleteIds: ["14","11"]
-// statusIds: ["3","2"]
-// athleteAge: [27,69]
-// athleteGenderIds: ["2","1"]
-// costOfAssociation: {"value1":[53000],"value2":[500000],"operationType":"gt"}
-// ageIds: ["1","3","5"]
-// genderIds: ["2","1"]
-// stateIds: ["12","5","7"]
-// agencyIds: ["8","5","3"]
-// primaryMarketIds: ["3","8"]
-// secondaryMarketIds: ["6","8"]
-// tertiaryIds: ["12","5","1"]
-// primarySocialMediaPlatformIds: ["2","5"]
-// secondarySocialMediaPlatformIds: ["1","3"]
-// nccsIds: ["1","3"]
-// subPersonalityTraitIds: ["55","53","52"]
-// sportIds: ["16","17"]
-// tierIds: ["1","4"]
-// associationLevelIds: ["6","4","3"]
-// nationalityIds: ["5","6"]
-// socialMediaIds: ["1","3"]
-// athleteStatusIds: ["1","3"]
-// strategyOverview: "Strategies "
-// facebook: "Facebook"
-// instagram: "Instagram"
-// twitter: "Twitter"
-// linkedin: "LinkedIn"
-// youtube: "Youtube"
-// website: "Website"
-// contactName: "Contact Name"
-// contactDesignation: "Contact Designation"
-// contactEmail: "Contact Email"
-// contactNumber: "Contact Number"
-// contactLinkedin: "Contact LinkedIn"
