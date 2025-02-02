@@ -113,18 +113,24 @@
 
     ::-moz-selection {
         /* Code for Firefox */
-        color: white;
-        background: #207fde;
+        background: rgba(59, 139, 255, 0.3) !important;
+        color: inherit !important;
     }
 
     ::selection {
-        color: white;
-        background: #207fde;
-        /* background: #e9d2fd; */
-        /* background: #3576df; */
+        background: rgba(59, 139, 255, 0.3) !important;
+        color: inherit !important;
     }
 
+    /* background: #e9d2fd; */
+
     /* Input field styles */
+
+    input::selection,
+    textarea::selection {
+        background: rgba(59, 139, 255, 0.3) !important;
+        color: inherit !important;
+    }
 
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
