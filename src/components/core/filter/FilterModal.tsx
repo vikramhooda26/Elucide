@@ -83,19 +83,31 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
     const currentValues = getCurrentFilters();
 
     const handleInputChange = (key: string, value: any) => {
-        const foundFilter = filters.find((f) => f.key === key);
-
-        setFilterValues((prev) => ({
+        setFilterValues((prev) => {
+          const currentValues = { ...(prev[pageKey] || {}) };
+          const foundFilter = filters.find((f) => f.key === key);
+      
+          const isEmpty =
+            !value ||
+            (typeof value === "object" &&
+              ((Array.isArray(value) && value.length === 0) ||
+               Object.keys(value).length === 0));
+      
+          if (isEmpty) {
+            delete currentValues[key];
+          } else {
+            currentValues[key] = {
+              type: foundFilter?.type || "text",
+              value,
+              isMandatory: currentValues[key]?.isMandatory === true
+            };
+          }
+      
+          return {
             ...prev,
-            [pageKey]: {
-                ...currentValues,
-                [key]: {
-                    type: foundFilter?.type || "text",
-                    value,
-                    isMandatory: currentValues[key]?.isMandatory === true ? true : false,
-                }
-            }
-        }));
+            [pageKey]: currentValues
+          };
+        });
     };
 
     const handleClearFilters = () => {
