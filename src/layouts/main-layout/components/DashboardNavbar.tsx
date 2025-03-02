@@ -1,19 +1,19 @@
+import LightModeLogo from "@/assets/elucide-sports-logo-transparent.png";
+import DarkModeLogo from "@/assets/elucide-sports-logo-white-transparent.png";
+import { Hamburger } from "@/components/hamburger/Hamburger";
+import { ModeToggle } from "@/components/ui/ModeToggle";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useUser } from "@/hooks/useUser";
+import { NAVIGATION_ROUTES } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+import { useTheme } from "@/provider/theme/theme-provider";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LightModeLogo from "../../../assets/elucide-sports-logo-transparent.png";
-import DarkModeLogo from "../../../assets/elucide-sports-logo-white-transparent.png";
-import { Hamburger } from "../../../components/hamburger/Hamburger";
-import { ModeToggle } from "../../../components/ui/ModeToggle";
-import { useDebounce } from "../../../hooks/useDebounce";
-import { useUser } from "../../../hooks/useUser";
-import { NAVIGATION_ROUTES } from "../../../lib/constants";
-import { cn } from "../../../lib/utils";
-import { useTheme } from "../../../provider/theme/theme-provider";
 // import { GlobalSearch } from "./GlobalSearch";
+import { dataEntrySideMenuLinks } from "@/features/data-entry/components/SideMenu";
 import { MainNav } from "./MainNav";
 import { SideMenuLinks } from "./SideMenu";
 import { UserNav } from "./UserNav";
-import { dataEntrySideMenuLinks } from "../../../features/data-entry/components/SideMenu";
 
 const DashboardNavbar = () => {
     const { theme } = useTheme();
