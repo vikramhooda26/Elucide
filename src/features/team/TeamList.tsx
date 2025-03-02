@@ -74,6 +74,10 @@ function TeamList() {
 
     const handleApplyFilters = async () => {
         try {
+             if (!filterValues[pageKey] || (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length <= 0)) {
+                fetchTeams();
+                return;
+            }
             setIsLoading(true);
             const processedData = FilterService.processFilterData(filterValues[pageKey]);
             if (processedData?.teamIds) {
