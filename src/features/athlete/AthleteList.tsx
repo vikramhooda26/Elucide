@@ -70,6 +70,10 @@ function AthleteList() {
 
     const handleApplyFilters = async () => {
         try {
+            if (!filterValues[pageKey] || (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length <= 0)) {
+                fetchAthletes();
+                return;
+            }
             setIsLoading(true);
             const processedData = FilterService.processFilterData(filterValues[pageKey]);
             if (processedData?.athleteIds) {
