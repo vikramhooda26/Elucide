@@ -302,9 +302,8 @@ function SportsDealSummaryForm() {
                             variant="outline"
                             size="icon"
                             className="h-7 w-7"
-                            onClick={() =>
-                               navigate(-1)
-                            }
+                            type="button"
+                            onClick={() => navigate(-1)}
                         >
                             <ChevronLeft className="h-4 w-4" />
                             <span className="sr-only">Back</span>
@@ -318,12 +317,8 @@ function SportsDealSummaryForm() {
                                 variant="outline"
                                 size="sm"
                                 disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
-                                onClick={() =>
-                                    navigate(NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST, {
-                                        replace: true
-                                    })
-                                }
                                 type="button"
+                                onClick={() => navigate(-1)}
                             >
                                 Discard
                             </Button>
@@ -546,12 +541,8 @@ function SportsDealSummaryForm() {
                             size="sm"
                             className="w-full py-5"
                             disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
-                            onClick={() =>
-                                navigate(NAVIGATION_ROUTES.SPORTS_DEAL_SUMMARY_LIST, {
-                                    replace: true
-                                })
-                            }
                             type="button"
+                            onClick={() => navigate(-1)}
                         >
                             Discard
                         </Button>
