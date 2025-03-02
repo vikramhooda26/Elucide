@@ -9,7 +9,7 @@ import { useUser } from "../../../hooks/useUser";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 import { cn } from "../../../lib/utils";
 import { useTheme } from "../../../provider/theme/theme-provider";
-import { GlobalSearch } from "./GlobalSearch";
+// import { GlobalSearch } from "./GlobalSearch";
 import { MainNav } from "./MainNav";
 import { SideMenuLinks } from "./SideMenu";
 import { UserNav } from "./UserNav";
@@ -65,7 +65,7 @@ const DashboardNavbar = () => {
                 </div>
                 <MainNav className="mx-6" />
                 <div className="ml-auto flex items-center space-x-4">
-                    <GlobalSearch />
+                    {/* <GlobalSearch /> */}
                     <ModeToggle />
                     <UserNav />
                     {showDataEntryMenu ? (
