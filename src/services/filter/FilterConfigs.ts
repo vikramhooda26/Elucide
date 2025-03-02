@@ -161,7 +161,7 @@ function getFilters(pageKey: TPageKey) {
             options: metadataStore?.state,
             isMultiple: true,
             isMandatory: false,
-            pageKeys: ["athleteList", "teamList", "brandList", "leagueList"]
+            pageKeys: ["athleteList", "teamList", "brandList"]
         },
         {
             displayName: "Active Campaign",
