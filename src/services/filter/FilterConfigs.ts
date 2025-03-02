@@ -93,7 +93,8 @@ function getFilters(pageKey: TPageKey) {
             singleRange: { min: 0, max: 100 },
             isMandatory: false,
             step: 1,
-            pageKeys: ["athleteList"]
+            pageKeys: ["athleteList"],
+            allowReload: true,
         },
 
         {
@@ -119,7 +120,8 @@ function getFilters(pageKey: TPageKey) {
             doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100, max2: 90 } },
             isMandatory: false,
             steps: { step1: 1, step2: 10 },
-            pageKeys: ["leagueList", "teamList", "athleteList", "allStakeList"]
+            pageKeys: ["leagueList", "teamList", "athleteList", "allStakeList"],
+            allowReload: true,
         },
         {
             displayName: "Target Age",
@@ -626,7 +628,8 @@ function getFilters(pageKey: TPageKey) {
             doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100, max2: 950 } },
             isMandatory: false,
             steps: { step1: 10, step2: 50 },
-            pageKeys: ["leagueList", "teamList"]
+            pageKeys: ["leagueList", "teamList"],
+            allowReload: true,
         },
         {
             displayName: "Viewership",
@@ -640,7 +643,8 @@ function getFilters(pageKey: TPageKey) {
             doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 100, max2: 950 } },
             isMandatory: false,
             steps: { step1: 10, step2: 50 },
-            pageKeys: ["leagueList", "teamList"]
+            pageKeys: ["leagueList", "teamList"],
+            allowReload: true,
         },
         {
             displayName: "Year",
@@ -654,7 +658,8 @@ function getFilters(pageKey: TPageKey) {
             doubleRange: { min: { min1: 0, min2: 0 }, max: { max1: 10, max2: 950 } },
             isMandatory: false,
             steps: { step1: 1, step2: 50 },
-            pageKeys: ["leagueList", "teamList"]
+            pageKeys: ["leagueList", "teamList"],
+            allowReload: true,
         },
 
         {
