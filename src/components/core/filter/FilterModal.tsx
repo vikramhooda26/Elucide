@@ -24,6 +24,7 @@ import MultiCheckBoxFilter from "./MultiCheckBoxFilter";
 import SearchFilter from "./SearchFilter";
 import SelectBoxFilter from "./SelectBoxFilter";
 import SingleRangeFilter from "./SingleRangeFilter";
+import { RefreshCw } from "lucide-react";
 
 export interface FilterOption {
     label: string;
@@ -62,6 +63,7 @@ export interface FilterContent {
 
     isMultiple?: boolean;
     isMandatory: boolean;
+    allowReload?: boolean;
 }
 interface FilterModalProps {
     isOpen: boolean;
@@ -82,13 +84,13 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
 
     const currentValues = getCurrentFilters();
 
-    const handleInputChange = (key: string, value: any) => {
+    const handleInputChange = (key: string, value: any, reload = false) => {
         setFilterValues((prev) => {
           const currentValues = { ...(prev[pageKey] || {}) };
           const foundFilter = filters.find((f) => f.key === key);
       
           const isEmpty =
-            !value ||
+            reload || !value ||
             (typeof value === "object" &&
               ((Array.isArray(value) && value.length === 0) ||
                Object.keys(value).length === 0));
@@ -136,7 +138,16 @@ export function FilterModal({ isOpen, filters, onClose, onApplyFilters, pageKey,
                         checked={currentValues[filter.key]?.isMandatory === true ? true : false}
                         onCheckedChange={(value) => handleMandatoryChange(filter.key, value)}
                     />
-                    <label className="mb-2 block text-sm font-medium">{filter.displayName} </label>
+                    <div className="mb-2 flex items-center gap-3">
+                        <label className="block text-sm font-medium">{filter.displayName} </label>
+                        {filter?.allowReload ? (
+                            <RefreshCw
+                                size={18}
+                                className="cursor-pointer text-gray-600 hover:text-gray-100"
+                                onClick={() => handleInputChange(filter.key, false, true)}
+                            />
+                        ) : null}
+                    </div>
                 </div>
                 {(() => {
                     switch (filter.type) {
