@@ -295,7 +295,7 @@ class FilterService {
                 }
             }
 
-            if (athleteGenderIds && athleteGenderIds?.isMandatory === false && data?.athleteGender) {
+            if (athleteGenderIds && data?.athleteGender) {
                 finalObj.athleteGender = athleteGenderIds?.value.includes(data?.athleteGender?.id)
                     ? matched
                     : notMatched;
