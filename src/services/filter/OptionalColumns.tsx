@@ -123,7 +123,7 @@ class OptionalColumns {
 
                 { accessorKey: "yearOfInception", filterKey: "yearOfInception", title: "Year Of Inception" },
                 { accessorKey: "franchiseFee", filterKey: "franchiseFee", title: "Franchise Fee" },
-                { accessorKey: "owners", filterKey: "leagueOwnerIds", title: "Owners" },
+                { accessorKey: "leagueOwnerIds", filterKey: "leagueOwnerIds", title: "Owners" },
                 { accessorKey: "owners", filterKey: "teamOwnerIds", title: "Owners" },
                 { accessorKey: "nccs", filterKey: "nccsIds", title: "NCCS" },
                 { accessorKey: "ottPartner", filterKey: "ottPartnerIds", title: "OTT Partners" },
