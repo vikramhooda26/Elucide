@@ -475,7 +475,7 @@ export const allColumnsSchema = () =>
         viewershipMetrics: z.string().optional(),
         yearMetrics: z.string().optional(),
         partnerIdMetrics: z.string().optional(),
-        leagueOwnerIds: z.string().optional(),
+        leagueOwners: z.string().optional(),
     });
 
 export type AllColumns = z.infer<ReturnType<typeof allColumnsSchema>>;
