@@ -1,30 +1,29 @@
-import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
+import { ConditionalButton } from "@/components/button/ConditionalButton";
+import FilterModal, { FilterContent } from "@/components/core/filter/FilterModal";
+import useNavigator from "@/hooks/useNavigator";
+import { useUser } from "@/hooks/useUser";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import ErrorService from "@/services/error/ErrorService";
+import BrandService from "@/services/features/BrandService";
+import { fetchFilters, TPageKey } from "@/services/filter/FilterConfigs";
+import FilterService from "@/services/filter/FilterService";
+import { filterState } from "@/store/atoms/filterAtom";
+import { listLoadingAtom } from "@/store/atoms/global";
+import { brand } from "@/types/brand/BrandListTypes";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import { ConditionalButton } from "../../components/button/ConditionalButton";
-import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
-import useNavigator from "../../hooks/useNavigator";
-import { useUser } from "../../hooks/useUser";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import ErrorService from "../../services/error/ErrorService";
-import BrandService from "../../services/features/BrandService";
-import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
-import FilterService from "../../services/filter/FilterService";
-import { filterState } from "../../store/atoms/filterAtom";
-import { listLoadingAtom } from "../../store/atoms/global";
-import { brand } from "../../types/brand/BrandListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import BrandTable from "./data/BrandTable";
 
 function BrandList() {
     const navigator = useNavigator();
     const [brandList, setBrandList] = useState<any[]>([]);
-    const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [sorting, setSorting] = useState<SortingState>([]);
+    // const [rowSelection, setRowSelection] = useState({});
+    // const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+    // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    // const [sorting, setSorting] = useState<SortingState>([]);
     const [isFilterApplied, setIsFilterApplied] = useState(false);
 
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -75,7 +74,7 @@ function BrandList() {
     const handleApplyFilters = async () => {
         try {
             if (!filterValues[pageKey] || (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length <= 0)) {
-                  fetchBrands();
+                fetchBrands();
                 return;
             }
             setIsLoading(true);

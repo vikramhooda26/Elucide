@@ -1,7 +1,7 @@
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
-import MetadataService from "../../../services/features/MetadataService";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import MetadataService from "@/services/features/MetadataService";
 
 const deleteCall = async (id: string) => {
     try {

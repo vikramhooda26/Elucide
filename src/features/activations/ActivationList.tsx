@@ -1,5 +1,19 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/react-in-jsx-scope */
+import { ConditionalButton } from "@/components/button/ConditionalButton";
+import { getColumns } from "@/components/core/view/activation-columns";
+import DataTable from "@/components/data-table/data-table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import SelectBox from "@/components/ui/multi-select";
+import useNavigator from "@/hooks/useNavigator";
+import { useUser } from "@/hooks/useUser";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import { printLogs } from "@/lib/logs";
+import ErrorService from "@/services/error/ErrorService";
+import MetadataService from "@/services/features/MetadataService";
+import { listLoadingAtom } from "@/store/atoms/global";
+import { team } from "@/types/team/TeamListTypes";
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -12,25 +26,13 @@ import {
     useReactTable,
     VisibilityState
 } from "@tanstack/react-table";
+import { DownloadIcon } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import { ConditionalButton } from "../../components/button/ConditionalButton";
-import DataTable from "../../components/data-table/data-table";
-import { DataTableFacetedFilter } from "../../components/data-table/data-table-faceted-filter";
-import { Input } from "../../components/ui/input";
-import useNavigator from "../../hooks/useNavigator";
-import { useUser } from "../../hooks/useUser";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import ErrorService from "../../services/error/ErrorService";
-import MetadataService from "../../services/features/MetadataService";
-import { listLoadingAtom } from "../../store/atoms/global";
-import { team } from "../../types/team/TeamListTypes";
+import * as XLSX from "xlsx";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
-import { priorities, statuses } from "./data/data";
-import { getColumns } from "../../components/core/view/activation-columns";
-import SelectBox from "../../components/ui/multi-select";
 
 function ActivationList() {
     const navigator = useNavigator();
@@ -152,6 +154,56 @@ function ActivationList() {
         getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
+    const downloadAsExcel = () => {
+        try {
+            const visibleColumns = table
+                .getAllColumns()
+                .filter((column) => column.getIsVisible() && column.id !== "actions");
+
+            const headers = visibleColumns.map((column) => {
+                if (column.id === "name") return "Activation name";
+                if (column.id === "brand") return "Brand name";
+                if (column.id === "partner") return "Partner name";
+                if (column.id === "createdDate") return "Created At";
+                if (column.id === "modifiedDate") return "Modified At";
+                if (column.id === "createdBy") return "Created By";
+                if (column.id === "modifiedBy") return "Modified By";
+
+                return (
+                    column.id.charAt(0).toUpperCase() +
+                    column.id
+                        .slice(1)
+                        .replace(/([A-Z])/g, " $1")
+                        .trim()
+                );
+            });
+
+            const data = table.getFilteredRowModel().rows.map((row) => {
+                return visibleColumns.map((column) => {
+                    const cellValue = row.getValue(column.id);
+
+                    if (column.id === "createdDate" || column.id === "modifiedDate") {
+                        return cellValue ? new Date(cellValue as string).toLocaleString() : "";
+                    }
+
+                    return cellValue !== null && cellValue !== undefined ? cellValue : "";
+                });
+            });
+
+            const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Activation Summary");
+
+            XLSX.writeFile(wb, "activation-summary_list.xlsx");
+
+            toast.success("Excel file downloaded successfully");
+        } catch (error) {
+            printLogs("Error downloading Brand Excel:", error);
+            toast.error("Failed to download Excel file");
+        }
+    };
+
     const toolbarAttributes = [
         <Input
             placeholder="Filter tasks..."
@@ -169,7 +221,11 @@ function ActivationList() {
             inputPlaceholder="Search for a key..."
             emptyPlaceholder="Not found"
             className="w-fit"
-        />
+        />,
+        <Button variant="outline" size="sm" onClick={downloadAsExcel} className="ml-2">
+            <DownloadIcon className="mr-2 h-4 w-4" />
+            Export Excel
+        </Button>
     ];
 
     return (

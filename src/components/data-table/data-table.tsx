@@ -1,8 +1,8 @@
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { listLoadingAtom } from "@/store/atoms/global";
+import { DataTableProps } from "@/types/components/Table";
 import { flexRender } from "@tanstack/react-table";
 import { useRecoilValue } from "recoil";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
-import { listLoadingAtom } from "../../store/atoms/global";
-import { DataTableProps } from "../../types/components/Table";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 

@@ -1,4 +1,16 @@
+import { getColumns } from "@/components/core/view/common-columns";
 import DataTable from "@/components/data-table/data-table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useAuth } from "@/features/auth/auth-provider/AuthProvider";
+import { useUser } from "@/hooks/useUser";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import { printLogs } from "@/lib/logs";
+import ErrorService from "@/services/error/ErrorService";
+import MetadataService from "@/services/features/MetadataService";
+import OptionalColumns from "@/services/filter/OptionalColumns";
+import { listLoadingAtom } from "@/store/atoms/global";
+import { DownloadIcon } from "@radix-ui/react-icons";
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -15,19 +27,9 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import { priorities, statuses } from "./data";
-import { useAuth } from "@/features/auth/auth-provider/AuthProvider";
-import { useUser } from "@/hooks/useUser";
-import { listLoadingAtom } from "@/store/atoms/global";
-import MetadataService from "@/services/features/MetadataService";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
-import ErrorService from "@/services/error/ErrorService";
-import { Input } from "@/components/ui/input";
-import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
-import { getColumns } from "@/components/core/view/common-columns";
-import OptionalColumns from "@/services/filter/OptionalColumns";
+import * as XLSX from "xlsx";
 
-type Props = {
+type BrandTableProps = {
     brandList: Array<any>;
     setBrandList: (value: React.SetStateAction<any[]>) => void;
     filters?: Record<
@@ -42,7 +44,7 @@ type Props = {
     setIsFilterApplied: (b: boolean) => void;
 };
 
-function BrandTable({ brandList, setBrandList, filters, isFilterApplied, setIsFilterApplied }: Props) {
+function BrandTable({ brandList, setBrandList, filters, isFilterApplied, setIsFilterApplied }: BrandTableProps) {
     const userRole = useUser()?.role;
     const navigate = useNavigate();
     const setIsLoading = useSetRecoilState(listLoadingAtom);
@@ -57,7 +59,7 @@ function BrandTable({ brandList, setBrandList, filters, isFilterApplied, setIsFi
     }
 
     useEffect(() => {
-        if (isFilterApplied || filters && Object.keys(filters)?.length <= 0) {
+        if (isFilterApplied || (filters && Object.keys(filters)?.length <= 0)) {
             setOptionalColumns();
         }
     }, [filters, isFilterApplied]);
@@ -143,6 +145,54 @@ function BrandTable({ brandList, setBrandList, filters, isFilterApplied, setIsFi
         getFacetedUniqueValues: getFacetedUniqueValues()
     });
 
+    const downloadAsExcel = () => {
+        try {
+            const visibleColumns = table
+                .getAllColumns()
+                .filter((column) => column.getIsVisible() && column.id !== "actions");
+
+            const headers = visibleColumns.map((column) => {
+                if (column.id === "name") return "Brand name";
+                if (column.id === "createdDate") return "Created At";
+                if (column.id === "modifiedDate") return "Modified At";
+                if (column.id === "createdBy") return "Created By";
+                if (column.id === "modifiedBy") return "Modified By";
+
+                return (
+                    column.id.charAt(0).toUpperCase() +
+                    column.id
+                        .slice(1)
+                        .replace(/([A-Z])/g, " $1")
+                        .trim()
+                );
+            });
+
+            const data = table.getFilteredRowModel().rows.map((row) => {
+                return visibleColumns.map((column) => {
+                    const cellValue = row.getValue(column.id);
+
+                    if (column.id === "createdDate" || column.id === "modifiedDate") {
+                        return cellValue ? new Date(cellValue as string).toLocaleString() : "";
+                    }
+
+                    return cellValue !== null && cellValue !== undefined ? cellValue : "";
+                });
+            });
+
+            const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Brands");
+
+            XLSX.writeFile(wb, "brands_list.xlsx");
+
+            toast.success("Excel file downloaded successfully");
+        } catch (error) {
+            printLogs("Error downloading Brand Excel:", error);
+            toast.error("Failed to download Excel file");
+        }
+    };
+
     const toolbarAttributes = [
         <Input
             placeholder="Filter brands..."
@@ -150,6 +200,10 @@ function BrandTable({ brandList, setBrandList, filters, isFilterApplied, setIsFi
             onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
             className="h-8 w-[150px] lg:w-[250px]"
         />,
+        <Button variant="outline" size="sm" onClick={downloadAsExcel} className="ml-2">
+            <DownloadIcon className="mr-2 h-4 w-4" />
+            Export Excel
+        </Button>
         // <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
         // <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
     ];
