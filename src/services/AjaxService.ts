@@ -1,3 +1,4 @@
+import { printLogs } from "@/lib/logs";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 export type Resp = {
@@ -48,6 +49,8 @@ class AjaxService {
         } catch (error: any) {
             if (axios.isAxiosError(error)) {
                 if (error.code === "ERR_NETWORK") {
+                    printLogs("ERR_NETWORK | Interceptor ERROR data:", error.response?.data);
+                    printLogs("ERR_NETWORK | Interceptor ERROR status:", error.response?.status);
                     window.location.href = "/elucide/home";
                     localStorage.clear();
                     return { status: 0, data: {} };
