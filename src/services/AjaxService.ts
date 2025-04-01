@@ -51,7 +51,7 @@ class AjaxService {
                 if (error.code === "ERR_NETWORK") {
                     printLogs("ERR_NETWORK | Interceptor ERROR data:", error.response?.data);
                     printLogs("ERR_NETWORK | Interceptor ERROR status:", error.response?.status);
-                    // window.location.href = "/elucide/home";
+                    window.location.href = "/elucide/home";
                     localStorage.clear();
                     return { status: 0, data: {} };
                 }
