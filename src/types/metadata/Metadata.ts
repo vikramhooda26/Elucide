@@ -160,7 +160,12 @@ export const allColumnsSchema = () =>
     z.object({
         id: z.string().optional(),
         name: z.string().optional(),
-
+        league: z
+            .object({
+                id: z.string().optional(),
+                name: z.string().optional()
+            })
+            .optional(),
         // Athlete-specific fields
         athleteAge: z.string().optional(),
         athleteGender: z
