@@ -194,7 +194,7 @@ function LeagueList() {
                     leagueList[i].modifiedBy = league?.modifiedBy?.email || "N/A";
                 });
 
-                leagueList = FilterService.validateMatching(leagueList, filterValues[pageKey]);
+                leagueList = FilterService.validateMatching(leagueList, filterValues[pageKey], pageKey);
 
                 setIsFilterApplied(true);
 
