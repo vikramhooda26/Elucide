@@ -2,6 +2,7 @@ import { AllColumns, matched, notMatched, TMatrics } from "@/types/metadata/Meta
 import { FilterContent } from "../../components/core/filter/FilterModal";
 import { differenceInYears } from "date-fns";
 import { TAssociation } from "@/features/league/constants.ts/metadata";
+import { TPageKey } from "./FilterConfigs";
 
 class FilterService {
     static processFilterData(filterData: Record<string, { type: string; value: any; isMandatory: boolean }>) {
@@ -193,7 +194,8 @@ class FilterService {
 
     static validateMatching(
         listData: AllColumns[],
-        filters: Record<string, { type: string; value: any; isMandatory: boolean }>
+        filters: Record<string, { type: string; value: any; isMandatory: boolean }>,
+        pageKey: TPageKey
     ) {
         const finalList: any = [];
         const processedFilters = this.processFilterData(filters);
@@ -273,6 +275,10 @@ class FilterService {
             const partnerIdMetrics = filters?.partnerIdMetrics;
             const endorsement = filters?.endorsement; // done
 
+            if (leagueIds && data?.league && pageKey != "leagueList") {                
+                finalObj.league = leagueIds?.value.includes(data?.league?.id) ? matched : notMatched;
+            }
+            
             if (ageIds && data?.age) {
                 finalObj.age = data?.age?.some((age: any) => ageIds?.value.includes(age.id)) ? matched : notMatched;
             }
