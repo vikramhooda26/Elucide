@@ -6,6 +6,8 @@ import ModalWrapper from "@/components/modal/ModalWrapper";
 import { TAssociation } from "@/features/league/constants.ts/metadata";
 import Tooltip from "@/components/modal/Tooltip";
 import AssociationLevel from "@/components/core/view/AssociationLevel";
+import { TPageKey } from "./FilterConfigs";
+
 
 type CustomColumnDef<TData> = ColumnDef<TData> & {
     filterKey?: string;
@@ -19,7 +21,8 @@ class OptionalColumns {
                 value: any;
                 isMandatory: boolean;
             }
-        >
+        >,
+        pageKey: TPageKey
     ) {
         const matchedLabel = "Matched";
         const notMatchedLabel = "Not Matched";
@@ -158,6 +161,9 @@ class OptionalColumns {
                 { accessorKey: "contactLinkedin", filterKey: "contactLinkedin", title: "Contact LinkedIn" }
             ];
 
+        if (pageKey != "leagueList") {
+            columnConfigs.unshift({ accessorKey: "league", filterKey: "leagueIds", title: "League" });
+        }
 
         const optionalFilterKeys: string[] = [];
 
