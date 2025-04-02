@@ -8,6 +8,7 @@ import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
 import { printLogs } from "@/lib/logs";
 import ErrorService from "@/services/error/ErrorService";
 import MetadataService from "@/services/features/MetadataService";
+import { TPageKey } from "@/services/filter/FilterConfigs";
 import OptionalColumns from "@/services/filter/OptionalColumns";
 import { listLoadingAtom } from "@/store/atoms/global";
 import {
@@ -53,7 +54,8 @@ function LeagueTable({ leagueList, setLeagueList, filters, isFilterApplied, setI
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = useState<SortingState>([]);
-
+    const pageKey: TPageKey = "leagueList";
+    
     if (!userRole) {
         return;
     }
@@ -112,7 +114,7 @@ function LeagueTable({ leagueList, setLeagueList, filters, isFilterApplied, setI
 
     const setOptionalColumns = () => {
         if (filters) {
-            const optionalColumns = OptionalColumns.getOptionalColumns(filters);
+            const optionalColumns = OptionalColumns.getOptionalColumns(filters, pageKey);
             const updateColumns = [...columns];
             //@ts-ignore
             updateColumns?.splice(1, 0, ...optionalColumns);
