@@ -93,7 +93,7 @@ function BrandList() {
                     brandList[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
                 });
 
-                brandList = FilterService.validateMatching(brandList, filterValues[pageKey]);
+                brandList = FilterService.validateMatching(brandList, filterValues[pageKey], "brandList");
 
                 setIsFilterApplied(true);
 

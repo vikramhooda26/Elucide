@@ -1,8 +1,8 @@
-import { useRecoilState, useRecoilValue } from "recoil";
-import useMetadataStore from "../../hooks/useMetadataStore";
-import { filterState } from "../../store/atoms/filterAtom";
-import { FilterContent } from "../../components/core/filter/FilterModal";
-import { getListOfYears } from "../../features/utils/helpers";
+import { FilterContent } from "@/components/core/filter/FilterModal";
+import { getListOfYears } from "@/features/utils/helpers";
+import useMetadataStore from "@/hooks/useMetadataStore";
+import { filterState } from "@/store/atoms/filterAtom";
+import { useRecoilValue } from "recoil";
 
 export const pageKeys = ["brandList", "leagueList", "teamList", "athleteList", "allStakeList"];
 
@@ -94,7 +94,7 @@ function getFilters(pageKey: TPageKey) {
             isMandatory: false,
             step: 1,
             pageKeys: ["athleteList"],
-            allowReload: true,
+            allowReload: true
         },
 
         {
@@ -121,7 +121,7 @@ function getFilters(pageKey: TPageKey) {
             isMandatory: false,
             steps: { step1: 1, step2: 10 },
             pageKeys: ["leagueList", "teamList", "athleteList", "allStakeList"],
-            allowReload: true,
+            allowReload: true
         },
         {
             displayName: "Target Age",
@@ -629,7 +629,7 @@ function getFilters(pageKey: TPageKey) {
             isMandatory: false,
             steps: { step1: 10, step2: 50 },
             pageKeys: ["leagueList", "teamList"],
-            allowReload: true,
+            allowReload: true
         },
         {
             displayName: "Viewership",
@@ -644,7 +644,7 @@ function getFilters(pageKey: TPageKey) {
             isMandatory: false,
             steps: { step1: 10, step2: 50 },
             pageKeys: ["leagueList", "teamList"],
-            allowReload: true,
+            allowReload: true
         },
         {
             displayName: "Year",
@@ -659,7 +659,7 @@ function getFilters(pageKey: TPageKey) {
             isMandatory: false,
             steps: { step1: 1, step2: 50 },
             pageKeys: ["leagueList", "teamList"],
-            allowReload: true,
+            allowReload: true
         },
 
         {

@@ -1,19 +1,19 @@
+import { ConditionalButton } from "@/components/button/ConditionalButton";
+import FilterModal, { FilterContent } from "@/components/core/filter/FilterModal";
+import useNavigator from "@/hooks/useNavigator";
+import { useUser } from "@/hooks/useUser";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import ErrorService from "@/services/error/ErrorService";
+import AthleteService from "@/services/features/AthleteService";
+import { fetchFilters, TPageKey } from "@/services/filter/FilterConfigs";
+import FilterService from "@/services/filter/FilterService";
+import { filterState } from "@/store/atoms/filterAtom";
+import { listLoadingAtom } from "@/store/atoms/global";
+import { athlete } from "@/types/athlete/AthleteListTypes";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import { ConditionalButton } from "../../components/button/ConditionalButton";
-import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
-import useNavigator from "../../hooks/useNavigator";
-import { useUser } from "../../hooks/useUser";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import ErrorService from "../../services/error/ErrorService";
-import AthleteService from "../../services/features/AthleteService";
-import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
-import FilterService from "../../services/filter/FilterService";
-import { filterState } from "../../store/atoms/filterAtom";
-import { listLoadingAtom } from "../../store/atoms/global";
-import { athlete } from "../../types/athlete/AthleteListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import AthleteTable from "./data/AthleteTable";
 
@@ -90,7 +90,7 @@ function AthleteList() {
                     athleteList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
                 });
 
-                athleteList = FilterService.validateMatching(athleteList, filterValues[pageKey]);
+                athleteList = FilterService.validateMatching(athleteList, filterValues[pageKey], "athleteList");
 
                 setIsFilterApplied(true);
 
@@ -107,7 +107,7 @@ function AthleteList() {
         } finally {
             setIsLoading(false);
         }
-    };    
+    };
 
     return (
         <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">

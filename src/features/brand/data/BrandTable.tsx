@@ -112,7 +112,7 @@ function BrandTable({ brandList, setBrandList, filters, isFilterApplied, setIsFi
 
     const setOptionalColumns = () => {
         if (filters) {
-            const optionalColumns = OptionalColumns.getOptionalColumns(filters);
+            const optionalColumns = OptionalColumns.getOptionalColumns(filters, "brandList");
             const updateColumns = [...columns];
             //@ts-ignore
             updateColumns?.splice(1, 0, ...optionalColumns);

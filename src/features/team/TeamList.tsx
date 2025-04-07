@@ -1,20 +1,20 @@
+import { ConditionalButton } from "@/components/button/ConditionalButton";
+import FilterModal, { FilterContent } from "@/components/core/filter/FilterModal";
+import useNavigator from "@/hooks/useNavigator";
+import { useUser } from "@/hooks/useUser";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import ErrorService from "@/services/error/ErrorService";
+import TeamService from "@/services/features/TeamService";
+import { fetchFilters, TPageKey } from "@/services/filter/FilterConfigs";
+import FilterService from "@/services/filter/FilterService";
+import { filterState } from "@/store/atoms/filterAtom";
+import { listLoadingAtom } from "@/store/atoms/global";
+import { team } from "@/types/team/TeamListTypes";
 import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
-import { ConditionalButton } from "../../components/button/ConditionalButton";
-import FilterModal, { FilterContent } from "../../components/core/filter/FilterModal";
-import useNavigator from "../../hooks/useNavigator";
-import { useUser } from "../../hooks/useUser";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import ErrorService from "../../services/error/ErrorService";
-import TeamService from "../../services/features/TeamService";
-import { fetchFilters, TPageKey } from "../../services/filter/FilterConfigs";
-import FilterService from "../../services/filter/FilterService";
-import { filterState } from "../../store/atoms/filterAtom";
-import { listLoadingAtom } from "../../store/atoms/global";
-import { team } from "../../types/team/TeamListTypes";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import TeamTable from "./data/TeamTable";
 
@@ -74,7 +74,7 @@ function TeamList() {
 
     const handleApplyFilters = async () => {
         try {
-             if (!filterValues[pageKey] || (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length <= 0)) {
+            if (!filterValues[pageKey] || (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length <= 0)) {
                 fetchTeams();
                 return;
             }
@@ -98,7 +98,7 @@ function TeamList() {
                     teamList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
                 });
 
-                teamList = FilterService.validateMatching(teamList, filterValues[pageKey]);
+                teamList = FilterService.validateMatching(teamList, filterValues[pageKey], "teamList");
 
                 setIsFilterApplied(true);
 

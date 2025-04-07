@@ -112,7 +112,7 @@ function AthleteTable({ athletes, setAthletes, filters, isFilterApplied, setIsFi
 
     const setOptionalColumns = () => {
         if (filters) {
-            const optionalColumns = OptionalColumns.getOptionalColumns(filters);
+            const optionalColumns = OptionalColumns.getOptionalColumns(filters, "athleteList");
             const updateColumns = [...columns];
             //@ts-ignore
             updateColumns?.splice(1, 0, ...optionalColumns);

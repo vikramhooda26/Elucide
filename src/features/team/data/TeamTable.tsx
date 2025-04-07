@@ -112,7 +112,7 @@ function TeamTable({ teamList, setTeamList, filters, isFilterApplied, setIsFilte
 
     const setOptionalColumns = () => {
         if (filters) {
-            const optionalColumns = OptionalColumns.getOptionalColumns(filters);
+            const optionalColumns = OptionalColumns.getOptionalColumns(filters, "teamList");
             const updateColumns = [...columns];
             //@ts-ignore
             updateColumns?.splice(1, 0, ...optionalColumns);
