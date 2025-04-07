@@ -527,11 +527,7 @@ export function TeamForm() {
                                 variant="outline"
                                 size="sm"
                                 disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
-                                onClick={() =>
-                                    navigate(NAVIGATION_ROUTES.TEAM_LIST, {
-                                        replace: true
-                                    })
-                                }
+                                onClick={() => navigate(-1)}
                                 type="button"
                             >
                                 Discard
