@@ -139,7 +139,7 @@ function Explore() {
             <div>
                 {/* <h3 className="my-4 text-2xl tracking-tight">List Of Brands</h3>
                 <BrandTable brandList={brandList} setBrandList={setBrandList} /> */}
-                <h3 className="my-4 text-2xl tracking-tight">List Of Leagues</h3>
+                <h3 className="my-4 text-2xl font-bold tracking-tight">List Of Leagues</h3>
                 <LeagueTable
                     leagueList={leagueList}
                     setLeagueList={setLeagueList}
@@ -147,7 +147,7 @@ function Explore() {
                     isFilterApplied={isFilterApplied}
                     setIsFilterApplied={setIsFilterApplied}
                 />
-                <h3 className="my-4 text-2xl tracking-tight">List Of Teams</h3>
+                <h3 className="my-4 text-2xl font-bold tracking-tight">List Of Teams</h3>
                 <TeamTable
                     teamList={teamList}
                     setTeamList={setTeamList}
@@ -155,7 +155,7 @@ function Explore() {
                     isFilterApplied={isFilterApplied}
                     setIsFilterApplied={setIsFilterApplied}
                 />
-                <h3 className="my-4 text-2xl tracking-tight">List Of Athletes</h3>
+                <h3 className="my-4 text-2xl font-bold tracking-tight">List Of Athletes</h3>
                 <AthleteTable
                     athletes={athletes}
                     setAthletes={setAthletes}
