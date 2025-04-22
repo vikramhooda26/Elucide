@@ -3,4 +3,3 @@
 
 npx lint-staged
 
-git add .
