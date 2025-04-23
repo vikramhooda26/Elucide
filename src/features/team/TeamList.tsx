@@ -198,7 +198,10 @@ function TeamList() {
             filters={filterConfig}
             onClose={() => setIsFilterModalOpen(false)}
             onApplyFilters={handleApplyFilters}
-            onDiscardFilters={fetchTeams}
+            onDiscardFilters={() => {
+              setIsFilterApplied(false);
+              fetchTeams(pagination.pageIndex, pagination.pageSize, sorting);
+            }}
             pageKey={pageKey}
           />
           <ConditionalButton onClick={() => navigator(NAVIGATION_ROUTES.CREATE_TEAM)} accessLevel="all_staff">
