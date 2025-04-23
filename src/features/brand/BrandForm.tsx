@@ -350,6 +350,7 @@ function BrandForm() {
       if (id) {
         const response = await BrandService.editBrand(id, brandFormValues);
         if (response.status === HTTP_STATUS_CODES.OK) {
+          initialFormData.current = form.getValues();
           toast.success("Brand updated successfully");
         }
         return;
