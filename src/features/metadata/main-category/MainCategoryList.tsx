@@ -1,14 +1,14 @@
 import {
-    ColumnFiltersState,
-    getCoreRowModel,
-    getFacetedRowModel,
-    getFacetedUniqueValues,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
-    SortingState,
-    useReactTable,
-    VisibilityState
+  ColumnFiltersState,
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+  VisibilityState
 } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,144 +31,144 @@ import { getColumns } from "../../../components/core/view/common-columns";
 import { ConditionalButton } from "../../../components/button/ConditionalButton";
 
 function MainCategoryList() {
-    const navigator = useNavigator();
-    const [dataList, setDataList] = useState<any[]>([]);
-    const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const setIsLoading = useSetRecoilState(listLoadingAtom);
+  const navigator = useNavigator();
+  const [dataList, setDataList] = useState<any[]>([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const setIsLoading = useSetRecoilState(listLoadingAtom);
 
-    const { logout } = useAuth();
-    const navigate = useNavigate();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
-    const userRole = useUser()?.role;
-    if (!userRole) {
-        return;
+  const userRole = useUser()?.role;
+  if (!userRole) {
+    return;
+  }
+
+  const fetchList = async () => {
+    try {
+      setIsLoading(true);
+      const response = await MetadataService.getAllMainCategory({});
+      if (response.status === HTTP_STATUS_CODES.OK) {
+        const mainCategories = response.data;
+        mainCategories.forEach((mainCategory: team, i: number) => {
+          mainCategories[i].createdBy = mainCategory?.createdBy?.email || "N/A";
+          mainCategories[i].modifiedBy = mainCategory?.modifiedBy?.email || "N/A";
+        });
+        setDataList(mainCategories);
+      }
+    } catch (error) {
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
+        toast.error("An unknown error occurred");
+      }
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    const fetchList = async () => {
-        try {
-            setIsLoading(true);
-            const response = await MetadataService.getAllMainCategory({});
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                const mainCategories = response.data;
-                mainCategories.forEach((mainCategory: team, i: number) => {
-                    mainCategories[i].createdBy = mainCategory?.createdBy?.email || "N/A";
-                    mainCategories[i].modifiedBy = mainCategory?.modifiedBy?.email || "N/A";
-                });
-                setDataList(mainCategories);
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
-                toast.error("An unknown error occurred");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  useEffect(() => {
+    fetchList();
+  }, []);
 
-    useEffect(() => {
-        fetchList();
-    }, []);
+  const onDelete = useCallback(async (id: string) => {
+    try {
+      setIsLoading(true);
+      const response = await MetadataService.deleteData(id, "/api/admin/category/delete/");
 
-    const onDelete = useCallback(async (id: string) => {
-        try {
-            setIsLoading(true);
-            const response = await MetadataService.deleteData(id, "/api/admin/category/delete/");
+      if (response.status === HTTP_STATUS_CODES.OK) {
+        toast.success("Deleted successfully");
+        setDataList((prevDataList) => prevDataList.filter((data) => data.id !== id));
+      }
+    } catch (error) {
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
 
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Deleted successfully");
-                setDataList((prevDataList) => prevDataList.filter((data) => data.id !== id));
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+        setDataList((prevDataList) => prevDataList.filter((data) => data.id !== id));
+      } else {
+        toast.error("Could not delete this data");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setDataList((prevDataList) => prevDataList.filter((data) => data.id !== id));
-            } else {
-                toast.error("Could not delete this data");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    }, []);
+  const onEdit = useCallback((id: string) => {
+    navigate(`${NAVIGATION_ROUTES.MAIN_CATEGORY_EDIT}/${id}`);
+  }, []);
 
-    const onEdit = useCallback((id: string) => {
-        navigate(`${NAVIGATION_ROUTES.MAIN_CATEGORY_EDIT}/${id}`);
-    }, []);
+  const viewRoute = NAVIGATION_ROUTES.MAIN_CATEGORY;
 
-    const viewRoute = NAVIGATION_ROUTES.MAIN_CATEGORY;
+  const canEdit = userRole === "SUPER_ADMIN";
 
-    const canEdit = userRole === "SUPER_ADMIN";
+  const columns = useMemo(
+    () =>
+      getColumns({
+        onDelete,
+        onEdit,
+        userRole,
+        viewRoute,
+        searchQuerykey: "categoryName",
+        title: "Main Category",
+        canEdit
+      }),
+    []
+  );
 
-    const columns = useMemo(
-        () =>
-            getColumns({
-                onDelete,
-                onEdit,
-                userRole,
-                viewRoute,
-                searchQuerykey: "categoryName",
-                title: "Main Category",
-                canEdit
-            }),
-        []
-    );
+  const table = useReactTable({
+    data: dataList,
+    columns,
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters
+    },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues()
+  });
 
-    const table = useReactTable({
-        data: dataList,
-        columns,
-        state: {
-            sorting,
-            columnVisibility,
-            rowSelection,
-            columnFilters
-        },
-        enableRowSelection: true,
-        onRowSelectionChange: setRowSelection,
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
-        onColumnVisibilityChange: setColumnVisibility,
-        getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues()
-    });
+  const toolbarAttributes = [
+    <Input
+      placeholder="Filter tasks..."
+      value={(table.getColumn("categoryName")?.getFilterValue() as string) ?? ""}
+      onChange={(event) => table.getColumn("categoryName")?.setFilterValue(event.target.value)}
+      className="h-8 w-[150px] lg:w-[250px]"
+    />
+    // <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
+    // <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
+  ];
 
-    const toolbarAttributes = [
-        <Input
-            placeholder="Filter tasks..."
-            value={(table.getColumn("categoryName")?.getFilterValue() as string) ?? ""}
-            onChange={(event) => table.getColumn("categoryName")?.setFilterValue(event.target.value)}
-            className="h-8 w-[150px] lg:w-[250px]"
-        />,
-        // <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
-        // <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
-    ];
-
-    return (
-        <div className="h-full flex-1 flex-col space-y-8 md:flex">
-            <div className="flex items-center justify-between space-y-2">
-                <div>
-                    <h2 className="text-2xl font-bold tracking-tight">Main Category List</h2>
-                    <p className="text-muted-foreground">Here&apos;s a list of main categories.</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <ConditionalButton
-                        onClick={() => navigator(NAVIGATION_ROUTES.MAIN_CATEGORY_CREATE)}
-                        accessLevel="super_admin"
-                    >
-                        Create Main Category
-                    </ConditionalButton>
-                </div>
-            </div>
-            <DataTable table={table} columns={columns} toolbarAttributes={toolbarAttributes} />
+  return (
+    <div className="h-full flex-1 flex-col space-y-8 md:flex">
+      <div className="flex items-center justify-between space-y-2">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Main Category List</h2>
+          <p className="text-muted-foreground">Here&apos;s a list of main categories.</p>
         </div>
-    );
+        <div className="flex items-center space-x-2">
+          <ConditionalButton
+            onClick={() => navigator(NAVIGATION_ROUTES.MAIN_CATEGORY_CREATE)}
+            accessLevel="super_admin"
+          >
+            Create Main Category
+          </ConditionalButton>
+        </div>
+      </div>
+      <DataTable table={table} columns={columns} toolbarAttributes={toolbarAttributes} />
+    </div>
+  );
 }
 
 export default MainCategoryList;

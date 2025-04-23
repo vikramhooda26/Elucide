@@ -3,16 +3,16 @@ import "../styles/loader.css";
 const bars = Array(12).fill(0);
 
 const Loader = ({ visible }: { visible: boolean }) => {
-    if (visible)
-        return (
-            <div className="sonner-loading-wrapper" data-visible={visible}>
-                <div className="sonner-spinner">
-                    {bars.map((_, i) => (
-                        <div className={"sonner-loading-bar"} key={`spinner-bar-${i}`} />
-                    ))}
-                </div>
-            </div>
-        );
+  if (visible)
+    return (
+      <div className="sonner-loading-wrapper" data-visible={visible}>
+        <div className="sonner-spinner">
+          {bars.map((_, i) => (
+            <div className={"sonner-loading-bar"} key={`spinner-bar-${i}`} />
+          ))}
+        </div>
+      </div>
+    );
 };
 
 export default Loader;

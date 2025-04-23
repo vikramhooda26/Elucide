@@ -2,34 +2,34 @@ import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import { NAVIGATION_ROUTES } from "../../../lib/constants";
 
 export const routes = {
-    editRoute: NAVIGATION_ROUTES.ACTIVATION_EDIT,
-    copyRoute: NAVIGATION_ROUTES.ACTIVATION_EDIT,
-    deleteRoute: () => {},
-    deleteCall: async () => false
+  editRoute: NAVIGATION_ROUTES.ACTIVATION_EDIT,
+  copyRoute: NAVIGATION_ROUTES.ACTIVATION_EDIT,
+  deleteRoute: () => {},
+  deleteCall: async () => false
 };
 
 export const statuses = [
-    {
-        value: "recent",
-        label: "Recent",
-        icon: ArrowDownIcon
-    },
-    {
-        value: "earlier",
-        label: "Earlier",
-        icon: ArrowUpIcon
-    }
+  {
+    value: "recent",
+    label: "Recent",
+    icon: ArrowDownIcon
+  },
+  {
+    value: "earlier",
+    label: "Earlier",
+    icon: ArrowUpIcon
+  }
 ];
 
 export const priorities = [
-    {
-        value: "recent",
-        label: "Recent",
-        icon: ArrowDownIcon
-    },
-    {
-        value: "earlier",
-        label: "Earlier",
-        icon: ArrowUpIcon
-    }
+  {
+    value: "recent",
+    label: "Recent",
+    icon: ArrowDownIcon
+  },
+  {
+    value: "earlier",
+    label: "Earlier",
+    icon: ArrowUpIcon
+  }
 ];

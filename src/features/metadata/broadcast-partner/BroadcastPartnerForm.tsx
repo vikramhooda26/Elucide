@@ -17,114 +17,114 @@ import { broadcastPartnerFormSchema, TBroadcastPartnerFormSchema } from "./const
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function BroadcastPartnerForm() {
-    const { logout } = useAuth();
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { logout } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const { id } = useParams();
+  const { id } = useParams();
 
-    const user = useRecoilValue(userAtom);
+  const user = useRecoilValue(userAtom);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const form = useForm<TBroadcastPartnerFormSchema>({
-        resolver: zodResolver(broadcastPartnerFormSchema),
-        defaultValues: {
-            userId: user?.id
+  const form = useForm<TBroadcastPartnerFormSchema>({
+    resolver: zodResolver(broadcastPartnerFormSchema),
+    defaultValues: {
+      userId: user?.id
+    }
+  });
+
+  useEffect(() => {
+    const fetchBroadcastPartnerDetails = async (id: string) => {
+      try {
+        setIsLoading(true);
+        const response = await MetadataService.getOneBroadcastPartner(id);
+        if (response.status === HTTP_STATUS_CODES.OK) {
+          form.reset({
+            broadcastPartnerName: response.data.broadcastPartnerName
+          });
         }
-    });
-
-    useEffect(() => {
-        const fetchBroadcastPartnerDetails = async (id: string) => {
-            try {
-                setIsLoading(true);
-                const response = await MetadataService.getOneBroadcastPartner(id);
-                if (response.status === HTTP_STATUS_CODES.OK) {
-                    form.reset({
-                        broadcastPartnerName: response.data.broadcastPartnerName
-                    });
-                }
-            } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                    toast.error("This broadcast partner does not exists");
-                    navigate(-1);
-                } else {
-                    toast.error("An unknown error occurred");
-                }
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        if (id) {
-            fetchBroadcastPartnerDetails(id);
+      } catch (error) {
+        const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+        if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+          toast.error("This broadcast partner does not exists");
+          navigate(-1);
+        } else {
+          toast.error("An unknown error occurred");
         }
-    }, [id]);
-
-    const onSubmit = async (broadcastPartnerFormValues: TBroadcastPartnerFormSchema) => {
-        try {
-            setIsSubmitting(true);
-            const requestBody = {
-                ...broadcastPartnerFormValues,
-                userId: user?.id
-            };
-            if (id) {
-                const response = await MetadataService.editBroadcastPartner(id, requestBody);
-                if (response.status === HTTP_STATUS_CODES.OK) {
-                    toast.success("Broadcast Partner updated successfully");
-                }
-                return;
-            }
-            const response = await MetadataService.createBroadcastPartner(requestBody);
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Broadcast Partner created successfully");
-                form.reset({
-                    broadcastPartnerName: ""
-                });
-            }
-        } catch (error) {
-            console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError) {
-                toast.error("An unknown error occurred");
-            }
-        } finally {
-            setIsSubmitting(false);
-        }
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    useEffect(() => {
-        if (isSubmitting) {
-            form.control._disableForm(true);
-        } else {
-            form.control._disableForm(false);
-        }
-    }, [isSubmitting]);
+    if (id) {
+      fetchBroadcastPartnerDetails(id);
+    }
+  }, [id]);
 
-    return (
-        <SingleInputForm
-            onSubmit={onSubmit}
-            form={form}
-            title="Broadcast Partner"
-            isSubmitting={isSubmitting || isLoading}
-            isEdit={Boolean(id)}
-        >
-            {isLoading ? (
-                <FormSkeleton />
-            ) : (
-                <FormField
-                    control={form.control}
-                    name="broadcastPartnerName"
-                    render={({ field }) => (
-                        <FormItemWrapper label="Broadcast Partner name">
-                            <Input {...field} placeholder="Broadcast Partner name" />
-                        </FormItemWrapper>
-                    )}
-                />
-            )}
-        </SingleInputForm>
-    );
+  const onSubmit = async (broadcastPartnerFormValues: TBroadcastPartnerFormSchema) => {
+    try {
+      setIsSubmitting(true);
+      const requestBody = {
+        ...broadcastPartnerFormValues,
+        userId: user?.id
+      };
+      if (id) {
+        const response = await MetadataService.editBroadcastPartner(id, requestBody);
+        if (response.status === HTTP_STATUS_CODES.OK) {
+          toast.success("Broadcast Partner updated successfully");
+        }
+        return;
+      }
+      const response = await MetadataService.createBroadcastPartner(requestBody);
+      if (response.status === HTTP_STATUS_CODES.OK) {
+        toast.success("Broadcast Partner created successfully");
+        form.reset({
+          broadcastPartnerName: ""
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError) {
+        toast.error("An unknown error occurred");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isSubmitting) {
+      form.control._disableForm(true);
+    } else {
+      form.control._disableForm(false);
+    }
+  }, [isSubmitting]);
+
+  return (
+    <SingleInputForm
+      onSubmit={onSubmit}
+      form={form}
+      title="Broadcast Partner"
+      isSubmitting={isSubmitting || isLoading}
+      isEdit={Boolean(id)}
+    >
+      {isLoading ? (
+        <FormSkeleton />
+      ) : (
+        <FormField
+          control={form.control}
+          name="broadcastPartnerName"
+          render={({ field }) => (
+            <FormItemWrapper label="Broadcast Partner name">
+              <Input {...field} placeholder="Broadcast Partner name" />
+            </FormItemWrapper>
+          )}
+        />
+      )}
+    </SingleInputForm>
+  );
 }
 
 export default BroadcastPartnerForm;

@@ -17,114 +17,114 @@ import { marketingPlatformFormSchema, TMarketingPlatformFormSchema } from "./con
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function MarketingPlatformForm() {
-    const { logout } = useAuth();
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { logout } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const { id } = useParams();
+  const { id } = useParams();
 
-    const user = useRecoilValue(userAtom);
+  const user = useRecoilValue(userAtom);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const form = useForm<TMarketingPlatformFormSchema>({
-        resolver: zodResolver(marketingPlatformFormSchema),
-        defaultValues: {
-            userId: user?.id
+  const form = useForm<TMarketingPlatformFormSchema>({
+    resolver: zodResolver(marketingPlatformFormSchema),
+    defaultValues: {
+      userId: user?.id
+    }
+  });
+
+  useEffect(() => {
+    const fetchGenderDetails = async (id: string) => {
+      try {
+        setIsLoading(true);
+        const response = await MetadataService.getOneMarketingPlatform(id);
+        if (response.status === HTTP_STATUS_CODES.OK) {
+          form.reset({
+            marketingPlatformName: response.data.marketingPlatformName
+          });
         }
-    });
-
-    useEffect(() => {
-        const fetchGenderDetails = async (id: string) => {
-            try {
-                setIsLoading(true);
-                const response = await MetadataService.getOneMarketingPlatform(id);
-                if (response.status === HTTP_STATUS_CODES.OK) {
-                    form.reset({
-                        marketingPlatformName: response.data.marketingPlatformName
-                    });
-                }
-            } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                    toast.error("This marketing platform does not exists");
-                    navigate(-1);
-                } else {
-                    toast.error("An unknown error occurred");
-                }
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        if (id) {
-            fetchGenderDetails(id);
+      } catch (error) {
+        const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+        if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+          toast.error("This marketing platform does not exists");
+          navigate(-1);
+        } else {
+          toast.error("An unknown error occurred");
         }
-    }, [id]);
-
-    const onSubmit = async (marketingPlatformFormValues: TMarketingPlatformFormSchema) => {
-        try {
-            setIsSubmitting(true);
-            const requestBody = {
-                ...marketingPlatformFormValues,
-                userId: user?.id
-            };
-            if (id) {
-                const response = await MetadataService.editMarketingPlatform(id, requestBody);
-                if (response.status === HTTP_STATUS_CODES.OK) {
-                    toast.success("Marketing platform updated successfully");
-                }
-                return;
-            }
-            const response = await MetadataService.createMarketingPlatform(requestBody);
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Marketing platform created successfully");
-                form.reset({
-                    marketingPlatformName: ""
-                });
-            }
-        } catch (error) {
-            console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError) {
-                toast.error("An unknown error occurred");
-            }
-        } finally {
-            setIsSubmitting(false);
-        }
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    useEffect(() => {
-        if (isSubmitting) {
-            form.control._disableForm(true);
-        } else {
-            form.control._disableForm(false);
-        }
-    }, [isSubmitting]);
+    if (id) {
+      fetchGenderDetails(id);
+    }
+  }, [id]);
 
-    return (
-        <SingleInputForm
-            onSubmit={onSubmit}
-            form={form}
-            title="Marketing platform"
-            isSubmitting={isSubmitting || isLoading}
-            isEdit={Boolean(id)}
-        >
-            {isLoading ? (
-                <FormSkeleton />
-            ) : (
-                <FormField
-                    control={form.control}
-                    name="marketingPlatformName"
-                    render={({ field }) => (
-                        <FormItemWrapper label="Marketing platform name">
-                            <Input {...field} placeholder="Marketing platform name" />
-                        </FormItemWrapper>
-                    )}
-                />
-            )}
-        </SingleInputForm>
-    );
+  const onSubmit = async (marketingPlatformFormValues: TMarketingPlatformFormSchema) => {
+    try {
+      setIsSubmitting(true);
+      const requestBody = {
+        ...marketingPlatformFormValues,
+        userId: user?.id
+      };
+      if (id) {
+        const response = await MetadataService.editMarketingPlatform(id, requestBody);
+        if (response.status === HTTP_STATUS_CODES.OK) {
+          toast.success("Marketing platform updated successfully");
+        }
+        return;
+      }
+      const response = await MetadataService.createMarketingPlatform(requestBody);
+      if (response.status === HTTP_STATUS_CODES.OK) {
+        toast.success("Marketing platform created successfully");
+        form.reset({
+          marketingPlatformName: ""
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError) {
+        toast.error("An unknown error occurred");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isSubmitting) {
+      form.control._disableForm(true);
+    } else {
+      form.control._disableForm(false);
+    }
+  }, [isSubmitting]);
+
+  return (
+    <SingleInputForm
+      onSubmit={onSubmit}
+      form={form}
+      title="Marketing platform"
+      isSubmitting={isSubmitting || isLoading}
+      isEdit={Boolean(id)}
+    >
+      {isLoading ? (
+        <FormSkeleton />
+      ) : (
+        <FormField
+          control={form.control}
+          name="marketingPlatformName"
+          render={({ field }) => (
+            <FormItemWrapper label="Marketing platform name">
+              <Input {...field} placeholder="Marketing platform name" />
+            </FormItemWrapper>
+          )}
+        />
+      )}
+    </SingleInputForm>
+  );
 }
 
 export default MarketingPlatformForm;

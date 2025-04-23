@@ -11,37 +11,37 @@ import { GradientButton } from "../../components/ui/gradient-button";
 import { ChevronsUp } from "lucide-react";
 
 export const Home = () => {
-    const words = ["Brands", "Teams", "Athletes", "Leagues"];
-    const approachRef = useRef<HTMLDivElement>(null);
-    const { setTheme } = useTheme();
+  const words = ["Brands", "Teams", "Athletes", "Leagues"];
+  const approachRef = useRef<HTMLDivElement>(null);
+  const { setTheme } = useTheme();
 
-    useEffect(() => {
-        setTheme("dark");
+  useEffect(() => {
+    setTheme("dark");
 
-         // If not authenticated, ensure all Chatling elements are removed
-         const existingScript = document.getElementById("chatling-embed-script");
-         if (existingScript) {
-           existingScript.remove();
-         }
-    }, []);
+    // If not authenticated, ensure all Chatling elements are removed
+    const existingScript = document.getElementById("chatling-embed-script");
+    if (existingScript) {
+      existingScript.remove();
+    }
+  }, []);
 
-    const handleScrollToTop = () => {
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    };
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  };
 
-    return (
-        <div className="min-h-dvh w-full overflow-hidden">
-            <Hero approachRef={approachRef} words={words} />
-            <AboutUs />
-            <Approach approachRef={approachRef} />
-            <Features />
-            <Clients />
-            <ScrollToTopButtonWrapper>
-                <GradientButton className="rounded-full !px-4" onClick={handleScrollToTop}>
-                    <ChevronsUp className="h-5 w-5" />
-                </GradientButton>
-            </ScrollToTopButtonWrapper>
-            <Footer />
-        </div>
-    );
+  return (
+    <div className="min-h-dvh w-full overflow-hidden">
+      <Hero approachRef={approachRef} words={words} />
+      <AboutUs />
+      <Approach approachRef={approachRef} />
+      <Features />
+      <Clients />
+      <ScrollToTopButtonWrapper>
+        <GradientButton className="rounded-full !px-4" onClick={handleScrollToTop}>
+          <ChevronsUp className="h-5 w-5" />
+        </GradientButton>
+      </ScrollToTopButtonWrapper>
+      <Footer />
+    </div>
+  );
 };

@@ -17,114 +17,114 @@ import { territoryFormSchema, TTerritoryFormSchema } from "./constants/metadata"
 import { FormSkeleton } from "../../../components/core/form/form-skeleton";
 
 function TerritoryForm() {
-    const { logout } = useAuth();
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { logout } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const { id } = useParams();
+  const { id } = useParams();
 
-    const user = useRecoilValue(userAtom);
+  const user = useRecoilValue(userAtom);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const form = useForm<TTerritoryFormSchema>({
-        resolver: zodResolver(territoryFormSchema),
-        defaultValues: {
-            userId: user?.id
+  const form = useForm<TTerritoryFormSchema>({
+    resolver: zodResolver(territoryFormSchema),
+    defaultValues: {
+      userId: user?.id
+    }
+  });
+
+  useEffect(() => {
+    const fetchTerritoryDetails = async (id: string) => {
+      try {
+        setIsLoading(true);
+        const response = await MetadataService.getOneTerritory(id);
+        if (response.status === HTTP_STATUS_CODES.OK) {
+          form.reset({
+            territoryName: response.data.territoryName
+          });
         }
-    });
-
-    useEffect(() => {
-        const fetchTerritoryDetails = async (id: string) => {
-            try {
-                setIsLoading(true);
-                const response = await MetadataService.getOneTerritory(id);
-                if (response.status === HTTP_STATUS_CODES.OK) {
-                    form.reset({
-                        territoryName: response.data.territoryName
-                    });
-                }
-            } catch (error) {
-                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-                if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                    toast.error("This territory does not exists");
-                    navigate(-1);
-                } else {
-                    toast.error("An unknown error occurred");
-                }
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        if (id) {
-            fetchTerritoryDetails(id);
+      } catch (error) {
+        const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+        if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+          toast.error("This territory does not exists");
+          navigate(-1);
+        } else {
+          toast.error("An unknown error occurred");
         }
-    }, [id]);
-
-    const onSubmit = async (territoryFormValues: TTerritoryFormSchema) => {
-        try {
-            setIsSubmitting(true);
-            const requestBody = {
-                ...territoryFormValues,
-                userId: user?.id
-            };
-            if (id) {
-                const response = await MetadataService.editTerritory(id, requestBody);
-                if (response.status === HTTP_STATUS_CODES.OK) {
-                    toast.success("Territory updated successfully");
-                }
-                return;
-            }
-            const response = await MetadataService.createTerritory(requestBody);
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Territory created successfully");
-                form.reset({
-                    territoryName: ""
-                });
-            }
-        } catch (error) {
-            console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError) {
-                toast.error("An unknown error occurred");
-            }
-        } finally {
-            setIsSubmitting(false);
-        }
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    useEffect(() => {
-        if (isSubmitting) {
-            form.control._disableForm(true);
-        } else {
-            form.control._disableForm(false);
-        }
-    }, [isSubmitting]);
+    if (id) {
+      fetchTerritoryDetails(id);
+    }
+  }, [id]);
 
-    return (
-        <SingleInputForm
-            onSubmit={onSubmit}
-            form={form}
-            title="Territory"
-            isSubmitting={isSubmitting || isLoading}
-            isEdit={Boolean(id)}
-        >
-            {isLoading ? (
-                <FormSkeleton />
-            ) : (
-                <FormField
-                    control={form.control}
-                    name="territoryName"
-                    render={({ field }) => (
-                        <FormItemWrapper label="Territory name">
-                            <Input {...field} placeholder="Territory name" />
-                        </FormItemWrapper>
-                    )}
-                />
-            )}
-        </SingleInputForm>
-    );
+  const onSubmit = async (territoryFormValues: TTerritoryFormSchema) => {
+    try {
+      setIsSubmitting(true);
+      const requestBody = {
+        ...territoryFormValues,
+        userId: user?.id
+      };
+      if (id) {
+        const response = await MetadataService.editTerritory(id, requestBody);
+        if (response.status === HTTP_STATUS_CODES.OK) {
+          toast.success("Territory updated successfully");
+        }
+        return;
+      }
+      const response = await MetadataService.createTerritory(requestBody);
+      if (response.status === HTTP_STATUS_CODES.OK) {
+        toast.success("Territory created successfully");
+        form.reset({
+          territoryName: ""
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError) {
+        toast.error("An unknown error occurred");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isSubmitting) {
+      form.control._disableForm(true);
+    } else {
+      form.control._disableForm(false);
+    }
+  }, [isSubmitting]);
+
+  return (
+    <SingleInputForm
+      onSubmit={onSubmit}
+      form={form}
+      title="Territory"
+      isSubmitting={isSubmitting || isLoading}
+      isEdit={Boolean(id)}
+    >
+      {isLoading ? (
+        <FormSkeleton />
+      ) : (
+        <FormField
+          control={form.control}
+          name="territoryName"
+          render={({ field }) => (
+            <FormItemWrapper label="Territory name">
+              <Input {...field} placeholder="Territory name" />
+            </FormItemWrapper>
+          )}
+        />
+      )}
+    </SingleInputForm>
+  );
 }
 
 export default TerritoryForm;

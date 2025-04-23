@@ -1,7 +1,7 @@
 declare global {
-    interface Window {
-        chtlConfig?: {
-            chatbotId: string;
-        };
-    }
+  interface Window {
+    chtlConfig?: {
+      chatbotId: string;
+    };
+  }
 }

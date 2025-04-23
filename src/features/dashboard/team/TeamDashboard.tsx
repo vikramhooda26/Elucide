@@ -18,145 +18,142 @@ import { ChartConfig } from "../../../components/ui/chart";
 import { getRandomColor } from "../../utils/helpers";
 
 type TDashBoardData = {
-    teamsCount: number;
-    numberOfTeamsPerSport: {
-        chartData: TchartData[];
-        chartConfig: ChartConfig;
-    };
-    numberOfTeamsPerState: TableData[];
-    recentlyAddedTeams: Array<any>;
-    recentlyModifiedTeams: Array<any>;
+  teamsCount: number;
+  numberOfTeamsPerSport: {
+    chartData: TchartData[];
+    chartConfig: ChartConfig;
+  };
+  numberOfTeamsPerState: TableData[];
+  recentlyAddedTeams: Array<any>;
+  recentlyModifiedTeams: Array<any>;
 };
 
 type Props = {
-    setCount?: (num: number) => void;
+  setCount?: (num: number) => void;
 };
 
 function TeamDashboard({ setCount }: Props) {
-    const [dashboardData, setDashboardData] = useState<TDashBoardData>();
-    const setIsLoading = useSetRecoilState(listLoadingAtom);
-    const { logout } = useAuth();
-    const navigate = useNavigate();
+  const [dashboardData, setDashboardData] = useState<TDashBoardData>();
+  const setIsLoading = useSetRecoilState(listLoadingAtom);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
-    const userRole = useUser()?.role;
-    if (!userRole) {
-        return;
+  const userRole = useUser()?.role;
+  if (!userRole) {
+    return;
+  }
+
+  const fetch = async () => {
+    try {
+      setIsLoading(true);
+      const resp = await DashboardService.team();
+      if (resp?.status === HTTP_STATUS_CODES.OK) {
+        const data = resp?.data;
+
+        const recentCreated = data.recentlyAddedTeams?.slice(0, 6);
+
+        recentCreated.forEach((team: team, i: number) => {
+          recentCreated[i].createdBy = team?.createdBy?.email || "";
+          recentCreated[i].modifiedBy = team?.modifiedBy?.email || "";
+        });
+
+        data.recentlyAddedTeams = recentCreated;
+
+        const recentModified = data?.recentlyModifiedTeams?.slice(0, 6);
+
+        recentModified?.forEach((team: team, i: number) => {
+          recentModified[i].createdBy = team?.createdBy?.email || "";
+          recentModified[i].modifiedBy = team?.modifiedBy?.email || "";
+        });
+
+        data.recentlyModifiedTeams = recentModified;
+
+        data.numberOfTeamsPerState = data.numberOfTeamsPerState?.map((team: any, i: number) => {
+          return { hqState: team?.state || "", teamsCount: team?._count?.dashapp_team || 0 };
+        });
+
+        const chartData: TchartData[] = [];
+        const chartConfig: any = { total: { label: "Total Teams" } };
+
+        data?.numberOfTeamsPerSport?.forEach((d: any, i: number) => {
+          if (d?._count.dashapp_team > 0) {
+            chartData?.push({
+              name: d?.name || "",
+              total: d?._count.dashapp_team || 1,
+              fill: getRandomColor(i)
+            });
+            chartConfig[d?.name] = {
+              label: d?.name,
+              color: getRandomColor(i)
+            };
+          }
+        });
+
+        data.numberOfTeamsPerSport = { chartData, chartConfig };
+
+        setCount?.(data?.teamsCount || 0);
+        setDashboardData(data);
+      }
+    } catch (error) {
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError) {
+        toast.error("An unknown error occurred");
+      }
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    const fetch = async () => {
-        try {
-            setIsLoading(true);
-            const resp = await DashboardService.team();
-            if (resp?.status === HTTP_STATUS_CODES.OK) {
-                const data = resp?.data;
+  useEffect(() => {
+    fetch();
+  }, []);
 
-                const recentCreated = data.recentlyAddedTeams?.slice(0, 6);
+  const columnDefinitions: ColumnDefinition[] = [
+    { key: "hqState", label: "HQ State " },
+    { key: "teamsCount", label: "Number of Teams" }
+  ];
 
-                recentCreated.forEach((team: team, i: number) => {
-                    recentCreated[i].createdBy = team?.createdBy?.email || "";
-                    recentCreated[i].modifiedBy = team?.modifiedBy?.email || "";
-                });
+  const viewRoute = NAVIGATION_ROUTES.TEAM;
 
-                data.recentlyAddedTeams = recentCreated;
-
-                const recentModified = data?.recentlyModifiedTeams?.slice(0, 6);
-
-                recentModified?.forEach((team: team, i: number) => {
-                    recentModified[i].createdBy = team?.createdBy?.email || "";
-                    recentModified[i].modifiedBy = team?.modifiedBy?.email || "";
-                });
-
-                data.recentlyModifiedTeams = recentModified;
-
-                data.numberOfTeamsPerState = data.numberOfTeamsPerState?.map((team: any, i: number) => {
-                    return { hqState: team?.state || "", teamsCount: team?._count?.dashapp_team || 0 };
-                });
-
-                const chartData: TchartData[] = [];
-                const chartConfig: any = { total: { label: "Total Teams" } };
-
-                data?.numberOfTeamsPerSport?.forEach((d: any, i: number) => {
-                    if (d?._count.dashapp_team > 0) {
-                        chartData?.push({
-                            name: d?.name || "",
-                            total: d?._count.dashapp_team || 1,
-                            fill: getRandomColor(i)
-                        });
-                        chartConfig[d?.name] = {
-                            label: d?.name,
-                            color: getRandomColor(i)
-                        };
-                    }
-                });
-
-                data.numberOfTeamsPerSport = { chartData, chartConfig };
-
-                setCount?.(data?.teamsCount || 0);
-                setDashboardData(data);
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError) {
-                toast.error("An unknown error occurred");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetch();
-    }, []);
-
-    const columnDefinitions: ColumnDefinition[] = [
-        { key: "hqState", label: "HQ State " },
-        { key: "teamsCount", label: "Number of Teams" }
-    ];
-
-    const viewRoute = NAVIGATION_ROUTES.TEAM;
-
-    return (
-        <>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
-                <Card className="col-span-4">
-                    <CardHeader>
-                        <CardTitle>Overview</CardTitle>
-                    </CardHeader>
-                    <CardContent className="pl-2">
-                        <div className="pb-2 pl-4">Category Brands Overview</div>
-                        <div className="scrollbar h-96 overflow-y-scroll">
-                            <SimpleTable
-                                data={dashboardData?.numberOfTeamsPerState}
-                                columns={columnDefinitions}
-                                caption="Teams HQ State Overview"
-                            />
-                        </div>
-                    </CardContent>
-                </Card>
-                <Card className="col-span-4">
-                    <CardHeader>
-                        <CardTitle>Teams Per Sport</CardTitle>
-                    </CardHeader>
-                    <CardContent className="pl-2">
-                        <div className="pb-2 pl-4">Teams Per Sport Overview</div>
-                        {dashboardData?.numberOfTeamsPerSport ? (
-                            <PieChartComponent
-                                chart={dashboardData?.numberOfTeamsPerSport}
-                                displayName={"Team-Sports"}
-                            />
-                        ) : null}
-                    </CardContent>
-                </Card>
-                {/* </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8"> */}
-                <TeamRecentList
-                    recentlyCreated={dashboardData?.recentlyAddedTeams || []}
-                    recentlyModified={dashboardData?.recentlyModifiedTeams || []}
-                    viewRoute={viewRoute}
-                />
+  return (
+    <>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
+        <Card className="col-span-4">
+          <CardHeader>
+            <CardTitle>Overview</CardTitle>
+          </CardHeader>
+          <CardContent className="pl-2">
+            <div className="pb-2 pl-4">Category Brands Overview</div>
+            <div className="scrollbar h-96 overflow-y-scroll">
+              <SimpleTable
+                data={dashboardData?.numberOfTeamsPerState}
+                columns={columnDefinitions}
+                caption="Teams HQ State Overview"
+              />
             </div>
-        </>
-    );
+          </CardContent>
+        </Card>
+        <Card className="col-span-4">
+          <CardHeader>
+            <CardTitle>Teams Per Sport</CardTitle>
+          </CardHeader>
+          <CardContent className="pl-2">
+            <div className="pb-2 pl-4">Teams Per Sport Overview</div>
+            {dashboardData?.numberOfTeamsPerSport ? (
+              <PieChartComponent chart={dashboardData?.numberOfTeamsPerSport} displayName={"Team-Sports"} />
+            ) : null}
+          </CardContent>
+        </Card>
+        {/* </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8"> */}
+        <TeamRecentList
+          recentlyCreated={dashboardData?.recentlyAddedTeams || []}
+          recentlyModified={dashboardData?.recentlyModifiedTeams || []}
+          viewRoute={viewRoute}
+        />
+      </div>
+    </>
+  );
 }
 
 export default TeamDashboard;

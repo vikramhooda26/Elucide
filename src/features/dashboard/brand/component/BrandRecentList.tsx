@@ -13,34 +13,34 @@ import BrandService from "../../../../services/features/BrandService";
 import { brand } from "../../../../types/brand/BrandListTypes";
 
 type Props = {
-    recentlyCreated: Array<any>;
-    recentlyModified: Array<any>;
-    viewRoute: string;
+  recentlyCreated: Array<any>;
+  recentlyModified: Array<any>;
+  viewRoute: string;
 };
 
 function BrandRecentList({ recentlyCreated, recentlyModified, viewRoute }: Props) {
-    return (
-        <>
-            <RecentList
-                title={"Added Brands"}
-                list={recentlyCreated || []}
-                operation={"created by"}
-                nameKey={"name"}
-                dateKey={"createdAt"}
-                operationKey={"createdBy"}
-                viewRoute={viewRoute}
-            />
-            <RecentList
-                title={"Modified Brands"}
-                list={recentlyModified || []}
-                operation={"modified by"}
-                nameKey={"name"}
-                dateKey={"modifiedAt"}
-                operationKey={"modifiedBy"}
-                viewRoute={viewRoute}
-            />
-        </>
-    );
+  return (
+    <>
+      <RecentList
+        title={"Added Brands"}
+        list={recentlyCreated || []}
+        operation={"created by"}
+        nameKey={"name"}
+        dateKey={"createdAt"}
+        operationKey={"createdBy"}
+        viewRoute={viewRoute}
+      />
+      <RecentList
+        title={"Modified Brands"}
+        list={recentlyModified || []}
+        operation={"modified by"}
+        nameKey={"name"}
+        dateKey={"modifiedAt"}
+        operationKey={"modifiedBy"}
+        viewRoute={viewRoute}
+      />
+    </>
+  );
 }
 
 export default BrandRecentList;

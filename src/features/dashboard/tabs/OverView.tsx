@@ -7,45 +7,45 @@ import LeagueDashboard from "../league/LeagueDashboard";
 import TeamDashboard from "../team/TeamDashboard";
 
 function OverView() {
-    const tabs = [
-        {
-            value: "brand",
-            name: "Brands",
-            component: <BrandDashboard />
-        },
-        {
-            value: "league",
-            name: "Leagues",
-            component: <LeagueDashboard />
-        },
-        {
-            value: "team",
-            name: "Teams",
-            component: <TeamDashboard />
-        },
-        {
-            value: "athlete",
-            name: "Athletes",
-            component: <AthleteDashboard />
-        }
-    ];
+  const tabs = [
+    {
+      value: "brand",
+      name: "Brands",
+      component: <BrandDashboard />
+    },
+    {
+      value: "league",
+      name: "Leagues",
+      component: <LeagueDashboard />
+    },
+    {
+      value: "team",
+      name: "Teams",
+      component: <TeamDashboard />
+    },
+    {
+      value: "athlete",
+      name: "Athletes",
+      component: <AthleteDashboard />
+    }
+  ];
 
-    return (
-        <Tabs defaultValue="brand" className="space-y-4">
-            <TabsList>
-                {tabs?.map((tab, i) => (
-                    <TabsTrigger value={tab?.value} key={i}>
-                        {tab?.name}
-                    </TabsTrigger>
-                ))}
-            </TabsList>
-            {tabs?.map((content, i) => (
-                <TabsContent value={content?.value} className="space-y-4" key={i}>
-                    {content?.component}
-                </TabsContent>
-            ))}
-        </Tabs>
-    );
+  return (
+    <Tabs defaultValue="brand" className="space-y-4">
+      <TabsList>
+        {tabs?.map((tab, i) => (
+          <TabsTrigger value={tab?.value} key={i}>
+            {tab?.name}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+      {tabs?.map((content, i) => (
+        <TabsContent value={content?.value} className="space-y-4" key={i}>
+          {content?.component}
+        </TabsContent>
+      ))}
+    </Tabs>
+  );
 }
 
 export default OverView;

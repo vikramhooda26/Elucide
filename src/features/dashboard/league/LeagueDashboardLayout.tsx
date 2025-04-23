@@ -9,47 +9,47 @@ import { addDays } from "date-fns";
 import { useState } from "react";
 
 function LeagueDashboardLayout() {
-    const navigator = useNavigator();
-    const [count, setCount] = useState(0);
+  const navigator = useNavigator();
+  const [count, setCount] = useState(0);
 
-    const onViewList = () => {
-        navigator(NAVIGATION_ROUTES.LEAGUE_LIST);
-    };
+  const onViewList = () => {
+    navigator(NAVIGATION_ROUTES.LEAGUE_LIST);
+  };
 
-    return (
-        <div className="flex-col md:flex">
-            <div className="flex-1 space-y-4 p-8 pt-6">
-                <div className="flex items-center justify-between space-y-2">
-                    <h2 className="text-3xl font-bold tracking-tight">League Dashboard</h2>
-                    <div className="flex items-center space-x-2">
-                        {/* <CalendarDateRangePicker
+  return (
+    <div className="flex-col md:flex">
+      <div className="flex-1 space-y-4 p-8 pt-6">
+        <div className="flex items-center justify-between space-y-2">
+          <h2 className="text-3xl font-bold tracking-tight">League Dashboard</h2>
+          <div className="flex items-center space-x-2">
+            {/* <CalendarDateRangePicker
                             value={{ from: new Date(2023, 0, 20), to: addDays(new Date(2023, 0, 20), 20) }}
                             onChangeDate={(range) => console.log(range)}
                         /> */}
-                        <Button onClick={onViewList}>View List</Button>
-                    </div>
-                </div>
+            <Button onClick={onViewList}>View List</Button>
+          </div>
+        </div>
 
-                <div className="space-y-4">
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">Total Leagues</CardTitle>
-                                <Trophy />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">{count}</div>
-                                {/* <p className="text-xs text-muted-foreground">
+        <div className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Leagues</CardTitle>
+                <Trophy />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{count}</div>
+                {/* <p className="text-xs text-muted-foreground">
                             +20.1% from last month
                         </p> */}
-                            </CardContent>
-                        </Card>
-                    </div>
-                    <LeagueDashboard setCount={setCount} />
-                </div>
-            </div>
+              </CardContent>
+            </Card>
+          </div>
+          <LeagueDashboard setCount={setCount} />
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default LeagueDashboardLayout;

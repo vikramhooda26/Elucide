@@ -4,46 +4,46 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 export type TableData = Record<string, string | number>;
 
 export interface ColumnDefinition {
-    key: string;
-    label: string;
+  key: string;
+  label: string;
 }
 
 export interface DynamicTableProps {
-    data: TableData[] | undefined;
-    columns: ColumnDefinition[];
-    caption?: string;
+  data: TableData[] | undefined;
+  columns: ColumnDefinition[];
+  caption?: string;
 }
 
 export default function SimpleTable({ data, columns, caption }: DynamicTableProps) {
-    if (!data || data.length === 0) {
-        return <p className="m-5">No data available</p>;
-    }
+  if (!data || data.length === 0) {
+    return <p className="m-5">No data available</p>;
+  }
 
-    return (
-        <div className="container mx-auto overflow-x-auto py-10">
-            <Table>
-                {/* {caption && <TableCaption>{caption}</TableCaption>} */}
-                <TableHeader>
-                    <TableRow>
-                        {columns.map((column) => (
-                            <TableHead key={column.key} className="whitespace-nowrap">
-                                {column.label}
-                            </TableHead>
-                        ))}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {data.map((row, index) => (
-                        <TableRow key={index}>
-                            {columns.map((column) => (
-                                <TableCell key={`${index}-${column.key}`} className="whitespace-nowrap">
-                                    {row[column.key]}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </div>
-    );
+  return (
+    <div className="container mx-auto overflow-x-auto py-10">
+      <Table>
+        {/* {caption && <TableCaption>{caption}</TableCaption>} */}
+        <TableHeader>
+          <TableRow>
+            {columns.map((column) => (
+              <TableHead key={column.key} className="whitespace-nowrap">
+                {column.label}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data.map((row, index) => (
+            <TableRow key={index}>
+              {columns.map((column) => (
+                <TableCell key={`${index}-${column.key}`} className="whitespace-nowrap">
+                  {row[column.key]}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
 }

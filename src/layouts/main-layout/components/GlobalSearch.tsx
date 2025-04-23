@@ -1,9 +1,9 @@
 import { Input } from "../../../components/ui/input";
 
 export function GlobalSearch() {
-    return (
-        <div>
-            <Input type="search" placeholder="Search..." className="w-[100px] lg:w-[300px]" />
-        </div>
-    );
+  return (
+    <div>
+      <Input type="search" placeholder="Search..." className="w-[100px] lg:w-[300px]" />
+    </div>
+  );
 }

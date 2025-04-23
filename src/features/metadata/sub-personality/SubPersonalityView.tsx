@@ -18,92 +18,89 @@ import EditButton from "../../../components/button/EditButton";
 import { useUser } from "../../../hooks/useUser";
 
 function SubPersonalityView() {
-    const { id } = useParams<string>();
-    const [viewData, setViewData] = useState<subPersonality>();
-    const [isLoading, setLoading] = useState<boolean>(false);
-    const navigate = useNavigate();
-    const { logout } = useAuth();
-    const userRole = useUser()?.role;
-    if (!userRole) {
+  const { id } = useParams<string>();
+  const [viewData, setViewData] = useState<subPersonality>();
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const userRole = useUser()?.role;
+  if (!userRole) {
+    return;
+  }
+
+  const fetchTeam = async () => {
+    try {
+      setLoading(true);
+      if (!id) {
+        setLoading(false);
         return;
+      }
+      const resp = await MetadataService.getOneSubPersonality(id ? id : "");
+      if (resp?.status !== 200 || Object.keys(resp?.data)?.length <= 0) {
+        throw new Error("");
+      }
+
+      const viewObj = resp?.data;
+
+      setViewData(viewObj);
+    } catch (error) {
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+        toast.error("This sub personality does not exists");
+        navigate(-1);
+      } else {
+        toast.error("An unknown error occurred");
+        navigate(-1);
+      }
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const fetchTeam = async () => {
-        try {
-            setLoading(true);
-            if (!id) {
-                setLoading(false);
-                return;
-            }
-            const resp = await MetadataService.getOneSubPersonality(id ? id : "");
-            if (resp?.status !== 200 || Object.keys(resp?.data)?.length <= 0) {
-                throw new Error("");
-            }
+  useEffect(() => {
+    fetchTeam();
+  }, []);
 
-            const viewObj = resp?.data;
+  const infoHeaders: { header: string; className?: string }[] = [{ header: "Name" }];
 
-            setViewData(viewObj);
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                toast.error("This sub personality does not exists");
-                navigate(-1);
-            } else {
-                toast.error("An unknown error occurred");
-                navigate(-1);
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
+  return (
+    <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
+      <div className="mx-auto auto-rows-max gap-4">
+        <div className="mb-4 flex items-center gap-4">
+          <BackButton />
+          <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+            Sub Personality Trait View
+          </h1>
 
-    useEffect(() => {
-        fetchTeam();
-    }, []);
-
-    const infoHeaders: { header: string; className?: string }[] = [{ header: "Name" }];
-
-    return (
-        <main className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
-            <div className="mx-auto auto-rows-max gap-4">
-                <div className="mb-4 flex items-center gap-4">
-                    <BackButton />
-                    <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                        Sub Personality Trait View
-                    </h1>
-
-                    <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                        <EditButton
-                            show={userRole === "SUPER_ADMIN"}
-                            route={`${NAVIGATION_ROUTES.SUB_PERSONALITY_EDIT}/${id}`}
-                        />
-                    </div>
-                </div>
-                {isLoading ? (
-                    <FormSkeleton />
-                ) : (
-                    <>
-                        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-                                <Card x-chunk="dashboard-07-chunk-0">
-                                    <TableHeaderWrapper headersArray={infoHeaders}>
-                                        <TableRow>
-                                            <TableCell>{viewData?.subpersonalityName || "-"}</TableCell>
-                                        </TableRow>
-                                    </TableHeaderWrapper>
-                                </Card>
-                                <NameIdList
-                                    data={[viewData?.personality]}
-                                    navLink={NAVIGATION_ROUTES.PERSONALITY}
-                                    title={"Main Personality"}
-                                />
-                            </div>
-                        </div>
-                    </>
-                )}
+          <div className="hidden items-center gap-2 md:ml-auto md:flex">
+            <EditButton show={userRole === "SUPER_ADMIN"} route={`${NAVIGATION_ROUTES.SUB_PERSONALITY_EDIT}/${id}`} />
+          </div>
+        </div>
+        {isLoading ? (
+          <FormSkeleton />
+        ) : (
+          <>
+            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+              <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+                <Card x-chunk="dashboard-07-chunk-0">
+                  <TableHeaderWrapper headersArray={infoHeaders}>
+                    <TableRow>
+                      <TableCell>{viewData?.subpersonalityName || "-"}</TableCell>
+                    </TableRow>
+                  </TableHeaderWrapper>
+                </Card>
+                <NameIdList
+                  data={[viewData?.personality]}
+                  navLink={NAVIGATION_ROUTES.PERSONALITY}
+                  title={"Main Personality"}
+                />
+              </div>
             </div>
-        </main>
-    );
+          </>
+        )}
+      </div>
+    </main>
+  );
 }
 
 export default SubPersonalityView;
