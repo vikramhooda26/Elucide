@@ -196,7 +196,10 @@ function AthleteList() {
             filters={filterConfig}
             onClose={() => setIsFilterModalOpen(false)}
             onApplyFilters={handleApplyFilters}
-            onDiscardFilters={fetchAthletes}
+            onDiscardFilters={() => {
+              setIsFilterApplied(false);
+              fetchAthletes(pagination.pageIndex, pagination.pageSize, sorting);
+            }}
             pageKey={pageKey}
           />
           <ConditionalButton onClick={() => navigator(NAVIGATION_ROUTES.CREATE_ATHLETE)} accessLevel="all_staff">

@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 
-function DataTable<TData, TValue>({ table, columns, toolbarAttributes }: DataTableProps<TData, TValue>) {
+function DataTable<TData, TValue>({ table, columns, toolbarAttributes, totalCount }: DataTableProps<TData, TValue>) {
   const isLoading = useRecoilValue(listLoadingAtom);
 
   const hasPagination = table.getState().pagination !== undefined;
@@ -73,7 +73,7 @@ function DataTable<TData, TValue>({ table, columns, toolbarAttributes }: DataTab
           </TableBody>
         </Table>
       </div>
-      {hasPagination && <DataTablePagination table={table} />}
+      {hasPagination && <DataTablePagination table={table} totalCount={totalCount} />}
     </div>
   );
 }

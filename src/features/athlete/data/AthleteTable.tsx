@@ -259,7 +259,12 @@ function AthleteTable({
 
   return (
     <>
-      <DataTable table={table} columns={columns} toolbarAttributes={toolbarAttributes} />
+      <DataTable
+        table={table}
+        columns={columns}
+        toolbarAttributes={toolbarAttributes}
+        totalCount={isPaginationEnabled && !isFilterApplied ? pagination?.totalCount : undefined}
+      />
     </>
   );
 }

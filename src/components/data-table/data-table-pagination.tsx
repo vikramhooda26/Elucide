@@ -6,16 +6,28 @@ import { Table } from "@tanstack/react-table";
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
   showSelectedCount?: Boolean;
+  totalCount?: number;
 }
 
-export function DataTablePagination<TData>({ table, showSelectedCount = true }: DataTablePaginationProps<TData>) {
+export function DataTablePagination<TData>({
+  table,
+  totalCount,
+  showSelectedCount = true
+}: DataTablePaginationProps<TData>) {
+  const { pageIndex, pageSize } = table.getState().pagination;
+  const totalRowCount = totalCount || table.getFilteredRowModel().rows.length;
+  const startRow = pageIndex * pageSize + 1;
+  const endRow = Math.min((pageIndex + 1) * pageSize, totalRowCount);
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex-1 text-sm text-muted-foreground">
         {showSelectedCount ? (
+          // <>
+          //   {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
+          //   selected.
+          // </>
           <>
-            {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
-            selected.
+            {startRow}-{endRow} of {totalRowCount} row(s)
           </>
         ) : null}
       </div>

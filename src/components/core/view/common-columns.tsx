@@ -1,8 +1,8 @@
+import { TRoles } from "@/lib/constants";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import z from "zod";
-import { TRoles } from "../../../lib/constants";
 import { DataTableColumnHeader } from "../../data-table/data-table-column-header";
 import { DataTableRowActions } from "../../data-table/data-table-row-actions";
 import { createSchema } from "../schema/schema";
