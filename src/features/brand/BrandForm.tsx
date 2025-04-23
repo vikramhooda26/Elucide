@@ -309,6 +309,11 @@ function BrandForm() {
   ];
 
   const onSubmit = async (brandFormValues: TBrandFormSchema) => {
+    if (brandFormValues.name.trim() === "") {
+      form.setError("name", { message: "Brand name is required" }, { shouldFocus: true });
+      return;
+    }
+
     if (brandFormValues?.contactPerson) {
       const isNotValid = brandFormValues?.contactPerson?.find((d, i) => {
         if (d?.contactNumber) {
@@ -389,7 +394,7 @@ function BrandForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => navigate(-1)}>
+            <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => navigate(-1)} type="button">
               <ChevronLeft className="h-4 w-4" />
               <span className="sr-only">Back</span>
             </Button>
