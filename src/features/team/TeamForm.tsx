@@ -1,35 +1,35 @@
+import { CardWrapper } from "@/components/card/card-wrapper";
+import AssociationCard from "@/components/core/form/association-card";
+import ContactPersonCard from "@/components/core/form/contact-person-card";
+import { EndorsementCard } from "@/components/core/form/endorsement-card";
+import { FormSkeleton } from "@/components/core/form/form-skeleton";
+import { MetricsCard } from "@/components/core/form/metrics.card";
+import { TDisplayFields, VerticalFieldsCard } from "@/components/core/form/vertical-fields-card";
+import { InputDrawer } from "@/components/form/input-drawer";
+import { FormItemWrapper } from "@/components/form/item-wrapper";
+import Loader from "@/components/Loader";
+import { getPhoneData } from "@/components/phone-input";
+import { TableHeaderWrapper } from "@/components/table/table-header-wrapper";
+import { Button } from "@/components/ui/button";
+import { Form, FormField } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import SelectBox from "@/components/ui/multi-select";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import { printLogs } from "@/lib/logs";
+import ErrorService from "@/services/error/ErrorService";
+import MetadataService from "@/services/features/MetadataService";
+import TeamService from "@/services/features/TeamService";
+import { metadataStoreAtom } from "@/store/atoms/metadata";
+import { userAtom } from "@/store/atoms/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, PlusCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
-import { CardWrapper } from "../../components/card/card-wrapper";
-import AssociationCard from "../../components/core/form/association-card";
-import ContactPersonCard from "../../components/core/form/contact-person-card";
-import { EndorsementCard } from "../../components/core/form/endorsement-card";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import { MetricsCard } from "../../components/core/form/metrics.card";
-import { TDisplayFields, VerticalFieldsCard } from "../../components/core/form/vertical-fields-card";
-import { InputDrawer } from "../../components/form/input-drawer";
-import { FormItemWrapper } from "../../components/form/item-wrapper";
-import Loader from "../../components/Loader";
-import { getPhoneData } from "../../components/phone-input";
-import { TableHeaderWrapper } from "../../components/table/table-header-wrapper";
-import { Button } from "../../components/ui/button";
-import { Form, FormField } from "../../components/ui/form";
-import { Input } from "../../components/ui/input";
-import SelectBox from "../../components/ui/multi-select";
-import { TableCell, TableRow } from "../../components/ui/table";
-import { Textarea } from "../../components/ui/textarea";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import { printLogs } from "../../lib/logs";
-import ErrorService from "../../services/error/ErrorService";
-import MetadataService from "../../services/features/MetadataService";
-import TeamService from "../../services/features/TeamService";
-import { metadataStoreAtom } from "../../store/atoms/metadata";
-import { userAtom } from "../../store/atoms/user";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { activeCampaignFormSchema } from "../metadata/ActiveCampaign/constants/metadata";
 import { cityFormSchema } from "../metadata/city/constants/metadata";
@@ -38,863 +38,884 @@ import { stateFormSchema } from "../metadata/state/constants/metadata";
 import { taglineFormSchema } from "../metadata/tagline/constants/metadata";
 import { teamOwnerFormSchema } from "../metadata/team-owner/constants/metadata";
 import {
-    convertCroreToRupees,
-    convertRupeesToCrore,
-    getListOfYears,
-    onNumInputChange,
-    validateAssociation,
-    validateEndorsements,
-    validateMetrics
+  convertCroreToRupees,
+  convertRupeesToCrore,
+  getListOfYears,
+  onNumInputChange,
+  validateAssociation,
+  validateEndorsements,
+  validateMetrics
 } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import { TEAM_METADATA, teamFormSchema, TEditTeamFormSchema, TTeamFormSchema } from "./constants/metadata";
 
 export function TeamForm() {
-    const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
-    const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
-    const user = useRecoilValue(userAtom);
-    const { id } = useParams();
+  const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
+  const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
+  const user = useRecoilValue(userAtom);
+  const { id } = useParams();
+  const initialFormData = useRef<TTeamFormSchema | null>(null);
 
-    const { logout } = useAuth();
-    const navigate = useNavigate();
+  const emptyFormValues: Partial<TTeamFormSchema> = {
+    userId: user?.id || undefined,
+    name: "",
+    taglineIds: [],
+    strategyOverview: "",
+    yearOfInception: "",
+    franchiseFee: undefined,
+    association: [],
+    endorsements: [],
+    activeCampaignIds: [],
+    nccsIds: [],
+    primaryMarketingPlatformIds: [],
+    secondaryMarketingPlatformIds: [],
+    primaryMarketIds: [],
+    secondaryMarketIds: [],
+    tertiaryIds: [],
+    broadcastPartnerMetrics: [],
+    ottPartnerMetrics: [],
+    instagram: "",
+    facebook: "",
+    twitter: "",
+    linkedin: "",
+    website: "",
+    youtube: "",
+    contactPerson: [],
+    sportId: undefined,
+    leagueId: undefined,
+    ownerIds: [],
+    cityId: undefined,
+    stateId: undefined,
+    subPersonalityTraitIds: [],
+    tierIds: [],
+    ageIds: [],
+    genderIds: []
+  };
 
-    const form = useForm<TTeamFormSchema>({
-        resolver: zodResolver(teamFormSchema),
-        defaultValues: {
-            userId: user?.id
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const form = useForm<TTeamFormSchema>({
+    resolver: zodResolver(teamFormSchema),
+    defaultValues: {
+      userId: user?.id
+    }
+  });
+
+  const fetchMetadata = async () => {
+    try {
+      setIsFetchingMetadata(true);
+      await getMetadata(metadataStore, setMetadataStore, TEAM_METADATA);
+    } catch (error) {
+      console.error(error);
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError) {
+        toast.error("An unknown error occurred");
+        navigate(NAVIGATION_ROUTES.DASHBOARD);
+      }
+    } finally {
+      setIsFetchingMetadata(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMetadata();
+  }, []);
+
+  useEffect(() => {
+    const fetchTeamDetails = async (id: string) => {
+      try {
+        setIsFetchingDetails(true);
+        const response = await TeamService.getOne(id);
+
+        if (response.status === HTTP_STATUS_CODES.OK) {
+          printLogs("Get team by id response for edit page:", response.data);
+          const teamData: TEditTeamFormSchema = response.data;
+
+          const formattedData: TTeamFormSchema = {
+            userId: user?.id || "",
+            name: teamData.name || "",
+            taglineIds: (teamData.taglines?.map((tagline) => tagline.id).filter(Boolean) as string[]) || [],
+            strategyOverview: teamData.strategyOverview || "",
+            yearOfInception: teamData.yearOfInception || "",
+            franchiseFee: convertRupeesToCrore(teamData.franchiseFee) || undefined,
+            association:
+              teamData.association?.map((asso) => ({
+                associationId: asso.associationId,
+                associationLevelId: asso.associationLevel?.id,
+                costOfAssociation: convertRupeesToCrore(asso?.costOfAssociation) || undefined,
+                brandIds: (asso.brand?.map((brand) => brand.id).filter(Boolean) as string[]) || []
+              })) || [],
+            endorsements:
+              teamData.endorsements?.map((endorse) => ({
+                name: endorse.name || "",
+                active: endorse.active || false
+              })) || [],
+            activeCampaignIds:
+              (teamData.activeCampaigns?.map((campaign) => campaign.id).filter(Boolean) as string[]) || [],
+            nccsIds: (teamData.nccs?.map((nccs) => nccs.id).filter(Boolean) as string[]) || [],
+            primaryMarketingPlatformIds:
+              (teamData.primaryMarketingPlatform?.map((platform) => platform.id).filter(Boolean) as string[]) || [],
+            secondaryMarketingPlatformIds:
+              (teamData.secondaryMarketingPlatform?.map((platform) => platform.id).filter(Boolean) as string[]) || [],
+            primaryMarketIds: (teamData.primaryKeyMarket?.map((market) => market.id).filter(Boolean) as string[]) || [],
+            secondaryMarketIds:
+              (teamData.secondaryKeyMarket?.map((market) => market.id).filter(Boolean) as string[]) || [],
+            tertiaryIds: (teamData.tertiary?.map((tertiaries) => tertiaries.id).filter(Boolean) as string[]) || [],
+            broadcastPartnerMetrics:
+              teamData.broadcastPartnerMetrics?.map((metric) => ({
+                reach: metric.reach || "",
+                viewership: metric.viewership || "",
+                year: metric.year || "",
+                broadcastPartnerId: metric.broadcastPartner.id || ""
+              })) || [],
+            ottPartnerMetrics:
+              teamData.ottPartnerMetrics?.map((metric) => ({
+                reach: metric.reach || "",
+                viewership: metric.viewership || "",
+                year: metric.year || "",
+                ottPartnerId: metric.ottPartner.id || ""
+              })) || [],
+            instagram: teamData?.instagram || "",
+            facebook: teamData?.facebook || "",
+            twitter: teamData?.twitter || "",
+            linkedin: teamData?.linkedin || "",
+            website: teamData?.website || "",
+            youtube: teamData?.youtube || "",
+            contactPerson:
+              teamData.contactPersons?.map((details) => ({
+                contactId: details.contactId || undefined,
+                contactName: details.contactName || "",
+                contactEmail: details.contactEmail || "",
+                contactLinkedin: details.contactLinkedin || "",
+                contactDesignation: details.contactDesignation || "",
+                contactNumber: details.contactNumber || ""
+              })) || [],
+            sportId: teamData.sport?.id || undefined,
+            leagueId: teamData.league?.id || undefined,
+            ownerIds: (teamData.owners?.map((owner) => owner.id).filter(Boolean) as string[]) || [],
+            cityId: teamData.city?.id || undefined,
+            stateId: teamData.state?.id || undefined,
+            subPersonalityTraitIds:
+              (teamData.mainPersonalityTraits
+                ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
+                .flat(2)
+                .filter(Boolean) as string[]) || [],
+            tierIds: teamData.tiers?.filter((tier) => tier.id !== undefined).map((tier) => tier.id as string) || [],
+            ageIds: (teamData.age?.map((age) => age.id).filter(Boolean) as string[]) || [],
+            genderIds: (teamData.gender?.map((gender) => gender.id).filter(Boolean) as string[]) || []
+          };
+          initialFormData.current = formattedData;
+          form.reset(formattedData);
         }
-    });
-
-    const fetchMetadata = async () => {
-        try {
-            setIsFetchingMetadata(true);
-            await getMetadata(metadataStore, setMetadataStore, TEAM_METADATA);
-        } catch (error) {
-            console.error(error);
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError) {
-                toast.error("An unknown error occurred");
-                navigate(NAVIGATION_ROUTES.DASHBOARD);
-            }
-        } finally {
-            setIsFetchingMetadata(false);
+      } catch (error) {
+        console.error(error);
+        const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+        if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
+          toast.error("An unknown error occurred");
         }
+      } finally {
+        setIsFetchingDetails(false);
+      }
     };
 
-    useEffect(() => {
-        fetchMetadata();
-    }, []);
+    if (id) {
+      fetchTeamDetails(id);
+    }
+  }, [id]);
 
-    useEffect(() => {
-        const fetchTeamDetails = async (id: string) => {
-            try {
-                setIsFetchingDetails(true);
-                const response = await TeamService.getOne(id);
+  useEffect(() => {
+    if (isSubmitting) {
+      form.control._disableForm(true);
+    } else {
+      form.control._disableForm(false);
+    }
+  }, [isSubmitting]);
 
-                if (response.status === HTTP_STATUS_CODES.OK) {
-                    printLogs("Get team by id response for edit page:", response.data);
-                    const teamData: TEditTeamFormSchema = response.data;
+  const handleDiscard = () => {
+    if (id && initialFormData.current) {
+      form.reset(initialFormData.current);
+    } else {
+      form.reset(emptyFormValues);
+    }
+  };
 
-                    form.reset({
-                        userId: user?.id || undefined,
-                        name: teamData.name || undefined,
-                        taglineIds: teamData.taglines?.map((tagline) => tagline.id) || undefined,
-                        strategyOverview: teamData.strategyOverview || undefined,
-                        yearOfInception: teamData.yearOfInception || undefined,
-                        franchiseFee: convertRupeesToCrore(teamData.franchiseFee) || undefined,
-                        association: teamData.association?.map((asso) => ({
-                            associationId: asso.associationId,
-                            associationLevelId: asso.associationLevel?.id,
-                            costOfAssociation: convertRupeesToCrore(asso?.costOfAssociation) || undefined,
-                            brandIds: asso.brand?.map((brand) => brand.id)
-                        })),
-                        endorsements: teamData.endorsements?.map((endorse) => ({
-                            name: endorse.name,
-                            active: endorse.active
-                        })),
-                        activeCampaignIds: teamData.activeCampaigns?.map((campaign) => campaign.id) || undefined,
-                        nccsIds: teamData.nccs?.map((nccs) => nccs.id) || undefined,
-                        primaryMarketingPlatformIds:
-                            teamData.primaryMarketingPlatform?.map((platform) => platform.id) || undefined,
-                        secondaryMarketingPlatformIds:
-                            teamData.secondaryMarketingPlatform?.map((platform) => platform.id) || undefined,
-                        primaryMarketIds: teamData.primaryKeyMarket?.map((market) => market.id) || undefined,
-                        secondaryMarketIds: teamData.secondaryKeyMarket?.map((market) => market.id) || undefined,
-                        tertiaryIds: teamData.tertiary?.map((tertiary) => tertiary.id) || undefined,
-                        broadcastPartnerMetrics:
-                            teamData.broadcastPartnerMetrics?.map((metric) => ({
-                                reach: metric.reach || undefined,
-                                viewership: metric.viewership || undefined,
-                                year: metric.year || undefined,
-                                broadcastPartnerId: metric.broadcastPartner.id || undefined
-                            })) || undefined,
-                        ottPartnerMetrics:
-                            teamData.ottPartnerMetrics?.map((metric) => ({
-                                reach: metric.reach || undefined,
-                                viewership: metric.viewership || undefined,
-                                year: metric.year || undefined,
-                                ottPartnerId: metric.ottPartner.id || undefined
-                            })) || undefined,
-                        instagram: teamData?.instagram || undefined,
-                        facebook: teamData?.facebook || undefined,
-                        twitter: teamData?.twitter || undefined,
-                        linkedin: teamData?.linkedin || undefined,
-                        website: teamData?.website || undefined,
-                        youtube: teamData?.youtube || undefined,
-                        contactPerson:
-                            teamData.contactPersons?.map((details) => ({
-                                contactId: details.contactId || undefined,
-                                contactName: details.contactName || undefined,
-                                contactEmail: details.contactEmail || undefined,
-                                contactLinkedin: details.contactLinkedin || undefined,
-                                contactDesignation: details.contactDesignation || undefined,
-                                contactNumber: details.contactNumber || undefined
-                            })) || undefined,
-                        sportId: teamData.sport?.id || undefined,
-                        leagueId: teamData.league?.id || undefined,
-                        ownerIds: teamData.owners?.map((owner) => owner.id) || undefined,
-                        cityId: teamData.city?.id || undefined,
-                        stateId: teamData.state?.id || undefined,
-                        subPersonalityTraitIds:
-                            teamData.mainPersonalityTraits
-                                ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
-                                .flat(2) || undefined,
-                        tierIds:
-                            teamData.tiers?.filter((tier) => tier.id !== undefined).map((tier) => tier.id) || undefined,
-                        ageIds: teamData.age?.map((age) => age.id) || undefined,
-                        genderIds: teamData.gender?.map((gender) => gender.id) || undefined
-                    });
-                }
-            } catch (error) {
-                console.error(error);
-                const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-                if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
-                    toast.error("An unknown error occurred");
-                }
-            } finally {
-                setIsFetchingDetails(false);
-            }
-        };
+  if (!metadataStore) {
+    return <div>Loading...</div>;
+  }
 
-        if (id) {
-            fetchTeamDetails(id);
-        }
-    }, [id]);
+  const ottPartnerMetricFieldArray = useFieldArray({
+    name: "ottPartnerMetrics",
+    control: form.control
+  });
 
-    useEffect(() => {
-        if (isSubmitting) {
-            form.control._disableForm(true);
-        } else {
-            form.control._disableForm(false);
-        }
-    }, [isSubmitting]);
+  const broadcastPartnerMetricFieldArray = useFieldArray({
+    name: "broadcastPartnerMetrics",
+    control: form.control
+  });
 
-    if (!metadataStore) {
-        return <div>Loading...</div>;
+  const defaultOttPartnerMetric = {
+    ottPartnerId: "",
+    year: "",
+    viewership: "",
+    reach: ""
+  };
+
+  const defaultBroadcastPartnerMetric = {
+    broadcastPartnerId: "",
+    year: "",
+    viewership: "",
+    reach: ""
+  };
+
+  const teamAttributes: TDisplayFields<TTeamFormSchema>[] = [
+    {
+      title: "Sport",
+      register: "sportId",
+      options: metadataStore.sport,
+      multiple: false,
+      type: "DROPDOWN",
+      showAddButton: true,
+      createFn: MetadataService.createSport,
+      fetchMetadataFn: fetchMetadata,
+      drawerRegister: "sportName",
+      schema: sportFormSchema,
+      accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
+    },
+    {
+      title: "League",
+      register: "leagueId",
+      options: metadataStore.league,
+      multiple: false,
+      type: "DROPDOWN"
+    },
+    {
+      title: "Owners",
+      register: "ownerIds",
+      options: metadataStore.teamOwner,
+      multiple: true,
+      type: "DROPDOWN",
+      showAddButton: true,
+      createFn: MetadataService.createTeamOwner,
+      fetchMetadataFn: fetchMetadata,
+      drawerRegister: "teamOwnerName",
+      schema: teamOwnerFormSchema,
+      accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
+    },
+    {
+      title: "City",
+      register: "cityId",
+      options: metadataStore.city,
+      multiple: false,
+      type: "DROPDOWN",
+      showAddButton: true,
+      createFn: MetadataService.createCity,
+      fetchMetadataFn: fetchMetadata,
+      drawerRegister: "cityName",
+      schema: cityFormSchema,
+      accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
+    },
+    {
+      title: "State",
+      register: "stateId",
+      options: metadataStore.state,
+      multiple: false,
+      type: "DROPDOWN",
+      showAddButton: true,
+      createFn: MetadataService.createState,
+      fetchMetadataFn: fetchMetadata,
+      drawerRegister: "stateName",
+      schema: stateFormSchema,
+      accessLevel: ["SUPER_ADMIN"]
+    },
+    {
+      title: "NCCS Class",
+      register: "nccsIds",
+      options: metadataStore.nccs,
+      multiple: true,
+      type: "DROPDOWN"
+    },
+    {
+      title: "Personality Traits",
+      register: "subPersonalityTraitIds",
+      options: metadataStore.personalityTrait,
+      multiple: true,
+      type: "DROPDOWN"
+    },
+    {
+      title: "Tiers",
+      register: "tierIds",
+      options: metadataStore.tier,
+      multiple: true,
+      type: "DROPDOWN"
+    }
+  ];
+
+  const targetAudience: {
+    title: string;
+    register: Extract<keyof TTeamFormSchema, "ageIds" | "genderIds">;
+    options: any;
+    multiple: boolean;
+    type: "DROPDOWN";
+  }[] = [
+    {
+      title: "Age",
+      register: "ageIds",
+      options: metadataStore.age,
+      multiple: true,
+      type: "DROPDOWN"
+    },
+    {
+      title: "Gender",
+      register: "genderIds",
+      options: metadataStore.gender,
+      multiple: true,
+      type: "DROPDOWN"
+    }
+  ];
+
+  const socials: {
+    name: Extract<keyof TTeamFormSchema, "instagram" | "facebook" | "linkedin" | "youtube" | "website" | "twitter">;
+  }[] = [
+    {
+      name: "instagram"
+    },
+    {
+      name: "facebook"
+    },
+    {
+      name: "twitter"
+    },
+    {
+      name: "linkedin"
+    },
+    {
+      name: "youtube"
+    },
+    {
+      name: "website"
+    }
+  ];
+
+  const onSubmit = async (teamFormValues: TTeamFormSchema) => {
+    const convertedFranciseFee = convertCroreToRupees(teamFormValues?.franchiseFee);
+
+    if (convertedFranciseFee === false) {
+      form.setError(
+        "franchiseFee",
+        {
+          message: "Franchise fee must be a number"
+        },
+        { shouldFocus: true }
+      );
+      return;
     }
 
-    const ottPartnerMetricFieldArray = useFieldArray({
-        name: "ottPartnerMetrics",
-        control: form.control
+    let hasErrors = false;
+    const convertedCostOfAssociations: number[] = [];
+
+    teamFormValues?.association?.forEach((association, i) => {
+      const convertedCostOfAssociation = convertCroreToRupees(association?.costOfAssociation);
+
+      if (convertedCostOfAssociation === false) {
+        hasErrors = true;
+        form.setError(
+          `association.${i}.costOfAssociation`,
+          {
+            message: "Cost of association must be a number"
+          },
+          { shouldFocus: true }
+        );
+        return;
+      } else {
+        if (convertedCostOfAssociation) {
+          convertedCostOfAssociations.push(convertedCostOfAssociation);
+        }
+      }
     });
 
-    const broadcastPartnerMetricFieldArray = useFieldArray({
-        name: "broadcastPartnerMetrics",
-        control: form.control
-    });
+    if (hasErrors) {
+      return;
+    }
 
-    const defaultOttPartnerMetric = {
-        ottPartnerId: "",
-        year: "",
-        viewership: "",
-        reach: ""
-    };
-
-    const defaultBroadcastPartnerMetric = {
-        broadcastPartnerId: "",
-        year: "",
-        viewership: "",
-        reach: ""
-    };
-
-    const teamAttributes: TDisplayFields<TTeamFormSchema>[] = [
-        {
-            title: "Sport",
-            register: "sportId",
-            options: metadataStore.sport,
-            multiple: false,
-            type: "DROPDOWN",
-            showAddButton: true,
-            createFn: MetadataService.createSport,
-            fetchMetadataFn: fetchMetadata,
-            drawerRegister: "sportName",
-            schema: sportFormSchema,
-            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
-        },
-        {
-            title: "League",
-            register: "leagueId",
-            options: metadataStore.league,
-            multiple: false,
-            type: "DROPDOWN"
-        },
-        {
-            title: "Owners",
-            register: "ownerIds",
-            options: metadataStore.teamOwner,
-            multiple: true,
-            type: "DROPDOWN",
-            showAddButton: true,
-            createFn: MetadataService.createTeamOwner,
-            fetchMetadataFn: fetchMetadata,
-            drawerRegister: "teamOwnerName",
-            schema: teamOwnerFormSchema,
-            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
-        },
-        {
-            title: "City",
-            register: "cityId",
-            options: metadataStore.city,
-            multiple: false,
-            type: "DROPDOWN",
-            showAddButton: true,
-            createFn: MetadataService.createCity,
-            fetchMetadataFn: fetchMetadata,
-            drawerRegister: "cityName",
-            schema: cityFormSchema,
-            accessLevel: ["ADMIN", "SUPER_ADMIN", "STAFF"]
-        },
-        {
-            title: "State",
-            register: "stateId",
-            options: metadataStore.state,
-            multiple: false,
-            type: "DROPDOWN",
-            showAddButton: true,
-            createFn: MetadataService.createState,
-            fetchMetadataFn: fetchMetadata,
-            drawerRegister: "stateName",
-            schema: stateFormSchema,
-            accessLevel: ["SUPER_ADMIN"]
-        },
-        {
-            title: "NCCS Class",
-            register: "nccsIds",
-            options: metadataStore.nccs,
-            multiple: true,
-            type: "DROPDOWN"
-        },
-        {
-            title: "Personality Traits",
-            register: "subPersonalityTraitIds",
-            options: metadataStore.personalityTrait,
-            multiple: true,
-            type: "DROPDOWN"
-        },
-        {
-            title: "Tiers",
-            register: "tierIds",
-            options: metadataStore.tier,
-            multiple: true,
-            type: "DROPDOWN"
-        }
-    ];
-
-    const targetAudience: {
-        title: string;
-        register: Extract<keyof TTeamFormSchema, "ageIds" | "genderIds">;
-        options: any;
-        multiple: boolean;
-        type: "DROPDOWN";
-    }[] = [
-        {
-            title: "Age",
-            register: "ageIds",
-            options: metadataStore.age,
-            multiple: true,
-            type: "DROPDOWN"
-        },
-        {
-            title: "Gender",
-            register: "genderIds",
-            options: metadataStore.gender,
-            multiple: true,
-            type: "DROPDOWN"
-        }
-    ];
-
-    const socials: {
-        name: Extract<keyof TTeamFormSchema, "instagram" | "facebook" | "linkedin" | "youtube" | "website" | "twitter">;
-    }[] = [
-        {
-            name: "instagram"
-        },
-        {
-            name: "facebook"
-        },
-        {
-            name: "twitter"
-        },
-        {
-            name: "linkedin"
-        },
-        {
-            name: "youtube"
-        },
-        {
-            name: "website"
-        }
-    ];
-
-    const onSubmit = async (teamFormValues: TTeamFormSchema) => {
-        const convertedFranciseFee = convertCroreToRupees(teamFormValues?.franchiseFee);
-
-        if (convertedFranciseFee === false) {
+    if (teamFormValues?.contactPerson) {
+      const isNotValid = teamFormValues?.contactPerson?.find((d, i) => {
+        if (d?.contactNumber) {
+          const phoneData = getPhoneData(d?.contactNumber);
+          if (!phoneData.isValid) {
             form.setError(
-                "franchiseFee",
-                {
-                    message: "Franchise fee must be a number"
-                },
-                { shouldFocus: true }
+              `contactPerson.${i}.contactNumber`,
+              {
+                message: "Invalid phone number"
+              },
+              { shouldFocus: true }
             );
-            return;
+            toast.error("Invalid phone number");
+            return true;
+          } else {
+            return false;
+          }
         }
+      });
 
-        let hasErrors = false;
-        const convertedCostOfAssociations: number[] = [];
+      if (isNotValid) {
+        return;
+      }
+    }
 
-        teamFormValues?.association?.forEach((association, i) => {
-            const convertedCostOfAssociation = convertCroreToRupees(association?.costOfAssociation);
-
-            if (convertedCostOfAssociation === false) {
-                hasErrors = true;
-                form.setError(
-                    `association.${i}.costOfAssociation`,
-                    {
-                        message: "Cost of association must be a number"
-                    },
-                    { shouldFocus: true }
-                );
-                return;
-            } else {
-                if (convertedCostOfAssociation) {
-                    convertedCostOfAssociations.push(convertedCostOfAssociation);
-                }
-            }
-        });
-
-        if (hasErrors) {
-            return;
+    if (teamFormValues.contactPerson?.length) {
+      teamFormValues.contactPerson.forEach((details, i) => {
+        const hasValue =
+          details.contactDesignation ||
+          details.contactEmail ||
+          details.contactLinkedin ||
+          details.contactNumber ||
+          details.contactName;
+        if (hasValue && !details.contactName) {
+          form.setError(`contactPerson.${i}.contactName`, { message: "Name is required" }, { shouldFocus: true });
         }
+      });
 
-        if (teamFormValues?.contactPerson) {
-            const isNotValid = teamFormValues?.contactPerson?.find((d, i) => {
-                if (d?.contactNumber) {
-                    const phoneData = getPhoneData(d?.contactNumber);
-                    if (!phoneData.isValid) {
-                        form.setError(
-                            `contactPerson.${i}.contactNumber`,
-                            {
-                                message: "Invalid phone number"
-                            },
-                            { shouldFocus: true }
-                        );
-                        toast.error("Invalid phone number");
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
+      if (hasErrors) {
+        return;
+      }
+    }
 
-            if (isNotValid) {
-                return;
-            }
-        }
+    const validatedOttPartnerMetrics = validateMetrics(
+      "ottPartnerMetrics",
+      teamFormValues?.ottPartnerMetrics,
+      form.setError
+    );
 
-        if (teamFormValues.contactPerson?.length) {
-            teamFormValues.contactPerson.forEach((details, i) => {
-                const hasValue =
-                    details.contactDesignation ||
-                    details.contactEmail ||
-                    details.contactLinkedin ||
-                    details.contactNumber ||
-                    details.contactName;
-                if (hasValue && !details.contactName) {
-                    form.setError(
-                        `contactPerson.${i}.contactName`,
-                        { message: "Name is required" },
-                        { shouldFocus: true }
-                    );
-                }
-            });
+    const validatedBroadcastMetrics = validateMetrics(
+      "broadcastPartnerMetrics",
+      teamFormValues?.broadcastPartnerMetrics,
+      form.setError
+    );
 
-            if (hasErrors) {
-                return;
-            }
-        }
+    const validatedAssociation = validateAssociation("TEAM", teamFormValues?.association, form.setError);
 
-        const validatedOttPartnerMetrics = validateMetrics(
-            "ottPartnerMetrics",
-            teamFormValues?.ottPartnerMetrics,
-            form.setError
-        );
+    if (
+      validatedOttPartnerMetrics === undefined ||
+      validatedBroadcastMetrics === undefined ||
+      validatedAssociation === undefined
+    ) {
+      return;
+    }
 
-        const validatedBroadcastMetrics = validateMetrics(
-            "broadcastPartnerMetrics",
-            teamFormValues?.broadcastPartnerMetrics,
-            form.setError
-        );
+    const isEndorsementsValid = validateEndorsements(teamFormValues.endorsements, form.setError);
 
-        const validatedAssociation = validateAssociation("TEAM", teamFormValues?.association, form.setError);
+    if (isEndorsementsValid === null) {
+      return;
+    }
 
-        if (
-            validatedOttPartnerMetrics === undefined ||
-            validatedBroadcastMetrics === undefined ||
-            validatedAssociation === undefined
-        ) {
-            return;
-        }
-
-        const isEndorsementsValid = validateEndorsements(teamFormValues.endorsements, form.setError);
-
-        if (isEndorsementsValid === null) {
-            return;
-        }
-
-        const requestBody = {
-            ...teamFormValues,
-            ottPartnerMetrics: validatedOttPartnerMetrics,
-            broadcastPartnerMetrics: validatedBroadcastMetrics,
-            franchiseFee: convertedFranciseFee,
-            association: teamFormValues.association?.map((asso, index) => ({
-                ...asso,
-                costOfAssociation: convertedCostOfAssociations[index]
-            }))
-        };
-
-        console.log("\n\n\n\nRequest Body:", requestBody);
-
-        try {
-            setIsSubmitting(true);
-            if (id) {
-                printLogs("id found making API call for edit");
-                const response = await TeamService.editTeam(id, requestBody);
-                if (response.status === HTTP_STATUS_CODES.OK) {
-                    toast.success("Team updated successfully");
-                }
-                return;
-            }
-            printLogs("id not found making API call for create");
-            const response = await TeamService.createTeam(requestBody);
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Team created successfully");
-                form.reset();
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError) {
-                toast.error("An unknown error occurred");
-            }
-        } finally {
-            setIsSubmitting(false);
-        }
+    const requestBody = {
+      ...teamFormValues,
+      ottPartnerMetrics: validatedOttPartnerMetrics,
+      broadcastPartnerMetrics: validatedBroadcastMetrics,
+      franchiseFee: convertedFranciseFee,
+      association: teamFormValues.association?.map((asso, index) => ({
+        ...asso,
+        costOfAssociation: convertedCostOfAssociations[index]
+      }))
     };
 
-    return (
-        <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
-                    <div className="flex items-center gap-4">
-                        <Button
-                            variant="outline"
-                            size="icon"
-                            className="h-7 w-7"
-                            onClick={() => navigate(-1)}
-                            type="button"
-                        >
-                            <ChevronLeft className="h-4 w-4" />
-                            <span className="sr-only">Back</span>
-                        </Button>
-                        <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                            {id ? "Edit" : "Create"} Team
-                        </h1>
+    try {
+      setIsSubmitting(true);
+      if (id) {
+        printLogs("id found making API call for edit");
+        const response = await TeamService.editTeam(id, requestBody);
+        if (response.status === HTTP_STATUS_CODES.OK) {
+          initialFormData.current = form.getValues();
+          toast.success("Team updated successfully");
+        }
+        return;
+      }
+      printLogs("id not found making API call for create");
+      const response = await TeamService.createTeam(requestBody);
+      if (response.status === HTTP_STATUS_CODES.OK) {
+        toast.success("Team created successfully");
+        form.reset(emptyFormValues);
+      }
+    } catch (error) {
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError) {
+        toast.error("An unknown error occurred");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-                        <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
-                                onClick={() => navigate(-1)}
-                                type="button"
-                            >
-                                Discard
-                            </Button>
-                            <Button
-                                type="submit"
-                                size="sm"
-                                className="gap-1"
-                                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
-                            >
-                                <span>Save Team</span>
-                                <Loader visible={isSubmitting} />
-                            </Button>
-                        </div>
+  return (
+    <div className="flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => navigate(-1)} type="button">
+              <ChevronLeft className="h-4 w-4" />
+              <span className="sr-only">Back</span>
+            </Button>
+            <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+              {id ? "Edit" : "Create"} Team
+            </h1>
+
+            <div className="hidden items-center gap-2 md:ml-auto md:flex">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
+                onClick={handleDiscard}
+                type="button"
+              >
+                Discard
+              </Button>
+              <Button
+                type="submit"
+                size="sm"
+                className="gap-1"
+                disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
+              >
+                <span>Save Team</span>
+                <Loader visible={isSubmitting} />
+              </Button>
+            </div>
+          </div>
+          {isFetchingDetails || isFetchingMetadata ? (
+            <FormSkeleton />
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
+              <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
+                <CardWrapper title="Team Details">
+                  <div className="grid gap-6">
+                    <div className="grid gap-3">
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItemWrapper label="Team Name">
+                            <Input {...field} placeholder="Team name" />
+                          </FormItemWrapper>
+                        )}
+                      />
                     </div>
-                    {isFetchingDetails || isFetchingMetadata ? (
-                        <FormSkeleton />
-                    ) : (
-                        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 lg:gap-8">
-                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-2">
-                                <CardWrapper title="Team Details">
-                                    <div className="grid gap-6">
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="name"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Team Name">
-                                                        <Input {...field} placeholder="Team name" />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="taglineIds"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Taglines">
-                                                        <div className="flex w-full items-center gap-3">
-                                                            <SelectBox
-                                                                options={metadataStore?.tagline}
-                                                                value={field.value}
-                                                                onChange={field.onChange}
-                                                                className="w-full"
-                                                                placeholder="Select a tagline"
-                                                                inputPlaceholder="Search for a tagline..."
-                                                                emptyPlaceholder="No tagline found"
-                                                                multiple
-                                                            />
-                                                            <InputDrawer
-                                                                title="Tagline"
-                                                                description="Create a new tagline to add to the dropdown"
-                                                                register="taglineName"
-                                                                schema={taglineFormSchema}
-                                                                createFn={MetadataService.createTagline}
-                                                                fetchMetadataFn={fetchMetadata}
-                                                            >
-                                                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
-                                                            </InputDrawer>
-                                                        </div>
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                            <FormField
-                                                control={form.control}
-                                                name="strategyOverview"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Strategy Overview">
-                                                        <Textarea
-                                                            id="strategyOverview"
-                                                            className="scrollbar"
-                                                            {...field}
-                                                            rows={5}
-                                                        />
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
-                                            <div className="grid gap-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="yearOfInception"
-                                                    render={({ field }) => (
-                                                        <FormItemWrapper label="Year of Inception">
-                                                            <SelectBox
-                                                                options={getListOfYears()}
-                                                                value={field.value}
-                                                                onChange={field.onChange}
-                                                                placeholder="Select a year"
-                                                                inputPlaceholder="Search for a year..."
-                                                                emptyPlaceholder="No year found"
-                                                            />
-                                                        </FormItemWrapper>
-                                                    )}
-                                                />
-                                            </div>
-                                            <div className="grid gap-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="franchiseFee"
-                                                    render={({ field }) => (
-                                                        <FormItemWrapper label="Franchise Fee (in cr)">
-                                                            <Input
-                                                                {...field}
-                                                                placeholder="Franchise fees"
-                                                                type="text"
-                                                                onChange={(e) =>
-                                                                    onNumInputChange(form, e, "franchiseFee")
-                                                                }
-                                                            />
-                                                        </FormItemWrapper>
-                                                    )}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="activeCampaignIds"
-                                                render={({ field }) => (
-                                                    <FormItemWrapper label="Active Campaigns">
-                                                        <div className="flex w-full items-center gap-3">
-                                                            <SelectBox
-                                                                options={metadataStore?.activeCampaign}
-                                                                value={field.value}
-                                                                onChange={field.onChange}
-                                                                className="w-full"
-                                                                placeholder="Select a campaign"
-                                                                inputPlaceholder="Search for campaigns..."
-                                                                emptyPlaceholder="No campaign found"
-                                                                multiple
-                                                            />
-                                                            <InputDrawer
-                                                                title="Active Campaign"
-                                                                description="Create a new active campaign to add to the dropdown"
-                                                                register="activeCampaignName"
-                                                                schema={activeCampaignFormSchema}
-                                                                createFn={MetadataService.createActiveCampaign}
-                                                                fetchMetadataFn={fetchMetadata}
-                                                            >
-                                                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
-                                                            </InputDrawer>
-                                                        </div>
-                                                    </FormItemWrapper>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-                                </CardWrapper>
-
-                                <CardWrapper title="Marketing">
-                                    <div className="grid gap-6">
-                                        <div className="grid grid-cols-2 gap-3">
-                                            <div className="grid gap-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="primaryMarketingPlatformIds"
-                                                    render={({ field }) => (
-                                                        <FormItemWrapper label="Primary Marketing Platform">
-                                                            <SelectBox
-                                                                options={metadataStore?.marketingPlatform}
-                                                                value={field.value}
-                                                                onChange={field.onChange}
-                                                                placeholder="Select a platform"
-                                                                inputPlaceholder="Search for a platform..."
-                                                                emptyPlaceholder="No platform found"
-                                                                multiple
-                                                            />
-                                                        </FormItemWrapper>
-                                                    )}
-                                                />
-                                            </div>
-
-                                            <div className="grid gap-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="secondaryMarketingPlatformIds"
-                                                    render={({ field }) => (
-                                                        <FormItemWrapper label="Secondary Marketing Platform">
-                                                            <SelectBox
-                                                                options={metadataStore?.marketingPlatform}
-                                                                value={field.value}
-                                                                onChange={field.onChange}
-                                                                placeholder="Select a platform"
-                                                                inputPlaceholder="Search for a platform..."
-                                                                emptyPlaceholder="No platform found"
-                                                                multiple
-                                                            />
-                                                        </FormItemWrapper>
-                                                    )}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="grid grid-cols-3 gap-3">
-                                            <div className="grid gap-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="primaryMarketIds"
-                                                    render={({ field }) => (
-                                                        <FormItemWrapper label="Primary key Market">
-                                                            <SelectBox
-                                                                options={metadataStore?.keyMarket}
-                                                                value={field.value}
-                                                                onChange={field.onChange}
-                                                                placeholder="Select a market"
-                                                                inputPlaceholder="Search for a market..."
-                                                                emptyPlaceholder="No market found"
-                                                                multiple
-                                                            />
-                                                        </FormItemWrapper>
-                                                    )}
-                                                />
-                                            </div>
-                                            <div className="grid gap-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="secondaryMarketIds"
-                                                    render={({ field }) => (
-                                                        <FormItemWrapper label="Secondary key Market">
-                                                            <SelectBox
-                                                                options={metadataStore?.keyMarket}
-                                                                value={field.value}
-                                                                onChange={field.onChange}
-                                                                placeholder="Select a market"
-                                                                inputPlaceholder="Search for a market..."
-                                                                emptyPlaceholder="No market found"
-                                                                multiple
-                                                            />
-                                                        </FormItemWrapper>
-                                                    )}
-                                                />
-                                            </div>
-                                            <div className="grid gap-3">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="tertiaryIds"
-                                                    render={({ field }) => (
-                                                        <FormItemWrapper label="Tertiary Market">
-                                                            <SelectBox
-                                                                options={metadataStore?.state}
-                                                                value={field.value}
-                                                                onChange={field.onChange}
-                                                                placeholder="Select a state"
-                                                                inputPlaceholder="Search for a state..."
-                                                                emptyPlaceholder="No state found"
-                                                                multiple
-                                                            />
-                                                        </FormItemWrapper>
-                                                    )}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </CardWrapper>
-
-                                {/* OTT Partner Metrics */}
-
-                                <CardWrapper title="OTT Partner Metrics">
-                                    <MetricsCard
-                                        fieldArray={ottPartnerMetricFieldArray}
-                                        form={form}
-                                        options={metadataStore.ottPartner}
-                                        defaultValue={defaultOttPartnerMetric}
-                                        register="ottPartnerMetrics"
-                                    />
-                                </CardWrapper>
-
-                                {/* Broadcast Partner Metrics */}
-
-                                <CardWrapper title="Broadcast Partner Metrics">
-                                    <MetricsCard
-                                        fieldArray={broadcastPartnerMetricFieldArray}
-                                        form={form}
-                                        options={metadataStore.broadcastPartner}
-                                        defaultValue={defaultBroadcastPartnerMetric}
-                                        register="broadcastPartnerMetrics"
-                                    />
-                                </CardWrapper>
-
-                                <CardWrapper title="Socials">
-                                    <TableHeaderWrapper
-                                        headersArray={[
-                                            {
-                                                header: "Platforms",
-                                                className: "w-[120px]"
-                                            },
-                                            { header: "Link" }
-                                        ]}
-                                    >
-                                        {socials.map((social, index) => (
-                                            <TableRow key={index}>
-                                                <TableCell className="capitalize">{social.name}</TableCell>
-                                                <FormField
-                                                    control={form.control}
-                                                    name={social.name}
-                                                    render={({ field }) => (
-                                                        <TableCell>
-                                                            <FormItemWrapper>
-                                                                <Input type="text" {...field} />
-                                                            </FormItemWrapper>
-                                                        </TableCell>
-                                                    )}
-                                                />
-                                            </TableRow>
-                                        ))}
-                                    </TableHeaderWrapper>
-                                </CardWrapper>
+                    <div className="grid gap-3">
+                      <FormField
+                        control={form.control}
+                        name="taglineIds"
+                        render={({ field }) => (
+                          <FormItemWrapper label="Taglines">
+                            <div className="flex w-full items-center gap-3">
+                              <SelectBox
+                                options={metadataStore?.tagline}
+                                value={field.value}
+                                onChange={field.onChange}
+                                className="w-full"
+                                placeholder="Select a tagline"
+                                inputPlaceholder="Search for a tagline..."
+                                emptyPlaceholder="No tagline found"
+                                multiple
+                              />
+                              <InputDrawer
+                                title="Tagline"
+                                description="Create a new tagline to add to the dropdown"
+                                register="taglineName"
+                                schema={taglineFormSchema}
+                                createFn={MetadataService.createTagline}
+                                fetchMetadataFn={fetchMetadata}
+                              >
+                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                              </InputDrawer>
                             </div>
-
-                            <div className="grid auto-rows-max items-start gap-4">
-                                <VerticalFieldsCard
-                                    control={form.control}
-                                    title="Team Attributes"
-                                    displayFields={teamAttributes}
-                                />
-
-                                <VerticalFieldsCard
-                                    control={form.control}
-                                    title="Target Audience"
-                                    displayFields={targetAudience}
-                                />
-                            </div>
-                            <div className="grid auto-rows-max items-start gap-4 lg:col-span-3">
-                                <AssociationCard
-                                    form={form}
-                                    metadataStore={metadataStore}
-                                    showBrand={true}
-                                    fetchMetadata={fetchMetadata}
-                                />
-                                <ContactPersonCard control={form.control} />
-                                <EndorsementCard control={form.control} />
-                            </div>
-                        </div>
-                    )}
-
-                    <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
-                        <Button
-                            type="submit"
-                            size="sm"
-                            className="w-full gap-1 py-5"
-                            disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
-                        >
-                            <span>Save Team</span>
-                            <Loader visible={isSubmitting} />
-                        </Button>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="w-full py-5"
-                            disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
-                            onClick={() =>
-                                navigate(NAVIGATION_ROUTES.TEAM_LIST, {
-                                    replace: true
-                                })
-                            }
-                            type="button"
-                        >
-                            Discard
-                        </Button>
+                          </FormItemWrapper>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="strategyOverview"
+                        render={({ field }) => (
+                          <FormItemWrapper label="Strategy Overview">
+                            <Textarea id="strategyOverview" className="scrollbar" {...field} rows={5} />
+                          </FormItemWrapper>
+                        )}
+                      />
                     </div>
-                </form>
-            </Form>
-        </div>
-    );
+                    <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+                      <div className="grid gap-3">
+                        <FormField
+                          control={form.control}
+                          name="yearOfInception"
+                          render={({ field }) => (
+                            <FormItemWrapper label="Year of Inception">
+                              <SelectBox
+                                options={getListOfYears()}
+                                value={field.value}
+                                onChange={field.onChange}
+                                placeholder="Select a year"
+                                inputPlaceholder="Search for a year..."
+                                emptyPlaceholder="No year found"
+                              />
+                            </FormItemWrapper>
+                          )}
+                        />
+                      </div>
+                      <div className="grid gap-3">
+                        <FormField
+                          control={form.control}
+                          name="franchiseFee"
+                          render={({ field }) => (
+                            <FormItemWrapper label="Franchise Fee (in cr)">
+                              <Input
+                                {...field}
+                                placeholder="Franchise fees"
+                                type="text"
+                                onChange={(e) => onNumInputChange(form, e, "franchiseFee")}
+                              />
+                            </FormItemWrapper>
+                          )}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid gap-3">
+                      <FormField
+                        control={form.control}
+                        name="activeCampaignIds"
+                        render={({ field }) => (
+                          <FormItemWrapper label="Active Campaigns">
+                            <div className="flex w-full items-center gap-3">
+                              <SelectBox
+                                options={metadataStore?.activeCampaign}
+                                value={field.value}
+                                onChange={field.onChange}
+                                className="w-full"
+                                placeholder="Select a campaign"
+                                inputPlaceholder="Search for campaigns..."
+                                emptyPlaceholder="No campaign found"
+                                multiple
+                              />
+                              <InputDrawer
+                                title="Active Campaign"
+                                description="Create a new active campaign to add to the dropdown"
+                                register="activeCampaignName"
+                                schema={activeCampaignFormSchema}
+                                createFn={MetadataService.createActiveCampaign}
+                                fetchMetadataFn={fetchMetadata}
+                              >
+                                <PlusCircle className="size-5 cursor-pointer text-green-500" />
+                              </InputDrawer>
+                            </div>
+                          </FormItemWrapper>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </CardWrapper>
+
+                <CardWrapper title="Marketing">
+                  <div className="grid gap-6">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="grid gap-3">
+                        <FormField
+                          control={form.control}
+                          name="primaryMarketingPlatformIds"
+                          render={({ field }) => (
+                            <FormItemWrapper label="Primary Marketing Platform">
+                              <SelectBox
+                                options={metadataStore?.marketingPlatform}
+                                value={field.value}
+                                onChange={field.onChange}
+                                placeholder="Select a platform"
+                                inputPlaceholder="Search for a platform..."
+                                emptyPlaceholder="No platform found"
+                                multiple
+                              />
+                            </FormItemWrapper>
+                          )}
+                        />
+                      </div>
+
+                      <div className="grid gap-3">
+                        <FormField
+                          control={form.control}
+                          name="secondaryMarketingPlatformIds"
+                          render={({ field }) => (
+                            <FormItemWrapper label="Secondary Marketing Platform">
+                              <SelectBox
+                                options={metadataStore?.marketingPlatform}
+                                value={field.value}
+                                onChange={field.onChange}
+                                placeholder="Select a platform"
+                                inputPlaceholder="Search for a platform..."
+                                emptyPlaceholder="No platform found"
+                                multiple
+                              />
+                            </FormItemWrapper>
+                          )}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="grid gap-3">
+                        <FormField
+                          control={form.control}
+                          name="primaryMarketIds"
+                          render={({ field }) => (
+                            <FormItemWrapper label="Primary key Market">
+                              <SelectBox
+                                options={metadataStore?.keyMarket}
+                                value={field.value}
+                                onChange={field.onChange}
+                                placeholder="Select a market"
+                                inputPlaceholder="Search for a market..."
+                                emptyPlaceholder="No market found"
+                                multiple
+                              />
+                            </FormItemWrapper>
+                          )}
+                        />
+                      </div>
+                      <div className="grid gap-3">
+                        <FormField
+                          control={form.control}
+                          name="secondaryMarketIds"
+                          render={({ field }) => (
+                            <FormItemWrapper label="Secondary key Market">
+                              <SelectBox
+                                options={metadataStore?.keyMarket}
+                                value={field.value}
+                                onChange={field.onChange}
+                                placeholder="Select a market"
+                                inputPlaceholder="Search for a market..."
+                                emptyPlaceholder="No market found"
+                                multiple
+                              />
+                            </FormItemWrapper>
+                          )}
+                        />
+                      </div>
+                      <div className="grid gap-3">
+                        <FormField
+                          control={form.control}
+                          name="tertiaryIds"
+                          render={({ field }) => (
+                            <FormItemWrapper label="Tertiary Market">
+                              <SelectBox
+                                options={metadataStore?.state}
+                                value={field.value}
+                                onChange={field.onChange}
+                                placeholder="Select a state"
+                                inputPlaceholder="Search for a state..."
+                                emptyPlaceholder="No state found"
+                                multiple
+                              />
+                            </FormItemWrapper>
+                          )}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </CardWrapper>
+
+                {/* OTT Partner Metrics */}
+
+                <CardWrapper title="OTT Partner Metrics">
+                  <MetricsCard
+                    fieldArray={ottPartnerMetricFieldArray}
+                    form={form}
+                    options={metadataStore.ottPartner}
+                    defaultValue={defaultOttPartnerMetric}
+                    register="ottPartnerMetrics"
+                  />
+                </CardWrapper>
+
+                {/* Broadcast Partner Metrics */}
+
+                <CardWrapper title="Broadcast Partner Metrics">
+                  <MetricsCard
+                    fieldArray={broadcastPartnerMetricFieldArray}
+                    form={form}
+                    options={metadataStore.broadcastPartner}
+                    defaultValue={defaultBroadcastPartnerMetric}
+                    register="broadcastPartnerMetrics"
+                  />
+                </CardWrapper>
+
+                <CardWrapper title="Socials">
+                  <TableHeaderWrapper
+                    headersArray={[
+                      {
+                        header: "Platforms",
+                        className: "w-[120px]"
+                      },
+                      { header: "Link" }
+                    ]}
+                  >
+                    {socials.map((social, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="capitalize">{social.name}</TableCell>
+                        <FormField
+                          control={form.control}
+                          name={social.name}
+                          render={({ field }) => (
+                            <TableCell>
+                              <FormItemWrapper>
+                                <Input type="text" {...field} />
+                              </FormItemWrapper>
+                            </TableCell>
+                          )}
+                        />
+                      </TableRow>
+                    ))}
+                  </TableHeaderWrapper>
+                </CardWrapper>
+              </div>
+
+              <div className="grid auto-rows-max items-start gap-4">
+                <VerticalFieldsCard control={form.control} title="Team Attributes" displayFields={teamAttributes} />
+
+                <VerticalFieldsCard control={form.control} title="Target Audience" displayFields={targetAudience} />
+              </div>
+              <div className="grid auto-rows-max items-start gap-4 lg:col-span-3">
+                <AssociationCard
+                  form={form}
+                  metadataStore={metadataStore}
+                  showBrand={true}
+                  fetchMetadata={fetchMetadata}
+                />
+                <ContactPersonCard control={form.control} />
+                <EndorsementCard control={form.control} />
+              </div>
+            </div>
+          )}
+
+          <div className="mt-3 flex flex-col items-center justify-center gap-3 md:hidden">
+            <Button
+              type="submit"
+              size="sm"
+              className="w-full gap-1 py-5"
+              disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
+            >
+              <span>Save Team</span>
+              <Loader visible={isSubmitting} />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full py-5"
+              disabled={isSubmitting || isFetchingDetails || isFetchingMetadata}
+              onClick={handleDiscard}
+              type="button"
+            >
+              Discard
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
+  );
 }
 
 export default TeamForm;
