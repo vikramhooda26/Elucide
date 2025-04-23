@@ -516,6 +516,7 @@ function LeagueForm() {
       if (id) {
         const response = await LeagueService.editLeague(id, requestBody);
         if (response.status === HTTP_STATUS_CODES.OK) {
+          initialFormData.current = form.getValues();
           toast.success("League updated successfully");
         }
         return;
