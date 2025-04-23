@@ -12,16 +12,16 @@ import OptionalColumns from "@/services/filter/OptionalColumns";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { DownloadIcon } from "@radix-ui/react-icons";
 import {
-    ColumnFiltersState,
-    getCoreRowModel,
-    getFacetedRowModel,
-    getFacetedUniqueValues,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
-    SortingState,
-    useReactTable,
-    VisibilityState
+  ColumnFiltersState,
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+  VisibilityState
 } from "@tanstack/react-table";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -30,189 +30,243 @@ import { toast } from "sonner";
 import * as XLSX from "xlsx";
 
 type BrandTableProps = {
-    brandList: Array<any>;
-    setBrandList: (value: React.SetStateAction<any[]>) => void;
-    filters?: Record<
-        string,
-        {
-            type: string;
-            value: any;
-            isMandatory: boolean;
-        }
-    >;
-    isFilterApplied: boolean;
-    setIsFilterApplied: (b: boolean) => void;
+  brandList: any[];
+  setBrandList: React.Dispatch<React.SetStateAction<any[]>>;
+  filters?: Record<
+    string,
+    {
+      type: string;
+      value: any;
+      isMandatory: boolean;
+    }
+  >;
+  isFilterApplied: boolean;
+  setIsFilterApplied: React.Dispatch<React.SetStateAction<boolean>>;
+  pagination?: {
+    pageIndex: number;
+    pageSize: number;
+    totalCount: number;
+  };
+  onPageChange?: (page: number, pageSize: number) => void;
+  isPaginationEnabled?: boolean;
+  sorting?: SortingState;
+  onSortingChange?: (sorting: SortingState) => void;
 };
 
-function BrandTable({ brandList, setBrandList, filters, isFilterApplied, setIsFilterApplied }: BrandTableProps) {
-    const userRole = useUser()?.role;
-    const navigate = useNavigate();
-    const setIsLoading = useSetRecoilState(listLoadingAtom);
-    const { logout } = useAuth();
-    const [rowSelection, setRowSelection] = useState({});
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [sorting, setSorting] = useState<SortingState>([]);
+function BrandTable({
+  brandList,
+  setBrandList,
+  filters,
+  isFilterApplied,
+  setIsFilterApplied,
+  pagination,
+  onPageChange,
+  isPaginationEnabled = false,
+  sorting = [],
+  onSortingChange
+}: BrandTableProps) {
+  const userRole = useUser()?.role;
+  const navigate = useNavigate();
+  const setIsLoading = useSetRecoilState(listLoadingAtom);
+  const { logout } = useAuth();
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [localSorting, setLocalSorting] = useState<SortingState>([]);
 
-    if (!userRole) {
-        return;
+  if (!userRole) {
+    return null;
+  }
+
+  useEffect(() => {
+    if (isFilterApplied || (filters && Object.keys(filters)?.length <= 0)) {
+      setOptionalColumns();
     }
+  }, [filters, isFilterApplied]);
 
-    useEffect(() => {
-        if (isFilterApplied || (filters && Object.keys(filters)?.length <= 0)) {
-            setOptionalColumns();
-        }
-    }, [filters, isFilterApplied]);
+  const onDelete = useCallback(async (id: string) => {
+    try {
+      setIsLoading(true);
+      const response = await MetadataService.deleteData(id, "/api/admin/brand/delete/");
 
-    const onDelete = useCallback(async (id: string) => {
-        try {
-            setIsLoading(true);
-            const response = await MetadataService.deleteData(id, "/api/admin/brand/delete/");
+      if (response.status === HTTP_STATUS_CODES.OK) {
+        toast.success("Deleted successfully");
+        setBrandList((prevDataList) => prevDataList.filter((data) => data.id !== id));
+      }
+    } catch (error) {
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
 
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                toast.success("Deleted successfully");
-                setBrandList((prevDataList) => prevDataList.filter((data) => data.id !== id));
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
+        setBrandList((prevDataList) => prevDataList.filter((data) => data.id !== id));
+      } else {
+        toast.error("Could not delete this data");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-            if (unknownError.response.status === HTTP_STATUS_CODES.NOT_FOUND) {
-                setBrandList((prevDataList) => prevDataList.filter((data) => data.id !== id));
-            } else {
-                toast.error("Could not delete this data");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    }, []);
+  const onEdit = useCallback((id: string) => {
+    navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`);
+  }, []);
 
-    const onEdit = useCallback((id: string) => {
-        navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`);
-    }, []);
+  const viewRoute = NAVIGATION_ROUTES.BRAND;
 
-    const viewRoute = NAVIGATION_ROUTES.BRAND;
+  const canEdit = userRole !== "USER" && userRole !== "STAFF";
 
-    const canEdit = userRole !== "USER" && userRole !== "STAFF";
+  const columns = useMemo(
+    () =>
+      getColumns({
+        onDelete,
+        onEdit,
+        userRole,
+        viewRoute,
+        searchQuerykey: "name",
+        title: "Brand name",
+        canEdit
+      }),
+    []
+  );
 
-    const columns = useMemo(
-        () =>
-            getColumns({
-                onDelete,
-                onEdit,
-                userRole,
-                viewRoute,
-                searchQuerykey: "name",
-                title: "Brand name",
-                canEdit
-            }),
-        []
-    );
+  const [allowedColumns, setAllowedColumns] = useState(columns);
 
-    const [allowedColumns, setAllowedColumns] = useState(columns);
+  const setOptionalColumns = () => {
+    if (filters) {
+      const optionalColumns = OptionalColumns.getOptionalColumns(filters, "brandList");
+      const updateColumns = [...columns];
+      //@ts-ignore
+      updateColumns?.splice(1, 0, ...optionalColumns);
 
-    const setOptionalColumns = () => {
-        if (filters) {
-            const optionalColumns = OptionalColumns.getOptionalColumns(filters, "brandList");
-            const updateColumns = [...columns];
-            //@ts-ignore
-            updateColumns?.splice(1, 0, ...optionalColumns);
+      setAllowedColumns(updateColumns);
 
-            setAllowedColumns(updateColumns);
+      // Commented out to avoid using server-side sorting when filters are applied. If this breaks something, uncomment this and look at other method to make server-side soring work.
+      //   setIsFilterApplied(false);
+    }
+  };
 
-            setIsFilterApplied(false);
-        }
-    };
+  const table = useReactTable({
+    data: brandList,
+    columns: allowedColumns,
+    manualPagination: isPaginationEnabled && !isFilterApplied,
+    manualSorting: isPaginationEnabled && !isFilterApplied,
+    pageCount:
+      isPaginationEnabled && !isFilterApplied
+        ? Math.ceil((pagination?.totalCount || 0) / (pagination?.pageSize || 10))
+        : undefined,
+    state: {
+      rowSelection,
+      columnVisibility,
+      columnFilters,
+      sorting: onSortingChange ? sorting : localSorting,
+      pagination: {
+        pageIndex: pagination?.pageIndex || 0,
+        pageSize: pagination?.pageSize || 10
+      }
+    },
+    onPaginationChange: (updater) => {
+      if (isPaginationEnabled && onPageChange) {
+        const currentPagination = {
+          pageIndex: pagination?.pageIndex || 0,
+          pageSize: pagination?.pageSize || 10
+        };
 
-    const table = useReactTable({
-        data: brandList,
-        columns: allowedColumns,
-        state: {
-            sorting,
-            columnVisibility,
-            rowSelection,
-            columnFilters
-        },
-        enableRowSelection: true,
-        onRowSelectionChange: setRowSelection,
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
-        onColumnVisibilityChange: setColumnVisibility,
-        getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFacetedRowModel: getFacetedRowModel(),
-        getFacetedUniqueValues: getFacetedUniqueValues()
-    });
+        const newPagination = typeof updater === "function" ? updater(currentPagination) : updater;
 
-    const downloadAsExcel = () => {
-        try {
-            const visibleColumns = table
-                .getAllColumns()
-                .filter((column) => column.getIsVisible() && column.id !== "actions");
+        onPageChange(newPagination.pageIndex, newPagination.pageSize);
+      }
+    },
+    onSortingChange: (updater) => {
+      const newSorting = typeof updater === "function" ? updater(onSortingChange ? sorting : localSorting) : updater;
 
-            const headers = visibleColumns.map((column) => {
-                if (column.id === "name") return "Brand name";
-                if (column.id === "createdDate") return "Created At";
-                if (column.id === "modifiedDate") return "Modified At";
-                if (column.id === "createdBy") return "Created By";
-                if (column.id === "modifiedBy") return "Modified By";
+      if (onSortingChange) {
+        onSortingChange(newSorting);
+      } else {
+        setLocalSorting(newSorting);
+      }
+    },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: !isPaginationEnabled || isFilterApplied ? getPaginationRowModel() : undefined,
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues()
+  });
 
-                return (
-                    column.id.charAt(0).toUpperCase() +
-                    column.id
-                        .slice(1)
-                        .replace(/([A-Z])/g, " $1")
-                        .trim()
-                );
-            });
+  const downloadAsExcel = () => {
+    try {
+      const visibleColumns = table.getAllColumns().filter((column) => column.getIsVisible() && column.id !== "actions");
 
-            const data = table.getFilteredRowModel().rows.map((row) => {
-                return visibleColumns.map((column) => {
-                    const cellValue = row.getValue(column.id);
+      const headers = visibleColumns.map((column) => {
+        if (column.id === "name") return "Brand name";
+        if (column.id === "createdDate") return "Created At";
+        if (column.id === "modifiedDate") return "Modified At";
+        if (column.id === "createdBy") return "Created By";
+        if (column.id === "modifiedBy") return "Modified By";
 
-                    if (column.id === "createdDate" || column.id === "modifiedDate") {
-                        return cellValue ? new Date(cellValue as string).toLocaleString() : "";
-                    }
+        return (
+          column.id.charAt(0).toUpperCase() +
+          column.id
+            .slice(1)
+            .replace(/([A-Z])/g, " $1")
+            .trim()
+        );
+      });
 
-                    return cellValue !== null && cellValue !== undefined ? cellValue : "";
-                });
-            });
+      const data = table.getFilteredRowModel().rows.map((row) => {
+        return visibleColumns.map((column) => {
+          const cellValue = row.getValue(column.id);
 
-            const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+          if (column.id === "createdDate" || column.id === "modifiedDate") {
+            return cellValue ? new Date(cellValue as string).toLocaleString() : "";
+          }
 
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Brands");
+          return cellValue !== null && cellValue !== undefined ? cellValue : "";
+        });
+      });
 
-            XLSX.writeFile(wb, "brands_list.xlsx");
+      const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
 
-            toast.success("Excel file downloaded successfully");
-        } catch (error) {
-            printLogs("Error downloading Brand Excel:", error);
-            toast.error("Failed to download Excel file");
-        }
-    };
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Brands");
 
-    const toolbarAttributes = [
-        <Input
-            placeholder="Filter brands..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
-            className="h-8 w-[150px] lg:w-[250px]"
-        />,
-        <Button variant="outline" size="sm" onClick={downloadAsExcel} className="ml-2">
-            <DownloadIcon className="mr-2 h-4 w-4" />
-            Export Excel
-        </Button>
-        // <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
-        // <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
-    ];
+      XLSX.writeFile(wb, "brands_list.xlsx");
 
-    return (
-        <>
-            <DataTable table={table} columns={columns} toolbarAttributes={toolbarAttributes} />
-        </>
-    );
+      toast.success("Excel file downloaded successfully");
+    } catch (error) {
+      printLogs("Error downloading Brand Excel:", error);
+      toast.error("Failed to download Excel file");
+    }
+  };
+
+  const toolbarAttributes = [
+    <Input
+      placeholder="Filter brands..."
+      value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+      onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+      className="h-8 w-[150px] lg:w-[250px]"
+    />,
+    <Button variant="outline" size="sm" onClick={downloadAsExcel} className="ml-2">
+      <DownloadIcon className="mr-2 h-4 w-4" />
+      Export Excel
+    </Button>
+    // <DataTableFacetedFilter column={table.getColumn("createdDate")} title="Created At" options={statuses} />,
+    // <DataTableFacetedFilter column={table.getColumn("modifiedDate")} title="Modiefied At" options={priorities} />
+  ];
+
+  return (
+    <>
+      <DataTable
+        table={table}
+        columns={columns}
+        toolbarAttributes={toolbarAttributes}
+        totalCount={isPaginationEnabled && !isFilterApplied ? pagination?.totalCount : undefined}
+      />
+    </>
+  );
 }
 
 export default BrandTable;

@@ -10,6 +10,7 @@ import FilterService from "@/services/filter/FilterService";
 import { filterState } from "@/store/atoms/filterAtom";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { brand } from "@/types/brand/BrandListTypes";
+import { SortingState } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -18,143 +19,205 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import BrandTable from "./data/BrandTable";
 
 function BrandList() {
-    const navigator = useNavigator();
-    const [brandList, setBrandList] = useState<any[]>([]);
-    // const [rowSelection, setRowSelection] = useState({});
-    // const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-    // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    // const [sorting, setSorting] = useState<SortingState>([]);
-    const [isFilterApplied, setIsFilterApplied] = useState(false);
+  const navigator = useNavigator();
+  const [brandList, setBrandList] = useState<any[]>([]);
+  // const [rowSelection, setRowSelection] = useState({});
+  // const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const setIsLoading = useSetRecoilState(listLoadingAtom);
+  const [isFilterApplied, setIsFilterApplied] = useState(false);
 
-    const setIsLoading = useSetRecoilState(listLoadingAtom);
-    const { logout } = useAuth();
-    const navigate = useNavigate();
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+    totalCount: 0
+  });
 
-    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-    const pageKey: TPageKey = "brandList";
-    const filterValues = useRecoilValue(filterState);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const pageKey: TPageKey = "brandList";
+  const filterValues = useRecoilValue(filterState);
 
-    const userRole = useUser()?.role;
-    if (!userRole) {
-        return;
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const userRole = useUser()?.role;
+  if (!userRole) {
+    return null;
+  }
+
+  useEffect(() => {
+    if (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length > 0) {
+      handleApplyFilters();
+    } else {
+      fetchBrands();
+    }
+  }, []);
+
+  const fetchBrands = async (page = pagination.pageIndex, pageSize = pagination.pageSize, sortingState = sorting) => {
+    try {
+      setIsLoading(true);
+      const response = await BrandService.getPaginated(
+        page,
+        pageSize,
+        sortingState.length > 0 ? sortingState : undefined
+      );
+      if (response.status === HTTP_STATUS_CODES.OK) {
+        const brands = response.data.items || [];
+        brands.forEach((brand: brand, idx: number) => {
+          brands[idx].createdBy = brand?.createdBy?.email || "N/A";
+          brands[idx].modifiedBy = brand?.modifiedBy?.email || "N/A";
+        });
+        setBrandList(brands);
+        setPagination((prev) => ({
+          ...prev,
+          pageIndex: page,
+          pageSize: pageSize,
+          totalCount: response.data.totalCount || 0
+        }));
+      }
+    } catch (error) {
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
+        toast.error("An unknown error occurred");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSortingChange = (newSorting: SortingState) => {
+    setSorting(newSorting);
+
+    if (!isFilterApplied) {
+      fetchBrands(pagination.pageIndex, pagination.pageSize, newSorting);
+    }
+  };
+
+  const handlePageChange = (newPage: number, newPageSize: number) => {
+    if (isFilterApplied) {
+      setPagination((prev) => ({
+        ...prev,
+        pageIndex: newPage,
+        pageSize: newPageSize
+      }));
+      return;
     }
 
-    const fetchBrands = async () => {
-        try {
-            setIsLoading(true);
-            const response = await BrandService.getAll({});
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                const brands = response.data;
-                brands.forEach((brand: brand, i: number) => {
-                    brands[i].createdBy = brand?.createdBy?.email || "N/A";
-                    brands[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
-                });
-                setBrandList(brands);
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError) {
-                toast.error("An unknown error occurred");
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const currentlyShowingAllData =
+      pagination.pageIndex === 0 &&
+      pagination.totalCount <= pagination.pageSize &&
+      newPageSize >= pagination.totalCount;
 
-    useEffect(() => {
-        if (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length > 0) {
-            handleApplyFilters();
-        } else {
-            fetchBrands();
-        }
-    }, []);
+    if (currentlyShowingAllData) {
+      setPagination((prev) => ({
+        ...prev,
+        pageIndex: 0,
+        pageSize: newPageSize
+      }));
+    } else {
+      let adjustedPage = newPage;
 
-    const filterConfig: FilterContent[] = fetchFilters(pageKey);
+      if (pagination.pageSize !== newPageSize) {
+        const currentStartRecord = pagination.pageIndex * pagination.pageSize;
+        adjustedPage = Math.floor(currentStartRecord / newPageSize);
+      }
 
-    const handleApplyFilters = async () => {
-        try {
-            if (!filterValues[pageKey] || (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length <= 0)) {
-                fetchBrands();
-                return;
-            }
-            setIsLoading(true);
-            const processedData = FilterService.processFilterData(filterValues[pageKey]);
-            if (processedData?.brandIds) {
-                processedData.ids = processedData?.brandIds;
-            }
-            delete processedData?.brandIds;
+      fetchBrands(adjustedPage, newPageSize, sorting);
+    }
+  };
 
-            const response = await BrandService.getFilteredBrands(processedData);
+  const filterConfig: FilterContent[] = fetchFilters(pageKey);
 
-            if (response.status === HTTP_STATUS_CODES.OK) {
-                let brandList = response.data;
-                brandList.forEach((brand: brand, i: number) => {
-                    brandList[i].createdBy = brand?.createdBy?.email || "N/A";
-                    brandList[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
-                });
+  const handleApplyFilters = async () => {
+    try {
+      if (!filterValues[pageKey] || (filterValues[pageKey] && Object.keys(filterValues[pageKey])?.length <= 0)) {
+        setIsFilterApplied(false);
+        fetchBrands();
+        return;
+      }
+      setIsLoading(true);
+      const processedData = FilterService.processFilterData(filterValues[pageKey]);
+      if (processedData?.brandIds) {
+        processedData.ids = processedData?.brandIds;
+      }
+      delete processedData?.brandIds;
 
-                brandList = FilterService.validateMatching(brandList, filterValues[pageKey], "brandList");
+      const response = await BrandService.getFilteredBrands(processedData);
 
-                setIsFilterApplied(true);
+      if (response.status === HTTP_STATUS_CODES.OK) {
+        let brandList = response.data;
+        brandList.forEach((brand: brand, i: number) => {
+          brandList[i].createdBy = brand?.createdBy?.email || "N/A";
+          brandList[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
+        });
 
-                setBrandList(brandList);
-            }
-        } catch (error) {
-            const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
-            if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
-                toast.error("An unknown error occurred");
-            } else {
-                setBrandList([]);
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
+        brandList = FilterService.validateMatching(brandList, filterValues[pageKey], "brandList");
 
-    return (
-        <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
-            {/* <div className="mt-8">
-                <h2 className="text-2xl font-semibold mb-4">Applied Filters:</h2>
-                <ul className="list-disc pl-5">
-                    {Object.entries(filterValues[pageKey] || {}).map(([key, filter]) => (
-                        <li key={key}>
-                            <strong>{key}:</strong> {JSON.stringify(filter.value)}
-                        </li>
-                    ))}
-                </ul>
-            </div> */}
+        setIsFilterApplied(true);
+        setBrandList(brandList);
 
-            <div className="flex items-center justify-between space-y-2">
-                <div>
-                    <h2 className="text-2xl font-bold tracking-tight">Brand List</h2>
-                    <p className="text-muted-foreground">Here&apos;s a list of brands.</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <FilterModal
-                        isOpen={isFilterModalOpen}
-                        filters={filterConfig}
-                        onClose={() => setIsFilterModalOpen(false)}
-                        onApplyFilters={handleApplyFilters}
-                        onDiscardFilters={fetchBrands}
-                        pageKey={pageKey}
-                    />
-                    <ConditionalButton
-                        onClick={() => navigator(NAVIGATION_ROUTES.CREATE_BRAND)}
-                        accessLevel="all_staff"
-                    >
-                        Create Brand
-                    </ConditionalButton>
-                </div>
-            </div>
-            <BrandTable
-                brandList={brandList}
-                setBrandList={setBrandList}
-                filters={filterValues[pageKey]}
-                isFilterApplied={isFilterApplied}
-                setIsFilterApplied={setIsFilterApplied}
-            />
+        setPagination({
+          pageIndex: 0,
+          pageSize: 10,
+          totalCount: brandList.length
+        });
+      }
+    } catch (error) {
+      const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
+      if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
+        toast.error("An unknown error occurred");
+      } else {
+        setBrandList([]);
+        setPagination({
+          pageIndex: 0,
+          pageSize: 10,
+          totalCount: 0
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="h-full flex-1 flex-col space-y-8 py-8 md:flex">
+      <div className="flex items-center justify-between space-y-2">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight">Brand List</h2>
+          <p className="text-muted-foreground">Here&apos;s a list of brands.</p>
         </div>
-    );
+        <div className="flex items-center space-x-2">
+          <FilterModal
+            isOpen={isFilterModalOpen}
+            filters={filterConfig}
+            onClose={() => setIsFilterModalOpen(false)}
+            onApplyFilters={handleApplyFilters}
+            onDiscardFilters={() => {
+              setIsFilterApplied(false);
+              fetchBrands(pagination.pageIndex, pagination.pageSize, sorting);
+            }}
+            pageKey={pageKey}
+          />
+          <ConditionalButton onClick={() => navigator(NAVIGATION_ROUTES.CREATE_BRAND)} accessLevel="all_staff">
+            Create Brand
+          </ConditionalButton>
+        </div>
+      </div>
+      <BrandTable
+        brandList={brandList}
+        setBrandList={setBrandList}
+        filters={filterValues[pageKey]}
+        isFilterApplied={isFilterApplied}
+        setIsFilterApplied={setIsFilterApplied}
+        pagination={pagination}
+        onPageChange={handlePageChange}
+        isPaginationEnabled={true}
+        sorting={sorting}
+        onSortingChange={handleSortingChange}
+      />
+    </div>
+  );
 }
 
 export default BrandList;
