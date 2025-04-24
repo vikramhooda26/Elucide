@@ -52,6 +52,8 @@ type Props = {
   isPaginationEnabled?: boolean;
   sorting?: SortingState;
   onSortingChange?: (sorting: SortingState) => void;
+  searchQuery?: string;
+  onSearchChange?: (value: string) => void;
 };
 
 function LeagueTable({
@@ -64,7 +66,9 @@ function LeagueTable({
   onPageChange,
   onSortingChange,
   pagination,
-  sorting = []
+  sorting = [],
+  searchQuery = "",
+  onSearchChange
 }: Props) {
   const userRole = useUser()?.role;
   const navigate = useNavigate();
@@ -248,8 +252,14 @@ function LeagueTable({
   const toolbarAttributes = [
     <Input
       placeholder="Filter leagues..."
-      value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-      onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+      value={!isFilterApplied ? searchQuery : (table.getColumn("name")?.getFilterValue() as string)}
+      onChange={(event) => {
+        if (onSearchChange && !isFilterApplied) {
+          onSearchChange(event.target.value);
+        } else {
+          table.getColumn("name")?.setFilterValue(event.target.value);
+        }
+      }}
       className="h-8 w-[150px] lg:w-[250px]"
     />,
     <Button variant="outline" size="sm" onClick={downloadAsExcel} className="ml-2">

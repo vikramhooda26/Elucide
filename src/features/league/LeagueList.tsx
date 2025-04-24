@@ -11,12 +11,13 @@ import { filterState } from "@/store/atoms/filterAtom";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { league } from "@/types/league/LeagueListTypes";
 import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import LeagueTable from "./data/LeagueTable";
+import { debounce } from "@/hooks/debounce";
 
 function LeagueList() {
   const navigator = useNavigator();
@@ -27,6 +28,7 @@ function LeagueList() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const setIsLoading = useSetRecoilState(listLoadingAtom);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -54,13 +56,19 @@ function LeagueList() {
     }
   }, []);
 
-  const fetchLeagues = async (page = pagination.pageIndex, pageSize = pagination.pageSize, sortingState = sorting) => {
+  const fetchLeagues = async (
+    page = pagination.pageIndex,
+    pageSize = pagination.pageSize,
+    sortingState = sorting,
+    search = searchQuery
+  ) => {
     try {
       setIsLoading(true);
       const response = await LeagueService.getPaginated(
         page,
         pageSize,
-        sortingState.length > 0 ? sortingState : undefined
+        sortingState.length > 0 ? sortingState : undefined,
+        search
       );
       if (response?.status === HTTP_STATUS_CODES.OK) {
         const leagues = response.data.items || [];
@@ -88,11 +96,26 @@ function LeagueList() {
     }
   };
 
+  const debouncedSearch = useCallback(
+    debounce((searchValue: string) => {
+      if (!isFilterApplied) {
+        fetchLeagues(0, pagination.pageSize, sorting, searchValue);
+      }
+    }, 500),
+    [isFilterApplied, pagination.pageSize, sorting]
+  );
+
+  const handleSearchChange = (value: string) => {
+    setIsLoading(true);
+    setSearchQuery(value);
+    debouncedSearch(value);
+  };
+
   const handleSortingChange = (newSorting: SortingState) => {
     setSorting(newSorting);
 
     if (!isFilterApplied) {
-      fetchLeagues(pagination.pageIndex, pagination.pageSize, newSorting);
+      fetchLeagues(pagination.pageIndex, pagination.pageSize, newSorting, searchQuery);
     }
   };
 
@@ -125,7 +148,7 @@ function LeagueList() {
         adjustedPage = Math.floor(currentStartRecord / newPageSize);
       }
 
-      fetchLeagues(adjustedPage, newPageSize, sorting);
+      fetchLeagues(adjustedPage, newPageSize, sorting, searchQuery);
     }
   };
 
@@ -224,6 +247,8 @@ function LeagueList() {
         isPaginationEnabled={true}
         sorting={sorting}
         onSortingChange={handleSortingChange}
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
       />
     </div>
   );
