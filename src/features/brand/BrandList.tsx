@@ -1,5 +1,6 @@
 import { ConditionalButton } from "@/components/button/ConditionalButton";
 import FilterModal, { FilterContent } from "@/components/core/filter/FilterModal";
+import { debounce } from "@/hooks/debounce";
 import useNavigator from "@/hooks/useNavigator";
 import { useUser } from "@/hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
@@ -11,7 +12,7 @@ import { filterState } from "@/store/atoms/filterAtom";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { brand } from "@/types/brand/BrandListTypes";
 import { SortingState } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -27,6 +28,7 @@ function BrandList() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const setIsLoading = useSetRecoilState(listLoadingAtom);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -54,13 +56,19 @@ function BrandList() {
     }
   }, []);
 
-  const fetchBrands = async (page = pagination.pageIndex, pageSize = pagination.pageSize, sortingState = sorting) => {
+  const fetchBrands = async (
+    page = pagination.pageIndex,
+    pageSize = pagination.pageSize,
+    sortingState = sorting,
+    search = searchQuery
+  ) => {
     try {
       setIsLoading(true);
       const response = await BrandService.getPaginated(
         page,
         pageSize,
-        sortingState.length > 0 ? sortingState : undefined
+        sortingState.length > 0 ? sortingState : undefined,
+        search
       );
       if (response.status === HTTP_STATUS_CODES.OK) {
         const brands = response.data.items || [];
@@ -86,11 +94,26 @@ function BrandList() {
     }
   };
 
+  const debouncedSearch = useCallback(
+    debounce((searchValue: string) => {
+      if (!isFilterApplied) {
+        fetchBrands(0, pagination.pageSize, sorting, searchValue);
+      }
+    }, 500),
+    [isFilterApplied, pagination.pageSize, sorting]
+  );
+
+  const handleSearchChange = (value: string) => {
+    setIsLoading(true);
+    setSearchQuery(value);
+    debouncedSearch(value);
+  };
+
   const handleSortingChange = (newSorting: SortingState) => {
     setSorting(newSorting);
 
     if (!isFilterApplied) {
-      fetchBrands(pagination.pageIndex, pagination.pageSize, newSorting);
+      fetchBrands(pagination.pageIndex, pagination.pageSize, newSorting, searchQuery);
     }
   };
 
@@ -123,7 +146,7 @@ function BrandList() {
         adjustedPage = Math.floor(currentStartRecord / newPageSize);
       }
 
-      fetchBrands(adjustedPage, newPageSize, sorting);
+      fetchBrands(adjustedPage, newPageSize, sorting, searchQuery);
     }
   };
 
@@ -215,6 +238,8 @@ function BrandList() {
         isPaginationEnabled={true}
         sorting={sorting}
         onSortingChange={handleSortingChange}
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
       />
     </div>
   );

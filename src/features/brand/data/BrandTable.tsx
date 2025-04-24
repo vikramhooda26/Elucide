@@ -51,6 +51,8 @@ type BrandTableProps = {
   isPaginationEnabled?: boolean;
   sorting?: SortingState;
   onSortingChange?: (sorting: SortingState) => void;
+  searchQuery?: string;
+  onSearchChange?: (value: string) => void;
 };
 
 function BrandTable({
@@ -63,7 +65,9 @@ function BrandTable({
   onPageChange,
   isPaginationEnabled = false,
   sorting = [],
-  onSortingChange
+  onSortingChange,
+  searchQuery = "",
+  onSearchChange
 }: BrandTableProps) {
   const userRole = useUser()?.role;
   const navigate = useNavigate();
@@ -245,8 +249,14 @@ function BrandTable({
   const toolbarAttributes = [
     <Input
       placeholder="Filter brands..."
-      value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-      onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+      value={!isFilterApplied ? searchQuery : (table.getColumn("name")?.getFilterValue() as string)}
+      onChange={(event) => {
+        if (onSearchChange && !isFilterApplied) {
+          onSearchChange(event.target.value);
+        } else {
+          table.getColumn("name")?.setFilterValue(event.target.value);
+        }
+      }}
       className="h-8 w-[150px] lg:w-[250px]"
     />,
     <Button variant="outline" size="sm" onClick={downloadAsExcel} className="ml-2">

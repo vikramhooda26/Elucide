@@ -22,7 +22,7 @@ class BrandService {
     return AjaxService.request(API_URL + "/api/admin/filter/brand", params, "POST");
   }
 
-  static getPaginated(page: number, pageSize: number, sorting?: { id: string; desc: boolean }[]) {
+  static getPaginated(page: number, pageSize: number, sorting?: { id: string; desc: boolean }[], search?: string) {
     const skip = page * pageSize;
     const take = pageSize;
 
@@ -33,6 +33,10 @@ class BrandService {
 
       params.orderBy = sort.id;
       params.orderDirection = sort.desc ? "desc" : "asc";
+    }
+
+    if (search && search.trim() !== "") {
+      params.search = search.trim();
     }
 
     return AjaxService.request(API_URL + "/api/admin/brand", params, "GET");
