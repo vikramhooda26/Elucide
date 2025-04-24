@@ -22,7 +22,7 @@ class TeamService {
     return AjaxService.request(API_URL + "/api/admin/filter/team", params, "POST");
   }
 
-  static getPaginated(page: number, pageSize: number, sorting?: { id: string; desc: boolean }[]) {
+  static getPaginated(page: number, pageSize: number, sorting?: { id: string; desc: boolean }[], search?: string) {
     const skip = page * pageSize;
     const take = pageSize;
 
@@ -33,6 +33,10 @@ class TeamService {
 
       params.orderBy = sort.id;
       params.orderDirection = sort.desc ? "desc" : "asc";
+    }
+
+    if (search && search.trim() !== "") {
+      params.search = search.trim();
     }
 
     return AjaxService.request(API_URL + "/api/admin/team", params, "GET");

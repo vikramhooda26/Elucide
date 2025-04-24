@@ -11,12 +11,13 @@ import { filterState } from "@/store/atoms/filterAtom";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { team } from "@/types/team/TeamListTypes";
 import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import TeamTable from "./data/TeamTable";
+import { debounce } from "@/hooks/debounce";
 
 function TeamList() {
   const navigator = useNavigator();
@@ -27,6 +28,7 @@ function TeamList() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const setIsLoading = useSetRecoilState(listLoadingAtom);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -54,13 +56,19 @@ function TeamList() {
     }
   }, []);
 
-  const fetchTeams = async (page = pagination.pageIndex, pageSize = pagination.pageSize, sortingState = sorting) => {
+  const fetchTeams = async (
+    page = pagination.pageIndex,
+    pageSize = pagination.pageSize,
+    sortingState = sorting,
+    search = searchQuery
+  ) => {
     try {
       setIsLoading(true);
       const response = await TeamService.getPaginated(
         page,
         pageSize,
-        sortingState.length > 0 ? sortingState : undefined
+        sortingState.length > 0 ? sortingState : undefined,
+        search
       );
       if (response.status === HTTP_STATUS_CODES.OK) {
         let teams = response.data.items || [];
@@ -87,11 +95,26 @@ function TeamList() {
     }
   };
 
+  const debouncedSearch = useCallback(
+    debounce((searchValue: string) => {
+      if (!isFilterApplied) {
+        fetchTeams(0, pagination.pageSize, sorting, searchValue);
+      }
+    }, 500),
+    [isFilterApplied, pagination.pageSize, sorting]
+  );
+
+  const handleSearchChange = (value: string) => {
+    setIsLoading(true);
+    setSearchQuery(value);
+    debouncedSearch(value);
+  };
+
   const handleSortingChange = (newSorting: SortingState) => {
     setSorting(newSorting);
 
     if (!isFilterApplied) {
-      fetchTeams(pagination.pageIndex, pagination.pageSize, newSorting);
+      fetchTeams(pagination.pageIndex, pagination.pageSize, newSorting, searchQuery);
     }
   };
 
@@ -124,7 +147,7 @@ function TeamList() {
         adjustedPage = Math.floor(currentStartRecord / newPageSize);
       }
 
-      fetchTeams(adjustedPage, newPageSize);
+      fetchTeams(adjustedPage, newPageSize, sorting, searchQuery);
     }
   };
 
@@ -220,6 +243,8 @@ function TeamList() {
         isPaginationEnabled={true}
         sorting={sorting}
         onSortingChange={handleSortingChange}
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
       />
     </div>
   );
