@@ -14,7 +14,7 @@ class AthleteService {
     return AjaxService.request(API_URL + "/api/admin/athlete", "GET");
   }
 
-  static getPaginated(page: number, pageSize: number, sorting?: { id: string; desc: boolean }[]) {
+  static getPaginated(page: number, pageSize: number, sorting?: { id: string; desc: boolean }[], search?: string) {
     const skip = page * pageSize;
     const take = pageSize;
 
@@ -25,6 +25,10 @@ class AthleteService {
 
       params.orderBy = sort.id;
       params.orderDirection = sort.desc ? "desc" : "asc";
+    }
+
+    if (search && search.trim() !== "") {
+      params.search = search.trim();
     }
 
     return AjaxService.request(API_URL + "/api/admin/athlete", params, "GET");

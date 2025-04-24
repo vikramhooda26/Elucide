@@ -1,5 +1,6 @@
 import { ConditionalButton } from "@/components/button/ConditionalButton";
 import FilterModal, { FilterContent } from "@/components/core/filter/FilterModal";
+import { debounce } from "@/hooks/debounce";
 import useNavigator from "@/hooks/useNavigator";
 import { useUser } from "@/hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
@@ -11,7 +12,7 @@ import { filterState } from "@/store/atoms/filterAtom";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { athlete } from "@/types/athlete/AthleteListTypes";
 import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
@@ -27,6 +28,7 @@ function AthleteList() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const setIsLoading = useSetRecoilState(listLoadingAtom);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -54,13 +56,19 @@ function AthleteList() {
     }
   }, []);
 
-  const fetchAthletes = async (page = pagination.pageIndex, pageSize = pagination.pageSize, sortingState = sorting) => {
+  const fetchAthletes = async (
+    page = pagination.pageIndex,
+    pageSize = pagination.pageSize,
+    sortingState = sorting,
+    search = searchQuery
+  ) => {
     try {
       setIsLoading(true);
       const response = await AthleteService.getPaginated(
         page,
         pageSize,
-        sortingState.length > 0 ? sortingState : undefined
+        sortingState.length > 0 ? sortingState : undefined,
+        search
       );
       if (response.status === HTTP_STATUS_CODES.OK) {
         let athleteList = response.data.items || [];
@@ -88,11 +96,26 @@ function AthleteList() {
     }
   };
 
+  const debouncedSearch = useCallback(
+    debounce((searchValue: string) => {
+      if (!isFilterApplied) {
+        fetchAthletes(0, pagination.pageSize, sorting, searchValue);
+      }
+    }, 500),
+    [isFilterApplied, pagination.pageSize, sorting]
+  );
+
+  const handleSearchChange = (value: string) => {
+    setIsLoading(true);
+    setSearchQuery(value);
+    debouncedSearch(value);
+  };
+
   const handleSortingChange = (newSorting: SortingState) => {
     setSorting(newSorting);
 
     if (!isFilterApplied) {
-      fetchAthletes(pagination.pageIndex, pagination.pageSize, newSorting);
+      fetchAthletes(pagination.pageIndex, pagination.pageSize, newSorting, searchQuery);
     }
   };
 
@@ -125,7 +148,7 @@ function AthleteList() {
         adjustedPage = Math.floor(currentStartRecord / newPageSize);
       }
 
-      fetchAthletes(adjustedPage, newPageSize, sorting);
+      fetchAthletes(adjustedPage, newPageSize, sorting, searchQuery);
     }
   };
 
@@ -218,6 +241,8 @@ function AthleteList() {
         isPaginationEnabled={true}
         sorting={sorting}
         onSortingChange={handleSortingChange}
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
       />
     </div>
   );
