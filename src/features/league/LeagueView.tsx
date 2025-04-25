@@ -1,7 +1,3 @@
-import { Pencil } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "sonner";
 import BackButton from "@/components/button/BackButton";
 import { socials } from "@/components/core/data/socials";
 import { FormSkeleton } from "@/components/core/form/form-skeleton";
@@ -20,19 +16,28 @@ import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
 import { printLogs } from "@/lib/logs";
 import ErrorService from "@/services/error/ErrorService";
 import LeagueService from "@/services/features/LeagueService";
+import { Pencil } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { TEditLeagueFormSchema } from "./constants.ts/metadata";
 
 function LeagueView() {
   const { id } = useParams();
-  const [league, setLeague] = useState<TEditLeagueFormSchema>();
+  const location = useLocation();
+  const passedLeagueData = location.state;
+  const [league, setLeague] = useState<any>({});
   const [isLoading, setLoading] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const { logout } = useAuth();
-  const userRole = useUser()?.role;
 
+  const savedLeague = useRef<TEditLeagueFormSchema | null>(null);
+
+  const userRole = useUser()?.role;
   if (!userRole) {
-    return;
+    return null;
   }
 
   const fetchLeague = async (id: string) => {
@@ -40,6 +45,7 @@ function LeagueView() {
       setLoading(true);
       const response = await LeagueService.getOne(id);
       if (response.status === HTTP_STATUS_CODES.OK) {
+        savedLeague.current = typeof response?.data === "object" ? { ...response.data } : null;
         setLeague(response.data);
         printLogs("League details:", response.data);
       } else {
@@ -60,12 +66,22 @@ function LeagueView() {
   };
 
   useEffect(() => {
-    if (id) {
-      fetchLeague(id);
-    } else {
-      navigate(-1);
+    if (passedLeagueData && passedLeagueData.id === id) {
+      savedLeague.current = { ...passedLeagueData };
+      setLeague(passedLeagueData);
     }
-  }, [id]);
+  }, []);
+
+  useEffect(() => {
+    if (id && !passedLeagueData) {
+      fetchLeague(id);
+    } else if (!id) {
+      navigate(-1);
+    } else if (passedLeagueData && id && passedLeagueData.id !== id) {
+      console.warn("Passed league data ID mismatch with URL ID. Fetching fresh data.");
+      fetchLeague(id);
+    }
+  }, [id, navigate]);
 
   return (
     <main className="my-8 flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
@@ -77,7 +93,14 @@ function LeagueView() {
           </h1>
           <div className="hidden items-center gap-2 sm:ml-auto sm:flex">
             {userRole === "SUPER_ADMIN" || userRole === "ADMIN" ? (
-              <Button size="sm" onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`, { state: league })}>
+              <Button
+                size="sm"
+                onClick={() =>
+                  navigate(`${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`, {
+                    state: { passedLeagueData: savedLeague.current, from: location }
+                  })
+                }
+              >
                 <Pencil className="h-4 w-4" />{" "}
               </Button>
             ) : null}

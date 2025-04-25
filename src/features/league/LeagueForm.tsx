@@ -26,7 +26,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
@@ -46,15 +46,21 @@ import {
 import { getMetadata } from "../utils/metadataUtils";
 import { LEAGUE_METADATA, leagueFormSchema, TEditLeagueFormSchema, TLeagueFormSchema } from "./constants.ts/metadata";
 
+type LocationState = { passedLeagueData?: TEditLeagueFormSchema | null; from?: Location };
+
 function LeagueForm() {
   const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
   const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
-  const [leagueData, setLeaguesData] = useState<TEditLeagueFormSchema>();
+  const location = useLocation();
+  const state = location.state as LocationState | null;
+  const from = state?.from ?? { pathname: NAVIGATION_ROUTES.LEAGUE_LIST };
+  const passedLeagueData = state?.passedLeagueData;
   const user = useRecoilValue(userAtom);
   const { id } = useParams();
   const initialFormData = useRef<TLeagueFormSchema | null>(null);
+  const savedLeagueData = useRef<TEditLeagueFormSchema | null>(null);
 
   const emptyFormValues: Partial<TLeagueFormSchema> = {
     userId: user?.id,
@@ -128,6 +134,7 @@ function LeagueForm() {
   });
 
   const populateForm = (leagueData: TEditLeagueFormSchema) => {
+    savedLeagueData.current = { ...leagueData };
     const formData: TLeagueFormSchema = {
       name: leagueData.name || "",
       userId: user?.id || "",
@@ -215,7 +222,6 @@ function LeagueForm() {
 
         if (response.status === HTTP_STATUS_CODES.OK) {
           populateForm(response.data);
-          setLeaguesData(response.data);
         }
       } catch (error) {
         console.error(error);
@@ -229,13 +235,9 @@ function LeagueForm() {
     };
 
     if (id) {
-      if (!leagueData || !leagueData.name) {
-        fetchLeagueDetails(id);
-      } else {
-        populateForm(leagueData);
-      }
+      passedLeagueData ? populateForm(passedLeagueData) : fetchLeagueDetails(id);
     }
-  }, [id, leagueData]);
+  }, [id]);
 
   useEffect(() => {
     if (isSubmitting) {
@@ -515,7 +517,9 @@ function LeagueForm() {
       setIsSubmitting(true);
       if (id) {
         const response = await LeagueService.editLeague(id, requestBody);
+
         if (response.status === HTTP_STATUS_CODES.OK) {
+          savedLeagueData.current = null;
           initialFormData.current = form.getValues();
           toast.success("League updated successfully");
         }
@@ -541,7 +545,13 @@ function LeagueForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => navigate(-1)} type="button">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => navigate(from, { state: savedLeagueData.current })}
+              type="button"
+            >
               <ChevronLeft className="h-4 w-4" />
               <span className="sr-only">Back</span>
             </Button>

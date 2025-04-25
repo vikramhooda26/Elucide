@@ -54,6 +54,8 @@ type Props = {
   onSortingChange?: (sorting: SortingState) => void;
   searchQuery?: string;
   onSearchChange?: (value: string) => void;
+  onLeagueView?: (id: string) => void;
+  onLeagueEdit?: (id: string) => void;
 };
 
 function LeagueTable({
@@ -68,7 +70,9 @@ function LeagueTable({
   pagination,
   sorting = [],
   searchQuery = "",
-  onSearchChange
+  onSearchChange,
+  onLeagueView,
+  onLeagueEdit
 }: Props) {
   const userRole = useUser()?.role;
   const navigate = useNavigate();
@@ -113,34 +117,67 @@ function LeagueTable({
     }
   }, []);
 
-  const onEdit = useCallback((id: string) => {
-    navigate(`${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`);
-  }, []);
+  const onEdit = useCallback(
+    (id: string) => {
+      if (onLeagueEdit) {
+        onLeagueEdit(id);
+      } else {
+        navigate(`${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`);
+      }
+    },
+    [onLeagueEdit, navigate]
+  );
 
-  const viewRoute = NAVIGATION_ROUTES.LEAGUE;
+  const handleLeagueView = useCallback(
+    (id: string) => {
+      if (onLeagueView) {
+        onLeagueView(id);
+      } else {
+        navigate(`${NAVIGATION_ROUTES.LEAGUE}/${id}`);
+      }
+    },
+    [onLeagueView, navigate]
+  );
 
   const canEdit = userRole !== "USER" && userRole !== "STAFF";
 
-  const columns = useMemo(
-    () =>
-      getColumns({
-        onDelete,
-        onEdit,
-        userRole,
-        viewRoute,
-        canEdit,
-        searchQuerykey: "name",
-        title: "League name"
-      }),
-    []
-  );
+  const getCustomColumns = useMemo(() => {
+    const baseColumns = getColumns({
+      onDelete,
+      onEdit,
+      userRole,
+      viewRoute: undefined,
+      searchQuerykey: "name",
+      title: "Athlete name",
+      canEdit
+    });
 
-  const [allowedColumns, setAllowedColumns] = useState(columns);
+    const customColumns = [...baseColumns];
+    customColumns[0] = {
+      ...customColumns[0],
+      cell: ({ row }) => {
+        const id = (row.original as { id: string }).id;
+        if (id) {
+          return (
+            <div onClick={() => handleLeagueView(id)} className="cursor-pointer hover:text-blue-600 hover:underline">
+              <div className="w-[120px]">{row.getValue("name")}</div>
+            </div>
+          );
+        } else {
+          return <div className="w-[120px]">{row.getValue("name")}</div>;
+        }
+      }
+    };
+
+    return customColumns;
+  }, [filters, isFilterApplied, handleLeagueView]);
+
+  const [allowedColumns, setAllowedColumns] = useState(getCustomColumns);
 
   const setOptionalColumns = () => {
     if (filters) {
       const optionalColumns = OptionalColumns.getOptionalColumns(filters, pageKey);
-      const updateColumns = [...columns];
+      const updateColumns = [...getCustomColumns];
       //@ts-ignore
       updateColumns?.splice(1, 0, ...optionalColumns);
 
@@ -274,7 +311,7 @@ function LeagueTable({
     <>
       <DataTable
         table={table}
-        columns={columns}
+        columns={getCustomColumns}
         toolbarAttributes={toolbarAttributes}
         totalCount={isPaginationEnabled && !isFilterApplied ? pagination?.totalCount : undefined}
       />

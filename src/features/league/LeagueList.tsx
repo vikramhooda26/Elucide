@@ -1,5 +1,6 @@
 import { ConditionalButton } from "@/components/button/ConditionalButton";
 import FilterModal, { FilterContent } from "@/components/core/filter/FilterModal";
+import { debounce } from "@/hooks/debounce";
 import useNavigator from "@/hooks/useNavigator";
 import { useUser } from "@/hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
@@ -11,13 +12,13 @@ import { filterState } from "@/store/atoms/filterAtom";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { league } from "@/types/league/LeagueListTypes";
 import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { TEditLeagueFormSchema } from "./constants.ts/metadata";
 import LeagueTable from "./data/LeagueTable";
-import { debounce } from "@/hooks/debounce";
 
 function LeagueList() {
   const navigator = useNavigator();
@@ -29,6 +30,8 @@ function LeagueList() {
   const setIsLoading = useSetRecoilState(listLoadingAtom);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const originalLeagueData = useRef<Record<string, TEditLeagueFormSchema>>({});
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -72,6 +75,17 @@ function LeagueList() {
       );
       if (response?.status === HTTP_STATUS_CODES.OK) {
         const leagues = response.data.items || [];
+
+        if (leagues && leagues.length > 0) {
+          const leagueDataMap: Record<string, TEditLeagueFormSchema> = {};
+          leagues.forEach((league: any) => {
+            if (league.id) {
+              leagueDataMap[league.id] = { ...league };
+            }
+          });
+          originalLeagueData.current = leagueDataMap;
+        }
+
         leagues?.forEach((league: league, idx: number) => {
           leagues[idx].createdBy = league?.createdBy?.email || "N/A";
           leagues[idx].modifiedBy = league?.modifiedBy?.email || "N/A";
@@ -177,6 +191,17 @@ function LeagueList() {
 
       if (response?.status === HTTP_STATUS_CODES.OK) {
         let leagueList = response?.data;
+
+        if (leagueList && leagueList.length > 0) {
+          const leagueDataMap: Record<string, TEditLeagueFormSchema> = {};
+          leagueList.forEach((league: any) => {
+            if (league.id) {
+              leagueDataMap[league.id] = { ...league };
+            }
+          });
+          originalLeagueData.current = leagueDataMap;
+        }
+
         leagueList?.forEach((league: league, idx: number) => {
           leagueList[idx].createdBy = league?.createdBy?.email || "N/A";
           leagueList[idx].modifiedBy = league?.modifiedBy?.email || "N/A";
@@ -209,6 +234,26 @@ function LeagueList() {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleLeagueView = (id: string) => {
+    if (originalLeagueData.current && originalLeagueData.current[id]) {
+      navigate(`${NAVIGATION_ROUTES.LEAGUE}/${id}`, {
+        state: originalLeagueData.current[id]
+      });
+    } else {
+      navigate(`${NAVIGATION_ROUTES.LEAGUE}/${id}`);
+    }
+  };
+
+  const handleLeagueEdit = (id: string) => {
+    if (originalLeagueData.current && originalLeagueData.current[id]) {
+      navigate(`${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`, {
+        state: { passedAthleteData: originalLeagueData.current[id] }
+      });
+    } else {
+      navigate(`${NAVIGATION_ROUTES.EDIT_LEAGUE}/${id}`);
     }
   };
 
@@ -249,6 +294,8 @@ function LeagueList() {
         onSortingChange={handleSortingChange}
         searchQuery={searchQuery}
         onSearchChange={handleSearchChange}
+        onLeagueView={handleLeagueView}
+        onLeagueEdit={handleLeagueEdit}
       />
     </div>
   );
