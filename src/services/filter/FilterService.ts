@@ -1,4 +1,5 @@
 import { TAssociation } from "@/features/league/constants.ts/metadata";
+import { convertCroreToRupees } from "@/features/utils/helpers";
 import { AllColumns, matched, notMatched, TMatrics } from "@/types/metadata/Metadata";
 import { differenceInYears } from "date-fns";
 import { TPageKey } from "./FilterConfigs";
@@ -182,7 +183,7 @@ class FilterService {
 
     if (processedFilters?.franchiseFee?.length > 0) {
       if (!isNaN(processedFilters?.franchiseFee)) {
-        processedFilters.franchiseFee = Number(processedFilters?.franchiseFee || 0);
+        processedFilters.franchiseFee = convertCroreToRupees(processedFilters?.franchiseFee) || 0;
       } else {
         delete processedFilters?.franchiseFee;
       }
@@ -471,7 +472,8 @@ class FilterService {
       }
 
       if (franchiseFee && data?.franchiseFee) {
-        finalObj.franchiseFee = franchiseFee?.value === data?.franchiseFee ? matched : notMatched;
+        finalObj.franchiseFee =
+          convertCroreToRupees(franchiseFee?.value)?.toString() === data?.franchiseFee ? matched : notMatched;
       }
 
       //////////////////////////////////////////////

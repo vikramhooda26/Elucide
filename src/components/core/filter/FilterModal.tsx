@@ -1,8 +1,8 @@
+import { CalendarDateRangePicker } from "@/features/dashboard/components/date-range-picker";
+import { filterState } from "@/store/atoms/filterAtom";
 import { RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { CalendarDateRangePicker } from "../../../features/dashboard/components/date-range-picker";
-import { filterState } from "../../../store/atoms/filterAtom";
 import ToggleButton from "../../button/ToggleButton";
 import { Button } from "../../ui/button";
 import { Checkbox } from "../../ui/checkbox";
