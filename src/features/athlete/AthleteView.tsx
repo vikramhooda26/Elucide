@@ -1,34 +1,39 @@
+import BackButton from "@/components/button/BackButton";
+import { socials } from "@/components/core/data/socials";
+import { FormSkeleton } from "@/components/core/form/form-skeleton";
+import Activation from "@/components/core/view/Activation";
+import Association from "@/components/core/view/Association";
+import AthleteOverviewCard from "@/components/core/view/AthleteOverviewCard";
+import AudienceProfile from "@/components/core/view/AudienceProfile";
+import ContactPerson from "@/components/core/view/ContactPerson";
+import LinksCard from "@/components/core/view/LinksCard";
+import MarketingOverviewCard from "@/components/core/view/MarketingOverviewCard";
+import SportsDealSummary from "@/components/core/view/SportsDealSummary";
+import { Button } from "@/components/ui/button";
+import { useUser } from "@/hooks/useUser";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import ErrorService from "@/services/error/ErrorService";
+import AthleteService from "@/services/features/AthleteService";
 import { differenceInYears, format } from "date-fns";
 import { Pencil } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import BackButton from "../../components/button/BackButton";
-import { socials } from "../../components/core/data/socials";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import Activation from "../../components/core/view/Activation";
-import Association from "../../components/core/view/Association";
-import AthleteOverviewCard from "../../components/core/view/AthleteOverviewCard";
-import AudienceProfile from "../../components/core/view/AudienceProfile";
-import ContactPerson from "../../components/core/view/ContactPerson";
-import LinksCard from "../../components/core/view/LinksCard";
-import MarketingOverviewCard from "../../components/core/view/MarketingOverviewCard";
-import SportsDealSummary from "../../components/core/view/SportsDealSummary";
-import { Button } from "../../components/ui/button";
-import { useUser } from "../../hooks/useUser";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import ErrorService from "../../services/error/ErrorService";
-import AthleteService from "../../services/features/AthleteService";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
 import { TEditAthleteFormSchema } from "./constants/metadata";
 
 function AthleteView() {
   const { id } = useParams<string>();
-  const [athlete, setAthlete] = useState<any>({});
-  const [athleteDetails, setAthleteDetails] = useState<TEditAthleteFormSchema>();
+  const location = useLocation();
+  const passedAthleteData = location.state;
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [athlete, setAthlete] = useState<any>({});
+
   const navigate = useNavigate();
   const { logout } = useAuth();
+
+  const savedAthlete = useRef<TEditAthleteFormSchema | null>(null);
+
   const userRole = useUser()?.role;
   if (!userRole) {
     return;
@@ -40,13 +45,14 @@ function AthleteView() {
       const response = await AthleteService.getOne(id);
       if (response.status === HTTP_STATUS_CODES.OK) {
         const athleteObj = response?.data;
+        savedAthlete.current = typeof response?.data === "object" ? { ...response.data } : null;
 
         if (athleteObj?.athleteAge) {
           athleteObj.dob = format(athleteObj?.athleteAge, "dd-MM-yyyy");
           athleteObj.athleteAge = differenceInYears(new Date(), athleteObj?.athleteAge);
         }
+
         setAthlete(athleteObj);
-        setAthleteDetails(response?.data);
       } else {
         toast.error("An unknown error occurred");
         navigate(-1);
@@ -66,12 +72,26 @@ function AthleteView() {
   };
 
   useEffect(() => {
-    if (id) {
-      fetchAthlete(id);
-    } else {
-      navigate(-1);
+    if (passedAthleteData && passedAthleteData.id === id) {
+      savedAthlete.current = { ...passedAthleteData };
+      if (passedAthleteData?.athleteAge) {
+        passedAthleteData.dob = format(passedAthleteData?.athleteAge, "dd-MM-yyyy");
+        passedAthleteData.athleteAge = differenceInYears(new Date(), passedAthleteData?.athleteAge);
+      }
+      setAthlete(passedAthleteData);
     }
-  }, [id]);
+  }, []);
+
+  useEffect(() => {
+    if (id && !passedAthleteData) {
+      fetchAthlete(id);
+    } else if (!id) {
+      navigate(-1);
+    } else if (passedAthleteData && id && passedAthleteData.id !== id) {
+      console.warn("Passed athlete data ID mismatch with URL ID. Fetching fresh data.");
+      fetchAthlete(id);
+    }
+  }, [id, navigate]);
 
   return (
     <div className="my-8 flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
@@ -88,7 +108,7 @@ function AthleteView() {
                 size="sm"
                 onClick={() =>
                   navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`, {
-                    state: athleteDetails
+                    state: { passedAthleteData: savedAthlete.current, from: location }
                   })
                 }
               >

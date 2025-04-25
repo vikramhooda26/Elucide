@@ -12,11 +12,12 @@ import { filterState } from "@/store/atoms/filterAtom";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { athlete } from "@/types/athlete/AthleteListTypes";
 import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { TEditAthleteFormSchema } from "./constants/metadata";
 import AthleteTable from "./data/AthleteTable";
 
 function AthleteList() {
@@ -29,6 +30,8 @@ function AthleteList() {
   const setIsLoading = useSetRecoilState(listLoadingAtom);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const originalAthleteData = useRef<Record<string, TEditAthleteFormSchema>>({});
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -71,7 +74,18 @@ function AthleteList() {
         search
       );
       if (response.status === HTTP_STATUS_CODES.OK) {
-        let athleteList = response.data.items || [];
+        const athleteList = response.data.items || [];
+
+        if (athleteList && athleteList.length > 0) {
+          const athleteDataMap: Record<string, TEditAthleteFormSchema> = {};
+          athleteList.forEach((athlete: any) => {
+            if (athlete.id) {
+              athleteDataMap[athlete.id] = { ...athlete };
+            }
+          });
+          originalAthleteData.current = athleteDataMap;
+        }
+
         athleteList.forEach((athlete: athlete, idx: number) => {
           athleteList[idx].createdBy = athlete?.createdBy?.email || "N/A";
           athleteList[idx].modifiedBy = athlete?.modifiedBy?.email || "N/A";
@@ -172,6 +186,17 @@ function AthleteList() {
 
       if (response.status === HTTP_STATUS_CODES.OK) {
         let athleteList = response.data;
+
+        if (athleteList && athleteList.length > 0) {
+          const athleteDataMap: Record<string, TEditAthleteFormSchema> = {};
+          athleteList.forEach((athlete: any) => {
+            if (athlete.id) {
+              athleteDataMap[athlete.id] = { ...athlete };
+            }
+          });
+          originalAthleteData.current = athleteDataMap;
+        }
+
         athleteList.forEach((athlete: athlete, i: number) => {
           athleteList[i].createdBy = athlete?.createdBy?.email || "N/A";
           athleteList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
@@ -203,6 +228,26 @@ function AthleteList() {
       console.log("error -=- ", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleAthleteView = (id: string) => {
+    if (originalAthleteData.current && originalAthleteData.current[id]) {
+      navigate(`${NAVIGATION_ROUTES.ATHLETE}/${id}`, {
+        state: originalAthleteData.current[id]
+      });
+    } else {
+      navigate(`${NAVIGATION_ROUTES.ATHLETE}/${id}`);
+    }
+  };
+
+  const handleAthleteEdit = (id: string) => {
+    if (originalAthleteData.current && originalAthleteData.current[id]) {
+      navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`, {
+        state: { passedAthleteData: originalAthleteData.current[id] }
+      });
+    } else {
+      navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`);
     }
   };
 
@@ -243,6 +288,8 @@ function AthleteList() {
         onSortingChange={handleSortingChange}
         searchQuery={searchQuery}
         onSearchChange={handleSearchChange}
+        onAthleteView={handleAthleteView}
+        onAthleteEdit={handleAthleteEdit}
       />
     </div>
   );

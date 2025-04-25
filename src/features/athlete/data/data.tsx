@@ -1,16 +1,7 @@
-import {
-  ArrowDownIcon,
-  ArrowRightIcon,
-  ArrowUpIcon,
-  CheckCircledIcon,
-  CircleIcon,
-  CrossCircledIcon,
-  QuestionMarkCircledIcon,
-  StopwatchIcon
-} from "@radix-ui/react-icons";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../../lib/constants";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import MetadataService from "@/services/features/MetadataService";
+import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
-import MetadataService from "../../../services/features/MetadataService";
 
 const deleteCall = async (id: string) => {
   try {

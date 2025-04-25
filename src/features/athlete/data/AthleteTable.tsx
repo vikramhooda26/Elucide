@@ -53,6 +53,8 @@ interface Props {
   onSortingChange?: (sorting: SortingState) => void;
   searchQuery?: string;
   onSearchChange?: (value: string) => void;
+  onAthleteView?: (id: string) => void;
+  onAthleteEdit?: (id: string) => void;
 }
 
 function AthleteTable({
@@ -67,7 +69,9 @@ function AthleteTable({
   sorting = [],
   onSortingChange,
   searchQuery = "",
-  onSearchChange
+  onSearchChange,
+  onAthleteView,
+  onAthleteEdit
 }: Props) {
   const userRole = useUser()?.role;
   const navigate = useNavigate();
@@ -88,11 +92,27 @@ function AthleteTable({
     }
   }, [filters, isFilterApplied]);
 
-  const onEdit = useCallback((id: string) => {
-    navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`);
-  }, []);
+  const onEdit = useCallback(
+    (id: string) => {
+      if (onAthleteEdit) {
+        onAthleteEdit(id);
+      } else {
+        navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`);
+      }
+    },
+    [onAthleteView, navigate]
+  );
 
-  const viewRoute = NAVIGATION_ROUTES.ATHLETE;
+  const handleAthleteView = useCallback(
+    (id: string) => {
+      if (onAthleteView) {
+        onAthleteView(id);
+      } else {
+        navigate(`${NAVIGATION_ROUTES.ATHLETE}/${id}`);
+      }
+    },
+    [onAthleteView, navigate]
+  );
 
   const canEdit = userRole !== "USER" && userRole !== "STAFF";
 
@@ -118,33 +138,47 @@ function AthleteTable({
     }
   }, []);
 
-  const columns = useMemo(
-    () =>
-      getColumns({
-        onDelete,
-        onEdit,
-        userRole,
-        viewRoute,
-        searchQuerykey: "name",
-        title: "Athlete name",
-        canEdit
-      }),
-    [filters, isFilterApplied]
-  );
+  const getCustomColumns = useMemo(() => {
+    const baseColumns = getColumns({
+      onDelete,
+      onEdit,
+      userRole,
+      viewRoute: undefined,
+      searchQuerykey: "name",
+      title: "Athlete name",
+      canEdit
+    });
 
-  const [allowedColumns, setAllowedColumns] = useState(columns);
+    const customColumns = [...baseColumns];
+    customColumns[0] = {
+      ...customColumns[0],
+      cell: ({ row }) => {
+        const id = (row.original as { id: string }).id;
+        if (id) {
+          return (
+            <div onClick={() => handleAthleteView(id)} className="cursor-pointer hover:text-blue-600 hover:underline">
+              <div className="w-[120px]">{row.getValue("name")}</div>
+            </div>
+          );
+        } else {
+          return <div className="w-[120px]">{row.getValue("name")}</div>;
+        }
+      }
+    };
+
+    return customColumns;
+  }, [filters, isFilterApplied, handleAthleteView]);
+
+  const [allowedColumns, setAllowedColumns] = useState(getCustomColumns);
 
   const setOptionalColumns = () => {
     if (filters) {
       const optionalColumns = OptionalColumns.getOptionalColumns(filters, "athleteList");
-      const updateColumns = [...columns];
+      const updateColumns = [...getCustomColumns];
       //@ts-ignore
       updateColumns?.splice(1, 0, ...optionalColumns);
 
       setAllowedColumns(updateColumns);
-
-      // Commented out to avoid using server-side sorting when filters are applied. If this breaks something, uncomment this and look at other method to make server-side soring work.
-      // setIsFilterApplied(false);
     }
   };
 
@@ -271,7 +305,7 @@ function AthleteTable({
     <>
       <DataTable
         table={table}
-        columns={columns}
+        columns={getCustomColumns}
         toolbarAttributes={toolbarAttributes}
         totalCount={isPaginationEnabled && !isFilterApplied ? pagination?.totalCount : undefined}
       />

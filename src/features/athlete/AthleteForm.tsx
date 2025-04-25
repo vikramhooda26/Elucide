@@ -39,16 +39,21 @@ import { convertCroreToRupees, convertRupeesToCrore } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import { ATHLETE_METADATA, athleteFormSchema, TAthleteFormSchema, TEditAthleteFormSchema } from "./constants/metadata";
 
+type LocationState = { passedAthleteData?: TEditAthleteFormSchema | null; from?: Location };
+
 function AthleteForm() {
   const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
   const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
   const location = useLocation();
-  const [athleteData, setAthleteData] = useState<TEditAthleteFormSchema>(location.state || undefined);
+  const state = location.state as LocationState | null;
+  const from = state?.from ?? { pathname: NAVIGATION_ROUTES.ATHLETE_LIST };
+  const passedAthleteData = state?.passedAthleteData;
   let associationId: string | undefined;
   const user = useRecoilValue(userAtom);
   const initialFormData = useRef<TAthleteFormSchema | null>(null);
+  const savedAthleteData = useRef<TEditAthleteFormSchema | null>(null);
 
   const { id } = useParams();
 
@@ -110,6 +115,7 @@ function AthleteForm() {
   };
 
   const populateForm = (athleteData: TEditAthleteFormSchema) => {
+    savedAthleteData.current = { ...athleteData };
     const formData = {
       name: athleteData?.name || "",
       nationalityId: athleteData.nationality?.id || "",
@@ -138,7 +144,7 @@ function AthleteForm() {
           ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
           .flat(2)
           .filter(Boolean) as string[]) || undefined,
-      athleteAge: athleteData?.athleteAge ? parseISO(athleteData?.athleteAge) : undefined,
+      athleteAge: typeof athleteData?.athleteAge === "string" ? parseISO(athleteData?.athleteAge) : undefined,
       genderIds: (athleteData.gender?.map((gender) => gender.id).filter(Boolean) as string[]) || undefined,
       athleteGenderId: athleteData.athleteGender?.id || "",
       ageIds: (athleteData.age?.map((age) => age.id).filter(Boolean) as string[]) || undefined,
@@ -153,13 +159,13 @@ function AthleteForm() {
         })) || undefined,
       userId: user?.id || "",
       contactPerson:
-        athleteData.contactPersons?.map((details) => ({
-          contactId: details.contactId || undefined,
-          contactName: details.contactName || "",
-          contactDesignation: details.contactDesignation || "",
-          contactEmail: details.contactEmail || "",
-          contactLinkedin: details.contactLinkedin || "",
-          contactNumber: details.contactNumber || ""
+        athleteData.contactPersons?.map((person) => ({
+          contactId: person.contactId || undefined,
+          contactName: person.contactName || "",
+          contactDesignation: person.contactDesignation || "",
+          contactEmail: person.contactEmail || "",
+          contactLinkedin: person.contactLinkedin || "",
+          contactNumber: person.contactNumber || ""
         })) || undefined
     };
 
@@ -180,7 +186,6 @@ function AthleteForm() {
         if (response.status === HTTP_STATUS_CODES.OK) {
           printLogs("Get athletes by id response for edit page:", response.data);
           populateForm(response.data);
-          setAthleteData(response.data);
         }
       } catch (error) {
         console.error(error);
@@ -194,7 +199,7 @@ function AthleteForm() {
     };
 
     if (id) {
-      fetchAthleteDetails(id);
+      passedAthleteData ? populateForm(passedAthleteData) : fetchAthleteDetails(id);
     }
   }, [id]);
 
@@ -424,6 +429,7 @@ function AthleteForm() {
         const response = await AthleteService.editAthlete(id, payload);
 
         if (response.status === HTTP_STATUS_CODES.OK) {
+          savedAthleteData.current = null;
           initialFormData.current = form.getValues();
           toast.success("Athlete updated successfully");
         }
@@ -449,7 +455,13 @@ function AthleteForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => navigate(-1)} type="button">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => navigate(from, { state: savedAthleteData.current })}
+              type="button"
+            >
               <ChevronLeft className="h-4 w-4" />
               <span className="sr-only">Back</span>
             </Button>
