@@ -174,7 +174,12 @@ export const allColumnsSchema = () =>
         name: z.string().optional()
       })
       .optional(),
-
+    format: z
+      .object({
+        id: z.string().optional(),
+        name: z.string().optional()
+      })
+      .optional(),
     nationality: z
       .object({
         id: z.string().optional(),

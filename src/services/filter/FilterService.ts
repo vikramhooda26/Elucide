@@ -337,6 +337,10 @@ class FilterService {
         finalObj.city = cityIds?.value.includes(data?.city?.id) ? matched : notMatched;
       }
 
+      if (formatIds && data?.format) {
+        finalObj.format = formatIds?.value.includes(data?.format?.id) ? matched : notMatched;
+      }
+
       if (activeCampaignIds && data?.activeCampaigns) {
         finalObj.activeCampaigns = data?.activeCampaigns?.some((campaign: any) =>
           activeCampaignIds?.value.includes(campaign.id)
