@@ -12,23 +12,23 @@ import { filterState } from "@/store/atoms/filterAtom";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { brand } from "@/types/brand/BrandListTypes";
 import { SortingState } from "@tanstack/react-table";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { TEditBrandformSchema } from "./constants/metadata";
 import BrandTable from "./data/BrandTable";
 
 function BrandList() {
   const navigator = useNavigator();
   const [brandList, setBrandList] = useState<any[]>([]);
-  // const [rowSelection, setRowSelection] = useState({});
-  // const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const setIsLoading = useSetRecoilState(listLoadingAtom);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const originalBrandData = useRef<Record<string, TEditBrandformSchema>>({});
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -72,6 +72,17 @@ function BrandList() {
       );
       if (response.status === HTTP_STATUS_CODES.OK) {
         const brands = response.data.items || [];
+
+        if (brands && brands.length > 0) {
+          const brandDataMap: Record<string, TEditBrandformSchema> = {};
+          brands.forEach((brand: any) => {
+            if (brand.id) {
+              brandDataMap[brand.id] = { ...brand };
+            }
+          });
+          originalBrandData.current = brandDataMap;
+        }
+
         brands.forEach((brand: brand, idx: number) => {
           brands[idx].createdBy = brand?.createdBy?.email || "N/A";
           brands[idx].modifiedBy = brand?.modifiedBy?.email || "N/A";
@@ -170,6 +181,17 @@ function BrandList() {
 
       if (response.status === HTTP_STATUS_CODES.OK) {
         let brandList = response.data;
+
+        if (brandList && brandList.length > 0) {
+          const brandDataMap: Record<string, TEditBrandformSchema> = {};
+          brandList.forEach((brand: any) => {
+            if (brand.id) {
+              brandDataMap[brand.id] = { ...brand };
+            }
+          });
+          originalBrandData.current = brandDataMap;
+        }
+
         brandList.forEach((brand: brand, i: number) => {
           brandList[i].createdBy = brand?.createdBy?.email || "N/A";
           brandList[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
@@ -200,6 +222,26 @@ function BrandList() {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleBrandView = (id: string) => {
+    if (originalBrandData.current && originalBrandData.current[id]) {
+      navigate(`${NAVIGATION_ROUTES.BRAND}/${id}`, {
+        state: originalBrandData.current[id]
+      });
+    } else {
+      navigate(`${NAVIGATION_ROUTES.BRAND}/${id}`);
+    }
+  };
+
+  const handleBrandEdit = (id: string) => {
+    if (originalBrandData.current && originalBrandData.current[id]) {
+      navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`, {
+        state: { passedBrandData: originalBrandData.current[id] }
+      });
+    } else {
+      navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`);
     }
   };
 
@@ -240,6 +282,8 @@ function BrandList() {
         onSortingChange={handleSortingChange}
         searchQuery={searchQuery}
         onSearchChange={handleSearchChange}
+        onBrandView={handleBrandView}
+        onBrandEdit={handleBrandEdit}
       />
     </div>
   );

@@ -53,6 +53,8 @@ type BrandTableProps = {
   onSortingChange?: (sorting: SortingState) => void;
   searchQuery?: string;
   onSearchChange?: (value: string) => void;
+  onBrandView?: (id: string) => void;
+  onBrandEdit?: (id: string) => void;
 };
 
 function BrandTable({
@@ -67,7 +69,9 @@ function BrandTable({
   sorting = [],
   onSortingChange,
   searchQuery = "",
-  onSearchChange
+  onSearchChange,
+  onBrandView,
+  onBrandEdit
 }: BrandTableProps) {
   const userRole = useUser()?.role;
   const navigate = useNavigate();
@@ -110,34 +114,67 @@ function BrandTable({
     }
   }, []);
 
-  const onEdit = useCallback((id: string) => {
-    navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`);
-  }, []);
+  const onEdit = useCallback(
+    (id: string) => {
+      if (onBrandEdit) {
+        onBrandEdit(id);
+      } else {
+        navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`);
+      }
+    },
+    [onBrandEdit, navigate]
+  );
 
-  const viewRoute = NAVIGATION_ROUTES.BRAND;
+  const handleBrandView = useCallback(
+    (id: string) => {
+      if (onBrandView) {
+        onBrandView(id);
+      } else {
+        navigate(`${NAVIGATION_ROUTES.BRAND}/${id}`);
+      }
+    },
+    [onBrandView, navigate]
+  );
 
   const canEdit = userRole !== "USER" && userRole !== "STAFF";
 
-  const columns = useMemo(
-    () =>
-      getColumns({
-        onDelete,
-        onEdit,
-        userRole,
-        viewRoute,
-        searchQuerykey: "name",
-        title: "Brand name",
-        canEdit
-      }),
-    []
-  );
+  const getCustomColumns = useMemo(() => {
+    const baseColumns = getColumns({
+      onDelete,
+      onEdit,
+      userRole,
+      viewRoute: undefined,
+      searchQuerykey: "name",
+      title: "Brand name",
+      canEdit
+    });
 
-  const [allowedColumns, setAllowedColumns] = useState(columns);
+    const customColumns = [...baseColumns];
+    customColumns[0] = {
+      ...customColumns[0],
+      cell: ({ row }) => {
+        const id = (row.original as { id: string }).id;
+        if (id) {
+          return (
+            <div onClick={() => handleBrandView(id)} className="cursor-pointer hover:text-blue-600 hover:underline">
+              <div className="w-[120px]">{row.getValue("name")}</div>
+            </div>
+          );
+        } else {
+          return <div className="w-[120px]">{row.getValue("name")}</div>;
+        }
+      }
+    };
+
+    return customColumns;
+  }, [filters, isFilterApplied, handleBrandView]);
+
+  const [allowedColumns, setAllowedColumns] = useState(getCustomColumns);
 
   const setOptionalColumns = () => {
     if (filters) {
       const optionalColumns = OptionalColumns.getOptionalColumns(filters, "brandList");
-      const updateColumns = [...columns];
+      const updateColumns = [...getCustomColumns];
       //@ts-ignore
       updateColumns?.splice(1, 0, ...optionalColumns);
 
@@ -271,7 +308,7 @@ function BrandTable({
     <>
       <DataTable
         table={table}
-        columns={columns}
+        columns={getCustomColumns}
         toolbarAttributes={toolbarAttributes}
         totalCount={isPaginationEnabled && !isFilterApplied ? pagination?.totalCount : undefined}
       />

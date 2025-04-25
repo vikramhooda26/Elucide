@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
@@ -39,14 +39,21 @@ import { validateEndorsements } from "../utils/helpers";
 import { getMetadata } from "../utils/metadataUtils";
 import { BRAND_METADATA, brandFormSchema, TBrandFormSchema, TEditBrandformSchema } from "./constants/metadata";
 
+type LocationState = { passedBrandData?: TEditBrandformSchema | null; from?: Location };
+
 function BrandForm() {
   const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
   const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
+  const location = useLocation();
+  const state = location.state as LocationState | null;
+  const from = state?.from ?? { pathname: NAVIGATION_ROUTES.BRAND_LIST };
+  const passedBrandData = state?.passedBrandData;
   const user = useRecoilValue(userAtom);
   const { id } = useParams();
   const initialFormData = useRef<TBrandFormSchema | null>(null);
+  const savedBrandData = useRef<TEditBrandformSchema | null>(null);
 
   const emptyFormValues: Partial<TBrandFormSchema> = {
     userId: user?.id || "",
@@ -113,6 +120,64 @@ function BrandForm() {
     return <div>Loading...</div>;
   }
 
+  const populateForm = (brandData: TEditBrandformSchema) => {
+    savedBrandData.current = { ...brandData };
+    const formData = {
+      userId: user?.id || "",
+      name: brandData.name || "",
+      taglineIds: (brandData.taglines?.map((tier) => tier.id).filter(Boolean) as string[]) || [],
+      strategyOverview: brandData.strategyOverview || "",
+      agencyId: brandData.agency?.id,
+      parentOrgId: brandData.parentOrg?.id,
+      activeCampaignIds: (brandData.activeCampaigns?.map((campaign) => campaign.id).filter(Boolean) as string[]) || [],
+      primaryMarketingPlatformIds:
+        (brandData.primaryMarketingPlatform?.map((platform) => platform.id).filter(Boolean) as string[]) || [],
+      secondaryMarketingPlatformIds:
+        (brandData.secondaryMarketingPlatform?.map((platform) => platform.id).filter(Boolean) as string[]) || [],
+      primaryMarketIds: (brandData.primaryKeyMarket?.map((market) => market.id).filter(Boolean) as string[]) || [],
+      secondaryMarketIds: (brandData.secondaryKeyMarket?.map((market) => market.id).filter(Boolean) as string[]) || [],
+      tertiaryIds: (brandData.tertiary?.map((tertiary) => tertiary.id).filter(Boolean) as string[]) || [],
+      instagram: brandData?.instagram || "",
+      facebook: brandData?.facebook || "",
+      twitter: brandData?.twitter || "",
+      linkedin: brandData?.linkedin || "",
+      website: brandData?.website || "",
+      youtube: brandData?.youtube || "",
+      endorsements:
+        brandData.endorsements?.map((endorse) => ({
+          name: endorse.name || "",
+          active: endorse.active ?? false
+        })) || [],
+      contactPerson:
+        brandData.contactPersons?.map((details) => ({
+          contactId: details.contactId,
+          contactName: details.contactName || "",
+          contactEmail: details.contactEmail || "",
+          contactLinkedin: details.contactLinkedin || "",
+          contactDesignation: details.contactDesignation || "",
+          contactNumber: details.contactNumber || ""
+        })) || [],
+      subCategoryIds:
+        (brandData.mainCategories
+          ?.flatMap((category) => category.subCategories?.map((subcategory) => subcategory.id))
+          .filter(Boolean) as string[]) || [],
+      cityId: brandData.city?.id,
+      stateId: brandData.state?.id,
+      subPersonalityTraitIds:
+        (brandData.mainPersonalityTraits
+          ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
+          .flat(2)
+          .filter(Boolean) as string[]) || [],
+      tierIds: brandData.tiers?.filter((tier) => tier.id !== undefined).map((tier) => tier.id as string) || [],
+      nccsIds: (brandData.nccs?.map((nccs) => nccs.id).filter(Boolean) as string[]) || [],
+      ageIds: (brandData.age?.map((age) => age.id).filter(Boolean) as string[]) || [],
+      genderIds: (brandData.gender?.map((gender) => gender.id).filter(Boolean) as string[]) || []
+    };
+
+    initialFormData.current = formData;
+    form.reset(formData);
+  };
+
   useEffect(() => {
     const fetchBrandDetails = async (id: string) => {
       try {
@@ -121,66 +186,7 @@ function BrandForm() {
 
         if (response.status === HTTP_STATUS_CODES.OK) {
           printLogs("Get brand by id response for edit page:", response.data);
-          const brandData: TEditBrandformSchema = response.data;
-
-          const formattedData: TBrandFormSchema = {
-            userId: user?.id || "",
-            name: brandData.name || "",
-            taglineIds: (brandData.taglines?.map((tier) => tier.id).filter(Boolean) as string[]) || [],
-            strategyOverview: brandData.strategyOverview || "",
-            agencyId: brandData.agency?.id,
-            parentOrgId: brandData.parentOrg?.id,
-            activeCampaignIds:
-              (brandData.activeCampaigns?.map((campaign) => campaign.id).filter(Boolean) as string[]) || [],
-            primaryMarketingPlatformIds:
-              (brandData.primaryMarketingPlatform?.map((platform) => platform.id).filter(Boolean) as string[]) || [],
-            secondaryMarketingPlatformIds:
-              (brandData.secondaryMarketingPlatform?.map((platform) => platform.id).filter(Boolean) as string[]) || [],
-            primaryMarketIds:
-              (brandData.primaryKeyMarket?.map((market) => market.id).filter(Boolean) as string[]) || [],
-            secondaryMarketIds:
-              (brandData.secondaryKeyMarket?.map((market) => market.id).filter(Boolean) as string[]) || [],
-            tertiaryIds: (brandData.tertiary?.map((tertiary) => tertiary.id).filter(Boolean) as string[]) || [],
-            instagram: brandData?.instagram || "",
-            facebook: brandData?.facebook || "",
-            twitter: brandData?.twitter || "",
-            linkedin: brandData?.linkedin || "",
-            website: brandData?.website || "",
-            youtube: brandData?.youtube || "",
-            endorsements:
-              brandData.endorsements?.map((endorse) => ({
-                name: endorse.name || "",
-                active: endorse.active ?? false
-              })) || [],
-            contactPerson:
-              brandData.contactPersons?.map((details) => ({
-                contactId: details.contactId,
-                contactName: details.contactName || "",
-                contactEmail: details.contactEmail || "",
-                contactLinkedin: details.contactLinkedin || "",
-                contactDesignation: details.contactDesignation || "",
-                contactNumber: details.contactNumber || ""
-              })) || [],
-            subCategoryIds:
-              (brandData.mainCategories
-                ?.flatMap((category) => category.subCategories?.map((subcategory) => subcategory.id))
-                .filter(Boolean) as string[]) || [],
-            cityId: brandData.city?.id,
-            stateId: brandData.state?.id,
-            subPersonalityTraitIds:
-              (brandData.mainPersonalityTraits
-                ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
-                .flat(2)
-                .filter(Boolean) as string[]) || [],
-            tierIds: brandData.tiers?.filter((tier) => tier.id !== undefined).map((tier) => tier.id as string) || [],
-            nccsIds: (brandData.nccs?.map((nccs) => nccs.id).filter(Boolean) as string[]) || [],
-            ageIds: (brandData.age?.map((age) => age.id).filter(Boolean) as string[]) || [],
-            genderIds: (brandData.gender?.map((gender) => gender.id).filter(Boolean) as string[]) || []
-          };
-
-          initialFormData.current = formattedData;
-
-          form.reset(formattedData);
+          populateForm(response.data);
         }
       } catch (error) {
         console.error(error);
@@ -193,7 +199,7 @@ function BrandForm() {
       }
     };
     if (id) {
-      fetchBrandDetails(id);
+      passedBrandData ? populateForm(passedBrandData) : fetchBrandDetails(id);
     }
   }, [id]);
 
@@ -350,6 +356,7 @@ function BrandForm() {
       if (id) {
         const response = await BrandService.editBrand(id, brandFormValues);
         if (response.status === HTTP_STATUS_CODES.OK) {
+          savedBrandData.current = null;
           initialFormData.current = form.getValues();
           toast.success("Brand updated successfully");
         }
@@ -395,7 +402,13 @@ function BrandForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => navigate(-1)} type="button">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => navigate(from, { state: savedBrandData.current })}
+              type="button"
+            >
               <ChevronLeft className="h-4 w-4" />
               <span className="sr-only">Back</span>
             </Button>

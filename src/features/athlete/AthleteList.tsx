@@ -11,7 +11,7 @@ import FilterService from "@/services/filter/FilterService";
 import { filterState } from "@/store/atoms/filterAtom";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { athlete } from "@/types/athlete/AthleteListTypes";
-import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
+import { SortingState } from "@tanstack/react-table";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -23,9 +23,6 @@ import AthleteTable from "./data/AthleteTable";
 function AthleteList() {
   const navigator = useNavigator();
   const [athletes, setAthletes] = useState<Array<any>>([]);
-  const [rowSelection, setRowSelection] = useState({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const setIsLoading = useSetRecoilState(listLoadingAtom);
   const [isFilterApplied, setIsFilterApplied] = useState(false);

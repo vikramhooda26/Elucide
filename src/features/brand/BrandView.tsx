@@ -1,43 +1,50 @@
+import BackButton from "@/components/button/BackButton";
+import { socials } from "@/components/core/data/socials";
+import { FormSkeleton } from "@/components/core/form/form-skeleton";
+import Activation from "@/components/core/view/Activation";
+import AudienceProfile from "@/components/core/view/AudienceProfile";
+import BrandOverviewCard from "@/components/core/view/BrandOverviewCard";
+import CategoriesCard from "@/components/core/view/CategoriesCard";
+import ContactPerson from "@/components/core/view/ContactPerson";
+import LinksCard from "@/components/core/view/LinksCard";
+import MarketingOverviewCard from "@/components/core/view/MarketingOverviewCard";
+import SportsDealSummary from "@/components/core/view/SportsDealSummary";
+import { Button } from "@/components/ui/button";
+import { useUser } from "@/hooks/useUser";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import ErrorService from "@/services/error/ErrorService";
+import BrandService from "@/services/features/BrandService";
 import { Pencil } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import BackButton from "../../components/button/BackButton";
-import { socials } from "../../components/core/data/socials";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import Activation from "../../components/core/view/Activation";
-import AudienceProfile from "../../components/core/view/AudienceProfile";
-import BrandOverviewCard from "../../components/core/view/BrandOverviewCard";
-import CategoriesCard from "../../components/core/view/CategoriesCard";
-import ContactPerson from "../../components/core/view/ContactPerson";
-import LinksCard from "../../components/core/view/LinksCard";
-import MarketingOverviewCard from "../../components/core/view/MarketingOverviewCard";
-import SportsDealSummary from "../../components/core/view/SportsDealSummary";
-import { Button } from "../../components/ui/button";
-import { useUser } from "../../hooks/useUser";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import ErrorService from "../../services/error/ErrorService";
-import BrandService from "../../services/features/BrandService";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { TEditBrandformSchema } from "./constants/metadata";
 
 function BrandView() {
   const { id } = useParams<string>();
   const [brand, setBrand] = useState<any>({});
+  const location = useLocation();
+  const passedBrandData = location.state;
   const [isLoading, setLoading] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const { logout } = useAuth();
+
+  const savedBrand = useRef<TEditBrandformSchema | null>(null);
+
   const userRole = useUser()?.role;
   if (!userRole) {
     return;
   }
 
-  const fetchTeam = async (id: string) => {
+  const fetchBrand = async (id: string) => {
     try {
       setLoading(true);
       const response = await BrandService.getOne(id ? id : "");
       if (response.status === HTTP_STATUS_CODES.OK) {
-        const teamObj = response?.data;
-        setBrand(teamObj);
+        const brandObj = response?.data;
+        setBrand(brandObj);
       } else {
         toast.error("Looks like our servers are down. Please try again later!");
       }
@@ -56,12 +63,22 @@ function BrandView() {
   };
 
   useEffect(() => {
-    if (id) {
-      fetchTeam(id);
-    } else {
-      navigate(-1);
+    if (passedBrandData && passedBrandData.id === id) {
+      savedBrand.current = { ...passedBrandData };
+      setBrand(passedBrandData);
     }
-  }, [id]);
+  }, []);
+
+  useEffect(() => {
+    if (id && !passedBrandData) {
+      fetchBrand(id);
+    } else if (!id) {
+      navigate(-1);
+    } else if (passedBrandData && id && passedBrandData.id !== id) {
+      console.warn("Passed brand data ID mismatch with URL ID. Fetching fresh data.");
+      fetchBrand(id);
+    }
+  }, [id, navigate]);
 
   return (
     <main className="my-8 flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
@@ -74,7 +91,14 @@ function BrandView() {
 
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
             {userRole === "SUPER_ADMIN" ? (
-              <Button size="sm" onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`)}>
+              <Button
+                size="sm"
+                onClick={() =>
+                  navigate(`${NAVIGATION_ROUTES.EDIT_BRAND}/${id}`, {
+                    state: { passedBrandData: savedBrand.current, from: location }
+                  })
+                }
+              >
                 <Pencil className="h-4 w-4" />{" "}
               </Button>
             ) : null}

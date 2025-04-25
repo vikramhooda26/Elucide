@@ -27,7 +27,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, PlusCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { toast } from "sonner";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
@@ -49,14 +49,21 @@ import {
 import { getMetadata } from "../utils/metadataUtils";
 import { TEAM_METADATA, teamFormSchema, TEditTeamFormSchema, TTeamFormSchema } from "./constants/metadata";
 
+type LocationState = { passedTeamData?: TEditTeamFormSchema | null; from?: Location };
+
 export function TeamForm() {
   const [isFetchingDetails, setIsFetchingDetails] = useState<boolean>(false);
   const [isFetchingMetadata, setIsFetchingMetadata] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [metadataStore, setMetadataStore] = useRecoilState(metadataStoreAtom);
+  const location = useLocation();
+  const state = location.state as LocationState | null;
+  const from = state?.from ?? { pathname: NAVIGATION_ROUTES.TEAM_LIST };
+  const passedTeamData = state?.passedTeamData;
   const user = useRecoilValue(userAtom);
   const { id } = useParams();
   const initialFormData = useRef<TTeamFormSchema | null>(null);
+  const savedTeamData = useRef<TEditTeamFormSchema | null>(null);
 
   const emptyFormValues: Partial<TTeamFormSchema> = {
     userId: user?.id || undefined,
@@ -120,6 +127,84 @@ export function TeamForm() {
     }
   };
 
+  const populateForm = (teamData: TEditTeamFormSchema) => {
+    savedTeamData.current = { ...teamData };
+    const formData = {
+      userId: user?.id || "",
+      name: teamData.name || "",
+      taglineIds: (teamData.taglines?.map((tagline) => tagline.id).filter(Boolean) as string[]) || [],
+      strategyOverview: teamData.strategyOverview || "",
+      yearOfInception: teamData.yearOfInception || "",
+      franchiseFee: convertRupeesToCrore(teamData.franchiseFee) || undefined,
+      association:
+        teamData.association?.map((asso) => ({
+          associationId: asso.associationId,
+          associationLevelId: asso.associationLevel?.id,
+          costOfAssociation: convertRupeesToCrore(asso?.costOfAssociation) || undefined,
+          brandIds: (asso.brand?.map((brand) => brand.id).filter(Boolean) as string[]) || []
+        })) || [],
+      endorsements:
+        teamData.endorsements?.map((endorse) => ({
+          name: endorse.name || "",
+          active: endorse.active || false
+        })) || [],
+      activeCampaignIds: (teamData.activeCampaigns?.map((campaign) => campaign.id).filter(Boolean) as string[]) || [],
+      nccsIds: (teamData.nccs?.map((nccs) => nccs.id).filter(Boolean) as string[]) || [],
+      primaryMarketingPlatformIds:
+        (teamData.primaryMarketingPlatform?.map((platform) => platform.id).filter(Boolean) as string[]) || [],
+      secondaryMarketingPlatformIds:
+        (teamData.secondaryMarketingPlatform?.map((platform) => platform.id).filter(Boolean) as string[]) || [],
+      primaryMarketIds: (teamData.primaryKeyMarket?.map((market) => market.id).filter(Boolean) as string[]) || [],
+      secondaryMarketIds: (teamData.secondaryKeyMarket?.map((market) => market.id).filter(Boolean) as string[]) || [],
+      tertiaryIds: (teamData.tertiary?.map((tertiaries) => tertiaries.id).filter(Boolean) as string[]) || [],
+      broadcastPartnerMetrics:
+        teamData.broadcastPartnerMetrics?.map((metric) => ({
+          reach: metric.reach || "",
+          viewership: metric.viewership || "",
+          year: metric.year || "",
+          broadcastPartnerId: metric.broadcastPartner.id || ""
+        })) || [],
+      ottPartnerMetrics:
+        teamData.ottPartnerMetrics?.map((metric) => ({
+          reach: metric.reach || "",
+          viewership: metric.viewership || "",
+          year: metric.year || "",
+          ottPartnerId: metric.ottPartner.id || ""
+        })) || [],
+      instagram: teamData?.instagram || "",
+      facebook: teamData?.facebook || "",
+      twitter: teamData?.twitter || "",
+      linkedin: teamData?.linkedin || "",
+      website: teamData?.website || "",
+      youtube: teamData?.youtube || "",
+      contactPerson:
+        teamData.contactPersons?.map((details) => ({
+          contactId: details.contactId || undefined,
+          contactName: details.contactName || "",
+          contactEmail: details.contactEmail || "",
+          contactLinkedin: details.contactLinkedin || "",
+          contactDesignation: details.contactDesignation || "",
+          contactNumber: details.contactNumber || ""
+        })) || [],
+      sportId: teamData.sport?.id || undefined,
+      leagueId: teamData.league?.id || undefined,
+      ownerIds: (teamData.owners?.map((owner) => owner.id).filter(Boolean) as string[]) || [],
+      cityId: teamData.city?.id || undefined,
+      stateId: teamData.state?.id || undefined,
+      subPersonalityTraitIds:
+        (teamData.mainPersonalityTraits
+          ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
+          .flat(2)
+          .filter(Boolean) as string[]) || [],
+      tierIds: teamData.tiers?.filter((tier) => tier.id !== undefined).map((tier) => tier.id as string) || [],
+      ageIds: (teamData.age?.map((age) => age.id).filter(Boolean) as string[]) || [],
+      genderIds: (teamData.gender?.map((gender) => gender.id).filter(Boolean) as string[]) || []
+    };
+
+    initialFormData.current = formData;
+    form.reset(formData);
+  };
+
   useEffect(() => {
     fetchMetadata();
   }, []);
@@ -132,83 +217,7 @@ export function TeamForm() {
 
         if (response.status === HTTP_STATUS_CODES.OK) {
           printLogs("Get team by id response for edit page:", response.data);
-          const teamData: TEditTeamFormSchema = response.data;
-
-          const formattedData: TTeamFormSchema = {
-            userId: user?.id || "",
-            name: teamData.name || "",
-            taglineIds: (teamData.taglines?.map((tagline) => tagline.id).filter(Boolean) as string[]) || [],
-            strategyOverview: teamData.strategyOverview || "",
-            yearOfInception: teamData.yearOfInception || "",
-            franchiseFee: convertRupeesToCrore(teamData.franchiseFee) || undefined,
-            association:
-              teamData.association?.map((asso) => ({
-                associationId: asso.associationId,
-                associationLevelId: asso.associationLevel?.id,
-                costOfAssociation: convertRupeesToCrore(asso?.costOfAssociation) || undefined,
-                brandIds: (asso.brand?.map((brand) => brand.id).filter(Boolean) as string[]) || []
-              })) || [],
-            endorsements:
-              teamData.endorsements?.map((endorse) => ({
-                name: endorse.name || "",
-                active: endorse.active || false
-              })) || [],
-            activeCampaignIds:
-              (teamData.activeCampaigns?.map((campaign) => campaign.id).filter(Boolean) as string[]) || [],
-            nccsIds: (teamData.nccs?.map((nccs) => nccs.id).filter(Boolean) as string[]) || [],
-            primaryMarketingPlatformIds:
-              (teamData.primaryMarketingPlatform?.map((platform) => platform.id).filter(Boolean) as string[]) || [],
-            secondaryMarketingPlatformIds:
-              (teamData.secondaryMarketingPlatform?.map((platform) => platform.id).filter(Boolean) as string[]) || [],
-            primaryMarketIds: (teamData.primaryKeyMarket?.map((market) => market.id).filter(Boolean) as string[]) || [],
-            secondaryMarketIds:
-              (teamData.secondaryKeyMarket?.map((market) => market.id).filter(Boolean) as string[]) || [],
-            tertiaryIds: (teamData.tertiary?.map((tertiaries) => tertiaries.id).filter(Boolean) as string[]) || [],
-            broadcastPartnerMetrics:
-              teamData.broadcastPartnerMetrics?.map((metric) => ({
-                reach: metric.reach || "",
-                viewership: metric.viewership || "",
-                year: metric.year || "",
-                broadcastPartnerId: metric.broadcastPartner.id || ""
-              })) || [],
-            ottPartnerMetrics:
-              teamData.ottPartnerMetrics?.map((metric) => ({
-                reach: metric.reach || "",
-                viewership: metric.viewership || "",
-                year: metric.year || "",
-                ottPartnerId: metric.ottPartner.id || ""
-              })) || [],
-            instagram: teamData?.instagram || "",
-            facebook: teamData?.facebook || "",
-            twitter: teamData?.twitter || "",
-            linkedin: teamData?.linkedin || "",
-            website: teamData?.website || "",
-            youtube: teamData?.youtube || "",
-            contactPerson:
-              teamData.contactPersons?.map((details) => ({
-                contactId: details.contactId || undefined,
-                contactName: details.contactName || "",
-                contactEmail: details.contactEmail || "",
-                contactLinkedin: details.contactLinkedin || "",
-                contactDesignation: details.contactDesignation || "",
-                contactNumber: details.contactNumber || ""
-              })) || [],
-            sportId: teamData.sport?.id || undefined,
-            leagueId: teamData.league?.id || undefined,
-            ownerIds: (teamData.owners?.map((owner) => owner.id).filter(Boolean) as string[]) || [],
-            cityId: teamData.city?.id || undefined,
-            stateId: teamData.state?.id || undefined,
-            subPersonalityTraitIds:
-              (teamData.mainPersonalityTraits
-                ?.map((traits) => traits.subPersonalityTraits?.map((sub) => sub.id || []))
-                .flat(2)
-                .filter(Boolean) as string[]) || [],
-            tierIds: teamData.tiers?.filter((tier) => tier.id !== undefined).map((tier) => tier.id as string) || [],
-            ageIds: (teamData.age?.map((age) => age.id).filter(Boolean) as string[]) || [],
-            genderIds: (teamData.gender?.map((gender) => gender.id).filter(Boolean) as string[]) || []
-          };
-          initialFormData.current = formattedData;
-          form.reset(formattedData);
+          populateForm(response.data);
         }
       } catch (error) {
         console.error(error);
@@ -222,7 +231,7 @@ export function TeamForm() {
     };
 
     if (id) {
-      fetchTeamDetails(id);
+      passedTeamData ? populateForm(passedTeamData) : fetchTeamDetails(id);
     }
   }, [id]);
 
@@ -528,6 +537,7 @@ export function TeamForm() {
         printLogs("id found making API call for edit");
         const response = await TeamService.editTeam(id, requestBody);
         if (response.status === HTTP_STATUS_CODES.OK) {
+          savedTeamData.current = null;
           initialFormData.current = form.getValues();
           toast.success("Team updated successfully");
         }
@@ -554,7 +564,13 @@ export function TeamForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto grid flex-1 auto-rows-max gap-4">
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="icon" className="h-7 w-7" onClick={() => navigate(-1)} type="button">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-7 w-7"
+              onClick={() => navigate(from, { state: savedTeamData.current })}
+              type="button"
+            >
               <ChevronLeft className="h-4 w-4" />
               <span className="sr-only">Back</span>
             </Button>

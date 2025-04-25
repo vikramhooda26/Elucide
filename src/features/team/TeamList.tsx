@@ -1,5 +1,6 @@
 import { ConditionalButton } from "@/components/button/ConditionalButton";
 import FilterModal, { FilterContent } from "@/components/core/filter/FilterModal";
+import { debounce } from "@/hooks/debounce";
 import useNavigator from "@/hooks/useNavigator";
 import { useUser } from "@/hooks/useUser";
 import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
@@ -10,25 +11,24 @@ import FilterService from "@/services/filter/FilterService";
 import { filterState } from "@/store/atoms/filterAtom";
 import { listLoadingAtom } from "@/store/atoms/global";
 import { team } from "@/types/team/TeamListTypes";
-import { ColumnFiltersState, SortingState, VisibilityState } from "@tanstack/react-table";
-import { useCallback, useEffect, useState } from "react";
+import { SortingState } from "@tanstack/react-table";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { TEditTeamFormSchema } from "./constants/metadata";
 import TeamTable from "./data/TeamTable";
-import { debounce } from "@/hooks/debounce";
 
 function TeamList() {
   const navigator = useNavigator();
   const [teamList, setTeamList] = useState<any[]>([]);
-  const [rowSelection, setRowSelection] = useState({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const setIsLoading = useSetRecoilState(listLoadingAtom);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const originalTeamData = useRef<Record<string, TEditTeamFormSchema>>({});
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -72,6 +72,17 @@ function TeamList() {
       );
       if (response.status === HTTP_STATUS_CODES.OK) {
         let teams = response.data.items || [];
+
+        if (teams && teams.length > 0) {
+          const teamDataMap: Record<string, TEditTeamFormSchema> = {};
+          teams.forEach((team: any) => {
+            if (team.id) {
+              teamDataMap[team.id] = { ...team };
+            }
+          });
+          originalTeamData.current = teamDataMap;
+        }
+
         teams.forEach((team: team, idx: number) => {
           teams[idx].createdBy = team?.createdBy?.email || "N/A";
           teams[idx].modifiedBy = team?.modifiedBy?.email || "N/A";
@@ -175,6 +186,17 @@ function TeamList() {
 
       if (response.status === HTTP_STATUS_CODES.OK) {
         let teams = response.data;
+
+        if (teams && teams.length > 0) {
+          const teamDataMap: Record<string, TEditTeamFormSchema> = {};
+          teams.forEach((team: any) => {
+            if (team.id) {
+              teamDataMap[team.id] = { ...team };
+            }
+          });
+          originalTeamData.current = teamDataMap;
+        }
+
         teams.forEach((team: team, idx: number) => {
           teams[idx].createdBy = team?.createdBy?.email || "N/A";
           teams[idx].modifiedBy = team?.modifiedBy?.email || "N/A";
@@ -205,6 +227,26 @@ function TeamList() {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleTeamView = (id: string) => {
+    if (originalTeamData.current && originalTeamData.current[id]) {
+      navigate(`${NAVIGATION_ROUTES.TEAM}/${id}`, {
+        state: originalTeamData.current[id]
+      });
+    } else {
+      navigate(`${NAVIGATION_ROUTES.TEAM}/${id}`);
+    }
+  };
+
+  const handleTeamEdit = (id: string) => {
+    if (originalTeamData.current && originalTeamData.current[id]) {
+      navigate(`${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`, {
+        state: { passedTeamData: originalTeamData.current[id] }
+      });
+    } else {
+      navigate(`${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`);
     }
   };
 
@@ -245,6 +287,8 @@ function TeamList() {
         onSortingChange={handleSortingChange}
         searchQuery={searchQuery}
         onSearchChange={handleSearchChange}
+        onTeamView={handleTeamView}
+        onTeamEdit={handleTeamEdit}
       />
     </div>
   );

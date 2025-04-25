@@ -1,32 +1,39 @@
+import BackButton from "@/components/button/BackButton";
+import { socials } from "@/components/core/data/socials";
+import { FormSkeleton } from "@/components/core/form/form-skeleton";
+import Activation from "@/components/core/view/Activation";
+import Association from "@/components/core/view/Association";
+import AudienceProfile from "@/components/core/view/AudienceProfile";
+import ContactPerson from "@/components/core/view/ContactPerson";
+import LinksCard from "@/components/core/view/LinksCard";
+import MarketingOverviewCard from "@/components/core/view/MarketingOverviewCard";
+import SportsDealSummary from "@/components/core/view/SportsDealSummary";
+import TeamOverviewCard from "@/components/core/view/TeamOverviewCard";
+import ViewershipReach from "@/components/core/view/ViewershipReach";
+import { Button } from "@/components/ui/button";
+import { useUser } from "@/hooks/useUser";
+import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "@/lib/constants";
+import ErrorService from "@/services/error/ErrorService";
+import TeamService from "@/services/features/TeamService";
 import { Pencil } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import BackButton from "../../components/button/BackButton";
-import { socials } from "../../components/core/data/socials";
-import { FormSkeleton } from "../../components/core/form/form-skeleton";
-import Activation from "../../components/core/view/Activation";
-import Association from "../../components/core/view/Association";
-import AudienceProfile from "../../components/core/view/AudienceProfile";
-import ContactPerson from "../../components/core/view/ContactPerson";
-import LinksCard from "../../components/core/view/LinksCard";
-import MarketingOverviewCard from "../../components/core/view/MarketingOverviewCard";
-import SportsDealSummary from "../../components/core/view/SportsDealSummary";
-import TeamOverviewCard from "../../components/core/view/TeamOverviewCard";
-import ViewershipReach from "../../components/core/view/ViewershipReach";
-import { Button } from "../../components/ui/button";
-import { useUser } from "../../hooks/useUser";
-import { HTTP_STATUS_CODES, NAVIGATION_ROUTES } from "../../lib/constants";
-import ErrorService from "../../services/error/ErrorService";
-import TeamService from "../../services/features/TeamService";
 import { useAuth } from "../auth/auth-provider/AuthProvider";
+import { TEditTeamFormSchema } from "./constants/metadata";
 
 function TeamView() {
   const { id } = useParams<string>();
   const [team, setTeam] = useState<any>({});
+  const location = useLocation();
+  const passedTeamData = location.state;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const { logout } = useAuth();
+
+  const savedTeam = useRef<TEditTeamFormSchema | null>(null);
+
   const userRole = useUser()?.role;
   if (!userRole) {
     return;
@@ -38,13 +45,9 @@ function TeamView() {
     { header: "Franchise Fee (in cr)" }
   ];
 
-  const fetchTeam = async () => {
+  const fetchTeam = async (id: string) => {
     try {
       setIsLoading(true);
-      if (!id) {
-        setIsLoading(false);
-        return;
-      }
       const resp = await TeamService.getOne(id ? id : "");
       if (resp?.status !== 200 || Object.keys(resp?.data)?.length <= 0) {
         throw new Error("");
@@ -66,8 +69,22 @@ function TeamView() {
   };
 
   useEffect(() => {
-    fetchTeam();
+    if (passedTeamData && passedTeamData.id === id) {
+      savedTeam.current = { ...passedTeamData };
+      setTeam(passedTeamData);
+    }
   }, []);
+
+  useEffect(() => {
+    if (id && !passedTeamData) {
+      fetchTeam(id);
+    } else if (!id) {
+      navigate(-1);
+    } else if (passedTeamData && id && passedTeamData.id !== id) {
+      console.warn("Passed team data ID mismatch with URL ID. Fetching fresh data.");
+      fetchTeam(id);
+    }
+  }, [id, navigate]);
 
   return (
     <main className="my-8 flex-1 gap-4 sm:px-6 sm:py-0 md:gap-8">
@@ -80,7 +97,14 @@ function TeamView() {
 
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
             {userRole === "SUPER_ADMIN" ? (
-              <Button size="sm" onClick={() => navigate(`${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`)}>
+              <Button
+                size="sm"
+                onClick={() =>
+                  navigate(`${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`, {
+                    state: { passedTeamData: savedTeam.current, from: location }
+                  })
+                }
+              >
                 <Pencil className="h-4 w-4" />{" "}
               </Button>
             ) : null}

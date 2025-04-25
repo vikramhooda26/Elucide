@@ -100,7 +100,7 @@ function AthleteTable({
         navigate(`${NAVIGATION_ROUTES.EDIT_ATHLETE}/${id}`);
       }
     },
-    [onAthleteView, navigate]
+    [onAthleteEdit, navigate]
   );
 
   const handleAthleteView = useCallback(

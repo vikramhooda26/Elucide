@@ -29,7 +29,6 @@ import { useSetRecoilState } from "recoil";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
 
-// Update Props interface
 type Props = {
   teamList: Array<any>;
   setTeamList: React.Dispatch<React.SetStateAction<any[]>>;
@@ -54,6 +53,8 @@ type Props = {
   onSortingChange?: (sorting: SortingState) => void;
   searchQuery?: string;
   onSearchChange?: (value: string) => void;
+  onTeamView?: (id: string) => void;
+  onTeamEdit?: (id: string) => void;
 };
 
 function TeamTable({
@@ -68,7 +69,9 @@ function TeamTable({
   sorting = [],
   onSortingChange,
   searchQuery = "",
-  onSearchChange
+  onSearchChange,
+  onTeamView,
+  onTeamEdit
 }: Props) {
   const userRole = useUser()?.role;
   const navigate = useNavigate();
@@ -89,11 +92,27 @@ function TeamTable({
     }
   }, [filters, isFilterApplied]);
 
-  const onEdit = useCallback((id: string) => {
-    navigate(`${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`);
-  }, []);
+  const onEdit = useCallback(
+    (id: string) => {
+      if (onTeamEdit) {
+        onTeamEdit(id);
+      } else {
+        navigate(`${NAVIGATION_ROUTES.EDIT_TEAM}/${id}`);
+      }
+    },
+    [onTeamEdit, navigate]
+  );
 
-  const viewRoute = NAVIGATION_ROUTES.TEAM;
+  const handleTeamView = useCallback(
+    (id: string) => {
+      if (onTeamView) {
+        onTeamView(id);
+      } else {
+        navigate(`${NAVIGATION_ROUTES.TEAM}/${id}`);
+      }
+    },
+    [onTeamView, navigate]
+  );
 
   const canEdit = userRole !== "USER" && userRole !== "STAFF";
 
@@ -119,26 +138,43 @@ function TeamTable({
     }
   }, []);
 
-  const columns = useMemo(
-    () =>
-      getColumns({
-        onDelete,
-        onEdit,
-        userRole,
-        viewRoute,
-        searchQuerykey: "name",
-        title: "Team name",
-        canEdit
-      }),
-    []
-  );
+  const getCustomColumns = useMemo(() => {
+    const baseColumns = getColumns({
+      onDelete,
+      onEdit,
+      userRole,
+      viewRoute: undefined,
+      searchQuerykey: "name",
+      title: "Team name",
+      canEdit
+    });
 
-  const [allowedColumns, setAllowedColumns] = useState(columns);
+    const customColumns = [...baseColumns];
+    customColumns[0] = {
+      ...customColumns[0],
+      cell: ({ row }) => {
+        const id = (row.original as { id: string }).id;
+        if (id) {
+          return (
+            <div onClick={() => handleTeamView(id)} className="cursor-pointer hover:text-blue-600 hover:underline">
+              <div className="w-[120px]">{row.getValue("name")}</div>
+            </div>
+          );
+        } else {
+          return <div className="w-[120px]">{row.getValue("name")}</div>;
+        }
+      }
+    };
+
+    return customColumns;
+  }, [filters, isFilterApplied, handleTeamView]);
+
+  const [allowedColumns, setAllowedColumns] = useState(getCustomColumns);
 
   const setOptionalColumns = () => {
     if (filters) {
       const optionalColumns = OptionalColumns.getOptionalColumns(filters, "teamList");
-      const updateColumns = [...columns];
+      const updateColumns = [...getCustomColumns];
       //@ts-ignore
       updateColumns?.splice(1, 0, ...optionalColumns);
 
@@ -272,7 +308,7 @@ function TeamTable({
     <>
       <DataTable
         table={table}
-        columns={columns}
+        columns={getCustomColumns}
         toolbarAttributes={toolbarAttributes}
         totalCount={isPaginationEnabled && !isFilterApplied ? pagination?.totalCount : undefined}
       />

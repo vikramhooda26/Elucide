@@ -148,7 +148,7 @@ function LeagueTable({
       userRole,
       viewRoute: undefined,
       searchQuerykey: "name",
-      title: "Athlete name",
+      title: "League name",
       canEdit
     });
 
