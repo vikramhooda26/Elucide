@@ -95,7 +95,7 @@ class OptionalColumns {
       { accessorKey: "state", filterKey: "stateIds", title: "State" },
       { accessorKey: "city", filterKey: "cityIds", title: "City" },
       { accessorKey: "activeCampaigns", filterKey: "activeCampaignIds", title: "Active Campaign" },
-      { accessorKey: "team", filterKey: "teamIds", title: "Team" },
+      // { accessorKey: "team", filterKey: "teamIds", title: "Team" },
       { accessorKey: "parentOrg", filterKey: "parentOrgIds", title: "Parent Org." },
       { accessorKey: "primaryKeyMarket", filterKey: "primaryMarketIds", title: "Primary Market" },
       { accessorKey: "secondaryKeyMarket", filterKey: "secondaryMarketIds", title: "Secondary Market" },
@@ -147,7 +147,7 @@ class OptionalColumns {
       { accessorKey: "facebook", filterKey: "facebook", title: "Facebook" },
       { accessorKey: "instagram", filterKey: "instagram", title: "Instagram" },
       { accessorKey: "twitter", filterKey: "twitter", title: "Twitter" },
-      { accessorKey: "linkedin", filterKey: "linkedin", title: "LinkedIn" },
+      // { accessorKey: "linkedin", filterKey: "linkedin", title: "LinkedIn" },
       { accessorKey: "youtube", filterKey: "youtube", title: "YouTube" },
       { accessorKey: "website", filterKey: "website", title: "Website" },
 
@@ -155,7 +155,8 @@ class OptionalColumns {
       { accessorKey: "contactEmail", filterKey: "contactEmail", title: "Contact Email" },
       { accessorKey: "contactDesignation", filterKey: "contactDesignation", title: "Contact Designation" },
       { accessorKey: "contactNumber", filterKey: "contactNumber", title: "Contact Number" },
-      { accessorKey: "contactLinkedin", filterKey: "contactLinkedin", title: "Contact LinkedIn" }
+      // { accessorKey: "contactLinkedin", filterKey: "contactLinkedin", title: "Contact LinkedIn" },
+      { accessorKey: "format", filterKey: "formatIds", title: "Format" }
     ];
 
     if (pageKey != "leagueList") {
