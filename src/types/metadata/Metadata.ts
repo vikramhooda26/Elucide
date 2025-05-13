@@ -473,6 +473,15 @@ export const allColumnsSchema = () =>
         })
       )
       .optional(),
+    endorsements: z
+      .array(
+        z.object({
+          id: z.string().optional(),
+          name: z.string(),
+          active: z.boolean()
+        })
+      )
+      .optional(),
     //= ================= custom keys ======================= =//
     ottPartner: z
       .object({

@@ -289,7 +289,7 @@ class FilterService {
         if (processedFilters?.["athleteAge"]?.operationType === "in") {
           finalObj.athleteAge =
             processedFilters?.["athleteAge"]?.age?.[0] <= athleteAge &&
-            athleteAge <= processedFilters?.["athleteAge"]?.age?.[1]
+              athleteAge <= processedFilters?.["athleteAge"]?.age?.[1]
               ? matched
               : notMatched;
         } else if (processedFilters?.["athleteAge"]?.operationType === "gte") {
@@ -338,6 +338,8 @@ class FilterService {
       }
 
       if (formatIds && data?.format) {
+        console.log("formatIds ", formatIds);
+        console.log("data?.format?.id ", data?.format?.id);
         finalObj.format = formatIds?.value.includes(data?.format?.id) ? matched : notMatched;
       }
 
@@ -541,7 +543,7 @@ class FilterService {
       }
 
       if (teamOwnerIds && data?.owners) {
-        finalObj.teamOwners = data?.owners?.some((owner: any) => teamOwnerIds.value.includes(owner.id))
+        finalObj.owners = data?.owners?.some((owner: any) => teamOwnerIds.value.includes(owner.id))
           ? matched
           : notMatched;
       }
@@ -626,59 +628,128 @@ class FilterService {
         });
       }
 
-      const checkMatrics = (
-        matricsType: "ottPartnerMetrics" | "broadcastPartnerMetrics",
-        filterType: "ott" | "broadcast"
-      ) => {
-        finalObj.reachMetrics = notMatched;
-        finalObj.viewershipMetrics = notMatched;
-        finalObj.yearMetrics = notMatched;
+      // const checkMatrics = (
+      //   matricsType: "ottPartnerMetrics" | "broadcastPartnerMetrics",
+      //   filterType: "ott" | "broadcast"
+      // ) => {
+      //   finalObj.reachMetrics = notMatched;
+      //   finalObj.viewershipMetrics = notMatched;
+      //   finalObj.yearMetrics = notMatched;
 
-        data?.[matricsType]?.forEach((matricsData: TMatrics) => {
-          if (reachMetrics && finalObj?.reachMetrics === notMatched) {
-            finalObj.reachMetrics = validateMatrics(
-              processedFilters?.["reachMetrics"],
-              matricsData,
-              "reach",
-              filterType
-            );
-          }
-          if (viewershipMetrics && finalObj?.viewershipMetrics === notMatched) {
-            finalObj.viewershipMetrics = validateMatrics(
+      //   data?.[matricsType]?.forEach((matricsData: TMatrics) => {
+      //     if (reachMetrics && finalObj?.reachMetrics === notMatched) {
+      //       finalObj.reachMetrics = validateMatrics(
+      //         processedFilters?.["reachMetrics"],
+      //         matricsData,
+      //         "reach",
+      //         filterType
+      //       );
+      //     }
+      //     if (viewershipMetrics && finalObj?.viewershipMetrics === notMatched) {
+      //       finalObj.viewershipMetrics = validateMatrics(
+      //         processedFilters?.["viewershipMetrics"],
+      //         matricsData,
+      //         "viewership",
+      //         filterType
+      //       );
+      //     }
+      //     if (yearMetrics && finalObj.yearMetrics === notMatched) {
+      //       finalObj.yearMetrics = validateMatrics(processedFilters?.["yearMetrics"], matricsData, "year", filterType);
+      //     }
+
+      //     if (partnerIdMetrics && finalObj.partnerIdMetrics === notMatched) {
+      //       finalObj.partnerIdMetrics = partnerIdMetrics?.value?.includes(
+      //         filterType === "ott" ? matricsData?.ottPartner?.id : matricsData?.broadcastPartner?.id
+      //       )
+      //         ? matched
+      //         : notMatched;
+      //     }
+      //   });
+      // };
+
+      // console.log("reachMetrics :", reachMetrics);
+
+      // if (reachMetrics && data?.ottPartnerMetrics) {
+      //   checkMatrics("ottPartnerMetrics", "ott");
+      // }
+
+      // if (reachMetrics && data?.broadcastPartnerMetrics) {
+      //   checkMatrics("broadcastPartnerMetrics", "broadcast");
+      // }
+
+      if (endorsement && data?.endorsements) {
+        finalObj.endorsement = data?.endorsements?.some(
+          (endorse: any) =>
+            endorse?.name?.includes(endorsement?.value?.value) && endorsement?.value?.isActive == endorse?.active
+        )
+          ? matched
+          : notMatched;
+      }
+
+      if (partnerIdMetrics && (data?.ottPartnerMetrics || data?.broadcastPartnerMetrics)) {
+        if (partnerIdMetrics?.value?.checkType == "ott") {
+          finalObj.partnerIdMetrics = data?.ottPartnerMetrics?.some(
+            (ottP: any) =>
+              partnerIdMetrics?.value?.value?.includes(ottP?.ottPartner?.id)
+          )
+            ? matched
+            : notMatched;
+        } else {
+          finalObj.partnerIdMetrics = data?.broadcastPartnerMetrics?.some(
+            (broadP: any) =>
+              partnerIdMetrics?.value?.value?.includes(broadP?.broadcastPartner?.id)
+          )
+            ? matched
+            : notMatched;
+        }
+      }
+
+      if (viewershipMetrics && (data?.ottPartnerMetrics || data?.broadcastPartnerMetrics)) {
+        const matricsData: TMatrics[] | undefined = viewershipMetrics?.value?.checkType == "ott" ? data?.ottPartnerMetrics : data?.broadcastPartnerMetrics;
+        finalObj.viewershipMetrics = matricsData?.some((matricsData: TMatrics) => {
+          if (matricsData) {
+            const isM = validateMatrics(
               processedFilters?.["viewershipMetrics"],
               matricsData,
               "viewership",
-              filterType
+              viewershipMetrics?.value?.checkType
             );
+            return isM == matched
           }
-          if (yearMetrics && finalObj.yearMetrics === notMatched) {
-            finalObj.yearMetrics = validateMatrics(processedFilters?.["yearMetrics"], matricsData, "year", filterType);
-          }
-
-          if (partnerIdMetrics && finalObj.partnerIdMetrics === notMatched) {
-            finalObj.partnerIdMetrics = partnerIdMetrics?.value?.includes(
-              filterType === "ott" ? matricsData?.ottPartner?.id : matricsData?.broadcastPartner?.id
-            )
-              ? matched
-              : notMatched;
-          }
-        });
-      };
-
-      if (reachMetrics && data?.ottPartnerMetrics) {
-        checkMatrics("ottPartnerMetrics", "ott");
+        }) ? matched
+          : notMatched;
       }
 
-      if (reachMetrics && data?.broadcastPartnerMetrics) {
-        checkMatrics("broadcastPartnerMetrics", "broadcast");
+
+      if (yearMetrics && (data?.ottPartnerMetrics || data?.broadcastPartnerMetrics)) {
+        const matricsData: TMatrics[] | undefined = viewershipMetrics?.value?.checkType == "ott" ? data?.ottPartnerMetrics : data?.broadcastPartnerMetrics;
+        finalObj.yearMetrics = matricsData?.some((matricsData: TMatrics) => {
+          if (matricsData) {
+            const isM = validateMatrics(
+              processedFilters?.["yearMetrics"],
+              matricsData,
+              "year",
+              yearMetrics?.value?.checkType
+            );
+            return isM == matched
+          }
+        }) ? matched
+          : notMatched;
       }
 
-      if (endorsement && data?.endorsement) {
-        finalObj.endorsement = data?.endorsement?.some(
-          (endorse: any) =>
-            endorsement?.value?.name?.includes(endorse?.name) && endorsement?.value?.isActive === endorse?.active
-        )
-          ? matched
+      if (reachMetrics && (data?.ottPartnerMetrics || data?.broadcastPartnerMetrics)) {
+        const matricsData: TMatrics[] | undefined = viewershipMetrics?.value?.checkType == "ott" ? data?.ottPartnerMetrics : data?.broadcastPartnerMetrics;
+        finalObj.reachMetrics = matricsData?.some((matricsData: TMatrics) => {
+          if (matricsData) {
+            const isM = validateMatrics(
+              processedFilters?.["reachMetrics"],
+              matricsData,
+              "reach",
+              reachMetrics?.value?.checkType
+            );
+            return isM == matched
+          }
+        }) ? matched
           : notMatched;
       }
 
