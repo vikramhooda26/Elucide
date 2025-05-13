@@ -673,8 +673,8 @@ class FilterService {
         checkMatrics("broadcastPartnerMetrics", "broadcast");
       }
 
-      if (endorsement && data?.endorsement) {
-        finalObj.endorsement = data?.endorsement?.some(
+      if (endorsement && data?.endorsements) {
+        finalObj.endorsement = data?.endorsements?.some(
           (endorse: any) =>
             endorsement?.value?.name?.includes(endorse?.name) && endorsement?.value?.isActive === endorse?.active
         )
