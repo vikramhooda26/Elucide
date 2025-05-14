@@ -1,11 +1,11 @@
+import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { DataTableRowActions } from "@/components/data-table/data-table-row-actions";
+import { Checkbox } from "@/components/ui/checkbox";
+import { TRoles } from "@/lib/constants";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { DataTableColumnHeader } from "../../../components/data-table/data-table-column-header";
-import { DataTableRowActions } from "../../../components/data-table/data-table-row-actions";
-import { Checkbox } from "../../../components/ui/checkbox";
-import { schema, schemaType } from "./schema";
-import { TRoles } from "../../../lib/constants";
 import { Link } from "react-router-dom";
+import { schema, schemaType } from "./schema";
 
 interface TColumnProps {
   onEdit: (id: string) => void;
