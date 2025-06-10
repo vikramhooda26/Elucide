@@ -1,14 +1,14 @@
+import { CardWrapper } from "@/components/card/card-wrapper";
+import { FormItemWrapper } from "@/components/form/item-wrapper";
+import { PhoneInput } from "@/components/phone-input";
+import { Button } from "@/components/ui/button";
+import { CardFooter } from "@/components/ui/card";
+import { FormField } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import SelectBox from "@/components/ui/multi-select";
+import { cn } from "@/lib/utils";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { ArrayPath, Control, FieldValues, Path, useFieldArray } from "react-hook-form";
-import { cn } from "../../../lib/utils";
-import { CardWrapper } from "../../card/card-wrapper";
-import { FormItemWrapper } from "../../form/item-wrapper";
-import { PhoneInput } from "../../phone-input";
-import { Button } from "../../ui/button";
-import { CardFooter } from "../../ui/card";
-import { FormField } from "../../ui/form";
-import { Input } from "../../ui/input";
-import SelectBox from "../../ui/multi-select";
 
 const initialValue = {
   contactName: "",
