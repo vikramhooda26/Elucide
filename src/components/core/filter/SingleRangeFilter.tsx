@@ -67,14 +67,14 @@ function SingleRangeFilter({
             [
               { label: "Greater", value: "gte" },
               { label: "Lesser", value: "lte" }
-            ] || []
+            ]
           }
           onChange={(value) => handleOperationChange(value || "")}
           className={"mx-4 mb-4 flex items-center space-x-2"}
         />
         <CheckBoxFilter
           value={values?.operationType || ""}
-          options={[{ label: "Range", value: "in" }] || []}
+          options={[{ label: "Range", value: "in" }]}
           onChange={(value) => handleOperationChange(value || "")}
           className={"mx-4 mb-4 flex items-center space-x-2"}
         />
