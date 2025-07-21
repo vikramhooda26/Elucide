@@ -207,6 +207,8 @@ class FilterService {
         [key: string]: string;
       } & { associationValues: TAssociation[] };
 
+      let totalFilterMatchCount: number = 0;
+
       const brandIds = filters?.brandIds;
       const teamIds = filters?.teamIds;
       const leagueIds = filters?.leagueIds;
@@ -279,8 +281,13 @@ class FilterService {
         finalObj.league = leagueIds?.value.includes(data?.league?.id) ? matched : notMatched;
       }
 
-      if (ageIds && data?.age) {
-        finalObj.age = data?.age?.some((age: any) => ageIds?.value.includes(age.id)) ? matched : notMatched;
+      if (ageIds && ageIds?.value && ageIds.value.length && data?.age) {
+        const ageMatchCount: number =
+          data?.age?.reduce((count: number, age: any) => {
+            return ageIds?.value.includes(age.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += ageMatchCount;
+        finalObj.age = (ageMatchCount / ageIds.value.length) * 100 + "%";
       }
 
       if (athleteAge && data?.athleteAge) {
@@ -289,7 +296,7 @@ class FilterService {
         if (processedFilters?.["athleteAge"]?.operationType === "in") {
           finalObj.athleteAge =
             processedFilters?.["athleteAge"]?.age?.[0] <= athleteAge &&
-              athleteAge <= processedFilters?.["athleteAge"]?.age?.[1]
+            athleteAge <= processedFilters?.["athleteAge"]?.age?.[1]
               ? matched
               : notMatched;
         } else if (processedFilters?.["athleteAge"]?.operationType === "gte") {
@@ -688,16 +695,14 @@ class FilterService {
 
       if (partnerIdMetrics && (data?.ottPartnerMetrics || data?.broadcastPartnerMetrics)) {
         if (partnerIdMetrics?.value?.checkType == "ott") {
-          finalObj.partnerIdMetrics = data?.ottPartnerMetrics?.some(
-            (ottP: any) =>
-              partnerIdMetrics?.value?.value?.includes(ottP?.ottPartner?.id)
+          finalObj.partnerIdMetrics = data?.ottPartnerMetrics?.some((ottP: any) =>
+            partnerIdMetrics?.value?.value?.includes(ottP?.ottPartner?.id)
           )
             ? matched
             : notMatched;
         } else {
-          finalObj.partnerIdMetrics = data?.broadcastPartnerMetrics?.some(
-            (broadP: any) =>
-              partnerIdMetrics?.value?.value?.includes(broadP?.broadcastPartner?.id)
+          finalObj.partnerIdMetrics = data?.broadcastPartnerMetrics?.some((broadP: any) =>
+            partnerIdMetrics?.value?.value?.includes(broadP?.broadcastPartner?.id)
           )
             ? matched
             : notMatched;
@@ -705,7 +710,8 @@ class FilterService {
       }
 
       if (viewershipMetrics && (data?.ottPartnerMetrics || data?.broadcastPartnerMetrics)) {
-        const matricsData: TMatrics[] | undefined = viewershipMetrics?.value?.checkType == "ott" ? data?.ottPartnerMetrics : data?.broadcastPartnerMetrics;
+        const matricsData: TMatrics[] | undefined =
+          viewershipMetrics?.value?.checkType == "ott" ? data?.ottPartnerMetrics : data?.broadcastPartnerMetrics;
         finalObj.viewershipMetrics = matricsData?.some((matricsData: TMatrics) => {
           if (matricsData) {
             const isM = validateMatrics(
@@ -714,15 +720,16 @@ class FilterService {
               "viewership",
               viewershipMetrics?.value?.checkType
             );
-            return isM == matched
+            return isM == matched;
           }
-        }) ? matched
+        })
+          ? matched
           : notMatched;
       }
 
-
       if (yearMetrics && (data?.ottPartnerMetrics || data?.broadcastPartnerMetrics)) {
-        const matricsData: TMatrics[] | undefined = viewershipMetrics?.value?.checkType == "ott" ? data?.ottPartnerMetrics : data?.broadcastPartnerMetrics;
+        const matricsData: TMatrics[] | undefined =
+          viewershipMetrics?.value?.checkType == "ott" ? data?.ottPartnerMetrics : data?.broadcastPartnerMetrics;
         finalObj.yearMetrics = matricsData?.some((matricsData: TMatrics) => {
           if (matricsData) {
             const isM = validateMatrics(
@@ -731,14 +738,16 @@ class FilterService {
               "year",
               yearMetrics?.value?.checkType
             );
-            return isM == matched
+            return isM == matched;
           }
-        }) ? matched
+        })
+          ? matched
           : notMatched;
       }
 
       if (reachMetrics && (data?.ottPartnerMetrics || data?.broadcastPartnerMetrics)) {
-        const matricsData: TMatrics[] | undefined = viewershipMetrics?.value?.checkType == "ott" ? data?.ottPartnerMetrics : data?.broadcastPartnerMetrics;
+        const matricsData: TMatrics[] | undefined =
+          viewershipMetrics?.value?.checkType == "ott" ? data?.ottPartnerMetrics : data?.broadcastPartnerMetrics;
         finalObj.reachMetrics = matricsData?.some((matricsData: TMatrics) => {
           if (matricsData) {
             const isM = validateMatrics(
@@ -747,9 +756,10 @@ class FilterService {
               "reach",
               reachMetrics?.value?.checkType
             );
-            return isM == matched
+            return isM == matched;
           }
-        }) ? matched
+        })
+          ? matched
           : notMatched;
       }
 
