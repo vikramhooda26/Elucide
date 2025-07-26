@@ -287,7 +287,7 @@ class FilterService {
             return ageIds?.value.includes(age.id) ? count + 1 : count;
           }, 0) ?? 0;
         totalFilterMatchCount += ageMatchCount;
-        finalObj.age = (ageMatchCount / ageIds.value.length) * 100 + "%";
+        finalObj.age = ((ageMatchCount / ageIds.value.length) * 100).toFixed(2) + "%";
       }
 
       if (athleteAge && data?.athleteAge) {
@@ -310,10 +310,13 @@ class FilterService {
         finalObj.athleteGender = athleteGenderIds?.value.includes(data?.athleteGender?.id) ? matched : notMatched;
       }
 
-      if (genderIds && data?.gender) {
-        finalObj.gender = data?.gender?.some((gender: any) => genderIds?.value.includes(gender.id))
-          ? matched
-          : notMatched;
+      if (genderIds && genderIds.value && genderIds.value.length && data?.gender) {
+        const genderMatchCount: number =
+          data?.gender?.reduce((count: number, gender: any) => {
+            return genderIds.value.includes(gender.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += genderMatchCount;
+        finalObj.gender = ((genderMatchCount / genderIds.value.length) * 100).toFixed(2) + "%";
       }
 
       if (nationalityIds && data?.nationality) {
@@ -370,42 +373,67 @@ class FilterService {
         finalObj.parentOrg = parentOrgIds?.value?.includes(data?.parentOrg?.id) ? matched : notMatched;
       }
 
-      if (primaryMarketIds && data?.primaryKeyMarket) {
-        finalObj.primaryKeyMarket = data?.primaryKeyMarket?.some((market: any) =>
-          primaryMarketIds?.value.includes(market.id)
-        )
-          ? matched
-          : notMatched;
+      if (primaryMarketIds && primaryMarketIds.value && primaryMarketIds.value.length && data?.primaryKeyMarket) {
+        const primaryMarketMatchCount: number =
+          data?.primaryKeyMarket?.reduce((count: number, primaryMarket: any) => {
+            return primaryMarketIds.value.includes(primaryMarket.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += primaryMarketMatchCount;
+        finalObj.primaryKeyMarket = ((primaryMarketMatchCount / primaryMarketIds.value.length) * 100).toFixed(2) + "%";
       }
 
-      if (secondaryMarketIds && data?.secondaryKeyMarket) {
-        finalObj.secondaryKeyMarket = data?.secondaryKeyMarket?.some((market: any) =>
-          secondaryMarketIds?.value.includes(market.id)
-        )
-          ? matched
-          : notMatched;
+      if (
+        secondaryMarketIds &&
+        secondaryMarketIds.value &&
+        secondaryMarketIds.value.length &&
+        data?.secondaryKeyMarket
+      ) {
+        const secondaryMarketMatchCount: number =
+          data?.secondaryKeyMarket?.reduce((count: number, secondaryMarket: any) => {
+            return secondaryMarketIds.value.includes(secondaryMarket.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += secondaryMarketMatchCount;
+        finalObj.secondaryKeyMarket =
+          ((secondaryMarketMatchCount / secondaryMarketIds.value.length) * 100).toFixed(2) + "%";
       }
 
-      if (tertiaryIds && data?.tertiary) {
-        finalObj.tertiary = data?.tertiary?.some((market: any) => tertiaryIds?.value.includes(market.id))
-          ? matched
-          : notMatched;
+      if (tertiaryIds && tertiaryIds.value && tertiaryIds.value.length && data?.tertiary) {
+        const tertiaryMatchCount: number =
+          data?.tertiary?.reduce((count: number, tertiary: any) => {
+            return tertiaryIds.value.includes(tertiary.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += tertiaryMatchCount;
+        finalObj.tertiary = ((tertiaryMatchCount / tertiaryIds.value.length) * 100).toFixed(2) + "%";
       }
 
-      if (primaryMarketingPlatformIds && data?.primaryMarketingPlatform) {
-        finalObj.primaryMarketingPlatform = data?.primaryMarketingPlatform?.some((platform: any) =>
-          primaryMarketingPlatformIds?.value.includes(platform.id)
-        )
-          ? matched
-          : notMatched;
+      if (
+        primaryMarketingPlatformIds &&
+        primaryMarketingPlatformIds.value &&
+        primaryMarketingPlatformIds.value.length &&
+        data?.primaryMarketingPlatform
+      ) {
+        const primaryMarketingPlatformMatchCount: number =
+          data?.primaryMarketingPlatform?.reduce((count: number, platform: any) => {
+            return primaryMarketingPlatformIds.value.includes(platform.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += primaryMarketingPlatformMatchCount;
+        finalObj.primaryMarketingPlatform =
+          ((primaryMarketingPlatformMatchCount / primaryMarketingPlatformIds.value.length) * 100).toFixed(2) + "%";
       }
 
-      if (secondaryMarketingPlatformIds && data?.secondaryMarketingPlatform) {
-        finalObj.secondaryMarketingPlatform = data?.secondaryMarketingPlatform?.some((platform: any) =>
-          secondaryMarketingPlatformIds?.value.includes(platform.id)
-        )
-          ? matched
-          : notMatched;
+      if (
+        secondaryMarketingPlatformIds &&
+        secondaryMarketingPlatformIds.value &&
+        secondaryMarketingPlatformIds.value.length &&
+        data?.secondaryMarketingPlatform
+      ) {
+        const secondaryMarketingPlatformMatchCount: number =
+          data?.secondaryMarketingPlatform?.reduce((count: number, platform: any) => {
+            return secondaryMarketingPlatformIds.value.includes(platform.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += secondaryMarketingPlatformMatchCount;
+        finalObj.secondaryMarketingPlatform =
+          ((secondaryMarketingPlatformMatchCount / secondaryMarketingPlatformIds.value.length) * 100).toFixed(2) + "%";
       }
 
       if (primarySocialMediaPlatformIds && data?.primaryMarketingPlatform) {
@@ -491,14 +519,22 @@ class FilterService {
 
       //////////////////////////////////////////////
 
-      if (leagueOwnerIds && data?.owners) {
-        finalObj.leagueOwners = data?.owners?.some((owner: any) => leagueOwnerIds.value.includes(owner.id))
-          ? matched
-          : notMatched;
+      if (leagueOwnerIds && leagueOwnerIds.value && leagueOwnerIds.value.length && data?.owners) {
+        const leagueOwnerMatchCount =
+          data?.owners?.reduce((count: number, owner: any) => {
+            return leagueOwnerIds.value.includes(owner.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += leagueOwnerMatchCount;
+        finalObj.leagueOwners = ((leagueOwnerMatchCount / leagueOwnerIds.value.length) * 100).toFixed(2) + "%";
       }
 
-      if (nccsIds && data?.nccs) {
-        finalObj.nccs = data.nccs.some((nccs: any) => nccsIds.value.includes(nccs.id)) ? matched : notMatched;
+      if (nccsIds && nccsIds.value && nccsIds.value.length && data?.nccs) {
+        const nccsMatchCount =
+          data?.nccs?.reduce((count: number, nccs: any) => {
+            return nccsIds.value.includes(nccs.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += nccsMatchCount;
+        finalObj.nccs = ((nccsMatchCount / nccsIds.value.length) * 100).toFixed(2) + "%";
       }
 
       if (ottPartnerIds && data?.ottPartnerMetrics) {
@@ -521,12 +557,23 @@ class FilterService {
           : notMatched;
       }
 
-      if (subPersonalityTraitIds && data?.mainPersonalityTraits) {
-        finalObj.subPersonalityTraits = data?.mainPersonalityTraits?.some((traits: any) =>
-          traits?.subPersonalityTraits?.some((subTraits: any) => subPersonalityTraitIds?.value.includes(subTraits?.id))
-        )
-          ? matched
-          : notMatched;
+      if (
+        subPersonalityTraitIds &&
+        subPersonalityTraitIds.value &&
+        subPersonalityTraitIds.value.length &&
+        data?.mainPersonalityTraits
+      ) {
+        // Flatten all subPersonalityTraits into one array
+        const allSubTraits: any[] = data.mainPersonalityTraits.flatMap(
+          (traits: any) => traits?.subPersonalityTraits || []
+        );
+        const subTraitMatchCount: number =
+          allSubTraits.reduce((count: number, subTrait: any) => {
+            return subPersonalityTraitIds.value.includes(subTrait?.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += subTraitMatchCount;
+        finalObj.subPersonalityTraits =
+          ((subTraitMatchCount / subPersonalityTraitIds.value.length) * 100).toFixed(2) + "%";
       }
 
       // if (sportsDealSummaryLevelIds && sportsDealSummaryLevelIds.isMandatory === false && data?.sportsDealSummaryLevels) {
@@ -555,8 +602,13 @@ class FilterService {
           : notMatched;
       }
 
-      if (tierIds && data?.tiers) {
-        finalObj.tiers = data.tiers.some((tier: any) => tierIds.value.includes(tier.id)) ? matched : notMatched;
+      if (tierIds && tierIds.value && tierIds.value.length && data?.tiers) {
+        const tierMatchCount: number =
+          data?.tiers?.reduce((count: number, tier: any) => {
+            return tierIds.value.includes(tier.id) ? count + 1 : count;
+          }, 0) ?? 0;
+        totalFilterMatchCount += tierMatchCount;
+        finalObj.tiers = ((tierMatchCount / tierIds.value.length) * 100).toFixed(2) + "%";
       }
 
       if (associationLevelIds && data?.association) {
