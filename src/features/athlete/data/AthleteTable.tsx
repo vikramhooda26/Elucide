@@ -88,7 +88,8 @@ function AthleteTable({
 
   useEffect(() => {
     if (isFilterApplied || (filters && Object.keys(filters)?.length <= 0)) {
-      setOptionalColumns();
+      // Commenting out since it was re-rendering the table when a new filter is selected on explore page(even without clicking on apply button)
+      // setOptionalColumns();
     }
   }, [filters, isFilterApplied]);
 
