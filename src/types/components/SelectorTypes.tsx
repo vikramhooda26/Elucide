@@ -13,3 +13,9 @@ export interface selectorContentType {
     searchFrom?: string;
   };
 }
+
+export interface IPageType {
+  pageIndex: number;
+  pageSize: number;
+  totalCount: number;
+}
