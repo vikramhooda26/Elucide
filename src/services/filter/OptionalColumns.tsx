@@ -31,7 +31,11 @@ class OptionalColumns {
     const MatchedCell = ({ value }: { value: string }) => (
       <div className="flex space-x-2">
         <span className="max-w-[400px] truncate font-medium">
-          {value === matched ? matchedLabel : value === notMatched ? notMatchedLabel : value}
+          {value === matched
+            ? matchedLabel
+            : value === notMatched || typeof value !== "string"
+              ? notMatchedLabel
+              : value}
         </span>
       </div>
     );
@@ -49,7 +53,13 @@ class OptionalColumns {
             {association?.length > 0 ? (
               <Tooltip
                 triggerOnHover={true}
-                triggerText={value === matched ? matchedLabel : value === notMatched ? notMatchedLabel : value}
+                triggerText={
+                  value === matched
+                    ? matchedLabel
+                    : value === notMatched || typeof value !== "string"
+                      ? notMatchedLabel
+                      : value
+                }
                 className={"w-full border-none p-0"}
               >
                 <div className="scrollbar max-h-80 overflow-scroll">
