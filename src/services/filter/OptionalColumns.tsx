@@ -1,4 +1,4 @@
-import { AllColumns, matched } from "@/types/metadata/Metadata";
+import { AllColumns, matched, notMatched } from "@/types/metadata/Metadata";
 import { ColumnDef } from "@tanstack/react-table";
 import OptionalColumnHeader from "./OptionalColumnHeader";
 import Association from "@/components/core/view/Association";
@@ -28,9 +28,15 @@ class OptionalColumns {
 
     type TSchemaType = AllColumns & { associationValues: TAssociation[] };
 
-    const MatchedCell = ({ value }: { value: "Data Matched" | "Not Matched" }) => (
+    const MatchedCell = ({ value }: { value: string }) => (
       <div className="flex space-x-2">
-        <span className="max-w-[400px] truncate font-medium">{value === matched ? matchedLabel : notMatchedLabel}</span>
+        <span className="max-w-[400px] truncate font-medium">
+          {value === matched
+            ? matchedLabel
+            : value === notMatched || typeof value !== "string"
+              ? notMatchedLabel
+              : value}
+        </span>
       </div>
     );
 
@@ -47,7 +53,13 @@ class OptionalColumns {
             {association?.length > 0 ? (
               <Tooltip
                 triggerOnHover={true}
-                triggerText={value === matched ? matchedLabel : notMatchedLabel}
+                triggerText={
+                  value === matched
+                    ? matchedLabel
+                    : value === notMatched || typeof value !== "string"
+                      ? notMatchedLabel
+                      : value
+                }
                 className={"w-full border-none p-0"}
               >
                 <div className="scrollbar max-h-80 overflow-scroll">
