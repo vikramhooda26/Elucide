@@ -19,6 +19,16 @@ import { useAuth } from "../auth/auth-provider/AuthProvider";
 import LeagueTable from "../league/data/LeagueTable";
 import TeamTable from "../team/data/TeamTable";
 import ChatGPT from "./components/ChatGPT";
+import { IPageType } from "@/types/components/SelectorTypes.tsx";
+import AthleteService from "@/services/features/AthleteService.ts";
+import TeamService from "@/services/features/TeamService.ts";
+import LeagueService from "@/services/features/LeagueService.ts";
+
+const defaultPagination = {
+  pageIndex: 0,
+  pageSize: 10,
+  totalCount: 0
+};
 
 function Explore() {
   const [brandList, setBrandList] = useState<Array<any>>([]);
@@ -27,6 +37,10 @@ function Explore() {
   const [athletes, setAthletes] = useState<Array<any>>([]);
   const [openAi, setOpenAi] = useState(false);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
+  const [athletePagination, setAtheletePagination] = useState<IPageType>({ ...defaultPagination });
+  const [leaguePagination, setLeaguePagination] = useState<IPageType>({ ...defaultPagination });
+  const [teamPagination, setTeamPagination] = useState<IPageType>({ ...defaultPagination });
+
 
   const pageKey: TPageKey = "allStakeList";
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -59,47 +73,44 @@ function Explore() {
       setIsLoading(true);
       const processedData = FilterService.processFilterData(filterValues[pageKey]);
 
-      const response = await DashboardService.getFilteredStakes(processedData);
+      const athleteResponsePromise = AthleteService.getFilteredAthletes(processedData);
+      const teamResponsePromise = TeamService.getFilteredTeams(processedData);
+      const leagueResponsePromise = LeagueService.getFilteredLeagues(processedData);
 
-      console.log("response -=- ", response);
+      const [{data: athleteResponse}, {data: teamResponse}, {data: leagueResponse}] = await Promise.all([
+        athleteResponsePromise,
+        teamResponsePromise,
+        leagueResponsePromise
+      ]);
 
-      if (response.status === HTTP_STATUS_CODES.OK) {
-        const allStakeList = response.data;
-        setIsFilterApplied(true);
+      console.log(athleteResponse, teamResponse, leagueResponse)
 
-        // let brandList = allStakeList?.filteredBrands;
-        // brandList.forEach((brand: brand, i: number) => {
-        //     brandList[i].createdBy = brand?.createdBy?.email || "N/A";
-        //     brandList[i].modifiedBy = brand?.modifiedBy?.email || "N/A";
-        // });
-        // brandList = FilterService.validateMatching(brandList, filterValues[pageKey]);
-        // setBrandList(brandList);
+      setIsFilterApplied(true);
 
-        let leagueList = allStakeList?.filteredLeagues;
-        leagueList.forEach((league: league, i: number) => {
-          leagueList[i].createdBy = league?.createdBy?.email || "N/A";
-          leagueList[i].modifiedBy = league?.modifiedBy?.email || "N/A";
-        });
-        leagueList = FilterService.validateMatching(leagueList, filterValues[pageKey], "leagueList");
-        setLeagueList(leagueList);
+      let leagueList = leagueResponse;
+      leagueList.forEach((league: league, i: number) => {
+        leagueList[i].createdBy = league?.createdBy?.email || "N/A";
+        leagueList[i].modifiedBy = league?.modifiedBy?.email || "N/A";
+      });
+      leagueList = FilterService.validateMatching(leagueList, filterValues[pageKey], "leagueList");
+      setLeagueList(leagueList);
 
-        let teamList = allStakeList?.filteredTeams;
+      let teamList = teamResponse;
 
-        teamList.forEach((athlete: team, i: number) => {
-          teamList[i].createdBy = athlete?.createdBy?.email || "N/A";
-          teamList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
-        });
-        teamList = FilterService.validateMatching(teamList, filterValues[pageKey], "teamList");
-        setTeamList(teamList);
+      teamList.forEach((athlete: team, i: number) => {
+        teamList[i].createdBy = athlete?.createdBy?.email || "N/A";
+        teamList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
+      });
+      teamList = FilterService.validateMatching(teamList, filterValues[pageKey], "teamList");
+      setTeamList(teamList);
 
-        let athleteList = allStakeList?.filteredAthletes;
-        allStakeList?.filteredAthletes.forEach((athlete: athlete, i: number) => {
-          athleteList[i].createdBy = athlete?.createdBy?.email || "N/A";
-          athleteList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
-        });
-        athleteList = FilterService.validateMatching(athleteList, filterValues[pageKey], "athleteList");
-        setAthletes(athleteList);
-      }
+      let athleteList = athleteResponse;
+      athleteList.forEach((athlete: athlete, i: number) => {
+        athleteList[i].createdBy = athlete?.createdBy?.email || "N/A";
+        athleteList[i].modifiedBy = athlete?.modifiedBy?.email || "N/A";
+      });
+      athleteList = FilterService.validateMatching(athleteList, filterValues[pageKey], "athleteList");
+      setAthletes(athleteList);
     } catch (error) {
       const unknownError = ErrorService.handleCommonErrors(error, logout, navigate);
       if (unknownError.response.status !== HTTP_STATUS_CODES.NOT_FOUND) {
@@ -109,6 +120,30 @@ function Explore() {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handlePaginationChange = (type: "ATHLETE" | "TEAM" | "LEAGUE") => (newPage: number, newPageSize: number) => {
+    let functionToCall;
+    switch (type) {
+      case "ATHLETE":
+        functionToCall = setAtheletePagination;
+        break;
+      case "TEAM":
+        functionToCall = setTeamPagination;
+        break;
+      case "LEAGUE":
+        functionToCall = setLeaguePagination;
+        break;
+      default:
+        return;
+    }
+    if (functionToCall) {
+      functionToCall((prev) => ({
+        ...prev,
+        pageIndex: newPage,
+        pageSize: newPageSize
+      }));
     }
   };
 
@@ -145,6 +180,9 @@ function Explore() {
           setLeagueList={setLeagueList}
           filters={filterValues[pageKey]}
           isFilterApplied={isFilterApplied}
+          pagination={leaguePagination}
+          onPageChange={handlePaginationChange("LEAGUE")}
+          isPaginationEnabled
           setIsFilterApplied={setIsFilterApplied}
         />
         <h3 className="my-4 text-2xl font-bold tracking-tight">List Of Teams</h3>
@@ -153,6 +191,9 @@ function Explore() {
           setTeamList={setTeamList}
           filters={filterValues[pageKey]}
           isFilterApplied={isFilterApplied}
+          onPageChange={handlePaginationChange("TEAM")}
+          pagination={teamPagination}
+          isPaginationEnabled
           setIsFilterApplied={setIsFilterApplied}
         />
         <h3 className="my-4 text-2xl font-bold tracking-tight">List Of Athletes</h3>
@@ -161,6 +202,9 @@ function Explore() {
           setAthletes={setAthletes}
           filters={filterValues[pageKey]}
           isFilterApplied={isFilterApplied}
+          onPageChange={handlePaginationChange("ATHLETE")}
+          pagination={athletePagination}
+          isPaginationEnabled
           setIsFilterApplied={setIsFilterApplied}
         />
       </div>

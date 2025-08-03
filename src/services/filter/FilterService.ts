@@ -12,10 +12,6 @@ class FilterService {
 
     const processedFilters: { [key: string]: any } = {};
 
-    processedFilters.isMandatory = true;
-
-    let optionalCount = 0;
-
     Object.entries(filterData).map(([key, filter]) => {
       if (key && filter && filter?.value) {
         if (typeof filter?.value === "object") {
@@ -24,27 +20,19 @@ class FilterService {
           } else if (Object.keys(filter?.value)?.length <= 0) {
             return;
           } else {
-            processedFilters[key] = filter?.value;
+            processedFilters[key] = { value: filter?.value, isMandatory: filter?.isMandatory || false };
           }
         } else if (typeof filter?.value === "string" && filter?.value?.length > 0) {
-          processedFilters[key] = filter?.value;
+          processedFilters[key] = { value: filter?.value, isMandatory: filter?.isMandatory || false };
         } else if (
           typeof filter?.value === "number" ||
           typeof filter?.value === "bigint" ||
           typeof filter?.value === "boolean"
         ) {
-          processedFilters[key] = filter?.value;
-        }
-
-        if (!filter?.isMandatory) {
-          ++optionalCount;
+          processedFilters[key] = { value: filter?.value, isMandatory: filter?.isMandatory || false };
         }
       }
     });
-
-    if (optionalCount) {
-      processedFilters.isMandatory = false;
-    }
 
     if (processedFilters?.costOfAssociation) {
       let costOfAssociation = processedFilters?.costOfAssociation;
